@@ -35,7 +35,9 @@
 
   /* navbar dropdown */
   .dropdown-drop {
-    transition: opacity 250ms ease-out, visibility 250ms ease-out;
+    transition:
+      opacity 250ms ease-out,
+      visibility 250ms ease-out;
     @apply invisible opacity-0;
   }
 
