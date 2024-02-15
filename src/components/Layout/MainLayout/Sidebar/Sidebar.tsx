@@ -1,5 +1,5 @@
 import React from 'react'
-import { PenTool, PlusCircle, XIcon } from 'lucide-react'
+import { PlusCircle, XIcon } from 'lucide-react'
 import { NavLink as Link } from 'react-router-dom'
 import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarLinks, useLayout } from 'jobseeker-ui'
 import useLinks from './useLinks'
