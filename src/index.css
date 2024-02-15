@@ -44,4 +44,21 @@
   .dropdown-wrapper:hover .dropdown-drop {
     @apply visible opacity-100;
   }
+
+  /* Scrollbar */
+  .chrome-scrollbar::-webkit-scrollbar {
+    @apply lg:w-1;
+  }
+
+  .chrome-scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full lg:bg-transparent;
+  }
+
+  .chrome-scrollbar:hover::-webkit-scrollbar-thumb {
+    @apply rounded-full lg:bg-gray-300;
+  }
+
+  .chrome-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
 }
