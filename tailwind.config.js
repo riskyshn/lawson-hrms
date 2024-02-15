@@ -1,3 +1,4 @@
+import defaultTheme from 'tailwindcss/defaultTheme'
 import colors from 'tailwindcss/colors'
 
 /** @type {import('tailwindcss').Config} */
@@ -8,12 +9,19 @@ export default {
       center: true,
     },
     extend: {
+      fontFamily: {
+        sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
+      },
       colors: {
         primary: colors.blue,
         secondary: colors.gray,
         success: colors.green,
         warning: colors.yellow,
         error: colors.red,
+        jsc: {
+          primary: '#E4007E',
+          secondary: '#050774',
+        },
       },
     },
   },
