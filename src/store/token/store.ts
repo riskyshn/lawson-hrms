@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import Cookies from 'js-cookie'
-import { ACCESS_TOKEN_EXPIRATIONS, ACCESS_TOKEN_KEY, REFRESH_TOKEN_EXPIRATIONS, REFRESH_TOKEN_KEY } from '@/config/constants'
+import { ACCESS_TOKEN_EXPIRATIONS, ACCESS_TOKEN_KEY, REFRESH_TOKEN_EXPIRATIONS, REFRESH_TOKEN_KEY } from '@/constants/tokens'
 
 interface TokenStore {
   accessToken: string | null
