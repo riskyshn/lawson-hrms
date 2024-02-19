@@ -8,8 +8,9 @@ import DashboardPage from '@/pages/Main/Dashboard/DashboardPage'
 import MainLayout from '@/components/Layout/MainLayout/MainLayout'
 import NotFoundPage from '@/pages/Errors/NotFoundPage'
 import ErrorPage from '@/pages/Errors/error-page'
+import { jobRoute } from './job'
 
-export const routes = createBrowserRouter([
+const defaultRoute = [
   {
     path: '/',
     element: <Private />,
@@ -38,7 +39,11 @@ export const routes = createBrowserRouter([
       { path: 'reset-password', element: <ResetPasswordPage /> },
     ],
   },
+]
 
+export const routes = createBrowserRouter([
+  ...defaultRoute,
+  jobRoute,
   {
     path: '*',
     element: <NotFoundPage />,
