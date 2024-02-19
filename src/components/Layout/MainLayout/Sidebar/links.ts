@@ -1,6 +1,7 @@
 import { Home, Briefcase, Users, Repeat, File, UserPlus2, UserCog, Banknote, Settings, Palette } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { SidebarLinkTypes, Color } from 'jobseeker-ui'
+import { Color } from 'jobseeker-ui'
+import { SidebarLinkTypes } from './useLinks'
 
 type ChildLinkParams = {
   text: string
@@ -27,24 +28,20 @@ const genLinks = ({ title, items }: { title?: string; items: { parent: ParentLin
         text: parent.text,
         badge: parent.badge,
         onClick: parent.onClick,
-        componentProps: {
-          to: parent.to,
-        },
+        to: parent.to,
       },
       child: child?.map((prm: ChildLinkParams) => ({
         as: Link,
         text: prm.text,
         badge: prm.badge,
         onClick: prm.onClick,
-        componentProps: {
-          to: prm.to,
-        },
+        to: prm.to,
       })),
     })),
   }
 }
 
-const links: SidebarLinkTypes = [
+const links: SidebarLinkTypes<typeof Link> = [
   genLinks({
     items: [{ parent: { icon: Home, text: 'Dashboard', to: '/' } }],
   }),

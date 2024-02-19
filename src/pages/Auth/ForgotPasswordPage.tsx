@@ -8,13 +8,14 @@ const ForgotPasswordPage = () => {
 
       <form className="flex flex-col gap-3">
         <Input label="Email Address" placeholder="your@exmple.com" />
-        <Button block color="primary">
+        <Button block color="primary" className="font-semibold uppercase tracking-widest">
           Submit
         </Button>
-        <hr />
-        <Button block as={Link} componentProps={{ to: '/login' }} color="primary" variant="light">
-          Back to login
-        </Button>
+        <div className="text-center">
+          <Link to="/login" className="text-xs font-semibold transition-colors hover:text-primary-600">
+            Back to login page
+          </Link>
+        </div>
       </form>
     </div>
   )

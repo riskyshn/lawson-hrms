@@ -9,7 +9,7 @@ const ResetPasswordPage = () => {
         <Input label="Email Address" placeholder="your@exmple.com" />
         <Input label="New Password" type="password" placeholder="••••••••" />
         <Input label="Confirm Password" type="password" placeholder="••••••••" />
-        <Button block color="primary">
+        <Button block color="primary" className="font-semibold uppercase tracking-widest">
           Submit
         </Button>
       </form>

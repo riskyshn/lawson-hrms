@@ -1,7 +1,7 @@
 import React from 'react'
 import { PlusCircle, XIcon } from 'lucide-react'
 import { NavLink as Link } from 'react-router-dom'
-import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarLinks, useLayout } from 'jobseeker-ui'
+import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from 'jobseeker-ui'
 import useLinks from './useLinks'
 import LogoFull from '@/components/Logo/LogoFull'
 
@@ -20,13 +20,24 @@ const Sidebar: React.FC = () => {
         </Button>
       </SidebarHeader>
       <SidebarContent className="chrome-scrollbar flex flex-col gap-3 py-3">
-        <div className="px-1">
-          <Button color="primary" leftChild={<PlusCircle size={16} />} className="gap-2">
+        <div className="px-3">
+          <Button color="primary" block leftChild={<PlusCircle size={16} />} className="gap-2">
             Post a Job
           </Button>
         </div>
 
-        <SidebarLinks links={links} />
+        <div className="flex w-full flex-col gap-1">
+          {links.map(({ items, title }, key) => (
+            <div key={key} className="mb-2 flex w-full flex-col gap-1 px-3">
+              {!!title && <span className="block text-xs text-gray-500">{title}</span>}
+              <div className="flex w-full flex-col gap-2">
+                {items.map(({ parent, child }, key) => (
+                  <SidebarItem key={key} parent={parent} child={child} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
 
         <div className="mt-auto flex flex-col items-center justify-center p-3">
           <span className="block text-center text-xs text-gray-500">Powered by</span>
