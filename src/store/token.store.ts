@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import Cookies from 'js-cookie'
 import { ACCESS_TOKEN_EXPIRATIONS, ACCESS_TOKEN_KEY, ACCESS_TOKEN_OK_KEY, REFRESH_TOKEN_KEY, TOKEN_EXPIRATIONS } from '@/constants/tokens'
-import { authService } from '@/services'
+import { accountService, authService } from '@/services'
 
 interface TokenStore {
   access_token: string | null
@@ -65,9 +65,8 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
 
       try {
         const { data } = await authService.refreshAccessToken({ refresh_token, access_token })
-        const tokens = { access_token: data.access_token || null, refresh_token: data.refresh_token || null }
-        get().setTokens(tokens)
-        return tokens
+        get().setTokens(data)
+        return data
       } catch {
         // Handle refresh token request failure
         throw new Error('Failed to refresh access token. Please try again later.')
@@ -82,3 +81,6 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
 if (import.meta.env.DEV) {
   mountStoreDevtool('token.store', useTokenStore)
 }
+
+// @ts-expect-error
+window.tokenS = useTokenStore
