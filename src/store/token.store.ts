@@ -10,6 +10,7 @@ interface TokenStore {
   setAccessToken: (access_token: string) => void
   setRefreshToken: (refresh_token: string) => void
   setTokens: (tokens: { access_token: string; refresh_token: string }) => void
+  clearTokens: () => void
   accessTokenIsOk: () => boolean
   retrieveCookieTokens: () => { access_token: string | null; refresh_token: string | null }
   refreshAccessToken: () => Promise<{ access_token: string | null; refresh_token: string | null }>
@@ -33,6 +34,13 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
   setTokens: ({ access_token, refresh_token }) => {
     get().setAccessToken(access_token)
     get().setRefreshToken(refresh_token)
+  },
+
+  clearTokens: () => {
+    Cookies.remove(ACCESS_TOKEN_OK_KEY)
+    Cookies.remove(ACCESS_TOKEN_KEY)
+    Cookies.remove(REFRESH_TOKEN_KEY)
+    set((state) => ({ ...state, access_token: null, refresh_token: null }))
   },
 
   accessTokenIsOk: () => {
