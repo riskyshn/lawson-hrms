@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const ForgotPasswordPage = () => {
   return (
     <div className="p-6">
-      <h1 className="text-center text-xl">Forgot Password</h1>
+      <h1 className="mb-3 text-center text-xl font-semibold uppercase tracking-widest">Forgot Password</h1>
 
       <form className="flex flex-col gap-3">
         <Input label="Email Address" placeholder="your@exmple.com" />
@@ -12,7 +12,7 @@ const ForgotPasswordPage = () => {
           Submit
         </Button>
         <div className="text-center">
-          <Link to="/login" className="text-xs font-semibold transition-colors hover:text-primary-600">
+          <Link to="/auth/login" className="text-xs font-semibold transition-colors hover:text-primary-600">
             Back to login page
           </Link>
         </div>
