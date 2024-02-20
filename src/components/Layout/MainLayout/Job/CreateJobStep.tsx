@@ -22,7 +22,7 @@ const Steps = ({ children }: Props) => {
   )
 }
 
-const Step = ({ children }: Props) => {
+const Step = (/* { children }: Props */) => {
   return (
     <>
       <div className="flex items-center justify-between rounded-lg bg-success-50 p-4">
