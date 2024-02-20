@@ -11,14 +11,15 @@ export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
 
   if (withAuth) {
     request.interceptors.request.use(async (config) => {
-      let { access_token } = useTokenStore.getState().retrieveCookieTokens()
+      try {
+        const { refreshAccessToken } = useTokenStore.getState()
+        const { access_token } = await refreshAccessToken()
 
-      if (!access_token) {
-        access_token = (await useTokenStore.getState().refreshAccessToken()).access_token
-      }
-
-      if (access_token) {
-        config.headers['Authorization'] = `Bearer ${access_token}`
+        if (access_token) {
+          config.headers['Authorization'] = `Bearer ${access_token}`
+        }
+      } catch {
+        //
       }
 
       return config

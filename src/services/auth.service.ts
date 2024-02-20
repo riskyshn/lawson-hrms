@@ -7,6 +7,6 @@ export const login = (payload: { email: string; password: string }) => {
   return axios.post('/auth/sign-in', payload).then(({ data }) => data)
 }
 
-export const refreshAccessToken = async (payload: { refresh_token: string }) => {
+export const refreshAccessToken = async (payload: { refresh_token: string; access_token: string }) => {
   return axios.post('/auth/refresh', payload).then(({ data }) => data)
 }
