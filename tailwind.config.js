@@ -25,7 +25,7 @@ export default {
         error: colors.red,
         jsc: {
           primary: '#E4007E',
-          secondary: '#050774',
+          secondary: '#20229B',
         },
       },
     },
