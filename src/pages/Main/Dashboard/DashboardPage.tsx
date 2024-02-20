@@ -1,8 +1,10 @@
 import PageHeader from '@/components/UI/PageHeader'
 import TalentPoolCard from './components/TalentPoolCard'
 import AnnouncementCard from './components/AnnouncementCard'
+import { useAuthStore } from '@/store'
 
 const DashboardPage: React.FC = () => {
+  const { user } = useAuthStore()
   return (
     <>
       <PageHeader
@@ -10,7 +12,7 @@ const DashboardPage: React.FC = () => {
         title="Dashboard"
         subtitle={
           <>
-            Good day to you, <span className="text-primary-600">User</span>! <br />
+            Good day to you, <span className="capitalize text-primary-600">{user?.firstName}</span>! <br />
             Today is <span className="text-primary-600">{new Date().toDateString()}</span>
           </>
         }

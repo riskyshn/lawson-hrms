@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { authService, accountService } from '@/services'
 import { useTokenStore } from './token.store'
 
@@ -6,6 +7,7 @@ interface AuthStore {
   user: IUser | null
   login: (payload: { email: string; password: string }) => Promise<void>
   refreshAuth: () => Promise<void>
+  logout: () => void
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -21,7 +23,16 @@ export const useAuthStore = create<AuthStore>((set) => ({
     const { access_token } = await useTokenStore.getState().refreshAccessToken()
     if (access_token) {
       const { data } = await accountService.getProfile()
-      set((state) => ({ ...state, user: data.user }))
+      set((state) => ({ ...state, user: data }))
     }
   },
+
+  logout: () => {
+    useTokenStore.getState().clearTokens()
+    set((state) => ({ ...state, user: null }))
+  },
 }))
+
+if (import.meta.env.DEV) {
+  mountStoreDevtool('auth.store', useAuthStore)
+}
