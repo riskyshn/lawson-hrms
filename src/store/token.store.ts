@@ -65,9 +65,8 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
 
       try {
         const { data } = await authService.refreshAccessToken({ refresh_token, access_token })
-        const tokens = { access_token: data.access_token || null, refresh_token: data.refresh_token || null }
-        get().setTokens(tokens)
-        return tokens
+        get().setTokens(data)
+        return data
       } catch {
         // Handle refresh token request failure
         throw new Error('Failed to refresh access token. Please try again later.')
@@ -82,3 +81,6 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
 if (import.meta.env.DEV) {
   mountStoreDevtool('token.store', useTokenStore)
 }
+
+// @ts-expect-error
+window.tokenS = useTokenStore

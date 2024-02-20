@@ -20,11 +20,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   refreshAuth: async () => {
-    const { access_token } = await useTokenStore.getState().refreshAccessToken()
-    if (access_token) {
-      const { data } = await accountService.getProfile()
-      set((state) => ({ ...state, user: data }))
-    }
+    const { data } = await accountService.getProfile()
+    set((state) => ({ ...state, user: data }))
   },
 
   logout: () => {

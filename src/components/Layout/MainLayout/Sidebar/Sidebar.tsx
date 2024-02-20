@@ -1,6 +1,6 @@
 import React from 'react'
 import { PlusCircle, XIcon } from 'lucide-react'
-import { NavLink as Link } from 'react-router-dom'
+import { NavLink as Link, useNavigate } from 'react-router-dom'
 import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from 'jobseeker-ui'
 import useLinks from './useLinks'
 import LogoFull from '@/components/Logo/LogoFull'
@@ -9,6 +9,7 @@ import { twJoin } from 'tailwind-merge'
 const Sidebar: React.FC = () => {
   const { sidebarMini, toggleSidebarOpen } = useLayout()
   const links = useLinks()
+  const navigate = useNavigate()
 
   return (
     <BaseSidebar>
@@ -23,6 +24,7 @@ const Sidebar: React.FC = () => {
       <SidebarContent className="chrome-scrollbar flex flex-col gap-3 py-3">
         <div className="px-3">
           <Button
+            onClick={() => navigate('/job/management/create')}
             color="primary"
             rightChild={<PlusCircle size={16} className={twJoin(sidebarMini && 'lg:ml-0', 'ml-2')} />}
             className="flex w-full items-center justify-center gap-0 overflow-hidden text-nowrap px-0"
