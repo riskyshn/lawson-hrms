@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useAuthStore } from './store'
+import { twJoin } from 'tailwind-merge'
+import { Spinner } from 'jobseeker-ui'
 
 const Boot: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -20,11 +22,20 @@ const Boot: React.FC<React.PropsWithChildren> = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (isLoading) {
-    return <h1>Render Boot Loading Screen Here</h1>
-  }
-
-  return <>{children}</>
+  return (
+    <>
+      <div
+        aria-hidden="true"
+        className={twJoin(
+          isLoading ? 'opacity-1' : 'pointer-events-none opacity-0',
+          'fixed inset-0 z-[99999] flex items-center justify-center bg-white transition-opacity duration-[1s]',
+        )}
+      >
+        <Spinner className="h-10 w-10 text-primary-600" />
+      </div>
+      {!isLoading && children}
+    </>
+  )
 }
 
 export default Boot
