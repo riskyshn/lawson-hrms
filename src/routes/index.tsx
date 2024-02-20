@@ -2,15 +2,16 @@ import AuthLayout from '@/components/Layout/AuthLayout/AuthLayout'
 import ForgotPasswordPage from '@/pages/Auth/ForgotPasswordPage'
 import LoginPage from '@/pages/Auth/LoginPage'
 import ResetPasswordPage from '@/pages/Auth/ResetPasswordPage'
-import { createBrowserRouter } from 'react-router-dom'
+import { RouteObject, createBrowserRouter } from 'react-router-dom'
 import Private from './private'
 import DashboardPage from '@/pages/Main/Dashboard/DashboardPage'
 import MainLayout from '@/components/Layout/MainLayout/MainLayout'
 import NotFoundPage from '@/pages/Errors/NotFoundPage'
 import ErrorPage from '@/pages/Errors/error-page'
 import { jobRoute } from './job'
+import Guest from './guest'
 
-const defaultRoute = [
+const defaultRoute: RouteObject[] = [
   {
     path: '/',
     element: <Private />,
@@ -31,12 +32,18 @@ const defaultRoute = [
 
   {
     path: 'auth',
-    element: <AuthLayout />,
+    element: <Guest />,
     errorElement: <ErrorPage />,
     children: [
-      { path: 'login', element: <LoginPage /> },
-      { path: 'forgot-password', element: <ForgotPasswordPage /> },
-      { path: 'reset-password', element: <ResetPasswordPage /> },
+      {
+        path: '',
+        element: <AuthLayout />,
+        children: [
+          { path: 'login', element: <LoginPage /> },
+          { path: 'forgot-password', element: <ForgotPasswordPage /> },
+          { path: 'reset-password', element: <ResetPasswordPage /> },
+        ],
+      },
     ],
   },
 ]

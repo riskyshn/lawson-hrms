@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Alert, Button, Input } from 'jobseeker-ui'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import useAuthStore from '@/store/auth/store'
+import { useAuthStore } from '@/store'
+import { axiosErrorMessage } from '@/utils/axios'
 
 const schema = yup.object({
   email: yup.string().email().required().label('Email address'),
@@ -16,15 +17,16 @@ const LoginPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const form = useForm({ resolver: yupResolver(schema) })
   const authstore = useAuthStore()
+  const navigate = useNavigate()
 
   const onSubmit = form.handleSubmit(async (data) => {
     try {
       setIsLoading(true)
       setErrorMessage('')
       await authstore.login(data)
-    } catch (e: any) {
-      console.log(e.response)
-      setErrorMessage(e.response?.meta.message || e.message)
+      navigate('/')
+    } catch (e) {
+      setErrorMessage(axiosErrorMessage(e))
       setIsLoading(false)
     }
   })
