@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { mountStoreDevtool } from 'simple-zustand-devtools'
 import Cookies from 'js-cookie'
 import { ACCESS_TOKEN_EXPIRATIONS, ACCESS_TOKEN_KEY, ACCESS_TOKEN_OK_KEY, REFRESH_TOKEN_KEY, TOKEN_EXPIRATIONS } from '@/constants/tokens'
 import { authService } from '@/services'
@@ -70,5 +71,6 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
   },
 }))
 
-// @ts-expect-error
-window.tokenStore = useTokenStore
+if (import.meta.env.DEV) {
+  mountStoreDevtool('token.store', useTokenStore)
+}

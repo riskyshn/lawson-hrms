@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { authService, accountService } from '@/services'
 import { useTokenStore } from './token.store'
 
@@ -25,3 +26,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     }
   },
 }))
+
+if (import.meta.env.DEV) {
+  mountStoreDevtool('auth.store', useAuthStore)
+}
