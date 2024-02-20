@@ -9,6 +9,7 @@ import MainLayout from '@/components/Layout/MainLayout/MainLayout'
 import NotFoundPage from '@/pages/Errors/NotFoundPage'
 import ErrorPage from '@/pages/Errors/error-page'
 import { jobRoute } from './job'
+import authRoute from './auth'
 
 const defaultRoute = [
   {
@@ -28,21 +29,11 @@ const defaultRoute = [
       },
     ],
   },
-
-  {
-    path: 'auth',
-    element: <AuthLayout />,
-    errorElement: <ErrorPage />,
-    children: [
-      { path: 'login', element: <LoginPage /> },
-      { path: 'forgot-password', element: <ForgotPasswordPage /> },
-      { path: 'reset-password', element: <ResetPasswordPage /> },
-    ],
-  },
 ]
 
 export const routes = createBrowserRouter([
   ...defaultRoute,
+  authRoute,
   jobRoute,
   {
     path: '*',

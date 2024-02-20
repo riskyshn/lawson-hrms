@@ -1,6 +1,6 @@
 import React from 'react'
 import { PlusCircle, XIcon } from 'lucide-react'
-import { NavLink as Link } from 'react-router-dom'
+import { NavLink as Link, useNavigate } from 'react-router-dom'
 import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from 'jobseeker-ui'
 import useLinks from './useLinks'
 import LogoFull from '@/components/Logo/LogoFull'
@@ -8,6 +8,7 @@ import LogoFull from '@/components/Logo/LogoFull'
 const Sidebar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
   const links = useLinks()
+  const navigate = useNavigate()
 
   return (
     <BaseSidebar>
@@ -21,7 +22,13 @@ const Sidebar: React.FC = () => {
       </SidebarHeader>
       <SidebarContent className="chrome-scrollbar flex flex-col gap-3 py-3">
         <div className="px-3">
-          <Button color="primary" block leftChild={<PlusCircle size={16} />} className="gap-2">
+          <Button
+            onClick={() => navigate('/job/management/create')}
+            color="primary"
+            block
+            leftChild={<PlusCircle size={16} />}
+            className="gap-2"
+          >
             Post a Job
           </Button>
         </div>
