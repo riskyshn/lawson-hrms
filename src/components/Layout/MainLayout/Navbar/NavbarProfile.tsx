@@ -1,5 +1,6 @@
 import { Menu } from '@headlessui/react'
 import { Avatar, Button } from 'jobseeker-ui'
+import { PowerIcon } from 'lucide-react'
 
 const NavbarProfile: React.FC = () => {
   return (
@@ -37,7 +38,9 @@ const NavbarProfile: React.FC = () => {
         </div>
         <div className="bg-neutral-200/30 p-3">
           <Menu.Item>
-            <Button color="error">Logout</Button>
+            <Button color="error" block leftChild={<PowerIcon size={16} />}>
+              Logout
+            </Button>
           </Menu.Item>
         </div>
       </Menu.Items>

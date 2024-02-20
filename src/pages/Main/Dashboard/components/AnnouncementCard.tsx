@@ -1,4 +1,4 @@
-import Card from '@/components/UI/Card/Card'
+import { Card } from 'jobseeker-ui'
 
 const AnnouncementCard: React.FC = () => {
   return (
