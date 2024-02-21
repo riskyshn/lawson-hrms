@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom'
 
-import CreateJobPage from '@/pages/Main/Job/CreateJob'
-import JobManagementPage from '@/pages/Main/Job/JobManagement'
+import CreateJobPage from '@/pages/Main/job/manajement/create/CreateJobPage'
+import JobManajementPage from '@/pages/Main/job/manajement/index/JobManajementPage'
 
 const jobRoute: RouteObject = {
   path: 'job',
@@ -13,7 +13,7 @@ const jobRoute: RouteObject = {
       children: [
         {
           path: '',
-          element: <JobManagementPage />,
+          element: <JobManajementPage />,
         },
         {
           path: 'create',

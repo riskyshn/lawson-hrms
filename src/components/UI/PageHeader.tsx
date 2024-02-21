@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge'
 import Container from '../Elements/Container'
 
 type PropTypes = {
-  title: React.ReactNode
+  title?: React.ReactNode
   subtitle?: React.ReactNode
   actions?: React.ReactNode
   breadcrumb?: BreadcrumbProps['links']
@@ -19,13 +19,15 @@ const PageHeader: React.FC<PropTypes> = ({ title, subtitle, actions, breadcrumb,
         </Container>
       )}
 
-      <Container className={twMerge('container flex pb-3 pt-6', className)}>
-        <div className="flex-1">
-          <h1 className="text-2xl font-semibold">{title}</h1>
-          {subtitle && <p>{subtitle}</p>}
-        </div>
-        {actions && <div className="flex items-center">{actions}</div>}
-      </Container>
+      {title && (
+        <Container className={twMerge('container flex pb-3 pt-6', className)}>
+          <div className="flex-1">
+            <h1 className="text-2xl font-semibold">{title}</h1>
+            {subtitle && <p>{subtitle}</p>}
+          </div>
+          {actions && <div className="flex items-center">{actions}</div>}
+        </Container>
+      )}
     </>
   )
 }
