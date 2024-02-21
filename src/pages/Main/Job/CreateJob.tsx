@@ -1,7 +1,7 @@
 import CreateJobLayout from '@/components/Layout/MainLayout/Job/CreateJobLayout'
 import PageHeader from '@/components/UI/PageHeader'
 
-const CreateJob = () => {
+const CreateJobPage = () => {
   return (
     <>
       <PageHeader className="" breadcrumb={[{ text: 'Dashboard' }, { text: 'Create Job Posting' }]} title="Create Job Posting" />
@@ -10,4 +10,4 @@ const CreateJob = () => {
   )
 }
 
-export default CreateJob
+export default CreateJobPage

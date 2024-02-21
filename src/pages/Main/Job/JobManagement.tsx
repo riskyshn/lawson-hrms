@@ -1,5 +1,5 @@
-const JobManagement = () => {
+const JobManagementPage = () => {
   return <></>
 }
 
-export default JobManagement
+export default JobManagementPage
