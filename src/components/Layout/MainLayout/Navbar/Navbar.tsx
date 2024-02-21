@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
         </Link>
       </NavbarBrand>
 
-      <NavbarNav className="justify-end gap-3">
+      <NavbarNav className="justify-end gap-3 xl:px-8">
         <Button className="lg:hidden" variant="light">
           <Search size={16} />
         </Button>
