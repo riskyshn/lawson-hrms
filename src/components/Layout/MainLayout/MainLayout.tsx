@@ -1,4 +1,3 @@
-import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { useLayout } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
@@ -7,6 +6,7 @@ import Sidebar from './Sidebar/Sidebar'
 
 const MainLayout: React.FC = () => {
   const { sidebarMini } = useLayout()
+
   return (
     <>
       <Navbar />

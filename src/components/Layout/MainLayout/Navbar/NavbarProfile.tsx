@@ -1,16 +1,30 @@
 import { useAuthStore } from '@/store'
 import { Menu } from '@headlessui/react'
-import { Avatar, Button } from 'jobseeker-ui'
+import { Avatar, Button, useConfirm } from 'jobseeker-ui'
 import { PowerIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const NavbarProfile: React.FC = () => {
   const navigate = useNavigate()
   const { user, logout } = useAuthStore()
+  const confirm = useConfirm()
 
-  const handleLogout = () => {
-    logout()
-    navigate('/auth/login')
+  const handleLogout = async () => {
+    confirm({
+      title: 'Confirm Logout',
+      text: 'Are you sure you want to log out?',
+      icon: 'error',
+      cancelBtnColor: 'primary',
+      cancelBtnText: 'Cancel',
+      cancelBtnVariant: 'light',
+      confirmBtnColor: 'error',
+      confirmBtnText: 'Logout',
+    }).then((confirmed) => {
+      if (confirmed) {
+        logout()
+        navigate('/auth/login')
+      }
+    })
   }
 
   const fullName = [user?.firstName, user?.lastName].filter((el) => !!el).join(' ')
