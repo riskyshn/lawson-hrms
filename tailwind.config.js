@@ -9,6 +9,7 @@ export default {
     './node_modules/jobseeker-ui/src/components/libs/**/*.{js,ts,jsx,tsx}',
     './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
   ],
+  darkMode: 'class',
   theme: {
     container: {
       center: true,
