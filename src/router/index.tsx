@@ -22,7 +22,10 @@ const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.private])
 
-  return user ? <Outlet /> : null
+  if (props.private && user) return <Outlet />
+  if (props.guest && !user) return <Outlet />
+
+  return null
 }
 
 const router = createBrowserRouter([

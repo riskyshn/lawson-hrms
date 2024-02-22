@@ -47,7 +47,7 @@
 
   /* Scrollbar */
   .chrome-scrollbar::-webkit-scrollbar {
-    @apply lg:w-1;
+    @apply lg:h-1 lg:w-1;
   }
 
   .chrome-scrollbar::-webkit-scrollbar-thumb {
