@@ -18,7 +18,14 @@ const JobManajementPage = () => {
         subtitle="Manage Your Job Vacancy"
         actions={
           <>
-            <Button variant="light" color="primary" className="text-gray-600" leftChild={<SettingsIcon size={16} />}>
+            <Button
+              as={Link}
+              to="/job/management/recruitment-stages"
+              variant="light"
+              color="primary"
+              className="text-gray-600"
+              leftChild={<SettingsIcon size={16} />}
+            >
               Recruitment Stages
             </Button>
             <Button as={Link} to="/job/management/create" color="primary" className="ml-3">
@@ -41,16 +48,13 @@ const JobManajementPage = () => {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <BaseInput type="text" placeholder="Search..." className="peer w-full pl-7 lg:w-64" />
-                  <div className="absolute inset-y-0 left-2 flex items-center justify-center text-gray-400 peer-focus:text-primary-600 ">
+                <div className="relative flex flex-1">
+                  <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
+                  <Button iconOnly color="primary" className="rounded-l-none">
                     <SearchIcon size={16} />
-                  </div>
+                  </Button>
                 </div>
-                <Button iconOnly color="primary">
-                  <SearchIcon size={16} />
-                </Button>
-                <Button iconOnly type="button" onClick={() => setOpen(!open)}>
+                <Button iconOnly type="button" color="primary" onClick={() => setOpen(!open)}>
                   <FilterIcon size={16} />
                 </Button>
               </div>
