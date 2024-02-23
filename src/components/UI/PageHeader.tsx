@@ -20,7 +20,7 @@ const PageHeader: React.FC<PropTypes> = ({ title, subtitle, actions, breadcrumb,
       )}
 
       {title && (
-        <Container className={twMerge('container flex pb-3 pt-6', className)}>
+        <Container className={twMerge('flex flex-col gap-3 pb-3 pt-6 lg:flex-row', className)}>
           <div className="flex-1">
             <h1 className="text-2xl font-semibold">{title}</h1>
             {subtitle && <p>{subtitle}</p>}
