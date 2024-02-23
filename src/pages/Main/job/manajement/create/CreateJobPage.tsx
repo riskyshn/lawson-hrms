@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Stepper, useSteps } from 'jobseeker-ui'
+import { Button, Stepper, useSteps } from 'jobseeker-ui'
 import PageHeader from '@/components/UI/PageHeader'
 import VacancyInformationForm from './components/VacancyInformationForm'
 import ProcessForm from './components/ProcessForm'
 import RequirementsForm from './components/RequirementsForm'
 import Container from '@/components/Elements/Container'
+import { Link } from 'react-router-dom'
 
 const CreateJobPage: React.FC = () => {
   const [formValues, setFormValues] = useState<any>({
@@ -25,7 +26,15 @@ const CreateJobPage: React.FC = () => {
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Create Job' }]} title="Create Job Posting" />
+      <PageHeader
+        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Create Job' }]}
+        title="Create Job Posting"
+        actions={
+          <Button as={Link} to="/job/management" variant="light" color="error">
+            Cancel
+          </Button>
+        }
+      />
       <Container className="flex flex-col gap-3 pb-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
