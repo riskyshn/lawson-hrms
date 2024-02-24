@@ -35,7 +35,7 @@ const JobManajementPage = () => {
         }
       />
 
-      <Container className="relative flex flex-col gap-3 py-3">
+      <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <StatisticCards />
 
         <Card>

@@ -17,7 +17,7 @@ const RecruitmentStagesPage: React.FC = () => {
           </Button>
         }
       />
-      <Container className="flex flex-col gap-3 p-3">
+      <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Card as="form">
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-lg font-semibold">Interview</h3>

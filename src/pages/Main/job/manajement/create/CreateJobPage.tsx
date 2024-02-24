@@ -35,7 +35,7 @@ const CreateJobPage: React.FC = () => {
           </Button>
         }
       />
-      <Container className="flex flex-col gap-3 pb-3 xl:pb-8">
+      <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
           steps={[

@@ -15,7 +15,7 @@ const PreviewPage: React.FC = () => {
           </Button>
         }
       />
-      <Container className="flex flex-col gap-3 p-3 pt-0 xl:pb-8">
+      <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Card>
           <CardHeader>
             <h3 className="font-semibold">Vacancy Information</h3>
