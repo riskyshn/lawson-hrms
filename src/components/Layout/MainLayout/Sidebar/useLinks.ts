@@ -20,7 +20,7 @@ const useLinks = () => {
         },
         child: child?.map((el) => ({
           ...el,
-          active: !!matchPath(el.to.toString(), location.pathname),
+          active: !!matchPath(el.to.toString() + '/*', location.pathname),
         })),
       }))
 
