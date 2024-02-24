@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
   }, [])
 
   return (
-    <BaseNavbar>
+    <BaseNavbar className="bg-white/80 backdrop-blur">
       <NavbarBrand>
         <Link to="/">
           <LogoFull height={40} />
@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
         <div
           className={twJoin(
             open ? 'flex' : 'hidden lg:flex',
-            'absolute left-0 right-0 top-16 h-16 border-y bg-white p-3 lg:relative lg:right-auto lg:top-auto lg:h-auto lg:border-0 lg:px-0',
+            'absolute left-0 right-0 top-16 h-16 border-y bg-white p-3 lg:relative lg:right-auto lg:top-auto lg:h-auto lg:border-0 lg:bg-transparent lg:px-0',
           )}
         >
           <div className="relative flex flex-1 items-center justify-end gap-3">

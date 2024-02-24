@@ -7,26 +7,26 @@ import StatisticCards from './components/StatisticCards'
 import { useState } from 'react'
 import Table from './components/Table'
 
-const JobManajementPage = () => {
+const JobRequisitionPage = () => {
   const [open, setOpen] = useState(false)
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Job Management' }]}
-        title="Job Management"
-        subtitle="Manage Your Job Vacancy"
+        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
+        title="Job Requisition"
+        subtitle="Manage Your Job Requisition Needs"
         actions={
           <>
             <Button
               as={Link}
-              to="/job/management/recruitment-stages"
+              to="/job/requisition/approve-list"
               variant="light"
               color="primary"
               className="text-gray-600"
               leftChild={<SettingsIcon size={16} />}
             >
-              Recruitment Stages
+              Approve List
             </Button>
             <Button as={Link} to="/job/management/create" color="primary" className="ml-3">
               Create Job Posting
@@ -91,4 +91,4 @@ const JobManajementPage = () => {
   )
 }
 
-export default JobManajementPage
+export default JobRequisitionPage

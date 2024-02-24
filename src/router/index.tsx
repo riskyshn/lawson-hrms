@@ -17,7 +17,7 @@ const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) =>
       toast('Please log in to access this page', { color: 'primary' })
       navigate('/auth/login')
     }
-    if (props.guest && user) navigate('/dashboard')
+    if (props.guest && user) navigate('/')
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.private])
