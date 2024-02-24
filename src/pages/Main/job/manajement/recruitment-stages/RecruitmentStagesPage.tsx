@@ -59,9 +59,12 @@ const RecruitmentStagesPage: React.FC = () => {
             </Button>
           </CardBody>
 
-          <CardFooter>
+          <CardFooter className="gap-3">
+            <Button type="submit" color="error" variant="light" className="w-32">
+              Back
+            </Button>
             <Button type="submit" color="primary" className="w-32">
-              Save
+              Save Changes
             </Button>
           </CardFooter>
         </Card>
