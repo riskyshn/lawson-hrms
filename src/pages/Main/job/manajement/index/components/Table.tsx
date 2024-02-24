@@ -3,6 +3,8 @@ import { Avatar, Button } from 'jobseeker-ui'
 import { EditIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 
+const total = 20
+
 const Table: React.FC = () => {
   return (
     <table className="table w-full whitespace-nowrap">
@@ -17,7 +19,7 @@ const Table: React.FC = () => {
         </tr>
       </thead>
       <tbody>
-        {Array.from(Array(20)).map((_, i) => (
+        {Array.from(Array(total)).map((_, i) => (
           <tr key={i} className="odd:bg-gray-50">
             <td className="px-3 text-left text-sm">
               <span className="block font-semibold">Kasir & Pramuniaga</span>
@@ -45,7 +47,12 @@ const Table: React.FC = () => {
                 <Menu.Button as={Button} color="primary" size="small" block variant="light" className="text-xs">
                   Action
                 </Menu.Button>
-                <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
+                <Menu.Items
+                  className={twJoin(
+                    i > total - 4 && 'bottom-full',
+                    'absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none',
+                  )}
+                >
                   <Menu.Item>
                     {({ active }) => (
                       <button
