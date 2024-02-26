@@ -1,4 +1,4 @@
-import PageHeader from '@/components/UI/PageHeader'
+import PageHeader from '@/components/Elements/PageHeader'
 import AnnouncementCard from './components/AnnouncementCard'
 import { useAuthStore } from '@/store'
 import Container from '@/components/Elements/Container'

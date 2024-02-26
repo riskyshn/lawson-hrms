@@ -1,6 +1,6 @@
 import { Breadcrumb, BreadcrumbProps } from 'jobseeker-ui'
 import { twMerge } from 'tailwind-merge'
-import Container from '../Elements/Container'
+import Container from './Container'
 
 type PropTypes = {
   title?: React.ReactNode

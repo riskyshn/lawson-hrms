@@ -1,5 +1,5 @@
 import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/UI/PageHeader'
+import PageHeader from '@/components/Elements/PageHeader'
 import { Button, Card, CardBody, CardFooter, CardHeader, Textarea } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
 

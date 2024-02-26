@@ -1,5 +1,5 @@
 import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/UI/PageHeader'
+import PageHeader from '@/components/Elements/PageHeader'
 import { BaseInput, Button, Card, CardBody, CardFooter, Select } from 'jobseeker-ui'
 import { MinusCircleIcon, PlusCircleIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'

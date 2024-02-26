@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Stepper, useSteps } from 'jobseeker-ui'
-import PageHeader from '@/components/UI/PageHeader'
+import PageHeader from '@/components/Elements/PageHeader'
 import VacancyInformationForm from './components/VacancyInformationForm'
 import ProcessForm from './components/ProcessForm'
 import RequirementsForm from './components/RequirementsForm'

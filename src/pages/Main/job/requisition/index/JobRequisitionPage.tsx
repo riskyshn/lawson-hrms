@@ -1,11 +1,12 @@
 import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/UI/PageHeader'
-import { BaseInput, Button, Card, CardBody, CardFooter, Pagination, PaginationItem, Select } from 'jobseeker-ui'
+import PageHeader from '@/components/Elements/PageHeader'
+import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import StatisticCards from './components/StatisticCards'
 import { useState } from 'react'
 import Table from './components/Table'
+import MainCard from '@/components/Elements/MainCard'
 
 const JobRequisitionPage = () => {
   const [open, setOpen] = useState(false)
@@ -38,38 +39,38 @@ const JobRequisitionPage = () => {
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <StatisticCards />
 
-        <Card>
-          <div className="sticky top-16 z-40 grid grid-cols-1 rounded-t-lg border-b bg-white/80 backdrop-blur">
-            <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <span className="block text-lg font-semibold">Vacancy List</span>
-                <span className="block text-sm">
-                  You have <span className="text-primary-600">200+ Job Posted</span> in total
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="relative flex flex-1">
-                  <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
-                  <Button iconOnly color="primary" className="rounded-l-none">
-                    <SearchIcon size={16} />
+        <MainCard
+          header={
+            <>
+              <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <span className="block text-lg font-semibold">Vacancy List</span>
+                  <span className="block text-sm">
+                    You have <span className="text-primary-600">200+ Job Posted</span> in total
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="relative flex flex-1">
+                    <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
+                    <Button iconOnly color="primary" className="rounded-l-none">
+                      <SearchIcon size={16} />
+                    </Button>
+                  </div>
+                  <Button iconOnly type="button" color="primary" onClick={() => setOpen(!open)}>
+                    <FilterIcon size={16} />
                   </Button>
                 </div>
-                <Button iconOnly type="button" color="primary" onClick={() => setOpen(!open)}>
-                  <FilterIcon size={16} />
-                </Button>
               </div>
-            </div>
-            {open && (
-              <div className="grid grid-cols-2 gap-3 border-t p-3">
-                <Select placeholder="All Departement" options={[]} />
-                <Select placeholder="All Status" options={[]} />
-              </div>
-            )}
-          </div>
-          <CardBody className="overflow-x-auto p-0">
-            <Table />
-          </CardBody>
-          <CardFooter>
+              {open && (
+                <div className="grid grid-cols-2 gap-3 border-t p-3">
+                  <Select placeholder="All Departement" options={[]} />
+                  <Select placeholder="All Status" options={[]} />
+                </div>
+              )}
+            </>
+          }
+          body={<Table />}
+          footer={
             <Pagination>
               <PaginationItem disabled>
                 <ChevronLeftIcon />
@@ -84,8 +85,8 @@ const JobRequisitionPage = () => {
                 <ChevronRightIcon />
               </PaginationItem>
             </Pagination>
-          </CardFooter>
-        </Card>
+          }
+        />
       </Container>
     </>
   )
