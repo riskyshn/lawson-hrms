@@ -3,14 +3,16 @@ import { Card, CardBody, CardFooter } from 'jobseeker-ui'
 import ScrollVisibilityContainer from './ScrollVisibilityContainer'
 
 type PropTypes = {
-  header: React.ReactNode
+  header: ((isOpenFilter: boolean, toggleOpenFilter: () => void) => React.ReactNode) | React.ReactNode
   body: React.ReactNode
   footer: React.ReactNode
 }
 
 const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
   const ref = useRef<any>(null)
+  const [scrollY, setScrollY] = useState(0)
   const [distance, setDistance] = useState(0)
+  const [isOpenFilter, setIsOpenFilter] = useState(false)
 
   useEffect(() => {
     const handleresize = (): void => {
@@ -20,23 +22,41 @@ const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
       }
     }
 
-    handleresize()
+    const handlescroll = (): void => {
+      setScrollY(window.scrollY)
+    }
 
+    handleresize()
+    handlescroll()
+    window.addEventListener('scroll', handlescroll)
     window.addEventListener('resize', handleresize)
 
     return () => {
       window.removeEventListener('resize', handleresize)
+      window.removeEventListener('scroll', handlescroll)
     }
   }, [])
+
+  const toggleOpenFilter = () => {
+    if (isOpenFilter) {
+      setIsOpenFilter(false)
+    } else {
+      setIsOpenFilter(true)
+    }
+  }
 
   return (
     <>
       <ScrollVisibilityContainer distance={distance - 64} containerClassName="border-b">
-        <div className="grid grid-cols-1 rounded-t-lg bg-white/80 backdrop-blur">{header}</div>
+        <div className="grid grid-cols-1 rounded-t-lg bg-white/80 backdrop-blur">
+          {typeof header === 'function' ? header(isOpenFilter, toggleOpenFilter) : header}
+        </div>
       </ScrollVisibilityContainer>
 
       <Card>
-        <div className="grid grid-cols-1 rounded-t-lg border-b bg-white/80 backdrop-blur">{header}</div>
+        <div className="grid grid-cols-1 rounded-t-lg border-b bg-white/80 backdrop-blur">
+          {typeof header === 'function' ? header(isOpenFilter && scrollY < distance - 64, toggleOpenFilter) : header}
+        </div>
 
         <CardBody ref={ref} className="overflow-x-auto p-0">
           {body}
