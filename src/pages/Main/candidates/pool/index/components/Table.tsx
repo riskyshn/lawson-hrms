@@ -6,7 +6,12 @@ import { twJoin } from 'tailwind-merge'
 
 const total = 20
 
-const Table: React.FC = () => {
+type PropTypes = {
+  setPreviewVideoModalUrl: (url: string) => void
+  setPreviewPdfModalUrl: (url: string) => void
+}
+
+const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
   const bodyItems = Array.from(Array(total)).map((_, i) => ({
     items: [
       {
@@ -36,12 +41,20 @@ const Table: React.FC = () => {
       {
         children: (
           <span className="flex items-center justify-center gap-2">
-            <a href="#" className="text-primary-600">
-              <FileTextIcon />
-            </a>
-            <a href="#" className="text-primary-600">
-              <FileVideoIcon />
-            </a>
+            <button
+              title="Preview Pdf Resume"
+              className="text-primary-600 hover:text-primary-700 focus:outline-none"
+              onClick={() => setPreviewPdfModalUrl('http://localhost:5173/sample.pdf')}
+            >
+              <FileTextIcon size={18} />
+            </button>
+            <button
+              title="Preview Video Resume"
+              className="text-primary-600 hover:text-primary-700 focus:outline-none"
+              onClick={() => setPreviewVideoModalUrl('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4')}
+            >
+              <FileVideoIcon size={18} />
+            </button>
           </span>
         ),
         className: 'text-center',
@@ -49,7 +62,7 @@ const Table: React.FC = () => {
       {
         children: (
           <Menu as="div" className="relative">
-            <Menu.Button as={Button} color="primary" size="small" block className="text-xs">
+            <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
               Action
             </Menu.Button>
             <Menu.Items
