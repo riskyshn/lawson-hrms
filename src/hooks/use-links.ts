@@ -1,32 +1,31 @@
+import { useMemo } from 'react'
 import { Link, matchPath, useLocation } from 'react-router-dom'
 import { SidebarItemProps } from 'jobseeker-ui'
-import { useMemo } from 'react'
-import links from './links'
 
 export type SidebarLinkTypes<C extends React.ElementType = 'a'> = Array<{
   title?: string
   items: Array<SidebarItemProps<C>>
 }>
 
-const useLinks = () => {
-  const location = useLocation()
+const useLinks = (links: SidebarLinkTypes<typeof Link>) => {
+  const { pathname } = useLocation()
 
   return useMemo<SidebarLinkTypes<typeof Link>>(() => {
     return links.map(({ title, items }) => {
       const updatedItems = items.map(({ parent, child }) => ({
         parent: {
           ...parent,
-          active: !!matchPath(parent.to + '/*', location.pathname),
+          active: !!matchPath(parent.to + '/*', pathname),
         },
         child: child?.map((el) => ({
           ...el,
-          active: !!matchPath(el.to.toString() + '/*', location.pathname),
+          active: !!matchPath(el.to.toString() + '/*', pathname),
         })),
       }))
 
       return { title, items: updatedItems }
     })
-  }, [location.pathname])
+  }, [links, pathname])
 }
 
 export default useLinks
