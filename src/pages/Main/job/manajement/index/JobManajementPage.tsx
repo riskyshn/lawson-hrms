@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
 import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
@@ -9,8 +8,6 @@ import Table from './components/Table'
 import MainCard from '@/components/Elements/MainCard'
 
 const JobManajementPage: React.FC = () => {
-  const [open, setOpen] = useState(false)
-
   return (
     <>
       <PageHeader
@@ -40,7 +37,7 @@ const JobManajementPage: React.FC = () => {
         <StatisticCards />
 
         <MainCard
-          header={
+          header={(open, toggleOpen) => (
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
@@ -56,7 +53,7 @@ const JobManajementPage: React.FC = () => {
                       <SearchIcon size={16} />
                     </Button>
                   </div>
-                  <Button iconOnly type="button" color="primary" onClick={() => setOpen(!open)}>
+                  <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
                     <FilterIcon size={16} />
                   </Button>
                 </div>
@@ -68,7 +65,7 @@ const JobManajementPage: React.FC = () => {
                 </div>
               )}
             </>
-          }
+          )}
           body={<Table />}
           footer={
             <Pagination>

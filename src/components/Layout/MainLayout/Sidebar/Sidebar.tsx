@@ -2,13 +2,14 @@ import React from 'react'
 import { PlusCircle, XIcon } from 'lucide-react'
 import { NavLink as Link, useNavigate } from 'react-router-dom'
 import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from 'jobseeker-ui'
-import useLinks from './useLinks'
 import LogoFull from '@/components/Logo/LogoFull'
 import { twJoin } from 'tailwind-merge'
+import useLinks from '@/hooks/use-links'
+import { rootLinks, recruitmentLinks, hrisLinks, otherLinks } from '@/sidebar-links'
 
 const Sidebar: React.FC = () => {
   const { sidebarMini, toggleSidebarOpen } = useLayout()
-  const links = useLinks()
+  const links = useLinks([rootLinks, recruitmentLinks, hrisLinks, otherLinks])
   const navigate = useNavigate()
 
   return (

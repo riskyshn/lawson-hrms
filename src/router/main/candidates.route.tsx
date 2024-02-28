@@ -5,8 +5,8 @@ import CandidateManagementPage from '@/pages/Main/candidates/management/index/Ca
 import CandidateShortlistedPage from '@/pages/Main/candidates/shortlisted/index/CandidateShortlistedPage'
 import CandidateRejectedPage from '@/pages/Main/candidates/rejected/index/CandidateRejectedPage'
 import CandidateWithdrawPage from '@/pages/Main/candidates/withdraw/index/CandidateWithdrawPage'
-import CandidateBlacklistedPage from '@/pages/Main/candidates/Blacklisted/index/CandidateBlacklistedPage'
-import CandidateOfferedPage from '@/pages/Main/candidates/Offered/index/CandidateOfferedPage'
+import CandidateBlacklistedPage from '@/pages/Main/candidates/blacklisted/index/CandidateBlacklistedPage'
+import CandidateOfferedPage from '@/pages/Main/candidates/offered/index/CandidateOfferedPage'
 
 const candidatesRoute: RouteObject = {
   path: 'candidates',
