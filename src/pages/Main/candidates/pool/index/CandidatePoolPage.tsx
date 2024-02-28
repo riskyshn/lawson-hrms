@@ -1,13 +1,14 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
+import { BaseInput, Button, Card, CardBody, Pagination, PaginationItem, Select } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon, FileSpreadsheetIcon, FilterIcon, SearchIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Table from './components/Table'
 import PreviewVIdeoResumeModal from './components/PreviewVIdeoResumeModal'
 import { useState } from 'react'
 import PreviewPdfResumeModal from './components/PreviewPdfResumeModal'
+import ApplyVacancyModal from '../../Modals/ApplyVacancyModal'
 
 const CandidatePoolPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
@@ -35,6 +36,11 @@ const CandidatePoolPage: React.FC = () => {
       <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
 
       <Container className="relative flex flex-col gap-3 pb-3 xl:pb-8">
+        <Card>
+          <CardBody>
+            <ApplyVacancyModal />
+          </CardBody>
+        </Card>
         <MainCard
           header={(open, toggleOpen) => (
             <>
