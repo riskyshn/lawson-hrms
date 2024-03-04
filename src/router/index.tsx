@@ -12,17 +12,17 @@ const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) =>
   const navigate = useNavigate()
   const toast = useToast()
 
-  useEffect(() => {
-    if (props.private && !user) {
-      toast('Please log in to access this page', { color: 'primary' })
-      navigate('/auth/login')
-    }
-    if (props.guest && user) navigate('/')
+  // useEffect(() => {
+  //   if (props.private && !user) {
+  //     toast('Please log in to access this page', { color: 'primary' })
+  //     navigate('/auth/login')
+  //   }
+  //   if (props.guest && user) navigate('/')
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.private])
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [props.private])
 
-  if (props.private && user) return <Outlet />
+  return <Outlet />
   if (props.guest && !user) return <Outlet />
 
   return null
