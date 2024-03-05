@@ -10,7 +10,7 @@ const CandidateManagementPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Candidate Management' }]}
+        breadcrumb={[{ text: 'Candidate' }, { text: 'Candidate Management' }]}
         title="Candidate Management"
       />
 
