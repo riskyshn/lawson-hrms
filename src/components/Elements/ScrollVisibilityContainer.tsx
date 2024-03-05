@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLayout } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
 import useScrollDirection from '@/hooks/use-scroll-direction'
@@ -12,7 +12,8 @@ type PropTypes = React.PropsWithChildren<{
 const ScrollVisibilityContainer: React.FC<PropTypes> = ({ children, distance, containerClassName }) => {
   const { sidebarMini } = useLayout()
   const [isShow, setIsShow] = useState(false)
-  const direction = useScrollDirection()
+  const scrollTimeout = useRef<number | null>(null)
+  const { scrollDirection: direction, setScrollDirection } = useScrollDirection()
 
   const containerProps = {
     children,
@@ -35,6 +36,25 @@ const ScrollVisibilityContainer: React.FC<PropTypes> = ({ children, distance, co
       window.removeEventListener('scroll', onScroll)
     }
   }, [distance])
+
+  useEffect(() => {
+    const handleScroll = (): void => {
+      if (scrollTimeout.current !== null) {
+        clearTimeout(scrollTimeout.current)
+      }
+
+      scrollTimeout.current = setTimeout(() => {
+        setScrollDirection('up')
+      }, 500)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div
