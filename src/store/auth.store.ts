@@ -20,7 +20,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   },
 
   refreshAuth: async () => {
-    const { data } = await accountService.getProfile()
+    const { data } = await accountService.fetchProfile()
     set((state) => ({ ...state, user: data }))
   },
 
