@@ -7,20 +7,19 @@ import { twJoin } from 'tailwind-merge'
 import MoveAnotherVacancyModal from '../../../Modals/MoveAnotherVacancyModal'
 import ViewHistoryModal from '../../../Modals/ViewHistoryModal'
 
-const total = 20
-
 type PropTypes = {
   setPreviewVideoModalUrl: (url: string) => void
   setPreviewPdfModalUrl: (url: string) => void
+  rowCount: number
 }
 
-const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
+const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl, rowCount }) => {
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
   const [showOptionModal, setShowOptionModal] = useState(false);
   const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null);
 
 
-  const candidates = Array.from(Array(total)).map((_, i) => {
+  const candidates = Array.from(Array(rowCount)).map((_, i) => {
     return {
       name: `Candidate ${i + 1}`,
       email: `candidate${i + 1}@jobseeker.com`,
@@ -52,7 +51,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
         children: (
           <div className="flex gap-3">
             <div>
-              <Avatar name="Jhon Doe" size={38} className="rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar name="Jhon Doe" size={38} className="rounded-lg bg-primary-100 text-primary-700 static" />
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>
@@ -101,7 +100,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
             </Menu.Button>
             <Menu.Items
               className={twJoin(
-                i > total - 6 && 'bottom-full',
+                i > rowCount - 6 && 'bottom-full',
                 'absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none',
               )}
             >
