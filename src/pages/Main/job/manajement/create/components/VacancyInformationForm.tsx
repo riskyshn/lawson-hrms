@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { BaseInput, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputWrapper, Select, Textarea } from 'jobseeker-ui'
+import { masterService } from '@/services'
+import AsyncSelect from '@/components/Elements/AsyncSelect'
 
 const options = Array.from(Array(20)).map((_, v) => ({ label: `Option ${v}`, value: `Option ${v}` }))
 
@@ -43,7 +45,22 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <Select label="Work Placement Type" withReset placeholder="WFO, WFH, Hybrid" options={options} />
-          <Select label="City" labelRequired placeholder="Choose City" options={options} />
+          <AsyncSelect
+            label="City"
+            labelRequired
+            placeholder="Choose City"
+            fetcher={masterService.fetchCities}
+            converter={(data: any) => data.map((el: any) => ({ label: `${el.name}, ${el.province}`, value: el.oid }))}
+          />
+          <AsyncSelect
+            label="City"
+            labelRequired
+            placeholder="Choose City"
+            fetcher={masterService.fetchDistricts}
+            searchMinCharacter={0}
+            hideSearch
+            converter={(data: any) => data.map((el: any) => ({ label: `${el.name}, ${el.city}`, value: el.oid }))}
+          />
         </div>
 
         <Input label="Number of Employee Needed" labelRequired type="number" />

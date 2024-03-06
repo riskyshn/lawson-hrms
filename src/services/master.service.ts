@@ -4,17 +4,31 @@ import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pa
 import { API_MASTER_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
-type PaginationParamsWithSearch = SpringPaginationParam & {
+type FetchAreaParams = SpringPaginationParam & {
   q?: string
 }
-
-type AreaType = 'country' | 'province' | 'city' | 'district' | 'sub-district'
 
 const axios = createAxiosInstance({
   baseURL: API_MASTER_BASE_URL,
   withAuth: true,
 })
 
-export const fetchArea = <T = any>(type: AreaType, params: PaginationParamsWithSearch, signal?: GenericAbortSignal) => {
-  return axios.get<SpringPaginationResponse<T>>(`/area/${type}`, { params, signal }).then((response) => response.data)
+export const fetchCountries = <T = any>(params: FetchAreaParams, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/country`, { params, signal }).then((response) => response.data.data)
+}
+
+export const fetchProvinces = <T = any>(params: FetchAreaParams & { country: string }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/province`, { params, signal }).then((response) => response.data.data)
+}
+
+export const fetchCities = <T = any>(params: FetchAreaParams & { province?: string }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/city`, { params, signal }).then((response) => response.data.data)
+}
+
+export const fetchDistricts = <T = any>(params: FetchAreaParams & { city: string }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/district`, { params, signal }).then((response) => response.data.data)
+}
+
+export const fetchSubDistrict = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/sub-district`, { params, signal }).then((response) => response.data.data)
 }
