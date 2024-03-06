@@ -19,7 +19,7 @@ type PropTypes = {
 const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
     const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
     const [showOptionModal, setShowOptionModal] = useState(false);
-    const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null);
+    const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | 'CandidateMatch' | null>(null);
 
     const candidates = Array.from(Array(total)).map((_, i) => {
         const applyDate = new Date(2024, 2, i + 1);
@@ -51,12 +51,12 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
             setModalType('ViewHistory');
             setShowOptionModal(true);
         }
-    };
 
-    const handleMatchClick = () => {
-        setShowOptionModal(true);
+        if (option === 'Candidate Match') {
+            setModalType('CandidateMatch');
+            setShowOptionModal(true);
+        }
     };
-
 
     const bodyItems = candidates.map((candidate, i) => ({
         items: [
@@ -68,7 +68,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
                         </div>
                         <div>
                             <span className="block font-semibold">{candidate.name}</span>
-                            <button onClick={handleMatchClick} className="text-xs font-semibold text-success-600 bg-green-100 py-1 px-2 rounded-lg">
+                            <button onClick={() => handleViewDetails(candidate, 'Candidate Match')} className="text-xs font-semibold text-success-600 bg-green-100 py-1 px-2 rounded-lg">
                                 {candidate.match}% Match
                             </button>
                         </div>
@@ -188,7 +188,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
             )}
 
             {/* Render CandidateMatchModal if showOptionModal is true */}
-            {showOptionModal && (
+            {showOptionModal && selectedCandidate && modalType === 'CandidateMatch' && (
                 <CandidateMatchModal
                     show={showOptionModal}
                     onClose={() => setShowOptionModal(false)}
