@@ -5,10 +5,9 @@ import { BaseInput, Button, Card, CardBody, Pagination, PaginationItem, Select }
 import { ChevronLeftIcon, ChevronRightIcon, FileSpreadsheetIcon, FilterIcon, SearchIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Table from './components/Table'
-import PreviewVIdeoResumeModal from './components/PreviewVIdeoResumeModal'
 import { useState } from 'react'
-import PreviewPdfResumeModal from './components/PreviewPdfResumeModal'
-import ApplyVacancyModal from '../../Modals/ApplyVacancyModal'
+import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
+import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 
 const CandidatePoolPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
@@ -32,15 +31,10 @@ const CandidatePoolPage: React.FC = () => {
         }
       />
 
-      <PreviewVIdeoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
+      <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
       <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
 
       <Container className="relative flex flex-col gap-3 pb-3 xl:pb-8">
-        <Card>
-          <CardBody>
-            <ApplyVacancyModal />
-          </CardBody>
-        </Card>
         <MainCard
           header={(open, toggleOpen) => (
             <>
