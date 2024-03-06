@@ -4,18 +4,19 @@ import { Avatar, Button } from 'jobseeker-ui';
 import { BookUserIcon, FileTextIcon, FileVideoIcon, HistoryIcon, RefreshCwIcon, SendToBackIcon, UserXIcon, XCircleIcon } from 'lucide-react';
 import { twJoin } from 'tailwind-merge';
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal';
-import MainTable from './MainTable';
 import ProcessModal from './ProcessModal';
 import ViewHistoryModal from './ViewHistoryModal';
+import CandidateMatchModal from './CandidateMatchModal';
+import MainTable from '@/components/Elements/MainTable';
 
 const total = 20;
 
 type PropTypes = {
-    setPreviewVideoModalUrl: (url: string) => void;
-    setPreviewPdfModalUrl: (url: string) => void;
-};
+    setPreviewVideoModalUrl: (url: string) => void
+    setPreviewPdfModalUrl: (url: string) => void
+}
 
-const Table: React.FC<PropTypes> = () => {
+const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
     const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
     const [showOptionModal, setShowOptionModal] = useState(false);
     const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null);
@@ -31,6 +32,8 @@ const Table: React.FC<PropTypes> = () => {
             applyDate: formattedApplyDate,
             source: 'Careersite',
             status: 'Open',
+            videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            pdfUrl: 'http://localhost:5173/sample.pdf',
         };
     });
 
@@ -50,13 +53,10 @@ const Table: React.FC<PropTypes> = () => {
         }
     };
 
-    const handlePreviewPdf = () => {
-        window.open('http://localhost:5173/sample.pdf', '_blank');
+    const handleMatchClick = () => {
+        setShowOptionModal(true);
     };
 
-    const handlePreviewVideo = () => {
-        window.open('http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', '_blank');
-    };
 
     const bodyItems = candidates.map((candidate, i) => ({
         items: [
@@ -68,7 +68,9 @@ const Table: React.FC<PropTypes> = () => {
                         </div>
                         <div>
                             <span className="block font-semibold">{candidate.name}</span>
-                            <span className="text-xs font-semibold text-success-600 bg-green-100 py-1 px-2 rounded-lg">{candidate.match}% Match</span>
+                            <button onClick={handleMatchClick} className="text-xs font-semibold text-success-600 bg-green-100 py-1 px-2 rounded-lg">
+                                {candidate.match}% Match
+                            </button>
                         </div>
                     </div>
                 ),
@@ -89,14 +91,14 @@ const Table: React.FC<PropTypes> = () => {
                         <button
                             title="Preview Pdf Resume"
                             className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                            onClick={handlePreviewPdf}
+                            onClick={() => setPreviewPdfModalUrl(candidate.pdfUrl)}
                         >
                             <FileTextIcon size={18} />
                         </button>
                         <button
                             title="Preview Video Resume"
                             className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                            onClick={handlePreviewVideo}
+                            onClick={() => setPreviewVideoModalUrl(candidate.videoUrl)}
                         >
                             <FileVideoIcon size={18} />
                         </button>
@@ -182,6 +184,14 @@ const Table: React.FC<PropTypes> = () => {
                     show={showOptionModal}
                     onClose={() => setShowOptionModal(false)}
                     candidate={selectedCandidate}
+                />
+            )}
+
+            {/* Render CandidateMatchModal if showOptionModal is true */}
+            {showOptionModal && (
+                <CandidateMatchModal
+                    show={showOptionModal}
+                    onClose={() => setShowOptionModal(false)}
                 />
             )}
         </>

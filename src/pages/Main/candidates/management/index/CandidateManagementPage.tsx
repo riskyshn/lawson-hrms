@@ -4,8 +4,13 @@ import PageHeader from "@/components/Elements/PageHeader"
 import { BaseInput, Button, Pagination, PaginationItem, Select } from "jobseeker-ui"
 import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from "lucide-react"
 import Table from "./components/Table"
+import { useState } from "react"
+import PreviewVideoResumeModal from "../../Modals/PreviewVideoResumeModal"
+import PreviewPdfResumeModal from "../../Modals/PreviewPdfResumeModal"
 
 const CandidateManagementPage: React.FC = () => {
+  const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
+  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
 
   return (
     <>
@@ -13,6 +18,9 @@ const CandidateManagementPage: React.FC = () => {
         breadcrumb={[{ text: 'Candidate' }, { text: 'Candidate Management' }]}
         title="Candidate Management"
       />
+
+      <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
+      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -46,8 +54,8 @@ const CandidateManagementPage: React.FC = () => {
           )}
           body={
             <Table
-              setPreviewVideoModalUrl={() => null}
-              setPreviewPdfModalUrl={() => null}
+              setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
+              setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
             />
           }
           footer={
