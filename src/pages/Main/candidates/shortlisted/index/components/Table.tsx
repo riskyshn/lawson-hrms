@@ -3,10 +3,10 @@ import { Menu } from '@headlessui/react';
 import { Avatar, Button } from 'jobseeker-ui';
 import { FileTextIcon, FileVideoIcon, HistoryIcon, RefreshCwIcon, SendToBackIcon, UserXIcon, XCircleIcon } from 'lucide-react';
 import { twJoin } from 'tailwind-merge';
-import MoveAnotherVacancyModal from './MoveAnotherVacancyModal';
-import ProcessModal from './ProcessModal';
 import MainTable from '@/components/Elements/MainTable';
 import ViewHistoryModal from '../../../Modals/ViewHistoryModal';
+import MoveAnotherVacancyModal from '../../../Modals/MoveAnotherVacancyModal';
+import ProcessModal from '../../../Modals/ProcessModal';
 
 const total = 20;
 

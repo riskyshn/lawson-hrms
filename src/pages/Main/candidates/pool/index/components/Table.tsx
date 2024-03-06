@@ -4,7 +4,7 @@ import { Avatar, Button } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon, HistoryIcon, SendToBackIcon } from 'lucide-react'
 import { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
-import MoveAnotherVacancyModal from '../../../management/index/components/MoveAnotherVacancyModal'
+import MoveAnotherVacancyModal from '../../../Modals/MoveAnotherVacancyModal'
 import ViewHistoryModal from '../../../Modals/ViewHistoryModal'
 
 const total = 20

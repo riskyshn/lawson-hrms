@@ -3,9 +3,9 @@ import { Menu } from '@headlessui/react';
 import { Avatar, Button } from 'jobseeker-ui';
 import { FileTextIcon, FileVideoIcon, HistoryIcon, SendToBackIcon, UserXIcon } from 'lucide-react';
 import { twJoin } from 'tailwind-merge';
-import MoveAnotherVacancyModal from './MoveAnotherVacancyModal';
 import MainTable from '@/components/Elements/MainTable';
 import ViewHistoryModal from '../../../Modals/ViewHistoryModal';
+import MoveAnotherVacancyModal from '../../../Modals/MoveAnotherVacancyModal';
 
 const total = 20;
 

@@ -1,7 +1,7 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Card, CardBody, Pagination, PaginationItem, Select } from 'jobseeker-ui'
+import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon, FileSpreadsheetIcon, FilterIcon, SearchIcon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Table from './components/Table'
