@@ -5,8 +5,8 @@ import { FileTextIcon, FileVideoIcon, HistoryIcon, RefreshCwIcon, SendToBackIcon
 import { twJoin } from 'tailwind-merge';
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal';
 import ProcessModal from './ProcessModal';
-import ViewHistoryModal from './ViewHistoryModal'
 import MainTable from '@/components/Elements/MainTable';
+import ViewHistoryModal from '../../../Modals/ViewHistoryModal';
 
 const total = 20;
 

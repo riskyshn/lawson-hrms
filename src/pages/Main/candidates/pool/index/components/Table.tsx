@@ -5,7 +5,7 @@ import { FileTextIcon, FileVideoIcon, HistoryIcon, SendToBackIcon } from 'lucide
 import { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import MoveAnotherVacancyModal from '../../../management/index/components/MoveAnotherVacancyModal'
-import ViewHistoryModal from '../../../management/index/components/ViewHistoryModal'
+import ViewHistoryModal from '../../../Modals/ViewHistoryModal'
 
 const total = 20
 

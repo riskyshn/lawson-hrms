@@ -5,7 +5,7 @@ import { BookUserIcon, FileTextIcon, FileVideoIcon, HistoryIcon, RefreshCwIcon, 
 import { twJoin } from 'tailwind-merge';
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal';
 import ProcessModal from './ProcessModal';
-import ViewHistoryModal from './ViewHistoryModal';
+import ViewHistoryModal from '../../../Modals/ViewHistoryModal';
 import CandidateMatchModal from './CandidateMatchModal';
 import MainTable from '@/components/Elements/MainTable';
 
