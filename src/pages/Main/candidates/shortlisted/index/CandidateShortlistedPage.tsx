@@ -4,11 +4,20 @@ import PageHeader from "@/components/Elements/PageHeader"
 import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from 'lucide-react'
 import Table from './components/Table'
+import { useState } from 'react'
+import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
+import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 
 const CandidateShortlistedPage: React.FC = () => {
+  const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
+  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
+
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Candidate' }, { text: 'Shortlisted' }]} title="Candidate Shortlisted" />
+
+      <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
+      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -42,7 +51,12 @@ const CandidateShortlistedPage: React.FC = () => {
               )}
             </>
           )}
-          body={<Table setPreviewVideoModalUrl={() => null} setPreviewPdfModalUrl={() => null} />}
+          body={
+            <Table
+              setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
+              setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+            />
+          }
           footer={
             <Pagination>
               <PaginationItem disabled>
