@@ -37,7 +37,7 @@ const CandidateShortlistedPage: React.FC = () => {
                       You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
                     </span>
                   </div>
-                  <TableRowDropdown onChange={handleRowCountChange} />
+                  <TableRowDropdown onChange={handleRowCountChange} count={rowCount} />
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="relative flex flex-1">

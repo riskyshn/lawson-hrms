@@ -1,16 +1,13 @@
 import { Select } from 'jobseeker-ui';
-import React, { useState } from 'react';
 
 type TableRowDropdownProps = {
     onChange: (selectedRowCount: number) => void;
+    count: number
 };
 
-const TableRowDropdown: React.FC<TableRowDropdownProps> = ({ onChange }) => {
-    const [value, setValue] = useState<number>(8); // Initial value
-
+const TableRowDropdown: React.FC<TableRowDropdownProps> = ({ onChange, count }) => {
     const handleChange = (selectedValue: string | number) => {
         const parsedValue = parseInt(selectedValue.toString());
-        setValue(parsedValue);
         onChange(parsedValue);
     };
 
@@ -24,7 +21,7 @@ const TableRowDropdown: React.FC<TableRowDropdownProps> = ({ onChange }) => {
                     { label: '64', value: 64 }
                 ]}
                 hideSearch={true}
-                value={value}
+                value={count}
                 onChange={handleChange}
             />
         </div>
