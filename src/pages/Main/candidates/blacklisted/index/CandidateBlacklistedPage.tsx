@@ -1,6 +1,6 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
-import PageHeader from "@/components/Elements/PageHeader"
+import PageHeader from '@/components/Elements/PageHeader'
 import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon } from 'lucide-react'
 import Table from './components/Table'
@@ -28,7 +28,7 @@ const CandidateBlacklistedPage: React.FC = () => {
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <div className='mb-2'>
+                  <div className="mb-2">
                     <span className="block text-lg font-semibold">Candidate List</span>
                     <span className="block text-sm">
                       You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total

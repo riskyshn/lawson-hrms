@@ -43,7 +43,7 @@ const CandidatePoolPage: React.FC = () => {
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <div className='mb-2'>
+                  <div className="mb-2">
                     <span className="block text-lg font-semibold">Candidate List</span>
                     <span className="block text-sm">
                       You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total

@@ -1,13 +1,13 @@
-import Container from "@/components/Elements/Container"
-import MainCard from "@/components/Elements/MainCard"
-import PageHeader from "@/components/Elements/PageHeader"
-import { BaseInput, Button, Select } from "jobseeker-ui"
-import { FilterIcon, SearchIcon } from "lucide-react"
-import Table from "./components/Table"
-import { useState } from "react"
-import PreviewVideoResumeModal from "../../Modals/PreviewVideoResumeModal"
-import PreviewPdfResumeModal from "../../Modals/PreviewPdfResumeModal"
-import usePagination from "@/hooks/use-pagination"
+import Container from '@/components/Elements/Container'
+import MainCard from '@/components/Elements/MainCard'
+import PageHeader from '@/components/Elements/PageHeader'
+import { BaseInput, Button, Select } from 'jobseeker-ui'
+import { FilterIcon, SearchIcon } from 'lucide-react'
+import Table from './components/Table'
+import { useState } from 'react'
+import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
+import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
+import usePagination from '@/hooks/use-pagination'
 
 const CandidateManagementPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
@@ -17,10 +17,7 @@ const CandidateManagementPage: React.FC = () => {
 
   return (
     <>
-      <PageHeader
-        breadcrumb={[{ text: 'Candidate' }, { text: 'Candidate Management' }]}
-        title="Candidate Management"
-      />
+      <PageHeader breadcrumb={[{ text: 'Candidate' }, { text: 'Candidate Management' }]} title="Candidate Management" />
 
       <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
       <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
@@ -31,7 +28,7 @@ const CandidateManagementPage: React.FC = () => {
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <div className='mb-2'>
+                  <div className="mb-2">
                     <span className="block text-lg font-semibold">Candidate List</span>
                     <span className="block text-sm">
                       You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total

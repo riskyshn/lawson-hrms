@@ -23,8 +23,8 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
       city: 'Jakarta',
       videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       pdfUrl: 'http://localhost:5173/sample.pdf',
-    };
-  });
+    }
+  })
 
   const bodyItems = candidates.map((candidate, i) => ({
     items: [
@@ -32,7 +32,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
         children: (
           <div className="flex gap-3">
             <div>
-              <Avatar name="Jhon Doe" size={38} className="rounded-lg bg-primary-100 text-primary-700 static" />
+              <Avatar name="Jhon Doe" size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>
@@ -92,7 +92,6 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
         bodyItems={bodyItems}
       />
     </>
-
   )
 }
 
