@@ -13,6 +13,10 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
+/**
+ * Area
+ *
+ */
 export const fetchCountries = <T = any>(params: FetchAreaParams, signal?: GenericAbortSignal) => {
   return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/country`, { params, signal }).then((response) => response.data.data)
 }
@@ -31,4 +35,28 @@ export const fetchDistricts = <T = any>(params: FetchAreaParams & { city: string
 
 export const fetchSubDistrict = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
   return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/sub-district`, { params, signal }).then((response) => response.data.data)
+}
+
+/**
+ * Workplacement
+ *
+ */
+export const fetchWorkplacement = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/workplacement`, { params, signal }).then((response) => response.data.data)
+}
+
+/**
+ * JobType
+ *
+ */
+export const fetchJobtype = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/jobtype`, { params, signal }).then((response) => response.data.data)
+}
+
+/**
+ * Education Level
+ *
+ */
+export const fetchEducationLevel = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<T> }>(`/education-level`, { params, signal }).then((response) => response.data.data)
 }

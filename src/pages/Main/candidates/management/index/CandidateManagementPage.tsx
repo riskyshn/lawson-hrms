@@ -1,18 +1,14 @@
-import Container from "@/components/Elements/Container"
-import MainCard from "@/components/Elements/MainCard"
-import PageHeader from "@/components/Elements/PageHeader"
-import { BaseInput, Button, Pagination, PaginationItem, Select } from "jobseeker-ui"
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from "lucide-react"
-import Table from "./components/Table"
+import Container from '@/components/Elements/Container'
+import MainCard from '@/components/Elements/MainCard'
+import PageHeader from '@/components/Elements/PageHeader'
+import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
+import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from 'lucide-react'
+import Table from './components/Table'
 
 const CandidateManagementPage: React.FC = () => {
-
   return (
     <>
-      <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Candidate Management' }]}
-        title="Candidate Management"
-      />
+      <PageHeader breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Candidate Management' }]} title="Candidate Management" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -44,12 +40,7 @@ const CandidateManagementPage: React.FC = () => {
               )}
             </>
           )}
-          body={
-            <Table
-              setPreviewVideoModalUrl={() => null}
-              setPreviewPdfModalUrl={() => null}
-            />
-          }
+          body={<Table setPreviewVideoModalUrl={() => null} setPreviewPdfModalUrl={() => null} />}
           footer={
             <Pagination>
               <PaginationItem disabled>
