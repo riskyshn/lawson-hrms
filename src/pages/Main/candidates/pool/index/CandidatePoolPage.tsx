@@ -9,16 +9,10 @@ import usePagination from '@/hooks/use-pagination'
 import Table from './components/Table'
 import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
-import TableRowDropdown from '../../components/TableRowDropdown'
 
 const CandidatePoolPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
-  const [rowCount, setRowCount] = useState<number>(8);
-
-  const handleRowCountChange = (selectedRowCount: number) => {
-    setRowCount(selectedRowCount);
-  };
 
   const pagination = usePagination({ pathname: '/candidates/pool', totalPage: 2, params: { search: 'querysearch' } })
 
@@ -55,7 +49,6 @@ const CandidatePoolPage: React.FC = () => {
                       You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
                     </span>
                   </div>
-                  <TableRowDropdown onChange={handleRowCountChange} count={rowCount} />
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="relative flex flex-1">
@@ -82,7 +75,6 @@ const CandidatePoolPage: React.FC = () => {
             <Table
               setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
               setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
-              rowCount={rowCount}
             />
           }
           footer={pagination.render()}

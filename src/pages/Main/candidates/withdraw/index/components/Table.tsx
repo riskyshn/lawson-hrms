@@ -7,13 +7,14 @@ import MenuList from '../../../components/MenuList';
 type PropTypes = {
     setPreviewVideoModalUrl: (url: string) => void
     setPreviewPdfModalUrl: (url: string) => void
-    rowCount: number
 }
 
-const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl, rowCount }) => {
+const total = 20
+
+const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
     const options = ['Move to Another Vacancy', 'View History', 'Blacklist'];
 
-    const candidates = Array.from(Array(rowCount)).map((_, i) => {
+    const candidates = Array.from(Array(total)).map((_, i) => {
         return {
             name: `Candidate ${i + 1}`,
             email: `candidate${i + 1}@jobseeker.com`,

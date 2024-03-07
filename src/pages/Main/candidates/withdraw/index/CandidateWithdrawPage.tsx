@@ -1,23 +1,17 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from "@/components/Elements/PageHeader"
-import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from 'lucide-react'
+import { BaseInput, Button, Select } from 'jobseeker-ui'
+import { FilterIcon, SearchIcon } from 'lucide-react'
 import Table from './components/Table'
 import { useState } from 'react'
 import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
-import TableRowDropdown from '../../components/TableRowDropdown'
 import usePagination from '@/hooks/use-pagination'
 
 const CandidateWithdrawPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
-  const [rowCount, setRowCount] = useState<number>(8);
-
-  const handleRowCountChange = (selectedRowCount: number) => {
-    setRowCount(selectedRowCount);
-  };
 
   const pagination = usePagination({ pathname: '/candidates/withdraw', totalPage: 2, params: { search: 'querysearch' } })
 
@@ -40,7 +34,6 @@ const CandidateWithdrawPage: React.FC = () => {
                       You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
                     </span>
                   </div>
-                  <TableRowDropdown onChange={handleRowCountChange} count={rowCount} />
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="relative flex flex-1">
@@ -67,7 +60,6 @@ const CandidateWithdrawPage: React.FC = () => {
             <Table
               setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
               setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
-              rowCount={rowCount}
             />
           }
           footer={pagination.render()}

@@ -8,16 +8,17 @@ import MenuList from '../../../components/MenuList';
 type PropTypes = {
     setPreviewVideoModalUrl: (url: string) => void
     setPreviewPdfModalUrl: (url: string) => void
-    rowCount: number
 }
 
-const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl, rowCount }) => {
+const total = 20;
+
+const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
     const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
     const [showOptionModal, setShowOptionModal] = useState(false);
     const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | 'CandidateMatch' | null>(null);
     const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'Reject'];
 
-    const candidates = Array.from(Array(rowCount)).map((_, i) => {
+    const candidates = Array.from(Array(total)).map((_, i) => {
         const applyDate = new Date(2024, 2, i + 1);
         const formattedApplyDate = applyDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
