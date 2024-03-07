@@ -1,53 +1,126 @@
-import React from 'react'
-import { Button, Input, Avatar, InputCheckbox } from 'jobseeker-ui'
+import React, { useState } from 'react'
+import { Button, Input, Avatar, InputCheckbox, Select } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
-import { ClockIcon } from 'lucide-react'
+import { ClockIcon, MapPinIcon, PencilIcon, TextIcon, Users2Icon } from 'lucide-react'
 import { LogoGoogleMeet } from '@/components/Logo/LogoGoogleMeet'
 
-type ProcessModalProps = {
+type SendReminderModalProps = {
   show: boolean
   onClose: () => void
 }
 
-const SendReminderModal: React.FC<ProcessModalProps> = ({ show, onClose }) => {
+const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) => {
+  const guestOptions = [
+    { value: 'senin@gmail.com', label: 'senin@gmail.com' },
+    { value: 'selasa@gmail.com', label: 'selasa@gmail.com' },
+  ]
+
+  const [selectedGuests, setSelectedGuests] = useState<string[]>([])
+  const [showChangeTime, setShowChangeTime] = useState<boolean>(false)
+  const [scheduledDate, setScheduledDate] = useState<string>('Monday, September 12th')
+  const [startTime, setStartTime] = useState<string>('1:00pm')
+  const [endTime, setEndTime] = useState<string>('2:00pm')
+  const [timeZone, setTimeZone] = useState<string | number>('(GMT+07:00) Western Indonesian Time')
+
+  const handleGuestSelect = (value: any) => {
+    if (!selectedGuests.includes(value)) {
+      setSelectedGuests([...selectedGuests, value])
+    }
+  }
+
+  const handleTimeChangeClick = () => {
+    setShowChangeTime(true)
+  }
+
+  const formatScheduledDate = (dateString: string): string => {
+    const date = new Date(dateString)
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ]
+
+    const dayOfWeek = days[date.getDay()]
+    const dayOfMonth = date.getDate()
+    const month = months[date.getMonth()]
+    const year = date.getFullYear()
+
+    return `${dayOfWeek}, ${dayOfMonth} ${month} ${year}`
+  }
+
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-8" show={show} onClose={onClose}>
       <div className="mb-8">
         <div className="pb-2">
           <h3 className="text-lg font-semibold">Schedule Your Interview</h3>
           <p className="text-xs text-gray-500">Add Interview to Your Calendar</p>
         </div>
 
-        <div className="mb-4">
-          <Input label="Title" labelRequired placeholder="Add Title" />
+        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <PencilIcon style={{ marginRight: '10px' }} />
+          <div style={{ flex: '1' }}>
+            <Input placeholder="Add Title" />
+          </div>
         </div>
 
-        <div className="mb-4" style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
           <ClockIcon style={{ marginRight: '10px' }} />
-          <div>
-            <span className="block text-sm font-semibold">Monday, September 12th | 1:00pm - 2:00pm</span>
-            <span className="block text-xs text-gray-500">(GMT+07:00) Western Indonesian Time - Change Time</span>
+          <div style={{ width: '100%' }}>
+            <span className="block text-sm font-semibold">
+              {formatScheduledDate(scheduledDate)} | {startTime} - {endTime}
+            </span>
+            <span className="block text-xs text-gray-500">
+              {timeZone} -
+              <span className="text-blue-500" onClick={handleTimeChangeClick} style={{ cursor: 'pointer' }}>
+                {' '}
+                Change Time
+              </span>
+            </span>
+            {showChangeTime && (
+              <div className="mt-2">
+                <Input type="date" value={scheduledDate} onChange={(e) => setScheduledDate(e.target.value)} />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="w-1/2" />
+                  <Input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="w-1/2" />
+                </div>
+                <Select placeholder="Select Time Zone" options={guestOptions} value={timeZone} onChange={(value) => setTimeZone(value)} />
+              </div>
+            )}
           </div>
         </div>
 
         <div className="mb-4">
-          <div>
-            <Input label="Guests" labelRequired placeholder="Add Guest" />
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <Users2Icon style={{ marginRight: '10px' }} />
+            <div style={{ flex: '1' }}>
+              <Select placeholder="Add Guest" options={guestOptions} className="mb-3" onChange={(e) => handleGuestSelect(e)} />
+            </div>
           </div>
 
-          <div className="pb-2">
-            {[1, 2].map((i) => (
-              <li key={i} className="flex items-center gap-3 py-1">
-                <div>
-                  <Avatar name="Jhon Doe" className="bg-gray-100 text-primary-600" size={48} />
-                </div>
-                <div className="flex-1">
-                  <span className="block text-sm font-semibold">John Doe</span>
-                  <span className="block text-xs text-gray-500">Vacancy Name | RR Number</span>
-                </div>
-              </li>
-            ))}
-          </div>
+          {selectedGuests.length > 0 && (
+            <div className="ml-8">
+              {selectedGuests.map((guest) => (
+                <li key={guest} className="flex items-center gap-3 pt-1">
+                  <div>
+                    <Avatar name={guest} className="bg-gray-100 text-primary-600" size={48} />
+                  </div>
+                  <div className="flex-1">
+                    <span className="block text-sm font-semibold">{guest}</span>
+                  </div>
+                </li>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mb-4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -63,12 +136,18 @@ const SendReminderModal: React.FC<ProcessModalProps> = ({ show, onClose }) => {
           </div>
         </div>
 
-        <div className="mb-4">
-          <Input label="Location" labelRequired placeholder="Add Location" />
+        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <MapPinIcon style={{ marginRight: '10px' }} />
+          <div style={{ flex: '1' }}>
+            <Input placeholder="Add Location" />
+          </div>
         </div>
 
-        <div>
-          <Input label="Description" labelRequired placeholder="Add Description" />
+        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <TextIcon style={{ marginRight: '10px' }} />
+          <div style={{ flex: '1' }}>
+            <Input placeholder="Add Description" />
+          </div>
         </div>
       </div>
 
