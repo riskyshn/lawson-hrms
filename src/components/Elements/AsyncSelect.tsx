@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useMemo, useState } from 'react'
 import { AsyncSelect as BaseAsyncSelect, AsyncSelectProps, OptionProps } from 'jobseeker-ui'
 
 interface PropTypes extends Omit<AsyncSelectProps, 'options' | 'message' | 'search'> {
@@ -9,10 +10,13 @@ interface PropTypes extends Omit<AsyncSelectProps, 'options' | 'message' | 'sear
   hideSearch?: boolean
 }
 
-const AsyncSelect: React.FC<PropTypes> = ({ fetcher, converter, fetcherParams, searchMinCharacter = 3, hideSearch = false, ...props }) => {
+const AsyncSelect: React.FC<PropTypes> = ({ fetcher, converter, fetcherParams, searchMinCharacter = 3, hideSearch, ...props }) => {
   const [search, setSearch] = useState('')
   const [results, setResults] = useState<OptionProps[]>([])
   const [loading, setLoading] = useState(false)
+
+  const stringParams = new URLSearchParams(fetcherParams).toString()
+  const rFetcherParams = useMemo(() => fetcherParams, [stringParams])
 
   useEffect(() => {
     if (hideSearch) return
@@ -20,7 +24,7 @@ const AsyncSelect: React.FC<PropTypes> = ({ fetcher, converter, fetcherParams, s
     const fetchData = async (search: string, signal: AbortSignal) => {
       setLoading(true)
       try {
-        const { content } = await fetcher({ size: 20, page: 0, ...fetcherParams, q: search }, signal)
+        const { content } = await fetcher({ size: 20, page: 0, ...rFetcherParams, q: search }, signal)
         setResults(converter(content))
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -38,14 +42,14 @@ const AsyncSelect: React.FC<PropTypes> = ({ fetcher, converter, fetcherParams, s
     return () => {
       controller.abort()
     }
-  }, [hideSearch, search, searchMinCharacter, fetcher, converter, fetcherParams])
+  }, [hideSearch, search, searchMinCharacter, rFetcherParams])
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
 
       try {
-        const { content } = await fetcher({ size: 20, page: 0, ...fetcherParams })
+        const { content } = await fetcher({ size: 20, page: 0, ...rFetcherParams })
         setResults(converter(content))
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -53,25 +57,19 @@ const AsyncSelect: React.FC<PropTypes> = ({ fetcher, converter, fetcherParams, s
       setLoading(false)
     }
 
-    if (hideSearch) {
-      fetchData()
-    }
-  }, [hideSearch, fetcher, converter, fetcherParams])
+    if (hideSearch) fetchData()
+  }, [hideSearch, rFetcherParams])
 
   const getMessage = () => {
-    if (loading) {
-      return 'Loading...'
-    }
+    const trimmedSearch = search.trim()
+    const isSearchValid = trimmedSearch.length > 0
+    const isSearchTooShort = trimmedSearch.length <= searchMinCharacter
+    const hasNoResults = isSearchValid && results.length === 0
 
-    if (search.trim().length > searchMinCharacter && results.length === 0) {
-      return `No results found for "${search.trim()}"`
-    }
-
-    if (search.trim().length <= searchMinCharacter) {
-      return `Please enter at least ${searchMinCharacter} characters to start searching.`
-    }
-
-    return ''
+    if (loading) return 'Loading...'
+    if (isSearchTooShort && !hideSearch) return `Please enter at least ${searchMinCharacter} characters to start searching.`
+    if (hasNoResults) return `No results found for "${trimmedSearch}"`
+    return 'No results'
   }
 
   return (
