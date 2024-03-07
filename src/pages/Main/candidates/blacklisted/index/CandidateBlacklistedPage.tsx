@@ -1,13 +1,14 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from "@/components/Elements/PageHeader"
-import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from 'lucide-react'
+import { BaseInput, Button, Select } from 'jobseeker-ui'
+import { FilterIcon, SearchIcon } from 'lucide-react'
 import Table from './components/Table'
 import { useState } from 'react'
 import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 import TableRowDropdown from '../../components/TableRowDropdown'
+import usePagination from '@/hooks/use-pagination'
 
 const CandidateBlacklistedPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
@@ -17,6 +18,8 @@ const CandidateBlacklistedPage: React.FC = () => {
   const handleRowCountChange = (selectedRowCount: number) => {
     setRowCount(selectedRowCount);
   };
+
+  const pagination = usePagination({ pathname: '/candidates/blacklisted', totalPage: 2, params: { search: 'querysearch' } })
 
   return (
     <>
@@ -67,22 +70,7 @@ const CandidateBlacklistedPage: React.FC = () => {
               rowCount={rowCount}
             />
           }
-          footer={
-            <Pagination>
-              <PaginationItem disabled>
-                <ChevronLeftIcon />
-              </PaginationItem>
-              <PaginationItem active>1</PaginationItem>
-              <PaginationItem>2</PaginationItem>
-              <PaginationItem>3</PaginationItem>
-              <PaginationItem>4</PaginationItem>
-              <PaginationItem>5</PaginationItem>
-              <PaginationItem>6</PaginationItem>
-              <PaginationItem>
-                <ChevronRightIcon />
-              </PaginationItem>
-            </Pagination>
-          }
+          footer={pagination.render()}
         />
       </Container>
     </>
