@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const useScrollDirection = (): 'down' | 'up' | null => {
+const useScrollDirection = () => {
   const [scrollDirection, setScrollDirection] = useState<'down' | 'up' | null>(null)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const useScrollDirection = (): 'down' | 'up' | null => {
     }
   }, [])
 
-  return scrollDirection
+  return { scrollDirection, setScrollDirection }
 }
 
 export default useScrollDirection

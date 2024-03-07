@@ -1,11 +1,12 @@
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { BaseInput, Button, Select } from 'jobseeker-ui'
+import { FileSpreadsheetIcon, FilterIcon, SearchIcon } from 'lucide-react'
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
-import { ChevronLeftIcon, ChevronRightIcon, FileSpreadsheetIcon, FilterIcon, SearchIcon } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import usePagination from '@/hooks/use-pagination'
 import Table from './components/Table'
-import { useState } from 'react'
 import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 import TableRowDropdown from '../../components/TableRowDropdown'
@@ -18,6 +19,8 @@ const CandidatePoolPage: React.FC = () => {
   const handleRowCountChange = (selectedRowCount: number) => {
     setRowCount(selectedRowCount);
   };
+
+  const pagination = usePagination({ pathname: '/candidates/pool', totalPage: 2, params: { search: 'querysearch' } })
 
   return (
     <>
@@ -82,22 +85,7 @@ const CandidatePoolPage: React.FC = () => {
               rowCount={rowCount}
             />
           }
-          footer={
-            <Pagination>
-              <PaginationItem disabled>
-                <ChevronLeftIcon />
-              </PaginationItem>
-              <PaginationItem active>1</PaginationItem>
-              <PaginationItem>2</PaginationItem>
-              <PaginationItem>3</PaginationItem>
-              <PaginationItem>4</PaginationItem>
-              <PaginationItem>5</PaginationItem>
-              <PaginationItem>6</PaginationItem>
-              <PaginationItem>
-                <ChevronRightIcon />
-              </PaginationItem>
-            </Pagination>
-          }
+          footer={pagination.render()}
         />
       </Container>
     </>
