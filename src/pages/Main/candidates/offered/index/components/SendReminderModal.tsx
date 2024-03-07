@@ -103,7 +103,7 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
           <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
             <Users2Icon style={{ marginRight: '10px' }} />
             <div style={{ flex: '1' }}>
-              <Select placeholder="Add Guest" options={guestOptions} className="mb-3" onChange={(e) => handleGuestSelect(e)} />
+              <Select placeholder="Add Guest" options={guestOptions} className="mb-1" onChange={(e) => handleGuestSelect(e)} />
             </div>
           </div>
 
@@ -115,7 +115,7 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
                     <Avatar name={guest} className="bg-gray-100 text-primary-600" size={48} />
                   </div>
                   <div className="flex-1">
-                    <span className="block text-sm font-semibold">{guest}</span>
+                    <span className="block text-sm">{guest}</span>
                   </div>
                 </li>
               ))}
