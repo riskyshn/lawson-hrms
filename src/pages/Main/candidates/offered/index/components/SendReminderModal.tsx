@@ -17,10 +17,32 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
 
   const [selectedGuests, setSelectedGuests] = useState<string[]>([])
   const [showChangeTime, setShowChangeTime] = useState<boolean>(false)
-  const [scheduledDate, setScheduledDate] = useState<string>('Monday, September 12th')
-  const [startTime, setStartTime] = useState<string>('1:00pm')
-  const [endTime, setEndTime] = useState<string>('2:00pm')
-  const [timeZone, setTimeZone] = useState<string | number>('(GMT+07:00) Western Indonesian Time')
+
+  const getCurrentDate = (): string => {
+    const date = new Date()
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear()
+    return `${month}-${day}-${year}`
+  }
+
+  const getCurrentTime = (): string => {
+    const date = new Date()
+    const hours = date.getHours().toString().padStart(2, '0')
+    const minutes = date.getMinutes().toString().padStart(2, '0')
+    return `${hours}:${minutes}`
+  }
+
+  const getCurrentTimeZone = (): string => {
+    const offsetHours = -(new Date().getTimezoneOffset() / 60)
+    const offset = offsetHours < 0 ? offsetHours.toString() : `+${offsetHours.toString()}`
+    return `(GMT${offset})`
+  }
+
+  const [scheduledDate, setScheduledDate] = useState<string>(getCurrentDate())
+  const [startTime, setStartTime] = useState<string>(getCurrentTime())
+  const [endTime, setEndTime] = useState<string>(getCurrentTime())
+  const [timeZone, setTimeZone] = useState<string | number>(getCurrentTimeZone())
 
   const handleGuestSelect = (value: any) => {
     if (!selectedGuests.includes(value)) {
