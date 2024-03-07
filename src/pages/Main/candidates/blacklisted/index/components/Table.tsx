@@ -1,8 +1,7 @@
 import MainTable from '@/components/Elements/MainTable';
-import { Menu } from '@headlessui/react';
-import { Avatar, Button } from 'jobseeker-ui';
-import { FileTextIcon, FileVideoIcon, UserRoundPlusIcon } from 'lucide-react';
-import { twJoin } from 'tailwind-merge';
+import { Avatar } from 'jobseeker-ui';
+import { FileTextIcon, FileVideoIcon } from 'lucide-react';
+import MenuList from '../../../components/MenuList';
 
 type PropTypes = {
     setPreviewVideoModalUrl: (url: string) => void
@@ -11,6 +10,8 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl, rowCount }) => {
+    const options = ['Unblacklist'];
+
     const candidates = Array.from(Array(rowCount)).map((_, i) => {
         return {
             name: `Candidate ${i + 1}`,
@@ -69,35 +70,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
                 ),
                 className: 'text-center',
             },
-            {
-                children: (
-                    <Menu as="div" className="relative">
-                        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
-                            Action
-                        </Menu.Button>
-                        <Menu.Items
-                            className={twJoin(
-                                i > rowCount - 6 && 'bottom-full',
-                                'absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none',
-                            )}
-                        >
-                            {['Unblacklist'].map((option, i) => (
-                                <Menu.Item key={i}>
-                                    {({ active }) => (
-                                        <button
-                                            className={twJoin('group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm', active && 'bg-primary-100')}
-                                        >
-                                            {i === 0 && <UserRoundPlusIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                                            {option}
-                                        </button>
-                                    )}
-                                </Menu.Item>
-                            ))}
-                        </Menu.Items>
-                    </Menu>
-                ),
-                className: 'text-center',
-            },
+            { children: <MenuList options={options} candidate={candidate} /> },
         ],
     }));
 

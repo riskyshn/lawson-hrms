@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
-import { Menu } from '@headlessui/react';
-import { Avatar, Button } from 'jobseeker-ui';
-import { FileTextIcon, FileVideoIcon, HistoryIcon, RefreshCwIcon, SendToBackIcon, UserXIcon, XCircleIcon } from 'lucide-react';
-import { twJoin } from 'tailwind-merge';
+import React from 'react';
+import { Avatar } from 'jobseeker-ui';
+import { FileTextIcon, FileVideoIcon } from 'lucide-react';
 import MainTable from '@/components/Elements/MainTable';
-import ViewHistoryModal from '../../../Modals/ViewHistoryModal';
-import MoveAnotherVacancyModal from '../../../Modals/MoveAnotherVacancyModal';
-import ProcessModal from '../../../Modals/ProcessModal';
+import MenuList from '../../../components/MenuList';
 
 type PropTypes = {
     setPreviewVideoModalUrl: (url: string) => void
@@ -15,9 +11,7 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl, rowCount }) => {
-    const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
-    const [showOptionModal, setShowOptionModal] = useState(false);
-    const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null);
+    const options = ['Process', 'Move to Another Vacancy', 'View History', 'Blacklist', 'Reject'];
 
     const candidates = Array.from(Array(rowCount)).map((_, i) => {
         return {
@@ -31,22 +25,6 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
             pdfUrl: 'http://localhost:5173/sample.pdf',
         };
     });
-
-    const handleViewDetails = (candidate: any, option: string) => {
-        setSelectedCandidate(candidate);
-        if (option === 'Move to Another Vacancy') {
-            setModalType('MoveAnotherVacancy');
-            setShowOptionModal(true);
-        }
-        if (option === 'Process') {
-            setModalType('Process');
-            setShowOptionModal(true);
-        }
-        if (option === 'View History') {
-            setModalType('ViewHistory');
-            setShowOptionModal(true);
-        }
-    };
 
     const bodyItems = candidates.map((candidate, i) => ({
         items: [
@@ -95,40 +73,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
                 ),
                 className: 'text-center',
             },
-            {
-                children: (
-                    <Menu as="div" className="relative">
-                        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
-                            Action
-                        </Menu.Button>
-                        <Menu.Items
-                            className={twJoin(
-                                i > rowCount - 6 && 'bottom-full',
-                                'absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none',
-                            )}
-                        >
-                            {['Process', 'Move to Another Vacancy', 'View History', 'Blacklist', 'Reject'].map((option, i) => (
-                                <Menu.Item key={i}>
-                                    {({ active }) => (
-                                        <button
-                                            className={twJoin('group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm', active && 'bg-primary-100')}
-                                            onClick={() => handleViewDetails(candidate, option)}
-                                        >
-                                            {i === 0 && <RefreshCwIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                                            {i === 1 && <SendToBackIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                                            {i === 2 && <HistoryIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                                            {i === 3 && <UserXIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                                            {i === 4 && <XCircleIcon className={twJoin('h-4 w-4', active ? 'text-red-600' : 'text-red-400')} />}
-                                            {option}
-                                        </button>
-                                    )}
-                                </Menu.Item>
-                            ))}
-                        </Menu.Items>
-                    </Menu>
-                ),
-                className: 'text-center',
-            },
+            { children: <MenuList options={options} candidate={candidate} />},
         ],
     }));
 
@@ -146,33 +91,6 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
                 ]}
                 bodyItems={bodyItems}
             />
-
-            {/* Option Modal */}
-            {showOptionModal && selectedCandidate && modalType === 'MoveAnotherVacancy' && (
-                <MoveAnotherVacancyModal
-                    show={showOptionModal}
-                    onClose={() => setShowOptionModal(false)}
-                    candidate={selectedCandidate}
-                />
-            )}
-
-            {/* Render ProcessModal if modalType is 'Process' */}
-            {showOptionModal && selectedCandidate && modalType === 'Process' && (
-                <ProcessModal
-                    show={showOptionModal}
-                    onClose={() => setShowOptionModal(false)}
-                    candidate={selectedCandidate}
-                />
-            )}
-
-            {/* Render ViewHistoryModal if modalType is 'View History' */}
-            {showOptionModal && selectedCandidate && modalType === 'ViewHistory' && (
-                <ViewHistoryModal
-                    show={showOptionModal}
-                    onClose={() => setShowOptionModal(false)}
-                    candidate={selectedCandidate}
-                />
-            )}
         </>
     );
 };

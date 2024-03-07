@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
-import { Menu } from '@headlessui/react';
-import { Avatar, Button } from 'jobseeker-ui';
-import { FileTextIcon, FileVideoIcon, SendIcon} from 'lucide-react';
-import { twJoin } from 'tailwind-merge';
-import SendReminderModal from './SendReminderModal';
+import React from 'react';
+import { Avatar } from 'jobseeker-ui';
+import { FileTextIcon, FileVideoIcon } from 'lucide-react';
 import MainTable from '@/components/Elements/MainTable';
+import MenuList from '../../../components/MenuList';
 
 type PropTypes = {
     setPreviewVideoModalUrl: (url: string) => void
@@ -13,10 +11,7 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl, rowCount }) => {
-
-    const [selectedCandidate, setSelectedCandidate] = useState<any>(null);
-    const [showOptionModal, setShowOptionModal] = useState(false);
-    const [modalType, setModalType] = useState<'SendReminder' | null>(null);
+    const options = ['Send Reminder'];
 
     const candidates = Array.from(Array(rowCount)).map((_, i) => {
         return {
@@ -30,14 +25,6 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
             pdfUrl: 'http://localhost:5173/sample.pdf',
         };
     });
-
-    const handleViewDetails = (candidate: any, option: string) => {
-        setSelectedCandidate(candidate);
-        if (option === 'Send Reminder') {
-            setModalType('SendReminder');
-            setShowOptionModal(true);
-        }
-    };
 
     const bodyItems = candidates.map((candidate, i) => ({
         items: [
@@ -86,36 +73,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
                 ),
                 className: 'text-center',
             },
-            {
-                children: (
-                    <Menu as="div" className="relative">
-                        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
-                            Action
-                        </Menu.Button>
-                        <Menu.Items
-                            className={twJoin(
-                                i > rowCount - 6 && 'bottom-full',
-                                'absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none',
-                            )}
-                        >
-                            {['Send Reminder'].map((option, i) => (
-                                <Menu.Item key={i}>
-                                    {({ active }) => (
-                                        <button
-                                            className={twJoin('group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm', active && 'bg-primary-100')}
-                                            onClick={() => handleViewDetails(candidate, option)}
-                                        >
-                                            {i === 0 && <SendIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                                            {option}
-                                        </button>
-                                    )}
-                                </Menu.Item>
-                            ))}
-                        </Menu.Items>
-                    </Menu>
-                ),
-                className: 'text-center',
-            },
+            { children: <MenuList options={options} candidate={candidate} /> },
         ],
     }));
 
@@ -133,14 +91,6 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
                 ]}
                 bodyItems={bodyItems}
             />
-
-            {/* Option Modal */}
-            {showOptionModal && selectedCandidate && modalType === 'SendReminder' && (
-                <SendReminderModal
-                    show={showOptionModal}
-                    onClose={() => setShowOptionModal(false)}
-                />
-            )}
         </>
     );
 };
