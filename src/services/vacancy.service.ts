@@ -1,10 +1,10 @@
 import type { GenericAbortSignal } from 'axios'
-import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pagination'
+import type { PythonPaginationParam, PythonPaginationResponse } from '@/types/pagination'
 
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
-type FetchAreaParams = SpringPaginationParam & {
+type FetchAreaParams = PythonPaginationParam & {
   keyword?: string
   departmentId?: string
   flag?: number
@@ -16,7 +16,7 @@ const axios = createAxiosInstance({
 })
 
 export const fetchVacancies = <T = any>(params?: FetchAreaParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: PythonPaginationResponse<T> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchVacancyDetail = (id: string) => {
