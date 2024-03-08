@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { authService, accountService } from '@/services'
 import { useTokenStore } from './token.store'
-import { useOrganizationStore } from './organization'
+import { useOrganizationStore } from './organization.store'
 
 interface AuthStore {
   user: IUser | null
