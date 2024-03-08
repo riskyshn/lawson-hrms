@@ -1,4 +1,4 @@
-import { useOrganizationStore } from '@/store/organization'
+import { useOrganizationStore } from '@/store'
 import { twJoin } from 'tailwind-merge'
 
 const NavbarInfo: React.FC<{ className?: string }> = ({ className }) => {

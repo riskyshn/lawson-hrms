@@ -1,13 +1,12 @@
-import PageHeader from '@/components/Elements/PageHeader'
-import AnnouncementCard from './components/AnnouncementCard'
-import { useAuthStore } from '@/store'
-import Container from '@/components/Elements/Container'
-import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidatesCard'
-import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 import BgImage from '@/assets/hero.jpg'
+import Container from '@/components/Elements/Container'
+import PageHeader from '@/components/Elements/PageHeader'
 import Logo from '@/components/Logo/Logo'
+import { useAuthStore, useOrganizationStore } from '@/store'
+import AnnouncementCard from './components/AnnouncementCard'
+import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidatesCard'
 import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
-import { useOrganizationStore } from '@/store/organization'
+import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuthStore()

@@ -31,3 +31,16 @@ export interface SpringPaginationResponse<T = any> {
   numberOfElements: number
   empty: boolean
 }
+
+export interface PythonPaginationParam {
+  start_page?: number
+  page_limit?: number
+}
+
+export interface PythonPaginationResponse<T = any> {
+  contents: T[]
+  totalElements: number
+  totalPages: number
+  size: number
+  page: number
+}
