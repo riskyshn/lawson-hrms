@@ -15,7 +15,7 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
-export const fetchVacancies = <T = any>(params: FetchAreaParams, signal?: GenericAbortSignal) => {
+export const fetchVacancies = <T = any>(params?: FetchAreaParams, signal?: GenericAbortSignal) => {
   return axios.get<{ data: SpringPaginationResponse<T> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
 }
 

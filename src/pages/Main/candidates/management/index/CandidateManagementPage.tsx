@@ -1,11 +1,24 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
+import { BaseInput, Button, Input, Pagination, PaginationItem, Select } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from 'lucide-react'
 import Table from './components/Table'
+import { useEffect, useState } from 'react'
+import { vacancyService } from '@/services'
 
 const CandidateManagementPage: React.FC = () => {
+  const [search, setSearch] = useState('')
+
+  useEffect(() => {
+    const load = async () => {
+      const data = await vacancyService.fetchVacancies({ keyword: search })
+      console.log(data)
+    }
+
+    load()
+  }, [search])
+
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Candidate Management' }]} title="Candidate Management" />
@@ -22,12 +35,12 @@ const CandidateManagementPage: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="relative flex flex-1">
-                    <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
-                    <Button iconOnly color="primary" className="rounded-l-none">
-                      <SearchIcon size={16} />
-                    </Button>
-                  </div>
+                  <Input
+                    type="text"
+                    placeholder="Search..."
+                    className="peer w-full rounded-r-none lg:w-64"
+                    leftChild={<SearchIcon size={16} />}
+                  />
                   <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
                     <FilterIcon size={16} />
                   </Button>
