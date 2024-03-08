@@ -12,6 +12,7 @@ const RecentlyPostedJobsCard: React.FC = () => {
           {Array.from(Array(10)).map((_, i) => (
             <Card
               as="button"
+              key={i}
               className={twJoin(
                 'flex items-center justify-center gap-2 divide-y-0 rounded-lg border p-3',
                 i == 1 && 'border-primary-600 bg-primary-600 text-white',

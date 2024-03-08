@@ -1,13 +1,13 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Select } from 'jobseeker-ui'
-import { FilterIcon, SearchIcon } from 'lucide-react'
-import Table from './components/Table'
-import { useState } from 'react'
-import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
-import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 import usePagination from '@/hooks/use-pagination'
+import { Button, Input, Select } from 'jobseeker-ui'
+import { FilterIcon, SearchIcon } from 'lucide-react'
+import { useState } from 'react'
+import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
+import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
+import Table from './components/Table'
 
 const CandidateManagementPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
@@ -36,12 +36,12 @@ const CandidateManagementPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="relative flex flex-1">
-                    <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
-                    <Button iconOnly color="primary" className="rounded-l-none">
-                      <SearchIcon size={16} />
-                    </Button>
-                  </div>
+                  <Input
+                    type="text"
+                    placeholder="Search..."
+                    className="peer w-full rounded-r-none lg:w-64"
+                    leftChild={<SearchIcon size={16} />}
+                  />
                   <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
                     <FilterIcon size={16} />
                   </Button>
