@@ -1,13 +1,27 @@
 import Container from '@/components/Elements/Container'
+import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Pagination, PaginationItem, Select } from 'jobseeker-ui'
+import { Button, Input, Pagination, PaginationItem, Select } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
-import MainCard from '@/components/Elements/MainCard'
+import { vacancyService } from '@/services'
 
 const JobManajementPage: React.FC = () => {
+  const [search, setSearch] = useState('')
+  // @ts-expect-error
+  const [contents, setContents] = useState<any>(null)
+
+  useEffect(() => {
+    const load = async () => {
+      const data = await vacancyService.fetchVacancies({ keyword: search })
+      setContents(data)
+    }
+    load()
+  }, [search])
+
   return (
     <>
       <PageHeader
@@ -47,12 +61,20 @@ const JobManajementPage: React.FC = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="relative flex flex-1">
-                    <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
-                    <Button iconOnly color="primary" className="rounded-l-none">
-                      <SearchIcon size={16} />
-                    </Button>
-                  </div>
+                  <Input
+                    type="text"
+                    placeholder="Search..."
+                    className="m-0 mt-1 w-full lg:w-64"
+                    inputClassName="peer pl-7"
+                    rightChild={
+                      <SearchIcon
+                        className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
+                        size={16}
+                      />
+                    }
+                    value={search}
+                    onChange={(e) => setSearch(e.currentTarget.value)}
+                  />
                   <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
                     <FilterIcon size={16} />
                   </Button>

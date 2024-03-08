@@ -7,9 +7,11 @@ import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 import BgImage from '@/assets/hero.jpg'
 import Logo from '@/components/Logo/Logo'
 import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
+import { useOrganizationStore } from '@/store/organization'
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuthStore()
+  const { company } = useOrganizationStore()
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Dashboard' }]} />
@@ -26,7 +28,7 @@ const DashboardPage: React.FC = () => {
           <Logo className="absolute right-3 top-1/2 ml-auto h-48 w-48 -translate-y-1/2 opacity-30 md:h-72 md:w-72 [&_path]:fill-white" />
 
           <div className="relative z-10">
-            <h1 className="mb-2 text-3xl font-semibold text-white">Company Name</h1>
+            <h1 className="mb-2 text-3xl font-semibold text-white">{company?.name}</h1>
             <>
               Good day to you, <span className="font-semibold capitalize">{user?.firstName}</span>! <br />
               Today is <span className="font-semibold">{new Date().toDateString()}</span>

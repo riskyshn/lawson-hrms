@@ -26,7 +26,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
     }
   })
 
-  const bodyItems = candidates.map((candidate, i) => ({
+  const bodyItems = candidates.map((candidate) => ({
     items: [
       {
         children: (
