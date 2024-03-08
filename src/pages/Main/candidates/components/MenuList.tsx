@@ -21,7 +21,7 @@ import SendReminderModal from '../offered/index/components/SendReminderModal'
 
 interface MenuListProps {
   options: string[]
-  candidate: any
+  candidate?: any
 }
 
 const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
