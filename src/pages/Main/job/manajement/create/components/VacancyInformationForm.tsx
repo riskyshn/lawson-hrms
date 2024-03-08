@@ -1,5 +1,6 @@
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 import { masterService, organizationService } from '@/services'
+import { useMasterStore } from '@/store'
 import currencyToNumber from '@/utils/currency-to-number'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper, Textarea } from 'jobseeker-ui'
@@ -56,6 +57,8 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
+  const masterStore = useMasterStore()
+  const initialCity = masterStore.area.cities.find((el) => el.oid === getValues('cityId'))
 
   return (
     <Card as="form" onSubmit={onSubmit}>
@@ -164,6 +167,7 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
             name="cityId"
             error={errors.cityId?.message}
             value={getValues('cityId')}
+            initialOptions={initialCity ? [{ label: `${initialCity.name}, ${initialCity.province}`, value: initialCity.oid }] : []}
             onChange={(v) => {
               setValue('cityId', v.toString())
               trigger('cityId')
