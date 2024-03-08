@@ -1,26 +1,49 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { Button, Input, Pagination, PaginationItem, Select } from 'jobseeker-ui'
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
+import { Button, Input, Select, Spinner } from 'jobseeker-ui'
+import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
 import { vacancyService } from '@/services'
+import usePagination from '@/hooks/use-pagination'
 
 const JobManajementPage: React.FC = () => {
-  const [search, setSearch] = useState('')
-  // @ts-expect-error
+  const [searchParams, setSearchParam] = useSearchParams()
+  const keyword = searchParams.get('keyword') || undefined
+
   const [contents, setContents] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const pagination = usePagination({
+    pathname: '/job/management',
+    totalPage: contents?.totalPages,
+    queryKey: 'start_page',
+    params: { ...(keyword ? { keyword } : {}) },
+  })
 
   useEffect(() => {
-    const load = async () => {
-      const data = await vacancyService.fetchVacancies({ keyword: search })
-      setContents(data)
+    const controller = new AbortController()
+    const signal = controller.signal
+    const load = async (signal: AbortSignal) => {
+      setIsLoading(true)
+      try {
+        const data = await vacancyService.fetchVacancies({ keyword, start_page: pagination.currentPage }, signal)
+        setContents(data)
+        setIsLoading(false)
+      } catch (error) {
+        // console.error('Error fetching vacancies:', error)
+        setIsLoading(false)
+      }
     }
-    load()
-  }, [search])
+
+    load(signal)
+
+    return () => {
+      controller.abort()
+    }
+  }, [keyword, pagination.currentPage])
 
   return (
     <>
@@ -72,8 +95,8 @@ const JobManajementPage: React.FC = () => {
                         size={16}
                       />
                     }
-                    value={search}
-                    onChange={(e) => setSearch(e.currentTarget.value)}
+                    value={keyword || ''}
+                    onChange={(e) => setSearchParam((el) => ({ ...el, start_page: 0, keyword: e.currentTarget.value }))}
                   />
                   <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
                     <FilterIcon size={16} />
@@ -88,23 +111,20 @@ const JobManajementPage: React.FC = () => {
               )}
             </>
           )}
-          body={<Table />}
-          footer={
-            <Pagination>
-              <PaginationItem disabled>
-                <ChevronLeftIcon />
-              </PaginationItem>
-              <PaginationItem active>1</PaginationItem>
-              <PaginationItem>2</PaginationItem>
-              <PaginationItem>3</PaginationItem>
-              <PaginationItem>4</PaginationItem>
-              <PaginationItem>5</PaginationItem>
-              <PaginationItem>6</PaginationItem>
-              <PaginationItem>
-                <ChevronRightIcon />
-              </PaginationItem>
-            </Pagination>
+          body={
+            isLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <Spinner className="h-10 w-10 text-primary-600" />
+              </div>
+            ) : contents?.contents && contents?.contents?.length > 0 ? (
+              <Table data={contents} />
+            ) : (
+              <div className="flex items-center justify-center py-20">
+                <p>No data available.</p>
+              </div>
+            )
           }
+          footer={pagination.render()}
         />
       </Container>
     </>
