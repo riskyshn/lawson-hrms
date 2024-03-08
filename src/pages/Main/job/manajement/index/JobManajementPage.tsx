@@ -11,6 +11,7 @@ import { vacancyService } from '@/services'
 
 const JobManajementPage: React.FC = () => {
   const [search, setSearch] = useState('')
+  // @ts-expect-error
   const [contents, setContents] = useState<any>(null)
 
   useEffect(() => {

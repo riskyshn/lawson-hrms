@@ -7,7 +7,7 @@ type PropTypes = {
   onClose?: () => void
 }
 
-const PreviewVIdeoResumeModal: React.FC<PropTypes> = ({ url, onClose }) => {
+const PreviewVideoResumeModal: React.FC<PropTypes> = ({ url, onClose }) => {
   const [videoUrl, setVideoUrl] = useState<string>()
   const [isShow, setIsShow] = useState(false)
 
@@ -68,4 +68,4 @@ const PreviewVIdeoResumeModal: React.FC<PropTypes> = ({ url, onClose }) => {
   )
 }
 
-export default PreviewVIdeoResumeModal
+export default PreviewVideoResumeModal

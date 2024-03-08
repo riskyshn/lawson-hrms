@@ -1,27 +1,26 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Input, Pagination, PaginationItem, Select } from 'jobseeker-ui'
-import { ChevronLeftIcon, ChevronRightIcon, FilterIcon, SearchIcon } from 'lucide-react'
+import usePagination from '@/hooks/use-pagination'
+import { Button, Input, Select } from 'jobseeker-ui'
+import { FilterIcon, SearchIcon } from 'lucide-react'
+import { useState } from 'react'
+import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
+import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
 import Table from './components/Table'
-import { useEffect, useState } from 'react'
-import { vacancyService } from '@/services'
 
 const CandidateManagementPage: React.FC = () => {
-  const [search, setSearch] = useState('')
+  const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
+  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
 
-  useEffect(() => {
-    const load = async () => {
-      const data = await vacancyService.fetchVacancies({ keyword: search })
-      console.log(data)
-    }
-
-    load()
-  }, [search])
+  const pagination = usePagination({ pathname: '/candidates/management', totalPage: 2, params: { search: 'querysearch' } })
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Candidate Management' }]} title="Candidate Management" />
+      <PageHeader breadcrumb={[{ text: 'Candidate' }, { text: 'Candidate Management' }]} title="Candidate Management" />
+
+      <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
+      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -29,10 +28,12 @@ const CandidateManagementPage: React.FC = () => {
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <span className="block text-lg font-semibold">Candidate List</span>
-                  <span className="block text-sm">
-                    You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
-                  </span>
+                  <div className="mb-2">
+                    <span className="block text-lg font-semibold">Candidate List</span>
+                    <span className="block text-sm">
+                      You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
+                    </span>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Input
@@ -53,23 +54,13 @@ const CandidateManagementPage: React.FC = () => {
               )}
             </>
           )}
-          body={<Table setPreviewVideoModalUrl={() => null} setPreviewPdfModalUrl={() => null} />}
-          footer={
-            <Pagination>
-              <PaginationItem disabled>
-                <ChevronLeftIcon />
-              </PaginationItem>
-              <PaginationItem active>1</PaginationItem>
-              <PaginationItem>2</PaginationItem>
-              <PaginationItem>3</PaginationItem>
-              <PaginationItem>4</PaginationItem>
-              <PaginationItem>5</PaginationItem>
-              <PaginationItem>6</PaginationItem>
-              <PaginationItem>
-                <ChevronRightIcon />
-              </PaginationItem>
-            </Pagination>
+          body={
+            <Table
+              setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
+              setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+            />
           }
+          footer={pagination.render()}
         />
       </Container>
     </>

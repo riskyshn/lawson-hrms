@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BaseInput, Button, Card, CardBody, Select } from 'jobseeker-ui'
+import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { FileSpreadsheetIcon, FilterIcon, SearchIcon } from 'lucide-react'
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
-import ApplyVacancyModal from '../../Modals/ApplyVacancyModal'
-import PreviewPdfResumeModal from './components/PreviewPdfResumeModal'
-import PreviewVIdeoResumeModal from './components/PreviewVIdeoResumeModal'
 import Table from './components/Table'
+import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
+import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 
 const CandidatePoolPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
@@ -35,24 +34,21 @@ const CandidatePoolPage: React.FC = () => {
         }
       />
 
-      <PreviewVIdeoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
+      <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
       <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
 
       <Container className="relative flex flex-col gap-3 pb-3 xl:pb-8">
-        <Card>
-          <CardBody>
-            <ApplyVacancyModal />
-          </CardBody>
-        </Card>
         <MainCard
           header={(open, toggleOpen) => (
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <span className="block text-lg font-semibold">Candidate List</span>
-                  <span className="block text-sm">
-                    You have <span className="text-primary-600">200+ Candidates</span> in total
-                  </span>
+                  <div className="mb-2">
+                    <span className="block text-lg font-semibold">Candidate List</span>
+                    <span className="block text-sm">
+                      You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
+                    </span>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="relative flex flex-1">
