@@ -3,19 +3,24 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
+import { convertVacancyToFormValues } from './utils'
 
-const CreateJobPage: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false)
+const EditJobPage: React.FC = () => {
+  const { vacancyId } = useParams()
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
   const [formValues, setFormValues] = useState<any>({
     vacancyInformation: {},
     process: {},
     requirements: {},
   })
+
   const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(3, {
     onNext() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -23,6 +28,22 @@ const CreateJobPage: React.FC = () => {
   })
   const navigate = useNavigate()
   const toast = useToast()
+
+  useEffect(() => {
+    const load = async (vacancyId: string) => {
+      console.log(vacancyId)
+      const data = await vacancyService.fetchVacancyDetail(vacancyId)
+      setFormValues(convertVacancyToFormValues(data))
+      setIsLoading(false)
+    }
+
+    if (vacancyId) {
+      setIsLoading(true)
+      load(vacancyId)
+    } else {
+      navigate('/404')
+    }
+  }, [vacancyId, navigate])
 
   const handleStepSubmit = async (data: Record<string, Record<string, any>>) => {
     setFormValues(data)
@@ -50,17 +71,20 @@ const CreateJobPage: React.FC = () => {
 
     obj.rrNumber = 'JOC1'
 
-    setIsLoading(true)
+    setIsSubmitLoading(true)
 
     try {
       const data = await vacancyService.createVacancy(obj)
       toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/job/management/${data.id}/edit`)
+      navigate(`/job/management/${data.id}`)
     } catch (e: any) {
+      console.log(e.message)
       toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
-      setIsLoading(false)
+      setIsSubmitLoading(false)
     }
   }
+
+  if (isLoading) return null
 
   return (
     <>
@@ -110,4 +134,4 @@ const CreateJobPage: React.FC = () => {
   )
 }
 
-export default CreateJobPage
+export default EditJobPage
