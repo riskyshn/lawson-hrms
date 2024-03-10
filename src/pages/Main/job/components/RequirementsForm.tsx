@@ -1,5 +1,6 @@
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 import { masterService } from '@/services'
+import { useMasterStore } from '@/store'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper, Select } from 'jobseeker-ui'
 import React, { useState } from 'react'
@@ -98,6 +99,7 @@ const schema = yup.object({
 const RequirementsForm: React.FC<{
   isLoading: boolean
   defaultValue: yup.InferType<typeof schema>
+  isUpdate?: boolean
   handlePrev: () => void
   handleSubmit: (data: any) => void
 }> = (props) => {
@@ -120,7 +122,8 @@ const RequirementsForm: React.FC<{
   })
 
   const [flag, setFlag] = useState<number>(1)
-  const provinceName = getValues('provinceRequirementId')?.split('|')[0]
+  const masterData = useMasterStore()
+  const provinceName = masterData.area.provinces.find((el) => el.oid == getValues('provinceRequirementId'))?.name
 
   const onSubmit = (flag: number) => {
     setFlag(flag)
@@ -165,13 +168,11 @@ const RequirementsForm: React.FC<{
             </InputCheckbox>
           </div>
           <div className="pb-2">
-            <AsyncSelect
+            <Select
               className="mb-2"
               label="Minimal Education"
               placeholder="Choose Education"
-              fetcher={masterService.fetchEducationLevel}
-              hideSearch
-              converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+              options={masterData.educatioLevels.map((el: any) => ({ label: el.name, value: el.oid }))}
               name="minimalEducationRequirementId"
               error={errors.minimalEducationRequirementId?.message}
               value={getValues('minimalEducationRequirementId')}
@@ -249,7 +250,7 @@ const RequirementsForm: React.FC<{
               fetcher={masterService.fetchProvinces}
               fetcherParams={{ country: 'Indonesia' }}
               searchMinCharacter={0}
-              converter={(data: any) => data.map((el: any) => ({ label: el.name, value: `${el.name}|${el.oid}` }))}
+              converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
               name="provinceRequirementId"
               error={errors.provinceRequirementId?.message}
               value={getValues('provinceRequirementId')}
@@ -333,7 +334,7 @@ const RequirementsForm: React.FC<{
             onSubmit(1)
           }}
         >
-          Submit
+          {props.isUpdate ? 'Save' : 'Create'}
         </Button>
       </CardFooter>
     </Card>

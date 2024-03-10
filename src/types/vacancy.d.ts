@@ -2,6 +2,7 @@ export interface IVacancy {
   id: string
   createdAt?: string
   updatedAt?: string
+  expiredDate?: string
   vacancyName?: string
   rrNumber?: string
   flag?: number

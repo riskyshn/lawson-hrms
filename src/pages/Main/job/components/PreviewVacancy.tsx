@@ -1,7 +1,7 @@
 import { IVacancy } from '@/types/vacancy'
+import numberToCurrency from '@/utils/number-to-currency'
 import { Card, CardBody, CardHeader, Skeleton } from 'jobseeker-ui'
 import React from 'react'
-import { numberToCurrency } from '../manajement/edit/utils'
 
 const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ vacancy, isLoading }) => {
   if (isLoading) {

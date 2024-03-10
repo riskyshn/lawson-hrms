@@ -4,17 +4,20 @@ import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
-import { convertVacancyToFormValues } from './utils'
+import useVacancyPage from '../../hooks/use-vacancy-page'
+import { vacancyToFormEdit } from '../../utils/vacancy-to-form-edit'
+import moment from 'moment'
 
-const EditJobPage: React.FC = () => {
-  const { vacancyId } = useParams()
+const EditJobPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const toast = useToast()
 
+  const { vacancy } = useVacancyPage()
   const [formValues, setFormValues] = useState<any>({
     vacancyInformation: {},
     process: {},
@@ -26,31 +29,34 @@ const EditJobPage: React.FC = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     },
   })
-  const navigate = useNavigate()
-  const toast = useToast()
 
   useEffect(() => {
-    const load = async (vacancyId: string) => {
-      console.log(vacancyId)
-      const data = await vacancyService.fetchVacancyDetail(vacancyId)
-      setFormValues(convertVacancyToFormValues(data))
-      setIsLoading(false)
+    if (vacancy) {
+      setFormValues(vacancyToFormEdit(vacancy))
+      setIsLoaded(true)
     }
+  }, [vacancy])
 
-    if (vacancyId) {
-      setIsLoading(true)
-      load(vacancyId)
-    } else {
-      navigate('/404')
-    }
-  }, [vacancyId, navigate])
-
-  const handleStepSubmit = async (data: Record<string, Record<string, any>>) => {
+  const handleStepSubmit = async (data: any) => {
     setFormValues(data)
     handleNext()
 
-    if (!isLastStep) return
+    if (!isLastStep || !vacancy) return
 
+    try {
+      const processedData = processFormData(data)
+      setIsSubmitLoading(true)
+      console.log(vacancy.id, processedData)
+      await vacancyService.udpateVacancy(vacancy.id, processedData)
+      toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
+    } catch (error) {
+      toast('An error occurred while updating the job vacancy.', { color: 'error', position: 'top-right' })
+    } finally {
+      setIsSubmitLoading(false)
+    }
+  }
+
+  const processFormData = (data: Record<string, Record<string, any>>) => {
     const obj: Record<string, any> = {}
     Object.values(data).forEach((item) => {
       for (const key in item) {
@@ -60,37 +66,21 @@ const EditJobPage: React.FC = () => {
       }
     })
 
+    obj.expiredDate = moment(obj.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS')
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
-
-    obj.provinceRequirementId = obj.provinceRequirementId?.split('|')[1]
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
-
     obj.recruitmentProcess = ['65d2e8985a44ab03fb6ce39f', '65d2e8985a44ab03fb6ce39f']
-    obj.approvals = ['65d2e8985a44ab03fb6ce39f', '65d2e8985a44ab03fb6ce39f']
-
     obj.rrNumber = 'JOC1'
 
-    setIsSubmitLoading(true)
-
-    try {
-      const data = await vacancyService.createVacancy(obj)
-      toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/job/management/${data.id}`)
-    } catch (e: any) {
-      console.log(e.message)
-      toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
-      setIsSubmitLoading(false)
-    }
+    return obj
   }
-
-  if (isLoading) return null
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Create Job' }]}
-        title="Create Job Posting"
+        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Edit Job' }]}
+        title="Edit Job Posting"
         actions={
           <Button as={Link} to="/job/management" variant="light" color="error">
             Cancel
@@ -107,26 +97,27 @@ const EditJobPage: React.FC = () => {
           ]}
         />
 
-        {activeStep === 0 && (
+        {isLoaded && activeStep === 0 && (
           <VacancyInformationForm
             defaultValue={formValues.vacancyInformation}
             handlePrev={handlePrev}
             handleSubmit={(vacancyInformation) => handleStepSubmit({ ...formValues, vacancyInformation })}
           />
         )}
-        {activeStep === 1 && (
+        {isLoaded && activeStep === 1 && (
           <ProcessForm
             defaultValue={formValues.process}
             handlePrev={handlePrev}
             handleSubmit={(process) => handleStepSubmit({ ...formValues, process })}
           />
         )}
-        {activeStep === 2 && (
+        {isLoaded && activeStep === 2 && (
           <RequirementsForm
+            isUpdate
             defaultValue={formValues.requirements}
             handlePrev={handlePrev}
             handleSubmit={(requirements) => handleStepSubmit({ ...formValues, requirements })}
-            isLoading={isLoading}
+            isLoading={isSubmitLoading}
           />
         )}
       </Container>

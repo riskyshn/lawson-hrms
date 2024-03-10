@@ -18,19 +18,18 @@ export default function useVacancyPage() {
       try {
         const vacancy = await vacancyService.fetchVacancyDetail(vacancyId)
         setVacancy(vacancy)
+        setIsLoading(false)
       } catch (e: any) {
         if (e.response?.status === 404) {
           navigate('/404')
         } else {
           setErrorMessage(e.response?.data?.meta?.message || e.message)
+          setIsLoading(false)
         }
-      } finally {
-        setIsLoading(false)
       }
     }
 
     if (vacancyId) {
-      setIsLoading(true)
       load(vacancyId)
     } else {
       navigate('/404')

@@ -1,9 +1,21 @@
 import AsyncSelect from '@/components/Elements/AsyncSelect'
-import { masterService, organizationService } from '@/services'
-import { useMasterStore } from '@/store'
+import { masterService } from '@/services'
+import { useMasterStore, useOrganizationStore } from '@/store'
 import currencyToNumber from '@/utils/currency-to-number'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper, Textarea } from 'jobseeker-ui'
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Input,
+  InputCheckbox,
+  InputCurrency,
+  InputDate,
+  InputWrapper,
+  Select,
+  Textarea,
+} from 'jobseeker-ui'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -12,6 +24,7 @@ const schema = yup.object({
   vacancyName: yup.string().required().label('Position Name'),
   departmentId: yup.string().required().label('Depantment'),
   branchId: yup.string().required().label('Branch'),
+  expiredDate: yup.date().min(new Date()).required().label('Expired Date'),
   jobLevelId: yup.string().required().label('Job Level'),
   jobTypeId: yup.string().required().label('Job Type'),
   workplacementTypeId: yup.string().optional().label('Workplacement Type'),
@@ -43,7 +56,11 @@ const schema = yup.object({
   other: yup.string().required().label('Task, Responsibility & Others'),
 })
 
-const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => void; handleSubmit: (data: any) => void }> = (props) => {
+const VacancyInformationForm: React.FC<{
+  defaultValue: yup.InferType<typeof schema>
+  handlePrev: () => void
+  handleSubmit: (data: yup.InferType<typeof schema>) => void
+}> = (props) => {
   const {
     register,
     handleSubmit,
@@ -53,11 +70,12 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: props.defaultValue as yup.InferType<typeof schema>,
+    defaultValues: props.defaultValue,
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
   const masterStore = useMasterStore()
+  const organizationoStore = useOrganizationStore()
   const initialCity = masterStore.area.cities.find((el) => el.oid === getValues('cityId'))
 
   return (
@@ -70,15 +88,13 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
 
         <Input label="Position Name" labelRequired error={errors.vacancyName?.message} {...register('vacancyName')} />
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <AsyncSelect
+          <Select
             label="Department"
             labelRequired
             placeholder="Select Department"
             hideSearch
-            fetcher={organizationService.fetchDepartments}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+            options={organizationoStore.master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
             name="departmentId"
-            fetcherParams={{ size: '100' }}
             error={errors.departmentId?.message}
             value={getValues('departmentId')}
             onChange={(v) => {
@@ -86,13 +102,12 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
               trigger('departmentId')
             }}
           />
-          <AsyncSelect
+          <Select
             label="Branch"
             labelRequired
             placeholder="Select Branch"
             hideSearch
-            fetcher={organizationService.fetchBranches}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+            options={organizationoStore.master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
             name="branchId"
             error={errors.branchId?.message}
             value={getValues('branchId')}
@@ -102,6 +117,18 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
             }}
           />
         </div>
+        <InputDate
+          label="Expired at"
+          labelRequired
+          error={errors.expiredDate?.message}
+          asSingle
+          value={{ startDate: getValues('expiredDate'), endDate: getValues('expiredDate') }}
+          onChange={(v) => {
+            // @ts-expect-error
+            setValue('expiredDate', v?.startDate || v?.endDate)
+            trigger('expiredDate')
+          }}
+        />
       </CardBody>
 
       <CardBody className="grid grid-cols-1 gap-2">
@@ -110,13 +137,12 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <AsyncSelect
+          <Select
             label="Job Level"
             labelRequired
             placeholder="Choose Job Level"
             hideSearch
-            fetcher={organizationService.fetchJobLevels}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+            options={organizationoStore.master.jobLevels.map((el) => ({ label: `${el.name}`, value: el.oid }))}
             name="jobLevelId"
             error={errors.jobLevelId?.message}
             value={getValues('jobLevelId')}
@@ -125,13 +151,12 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
               trigger('jobLevelId')
             }}
           />
-          <AsyncSelect
+          <Select
             label="Job Type"
             labelRequired
             placeholder="Full-time, Part-time, Internship"
             hideSearch
-            fetcher={masterService.fetchJobtype}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+            options={organizationoStore.master.jobTypes.map((el) => ({ label: `${el.name}`, value: el.oid }))}
             name="jobTypeId"
             error={errors.jobTypeId?.message}
             value={getValues('jobTypeId')}
@@ -143,14 +168,13 @@ const VacancyInformationForm: React.FC<{ defaultValue: any; handlePrev: () => vo
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <AsyncSelect
+          <Select
             label="Work Placement Type"
             withReset
             placeholder="WFO, WFH, Hybrid"
             hideSearch
-            fetcher={masterService.fetchWorkplacement}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
             name="workplacementTypeId"
+            options={organizationoStore.master.workplacements.map((el) => ({ label: `${el.name}`, value: el.oid }))}
             error={errors.workplacementTypeId?.message}
             value={getValues('workplacementTypeId')}
             onChange={(v) => {

@@ -8,28 +8,45 @@ import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
+import moment from 'moment'
 
-const CreateJobPage: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false)
+const CreateJobPage = () => {
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const navigate = useNavigate()
+  const toast = useToast()
+
   const [formValues, setFormValues] = useState<any>({
     vacancyInformation: {},
     process: {},
     requirements: {},
   })
+
   const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(3, {
     onNext() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     },
   })
-  const navigate = useNavigate()
-  const toast = useToast()
 
-  const handleStepSubmit = async (data: Record<string, Record<string, any>>) => {
+  const handleStepSubmit = async (data: any) => {
     setFormValues(data)
     handleNext()
 
     if (!isLastStep) return
 
+    try {
+      const processedData = processFormData(data)
+      setIsSubmitLoading(true)
+
+      const createdVacancy = await vacancyService.createVacancy(processedData)
+      toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
+      navigate(`/job/management/${createdVacancy.id}`)
+    } catch (error) {
+      toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
+      setIsSubmitLoading(false)
+    }
+  }
+
+  const processFormData = (data: Record<string, Record<string, any>>) => {
     const obj: Record<string, any> = {}
     Object.values(data).forEach((item) => {
       for (const key in item) {
@@ -39,27 +56,14 @@ const CreateJobPage: React.FC = () => {
       }
     })
 
+    obj.expiredDate = moment(obj.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS')
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
-
-    obj.provinceRequirementId = obj.provinceRequirementId?.split('|')[1]
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
-
     obj.recruitmentProcess = ['65d2e8985a44ab03fb6ce39f', '65d2e8985a44ab03fb6ce39f']
-    obj.approvals = ['65d2e8985a44ab03fb6ce39f', '65d2e8985a44ab03fb6ce39f']
-
     obj.rrNumber = 'JOC1'
 
-    setIsLoading(true)
-
-    try {
-      const data = await vacancyService.createVacancy(obj)
-      toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/job/management/${data.id}/edit`)
-    } catch (e: any) {
-      toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
-      setIsLoading(false)
-    }
+    return obj
   }
 
   return (
@@ -102,7 +106,7 @@ const CreateJobPage: React.FC = () => {
             defaultValue={formValues.requirements}
             handlePrev={handlePrev}
             handleSubmit={(requirements) => handleStepSubmit({ ...formValues, requirements })}
-            isLoading={isLoading}
+            isLoading={isSubmitLoading}
           />
         )}
       </Container>

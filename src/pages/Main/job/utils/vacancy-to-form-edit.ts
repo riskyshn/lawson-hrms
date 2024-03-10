@@ -1,22 +1,16 @@
 import { IVacancy } from '@/types/vacancy'
+import numberToCurrency from '@/utils/number-to-currency'
 
-export function numberToCurrency(number?: number) {
-  const { format } = new Intl.NumberFormat()
-  if (typeof number == 'number') {
-    return `Rp ${format(number)}`
-  }
-  return ''
-}
-
-export function convertVacancyToFormValues(vacancy: IVacancy) {
+export function vacancyToFormEdit(vacancy: IVacancy) {
   return {
     vacancyInformation: {
       vacancyName: vacancy.vacancyName || '',
       departmentId: vacancy.department?.id || '',
       branchId: '', // No Response Data
+      expiredDate: vacancy.expiredDate ? new Date(vacancy.expiredDate) : '',
       jobLevelId: vacancy.jobLevel?.id || '',
       jobTypeId: vacancy.jobType?.id || '',
-      workplacementTypeId: vacancy.workplacementType || '',
+      workplacementTypeId: vacancy.workplacementType?.id || '',
       cityId: vacancy.city?.id || '',
       numberOfEmployeeNeeded: vacancy.numberOfEmployeeNeeded || 0,
       minimumSalary: numberToCurrency(vacancy.minimumSalary),
