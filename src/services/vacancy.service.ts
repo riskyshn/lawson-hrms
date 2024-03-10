@@ -8,7 +8,7 @@ import { IVacancy } from '@/types/vacancy'
 type FetchAreaParams = PythonPaginationParam & {
   keyword?: string
   departmentId?: string
-  flag?: number
+  status?: string
 }
 
 const axios = createAxiosInstance({

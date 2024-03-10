@@ -3,6 +3,7 @@ import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pa
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
+import { IDepartment } from '@/types/oganizartion'
 
 const axios = createAxiosInstance({
   baseURL: API_ORGANIZATION_BASE_URL,
@@ -45,8 +46,10 @@ export const deleteBranch = (id: string) => {
  * Department
  *
  */
-export const fetchDepartments = <T = any>(params: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/department`, { params, signal }).then((response) => response.data.data)
+export const fetchDepartments = (params: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: SpringPaginationResponse<IDepartment> }>(`/department`, { params, signal })
+    .then((response) => response.data.data)
 }
 
 export const createDepartment = (payload: Record<string, any>) => {

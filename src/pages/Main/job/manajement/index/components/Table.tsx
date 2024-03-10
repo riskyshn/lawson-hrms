@@ -1,27 +1,13 @@
-import React from 'react'
 import MainTable from '@/components/Elements/MainTable'
+import { IVacancy } from '@/types/vacancy'
 import { Avatar } from 'jobseeker-ui'
-import MenuList from '@/pages/Main/candidates/components/MenuList'
+import moment from 'moment'
+import React from 'react'
+import { twJoin } from 'tailwind-merge'
+import ActionMenu from './ActionMenu'
 
-interface Vacancy {
-  rrNumber: string
-  vacancyName: string
-  department: {
-    name: string
-  }
-  publishDate: string
-  applicantCount: number
-  flag: number
-}
-
-interface TableProps {
-  data: {
-    contents: Vacancy[]
-  }
-}
-
-const getStatus = (flag: number): { text: string; color: string } => {
-  const statusMap: { [key: number]: { text: string; color: string } } = {
+const getStatus = (flag?: number): { text: string; color: string } => {
+  const statusMap: Record<number, { text: string; color: string }> = {
     0: { text: 'Repost', color: 'bg-blue-100 text-blue-600' },
     1: { text: 'Active', color: 'bg-green-100 text-green-600' },
     2: { text: 'Moderation', color: 'bg-yellow-100 text-yellow-600' },
@@ -36,19 +22,20 @@ const getStatus = (flag: number): { text: string; color: string } => {
     12: { text: 'CRF', color: 'bg-yellow-400 text-white' },
   }
 
-  return statusMap[flag] || { text: 'Unknown', color: 'bg-gray-400 text-white' }
+  return flag !== undefined && statusMap[flag] ? statusMap[flag] : { text: 'Unknown', color: 'bg-gray-400 text-white' }
 }
 
-const formatDate = (dateString: string): string => {
-  const date = new Date(dateString)
-  const day = date.getDate().toString().padStart(2, '0')
-  const month = (date.getMonth() + 1).toString().padStart(2, '0')
-  const year = date.getFullYear()
-  return `${day}/${month}/${year}`
-}
+const Table: React.FC<{ items: IVacancy[] }> = ({ items }) => {
+  const headerItems = [
+    { children: 'Vacancy', className: 'text-left' },
+    { children: 'Department' },
+    { children: 'Posted Date' },
+    { children: 'Number of Applicant' },
+    { children: 'Status' },
+    { children: 'Action', className: 'w-24' },
+  ]
 
-const Table: React.FC<TableProps> = ({ data }) => {
-  const bodyItems = data.contents.map((vacancy) => ({
+  const bodyItems = items.map((vacancy, index) => ({
     items: [
       {
         children: (
@@ -58,8 +45,8 @@ const Table: React.FC<TableProps> = ({ data }) => {
           </>
         ),
       },
-      { children: vacancy.department.name, className: 'text-center' },
-      { children: formatDate(vacancy.publishDate), className: 'text-center' },
+      { children: vacancy.department?.name, className: 'text-center' },
+      { children: moment(vacancy.publishDate).format('D/M/Y'), className: 'text-center' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
@@ -77,46 +64,19 @@ const Table: React.FC<TableProps> = ({ data }) => {
       },
       {
         children: (
-          <span className={`rounded-lg px-2 py-1 text-sm font-semibold ${getStatus(vacancy.flag).color}`}>
+          <span className={twJoin('rounded-lg px-2 py-1 text-sm font-semibold', getStatus(vacancy.flag).color)}>
             {getStatus(vacancy.flag).text}
           </span>
         ),
         className: 'text-center',
       },
       {
-        children: (() => {
-          switch (vacancy.flag) {
-            case 1:
-              return <MenuList options={['View Details', 'View Candidates', 'Edit Vacancy', 'Deactivate']} />
-            case 4:
-              return <MenuList options={['Reactivate', 'View Details', 'View Candidates', 'Edit Vacancy']} />
-            case 99:
-              return <MenuList options={['View Details', 'View Candidates']} />
-            case 9:
-              return <MenuList options={['View Details', 'Delete Draft']} />
-            case 98:
-              return <MenuList options={['Reactivate', 'View Details', 'View Candidates', 'Edit Vacancy']} />
-            default:
-              return null
-          }
-        })(),
+        children: <ActionMenu vacancy={vacancy} index={index} total={items.length} upSpace={3} />,
       },
     ],
   }))
 
-  return (
-    <MainTable
-      headerItems={[
-        { children: 'Vacancy', className: 'text-left' },
-        { children: 'Department' },
-        { children: 'Posted Date' },
-        { children: 'Number of Applicant' },
-        { children: 'Status' },
-        { children: 'Action', className: 'w-24' },
-      ]}
-      bodyItems={bodyItems}
-    />
-  )
+  return <MainTable headerItems={headerItems} bodyItems={bodyItems} />
 }
 
 export default Table

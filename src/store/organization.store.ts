@@ -1,10 +1,13 @@
 import { organizationService } from '@/services'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
-import { ICompany } from '@/types/oganizartion'
+import { ICompany, IDepartment } from '@/types/oganizartion'
 
 interface OrganizationStore {
-  company?: ICompany | null
+  company: ICompany | null
+  master: {
+    departments: IDepartment[]
+  }
   init: () => Promise<void>
   refresh: () => Promise<void>
   clean: () => void
@@ -12,7 +15,9 @@ interface OrganizationStore {
 
 export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
   company: null,
-  master: null,
+  master: {
+    departments: [],
+  },
 
   init: async () => {
     await get().refresh()
@@ -20,7 +25,15 @@ export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
 
   refresh: async () => {
     const company = await organizationService.fetchCompany()
-    set((state) => ({ ...state, company }))
+    const departments = await organizationService.fetchDepartments({ size: 99999 })
+    set((state) => ({
+      ...state,
+      company,
+      master: {
+        ...state.master,
+        departments: departments.content,
+      },
+    }))
   },
 
   clean: () => {
