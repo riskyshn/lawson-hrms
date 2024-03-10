@@ -29,3 +29,8 @@ export interface IMasterSubDistrict {
   oid: string
   name: string
 }
+
+export interface IMasterEducationLevel {
+  oid: string
+  name: string
+}

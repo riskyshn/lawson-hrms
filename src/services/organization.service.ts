@@ -3,7 +3,8 @@ import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pa
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
-import { IDepartment } from '@/types/oganizartion'
+import { IBenefit, IBranch, IDepartment, IJobLevel, IJobType, IPosition, IWorkplacement } from '@/types/oganizartion'
+import { masterService } from '.'
 
 const axios = createAxiosInstance({
   baseURL: API_ORGANIZATION_BASE_URL,
@@ -26,8 +27,8 @@ export const updateCompany = (payload: Record<string, any>) => {
  * Branches
  *
  */
-export const fetchBranches = <T = any>(params: SpringPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/branch`, { params, signal }).then((response) => response.data.data)
+export const fetchBranches = (params?: SpringPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<IBranch> }>(`/branch`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createBranch = (payload: Record<string, any>) => {
@@ -46,7 +47,7 @@ export const deleteBranch = (id: string) => {
  * Department
  *
  */
-export const fetchDepartments = (params: SpringPaginationParam, signal?: GenericAbortSignal) => {
+export const fetchDepartments = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: SpringPaginationResponse<IDepartment> }>(`/department`, { params, signal })
     .then((response) => response.data.data)
@@ -68,8 +69,8 @@ export const deleteDepartment = (id: string) => {
  * Benefits
  *
  */
-export const fetchBenefits = <T = any>(params: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/benefit`, { params, signal }).then((response) => response.data.data)
+export const fetchBenefits = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<IBenefit> }>(`/benefit`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createBenefit = (payload: Record<string, any>) => {
@@ -88,8 +89,8 @@ export const deleteBenefit = (id: string) => {
  * JobLevels
  *
  */
-export const fetchJobLevels = <T = any>(params: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/job-level`, { params, signal }).then((response) => response.data.data)
+export const fetchJobLevels = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<IJobLevel> }>(`/job-level`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createJobLevel = (payload: Record<string, any>) => {
@@ -108,8 +109,8 @@ export const deleteJobLevel = (id: string) => {
  * Positions
  *
  */
-export const fetchPositions = <T = any>(params: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/position`, { params, signal }).then((response) => response.data.data)
+export const fetchPositions = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<IPosition> }>(`/position`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createPosition = (payload: Record<string, any>) => {
@@ -123,3 +124,23 @@ export const updatePosition = (id: string, payload: Record<string, any>) => {
 export const deletePosition = (id: string) => {
   return axios.delete(`/position/${id}`).then((response) => response.data.data)
 }
+
+/**
+ * Workplacements
+ *
+ */
+// export const fetchWorkplacements = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+//   return axios
+//     .get<{ data: SpringPaginationResponse<IWorkplacement> }>(`/workplacement`, { params, signal })
+//     .then((response) => response.data.data)
+// }
+export const fetchWorkplacements = masterService.fetchWorkplacements<IWorkplacement>
+
+/**
+ * JobTypes
+ *
+ */
+// export const fetchJobTypes = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+//   return axios.get<{ data: SpringPaginationResponse<IJobType> }>(`/jobtype`, { params, signal }).then((response) => response.data.data)
+// }
+export const fetchJobTypes = masterService.fetchJobtypes<IJobType>
