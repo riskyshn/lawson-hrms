@@ -7,6 +7,7 @@ import JobRequisitionPage from '@/pages/Main/job/requisition/index/JobRequisitio
 import ApproveListPage from '@/pages/Main/job/requisition/approve-list/ApproveListPage'
 import PreviewPage from '@/pages/Main/job/requisition/preview/PreviewPage'
 import EditJobPage from '@/pages/Main/job/manajement/edit/EditJobPage'
+import DetailJobPage from '@/pages/Main/job/manajement/detail/DetailJobPage'
 
 const jobRoute: RouteObject = {
   path: 'job',
@@ -19,6 +20,11 @@ const jobRoute: RouteObject = {
         {
           path: '',
           element: <JobManajementPage />,
+        },
+        {
+          path: ':vacancyId',
+          name: 'Detail',
+          element: <DetailJobPage />,
         },
         {
           path: 'create',
