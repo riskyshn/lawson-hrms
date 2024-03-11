@@ -26,7 +26,7 @@ const mandatoryCandidates: Candidate[] = Array.from(Array(total)).map((_, i) => 
   match: Math.random() < 0.5,
 }))
 
-const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candidate: any }> = ({ show, onClose, candidate }) => {
+const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candidate: any }> = ({ show, onClose }) => {
   const bodyItems = candidates.map((candidate, i) => ({
     items: [
       { children: candidate.requirementType },
