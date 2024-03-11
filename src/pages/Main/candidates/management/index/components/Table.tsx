@@ -28,7 +28,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
       vacancy: `Last Position ${i + 1}`,
       applyDate: formattedApplyDate,
       source: 'Careersite',
-      status: 'Open',
+      status: ['Open', 'Locked', 'Hired'][Math.floor(Math.random() * 3)],
       videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
       pdfUrl: 'http://localhost:5173/sample.pdf',
     }
@@ -42,7 +42,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
     }
   }
 
-  const bodyItems = candidates.map((candidate, i) => ({
+  const bodyItems = candidates.map((candidate) => ({
     items: [
       {
         children: (
@@ -93,8 +93,29 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
         ),
         className: 'text-center',
       },
-      { children: <span className="text-sm font-semibold text-primary-600">{candidate.status}</span>, className: 'text-center' },
-      { children: <MenuList options={options} candidate={candidate} /> },
+      {
+        children: (() => {
+          if (candidate.status === 'Locked') {
+            return <span className="rounded-lg bg-violet-100 px-2 py-1 text-sm font-semibold text-violet-600">{candidate.status}</span>
+          } else if (candidate.status === 'Hired') {
+            return <span className="rounded-lg bg-green-100 px-2 py-1 text-sm font-semibold text-green-600">{candidate.status}</span>
+          } else {
+            return <span className="rounded-lg bg-yellow-100 px-2 py-1 text-sm font-semibold text-yellow-600">{candidate.status}</span>
+          }
+        })(),
+        className: 'text-center',
+      },
+      {
+        children: (() => {
+          if (candidate.status === 'Locked') {
+            return <MenuList options={['View in Interview']} candidate={candidate} />
+          } else if (candidate.status === 'Hired') {
+            return <MenuList options={['View in Onboarding']} candidate={candidate} />
+          } else {
+            return <MenuList options={options} candidate={candidate} />
+          }
+        })(),
+      },
     ],
   }))
 

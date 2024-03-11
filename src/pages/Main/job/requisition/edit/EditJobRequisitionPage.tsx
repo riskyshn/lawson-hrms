@@ -3,18 +3,21 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
-import moment from 'moment'
+import useVacancyPage from '../../hooks/use-vacancy-page'
+import { vacancyToFormEdit } from '../../utils/vacancy-to-form-edit'
 
-const CreateJobPage = () => {
+const EditJobRequisitionPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
-  const navigate = useNavigate()
+  const [isLoaded, setIsLoaded] = useState(false)
   const toast = useToast()
 
+  const { vacancy } = useVacancyPage()
   const [formValues, setFormValues] = useState<any>({
     vacancyInformation: {},
     process: {},
@@ -27,21 +30,28 @@ const CreateJobPage = () => {
     },
   })
 
+  useEffect(() => {
+    if (vacancy) {
+      setFormValues(vacancyToFormEdit(vacancy))
+      setIsLoaded(true)
+    }
+  }, [vacancy])
+
   const handleStepSubmit = async (data: any) => {
     setFormValues(data)
     handleNext()
 
-    if (!isLastStep) return
+    if (!isLastStep || !vacancy) return
 
     try {
       const processedData = processFormData(data)
       setIsSubmitLoading(true)
-
-      const createdVacancy = await vacancyService.createVacancy(processedData)
-      toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/job/management/${createdVacancy.id}`)
+      console.log(vacancy.id, processedData)
+      await vacancyService.udpateVacancy(vacancy.id, processedData)
+      toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
     } catch (error) {
-      toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
+      toast('An error occurred while updating the job vacancy.', { color: 'error', position: 'top-right' })
+    } finally {
       setIsSubmitLoading(false)
     }
   }
@@ -69,8 +79,8 @@ const CreateJobPage = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Create Job' }]}
-        title="Create Job Posting"
+        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Edit Job' }]}
+        title="Edit Job Posting"
         actions={
           <Button as={Link} to="/job/management" variant="light" color="error">
             Cancel
@@ -87,22 +97,23 @@ const CreateJobPage = () => {
           ]}
         />
 
-        {activeStep === 0 && (
+        {isLoaded && activeStep === 0 && (
           <VacancyInformationForm
             defaultValue={formValues.vacancyInformation}
             handlePrev={handlePrev}
             handleSubmit={(vacancyInformation) => handleStepSubmit({ ...formValues, vacancyInformation })}
           />
         )}
-        {activeStep === 1 && (
+        {isLoaded && activeStep === 1 && (
           <ProcessForm
             defaultValue={formValues.process}
             handlePrev={handlePrev}
             handleSubmit={(process) => handleStepSubmit({ ...formValues, process })}
           />
         )}
-        {activeStep === 2 && (
+        {isLoaded && activeStep === 2 && (
           <RequirementsForm
+            isUpdate
             defaultValue={formValues.requirements}
             handlePrev={handlePrev}
             handleSubmit={(requirements) => handleStepSubmit({ ...formValues, requirements })}
@@ -114,4 +125,4 @@ const CreateJobPage = () => {
   )
 }
 
-export default CreateJobPage
+export default EditJobRequisitionPage

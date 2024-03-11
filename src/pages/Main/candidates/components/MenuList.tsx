@@ -3,14 +3,25 @@ import ProcessModal from '../Modals/ProcessModal'
 import ViewHistoryModal from '../Modals/ViewHistoryModal'
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
-import { BookUserIcon, HistoryIcon, RefreshCwIcon, SendIcon, SendToBackIcon, UserRoundPlusIcon, UserXIcon, XCircleIcon } from 'lucide-react'
+import {
+  BookUserIcon,
+  CalendarDaysIcon,
+  HistoryIcon,
+  RefreshCwIcon,
+  SendIcon,
+  SendToBackIcon,
+  ShoppingBagIcon,
+  UserRoundPlusIcon,
+  UserXIcon,
+  XCircleIcon,
+} from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import MoveAnotherVacancyModal from '../Modals/MoveAnotherVacancyModal'
 import SendReminderModal from '../offered/index/components/SendReminderModal'
 
 interface MenuListProps {
   options: string[]
-  candidate: any
+  candidate?: any
 }
 
 const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
@@ -78,6 +89,12 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
                   {option === 'Send Reminder' && <SendIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
                   {option === 'Unblacklist' && (
                     <UserRoundPlusIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+                  {option === 'View in Interview' && (
+                    <CalendarDaysIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+                  {option === 'View in Onboarding' && (
+                    <ShoppingBagIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
                   {option}
                 </button>

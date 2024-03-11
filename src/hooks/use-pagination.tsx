@@ -7,7 +7,7 @@ type PaginationOptions = {
   pathname: string
   totalRender?: number
   queryKey?: string
-  params?: Record<string, string>
+  params?: Record<string, any>
 }
 
 export default function usePagination({ totalPage, pathname, params, totalRender = 5, queryKey = 'page' }: PaginationOptions) {
@@ -38,6 +38,9 @@ export default function usePagination({ totalPage, pathname, params, totalRender
     const { startPage, endPage } = calculateStartAndEndPages()
     const pageButtons: React.ReactNode[] = []
 
+    for (const key in params) {
+      if (params[key] === undefined) delete params[key]
+    }
     const routeParams = new URLSearchParams(params)
 
     for (let i = startPage; i <= endPage; i++) {
