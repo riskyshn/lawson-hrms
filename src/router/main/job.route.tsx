@@ -1,13 +1,14 @@
 import type { RouteObject } from 'react-router-dom'
-
 import CreateJobPage from '@/pages/Main/job/manajement/create/CreateJobPage'
+import DetailJobPage from '@/pages/Main/job/manajement/detail/DetailJobPage'
+import EditJobPage from '@/pages/Main/job/manajement/edit/EditJobPage'
 import JobManajementPage from '@/pages/Main/job/manajement/index/JobManajementPage'
 import RecruitmentStagesPage from '@/pages/Main/job/manajement/recruitment-stages/RecruitmentStagesPage'
-import JobRequisitionPage from '@/pages/Main/job/requisition/index/JobRequisitionPage'
 import ApproveListPage from '@/pages/Main/job/requisition/approve-list/ApproveListPage'
-import PreviewPage from '@/pages/Main/job/requisition/preview/PreviewPage'
-import EditJobPage from '@/pages/Main/job/manajement/edit/EditJobPage'
-import DetailJobPage from '@/pages/Main/job/manajement/detail/DetailJobPage'
+import CreateJobRequisitionPage from '@/pages/Main/job/requisition/create/CreateJobRequisitionPage'
+import DetailJobRequisitionPage from '@/pages/Main/job/requisition/detail/DetailJobRequisitionPage'
+import EditJobRequisitionPage from '@/pages/Main/job/requisition/edit/EditJobRequisitionPage'
+import JobRequisitionPage from '@/pages/Main/job/requisition/index/JobRequisitionPage'
 
 const jobRoute: RouteObject = {
   path: 'job',
@@ -52,14 +53,24 @@ const jobRoute: RouteObject = {
           element: <JobRequisitionPage />,
         },
         {
+          path: ':vacancyId',
+          name: 'Detail',
+          element: <DetailJobRequisitionPage />,
+        },
+        {
+          path: 'create',
+          name: 'Create',
+          element: <CreateJobRequisitionPage />,
+        },
+        {
+          path: ':vacancyId/edit',
+          name: 'Edit',
+          element: <EditJobRequisitionPage />,
+        },
+        {
           path: 'approve-list',
           name: 'Approve List',
           element: <ApproveListPage />,
-        },
-        {
-          path: 'preview',
-          name: 'Preview',
-          element: <PreviewPage />,
         },
       ],
     },

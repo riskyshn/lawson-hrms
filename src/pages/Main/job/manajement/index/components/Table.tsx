@@ -41,12 +41,12 @@ const Table: React.FC<{ items: IVacancy[] }> = ({ items }) => {
         children: (
           <>
             <span className="block font-semibold">{vacancy.vacancyName}</span>
-            <span className="text-xs text-gray-500">{vacancy.rrNumber}</span>
+            <span className="text-xs text-gray-500">{vacancy.rrNumber || '-'}</span>
           </>
         ),
       },
-      { children: vacancy.department?.name, className: 'text-center' },
-      { children: moment(vacancy.publishDate).format('D/M/Y'), className: 'text-center' },
+      { children: vacancy.department?.name || '-', className: 'text-center' },
+      { children: vacancy.publishDate ? moment(vacancy.publishDate).format('D/M/Y') : '-', className: 'text-center' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
