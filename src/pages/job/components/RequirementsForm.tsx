@@ -97,6 +97,7 @@ const schema = yup.object({
 })
 
 const RequirementsForm: React.FC<{
+  isRequisition?: boolean
   isLoading: boolean
   defaultValue: yup.InferType<typeof schema>
   isUpdate?: boolean
@@ -333,7 +334,7 @@ const RequirementsForm: React.FC<{
           loading={props.isLoading && flag == 1}
           onClick={(e) => {
             e.preventDefault()
-            onSubmit(1)
+            onSubmit(props.isRequisition ? 6 : 1)
           }}
         >
           {props.isUpdate ? 'Update' : 'Create'}

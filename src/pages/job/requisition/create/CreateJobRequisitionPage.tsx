@@ -39,7 +39,7 @@ const CreateJobRequisitionPage = () => {
 
       const createdVacancy = await vacancyService.createVacancy(processedData)
       toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/job/management/${createdVacancy.id}`)
+      navigate(`/job/requisition/${createdVacancy.id}`)
     } catch (error) {
       toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
       setIsSubmitLoading(false)
@@ -68,10 +68,10 @@ const CreateJobRequisitionPage = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Create Job' }]}
+        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Create Job' }]}
         title="Create Job Posting"
         actions={
-          <Button as={Link} to="/job/management" variant="light" color="error">
+          <Button as={Link} to="/job/requisition" variant="light" color="error">
             Cancel
           </Button>
         }
@@ -103,6 +103,7 @@ const CreateJobRequisitionPage = () => {
         )}
         {activeStep === 2 && (
           <RequirementsForm
+            isRequisition
             defaultValue={formValues.requirements}
             handlePrev={handlePrev}
             handleSubmit={(requirements) => handleStepSubmit({ ...formValues, requirements })}

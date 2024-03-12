@@ -1,11 +1,11 @@
 import type { GenericAbortSignal } from 'axios'
-import type { PythonPaginationParam, PythonPaginationResponse } from '@/types/pagination'
+import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 import { IVacancy } from '@/types/vacancy'
 
-type FetchVacanciesParams = PythonPaginationParam & {
+type FetchVacanciesParams = PaginationParam & {
   keyword?: string
   departmentId?: string
   status?: string
@@ -18,7 +18,7 @@ const axios = createAxiosInstance({
 })
 
 export const fetchVacancies = (params?: FetchVacanciesParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PythonPaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: PaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchVacancyDetail = (id: string) => {
@@ -33,6 +33,22 @@ export const udpateVacancy = (id: string, payload: Record<string, any>) => {
   return axios.put(`/vacancy/${id}`, payload).then((response) => response.data.data)
 }
 
+export const deleteDraftVacancy = (id: string) => {
+  return axios.delete(`/vacancy/${id}`).then((response) => response.data.data)
+}
+
 export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 'draft') => {
   return axios.patch(`/vacancy/${id}?status=${status}`).then((response) => response.data.data)
+}
+
+export const cancelRequisition = (id: string) => {
+  return axios.delete(`/vacancy/${id}/cancel`).then((response) => response.data.data)
+}
+
+export const publishRequisition = (id: string) => {
+  return axios.delete(`/vacancy/${id}/publish`).then((response) => response.data.data)
+}
+
+export const approveRequisition = (id: string, payload: Record<string, any>) => {
+  return axios.delete(`/vacancy/${id}`, payload).then((response) => response.data.data)
 }

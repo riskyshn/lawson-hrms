@@ -3,19 +3,32 @@ import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-re
 import { useNavigate } from 'react-router-dom'
 import { IVacancy } from '@/types/vacancy'
 import * as Table from '@/components/Elements/MainTable'
+import { vacancyService } from '@/services'
+import { useConfirm, useToast } from 'jobseeker-ui'
 
 type ActionMenuProps = {
   vacancy: IVacancy
   index: number
   total: number
-  upSpace?: number
+  upSpace: number
+  setHistoryMadalData?: (vacancy: IVacancy) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, setHistoryMadalData }) => {
   const navigate = useNavigate()
+  const toast = useToast()
+  const confirm = useConfirm()
 
-  const viewDetail: Table.ActionMenuItemProps = {
-    text: 'View Detail',
+  const goToJobManagement: Table.ActionMenuItemProps = {
+    text: 'Go to Job Management',
+    icon: EyeIcon,
+    action() {
+      navigate(`/job/management/${vacancy.id}`)
+    },
+  }
+
+  const reviewRequisition: Table.ActionMenuItemProps = {
+    text: 'Review Requisition',
     icon: EyeIcon,
     action() {
       navigate(`/job/requisition/${vacancy.id}`)
@@ -27,35 +40,100 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace 
     icon: UsersIcon,
   }
 
-  const editVacancy: Table.ActionMenuItemProps = {
-    text: 'Edit Vacancy',
+  const sendReminder: Table.ActionMenuItemProps = {
+    text: 'Send Reminder',
+    icon: UsersIcon,
+  }
+
+  const viewHistory: Table.ActionMenuItemProps = {
+    text: 'View History',
+    icon: UsersIcon,
+    action: () => {
+      setHistoryMadalData?.(vacancy)
+    },
+  }
+
+  const editRequisition: Table.ActionMenuItemProps = {
+    text: 'Edit Requisition',
     icon: PenToolIcon,
     action() {
       navigate(`/job/requisition/${vacancy.id}/edit`)
     },
   }
 
-  const deactivate: Table.ActionMenuItemProps = {
-    text: 'Deactivate',
+  const cancelRequisition: Table.ActionMenuItemProps = {
+    text: 'Cancel Requisition',
     icon: PowerIcon,
     iconClassName: 'text-error-600',
+    action: async () => {
+      const confirmed = await confirm({
+        text: 'Are you sure you want to cancel this requisition?',
+        confirmBtnColor: 'error',
+        cancelBtnColor: 'primary',
+      })
+      if (confirmed) {
+        try {
+          await vacancyService.cancelRequisition(vacancy.id)
+          toast('Requisition canceled successfully.', { color: 'success', position: 'top-right' })
+        } catch (e: any) {
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+        }
+      }
+    },
   }
 
-  const reactivate: Table.ActionMenuItemProps = {
-    text: 'Reactivate',
+  const postVacancy: Table.ActionMenuItemProps = {
+    text: 'Post Vacancy',
     icon: PowerIcon,
+    action: async () => {
+      const confirmed = await confirm({
+        text: 'Are you sure you want to post this vacancy?',
+        confirmBtnColor: 'success',
+        cancelBtnColor: 'primary',
+      })
+      if (confirmed) {
+        try {
+          await vacancyService.publishRequisition(vacancy.id)
+          toast('Vacancy posted successfully.', { color: 'success', position: 'top-right' })
+        } catch (e: any) {
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+        }
+      }
+    },
   }
 
   const deleteDraft: Table.ActionMenuItemProps = {
     text: 'Delete Draft',
     icon: TrashIcon,
     iconClassName: 'text-error-600',
+    action: async () => {
+      const confirmed = await confirm({
+        text: 'Are you sure you want to delete this draft vacancy?',
+        confirmBtnColor: 'error',
+        cancelBtnColor: 'primary',
+      })
+      if (confirmed) {
+        try {
+          await vacancyService.deleteDraftVacancy(vacancy.id)
+          toast('Draft vacancy deleted successfully.', { color: 'success', position: 'top-right' })
+        } catch (e: any) {
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+        }
+      }
+    },
   }
 
   const menuItems = [
-    { code: 1, items: [viewDetail, viewCandidates, editVacancy, deactivate] },
-    { code: 4, items: [reactivate, viewDetail, viewCandidates, editVacancy] },
-    { code: 9, items: [viewDetail, deleteDraft] },
+    { code: 1, items: [goToJobManagement, viewCandidates] },
+    {
+      code: 6,
+      items:
+        vacancy.approvals?.flag == 1
+          ? [postVacancy, reviewRequisition, viewHistory]
+          : [reviewRequisition, sendReminder, editRequisition, viewHistory, cancelRequisition],
+    },
+    { code: 9, items: [reviewRequisition, editRequisition, deleteDraft] },
+    { code: 13, items: [viewCandidates, editRequisition, viewHistory] },
   ]
 
   const menu = menuItems.find((el) => el.code == vacancy.flag)
@@ -63,7 +141,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace 
 
   return (
     <>
-      <Table.ActionMenu up={index >= total - (upSpace || 3)}>
+      <Table.ActionMenu up={index >= total - upSpace}>
         {menu.items.map((item, i) => (
           <Table.ActionMenuItem key={i} {...item} />
         ))}
