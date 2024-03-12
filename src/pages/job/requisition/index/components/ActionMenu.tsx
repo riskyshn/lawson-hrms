@@ -11,9 +11,10 @@ type ActionMenuProps = {
   index: number
   total: number
   upSpace: number
+  setHistoryMadalData?: (vacancy: IVacancy) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, setHistoryMadalData }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
@@ -47,6 +48,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace 
   const viewHistory: Table.ActionMenuItemProps = {
     text: 'View History',
     icon: UsersIcon,
+    action: () => {
+      setHistoryMadalData?.(vacancy)
+    },
   }
 
   const editRequisition: Table.ActionMenuItemProps = {

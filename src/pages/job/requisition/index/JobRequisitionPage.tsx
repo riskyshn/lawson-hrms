@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
+import HistoryModal from './components/HistoryModal'
 
 const JobRequisitionPage = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -26,6 +27,7 @@ const JobRequisitionPage = () => {
   const [pageData, setPageData] = useState<PaginationResponse<IVacancy>>()
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [historyMadalData, setHistoryMadalData] = useState<IVacancy | null>(null)
 
   const pagination = usePagination({
     pathname: '/job/requisition',
@@ -73,6 +75,7 @@ const JobRequisitionPage = () => {
 
   return (
     <>
+      <HistoryModal vacancy={historyMadalData} onClose={() => setHistoryMadalData(null)} />
       <PageHeader
         breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
         title="Job Requisition"
@@ -164,7 +167,7 @@ const JobRequisitionPage = () => {
                 <Spinner className="h-10 w-10 text-primary-600" />
               </div>
             ) : pageData?.content && pageData.content.length > 0 ? (
-              <Table items={pageData.content} />
+              <Table items={pageData.content} setHistoryMadalData={setHistoryMadalData} />
             ) : (
               <div className="flex items-center justify-center py-20">
                 <p>No data available.</p>
