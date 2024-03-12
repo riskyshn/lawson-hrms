@@ -1,10 +1,9 @@
-import type { GenericAbortSignal } from 'axios'
 import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pagination'
+import type { GenericAbortSignal } from 'axios'
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
+import { IBenefit, IBranch, IDepartment, IJobLevel, IJobType, IPosition, IRecruitmentStage, IWorkplacement } from '@/types/oganizartion'
 import { createAxiosInstance } from '@/utils/axios'
-import { IBenefit, IBranch, IDepartment, IJobLevel, IJobType, IPosition, IWorkplacement } from '@/types/oganizartion'
-import { masterService } from '.'
 
 const axios = createAxiosInstance({
   baseURL: API_ORGANIZATION_BASE_URL,
@@ -129,18 +128,38 @@ export const deletePosition = (id: string) => {
  * Workplacements
  *
  */
-// export const fetchWorkplacements = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-//   return axios
-//     .get<{ data: SpringPaginationResponse<IWorkplacement> }>(`/workplacement`, { params, signal })
-//     .then((response) => response.data.data)
-// }
-export const fetchWorkplacements = masterService.fetchWorkplacements<IWorkplacement>
+export const fetchWorkplacements = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: SpringPaginationResponse<IWorkplacement> }>(`/workplacement`, { params, signal })
+    .then((response) => response.data.data)
+}
 
 /**
  * JobTypes
  *
  */
-// export const fetchJobTypes = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-//   return axios.get<{ data: SpringPaginationResponse<IJobType> }>(`/jobtype`, { params, signal }).then((response) => response.data.data)
-// }
-export const fetchJobTypes = masterService.fetchJobtypes<IJobType>
+export const fetchJobTypes = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: SpringPaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
+}
+
+/**
+ * RecruitmentStage
+ *
+ */
+export const fetchRecruitmentStages = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: SpringPaginationResponse<IRecruitmentStage> }>(`/recruitment-stage`, { params, signal })
+    .then((response) => response.data.data)
+}
+
+export const createRecruitmentStage = (payload: Record<string, any>) => {
+  return axios.post(`/recruitment-stage`, payload).then((response) => response.data.data)
+}
+
+export const updateRecruitmentStage = (id: string, payload: Record<string, any>) => {
+  return axios.put(`/recruitment-stage/${id}`, payload).then((response) => response.data.data)
+}
+
+export const deleteRecruitmentStage = (id: string) => {
+  return axios.delete(`/recruitment-stage/${id}`).then((response) => response.data.data)
+}
