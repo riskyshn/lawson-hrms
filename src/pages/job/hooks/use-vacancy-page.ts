@@ -6,14 +6,14 @@ import { useNavigate, useParams } from 'react-router-dom'
 export default function useVacancyPage() {
   const { vacancyId } = useParams()
   const [isLoading, setIsLoading] = useState(true)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [pageError, setPageError] = useState<{ code: 404 | 500; message?: string }>()
   const [vacancy, setVacancy] = useState<IVacancy>()
 
   const navigate = useNavigate()
 
   useEffect(() => {
     const load = async (vacancyId: string) => {
-      setErrorMessage('')
+      setPageError(undefined)
       setIsLoading(true)
       try {
         const vacancy = await vacancyService.fetchVacancyDetail(vacancyId)
@@ -21,10 +21,9 @@ export default function useVacancyPage() {
         setIsLoading(false)
       } catch (e: any) {
         if (e.response?.status === 404) {
-          navigate('/404')
+          setPageError({ code: 404 })
         } else {
-          setErrorMessage(e.response?.data?.meta?.message || e.message)
-          setIsLoading(false)
+          setPageError({ code: 500, message: e.response?.data?.meta?.message || e.message })
         }
       }
     }
@@ -36,5 +35,5 @@ export default function useVacancyPage() {
     }
   }, [vacancyId, navigate])
 
-  return { vacancyId, isLoading, errorMessage, vacancy }
+  return { vacancyId, isLoading, pageError, vacancy }
 }
