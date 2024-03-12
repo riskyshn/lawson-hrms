@@ -3,11 +3,12 @@ import type { PythonPaginationParam, PythonPaginationResponse } from '@/types/pa
 
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
+import { IVacancy } from '@/types/vacancy'
 
 type FetchAreaParams = PythonPaginationParam & {
   keyword?: string
   departmentId?: string
-  flag?: number
+  status?: string
 }
 
 const axios = createAxiosInstance({
@@ -15,12 +16,12 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
-export const fetchVacancies = <T = any>(params?: FetchAreaParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PythonPaginationResponse<T> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
+export const fetchVacancies = (params?: FetchAreaParams, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PythonPaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchVacancyDetail = (id: string) => {
-  return axios.get(`/vacancy/${id}`).then((response) => response.data.data)
+  return axios.get(`/vacancy/${id}`).then((response) => response.data.data as IVacancy)
 }
 
 export const createVacancy = (payload: Record<string, any>) => {

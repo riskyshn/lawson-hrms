@@ -1,6 +1,6 @@
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
-import { IMasterCity, IMasterCountry, IMasterDistrict, IMasterProvince, IMasterSubDistrict } from '@/types/master'
+import { IMasterCity, IMasterCountry, IMasterDistrict, IMasterEducationLevel, IMasterProvince, IMasterSubDistrict } from '@/types/master'
 import { masterService } from '@/services'
 
 interface MasterStore {
@@ -12,6 +12,11 @@ interface MasterStore {
     subDistricts: Array<IMasterSubDistrict>
   }
 
+  educatioLevels: Array<IMasterEducationLevel>
+
+  init: () => Promise<void>
+  refresh: () => Promise<void>
+  clean: () => void
   addArea: <K extends keyof MasterStore['area']>(key: K, items: MasterStore['area'][K]) => void
   getArea: <K extends keyof MasterStore['area']>(key: K, oids: string[]) => Promise<Array<MasterStore['area'][K]>>
 }
@@ -23,6 +28,32 @@ export const useMasterStore = create<MasterStore>((set, get) => ({
     cities: [],
     districts: [],
     subDistricts: [],
+  },
+  educatioLevels: [],
+
+  init: async () => {
+    await get().refresh()
+  },
+
+  refresh: async () => {
+    const [educatioLevels] = await Promise.all([masterService.fetchEducationLevel()])
+
+    set({
+      educatioLevels: educatioLevels.content,
+    })
+  },
+
+  clean: () => {
+    set({
+      area: {
+        countries: [],
+        provinces: [],
+        cities: [],
+        districts: [],
+        subDistricts: [],
+      },
+      educatioLevels: [],
+    })
   },
 
   addArea: (key, items) => {

@@ -170,3 +170,13 @@ export interface IBenefit {
   createdAt?: string
   updatedAt?: string
 }
+
+export interface IWorkplacement {
+  oid: string
+  name?: string
+}
+
+export interface IJobType {
+  oid: string
+  name?: string
+}

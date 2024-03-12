@@ -4,6 +4,7 @@ import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pa
 import { API_MASTER_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 import { useMasterStore } from '@/store'
+import { IMasterEducationLevel } from '@/types/master'
 
 type FetchAreaParams = SpringPaginationParam & {
   q?: string
@@ -69,7 +70,7 @@ export const fetchCitiesByOids = (key: 'countries' | 'provinces' | 'cities' | 'd
  * Workplacement
  *
  */
-export const fetchWorkplacement = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
+export const fetchWorkplacements = <T = any>(params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: SpringPaginationResponse<T> }>(`/workplacement`, { params, signal }).then((response) => response.data.data)
 }
 
@@ -77,7 +78,7 @@ export const fetchWorkplacement = <T = any>(params: FetchAreaParams & { district
  * JobType
  *
  */
-export const fetchJobtype = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
+export const fetchJobtypes = <T = any>(params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: SpringPaginationResponse<T> }>(`/jobtype`, { params, signal }).then((response) => response.data.data)
 }
 
@@ -85,6 +86,8 @@ export const fetchJobtype = <T = any>(params: FetchAreaParams & { district: stri
  * Education Level
  *
  */
-export const fetchEducationLevel = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/education-level`, { params, signal }).then((response) => response.data.data)
+export const fetchEducationLevel = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: SpringPaginationResponse<IMasterEducationLevel> }>(`/education-level`, { params, signal })
+    .then((response) => response.data.data)
 }

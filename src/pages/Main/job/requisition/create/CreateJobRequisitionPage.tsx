@@ -10,7 +10,7 @@ import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
 import moment from 'moment'
 
-const CreateJobPage = () => {
+const CreateJobRequisitionPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
@@ -89,6 +89,7 @@ const CreateJobPage = () => {
 
         {activeStep === 0 && (
           <VacancyInformationForm
+            isRequisition
             defaultValue={formValues.vacancyInformation}
             handlePrev={handlePrev}
             handleSubmit={(vacancyInformation) => handleStepSubmit({ ...formValues, vacancyInformation })}
@@ -114,4 +115,4 @@ const CreateJobPage = () => {
   )
 }
 
-export default CreateJobPage
+export default CreateJobRequisitionPage

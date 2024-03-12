@@ -1,40 +1,58 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
+import usePagination from '@/hooks/use-pagination'
+import { vacancyService } from '@/services'
+import { useOrganizationStore } from '@/store'
+import { PythonPaginationResponse } from '@/types/pagination'
+import { IVacancy } from '@/types/vacancy'
 import { Button, Input, Select, Spinner } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
-import { vacancyService } from '@/services'
-import usePagination from '@/hooks/use-pagination'
 
 const JobManajementPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
-  const keyword = searchParams.get('keyword') || undefined
 
-  const [contents, setContents] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const search = searchParams.get('search') || undefined
+  const department = searchParams.get('department') || undefined
+  const status = searchParams.get('status') || undefined
+
+  const { master } = useOrganizationStore()
+
+  const [pageData, setPageData] = useState<PythonPaginationResponse<IVacancy>>()
+  const [isLoading, setIsLoading] = useState(true)
+
   const pagination = usePagination({
     pathname: '/job/management',
-    totalPage: contents?.totalPages,
-    queryKey: 'start_page',
-    params: { ...(keyword ? { keyword } : {}) },
+    totalPage: pageData?.totalPages || 0,
+    params: { search, department, status },
   })
 
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
+
     const load = async (signal: AbortSignal) => {
       setIsLoading(true)
       try {
-        const data = await vacancyService.fetchVacancies({ keyword, start_page: pagination.currentPage }, signal)
-        setContents(data)
+        const data = await vacancyService.fetchVacancies(
+          {
+            keyword: search,
+            start_page: pagination.currentPage - 1,
+            page_limit: 30,
+            status,
+            departmentId: department,
+          },
+          signal,
+        )
+        setPageData(data)
         setIsLoading(false)
       } catch (error) {
-        // console.error('Error fetching vacancies:', error)
-        setIsLoading(false)
+        console.error('Error fetching vacancies:', error)
+        // throw error
       }
     }
 
@@ -43,7 +61,7 @@ const JobManajementPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [keyword, pagination.currentPage])
+  }, [search, department, status, pagination.currentPage])
 
   return (
     <>
@@ -95,8 +113,8 @@ const JobManajementPage: React.FC = () => {
                         size={16}
                       />
                     }
-                    value={keyword || ''}
-                    onChange={(e) => setSearchParam((el) => ({ ...el, start_page: 0, keyword: e.currentTarget.value }))}
+                    value={search || ''}
+                    onChange={(e) => setSearchParam({ search: e.currentTarget.value })}
                   />
                   <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
                     <FilterIcon size={16} />
@@ -105,8 +123,29 @@ const JobManajementPage: React.FC = () => {
               </div>
               {open && (
                 <div className="grid grid-cols-2 gap-3 p-3">
-                  <Select placeholder="All Departement" options={[]} />
-                  <Select placeholder="All Status" options={[]} />
+                  <Select
+                    placeholder="All Departement"
+                    withReset
+                    value={department}
+                    onChange={(e) => {
+                      searchParams.set('department', e.toString())
+                      setSearchParam(searchParams)
+                    }}
+                    options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                  />
+                  <Select
+                    placeholder="All Status"
+                    withReset
+                    value={status}
+                    onChange={(e) => {
+                      searchParams.set('status', e.toString())
+                      setSearchParam(searchParams)
+                    }}
+                    options={['Active', 'Inactive', 'Draft', 'Expired', 'Fullfilled'].map((el) => ({
+                      label: el,
+                      value: el.toLocaleLowerCase(),
+                    }))}
+                  />
                 </div>
               )}
             </>
@@ -116,8 +155,8 @@ const JobManajementPage: React.FC = () => {
               <div className="flex items-center justify-center py-20">
                 <Spinner className="h-10 w-10 text-primary-600" />
               </div>
-            ) : contents?.contents && contents?.contents?.length > 0 ? (
-              <Table data={contents} />
+            ) : pageData?.contents && pageData.contents.length > 0 ? (
+              <Table items={pageData.contents} />
             ) : (
               <div className="flex items-center justify-center py-20">
                 <p>No data available.</p>

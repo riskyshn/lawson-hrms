@@ -2,10 +2,20 @@ export interface IVacancy {
   id: string
   createdAt?: string
   updatedAt?: string
+  expiredDate?: string
   vacancyName?: string
   rrNumber?: string
   flag?: number
+  publishDate?: string
+  expiredDate?: string
+  canceledDate?: string
   applicantCount?: number
+  numberOfEmployeeNeeded?: number
+  minimumSalary?: number
+  maximumSalary?: number
+  hideRangeSalary?: boolean
+  negotiableSalary?: boolean
+  other?: string
   company?: {
     id: string
     name?: string
@@ -16,10 +26,7 @@ export interface IVacancy {
   }
   jobType?: {
     id: string
-    name?: {
-      en?: string
-      id: string
-    }
+    name?: { en?: string; id: string }
   }
   workplacementType?: {
     id: string
@@ -36,12 +43,6 @@ export interface IVacancy {
     id: string
     name?: string
   }
-  numberOfEmployeeNeeded?: number
-  minimumSalary?: number
-  maximumSalary?: number
-  hideRangeSalary?: boolean
-  negotiableSalary?: boolean
-  other?: string
   genderRequirement?: {
     type?: string
     name?: {
@@ -71,13 +72,35 @@ export interface IVacancy {
     minimumGpa?: number
     mustMeetCriteria?: boolean
   }
-  cityRequirement?: any
-  provinceRequirement?: any
-  maximumSalaryRequirement?: any
-  flows?: any[]
-  approvals?: any[]
+  cityRequirement?: {
+    id: string
+    name?: string
+  }
+  provinceRequirement?: {
+    id: string
+    name?: string
+  }
+  maximumSalaryRequirement?: {
+    maximumSalary?: number
+    mustMeetCriteria?: boolean
+  }
+  recruitmentProcess?: Array<{
+    id: string
+    name?: string
+    seq?: number
+  }>
+  approvals?: {
+    flag?: number
+    users?: Array<{
+      id: string
+      seq?: number
+      flag?: number
+      notes?: string
+    }>
+  }
   district?: {
     id: string
     name?: string
   }
+  status?: string
 }
