@@ -1,8 +1,10 @@
 import Container from '@/components/Elements/Container'
+import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
@@ -10,14 +12,13 @@ import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
 import useVacancyPage from '../../hooks/use-vacancy-page'
 import { vacancyToFormEdit } from '../../utils/vacancy-to-form-edit'
-import moment from 'moment'
 
 const EditJobPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const toast = useToast()
 
-  const { vacancy } = useVacancyPage()
+  const { vacancy, pageError } = useVacancyPage()
   const [formValues, setFormValues] = useState<any>({
     vacancyInformation: {},
     process: {},
@@ -75,6 +76,8 @@ const EditJobPage = () => {
 
     return obj
   }
+
+  if (pageError) return <ErrorScreen {...pageError} />
 
   return (
     <>

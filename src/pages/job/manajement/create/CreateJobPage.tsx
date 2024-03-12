@@ -3,12 +3,12 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import moment from 'moment'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
-import moment from 'moment'
 
 const CreateJobPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)

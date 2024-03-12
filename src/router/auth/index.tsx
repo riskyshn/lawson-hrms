@@ -1,9 +1,9 @@
 import type { RouteObject } from 'react-router-dom'
 
-import AuthLayout from '@/components/Layout/AuthLayout/AuthLayout'
-import ForgotPasswordPage from '@/pages/Auth/ForgotPasswordPage'
-import LoginPage from '@/pages/Auth/LoginPage'
-import ResetPasswordPage from '@/pages/Auth/ResetPasswordPage'
+import AuthLayout from '@/components/Layout/AuthLayout'
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage'
+import LoginPage from '@/pages/auth/LoginPage'
+import ResetPasswordPage from '@/pages/auth/ResetPasswordPage'
 
 const authRoute: RouteObject = {
   path: 'auth',
