@@ -3,6 +3,8 @@ import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-re
 import { useNavigate } from 'react-router-dom'
 import { IVacancy } from '@/types/vacancy'
 import * as Table from '@/components/Elements/MainTable'
+import { vacancyService } from '@/services'
+import { useToast } from 'jobseeker-ui'
 
 type ActionMenuProps = {
   vacancy: IVacancy
@@ -13,6 +15,7 @@ type ActionMenuProps = {
 
 const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace }) => {
   const navigate = useNavigate()
+  const toast = useToast()
 
   const viewDetail: Table.ActionMenuItemProps = {
     text: 'View Detail',
@@ -39,11 +42,27 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace 
     text: 'Deactivate',
     icon: PowerIcon,
     iconClassName: 'text-error-600',
+    action: async () => {
+      try {
+        await vacancyService.updateVacancyStatus(vacancy.id, 'inactive')
+        toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
+      } catch (e: any) {
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+      }
+    },
   }
 
   const reactivate: Table.ActionMenuItemProps = {
     text: 'Reactivate',
     icon: PowerIcon,
+    action: async () => {
+      try {
+        await vacancyService.updateVacancyStatus(vacancy.id, 'active')
+        toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
+      } catch (e: any) {
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+      }
+    },
   }
 
   const deleteDraft: Table.ActionMenuItemProps = {

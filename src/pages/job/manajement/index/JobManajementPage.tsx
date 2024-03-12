@@ -48,16 +48,18 @@ const JobManajementPage: React.FC = () => {
             page_limit: 30,
             status,
             departmentId: department,
+            isRequisition: 0,
           },
           signal,
         )
         setPageData(data)
+        setIsLoading(false)
       } catch (e: any) {
         if (e.message !== 'canceled') {
           setErrorMessage(e.response?.data?.meta?.message || e.message)
+          setIsLoading(false)
         }
       }
-      setIsLoading(false)
     }
 
     load(signal)

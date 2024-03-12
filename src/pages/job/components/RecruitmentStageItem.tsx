@@ -1,6 +1,6 @@
 import { useOrganizationStore } from '@/store'
 import { IRecruitmentStage } from '@/types/oganizartion'
-import { BaseInput, Button, useConfirm, useToast } from 'jobseeker-ui'
+import { BaseInput, Button, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon } from 'lucide-react'
 import { useState } from 'react'
 
@@ -12,7 +12,6 @@ const RecruitmentStageItem: React.FC<{
 }> = ({ type, item, isNew, onRemove }) => {
   const { createRecruitmentStage, updateRecruitmentStage, deleteRecruitmentStage } = useOrganizationStore()
   const toast = useToast()
-  const confirm = useConfirm()
 
   const [value, setValue] = useState(item?.name || '')
   const [loading, setLoading] = useState(false)
@@ -52,14 +51,7 @@ const RecruitmentStageItem: React.FC<{
     if (!item) return
 
     setDeleteLoading(true)
-    const confirmed = await confirm({
-      text: 'Are you sure you want to delete this item?',
-      confirmBtnColor: 'error',
-      cancelBtnColor: 'primary',
-    })
-    if (confirmed) {
-      await deleteRecruitmentStage(item?.oid)
-    }
+    await deleteRecruitmentStage(item?.oid)
     setDeleteLoading(false)
   }
 

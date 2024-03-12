@@ -44,9 +44,7 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Branch</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">
-                  <i>No Response From Backend</i>
-                </td>
+                <td className="border-y px-3 py-2">{vacancy?.branch?.name}</td>
               </tr>
             </tbody>
           </table>
@@ -154,7 +152,7 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
                   Province
-                  {/* {vacancy?.provinceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>} */}
+                  {vacancy?.provinceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2 ">{vacancy?.provinceRequirement?.name}</td>
@@ -162,7 +160,7 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
                   City
-                  {/* {vacancy?.cityRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>} */}
+                  {vacancy?.cityRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2 ">{vacancy?.cityRequirement?.name}</td>

@@ -129,7 +129,7 @@ const RequirementsForm: React.FC<{
     setFlag(flag)
     handleSubmit((data) => {
       // @ts-expect-error
-      data.flag = flag
+      if (!props.isUpdate) data.flag = flag
       props.handleSubmit(data)
     })()
   }
@@ -307,19 +307,21 @@ const RequirementsForm: React.FC<{
       </CardBody>
 
       <CardFooter className="gap-3">
-        <Button
-          type="button"
-          variant="light"
-          className="mr-auto w-32"
-          disabled={props.isLoading}
-          loading={props.isLoading && flag == 9}
-          onClick={(e) => {
-            e.preventDefault()
-            onSubmit(9)
-          }}
-        >
-          Save as Draf
-        </Button>
+        {!props.isUpdate && (
+          <Button
+            type="button"
+            variant="light"
+            className="mr-auto w-32"
+            disabled={props.isLoading}
+            loading={props.isLoading && flag == 9}
+            onClick={(e) => {
+              e.preventDefault()
+              onSubmit(9)
+            }}
+          >
+            Save as Draf
+          </Button>
+        )}
         <Button type="button" color="primary" variant="light" className="w-32" onClick={props.handlePrev}>
           Prev
         </Button>
@@ -334,7 +336,7 @@ const RequirementsForm: React.FC<{
             onSubmit(1)
           }}
         >
-          {props.isUpdate ? 'Save' : 'Create'}
+          {props.isUpdate ? 'Update' : 'Create'}
         </Button>
       </CardFooter>
     </Card>
