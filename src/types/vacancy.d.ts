@@ -39,6 +39,10 @@ export interface IVacancy {
     id: string
     name?: string
   }
+  branch?: {
+    id: string
+    name?: string
+  }
   city?: {
     id: string
     name?: string
@@ -75,10 +79,12 @@ export interface IVacancy {
   cityRequirement?: {
     id: string
     name?: string
+    mustMeetCriteria?: boolean
   }
   provinceRequirement?: {
     id: string
     name?: string
+    mustMeetCriteria?: boolean
   }
   maximumSalaryRequirement?: {
     maximumSalary?: number

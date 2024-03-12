@@ -1,6 +1,8 @@
 export interface SpringPaginationParam {
   page?: number
   size?: number
+  sortedField?: string
+  sortDirection?: 'ASC' | 'DESC'
 }
 
 export interface SpringPaginationResponse<T = any> {
