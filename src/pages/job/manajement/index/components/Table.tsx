@@ -71,7 +71,7 @@ const Table: React.FC<{ items: IVacancy[] }> = ({ items }) => {
         className: 'text-center',
       },
       {
-        children: <ActionMenu vacancy={vacancy} index={index} total={items.length} upSpace={3} />,
+        children: <ActionMenu vacancy={vacancy} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} />,
       },
     ],
   }))

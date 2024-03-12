@@ -8,7 +8,7 @@ type ActionMenuProps = {
   vacancy: IVacancy
   index: number
   total: number
-  upSpace?: number
+  upSpace: number
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace }) => {
@@ -63,7 +63,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace 
 
   return (
     <>
-      <Table.ActionMenu up={index >= total - (upSpace || 3)}>
+      <Table.ActionMenu up={index >= total - upSpace}>
         {menu.items.map((item, i) => (
           <Table.ActionMenuItem key={i} {...item} />
         ))}

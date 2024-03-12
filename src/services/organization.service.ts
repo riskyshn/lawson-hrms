@@ -1,4 +1,4 @@
-import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pagination'
+import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 import type { GenericAbortSignal } from 'axios'
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
@@ -26,8 +26,8 @@ export const updateCompany = (payload: Record<string, any>) => {
  * Branches
  *
  */
-export const fetchBranches = (params?: SpringPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<IBranch> }>(`/branch`, { params, signal }).then((response) => response.data.data)
+export const fetchBranches = (params?: PaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IBranch> }>(`/branch`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createBranch = (payload: Record<string, any>) => {
@@ -46,10 +46,8 @@ export const deleteBranch = (id: string) => {
  * Department
  *
  */
-export const fetchDepartments = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios
-    .get<{ data: SpringPaginationResponse<IDepartment> }>(`/department`, { params, signal })
-    .then((response) => response.data.data)
+export const fetchDepartments = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IDepartment> }>(`/department`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createDepartment = (payload: Record<string, any>) => {
@@ -68,8 +66,8 @@ export const deleteDepartment = (id: string) => {
  * Benefits
  *
  */
-export const fetchBenefits = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<IBenefit> }>(`/benefit`, { params, signal }).then((response) => response.data.data)
+export const fetchBenefits = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IBenefit> }>(`/benefit`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createBenefit = (payload: Record<string, any>) => {
@@ -88,8 +86,8 @@ export const deleteBenefit = (id: string) => {
  * JobLevels
  *
  */
-export const fetchJobLevels = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<IJobLevel> }>(`/job-level`, { params, signal }).then((response) => response.data.data)
+export const fetchJobLevels = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IJobLevel> }>(`/job-level`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createJobLevel = (payload: Record<string, any>) => {
@@ -108,8 +106,8 @@ export const deleteJobLevel = (id: string) => {
  * Positions
  *
  */
-export const fetchPositions = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<IPosition> }>(`/position`, { params, signal }).then((response) => response.data.data)
+export const fetchPositions = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IPosition> }>(`/position`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createPosition = (payload: Record<string, any>) => {
@@ -128,9 +126,9 @@ export const deletePosition = (id: string) => {
  * Workplacements
  *
  */
-export const fetchWorkplacements = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+export const fetchWorkplacements = (params?: PaginationParam, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: SpringPaginationResponse<IWorkplacement> }>(`/workplacement`, { params, signal })
+    .get<{ data: PaginationResponse<IWorkplacement> }>(`/workplacement`, { params, signal })
     .then((response) => response.data.data)
 }
 
@@ -138,17 +136,17 @@ export const fetchWorkplacements = (params?: SpringPaginationParam, signal?: Gen
  * JobTypes
  *
  */
-export const fetchJobTypes = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
+export const fetchJobTypes = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
 }
 
 /**
  * RecruitmentStage
  *
  */
-export const fetchRecruitmentStages = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+export const fetchRecruitmentStages = (params?: PaginationParam, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: SpringPaginationResponse<IRecruitmentStage> }>(`/recruitment-stage`, { params, signal })
+    .get<{ data: PaginationResponse<IRecruitmentStage> }>(`/recruitment-stage`, { params, signal })
     .then((response) => response.data.data)
 }
 
