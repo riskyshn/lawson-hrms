@@ -33,10 +33,22 @@ export const udpateVacancy = (id: string, payload: Record<string, any>) => {
   return axios.put(`/vacancy/${id}`, payload).then((response) => response.data.data)
 }
 
+export const deleteDraftVacancy = (id: string) => {
+  return axios.delete(`/vacancy/${id}`).then((response) => response.data.data)
+}
+
 export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 'draft') => {
   return axios.patch(`/vacancy/${id}?status=${status}`).then((response) => response.data.data)
 }
 
-export const deleteDraftVacancy = (id: string) => {
-  return axios.delete(`/vacancy/${id}`).then((response) => response.data.data)
+export const cancelRequisition = (id: string) => {
+  return axios.delete(`/vacancy/${id}/cancel`).then((response) => response.data.data)
+}
+
+export const publishRequisition = (id: string) => {
+  return axios.delete(`/vacancy/${id}/publish`).then((response) => response.data.data)
+}
+
+export const approveRequisition = (id: string, payload: Record<string, any>) => {
+  return axios.delete(`/vacancy/${id}`, payload).then((response) => response.data.data)
 }

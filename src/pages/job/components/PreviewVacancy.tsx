@@ -2,21 +2,10 @@ import { IVacancy } from '@/types/vacancy'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Card, CardBody, CardHeader, Skeleton } from 'jobseeker-ui'
 import React from 'react'
+import PreviewRecruitmentStageCard from './PreviewRecruitmentStageCard'
 
 const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ vacancy, isLoading }) => {
-  if (isLoading) {
-    return Array.from(Array(4)).map((_, i) => (
-      <Card key={i}>
-        <CardHeader>
-          <Skeleton className="h-6 w-1/3" />
-        </CardHeader>
-        <CardBody className="flex flex-col gap-3 p-3">
-          <Skeleton count={4} className="h-6" />
-        </CardBody>
-      </Card>
-    ))
-  }
-
+  if (isLoading || !vacancy) return LoadingSkeleton
   return (
     <>
       <Card>
@@ -29,22 +18,22 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">FPTK Number</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{vacancy?.rrNumber}</td>
+                <td className="w-full border-y px-3 py-2">{vacancy.rrNumber}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Position Name</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy?.vacancyName}</td>
+                <td className="border-y px-3 py-2">{vacancy.vacancyName}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Department</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy?.department?.name}</td>
+                <td className="border-y px-3 py-2">{vacancy.department?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Branch</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy?.branch?.name}</td>
+                <td className="border-y px-3 py-2">{vacancy.branch?.name}</td>
               </tr>
             </tbody>
           </table>
@@ -61,20 +50,20 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">City</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{vacancy?.city?.name}</td>
+                <td className="w-full border-y px-3 py-2">{vacancy.city?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
                   Number of <br /> Employee Needed
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy?.numberOfEmployeeNeeded}</td>
+                <td className="border-y px-3 py-2">{vacancy.numberOfEmployeeNeeded}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Range Salary</th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2">
-                  {numberToCurrency(vacancy?.maximumSalary)} - {numberToCurrency(vacancy?.maximumSalary)}
+                  {numberToCurrency(vacancy.maximumSalary)} - {numberToCurrency(vacancy.maximumSalary)}
                 </td>
               </tr>
               <tr className="odd:bg-gray-50">
@@ -82,44 +71,14 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
                   Task, Responsibility <br /> & Others*
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">{vacancy?.other}</td>
+                <td className="border-y px-3 py-2 ">{vacancy.other}</td>
               </tr>
             </tbody>
           </table>
         </CardBody>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <h3 className="font-semibold">Recruitment Process</h3>
-        </CardHeader>
-        <CardBody className="p-0">
-          <table className="table w-full text-sm">
-            <tbody>
-              <tr className="odd:bg-gray-50">
-                <th className="whitespace-nowrap border-y px-3 py-2 text-left">FPTK Number</th>
-                <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">JSC_0000001</td>
-              </tr>
-              <tr className="odd:bg-gray-50">
-                <th className="whitespace-nowrap border-y px-3 py-2 text-left">FPTK Number</th>
-                <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">JSC_0000001</td>
-              </tr>
-              <tr className="odd:bg-gray-50">
-                <th className="whitespace-nowrap border-y px-3 py-2 text-left">FPTK Number</th>
-                <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">JSC_0000001</td>
-              </tr>
-              <tr className="odd:bg-gray-50">
-                <th className="whitespace-nowrap border-y px-3 py-2 text-left">FPTK Number</th>
-                <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">JSC_0000001</td>
-              </tr>
-            </tbody>
-          </table>
-        </CardBody>
-      </Card>
+      {vacancy.recruitmentProcess && <PreviewRecruitmentStageCard process={vacancy.recruitmentProcess} />}
 
       <Card>
         <CardHeader>
@@ -130,61 +89,61 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
             <tbody>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Gender{vacancy?.genderRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Gender{vacancy.genderRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{vacancy?.genderRequirement?.type}</td>
+                <td className="w-full border-y px-3 py-2">{vacancy.genderRequirement?.type}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Min. Education{vacancy?.minimalEducationRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Min. Education{vacancy.minimalEducationRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy?.minimalEducationRequirement?.minimalEducation?.en}</td>
+                <td className="border-y px-3 py-2">{vacancy.minimalEducationRequirement?.minimalEducation?.en}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Age{vacancy?.ageRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Age{vacancy.ageRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy?.ageRequirement?.maximumAgeRequirement}</td>
+                <td className="border-y px-3 py-2">{vacancy.ageRequirement?.maximumAgeRequirement}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
                   Province
-                  {vacancy?.provinceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  {vacancy.provinceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">{vacancy?.provinceRequirement?.name}</td>
+                <td className="border-y px-3 py-2 ">{vacancy.provinceRequirement?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
                   City
-                  {vacancy?.cityRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  {vacancy.cityRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">{vacancy?.cityRequirement?.name}</td>
+                <td className="border-y px-3 py-2 ">{vacancy.cityRequirement?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Min. GPA{vacancy?.gpaRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Min. GPA{vacancy.gpaRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">{vacancy?.gpaRequirement?.minimumGpa}</td>
+                <td className="border-y px-3 py-2 ">{vacancy.gpaRequirement?.minimumGpa}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Min. Experience{vacancy?.minimumExperienceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Min. Experience{vacancy.minimumExperienceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">{vacancy?.minimumExperienceRequirement?.minimumExperience}</td>
+                <td className="border-y px-3 py-2 ">{vacancy.minimumExperienceRequirement?.minimumExperience}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Max. Salary{vacancy?.maximumSalaryRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Max. Salary{vacancy.maximumSalaryRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">{numberToCurrency(vacancy?.maximumSalaryRequirement?.maximumSalary)}</td>
+                <td className="border-y px-3 py-2 ">{numberToCurrency(vacancy.maximumSalaryRequirement?.maximumSalary)}</td>
               </tr>
             </tbody>
           </table>
@@ -193,5 +152,16 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
     </>
   )
 }
+
+const LoadingSkeleton = Array.from(Array(4)).map((_, i) => (
+  <Card key={i}>
+    <CardHeader>
+      <Skeleton className="h-6 w-1/3" />
+    </CardHeader>
+    <CardBody className="flex flex-col gap-3 p-3">
+      <Skeleton count={4} className="h-6" />
+    </CardBody>
+  </Card>
+))
 
 export default PreviewVacancy
