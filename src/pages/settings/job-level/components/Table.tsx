@@ -1,9 +1,15 @@
+// Table.tsx
 import React from 'react'
 import MainTable from '@/components/Elements/MainTable'
 import ActionMenu from './ActionMenu'
 import { IJobLevel } from '@/types/oganizartion'
 
-const Table: React.FC<{ items: IJobLevel[]; onSubmitSuccess: () => void }> = ({ items, onSubmitSuccess }) => {
+type TableProps = {
+  items: IJobLevel[]
+  onSubmitSuccess: () => void
+}
+
+const Table: React.FC<TableProps> = ({ items, onSubmitSuccess }) => {
   const headerItems = [
     { children: 'Job Level', className: 'text-left' },
     { children: 'Employees' },
@@ -13,11 +19,7 @@ const Table: React.FC<{ items: IJobLevel[]; onSubmitSuccess: () => void }> = ({ 
   const bodyItems = items.map((jobLevel) => ({
     items: [
       {
-        children: (
-          <>
-            <span className="block font-semibold">{jobLevel.name}</span>
-          </>
-        ),
+        children: <span className="block font-semibold">{jobLevel.name}</span>,
       },
       { children: '-', className: 'text-center' },
       {
