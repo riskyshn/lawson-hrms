@@ -5,7 +5,7 @@ import { IJobType } from '@/types/oganizartion'
 
 const Table: React.FC<{ items: IJobType[]; onSubmitSuccess: () => void }> = ({ items, onSubmitSuccess }) => {
   const headerItems = [
-    { children: 'Job Level', className: 'text-left' },
+    { children: 'Employment Status', className: 'text-left' },
     { children: 'Employees' },
     { children: 'Action', className: 'w-24' },
   ]

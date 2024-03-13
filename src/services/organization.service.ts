@@ -140,6 +140,18 @@ export const fetchJobTypes = (params?: PaginationParam, signal?: GenericAbortSig
   return axios.get<{ data: PaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
 }
 
+export const createJobTypes = (payload: Record<string, any>) => {
+  return axios.post(`/job-type`, payload).then((response) => response.data.data)
+}
+
+export const updateJobTypes = (id: string, payload: Record<string, any>) => {
+  return axios.put(`/job-type/${id}`, payload).then((response) => response.data.data)
+}
+
+export const deleteJobTypes = (id: string) => {
+  return axios.delete(`/job-type/${id}`).then((response) => response.data.data)
+}
+
 /**
  * RecruitmentStage
  *

@@ -5,6 +5,7 @@ import SettingsBranchPage from '@/pages/settings/branch/index/SettingsBranchPage
 import SettingsDepartmentPage from '@/pages/settings/department/index/SettingsDepartmentPage'
 import SettingsPositionPage from '@/pages/settings/position/index/SettingsPositionPage'
 import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
+import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
 
 const settingsRoute: RouteObject = {
   path: 'settings',
@@ -57,6 +58,16 @@ const settingsRoute: RouteObject = {
         {
           path: '',
           element: <SettingsJobLevelPage />,
+        },
+      ],
+    },
+    {
+      path: 'employment-status',
+      name: 'Employment Status',
+      children: [
+        {
+          path: '',
+          element: <SettingsEmploymentStatusPage />,
         },
       ],
     },

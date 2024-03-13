@@ -20,7 +20,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
 
   const deletePosition = async () => {
     const confirmed = await confirm({
-      text: 'Are you sure you want to delete this job level?',
+      text: 'Are you sure you want to delete this position?',
       confirmBtnColor: 'error',
       cancelBtnColor: 'primary',
       icon: 'error',
