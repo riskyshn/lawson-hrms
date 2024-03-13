@@ -27,10 +27,10 @@ export type ActionMenuItemProps = {
   action?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, loadingLength = 20, ...props }) => {
+export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, loadingLength = 12, ...props }) => {
   return (
     <table className={twMerge('table w-full whitespace-nowrap', className)} {...props}>
-      {!loading && (
+      {
         <thead>
           <tr>
             {headerItems.map(({ className, ...props }, i) => (
@@ -38,7 +38,7 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
             ))}
           </tr>
         </thead>
-      )}
+      }
       <tbody>
         {!loading &&
           bodyItems.map(({ className, items, ...props }, i) => (
@@ -52,11 +52,9 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
         {loading &&
           Array.from(Array(loadingLength)).map((_, i) => (
             <tr key={i} className="odd:bg-gray-50">
-              {headerItems.map((_, i) => (
-                <td key={i} className="p-3">
-                  <Skeleton className="h-8" />
-                </td>
-              ))}
+              <td colSpan={headerItems.length} className="p-3">
+                <Skeleton className="h-8" />
+              </td>
             </tr>
           ))}
 

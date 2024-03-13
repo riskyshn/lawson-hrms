@@ -3,7 +3,7 @@ import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
-import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Button, Card, CardBody, Skeleton, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -100,6 +100,12 @@ const EditJobPage = () => {
             { title: 'Requirements', details: 'Set Requirements' },
           ]}
         />
+
+        {!isLoaded && (
+          <div className="flex items-center justify-center py-48">
+            <Spinner height={40} className="text-primary-600" />
+          </div>
+        )}
 
         {isLoaded && activeStep === 0 && (
           <VacancyInformationForm

@@ -3,7 +3,7 @@ import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
-import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -92,14 +92,22 @@ const EditJobRequisitionPage = () => {
         }
       />
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
-        <Stepper
-          activeStep={activeStep}
-          steps={[
-            { title: 'Vacancy Information', details: 'Setup Your Vacancy' },
-            { title: 'Process', details: 'Set Requirement Process' },
-            { title: 'Requirements', details: 'Set Requirements' },
-          ]}
-        />
+        {
+          <Stepper
+            activeStep={activeStep}
+            steps={[
+              { title: 'Vacancy Information', details: 'Setup Your Vacancy' },
+              { title: 'Process', details: 'Set Requirement Process' },
+              { title: 'Requirements', details: 'Set Requirements' },
+            ]}
+          />
+        }
+
+        {!isLoaded && (
+          <div className="flex items-center justify-center py-48">
+            <Spinner height={40} className="text-primary-600" />
+          </div>
+        )}
 
         {isLoaded && activeStep === 0 && (
           <VacancyInformationForm
@@ -108,6 +116,7 @@ const EditJobRequisitionPage = () => {
             handleSubmit={(vacancyInformation) => handleStepSubmit({ ...formValues, vacancyInformation })}
           />
         )}
+
         {isLoaded && activeStep === 1 && (
           <ProcessForm
             defaultValue={formValues.process}
