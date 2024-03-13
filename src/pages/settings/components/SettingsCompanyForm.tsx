@@ -2,10 +2,8 @@ import { useState } from 'react'
 import { Button, Card, CardBody, CardFooter, Dropzone, Input, Textarea } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
 import { updateCompany } from '@/services/organization.service'
-import { useAuthStore } from '@/store'
 
 const SettingsCompanyForm: React.FC = () => {
-  const { user } = useAuthStore()
   const [formData, setFormData] = useState({
     name: '',
     nppNumber: '',
@@ -25,17 +23,12 @@ const SettingsCompanyForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      console.log(user)
-      await updateCompany(formData) // Call updateCompany function with form data
+      await updateCompany(formData)
       console.log('Company updated successfully!')
-      // Redirect or show success message
     } catch (error) {
       console.error('Error updating company:', error)
-      // Handle error, show error message, etc.
     }
   }
-
-  console.log(user)
 
   return (
     <Card as="form" onSubmit={handleSubmit}>
