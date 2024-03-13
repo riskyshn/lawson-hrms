@@ -7,16 +7,17 @@ import Modal from '../components/Modal'
 import { useEffect, useState } from 'react'
 import usePagination from '@/hooks/use-pagination'
 import { IDepartment } from '@/types/oganizartion'
-import { SpringPaginationResponse } from '@/types/pagination'
 import { organizationService } from '@/services'
 import ErrorScreen from '@/components/Elements/ErrorScreen'
+import { PaginationResponse } from '@/types/pagination'
 
 const SettingsDepartmentPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
-  const [pageData, setPageData] = useState<SpringPaginationResponse<IDepartment>>()
+  const [pageData, setPageData] = useState<PaginationResponse<IDepartment>>()
   const [selectedDepartment, setSelectedDepartment] = useState<IDepartment | null>(null)
+  const [loadData, setLoadData] = useState(false)
 
   const pagination = usePagination({
     pathname: '/settings/department',
@@ -53,7 +54,11 @@ const SettingsDepartmentPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [pagination.currentPage])
+  }, [loadData, pagination.currentPage])
+
+  const handleSubmitSuccess = () => {
+    setLoadData((loadData) => !loadData)
+  }
 
   const openModal = (department: IDepartment | null = null) => {
     setSelectedDepartment(department)
@@ -102,7 +107,7 @@ const SettingsDepartmentPage: React.FC = () => {
                 <Spinner className="h-10 w-10 text-primary-600" />
               </div>
             ) : pageData?.content && pageData.content.length > 0 ? (
-              <Table items={pageData.content} />
+              <Table items={pageData.content} onSubmitSuccess={handleSubmitSuccess} />
             ) : (
               <div className="flex items-center justify-center py-20">
                 <p>No data available.</p>
@@ -113,7 +118,7 @@ const SettingsDepartmentPage: React.FC = () => {
         />
       </Container>
 
-      <Modal show={showModal} onClose={closeModal} department={selectedDepartment} />
+      <Modal show={showModal} onClose={closeModal} department={selectedDepartment} onSubmitSuccess={handleSubmitSuccess} />
     </>
   )
 }

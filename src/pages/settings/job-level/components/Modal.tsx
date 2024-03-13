@@ -43,7 +43,6 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, jobLevel, onSubmitSuccess 
       }
 
       onSubmitSuccess()
-
       onClose()
     } catch (error: any) {
       if (error.name !== 'AbortError') {

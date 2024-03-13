@@ -3,7 +3,12 @@ import MainTable from '@/components/Elements/MainTable'
 import ActionMenu from './ActionMenu'
 import { IDepartment } from '@/types/oganizartion'
 
-const Table: React.FC<{ items: IDepartment[] }> = ({ items }) => {
+type TableProps = {
+  items: IDepartment[]
+  onSubmitSuccess: () => void
+}
+
+const Table: React.FC<TableProps> = ({ items, onSubmitSuccess }) => {
   const headerItems = [
     { children: 'Department', className: 'text-left' },
     { children: 'Employees' },
@@ -23,7 +28,7 @@ const Table: React.FC<{ items: IDepartment[] }> = ({ items }) => {
       { children: '-', className: 'text-center' },
       { children: '-', className: 'text-center' },
       {
-        children: <ActionMenu items={department} />,
+        children: <ActionMenu items={department} onSubmitSuccess={onSubmitSuccess} />,
       },
     ],
   }))
