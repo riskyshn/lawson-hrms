@@ -20,7 +20,7 @@ const SettingsEmploymentStatusPage: React.FC = () => {
   const [loadData, setLoadData] = useState(false)
 
   const pagination = usePagination({
-    pathname: '/settings/job-level',
+    pathname: '/settings/employment-status',
     totalPage: pageData?.totalPages || 0,
     params: {},
   })
@@ -47,7 +47,6 @@ const SettingsEmploymentStatusPage: React.FC = () => {
         }
       }
       setIsLoading(false)
-      // setLoadData(false)
     }
 
     load(signal)
@@ -76,13 +75,13 @@ const SettingsEmploymentStatusPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Job Level' }]}
-        title="Job Level"
-        subtitle="Manage Your Job Level"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Employment Status' }]}
+        title="Employment Status"
+        subtitle="Manage Your Employment Status"
         actions={
           <>
             <Button onClick={() => openModal()} color="primary" className="ml-3">
-              Add New Job Level
+              Add New Employment Status
             </Button>
           </>
         }
@@ -94,9 +93,9 @@ const SettingsEmploymentStatusPage: React.FC = () => {
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <span className="block text-lg font-semibold">Job Level List</span>
+                  <span className="block text-lg font-semibold">Employment Status List</span>
                   <span className="block text-sm">
-                    You have <span className="text-primary-600">30 Job Level</span> in this list
+                    You have <span className="text-primary-600">30 Employment Status</span> in this list
                   </span>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input } from 'jobseeker-ui'
+import { Button, Input, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -15,12 +15,13 @@ type ModalProps = {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Job Level Name'),
+  name: yup.string().required().label('Employment Status Name'),
 })
 
 const Modal: React.FC<ModalProps> = ({ show, onClose, employmentStatus, onSubmitSuccess }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const toast = useToast()
   const form = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -34,9 +35,11 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, employmentStatus, onSubmit
       setErrorMessage('')
 
       if (employmentStatus) {
-        await organizationService.updateJobLevel(employmentStatus.oid, data)
+        await organizationService.updateJobTypes(employmentStatus.oid, data)
+        toast('Employment Status updated successfully', { color: 'success', position: 'top-right' })
       } else {
-        await organizationService.createJobLevel(data)
+        await organizationService.createJobTypes(data)
+        toast('Employment Status updated successfully', { color: 'success', position: 'top-right' })
       }
 
       onSubmitSuccess()
@@ -53,9 +56,9 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, employmentStatus, onSubmit
     <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-4">
-          <h4 className="mb-2 text-2xl font-semibold">{employmentStatus ? 'Update Job Level' : 'Add Job Level'}</h4>
+          <h4 className="mb-2 text-2xl font-semibold">{employmentStatus ? 'Update Employment Status' : 'Add Employment Status'}</h4>
         </div>
-        <Input label="Job Level Name*" {...form.register('name')} />
+        <Input label="Employment Status Name" labelRequired {...form.register('name')} />
         {errorMessage && <span className="text-red-500">{errorMessage}</span>}
         <div className="mt-8 flex justify-between">
           <Button onClick={onClose} color="primary" variant="light" className="mr-2 w-1/2">

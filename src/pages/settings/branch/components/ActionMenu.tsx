@@ -20,7 +20,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
 
   const deleteBranch = async () => {
     const confirmed = await confirm({
-      text: 'Are you sure you want to delete this job level?',
+      text: 'Are you sure you want to delete this branch?',
       confirmBtnColor: 'error',
       cancelBtnColor: 'primary',
       icon: 'error',
@@ -28,7 +28,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
     if (confirmed) {
       try {
         await organizationService.deleteBranch(items.oid)
-        toast('Job Level deleted successfully.', { color: 'success', position: 'top-right' })
+        toast('Branch deleted successfully.', { color: 'success', position: 'top-right' })
         onSubmitSuccess()
       } catch (e: any) {
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
