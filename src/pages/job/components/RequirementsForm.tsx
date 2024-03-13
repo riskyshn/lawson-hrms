@@ -20,6 +20,7 @@ const schema = yup.object({
   isRequiredGenderRequirement: yup.boolean(),
   minimumAgeRequirement: yup
     .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .when('isRequiredAge', {
       is: true,
       then: (s) => s.required(),
@@ -28,6 +29,7 @@ const schema = yup.object({
     .label('Minimum Age'),
   maximumAgeRequirement: yup
     .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .when('isRequiredAge', {
       is: true,
       then: (s) => s.required(),
@@ -51,6 +53,7 @@ const schema = yup.object({
   isRequiredMinimalEducationRequirement: yup.boolean(),
   minimumExperienceRequirement: yup
     .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .when('isRequiredMinimumExperienceRequirement', {
       is: true,
       then: (s) => s.required(),
@@ -60,6 +63,7 @@ const schema = yup.object({
   isRequiredMinimumExperienceRequirement: yup.boolean(),
   gpaRequirement: yup
     .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .when('isRequiredGpaRequirement', {
       is: true,
       then: (s) => s.required(),
@@ -113,13 +117,7 @@ const RequirementsForm: React.FC<{
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      minimumAgeRequirement: 0,
-      maximumAgeRequirement: 0,
-      minimumExperienceRequirement: 0,
-      gpaRequirement: 0,
-      ...props.defaultValue,
-    },
+    defaultValues: props.defaultValue,
   })
 
   const [flag, setFlag] = useState<number>(1)

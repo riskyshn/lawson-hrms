@@ -5,6 +5,7 @@ import { IVacancy } from '@/types/vacancy'
 import * as Table from '@/components/Elements/MainTable'
 import { vacancyService } from '@/services'
 import { useConfirm, useToast } from 'jobseeker-ui'
+import moment from 'moment'
 
 type ActionMenuProps = {
   vacancy: IVacancy
@@ -12,9 +13,19 @@ type ActionMenuProps = {
   total: number
   upSpace: number
   setHistoryMadalData?: (vacancy: IVacancy) => void
+  onVacancyUpdated?: (vacancy: IVacancy) => void
+  onVacancyDeleted?: (id: string) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, setHistoryMadalData }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({
+  vacancy,
+  index,
+  total,
+  upSpace,
+  setHistoryMadalData,
+  onVacancyDeleted,
+  onVacancyUpdated,
+}) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
@@ -75,6 +86,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         try {
           await vacancyService.cancelRequisition(vacancy.id)
           toast('Requisition canceled successfully.', { color: 'success', position: 'top-right' })
+          onVacancyUpdated?.({ ...vacancy, canceledDate: moment.now().toString() })
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
         }
@@ -86,15 +98,12 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     text: 'Post Vacancy',
     icon: PowerIcon,
     action: async () => {
-      const confirmed = await confirm({
-        text: 'Are you sure you want to post this vacancy?',
-        confirmBtnColor: 'success',
-        cancelBtnColor: 'primary',
-      })
+      const confirmed = await confirm('Are you sure you want to post this vacancy?')
       if (confirmed) {
         try {
           await vacancyService.publishRequisition(vacancy.id)
           toast('Vacancy posted successfully.', { color: 'success', position: 'top-right' })
+          onVacancyUpdated?.({ ...vacancy, flag: 1 })
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
         }
@@ -116,6 +125,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         try {
           await vacancyService.deleteDraftVacancy(vacancy.id)
           toast('Draft vacancy deleted successfully.', { color: 'success', position: 'top-right' })
+          onVacancyDeleted?.(vacancy.id)
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
         }
