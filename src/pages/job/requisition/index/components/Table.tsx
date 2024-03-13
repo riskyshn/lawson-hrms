@@ -24,10 +24,11 @@ const getApprovalCounter = (vacancy: IVacancy) => {
 
 const Table: React.FC<{
   items: IVacancy[]
+  loading?: boolean
   setHistoryMadalData?: (vacancy: IVacancy) => void
   onVacancyUpdated?: (vacancy: IVacancy) => void
   onVacancyDeleted?: (id: string) => void
-}> = ({ items, setHistoryMadalData, onVacancyDeleted, onVacancyUpdated }) => {
+}> = ({ items, loading, setHistoryMadalData, onVacancyDeleted, onVacancyUpdated }) => {
   const headerItems = [
     { children: 'Vacancy', className: 'text-left' },
     { children: 'Department' },
@@ -73,7 +74,7 @@ const Table: React.FC<{
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} />
+  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
 }
 
 export default Table

@@ -7,7 +7,7 @@ import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { PaginationResponse } from '@/types/pagination'
 import { IVacancy } from '@/types/vacancy'
-import { Button, Input, Select, Spinner } from 'jobseeker-ui'
+import { Button, Input, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
@@ -45,7 +45,7 @@ const JobManajementPage: React.FC = () => {
           {
             keyword: search,
             page: pagination.currentPage - 1,
-            size: 30,
+            size: 5,
             status,
             departmentId: department,
             isRequisition: 0,
@@ -175,17 +175,7 @@ const JobManajementPage: React.FC = () => {
             </>
           )}
           body={
-            isLoading ? (
-              <div className="flex items-center justify-center py-20">
-                <Spinner className="h-10 w-10 text-primary-600" />
-              </div>
-            ) : pageData?.content && pageData.content.length > 0 ? (
-              <Table items={pageData.content} onVacancyUpdated={updateVacancy} onVacancyDeleted={removeVacancy} />
-            ) : (
-              <div className="flex items-center justify-center py-20">
-                <p>No data available.</p>
-              </div>
-            )
+            <Table items={pageData?.content || []} loading={isLoading} onVacancyUpdated={updateVacancy} onVacancyDeleted={removeVacancy} />
           }
           footer={pagination.render()}
         />
