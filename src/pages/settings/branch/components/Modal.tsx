@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
-import { Button, Input, Textarea } from 'jobseeker-ui'
+import { Button, Input, Textarea, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { axiosErrorMessage } from '@/utils/axios'
-import { organizationService } from '@/services'
+import { masterService, organizationService } from '@/services'
+import AsyncSelect from '@/components/Elements/AsyncSelect'
+import { useMasterStore } from '@/store'
 
 type ModalProps = {
   show: boolean
   onClose: () => void
   branch?: any
+  onSubmitSuccess: () => void
 }
 
 const schema = yup.object().shape({
@@ -21,10 +24,19 @@ const schema = yup.object().shape({
   cityId: yup.string().label('City Id'),
 })
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, branch }) => {
+const Modal: React.FC<ModalProps> = ({ show, onClose, branch, onSubmitSuccess }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const form = useForm({
+  const toast = useToast()
+  const masterStore = useMasterStore()
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+    trigger,
+  } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       name: branch?.name || '',
@@ -35,18 +47,22 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, branch }) => {
     },
   })
 
-  const onSubmit = form.handleSubmit(async (data) => {
+  const initialCity = masterStore.area.cities.find((el) => el.oid === getValues('cityId'))
+
+  const onSubmit = handleSubmit(async (data) => {
     try {
       setIsLoading(true)
       setErrorMessage('')
 
       if (branch) {
-        console.log(data.cityId)
         await organizationService.updateBranch(branch.oid, data)
+        toast('Branch updated successfully', { color: 'success', position: 'top-right' })
       } else {
         await organizationService.createBranch(data)
+        toast('Branch created successfully', { color: 'success', position: 'top-right' })
       }
 
+      onSubmitSuccess()
       onClose()
     } catch (error) {
       setErrorMessage(axiosErrorMessage(error))
@@ -61,10 +77,25 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, branch }) => {
         <div className="mb-4">
           <h4 className="mb-2 text-2xl font-semibold">{branch ? 'Update Branch' : 'Add Branch'}</h4>
         </div>
-        <Input label="Branch Name*" {...form.register('name')} />
-        <Textarea rows={3} label="Address*" {...form.register('address')} />
-        <Input label="Longitude-Latitude*" {...form.register('longitudeLatitude')} />
-        <Input label="Range*" {...form.register('range')} />
+        <Input label="Branch Name*" {...register('name')} />
+        <Textarea rows={3} label="Address*" {...register('address')} />
+        <Input label="Longitude-Latitude*" {...register('longitudeLatitude')} />
+        <Input label="Range*" {...register('range')} />
+        <AsyncSelect
+          label="City"
+          labelRequired
+          placeholder="Choose City"
+          fetcher={masterService.fetchCities}
+          converter={(data: any) => data.map((el: any) => ({ label: `${el.name}, ${el.province}`, value: el.oid }))}
+          name="cityId"
+          error={errors.cityId?.message}
+          value={getValues('cityId')}
+          initialOptions={initialCity ? [{ label: `${initialCity.name}, ${initialCity.province}`, value: initialCity.oid }] : []}
+          onChange={(v) => {
+            setValue('cityId', v.toString())
+            trigger('cityId')
+          }}
+        />
         {errorMessage && <span className="text-red-500">{errorMessage}</span>}
         <div className="mt-8 flex justify-between">
           <Button onClick={onClose} color="primary" variant="light" className="mr-2 w-1/2">

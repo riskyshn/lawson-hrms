@@ -4,7 +4,12 @@ import { Avatar } from 'jobseeker-ui'
 import ActionMenu from './ActionMenu'
 import { IBranch } from '@/types/oganizartion'
 
-const Table: React.FC<{ items: IBranch[] }> = ({ items }) => {
+type TableProps = {
+  items: IBranch[]
+  onSubmitSuccess: () => void
+}
+
+const Table: React.FC<TableProps> = ({ items, onSubmitSuccess }) => {
   const headerItems = [
     { children: 'Branch', className: 'text-left' },
     { children: 'Address', className: 'text-left' },
@@ -46,7 +51,7 @@ const Table: React.FC<{ items: IBranch[] }> = ({ items }) => {
       // { children: branch?.range || '-', className: 'text-center' },
       { children: '-', className: 'text-center' },
       {
-        children: <ActionMenu items={branch} />,
+        children: <ActionMenu items={branch} onSubmitSuccess={onSubmitSuccess} />,
       },
     ],
   }))
