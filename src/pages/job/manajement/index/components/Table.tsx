@@ -17,7 +17,11 @@ const getStatus = (flag?: number): { text: string; color: string } => {
   return flag !== undefined && statusMap[flag] ? statusMap[flag] : { text: 'Unknown', color: 'bg-gray-400 text-white' }
 }
 
-const Table: React.FC<{ items: IVacancy[] }> = ({ items }) => {
+const Table: React.FC<{ items: IVacancy[]; onVacancyUpdated?: (vacancy: IVacancy) => void; onVacancyDeleted?: (id: string) => void }> = ({
+  items,
+  onVacancyDeleted,
+  onVacancyUpdated,
+}) => {
   const headerItems = [
     { children: 'Vacancy', className: 'text-left' },
     { children: 'Department' },
@@ -63,7 +67,16 @@ const Table: React.FC<{ items: IVacancy[] }> = ({ items }) => {
         className: 'text-center',
       },
       {
-        children: <ActionMenu vacancy={vacancy} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} />,
+        children: (
+          <ActionMenu
+            vacancy={vacancy}
+            index={index}
+            total={items.length}
+            upSpace={items.length > 8 ? 3 : 0}
+            onVacancyUpdated={onVacancyUpdated}
+            onVacancyDeleted={onVacancyDeleted}
+          />
+        ),
       },
     ],
   }))

@@ -22,7 +22,12 @@ const getApprovalCounter = (vacancy: IVacancy) => {
   return ` ${approved}/${total}`
 }
 
-const Table: React.FC<{ items: IVacancy[]; setHistoryMadalData?: (vacancy: IVacancy) => void }> = ({ items, setHistoryMadalData }) => {
+const Table: React.FC<{
+  items: IVacancy[]
+  setHistoryMadalData?: (vacancy: IVacancy) => void
+  onVacancyUpdated?: (vacancy: IVacancy) => void
+  onVacancyDeleted?: (id: string) => void
+}> = ({ items, setHistoryMadalData, onVacancyDeleted, onVacancyUpdated }) => {
   const headerItems = [
     { children: 'Vacancy', className: 'text-left' },
     { children: 'Department' },
@@ -60,6 +65,8 @@ const Table: React.FC<{ items: IVacancy[]; setHistoryMadalData?: (vacancy: IVaca
             total={items.length}
             setHistoryMadalData={setHistoryMadalData}
             upSpace={items.length > 8 ? 3 : 0}
+            onVacancyDeleted={onVacancyDeleted}
+            onVacancyUpdated={onVacancyUpdated}
           />
         ),
       },

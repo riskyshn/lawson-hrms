@@ -9,7 +9,7 @@ import { PaginationResponse } from '@/types/pagination'
 import { IVacancy } from '@/types/vacancy'
 import { Button, Input, Select, Spinner } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
@@ -70,6 +70,22 @@ const JobRequisitionPage = () => {
       controller.abort()
     }
   }, [search, department, status, pagination.currentPage])
+
+  const updateVacancy = useCallback(
+    (vacancy: IVacancy) => {
+      if (!pageData) return
+      setPageData({ ...pageData, content: pageData.content.map((el) => (el.id === vacancy.id ? vacancy : el)) })
+    },
+    [pageData],
+  )
+
+  const removeVacancy = useCallback(
+    (id: string) => {
+      if (!pageData) return
+      setPageData({ ...pageData, content: pageData.content.filter((el) => el.id !== id) })
+    },
+    [pageData],
+  )
 
   if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
 
@@ -167,7 +183,12 @@ const JobRequisitionPage = () => {
                 <Spinner className="h-10 w-10 text-primary-600" />
               </div>
             ) : pageData?.content && pageData.content.length > 0 ? (
-              <Table items={pageData.content} setHistoryMadalData={setHistoryMadalData} />
+              <Table
+                items={pageData.content}
+                setHistoryMadalData={setHistoryMadalData}
+                onVacancyUpdated={updateVacancy}
+                onVacancyDeleted={removeVacancy}
+              />
             ) : (
               <div className="flex items-center justify-center py-20">
                 <p>No data available.</p>

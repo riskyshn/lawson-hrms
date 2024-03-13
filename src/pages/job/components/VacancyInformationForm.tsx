@@ -36,7 +36,12 @@ const VacancyInformationForm: React.FC<{
     jobTypeId: yup.string().required().label('Job Type'),
     workplacementTypeId: yup.string().optional().label('Workplacement Type'),
     cityId: yup.string().required().label('City'),
-    numberOfEmployeeNeeded: yup.number().required().label('Number of Employee Needed'),
+    numberOfEmployeeNeeded: yup
+      .number()
+      .transform((value) => (isNaN(value) ? undefined : value))
+      .min(1)
+      .required()
+      .label('Number of Employee Needed'),
     minimumSalary: yup
       .string()
       .when('negotiableSalary', {
@@ -57,7 +62,7 @@ const VacancyInformationForm: React.FC<{
         const maxSalary = currencyToNumber(value)
         return maxSalary >= minSalary
       })
-      .label('Miximum Salary'),
+      .label('Maximum Salary'),
     hideRangeSalary: yup.boolean().required(),
     negotiableSalary: yup.boolean().required(),
     other: yup.string().required().label('Task, Responsibility & Others'),
@@ -134,6 +139,7 @@ const VacancyInformationForm: React.FC<{
           labelRequired
           error={errors.expiredDate?.message}
           asSingle
+          displayFormat="DD/MM/YYYY"
           value={{ startDate: getValues('expiredDate'), endDate: getValues('expiredDate') }}
           onChange={(v) => {
             // @ts-expect-error
