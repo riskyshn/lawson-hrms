@@ -6,16 +6,16 @@ import Table from '../components/Table'
 import Modal from '../components/Modal'
 import { useEffect, useState } from 'react'
 import usePagination from '@/hooks/use-pagination'
-import { SpringPaginationResponse } from '@/types/pagination'
 import { organizationService } from '@/services'
 import ErrorScreen from '@/components/Elements/ErrorScreen'
 import { IJobType } from '@/types/oganizartion'
+import { PaginationResponse } from '@/types/pagination'
 
 const SettingsEmploymentStatusPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
-  const [pageData, setPageData] = useState<SpringPaginationResponse<IJobType>>()
+  const [pageData, setPageData] = useState<PaginationResponse<IJobType>>()
   const [selectedEmploymentStatus, setSelectedEmploymentStatus] = useState<IJobType | null>(null)
   const [loadData, setLoadData] = useState(false)
 

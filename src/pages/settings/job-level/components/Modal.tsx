@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
-import { Button, Input } from 'jobseeker-ui'
+import { Button, Input, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { axiosErrorMessage } from '@/utils/axios'
 import { organizationService } from '@/services'
+import { IJobLevel } from '@/types/oganizartion'
 
 type ModalProps = {
   show: boolean
   onClose: () => void
-  jobLevel?: any
+  jobLevel?: IJobLevel | null
   onSubmitSuccess: () => void
 }
 
@@ -19,8 +19,9 @@ const schema = yup.object().shape({
 })
 
 const Modal: React.FC<ModalProps> = ({ show, onClose, jobLevel, onSubmitSuccess }) => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const toast = useToast()
   const form = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -35,15 +36,21 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, jobLevel, onSubmitSuccess 
 
       if (jobLevel) {
         await organizationService.updateJobLevel(jobLevel.oid, data)
+        toast('Job Level updated successfully', { color: 'success', position: 'top-right' })
       } else {
         await organizationService.createJobLevel(data)
+        toast('Job Level created successfully', { color: 'success', position: 'top-right' })
       }
 
       onSubmitSuccess()
 
       onClose()
-    } catch (error) {
-      setErrorMessage(axiosErrorMessage(error))
+    } catch (error: any) {
+      if (error.name !== 'AbortError') {
+        const errorMessage = error.response?.data?.meta?.message || error.message
+        setErrorMessage(errorMessage)
+        toast(errorMessage, { color: 'error', position: 'top-right' })
+      }
     } finally {
       setIsLoading(false)
     }

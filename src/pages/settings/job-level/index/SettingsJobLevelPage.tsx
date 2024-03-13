@@ -6,16 +6,16 @@ import Table from '../components/Table'
 import Modal from '../components/Modal'
 import { useEffect, useState } from 'react'
 import usePagination from '@/hooks/use-pagination'
-import { SpringPaginationResponse } from '@/types/pagination'
 import { organizationService } from '@/services'
 import ErrorScreen from '@/components/Elements/ErrorScreen'
 import { IJobLevel } from '@/types/oganizartion'
+import { PaginationResponse } from '@/types/pagination'
 
 const SettingsJobLevelPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
-  const [pageData, setPageData] = useState<SpringPaginationResponse<IJobLevel>>()
+  const [pageData, setPageData] = useState<PaginationResponse<IJobLevel>>()
   const [selectedJobLevel, setSelectedJobLevel] = useState<IJobLevel | null>(null)
   const [loadData, setLoadData] = useState(false)
 
@@ -43,11 +43,11 @@ const SettingsJobLevelPage: React.FC = () => {
         setPageData(data)
       } catch (e: any) {
         if (e.message !== 'canceled') {
-          setErrorMessage(e.response?.data?.meta?.message || e.message)
+          const errorMessage = e.response?.data?.meta?.message || e.message
+          setErrorMessage(errorMessage)
         }
       }
       setIsLoading(false)
-      // setLoadData(false)
     }
 
     load(signal)
