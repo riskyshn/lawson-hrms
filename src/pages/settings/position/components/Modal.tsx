@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input } from 'jobseeker-ui'
+import { Button, Input, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -11,15 +11,17 @@ type ModalProps = {
   show: boolean
   onClose: () => void
   position?: any
+  onSubmitSuccess: () => void
 }
 
 const schema = yup.object().shape({
   name: yup.string().required().label('Position Name'),
 })
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, position }) => {
+const Modal: React.FC<ModalProps> = ({ show, onClose, position, onSubmitSuccess }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const toast = useToast()
   const form = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -34,10 +36,13 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, position }) => {
 
       if (position) {
         await organizationService.updatePosition(position.oid, data)
+        toast('Position updated successfully', { color: 'success', position: 'top-right' })
       } else {
         await organizationService.createPosition(data)
+        toast('Position created successfully', { color: 'success', position: 'top-right' })
       }
 
+      onSubmitSuccess()
       onClose()
     } catch (error) {
       setErrorMessage(axiosErrorMessage(error))

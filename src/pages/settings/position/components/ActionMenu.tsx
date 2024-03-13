@@ -1,18 +1,48 @@
 import { Menu } from '@headlessui/react'
-import { Button } from 'jobseeker-ui'
+import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import Modal from './Modal'
 import { IPosition } from '@/types/oganizartion'
+import { organizationService } from '@/services'
 
-const ActionMenu: React.FC<{ items: IPosition }> = ({ items }) => {
+type ActionMenuProps = {
+  items: IPosition
+  onSubmitSuccess: () => void
+}
+
+const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
   const [modalType, setModalType] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const confirm = useConfirm()
+  const toast = useToast()
+
+  const deletePosition = async () => {
+    const confirmed = await confirm({
+      text: 'Are you sure you want to delete this job level?',
+      confirmBtnColor: 'error',
+      cancelBtnColor: 'primary',
+      icon: 'error',
+    })
+    if (confirmed) {
+      try {
+        await organizationService.deletePosition(items.oid)
+        toast('Job Level deleted successfully.', { color: 'success', position: 'top-right' })
+        onSubmitSuccess()
+      } catch (e: any) {
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+      }
+    }
+  }
 
   const openModal = (type: string = '') => {
-    setModalType(type)
-    setShowModal(true)
+    if (type == 'Delete') {
+      deletePosition()
+    } else {
+      setModalType(type)
+      setShowModal(true)
+    }
   }
 
   const closeModal = () => {
@@ -22,7 +52,7 @@ const ActionMenu: React.FC<{ items: IPosition }> = ({ items }) => {
   const renderModal = () => {
     switch (modalType) {
       case 'Edit':
-        return <Modal show={showModal} onClose={closeModal} position={items} />
+        return <Modal show={showModal} onClose={closeModal} position={items} onSubmitSuccess={onSubmitSuccess} />
       default:
         return null
     }

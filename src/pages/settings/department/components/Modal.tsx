@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input } from 'jobseeker-ui'
+import { Button, Input, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -11,6 +11,7 @@ type ModalProps = {
   show: boolean
   onClose: () => void
   department?: any
+  onSubmitSuccess: () => void
 }
 
 const schema = yup.object().shape({
@@ -18,9 +19,10 @@ const schema = yup.object().shape({
   code: yup.string().required().label('Department Code'),
 })
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, department }) => {
+const Modal: React.FC<ModalProps> = ({ show, onClose, department, onSubmitSuccess }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const toast = useToast()
   const form = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -36,10 +38,13 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, department }) => {
 
       if (department) {
         await organizationService.updateDepartment(department.oid, data)
+        toast('Department updated successfully', { color: 'success', position: 'top-right' })
       } else {
         await organizationService.createDepartment(data)
+        toast('Department updated successfully', { color: 'success', position: 'top-right' })
       }
 
+      onSubmitSuccess()
       onClose()
     } catch (error) {
       setErrorMessage(axiosErrorMessage(error))
@@ -55,6 +60,7 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, department }) => {
           <h4 className="mb-2 text-2xl font-semibold">{department ? 'Update Department' : 'Add Department'}</h4>
         </div>
         <Input label="Department Name*" {...form.register('name')} />
+        <Input label="Department Code*" {...form.register('code')} />
         {errorMessage && <span className="text-red-500">{errorMessage}</span>}
         <div className="mt-8 flex justify-between">
           <Button onClick={onClose} color="primary" variant="light" className="mr-2 w-1/2">
