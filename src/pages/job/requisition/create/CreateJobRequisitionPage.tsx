@@ -3,12 +3,12 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import moment from 'moment'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
-import moment from 'moment'
 
 const CreateJobRequisitionPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
@@ -39,7 +39,7 @@ const CreateJobRequisitionPage = () => {
 
       const createdVacancy = await vacancyService.createVacancy(processedData)
       toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/job/management/${createdVacancy.id}`)
+      navigate(`/job/requisition/${createdVacancy.id}`)
     } catch (error) {
       toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
       setIsSubmitLoading(false)
@@ -60,7 +60,6 @@ const CreateJobRequisitionPage = () => {
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
-    obj.recruitmentProcess = ['65d2e8985a44ab03fb6ce39f', '65d2e8985a44ab03fb6ce39f']
     obj.rrNumber = 'JOC1'
 
     return obj
@@ -69,10 +68,10 @@ const CreateJobRequisitionPage = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Create Job' }]}
+        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Create Job' }]}
         title="Create Job Posting"
         actions={
-          <Button as={Link} to="/job/management" variant="light" color="error">
+          <Button as={Link} to="/job/requisition" variant="light" color="error">
             Cancel
           </Button>
         }
@@ -104,6 +103,7 @@ const CreateJobRequisitionPage = () => {
         )}
         {activeStep === 2 && (
           <RequirementsForm
+            isRequisition
             defaultValue={formValues.requirements}
             handlePrev={handlePrev}
             handleSubmit={(requirements) => handleStepSubmit({ ...formValues, requirements })}

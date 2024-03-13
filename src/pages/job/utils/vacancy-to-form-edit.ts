@@ -1,12 +1,12 @@
 import { IVacancy } from '@/types/vacancy'
 import numberToCurrency from '@/utils/number-to-currency'
 
-export function vacancyToFormEdit(vacancy: IVacancy) {
+export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
   return {
     vacancyInformation: {
       vacancyName: vacancy.vacancyName || '',
       departmentId: vacancy.department?.id || '',
-      branchId: '', // No Response Data
+      branchId: vacancy.branch?.id || '',
       expiredDate: vacancy.expiredDate ? new Date(vacancy.expiredDate) : '',
       jobLevelId: vacancy.jobLevel?.id || '',
       jobTypeId: vacancy.jobType?.id || '',
@@ -18,9 +18,12 @@ export function vacancyToFormEdit(vacancy: IVacancy) {
       hideRangeSalary: !!vacancy.hideRangeSalary,
       negotiableSalary: !!vacancy.negotiableSalary,
       other: vacancy.other || '',
+      ...(withApprovals ? { approvals: vacancy.approvals?.users?.map((el) => el.id) || [] } : {}),
     },
 
-    process: {},
+    process: {
+      recruitmentProcess: vacancy.recruitmentProcess?.map((el) => el.id) || [],
+    },
 
     requirements: {
       genderRequirement: vacancy.genderRequirement?.type || '',
@@ -35,9 +38,9 @@ export function vacancyToFormEdit(vacancy: IVacancy) {
       gpaRequirement: vacancy.gpaRequirement?.minimumGpa || 0,
       isRequiredGpaRequirement: !!vacancy.gpaRequirement?.mustMeetCriteria,
       cityRequirementId: vacancy.cityRequirement?.id || '',
-      isRequiredCityRequirement: false, // No Response Data
+      isRequiredCityRequirement: !!vacancy.cityRequirement?.mustMeetCriteria,
       provinceRequirementId: vacancy.provinceRequirement?.id || '',
-      isRequiredProvinceRequirement: false, // No Response Data
+      isRequiredProvinceRequirement: !!vacancy.provinceRequirement?.mustMeetCriteria,
       maximumSalaryRequirement: numberToCurrency(vacancy.maximumSalaryRequirement?.maximumSalary),
       isRequiredMaximumSalaryRequirement: !!vacancy.maximumSalaryRequirement?.mustMeetCriteria,
     },

@@ -5,7 +5,7 @@ import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
-import { PythonPaginationResponse } from '@/types/pagination'
+import { PaginationResponse } from '@/types/pagination'
 import { IVacancy } from '@/types/vacancy'
 import { Button, Input, Select, Spinner } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
@@ -23,7 +23,7 @@ const JobManajementPage: React.FC = () => {
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<PythonPaginationResponse<IVacancy>>()
+  const [pageData, setPageData] = useState<PaginationResponse<IVacancy>>()
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
 
@@ -44,20 +44,22 @@ const JobManajementPage: React.FC = () => {
         const data = await vacancyService.fetchVacancies(
           {
             keyword: search,
-            start_page: pagination.currentPage - 1,
-            page_limit: 30,
+            page: pagination.currentPage - 1,
+            size: 30,
             status,
             departmentId: department,
+            isRequisition: 0,
           },
           signal,
         )
         setPageData(data)
+        setIsLoading(false)
       } catch (e: any) {
         if (e.message !== 'canceled') {
           setErrorMessage(e.response?.data?.meta?.message || e.message)
+          setIsLoading(false)
         }
       }
-      setIsLoading(false)
     }
 
     load(signal)
@@ -161,8 +163,8 @@ const JobManajementPage: React.FC = () => {
               <div className="flex items-center justify-center py-20">
                 <Spinner className="h-10 w-10 text-primary-600" />
               </div>
-            ) : pageData?.contents && pageData.contents.length > 0 ? (
-              <Table items={pageData.contents} />
+            ) : pageData?.content && pageData.content.length > 0 ? (
+              <Table items={pageData.content} />
             ) : (
               <div className="flex items-center justify-center py-20">
                 <p>No data available.</p>

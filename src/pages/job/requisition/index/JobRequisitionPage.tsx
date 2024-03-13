@@ -5,7 +5,7 @@ import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
-import { PythonPaginationResponse } from '@/types/pagination'
+import { PaginationResponse } from '@/types/pagination'
 import { IVacancy } from '@/types/vacancy'
 import { Button, Input, Select, Spinner } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
+import HistoryModal from './components/HistoryModal'
 
 const JobRequisitionPage = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -23,9 +24,10 @@ const JobRequisitionPage = () => {
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<PythonPaginationResponse<IVacancy>>()
+  const [pageData, setPageData] = useState<PaginationResponse<IVacancy>>()
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [historyMadalData, setHistoryMadalData] = useState<IVacancy | null>(null)
 
   const pagination = usePagination({
     pathname: '/job/requisition',
@@ -44,20 +46,22 @@ const JobRequisitionPage = () => {
         const data = await vacancyService.fetchVacancies(
           {
             keyword: search,
-            start_page: pagination.currentPage - 1,
-            page_limit: 30,
+            page: pagination.currentPage - 1,
+            size: 30,
             status,
             departmentId: department,
+            isRequisition: 1,
           },
           signal,
         )
         setPageData(data)
+        setIsLoading(false)
       } catch (e: any) {
         if (e.message !== 'canceled') {
           setErrorMessage(e.response?.data?.meta?.message || e.message)
+          setIsLoading(false)
         }
       }
-      setIsLoading(false)
     }
 
     load(signal)
@@ -71,6 +75,7 @@ const JobRequisitionPage = () => {
 
   return (
     <>
+      <HistoryModal vacancy={historyMadalData} onClose={() => setHistoryMadalData(null)} />
       <PageHeader
         breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
         title="Job Requisition"
@@ -161,8 +166,8 @@ const JobRequisitionPage = () => {
               <div className="flex items-center justify-center py-20">
                 <Spinner className="h-10 w-10 text-primary-600" />
               </div>
-            ) : pageData?.contents && pageData.contents.length > 0 ? (
-              <Table items={pageData.contents} />
+            ) : pageData?.content && pageData.content.length > 0 ? (
+              <Table items={pageData.content} setHistoryMadalData={setHistoryMadalData} />
             ) : (
               <div className="flex items-center justify-center py-20">
                 <p>No data available.</p>

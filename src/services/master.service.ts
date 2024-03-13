@@ -1,12 +1,12 @@
 import type { GenericAbortSignal } from 'axios'
-import type { SpringPaginationParam, SpringPaginationResponse } from '@/types/pagination'
+import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 
 import { API_MASTER_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 import { useMasterStore } from '@/store'
 import { IMasterEducationLevel } from '@/types/master'
 
-type FetchAreaParams = SpringPaginationParam & {
+type FetchAreaParams = PaginationParam & {
   q?: string
 }
 
@@ -20,35 +20,35 @@ const axios = createAxiosInstance({
  *
  */
 export const fetchCountries = <T = any>(params: FetchAreaParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/country`, { params, signal }).then((response) => {
+  return axios.get<{ data: PaginationResponse<T> }>(`/area/country`, { params, signal }).then((response) => {
     useMasterStore.getState().addArea('countries', response.data.data.content as any[])
     return response.data.data
   })
 }
 
 export const fetchProvinces = <T = any>(params: FetchAreaParams & { country: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/province`, { params, signal }).then((response) => {
+  return axios.get<{ data: PaginationResponse<T> }>(`/area/province`, { params, signal }).then((response) => {
     useMasterStore.getState().addArea('provinces', response.data.data.content as any[])
     return response.data.data
   })
 }
 
 export const fetchCities = <T = any>(params: FetchAreaParams & { province?: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/city`, { params, signal }).then((response) => {
+  return axios.get<{ data: PaginationResponse<T> }>(`/area/city`, { params, signal }).then((response) => {
     useMasterStore.getState().addArea('cities', response.data.data.content as any[])
     return response.data.data
   })
 }
 
 export const fetchDistricts = <T = any>(params: FetchAreaParams & { city: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/district`, { params, signal }).then((response) => {
+  return axios.get<{ data: PaginationResponse<T> }>(`/area/district`, { params, signal }).then((response) => {
     useMasterStore.getState().addArea('districts', response.data.data.content as any[])
     return response.data.data
   })
 }
 
 export const fetchSubDistrict = <T = any>(params: FetchAreaParams & { district: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/area/sub-district`, { params, signal }).then((response) => {
+  return axios.get<{ data: PaginationResponse<T> }>(`/area/sub-district`, { params, signal }).then((response) => {
     useMasterStore.getState().addArea('subDistricts', response.data.data.content as any[])
     return response.data.data
   })
@@ -70,24 +70,24 @@ export const fetchCitiesByOids = (key: 'countries' | 'provinces' | 'cities' | 'd
  * Workplacement
  *
  */
-export const fetchWorkplacements = <T = any>(params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/workplacement`, { params, signal }).then((response) => response.data.data)
+export const fetchWorkplacements = <T = any>(params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<T> }>(`/workplacement`, { params, signal }).then((response) => response.data.data)
 }
 
 /**
  * JobType
  *
  */
-export const fetchJobtypes = <T = any>(params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: SpringPaginationResponse<T> }>(`/jobtype`, { params, signal }).then((response) => response.data.data)
+export const fetchJobtypes = <T = any>(params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<T> }>(`/jobtype`, { params, signal }).then((response) => response.data.data)
 }
 
 /**
  * Education Level
  *
  */
-export const fetchEducationLevel = (params?: SpringPaginationParam, signal?: GenericAbortSignal) => {
+export const fetchEducationLevel = (params?: PaginationParam, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: SpringPaginationResponse<IMasterEducationLevel> }>(`/education-level`, { params, signal })
+    .get<{ data: PaginationResponse<IMasterEducationLevel> }>(`/education-level`, { params, signal })
     .then((response) => response.data.data)
 }
