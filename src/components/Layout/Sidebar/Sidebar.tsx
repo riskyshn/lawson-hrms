@@ -5,11 +5,11 @@ import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarI
 import LogoFull from '@/components/Logo/LogoFull'
 import { twJoin } from 'tailwind-merge'
 import useLinks from '@/hooks/use-links'
-import { rootLinks, recruitmentLinks, hrisLinks, otherLinks } from '@/sidebar-links'
+import { rootLinks, recruitmentLinks, hrisLinks, settingsLinks } from '@/sidebar-links'
 
 const Sidebar: React.FC = () => {
   const { sidebarMini, toggleSidebarOpen } = useLayout()
-  const links = useLinks([rootLinks, recruitmentLinks, hrisLinks, otherLinks])
+  const links = useLinks([rootLinks, recruitmentLinks, hrisLinks, settingsLinks])
   const navigate = useNavigate()
 
   return (
