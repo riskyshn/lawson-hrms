@@ -4,6 +4,7 @@ import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import Modal from './Modal'
+import ViewEmployeesModal from '../../components/ViewEmployeesModal'
 // import { organizationService } from '@/services'
 
 type DocumentRequest = {
@@ -57,6 +58,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
     switch (modalType) {
       case 'Edit':
         return <Modal show={showModal} onClose={closeModal} documentRequest={items} onSubmitSuccess={onSubmitSuccess} />
+      case 'View Employees':
+        return <ViewEmployeesModal show={showModal} onClose={closeModal} position={items} />
       default:
         return null
     }
