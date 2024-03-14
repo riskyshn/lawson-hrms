@@ -12,8 +12,8 @@ import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import HistoryModal from './components/HistoryModal'
-import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
+import StatisticCards from '../../components/StatisticCards'
 
 const JobRequisitionPage = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -46,7 +46,7 @@ const JobRequisitionPage = () => {
         const data = await vacancyService.fetchVacancies(
           {
             keyword: search,
-            page: pagination.currentPage - 1,
+            page: pagination.currentPage,
             size: 30,
             status,
             departmentId: department,
@@ -116,7 +116,7 @@ const JobRequisitionPage = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards />
+        <StatisticCards isRequisition />
 
         <MainCard
           header={(open, toggleOpen) => (
@@ -124,9 +124,6 @@ const JobRequisitionPage = () => {
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <span className="block text-lg font-semibold">Vacancy List</span>
-                  <span className="block text-sm">
-                    You have <span className="text-primary-600">200+ Job Posted</span> in total
-                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Input

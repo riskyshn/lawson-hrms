@@ -11,7 +11,7 @@ import { Button, Input, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import StatisticCards from './components/StatisticCards'
+import StatisticCards from '../../components/StatisticCards'
 import Table from './components/Table'
 
 const JobManajementPage: React.FC = () => {
@@ -44,7 +44,7 @@ const JobManajementPage: React.FC = () => {
         const data = await vacancyService.fetchVacancies(
           {
             keyword: search,
-            page: pagination.currentPage - 1,
+            page: pagination.currentPage,
             size: 5,
             status,
             departmentId: department,
@@ -121,9 +121,6 @@ const JobManajementPage: React.FC = () => {
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <span className="block text-lg font-semibold">Vacancy List</span>
-                  <span className="block text-sm">
-                    You have <span className="text-primary-600">200+ Job Posted</span> in total
-                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Input
