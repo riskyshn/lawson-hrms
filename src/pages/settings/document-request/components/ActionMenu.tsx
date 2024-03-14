@@ -4,11 +4,15 @@ import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import Modal from './Modal'
-import { IPosition } from '@/types/oganizartion'
-import { organizationService } from '@/services'
+// import { organizationService } from '@/services'
+
+type DocumentRequest = {
+  name?: string
+  fileType?: string[]
+}
 
 type ActionMenuProps = {
-  items: IPosition
+  items: DocumentRequest
   onSubmitSuccess: () => void
 }
 
@@ -18,17 +22,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
   const confirm = useConfirm()
   const toast = useToast()
 
-  const deletePosition = async () => {
+  const deleteDocumentRequest = async () => {
     const confirmed = await confirm({
-      text: 'Are you sure you want to delete this position?',
+      text: 'Are you sure you want to delete this document request?',
       confirmBtnColor: 'error',
       cancelBtnColor: 'primary',
       icon: 'error',
     })
     if (confirmed) {
       try {
-        await organizationService.deletePosition(items.oid)
-        toast('Position deleted successfully.', { color: 'success', position: 'top-right' })
+        // await organizationService.deleteDocumentRequest(items.oid)
+        toast('Document Request deleted successfully.', { color: 'success', position: 'top-right' })
         onSubmitSuccess()
       } catch (e: any) {
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
@@ -38,7 +42,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
 
   const openModal = (type: string = '') => {
     if (type == 'Delete') {
-      deletePosition()
+      deleteDocumentRequest()
     } else {
       setModalType(type)
       setShowModal(true)
@@ -52,7 +56,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
   const renderModal = () => {
     switch (modalType) {
       case 'Edit':
-        return <Modal show={showModal} onClose={closeModal} position={items} onSubmitSuccess={onSubmitSuccess} />
+        return <Modal show={showModal} onClose={closeModal} documentRequest={items} onSubmitSuccess={onSubmitSuccess} />
       default:
         return null
     }
@@ -66,7 +70,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
           Action
         </Menu.Button>
         <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
-          {['Edit', 'View Employees', 'Delete'].map((option, i) => (
+          {['Edit', 'Delete'].map((option, i) => (
             <Menu.Item key={i}>
               {({ active }) => (
                 <button
@@ -74,8 +78,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
                   onClick={() => openModal(option)}
                 >
                   {i === 0 && <EditIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {i === 1 && <EyeIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {i === 2 && <TrashIcon className={twJoin('h-4 w-4', active ? 'text-red-600' : 'text-red-400')} />}
+                  {i === 1 && <TrashIcon className={twJoin('h-4 w-4', active ? 'text-red-600' : 'text-red-400')} />}
                   {option}
                 </button>
               )}

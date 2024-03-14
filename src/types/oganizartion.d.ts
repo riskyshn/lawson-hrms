@@ -179,6 +179,7 @@ export interface IWorkplacement {
 export interface IJobType {
   oid: string
   name?: string
+  totalEmployee?: number
 }
 
 export interface IRecruitmentStage {

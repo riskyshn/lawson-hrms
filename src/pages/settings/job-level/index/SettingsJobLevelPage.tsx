@@ -21,7 +21,7 @@ const SettingsJobLevelPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/job-level',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages ?? 0,
     params: {},
   })
 
@@ -41,13 +41,14 @@ const SettingsJobLevelPage: React.FC = () => {
           signal,
         )
         setPageData(data)
+        setIsLoading(false)
       } catch (e: any) {
         if (e.message !== 'canceled') {
           const errorMessage = e.response?.data?.meta?.message || e.message
           setErrorMessage(errorMessage)
+          setIsLoading(false)
         }
       }
-      setIsLoading(false)
     }
 
     load(signal)
@@ -96,7 +97,7 @@ const SettingsJobLevelPage: React.FC = () => {
                 <div>
                   <span className="block text-lg font-semibold">Job Level List</span>
                   <span className="block text-sm">
-                    You have <span className="text-primary-600">30 Job Level</span> in this list
+                    You have <span className="text-primary-600">{pageData?.content?.length ?? 0} Job Level</span> in this list
                   </span>
                 </div>
               </div>

@@ -56,11 +56,11 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, department, onSubmitSucces
   return (
     <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <div className="mb-4">
-          <h4 className="mb-2 text-2xl font-semibold">{department ? 'Update Department' : 'Add Department'}</h4>
+        <div className="mb-2">
+          <h4 className="text-xl font-semibold">{department ? 'Update Department' : 'Add Department'}</h4>
         </div>
-        <Input label="Department Name*" {...form.register('name')} />
-        <Input label="Department Code*" {...form.register('code')} />
+        <Input label="Department Name" labelRequired required {...form.register('name')} />
+        <Input label="Department Code" labelRequired required {...form.register('code')} />
         {errorMessage && <span className="text-red-500">{errorMessage}</span>}
         <div className="mt-8 flex justify-between">
           <Button onClick={onClose} color="primary" variant="light" className="mr-2 w-1/2">
