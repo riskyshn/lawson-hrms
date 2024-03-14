@@ -1,10 +1,12 @@
 import React from 'react'
 import { Menu } from '@headlessui/react'
-import { Button } from 'jobseeker-ui'
+import { Button, Skeleton } from 'jobseeker-ui'
 import { LucideIcon } from 'lucide-react'
 import { twJoin, twMerge } from 'tailwind-merge'
 
 export type MainTableProps = Omit<JSX.IntrinsicElements['table'], 'children'> & {
+  loading?: boolean
+  loadingLength?: number
   headerItems: Array<JSX.IntrinsicElements['th']>
   bodyItems: Array<
     Omit<JSX.IntrinsicElements['tr'], 'children'> & {
@@ -25,24 +27,44 @@ export type ActionMenuItemProps = {
   action?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, ...props }) => {
+export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, loadingLength = 12, ...props }) => {
   return (
     <table className={twMerge('table w-full whitespace-nowrap', className)} {...props}>
-      <thead>
-        <tr>
-          {headerItems.map(({ className, ...props }, i) => (
-            <th key={i} className={twMerge('border-b p-3 text-center text-xs', className)} {...props} />
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {bodyItems.map(({ className, items, ...props }, i) => (
-          <tr key={i} className={twMerge(className, 'odd:bg-gray-50')} {...props}>
-            {items.map(({ className, ...props }, i) => (
-              <td key={i} className={twMerge('p-3 text-sm', className)} {...props} />
+      {
+        <thead>
+          <tr>
+            {headerItems.map(({ className, ...props }, i) => (
+              <th key={i} className={twMerge('border-b p-3 text-center text-xs', className)} {...props} />
             ))}
           </tr>
-        ))}
+        </thead>
+      }
+      <tbody>
+        {!loading &&
+          bodyItems.map(({ className, items, ...props }, i) => (
+            <tr key={i} className={twMerge(className, 'odd:bg-gray-50')} {...props}>
+              {items.map(({ className, ...props }, i) => (
+                <td key={i} className={twMerge('p-3 text-sm', className)} {...props} />
+              ))}
+            </tr>
+          ))}
+
+        {loading &&
+          Array.from(Array(loadingLength)).map((_, i) => (
+            <tr key={i} className="odd:bg-gray-50">
+              <td colSpan={headerItems.length} className="p-3">
+                <Skeleton className="h-8" />
+              </td>
+            </tr>
+          ))}
+
+        {!loading && bodyItems.length === 0 && (
+          <tr>
+            <td colSpan={headerItems.length}>
+              <div className="flex items-center justify-center py-40">No data available.</div>
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   )

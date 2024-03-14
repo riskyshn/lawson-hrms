@@ -7,13 +7,13 @@ import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { PaginationResponse } from '@/types/pagination'
 import { IVacancy } from '@/types/vacancy'
-import { Button, Input, Select, Spinner } from 'jobseeker-ui'
+import { Button, Input, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import StatisticCards from './components/StatisticCards'
-import Table from './components/Table'
 import HistoryModal from './components/HistoryModal'
+import Table from './components/Table'
+import StatisticCards from '../../components/StatisticCards'
 
 const JobRequisitionPage = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -46,7 +46,7 @@ const JobRequisitionPage = () => {
         const data = await vacancyService.fetchVacancies(
           {
             keyword: search,
-            page: pagination.currentPage - 1,
+            page: pagination.currentPage,
             size: 30,
             status,
             departmentId: department,
@@ -116,7 +116,7 @@ const JobRequisitionPage = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards />
+        <StatisticCards isRequisition />
 
         <MainCard
           header={(open, toggleOpen) => (
@@ -124,9 +124,6 @@ const JobRequisitionPage = () => {
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <span className="block text-lg font-semibold">Vacancy List</span>
-                  <span className="block text-sm">
-                    You have <span className="text-primary-600">200+ Job Posted</span> in total
-                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Input
@@ -178,22 +175,7 @@ const JobRequisitionPage = () => {
             </>
           )}
           body={
-            isLoading ? (
-              <div className="flex items-center justify-center py-20">
-                <Spinner className="h-10 w-10 text-primary-600" />
-              </div>
-            ) : pageData?.content && pageData.content.length > 0 ? (
-              <Table
-                items={pageData.content}
-                setHistoryMadalData={setHistoryMadalData}
-                onVacancyUpdated={updateVacancy}
-                onVacancyDeleted={removeVacancy}
-              />
-            ) : (
-              <div className="flex items-center justify-center py-20">
-                <p>No data available.</p>
-              </div>
-            )
+            <Table items={pageData?.content || []} loading={isLoading} onVacancyUpdated={updateVacancy} onVacancyDeleted={removeVacancy} />
           }
           footer={pagination.render()}
         />
