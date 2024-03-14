@@ -6,6 +6,7 @@ import SettingsDepartmentPage from '@/pages/settings/department/index/SettingsDe
 import SettingsPositionPage from '@/pages/settings/position/index/SettingsPositionPage'
 import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
 import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
+import SettingsRolePage from '@/pages/settings/roles/SettingsRolePage'
 
 const settingsRoute: RouteObject = {
   path: 'settings',
@@ -14,62 +15,37 @@ const settingsRoute: RouteObject = {
     {
       path: 'company',
       name: 'Company',
-      children: [
-        {
-          path: '',
-          element: <SettingsCompanyPage />,
-        },
-      ],
+      element: <SettingsCompanyPage />,
     },
     {
       path: 'branch',
       name: 'Branch',
-      children: [
-        {
-          path: '',
-          element: <SettingsBranchPage />,
-        },
-      ],
+      element: <SettingsBranchPage />,
     },
     {
       path: 'department',
       name: 'Department',
-      children: [
-        {
-          path: '',
-          element: <SettingsDepartmentPage />,
-        },
-      ],
+      element: <SettingsDepartmentPage />,
     },
     {
       path: 'position',
       name: 'Position',
-      children: [
-        {
-          path: '',
-          element: <SettingsPositionPage />,
-        },
-      ],
+      element: <SettingsPositionPage />,
     },
     {
       path: 'job-level',
       name: 'Job Level',
-      children: [
-        {
-          path: '',
-          element: <SettingsJobLevelPage />,
-        },
-      ],
+      element: <SettingsJobLevelPage />,
     },
     {
       path: 'employment-status',
       name: 'Employment Status',
-      children: [
-        {
-          path: '',
-          element: <SettingsEmploymentStatusPage />,
-        },
-      ],
+      element: <SettingsEmploymentStatusPage />,
+    },
+    {
+      path: 'role',
+      name: 'Roles',
+      element: <SettingsRolePage />,
     },
   ],
 }

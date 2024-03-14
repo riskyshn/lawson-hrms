@@ -16,6 +16,6 @@ interface IUser {
   firstName: string
   lastName: string
   email: string
-  accessGranted: AccessGrantedRole[]
-  accessDirectPermissions: any[]
+  accessGranted: IRole[]
+  accessDirectPermissions: IPermission[]
 }
