@@ -3,10 +3,10 @@ import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
-import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
@@ -17,6 +17,7 @@ const EditJobPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const toast = useToast()
+  const navigate = useNavigate()
 
   const { vacancy, pageError } = useVacancyPage()
   const [formValues, setFormValues] = useState<any>({
@@ -50,6 +51,7 @@ const EditJobPage = () => {
       console.log(vacancy.id, processedData)
       await vacancyService.udpateVacancy(vacancy.id, processedData)
       toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
+      navigate('/job/management')
     } catch (error) {
       toast('An error occurred while updating the job vacancy.', { color: 'error', position: 'top-right' })
     } finally {
@@ -98,6 +100,12 @@ const EditJobPage = () => {
             { title: 'Requirements', details: 'Set Requirements' },
           ]}
         />
+
+        {!isLoaded && (
+          <div className="flex items-center justify-center py-48">
+            <Spinner height={40} className="text-primary-600" />
+          </div>
+        )}
 
         {isLoaded && activeStep === 0 && (
           <VacancyInformationForm

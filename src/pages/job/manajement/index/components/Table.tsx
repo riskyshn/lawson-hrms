@@ -17,11 +17,12 @@ const getStatus = (flag?: number): { text: string; color: string } => {
   return flag !== undefined && statusMap[flag] ? statusMap[flag] : { text: 'Unknown', color: 'bg-gray-400 text-white' }
 }
 
-const Table: React.FC<{ items: IVacancy[]; onVacancyUpdated?: (vacancy: IVacancy) => void; onVacancyDeleted?: (id: string) => void }> = ({
-  items,
-  onVacancyDeleted,
-  onVacancyUpdated,
-}) => {
+const Table: React.FC<{
+  items: IVacancy[]
+  loading?: boolean
+  onVacancyUpdated?: (vacancy: IVacancy) => void
+  onVacancyDeleted?: (id: string) => void
+}> = ({ items, loading, onVacancyDeleted, onVacancyUpdated }) => {
   const headerItems = [
     { children: 'Vacancy', className: 'text-left' },
     { children: 'Department' },
@@ -81,7 +82,7 @@ const Table: React.FC<{ items: IVacancy[]; onVacancyUpdated?: (vacancy: IVacancy
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} />
+  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
 }
 
 export default Table

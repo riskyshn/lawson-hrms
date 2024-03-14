@@ -7,11 +7,11 @@ import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { PaginationResponse } from '@/types/pagination'
 import { IVacancy } from '@/types/vacancy'
-import { Button, Input, Select, Spinner } from 'jobseeker-ui'
+import { Button, Input, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import StatisticCards from './components/StatisticCards'
+import StatisticCards from '../../components/StatisticCards'
 import Table from './components/Table'
 
 const JobManajementPage: React.FC = () => {
@@ -44,8 +44,8 @@ const JobManajementPage: React.FC = () => {
         const data = await vacancyService.fetchVacancies(
           {
             keyword: search,
-            page: pagination.currentPage - 1,
-            size: 30,
+            page: pagination.currentPage,
+            size: 5,
             status,
             departmentId: department,
             isRequisition: 0,
@@ -121,9 +121,6 @@ const JobManajementPage: React.FC = () => {
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <span className="block text-lg font-semibold">Vacancy List</span>
-                  <span className="block text-sm">
-                    You have <span className="text-primary-600">200+ Job Posted</span> in total
-                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Input
@@ -175,17 +172,7 @@ const JobManajementPage: React.FC = () => {
             </>
           )}
           body={
-            isLoading ? (
-              <div className="flex items-center justify-center py-20">
-                <Spinner className="h-10 w-10 text-primary-600" />
-              </div>
-            ) : pageData?.content && pageData.content.length > 0 ? (
-              <Table items={pageData.content} onVacancyUpdated={updateVacancy} onVacancyDeleted={removeVacancy} />
-            ) : (
-              <div className="flex items-center justify-center py-20">
-                <p>No data available.</p>
-              </div>
-            )
+            <Table items={pageData?.content || []} loading={isLoading} onVacancyUpdated={updateVacancy} onVacancyDeleted={removeVacancy} />
           }
           footer={pagination.render()}
         />

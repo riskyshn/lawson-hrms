@@ -52,3 +52,7 @@ export const publishRequisition = (id: string) => {
 export const approveRequisition = (id: string, payload: Record<string, any>) => {
   return axios.patch(`/vacancy/${id}`, payload).then((response) => response.data.data)
 }
+
+export const fetchVacancyStratistic = (params?: { isRequisition: boolean }) => {
+  return axios.get(`/vacancy/statistics`, { params }).then((response) => response.data.data as Record<string, number>)
+}
