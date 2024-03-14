@@ -8,11 +8,20 @@ interface PropTypes extends Omit<AsyncSelectProps, 'options' | 'message' | 'sear
   fetcherParams?: Record<string, string>
   searchMinCharacter?: number
   hideSearch?: boolean
+  initialOptions?: OptionProps[]
 }
 
-const AsyncSelect: React.FC<PropTypes> = ({ fetcher, converter, fetcherParams, searchMinCharacter = 3, hideSearch, ...props }) => {
+const AsyncSelect: React.FC<PropTypes> = ({
+  fetcher,
+  converter,
+  fetcherParams,
+  searchMinCharacter = 3,
+  hideSearch,
+  initialOptions,
+  ...props
+}) => {
   const [search, setSearch] = useState('')
-  const [results, setResults] = useState<OptionProps[]>([])
+  const [results, setResults] = useState<OptionProps[]>(initialOptions || [])
   const [loading, setLoading] = useState(false)
 
   const stringParams = new URLSearchParams(fetcherParams).toString()

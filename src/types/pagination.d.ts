@@ -1,33 +1,14 @@
-export interface SpringPaginationParam {
+export interface PaginationParam {
   page?: number
   size?: number
+  sortedField?: string
+  sortDirection?: 'ASC' | 'DESC'
 }
 
-export interface SpringPaginationResponse<T = any> {
+export interface PaginationResponse<T = any> {
   content: T[]
-  pageable: {
-    pageNumber: number
-    pageSize: number
-    sort: {
-      sorted: boolean
-      empty: boolean
-      unsorted: boolean
-    }
-    offset: number
-    paged: boolean
-    unpaged: boolean
-  }
-  last: boolean
-  totalPages: number
   totalElements: number
+  totalPages: number
   size: number
-  number: number
-  sort: {
-    sorted: boolean
-    empty: boolean
-    unsorted: boolean
-  }
-  first: boolean
-  numberOfElements: number
-  empty: boolean
+  page: number
 }

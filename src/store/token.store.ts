@@ -81,6 +81,3 @@ export const useTokenStore = create<TokenStore>((set, get) => ({
 if (import.meta.env.DEV) {
   mountStoreDevtool('token.store', useTokenStore)
 }
-
-// @ts-expect-error
-window.tokenS = useTokenStore

@@ -54,11 +54,11 @@ const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
       </ScrollVisibilityContainer>
 
       <Card>
-        <div className="grid grid-cols-1 rounded-t-lg border-b bg-white/80 backdrop-blur">
+        <div className="relative z-10 grid grid-cols-1 rounded-t-lg border-b bg-white/80 backdrop-blur">
           {typeof header === 'function' ? header(isOpenFilter && scrollY < distance - 64, toggleOpenFilter) : header}
         </div>
 
-        <CardBody ref={ref} className="overflow-x-auto p-0">
+        <CardBody ref={ref} className="overflow-x-auto p-0 lg:overflow-x-visible">
           {body}
         </CardBody>
 
