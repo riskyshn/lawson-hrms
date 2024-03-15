@@ -1,13 +1,13 @@
 import PageHeader from '@/components/Elements/PageHeader'
 import Container from '@/components/Elements/Container'
-import { Button, Spinner } from 'jobseeker-ui'
+// import { Button, Spinner } from 'jobseeker-ui'
 import MainCard from '@/components/Elements/MainCard'
 import Table from '../components/Table'
-import Modal from '../components/Modal'
-import { useEffect, useState } from 'react'
+// import Modal from '../components/Modal'
+// import { useEffect, useState } from 'react'
 // import usePagination from '@/hooks/use-pagination'
 // import { organizationService } from '@/services'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
+// import ErrorScreen from '@/components/Elements/ErrorScreen'
 // import { PaginationResponse } from '@/types/pagination'
 
 const SettingsDocumentRequestPage: React.FC = () => {
@@ -36,12 +36,12 @@ const SettingsDocumentRequestPage: React.FC = () => {
     ],
   }
 
-  const [showModal, setShowModal] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
+  // const [showModal, setShowModal] = useState(false)
+  // const [errorMessage, setErrorMessage] = useState('')
+  // const [isLoading, setIsLoading] = useState(true)
   // const [pageData, setPageData] = useState<PaginationResponse<IDocumentRequest>>()
   // const [selectedDocumentRequest, setSelectedDocumentRequest] = useState<IDocumentRequest | null>(null)
-  const [loadData, setLoadData] = useState(false)
+  // const [loadData, setLoadData] = useState(false)
 
   // const pagination = usePagination({
   //   pathname: '/settings/document-request',
@@ -81,7 +81,7 @@ const SettingsDocumentRequestPage: React.FC = () => {
   // }, [loadData, pagination.currentPage])
 
   const handleSubmitSuccess = () => {
-    setLoadData((loadData) => !loadData)
+    // setLoadData((loadData) => !loadData)
   }
 
   // const openModal = (documentRequest: IDocumentReqest | null = null) => {
@@ -89,20 +89,20 @@ const SettingsDocumentRequestPage: React.FC = () => {
   //   setShowModal(true)
   // }
 
-  const openModal = () => {
-    setShowModal(true)
-  }
-
-  // const closeModal = () => {
-  //   setShowModal(false)
-  //   setSelectedDocumentRequest(null)
+  // const openModal = () => {
+  //   // setShowModal(true)
   // }
 
-  const closeModal = () => {
-    setShowModal(false)
-  }
+  // // const closeModal = () => {
+  // //   setShowModal(false)
+  // //   setSelectedDocumentRequest(null)
+  // // }
 
-  if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
+  // const closeModal = () => {
+  //   // setShowModal(false)
+  // }
+
+  // if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
 
   return (
     <>
@@ -112,9 +112,9 @@ const SettingsDocumentRequestPage: React.FC = () => {
         subtitle="Manage Your Document Request"
         actions={
           <>
-            <Button onClick={() => openModal()} color="primary" className="ml-3">
+            {/* <Button onClick={() => openModal()} color="primary" className="ml-3">
               Add New Document Request
-            </Button>
+            </Button> */}
           </>
         }
       />
@@ -153,7 +153,7 @@ const SettingsDocumentRequestPage: React.FC = () => {
       </Container>
 
       {/* <Modal show={showModal} onClose={closeModal} position={selectedPosition} onSubmitSuccess={handleSubmitSuccess} /> */}
-      <Modal show={showModal} onClose={closeModal} onSubmitSuccess={handleSubmitSuccess} />
+      {/* <Modal show={showModal} onClose={closeModal} onSubmitSuccess={handleSubmitSuccess} /> */}
     </>
   )
 }

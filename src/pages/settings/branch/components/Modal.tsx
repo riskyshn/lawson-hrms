@@ -74,13 +74,13 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, branch, onSubmitSuccess })
   return (
     <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <div className="mb-2">
-          <h4 className="text-xl font-semibold">{branch ? 'Update Branch' : 'Add Branch'}</h4>
+        <div className="mb-4">
+          <h4 className="mb-2 text-2xl font-semibold">{branch ? 'Update Branch' : 'Add Branch'}</h4>
         </div>
-        <Input label="Branch Name" labelRequired required {...register('name')} />
-        <Textarea rows={3} label="Address" labelRequired required {...register('address')} />
-        <Input label="Longitude-Latitude" labelRequired required {...register('longitudeLatitude')} />
-        <Input label="Range" labelRequired required {...register('range')} />
+        <Input label="Branch Name*" {...register('name')} />
+        <Textarea rows={3} label="Address*" {...register('address')} />
+        <Input label="Longitude-Latitude*" {...register('longitudeLatitude')} />
+        <Input label="Range*" {...register('range')} />
         <AsyncSelect
           label="City"
           labelRequired

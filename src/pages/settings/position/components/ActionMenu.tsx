@@ -6,7 +6,6 @@ import { twJoin } from 'tailwind-merge'
 import Modal from './Modal'
 import { IPosition } from '@/types/oganizartion'
 import { organizationService } from '@/services'
-import ViewEmployeesModal from '../../components/ViewEmployeesModal'
 
 type ActionMenuProps = {
   items: IPosition
@@ -29,7 +28,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
     if (confirmed) {
       try {
         await organizationService.deletePosition(items.oid)
-        toast('Position deleted successfully.', { color: 'success', position: 'top-right' })
+        toast('Job Level deleted successfully.', { color: 'success', position: 'top-right' })
         onSubmitSuccess()
       } catch (e: any) {
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
@@ -54,8 +53,6 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
     switch (modalType) {
       case 'Edit':
         return <Modal show={showModal} onClose={closeModal} position={items} onSubmitSuccess={onSubmitSuccess} />
-      case 'View Employees':
-        return <ViewEmployeesModal show={showModal} onClose={closeModal} position={items} />
       default:
         return null
     }

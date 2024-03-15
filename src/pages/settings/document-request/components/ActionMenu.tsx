@@ -1,6 +1,6 @@
 import { Menu } from '@headlessui/react'
 import { Button, useConfirm, useToast } from 'jobseeker-ui'
-import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
+import { EditIcon, TrashIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import Modal from './Modal'

@@ -17,7 +17,6 @@ const settingsLinks = genSidebarLinks({
         { text: 'Role', to: '/settings/role' },
         { text: 'Work Placement', to: '/settings/workplacement' },
       ],
-      // parent: { icon: PaletteIcon, text: 'Careersite CMS', to: '/cms' },
     },
   ],
 })

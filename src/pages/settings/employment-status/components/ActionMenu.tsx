@@ -6,7 +6,6 @@ import { twJoin } from 'tailwind-merge'
 import Modal from './Modal'
 import { IJobType } from '@/types/oganizartion'
 import { organizationService } from '@/services'
-import ViewEmployeesModal from '../../components/ViewEmployeesModal'
 
 type ActionMenuProps = {
   items: IJobType
@@ -54,8 +53,6 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
     switch (modalType) {
       case 'Edit':
         return <Modal show={showModal} onClose={closeModal} employmentStatus={items} onSubmitSuccess={onSubmitSuccess} />
-      case 'View Employees':
-        return <ViewEmployeesModal show={showModal} onClose={closeModal} position={items} />
       default:
         return null
     }

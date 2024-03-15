@@ -41,7 +41,7 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, documentRequest, onSubmitS
     },
   })
 
-  const onSubmit = form.handleSubmit(async (data) => {
+  const onSubmit = form.handleSubmit(async () => {
     try {
       setIsLoading(true)
       setErrorMessage('')
