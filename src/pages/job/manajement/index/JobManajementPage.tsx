@@ -43,9 +43,9 @@ const JobManajementPage: React.FC = () => {
       try {
         const data = await vacancyService.fetchVacancies(
           {
-            keyword: search,
+            q: search,
             page: pagination.currentPage,
-            size: 5,
+            limit: 20,
             status,
             departmentId: department,
             isRequisition: 0,

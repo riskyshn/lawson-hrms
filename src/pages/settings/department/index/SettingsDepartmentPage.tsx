@@ -36,7 +36,7 @@ const SettingsDepartmentPage: React.FC = () => {
         const data = await organizationService.fetchDepartments(
           {
             page: pagination.currentPage,
-            size: 20,
+            limit: 20,
           },
           signal,
         )

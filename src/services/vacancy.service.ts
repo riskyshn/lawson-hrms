@@ -6,7 +6,6 @@ import { createAxiosInstance } from '@/utils/axios'
 import { IVacancy } from '@/types/vacancy'
 
 type FetchVacanciesParams = PaginationParam & {
-  keyword?: string
   departmentId?: string
   status?: string
   isRequisition?: 0 | 1

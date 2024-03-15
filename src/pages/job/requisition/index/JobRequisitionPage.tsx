@@ -45,9 +45,9 @@ const JobRequisitionPage = () => {
       try {
         const data = await vacancyService.fetchVacancies(
           {
-            keyword: search,
+            q: search,
             page: pagination.currentPage,
-            size: 30,
+            limit: 20,
             status,
             departmentId: department,
             isRequisition: 1,

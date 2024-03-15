@@ -36,7 +36,7 @@ const SettingsBranchPage: React.FC = () => {
         const data = await organizationService.fetchBranches(
           {
             page: pagination.currentPage,
-            size: 20,
+            limit: 20,
           },
           signal,
         )

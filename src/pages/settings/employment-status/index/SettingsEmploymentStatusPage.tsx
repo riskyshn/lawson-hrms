@@ -36,7 +36,7 @@ const SettingsEmploymentStatusPage: React.FC = () => {
         const data = await organizationService.fetchJobTypes(
           {
             page: pagination.currentPage,
-            size: 20,
+            limit: 20,
           },
           signal,
         )

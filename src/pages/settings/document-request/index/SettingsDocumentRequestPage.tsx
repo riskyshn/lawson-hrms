@@ -60,7 +60,7 @@ const SettingsDocumentRequestPage: React.FC = () => {
   //       const data = await organizationService.fetchDocumentRequests(
   //         {
   //           page: pagination.currentPage,
-  //           size: 20,
+  //           limit: 20,
   //         },
   //         signal,
   //       )

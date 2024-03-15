@@ -36,7 +36,7 @@ const SettingsJobLevelPage: React.FC = () => {
         const data = await organizationService.fetchJobLevels(
           {
             page: pagination.currentPage,
-            size: 20,
+            limit: 20,
           },
           signal,
         )

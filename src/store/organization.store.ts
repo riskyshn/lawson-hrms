@@ -54,14 +54,14 @@ export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
     const [company, recruitmentStages, departments, branches, benefits, jobLevels, jobTypes, positions, workplacements] = await Promise.all(
       [
         organizationService.fetchCompany(),
-        organizationService.fetchRecruitmentStages({ size: 99999, sortedField: 'createdAt', sortDirection: 'ASC' }),
-        organizationService.fetchDepartments({ size: 99999 }),
-        organizationService.fetchBranches({ size: 99999 }),
-        organizationService.fetchBenefits({ size: 99999 }),
-        organizationService.fetchJobLevels({ size: 99999 }),
-        organizationService.fetchJobTypes({ size: 99999 }),
-        organizationService.fetchPositions({ size: 99999 }),
-        organizationService.fetchWorkplacements({ size: 99999 }),
+        organizationService.fetchRecruitmentStages({ limit: 99999, sortedField: 'createdAt', sortDirection: 'ASC' }),
+        organizationService.fetchDepartments({ limit: 99999 }),
+        organizationService.fetchBranches({ limit: 99999 }),
+        organizationService.fetchBenefits({ limit: 99999 }),
+        organizationService.fetchJobLevels({ limit: 99999 }),
+        organizationService.fetchJobTypes({ limit: 99999 }),
+        organizationService.fetchPositions({ limit: 99999 }),
+        organizationService.fetchWorkplacements({ limit: 99999 }),
       ],
     )
 

@@ -7,8 +7,8 @@ import { authorityService } from '@/services'
 import { PaginationResponse } from '@/types/pagination'
 import { Button } from 'jobseeker-ui'
 import { useCallback, useEffect, useState } from 'react'
-import CreateOrUpdateModal from './components/CreateOrUpdateModal'
 import Table from './components/Table'
+import CreateOrUpdateModal from './components/CreateOrUpdateModal'
 
 const SettingsRolePage: React.FC = () => {
   const [showCreateRoleModal, setShowCreateRoleModal] = useState(false)
@@ -32,7 +32,7 @@ const SettingsRolePage: React.FC = () => {
       setErrorMessage('')
       setIsLoading(true)
       try {
-        const data = await authorityService.fetchRoles({ page: pagination.currentPage, size: 20 }, signal)
+        const data = await authorityService.fetchRoles({ page: pagination.currentPage, limit: 20 }, signal)
         setPageData(data)
       } catch (e: any) {
         if (e.message !== 'canceled') {

@@ -36,7 +36,7 @@ const SettingsWorkPlacementPage: React.FC = () => {
         const data = await organizationService.fetchWorkplacements(
           {
             page: pagination.currentPage,
-            size: 20,
+            limit: 20,
           },
           signal,
         )
