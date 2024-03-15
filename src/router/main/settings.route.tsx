@@ -1,12 +1,12 @@
 import type { RouteObject } from 'react-router-dom'
 
-import SettingsCompanyPage from '@/pages/settings/company/index/SettingsCompanyPage'
 import SettingsBranchPage from '@/pages/settings/branch/index/SettingsBranchPage'
+import SettingsCompanyPage from '@/pages/settings/company/index/SettingsCompanyPage'
 import SettingsDepartmentPage from '@/pages/settings/department/index/SettingsDepartmentPage'
-import SettingsPositionPage from '@/pages/settings/position/index/SettingsPositionPage'
-import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
 import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
-import SettingsRolePage from '@/pages/settings/roles/SettingsRolePage'
+import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
+import SettingsPositionPage from '@/pages/settings/position/index/SettingsPositionPage'
+import SettingsRolePage from '@/pages/settings/roles/index/SettingsRolePage'
 
 const settingsRoute: RouteObject = {
   path: 'settings',

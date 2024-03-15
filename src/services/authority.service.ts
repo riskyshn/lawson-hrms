@@ -1,11 +1,11 @@
 import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 import type { GenericAbortSignal } from 'axios'
 
-import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
+import { API_AUTH_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({
-  baseURL: API_ORGANIZATION_BASE_URL,
+  baseURL: API_AUTH_BASE_URL,
   withAuth: true,
 })
 
@@ -38,11 +38,11 @@ export const deleteRole = (oid: string) => {
  *
  */
 export const fetchPermissions = (params?: PaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IRole> }>(`/authority/permission`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: PaginationResponse<IRole> }>(`/authority/permissions`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchPermission = (oid: string) => {
-  return axios.get<{ data: IPermission }>(`/authority/permission/${oid}`).then((response) => response.data.data)
+  return axios.get<{ data: IPermission }>(`/authority/permissions/${oid}`).then((response) => response.data.data)
 }
 
 /**
@@ -51,7 +51,7 @@ export const fetchPermission = (oid: string) => {
  */
 export const givenRolesToUser = (userId: string, roleIds: string[]) => {
   return axios
-    .patch<{ data: IUser }>(`/authority/provide-access/role-user`, { userId, roles: roleIds })
+    .patch<{ data: IUser }>(`/authority/provide-access/roles-user`, { userId, roles: roleIds })
     .then((response) => response.data.data)
 }
 

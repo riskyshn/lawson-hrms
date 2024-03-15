@@ -9,6 +9,7 @@ interface IPermission {
 interface IRole {
   oid: string
   name: string
+  action: string
   attachedPolicies: IPermission[]
   createdAt: string
 }
