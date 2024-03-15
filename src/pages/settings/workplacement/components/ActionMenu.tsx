@@ -4,12 +4,12 @@ import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 import Modal from './Modal'
-import { IDepartment } from '@/types/oganizartion'
+import { IWorkplacement } from '@/types/oganizartion'
 import { organizationService } from '@/services'
 import ViewEmployeesModal from '../../components/ViewEmployeesModal'
 
 type ActionMenuProps = {
-  items: IDepartment
+  items: IWorkplacement
   onSubmitSuccess: () => void
 }
 
@@ -19,17 +19,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
   const confirm = useConfirm()
   const toast = useToast()
 
-  const deleteDepartment = async () => {
+  const deleteWorkPlacement = async () => {
     const confirmed = await confirm({
-      text: 'Are you sure you want to delete this department?',
+      text: 'Are you sure you want to delete this work placement?',
       confirmBtnColor: 'error',
       cancelBtnColor: 'primary',
       icon: 'error',
     })
     if (confirmed) {
       try {
-        await organizationService.deleteDepartment(items.oid)
-        toast('Department deleted successfully.', { color: 'success', position: 'top-right' })
+        await organizationService.deleteWorkplacement(items.oid)
+        toast('Work Placement deleted successfully.', { color: 'success', position: 'top-right' })
         onSubmitSuccess()
       } catch (e: any) {
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
@@ -39,7 +39,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
 
   const openModal = (type: string = '') => {
     if (type == 'Delete') {
-      deleteDepartment()
+      deleteWorkPlacement()
     } else {
       setModalType(type)
       setShowModal(true)
@@ -53,7 +53,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
   const renderModal = () => {
     switch (modalType) {
       case 'Edit':
-        return <Modal show={showModal} onClose={closeModal} department={items} onSubmitSuccess={onSubmitSuccess} />
+        return <Modal show={showModal} onClose={closeModal} workPlacement={items} onSubmitSuccess={onSubmitSuccess} />
       case 'View Employees':
         return <ViewEmployeesModal show={showModal} onClose={closeModal} position={items} />
       default:

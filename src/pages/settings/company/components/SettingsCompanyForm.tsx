@@ -38,10 +38,11 @@ const SettingsCompanyForm: React.FC = () => {
           <p className="text-xs text-gray-500">Setup Your Company Information</p>
         </div>
 
-        <Input label="Company Name" placeholder="Company Name" required value={formData.name} disabled />
+        <Input label="Company Name" labelRequired placeholder="Company Name" required value={formData.name} disabled />
 
         <Input
           name="nppNumber"
+          labelRequired
           value={formData.nppNumber}
           onChange={handleChange}
           type="number"
@@ -51,6 +52,7 @@ const SettingsCompanyForm: React.FC = () => {
         />
         <Input
           name="npwpNumber"
+          labelRequired
           value={formData.npwpNumber}
           onChange={handleChange}
           type="number"

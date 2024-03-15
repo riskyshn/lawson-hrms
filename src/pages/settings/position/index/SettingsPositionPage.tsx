@@ -21,7 +21,7 @@ const SettingsPositionPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/position',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages ?? 0,
     params: {},
   })
 
@@ -41,12 +41,14 @@ const SettingsPositionPage: React.FC = () => {
           signal,
         )
         setPageData(data)
+        setIsLoading(false)
       } catch (e: any) {
         if (e.message !== 'canceled') {
-          setErrorMessage(e.response?.data?.meta?.message || e.message)
+          const errorMessage = e.response?.data?.meta?.message || e.message
+          setErrorMessage(errorMessage)
+          setIsLoading(false)
         }
       }
-      setIsLoading(false)
     }
 
     load(signal)
@@ -95,7 +97,7 @@ const SettingsPositionPage: React.FC = () => {
                 <div>
                   <span className="block text-lg font-semibold">Position List</span>
                   <span className="block text-sm">
-                    You have <span className="text-primary-600">30 Position</span> in this list
+                    You have <span className="text-primary-600">{pageData?.content?.length ?? 0} Position</span> in this list
                   </span>
                 </div>
               </div>

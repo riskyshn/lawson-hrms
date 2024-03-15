@@ -132,6 +132,18 @@ export const fetchWorkplacements = (params?: PaginationParam, signal?: GenericAb
     .then((response) => response.data.data)
 }
 
+export const createWorkplacement = (payload: Record<string, any>) => {
+  return axios.post(`/workplacement`, payload).then((response) => response.data.data)
+}
+
+export const updateWorkplacement = (id: string, payload: Record<string, any>) => {
+  return axios.put(`/workplacement/${id}`, payload).then((response) => response.data.data)
+}
+
+export const deleteWorkplacement = (id: string) => {
+  return axios.delete(`/workplacement/${id}`).then((response) => response.data.data)
+}
+
 /**
  * JobTypes
  *
