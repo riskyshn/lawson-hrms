@@ -6,21 +6,21 @@ import Table from '../components/Table'
 import Modal from '../components/Modal'
 import { useEffect, useState } from 'react'
 import usePagination from '@/hooks/use-pagination'
-import { IPosition } from '@/types/oganizartion'
+import { IWorkplacement } from '@/types/oganizartion'
 import { organizationService } from '@/services'
 import ErrorScreen from '@/components/Elements/ErrorScreen'
 import { PaginationResponse } from '@/types/pagination'
 
-const SettingsPositionPage: React.FC = () => {
+const SettingsWorkPlacementPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(true)
-  const [pageData, setPageData] = useState<PaginationResponse<IPosition>>()
-  const [selectedPosition, setSelectedPosition] = useState<IPosition | null>(null)
+  const [pageData, setPageData] = useState<PaginationResponse<IWorkplacement>>()
+  const [selectedWorkPlacement, setSelectedWorkPlacement] = useState<IWorkplacement | null>(null)
   const [loadData, setLoadData] = useState(false)
 
   const pagination = usePagination({
-    pathname: '/settings/position',
+    pathname: '/settings/workplacement',
     totalPage: pageData?.totalPages ?? 0,
     params: {},
   })
@@ -33,7 +33,7 @@ const SettingsPositionPage: React.FC = () => {
       setErrorMessage('')
       setIsLoading(true)
       try {
-        const data = await organizationService.fetchPositions(
+        const data = await organizationService.fetchWorkplacements(
           {
             page: pagination.currentPage,
             size: 20,
@@ -62,14 +62,14 @@ const SettingsPositionPage: React.FC = () => {
     setLoadData((loadData) => !loadData)
   }
 
-  const openModal = (position: IPosition | null = null) => {
-    setSelectedPosition(position)
+  const openModal = (position: IWorkplacement | null = null) => {
+    setSelectedWorkPlacement(position)
     setShowModal(true)
   }
 
   const closeModal = () => {
     setShowModal(false)
-    setSelectedPosition(null)
+    setSelectedWorkPlacement(null)
   }
 
   if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
@@ -77,13 +77,13 @@ const SettingsPositionPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Position' }]}
-        title="Position"
-        subtitle="Manage Your Position"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Work Placement' }]}
+        title="Work Placement"
+        subtitle="Manage Your Work Placement"
         actions={
           <>
             <Button onClick={() => openModal()} color="primary" className="ml-3">
-              Add New Position
+              Add New Work Placement
             </Button>
           </>
         }
@@ -95,9 +95,9 @@ const SettingsPositionPage: React.FC = () => {
             <>
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <span className="block text-lg font-semibold">Position List</span>
+                  <span className="block text-lg font-semibold">Work Placement List</span>
                   <span className="block text-sm">
-                    You have <span className="text-primary-600">{pageData?.content?.length ?? 0} Position</span> in this list
+                    You have <span className="text-primary-600">{pageData?.content?.length ?? 0} Work Placement</span> in this list
                   </span>
                 </div>
               </div>
@@ -120,9 +120,9 @@ const SettingsPositionPage: React.FC = () => {
         />
       </Container>
 
-      <Modal show={showModal} onClose={closeModal} position={selectedPosition} onSubmitSuccess={handleSubmitSuccess} />
+      <Modal show={showModal} onClose={closeModal} workPlacement={selectedWorkPlacement} onSubmitSuccess={handleSubmitSuccess} />
     </>
   )
 }
 
-export default SettingsPositionPage
+export default SettingsWorkPlacementPage
