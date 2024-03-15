@@ -9,6 +9,8 @@ interface IPermission {
 interface IRole {
   oid: string
   name: string
+  code: string
+  description: string
   action: string
   attachedPolicies: IPermission[]
   createdAt: string

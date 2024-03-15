@@ -7,6 +7,7 @@ import { authorityService } from '@/services'
 import { PaginationResponse } from '@/types/pagination'
 import { Button } from 'jobseeker-ui'
 import { useCallback, useEffect, useState } from 'react'
+import CreateOrUpdateModal from './components/CreateOrUpdateModal'
 import Table from './components/Table'
 
 const SettingsRolePage: React.FC = () => {
@@ -56,13 +57,9 @@ const SettingsRolePage: React.FC = () => {
     [pageData],
   )
 
-  const handleDelete = useCallback(
-    (oid: string) => {
-      if (!pageData) return
-      setPageData({ ...pageData, content: pageData.content.filter((el) => el.oid !== oid) })
-    },
-    [pageData],
-  )
+  const refreshPageData = useCallback(() => {
+    setLoadData((value) => !value)
+  }, [])
 
   if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
 
@@ -77,6 +74,17 @@ const SettingsRolePage: React.FC = () => {
             Add New Role
           </Button>
         }
+      />
+
+      <CreateOrUpdateModal
+        show={showCreateRoleModal || !!toUpdateSelected}
+        role={toUpdateSelected || undefined}
+        onCreated={refreshPageData}
+        onUpdated={handleUpdate}
+        onClose={() => {
+          if (toUpdateSelected) setToUpdateSelected(null)
+          else setShowCreateRoleModal(false)
+        }}
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
@@ -97,7 +105,7 @@ const SettingsRolePage: React.FC = () => {
               loading={isLoading}
               setSelectedToUpdate={setToUpdateSelected}
               setSelectedToUpdatePermission={setToUpdateSelected}
-              onDeleted={handleDelete}
+              onDeleted={refreshPageData}
             />
           }
           footer={pagination.render()}

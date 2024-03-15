@@ -26,7 +26,7 @@ export const createRole = (payload: Record<string, any>) => {
 }
 
 export const updateRole = (oid: string, payload: Record<string, any>) => {
-  return axios.put<{ data: IRole }>(`/authority/roles/${oid}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IRole }>(`/authority/roles`, { id: oid, ...payload }).then((response) => response.data.data)
 }
 
 export const deleteRole = (oid: string) => {

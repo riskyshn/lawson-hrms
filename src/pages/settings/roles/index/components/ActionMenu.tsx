@@ -27,7 +27,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ role, index, total, upSpace, se
   }
 
   const editAccessPolice: Table.ActionMenuItemProps = {
-    text: 'Edit Access Polices',
+    text: 'Edit Access',
     icon: LockIcon,
     action() {
       setSelectedToUpdate?.(role)

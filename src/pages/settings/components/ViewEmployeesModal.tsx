@@ -14,9 +14,9 @@ type ModalProps = {
   position?: any
 }
 
-const ViewEmployeesModal: React.FC<ModalProps> = ({ show, onClose, position }) => {
+const ViewEmployeesModal: React.FC<ModalProps> = ({ show, onClose }) => {
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [candidates, setCandidates] = useState<Candidate[]>([
+  const [candidates] = useState<Candidate[]>([
     { name: 'John Doe', email: 'john@example.com' },
     { name: 'Jane Smith', email: 'jane@example.com' },
     { name: 'Alice Johnson', email: 'alice@example.com' },
