@@ -1,5 +1,4 @@
 import Container from '@/components/Elements/Container'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
@@ -19,7 +18,7 @@ const EditJobPage = () => {
   const toast = useToast()
   const navigate = useNavigate()
 
-  const { vacancy, pageError } = useVacancyPage()
+  const { vacancy } = useVacancyPage()
   const [formValues, setFormValues] = useState<any>({
     vacancyInformation: {},
     process: {},
@@ -77,8 +76,6 @@ const EditJobPage = () => {
 
     return obj
   }
-
-  if (pageError) return <ErrorScreen {...pageError} />
 
   return (
     <>

@@ -3,7 +3,7 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { employeeService, organizationService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
-import { BaseSelect, Button, Card, CardBody, CardFooter, OptionProps, useToast } from 'jobseeker-ui'
+import { BaseSelect, Button, Card, CardBody, CardFooter, OptionProps, Spinner, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon, PlusCircleIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -13,6 +13,7 @@ const ApproveListPage: React.FC = () => {
   const [values, setValues] = useState<string[]>([])
   const [initLoading, setInitLoading] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(false)
+  const [pageError, setPageError] = useState<any>()
   const organizationStore = useOrganizationStore()
   const toast = useToast()
 
@@ -24,7 +25,7 @@ const ApproveListPage: React.FC = () => {
         setEmployees(employeeOptions)
         setInitLoading(false)
       } catch (error) {
-        console.error(error)
+        setPageError(error)
       }
     }
 
@@ -61,7 +62,7 @@ const ApproveListPage: React.FC = () => {
     setValues(updatedValues)
   }
 
-  if (initLoading) return null
+  if (pageError) throw pageError
 
   return (
     <>
@@ -76,36 +77,44 @@ const ApproveListPage: React.FC = () => {
         }
       />
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
-        <Card<'form'> as="form" onSubmit={handleSubmit}>
-          <CardBody className="grid grid-cols-1 gap-2">
-            <h3 className="text-lg font-semibold">Approval</h3>
+        {initLoading && (
+          <div className="flex items-center justify-center py-48">
+            <Spinner height={40} className="text-primary-600" />
+          </div>
+        )}
 
-            {values.map((el, i) => (
-              <div className="flex gap-1" key={i}>
-                <BaseSelect
-                  value={el}
-                  onChange={(value) => handleUpdateValue(i, value.toString())}
-                  className="w-full"
-                  placeholder="Please Select Aprover"
-                  options={employees.filter((employee) => !values.includes(employee.value.toString()) || employee.value === el)}
-                />
-                <Button color="error" iconOnly type="button" disabled={values.length <= 1} onClick={() => handleRemove(i)}>
-                  <MinusCircleIcon size={16} />
-                </Button>
-              </div>
-            ))}
+        {!initLoading && (
+          <Card<'form'> as="form" onSubmit={handleSubmit}>
+            <CardBody className="grid grid-cols-1 gap-2">
+              <h3 className="text-lg font-semibold">Approval</h3>
 
-            <Button block type="button" onClick={() => setValues((states) => [...states, ''])} variant="light" color="primary">
-              <PlusCircleIcon size={16} />
-            </Button>
-          </CardBody>
+              {values.map((el, i) => (
+                <div className="flex gap-1" key={i}>
+                  <BaseSelect
+                    value={el}
+                    onChange={(value) => handleUpdateValue(i, value.toString())}
+                    className="w-full"
+                    placeholder="Please Select Aprover"
+                    options={employees.filter((employee) => !values.includes(employee.value.toString()) || employee.value === el)}
+                  />
+                  <Button color="error" iconOnly type="button" disabled={values.length <= 1} onClick={() => handleRemove(i)}>
+                    <MinusCircleIcon size={16} />
+                  </Button>
+                </div>
+              ))}
 
-          <CardFooter className="gap-3">
-            <Button type="submit" color="primary" className="w-32" loading={loading} disabled={loading}>
-              Save
-            </Button>
-          </CardFooter>
-        </Card>
+              <Button block type="button" onClick={() => setValues((states) => [...states, ''])} variant="light" color="primary">
+                <PlusCircleIcon size={16} />
+              </Button>
+            </CardBody>
+
+            <CardFooter className="gap-3">
+              <Button type="submit" color="primary" className="w-32" loading={loading} disabled={loading}>
+                Save
+              </Button>
+            </CardFooter>
+          </Card>
+        )}
       </Container>
     </>
   )

@@ -1,5 +1,4 @@
 import Container from '@/components/Elements/Container'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
@@ -24,7 +23,7 @@ const JobManajementPage: React.FC = () => {
   const { master } = useOrganizationStore()
 
   const [pageData, setPageData] = useState<PaginationResponse<IVacancy>>()
-  const [errorMessage, setErrorMessage] = useState('')
+  const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
 
   const pagination = usePagination({
@@ -38,7 +37,6 @@ const JobManajementPage: React.FC = () => {
     const signal = controller.signal
 
     const load = async (signal: AbortSignal) => {
-      setErrorMessage('')
       setIsLoading(true)
       try {
         const data = await vacancyService.fetchVacancies(
@@ -55,10 +53,7 @@ const JobManajementPage: React.FC = () => {
         setPageData(data)
         setIsLoading(false)
       } catch (e: any) {
-        if (e.message !== 'canceled') {
-          setErrorMessage(e.response?.data?.meta?.message || e.message)
-          setIsLoading(false)
-        }
+        if (e.message !== 'canceled') setPageError(e)
       }
     }
 
@@ -85,7 +80,7 @@ const JobManajementPage: React.FC = () => {
     [pageData],
   )
 
-  if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
+  if (pageError) throw pageError
 
   return (
     <>

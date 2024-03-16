@@ -1,5 +1,4 @@
 import Container from '@/components/Elements/Container'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
@@ -17,7 +16,7 @@ const schema = yup.object().shape({
 })
 
 const DetailJobRequisitionPage: React.FC = () => {
-  const { vacancy, isLoading, pageError } = useVacancyPage()
+  const { vacancy, isLoading } = useVacancyPage()
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -47,7 +46,6 @@ const DetailJobRequisitionPage: React.FC = () => {
       }
     })
 
-  if (pageError) return <ErrorScreen {...pageError} />
   return (
     <>
       <PageHeader
