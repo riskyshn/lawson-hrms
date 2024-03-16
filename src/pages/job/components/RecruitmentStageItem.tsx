@@ -60,12 +60,12 @@ const RecruitmentStageItem: React.FC<{
       <BaseInput placeholder="Stage name" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
       {isNew && value.trim().length !== 0 && (
         <Button color="primary" type="button" disabled={loading} loading={loading} onClick={handleCreate}>
-          Create
+          Save
         </Button>
       )}
       {!isNew && value.trim().length !== 0 && value !== item?.name && (
         <Button color="primary" type="button" disabled={loading} loading={loading} onClick={handleUpdate}>
-          Update
+          Save
         </Button>
       )}
       <Button color="error" iconOnly type="button" disabled={deleteLoading} loading={deleteLoading} onClick={handleRemove}>

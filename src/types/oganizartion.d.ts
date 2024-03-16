@@ -187,3 +187,15 @@ export interface IRecruitmentStage {
   type: 'INTERVIEW' | 'ASSESMENT'
   name: string
 }
+
+export interface IApproval {
+  oid: string
+  status: number
+  employee: {
+    oid: string
+    name?: string
+  }
+  position?: stirng | null
+  department?: stirng | null
+  branch?: stirng | null
+}

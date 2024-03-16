@@ -34,7 +34,7 @@ const EditJobRequisitionPage = () => {
 
   useEffect(() => {
     if (vacancy) {
-      setFormValues(vacancyToFormEdit(vacancy))
+      setFormValues(vacancyToFormEdit(vacancy, true))
       setIsLoaded(true)
     }
   }, [vacancy])
@@ -111,6 +111,7 @@ const EditJobRequisitionPage = () => {
 
         {isLoaded && activeStep === 0 && (
           <VacancyInformationForm
+            isRequisition
             defaultValue={formValues.vacancyInformation}
             handlePrev={handlePrev}
             handleSubmit={(vacancyInformation) => handleStepSubmit({ ...formValues, vacancyInformation })}

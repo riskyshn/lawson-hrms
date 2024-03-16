@@ -61,6 +61,7 @@ const JobRequisitionPage = () => {
           setErrorMessage(e.response?.data?.meta?.message || e.message)
           setIsLoading(false)
         }
+        throw e
       }
     }
 

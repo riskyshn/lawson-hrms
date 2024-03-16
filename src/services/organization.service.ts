@@ -2,7 +2,17 @@ import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 import type { GenericAbortSignal } from 'axios'
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
-import { IBenefit, IBranch, IDepartment, IJobLevel, IJobType, IPosition, IRecruitmentStage, IWorkplacement } from '@/types/oganizartion'
+import {
+  IApproval,
+  IBenefit,
+  IBranch,
+  IDepartment,
+  IJobLevel,
+  IJobType,
+  IPosition,
+  IRecruitmentStage,
+  IWorkplacement,
+} from '@/types/oganizartion'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({
@@ -184,4 +194,20 @@ export const updateRecruitmentStage = (id: string, payload: Record<string, any>)
 
 export const deleteRecruitmentStage = (id: string) => {
   return axios.delete(`/recruitment-stage/${id}`).then((response) => response.data.data)
+}
+
+/**
+ * Approval
+ *
+ */
+export const fetchApprovals = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IApproval> }>(`/approval`, { params, signal }).then((response) => response.data.data)
+}
+
+export const fetchApproval = (oid: string) => {
+  return axios.post<{ data: IApproval }>(`/approval/${oid}`).then((response) => response.data.data)
+}
+
+export const createApproval = (employeeIds: string[]) => {
+  return axios.post<{ data: IApproval[] }>(`/approval`, { employeeIds }).then((response) => response.data.data)
 }

@@ -2,6 +2,7 @@ import { organizationService } from '@/services'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
 import {
+  IApproval,
   IBenefit,
   IBranch,
   ICompany,
@@ -24,10 +25,12 @@ interface OrganizationStore {
     jobTypes: IJobType[]
     positions: IPosition[]
     workplacements: IWorkplacement[]
+    approvals: IApproval[]
   }
   init: () => Promise<void>
   refresh: () => Promise<void>
   clean: () => void
+  setApprovals: (approvals: IApproval[]) => Promise<void>
   createRecruitmentStage: (payload: Record<string, any>) => Promise<void>
   updateRecruitmentStage: (oid: string, payload: Record<string, any>) => Promise<void>
   deleteRecruitmentStage: (oid: string) => Promise<void>
@@ -37,6 +40,7 @@ export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
   company: null,
   recruitmentStages: [],
   master: {
+    approvals: [],
     departments: [],
     branches: [],
     benefits: [],
@@ -51,8 +55,8 @@ export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
   },
 
   refresh: async () => {
-    const [company, recruitmentStages, departments, branches, benefits, jobLevels, jobTypes, positions, workplacements] = await Promise.all(
-      [
+    const [company, recruitmentStages, departments, branches, benefits, jobLevels, jobTypes, positions, workplacements, approvals] =
+      await Promise.all([
         organizationService.fetchCompany(),
         organizationService.fetchRecruitmentStages({ limit: 99999, sortedField: 'createdAt', sortDirection: 'ASC' }),
         organizationService.fetchDepartments({ limit: 99999 }),
@@ -62,13 +66,14 @@ export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
         organizationService.fetchJobTypes({ limit: 99999 }),
         organizationService.fetchPositions({ limit: 99999 }),
         organizationService.fetchWorkplacements({ limit: 99999 }),
-      ],
-    )
+        organizationService.fetchApprovals({ limit: 99999 }),
+      ])
 
     set({
       company,
       recruitmentStages: recruitmentStages.content,
       master: {
+        approvals: approvals.content,
         departments: departments.content,
         branches: branches.content,
         benefits: benefits.content,
@@ -83,8 +88,26 @@ export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
   clean: () => {
     set({
       company: null,
-      master: { departments: [], branches: [], benefits: [], jobLevels: [], jobTypes: [], positions: [], workplacements: [] },
+      master: {
+        approvals: [],
+        departments: [],
+        branches: [],
+        benefits: [],
+        jobLevels: [],
+        jobTypes: [],
+        positions: [],
+        workplacements: [],
+      },
     })
+  },
+
+  setApprovals: async (approvals) => {
+    set((state) => ({
+      master: {
+        ...state.master,
+        approvals,
+      },
+    }))
   },
 
   createRecruitmentStage: async (payload) => {
