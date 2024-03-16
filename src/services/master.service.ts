@@ -50,18 +50,6 @@ export const fetchSubDistrict = <T = any>(params: PaginationParam & { district: 
   })
 }
 
-export const fetchCitiesByOids = (key: 'countries' | 'provinces' | 'cities' | 'districts' | 'subDistricts', oids: string[]) => {
-  let path: string = key
-
-  if (key == 'countries') path = 'country'
-  else if (key == 'provinces') path = 'province'
-  else if (key == 'cities') path = 'city'
-  else if (key == 'districts') path = 'district'
-  else if (key == 'subDistricts') path = 'sub-district'
-
-  return axios.post(`/area/${path}`, { in: oids }).then((response) => response.data.data)
-}
-
 /**
  * Workplacement
  *

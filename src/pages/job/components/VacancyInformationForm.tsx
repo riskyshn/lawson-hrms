@@ -16,7 +16,7 @@ import {
   Select,
   Textarea,
 } from 'jobseeker-ui'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputApprovalProcess from './InputApprovalProcess'
@@ -90,12 +90,15 @@ const VacancyInformationForm: React.FC<{
     defaultValues: { ...props.defaultValue, isRequisition: !!props.isRequisition } as yup.InferType<typeof schema>,
   })
 
-  console.log(errors.approvals)
-
   const onSubmit = handleSubmit(props.handleSubmit)
   const masterStore = useMasterStore()
   const organizationoStore = useOrganizationStore()
   const initialCity = masterStore.area.cities.find((el) => el.oid === getValues('cityId'))
+
+  useEffect(() => {
+    if (initialCity || !props.defaultValue?.cityId) return
+    masterService.fetchCities({ limit: 1, q: props.defaultValue.cityId })
+  }, [props.defaultValue?.cityId, initialCity])
 
   return (
     <Card as="form" onSubmit={onSubmit}>
