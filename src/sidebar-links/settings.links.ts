@@ -11,7 +11,7 @@ const settingsLinks = genSidebarLinks({
         { text: 'Branch', to: '/settings/branch' },
         { text: 'Department', to: '/settings/departments' },
         { text: 'Position', to: '/settings/positions' },
-        { text: 'Job Level', to: '/settings/job-level' },
+        { text: 'Job Level', to: '/settings/job-levels' },
         { text: 'Employment Status', to: '/settings/employment-status' },
         { text: 'Document Request', to: '/settings/document-request' },
         { text: 'Role', to: '/settings/roles' },

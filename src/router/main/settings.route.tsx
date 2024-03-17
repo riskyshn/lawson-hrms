@@ -4,7 +4,7 @@ import SettingsBranchPage from '@/pages/settings/branch/index/SettingsBranchPage
 import SettingsCompanyPage from '@/pages/settings/company/index/SettingsCompanyPage'
 import SettingDepartmentsPage from '@/pages/settings/departments/SettingDepartmentsPage'
 import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
-import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
+import SettingJobLevelsPage from '@/pages/settings/job-levels/SettingJobLevelsPage'
 import SettingPositionsPage from '@/pages/settings/positions/SettingPositionsPage'
 import SettingRolesPage from '@/pages/settings/roles/SettingRolesPage'
 import SettingWorkPlacementsPage from '@/pages/settings/work-placements/SettingWorkPlacementsPage'
@@ -34,9 +34,9 @@ const settingsRoute: RouteObject = {
       element: <SettingPositionsPage />,
     },
     {
-      path: 'job-level',
-      name: 'Job Level',
-      element: <SettingsJobLevelPage />,
+      path: 'job-levels',
+      name: 'Job Levels',
+      element: <SettingJobLevelsPage />,
     },
     {
       path: 'employment-status',
