@@ -1,3 +1,10 @@
+interface ICoordinate {
+  x: number
+  y: number
+  type: string
+  coordinates: [number, number]
+}
+
 export interface IAttachBranch {
   oid: string
   name?: string
@@ -121,8 +128,14 @@ export interface IBranch {
   company?: IAttachCompany
   pic?: IAttachEmployee
   status?: boolean
+  coordinate?: ICoordinate | null
+  range?: number
   totalEmployee?: number
   totalVacancy?: number
+  city?: {
+    oid: string
+    name?: string
+  }
   createdAt?: string // date
   updatedAt?: string // date
 }
