@@ -13,11 +13,11 @@ const axios = createAxiosInstance({
  *
  */
 export const fetchCompany = () => {
-  return axios.get(`/company`).then((response) => response.data.data)
+  return axios.get<{ data: ICompany }>(`/company`).then((response) => response.data.data)
 }
 
 export const updateCompany = (payload: Record<string, any>) => {
-  return axios.put(`/company`, payload).then((response) => response.data.data)
+  return axios.put<{ data: ICompany }>(`/company`, payload).then((response) => response.data.data)
 }
 
 /**
@@ -29,11 +29,11 @@ export const fetchBranches = (params?: IPaginationParam & { active?: boolean }, 
 }
 
 export const createBranch = (payload: Record<string, any>) => {
-  return axios.post(`/branch`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IBranch }>(`/branch`, payload).then((response) => response.data.data)
 }
 
 export const updateBranch = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/branch/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IBranch }>(`/branch/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteBranch = (id: string) => {
@@ -49,11 +49,11 @@ export const fetchDepartments = (params?: IPaginationParam, signal?: GenericAbor
 }
 
 export const createDepartment = (payload: Record<string, any>) => {
-  return axios.post(`/department`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IDepartment }>(`/department`, payload).then((response) => response.data.data)
 }
 
 export const updateDepartment = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/department/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IDepartment }>(`/department/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteDepartment = (id: string) => {
@@ -69,11 +69,11 @@ export const fetchBenefits = (params?: IPaginationParam, signal?: GenericAbortSi
 }
 
 export const createBenefit = (payload: Record<string, any>) => {
-  return axios.post(`/benefit`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IBenefit }>(`/benefit`, payload).then((response) => response.data.data)
 }
 
 export const updateBenefit = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/benefit/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IBenefit }>(`/benefit/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteBenefit = (id: string) => {
@@ -89,11 +89,11 @@ export const fetchJobLevels = (params?: IPaginationParam, signal?: GenericAbortS
 }
 
 export const createJobLevel = (payload: Record<string, any>) => {
-  return axios.post(`/job-level`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IJobLevel }>(`/job-level`, payload).then((response) => response.data.data)
 }
 
 export const updateJobLevel = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/job-level/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IJobLevel }>(`/job-level/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteJobLevel = (id: string) => {
@@ -109,11 +109,11 @@ export const fetchPositions = (params?: IPaginationParam, signal?: GenericAbortS
 }
 
 export const createPosition = (payload: Record<string, any>) => {
-  return axios.post(`/position`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IPosition }>(`/position`, payload).then((response) => response.data.data)
 }
 
 export const updatePosition = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/position/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IPosition }>(`/position/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deletePosition = (id: string) => {
@@ -131,11 +131,11 @@ export const fetchWorkplacements = (params?: IPaginationParam, signal?: GenericA
 }
 
 export const createWorkplacement = (payload: Record<string, any>) => {
-  return axios.post(`/workplacement`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IWorkplacement }>(`/workplacement`, payload).then((response) => response.data.data)
 }
 
 export const updateWorkplacement = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/workplacement/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IWorkplacement }>(`/workplacement/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteWorkplacement = (id: string) => {
@@ -151,11 +151,11 @@ export const fetchJobTypes = (params?: IPaginationParam, signal?: GenericAbortSi
 }
 
 export const createJobType = (payload: Record<string, any>) => {
-  return axios.post(`/job-type`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IJobType }>(`/job-type`, payload).then((response) => response.data.data)
 }
 
 export const updateJobType = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/job-type/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IJobType }>(`/job-type/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteJobType = (id: string) => {
@@ -173,11 +173,11 @@ export const fetchRecruitmentStages = (params?: IPaginationParam, signal?: Gener
 }
 
 export const createRecruitmentStage = (payload: Record<string, any>) => {
-  return axios.post(`/recruitment-stage`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IRecruitmentStage }>(`/recruitment-stage`, payload).then((response) => response.data.data)
 }
 
 export const updateRecruitmentStage = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/recruitment-stage/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IRecruitmentStage }>(`/recruitment-stage/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteRecruitmentStage = (id: string) => {
