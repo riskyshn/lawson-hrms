@@ -2,7 +2,17 @@ import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 import type { GenericAbortSignal } from 'axios'
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
-import { IBenefit, IBranch, IDepartment, IJobLevel, IJobType, IPosition, IRecruitmentStage, IWorkplacement } from '@/types/oganizartion'
+import {
+  IApproval,
+  IBenefit,
+  IBranch,
+  IDepartment,
+  IJobLevel,
+  IJobType,
+  IPosition,
+  IRecruitmentStage,
+  IWorkplacement,
+} from '@/types/oganizartion'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({
@@ -152,15 +162,15 @@ export const fetchJobTypes = (params?: PaginationParam, signal?: GenericAbortSig
   return axios.get<{ data: PaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
 }
 
-export const createJobTypes = (payload: Record<string, any>) => {
+export const createJobType = (payload: Record<string, any>) => {
   return axios.post(`/job-type`, payload).then((response) => response.data.data)
 }
 
-export const updateJobTypes = (id: string, payload: Record<string, any>) => {
+export const updateJobType = (id: string, payload: Record<string, any>) => {
   return axios.put(`/job-type/${id}`, payload).then((response) => response.data.data)
 }
 
-export const deleteJobTypes = (id: string) => {
+export const deleteJobType = (id: string) => {
   return axios.delete(`/job-type/${id}`).then((response) => response.data.data)
 }
 
@@ -184,4 +194,20 @@ export const updateRecruitmentStage = (id: string, payload: Record<string, any>)
 
 export const deleteRecruitmentStage = (id: string) => {
   return axios.delete(`/recruitment-stage/${id}`).then((response) => response.data.data)
+}
+
+/**
+ * Approval
+ *
+ */
+export const fetchApprovals = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: PaginationResponse<IApproval> }>(`/approval`, { params, signal }).then((response) => response.data.data)
+}
+
+export const fetchApproval = (oid: string) => {
+  return axios.post<{ data: IApproval }>(`/approval/${oid}`).then((response) => response.data.data)
+}
+
+export const createApproval = (employeeIds: string[]) => {
+  return axios.post<{ data: IApproval[] }>(`/approval`, { employeeIds }).then((response) => response.data.data)
 }

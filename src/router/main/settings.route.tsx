@@ -1,13 +1,13 @@
 import type { RouteObject } from 'react-router-dom'
 
-import SettingsBranchPage from '@/pages/settings/branch/index/SettingsBranchPage'
+import SettingBranchesPage from '@/pages/settings/branches/SettingBranchesPage'
 import SettingsCompanyPage from '@/pages/settings/company/index/SettingsCompanyPage'
-import SettingsDepartmentPage from '@/pages/settings/department/index/SettingsDepartmentPage'
-import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
-import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
-import SettingsPositionPage from '@/pages/settings/position/index/SettingsPositionPage'
-import SettingsRolePage from '@/pages/settings/roles/index/SettingsRolePage'
-import SettingsWorkPlacementPage from '@/pages/settings/workplacement/index/SettingsWorkPlacementPage'
+import SettingDepartmentsPage from '@/pages/settings/departments/SettingDepartmentsPage'
+import SettingEmploymentStatusPage from '@/pages/settings/employment-status/SettingEmploymentStatusPage'
+import SettingJobLevelsPage from '@/pages/settings/job-levels/SettingJobLevelsPage'
+import SettingPositionsPage from '@/pages/settings/positions/SettingPositionsPage'
+import SettingRolesPage from '@/pages/settings/roles/SettingRolesPage'
+import SettingWorkPlacementsPage from '@/pages/settings/work-placements/SettingWorkPlacementsPage'
 
 const settingsRoute: RouteObject = {
   path: 'settings',
@@ -19,39 +19,39 @@ const settingsRoute: RouteObject = {
       element: <SettingsCompanyPage />,
     },
     {
-      path: 'branch',
-      name: 'Branch',
-      element: <SettingsBranchPage />,
+      path: 'branches',
+      name: 'Branches',
+      element: <SettingBranchesPage />,
     },
     {
-      path: 'department',
-      name: 'Department',
-      element: <SettingsDepartmentPage />,
+      path: 'departments',
+      name: 'Departments',
+      element: <SettingDepartmentsPage />,
     },
     {
-      path: 'position',
-      name: 'Position',
-      element: <SettingsPositionPage />,
+      path: 'positions',
+      name: 'Positions',
+      element: <SettingPositionsPage />,
     },
     {
-      path: 'job-level',
-      name: 'Job Level',
-      element: <SettingsJobLevelPage />,
+      path: 'job-levels',
+      name: 'Job Levels',
+      element: <SettingJobLevelsPage />,
     },
     {
       path: 'employment-status',
       name: 'Employment Status',
-      element: <SettingsEmploymentStatusPage />,
+      element: <SettingEmploymentStatusPage />,
     },
     {
-      path: 'role',
+      path: 'roles',
       name: 'Roles',
-      element: <SettingsRolePage />,
+      element: <SettingRolesPage />,
     },
     {
-      path: 'workplacement',
-      name: 'Work Placement',
-      element: <SettingsWorkPlacementPage />,
+      path: 'work-placements',
+      name: 'Work Placements',
+      element: <SettingWorkPlacementsPage />,
     },
   ],
 }

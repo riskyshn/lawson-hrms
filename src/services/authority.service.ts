@@ -38,7 +38,9 @@ export const deleteRole = (oid: string) => {
  *
  */
 export const fetchPermissions = (params?: PaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IRole> }>(`/authority/permissions`, { params, signal }).then((response) => response.data.data)
+  return axios
+    .get<{ data: PaginationResponse<IPermission> }>(`/authority/permissions`, { params, signal })
+    .then((response) => response.data.data)
 }
 
 export const fetchPermission = (oid: string) => {

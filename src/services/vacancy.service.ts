@@ -6,7 +6,6 @@ import { createAxiosInstance } from '@/utils/axios'
 import { IVacancy } from '@/types/vacancy'
 
 type FetchVacanciesParams = PaginationParam & {
-  keyword?: string
   departmentId?: string
   status?: string
   isRequisition?: 0 | 1
@@ -42,15 +41,15 @@ export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 
 }
 
 export const cancelRequisition = (id: string) => {
-  return axios.patch(`/vacancy/${id}/cancel`).then((response) => response.data.data)
+  return axios.patch(`/requisition/${id}/cancel`).then((response) => response.data.data)
 }
 
 export const publishRequisition = (id: string) => {
-  return axios.patch(`/vacancy/${id}/publish`).then((response) => response.data.data)
+  return axios.patch(`/requisition/${id}/publish`).then((response) => response.data.data)
 }
 
 export const approveRequisition = (id: string, payload: Record<string, any>) => {
-  return axios.patch(`/vacancy/${id}`, payload).then((response) => response.data.data)
+  return axios.patch(`/requisition/${id}/approve`, payload).then((response) => response.data.data)
 }
 
 export const fetchVacancyStratistic = (params?: { isRequisition: boolean }) => {

@@ -1,89 +1,69 @@
-import { Menu } from '@headlessui/react'
-import { Button, useConfirm, useToast } from 'jobseeker-ui'
-import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
-import React, { useState } from 'react'
-import { twJoin } from 'tailwind-merge'
-import Modal from './Modal'
-import { IJobType } from '@/types/oganizartion'
+import * as Table from '@/components/Elements/MainTable'
 import { organizationService } from '@/services'
+import { IJobType } from '@/types/oganizartion'
+import { useConfirm, useToast } from 'jobseeker-ui'
+import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import React from 'react'
 
 type ActionMenuProps = {
-  items: IJobType
-  onSubmitSuccess: () => void
+  item: IJobType
+  index: number
+  total: number
+  upSpace: number
+  setSelectedToUpdate?: (item: IJobType) => void
+  onDeleted?: (oid: string) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ items, onSubmitSuccess }) => {
-  const [modalType, setModalType] = useState('')
-  const [showModal, setShowModal] = useState(false)
+const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelectedToUpdate, onDeleted }) => {
   const confirm = useConfirm()
   const toast = useToast()
 
-  const deleteEmployementStatus = async () => {
-    const confirmed = await confirm({
-      text: 'Are you sure you want to delete this employment status?',
-      confirmBtnColor: 'error',
-      cancelBtnColor: 'primary',
-      icon: 'error',
-    })
-    if (confirmed) {
-      try {
-        await organizationService.deleteJobTypes(items.oid)
-        toast('Employment Status deleted successfully.', { color: 'success', position: 'top-right' })
-        onSubmitSuccess()
-      } catch (e: any) {
-        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+  const editJobType: Table.ActionMenuItemProps = {
+    text: 'Edit Employment Status',
+    icon: PenToolIcon,
+    action() {
+      setSelectedToUpdate?.(item)
+    },
+  }
+
+  const viewEmployees: Table.ActionMenuItemProps = {
+    text: 'View Employees',
+    icon: UsersIcon,
+    action() {
+      //
+    },
+  }
+
+  const deleteJobType: Table.ActionMenuItemProps = {
+    text: 'Delete Employment Status',
+    icon: TrashIcon,
+    iconClassName: 'text-error-600',
+    action: async () => {
+      const confirmed = await confirm({
+        text: 'Are you sure you want to delete this Employment Status?',
+        confirmBtnColor: 'error',
+        cancelBtnColor: 'primary',
+      })
+      if (confirmed) {
+        try {
+          await organizationService.deleteJobType(item.oid)
+          toast('Employment Status deleted successfully.', { color: 'success' })
+          onDeleted?.(item.oid)
+        } catch (e: any) {
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+        }
       }
-    }
+    },
   }
 
-  const openModal = (type: string = '') => {
-    if (type == 'Delete') {
-      deleteEmployementStatus()
-    } else {
-      setModalType(type)
-      setShowModal(true)
-    }
-  }
-
-  const closeModal = () => {
-    setShowModal(false)
-  }
-
-  const renderModal = () => {
-    switch (modalType) {
-      case 'Edit':
-        return <Modal show={showModal} onClose={closeModal} employmentStatus={items} onSubmitSuccess={onSubmitSuccess} />
-      default:
-        return null
-    }
-  }
+  const menus = [editJobType, viewEmployees, deleteJobType]
 
   return (
-    <div className="text-center">
-      {renderModal()}
-      <Menu as="div" className="relative">
-        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
-          Action
-        </Menu.Button>
-        <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
-          {['Edit', 'View Employees', 'Delete'].map((option, i) => (
-            <Menu.Item key={i}>
-              {({ active }) => (
-                <button
-                  className={twJoin('group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm', active && 'bg-primary-100')}
-                  onClick={() => openModal(option)}
-                >
-                  {i === 0 && <EditIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {i === 1 && <EyeIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {i === 2 && <TrashIcon className={twJoin('h-4 w-4', active ? 'text-red-600' : 'text-red-400')} />}
-                  {option}
-                </button>
-              )}
-            </Menu.Item>
-          ))}
-        </Menu.Items>
-      </Menu>
-    </div>
+    <Table.ActionMenu up={index >= total - upSpace}>
+      {menus.map((item, i) => (
+        <Table.ActionMenuItem key={i} {...item} />
+      ))}
+    </Table.ActionMenu>
   )
 }
 

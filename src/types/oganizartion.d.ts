@@ -1,3 +1,10 @@
+interface ICoordinate {
+  x: number
+  y: number
+  type: string
+  coordinates: [number, number]
+}
+
 export interface IAttachBranch {
   oid: string
   name?: string
@@ -121,8 +128,14 @@ export interface IBranch {
   company?: IAttachCompany
   pic?: IAttachEmployee
   status?: boolean
+  coordinate?: ICoordinate | null
+  range?: number
   totalEmployee?: number
   totalVacancy?: number
+  city?: {
+    oid: string
+    name?: string
+  }
   createdAt?: string // date
   updatedAt?: string // date
 }
@@ -130,6 +143,7 @@ export interface IBranch {
 interface IDepartment {
   oid: string
   name?: string
+  code?: string
   company?: IAttachCompany
   status?: boolean
   totalEmployee?: number
@@ -186,4 +200,16 @@ export interface IRecruitmentStage {
   oid: string
   type: 'INTERVIEW' | 'ASSESMENT'
   name: string
+}
+
+export interface IApproval {
+  oid: string
+  status: number
+  employee: {
+    oid: string
+    name?: string
+  }
+  position?: stirng | null
+  department?: stirng | null
+  branch?: stirng | null
 }

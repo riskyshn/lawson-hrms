@@ -1,5 +1,4 @@
 import Container from '@/components/Elements/Container'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
@@ -19,7 +18,7 @@ const EditJobRequisitionPage = () => {
   const toast = useToast()
   const navigate = useNavigate()
 
-  const { vacancy, pageError } = useVacancyPage()
+  const { vacancy } = useVacancyPage()
   const [formValues, setFormValues] = useState<any>({
     vacancyInformation: {},
     process: {},
@@ -34,7 +33,7 @@ const EditJobRequisitionPage = () => {
 
   useEffect(() => {
     if (vacancy) {
-      setFormValues(vacancyToFormEdit(vacancy))
+      setFormValues(vacancyToFormEdit(vacancy, true))
       setIsLoaded(true)
     }
   }, [vacancy])
@@ -78,8 +77,6 @@ const EditJobRequisitionPage = () => {
     return obj
   }
 
-  if (pageError) return <ErrorScreen {...pageError} />
-
   return (
     <>
       <PageHeader
@@ -111,6 +108,7 @@ const EditJobRequisitionPage = () => {
 
         {isLoaded && activeStep === 0 && (
           <VacancyInformationForm
+            isRequisition
             defaultValue={formValues.vacancyInformation}
             handlePrev={handlePrev}
             handleSubmit={(vacancyInformation) => handleStepSubmit({ ...formValues, vacancyInformation })}
@@ -124,6 +122,7 @@ const EditJobRequisitionPage = () => {
             handleSubmit={(process) => handleStepSubmit({ ...formValues, process })}
           />
         )}
+
         {isLoaded && activeStep === 2 && (
           <RequirementsForm
             isUpdate
