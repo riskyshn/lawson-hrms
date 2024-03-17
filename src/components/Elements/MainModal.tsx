@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge'
 
 type PropTypes = React.PropsWithChildren<{
   show: boolean
-  onClose: () => void
+  onClose?: () => void
   className?: string
   hideCloseToggle?: boolean
 }>
@@ -13,7 +13,7 @@ type PropTypes = React.PropsWithChildren<{
 const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hideCloseToggle }) => {
   return (
     <Transition appear show={show} as={Fragment}>
-      <Dialog as="div" className="relative z-[50]" onClose={onClose}>
+      <Dialog as="div" className="relative z-[50]" onClose={() => onClose?.()}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -40,7 +40,7 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hi
               <Dialog.Panel
                 className={twMerge('relative w-full max-w-2xl rounded-lg bg-white p-6 text-left shadow-xl transition-all', className)}
               >
-                {!hideCloseToggle && (
+                {!hideCloseToggle && onClose && (
                   <button
                     className="absolute -right-3 -top-3 z-50 text-error-600 hover:text-error-700 focus:outline-none"
                     onClick={onClose}

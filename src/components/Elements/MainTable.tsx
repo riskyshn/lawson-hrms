@@ -27,7 +27,7 @@ export type ActionMenuItemProps = {
   action?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, loadingLength = 12, ...props }) => {
+export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, loadingLength = 5, ...props }) => {
   return (
     <table className={twMerge('table w-full whitespace-nowrap', className)} {...props}>
       {

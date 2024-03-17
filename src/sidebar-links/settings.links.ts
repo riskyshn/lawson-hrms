@@ -14,7 +14,7 @@ const settingsLinks = genSidebarLinks({
         { text: 'Job Level', to: '/settings/job-level' },
         { text: 'Employment Status', to: '/settings/employment-status' },
         { text: 'Document Request', to: '/settings/document-request' },
-        { text: 'Role', to: '/settings/role' },
+        { text: 'Role', to: '/settings/roles' },
         { text: 'Work Placement', to: '/settings/workplacement' },
       ],
     },

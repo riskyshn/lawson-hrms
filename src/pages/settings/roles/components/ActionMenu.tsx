@@ -14,7 +14,15 @@ type ActionMenuProps = {
   onDeleted?: (oid: string) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ role, index, total, upSpace, setSelectedToUpdate, onDeleted }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({
+  role,
+  index,
+  total,
+  upSpace,
+  setSelectedToUpdate,
+  setSelectedToUpdatePermission,
+  onDeleted,
+}) => {
   const toast = useToast()
   const confirm = useConfirm()
 
@@ -30,7 +38,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ role, index, total, upSpace, se
     text: 'Edit Access',
     icon: LockIcon,
     action() {
-      setSelectedToUpdate?.(role)
+      setSelectedToUpdatePermission?.(role)
     },
   }
 

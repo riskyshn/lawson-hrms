@@ -3,16 +3,14 @@ import { authorityService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Input, Textarea, useToast } from 'jobseeker-ui'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-type CreateOrUpdateModalProps = {
+type CreateModalProps = {
   show: boolean
-  role?: IRole
-  onClose: () => void
+  onClose?: () => void
   onCreated?: (role: IRole) => void
-  onUpdated?: (role: IRole) => void
 }
 
 const schema = yup.object().shape({
@@ -21,7 +19,7 @@ const schema = yup.object().shape({
   description: yup.string().required().label('Description'),
 })
 
-const CreateOrUpdateModal: React.FC<CreateOrUpdateModalProps> = ({ role, show, onClose, onCreated, onUpdated }) => {
+const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
@@ -29,48 +27,36 @@ const CreateOrUpdateModal: React.FC<CreateOrUpdateModalProps> = ({ role, show, o
   const {
     register,
     handleSubmit,
-    setValue,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
-
-  useEffect(() => {
-    setValue('name', role?.name || '')
-    setValue('code', role?.code || '')
-    setValue('description', role?.description || '')
-  }, [role, setValue])
 
   const onSubmit = handleSubmit(async (data) => {
     try {
       setIsLoading(true)
       setErrorMessage('')
 
-      if (role) {
-        const newRole = await authorityService.updateRole(role.oid, {
-          ...data,
-          attachedPermissions: role.attachedPolicies.map((el) => el.oid),
-        })
-        onUpdated?.(newRole)
-        toast('Role updated successfully', { color: 'success', position: 'top-right' })
-      } else {
-        const newRole = await authorityService.createRole({ ...data, attachedPermissions: [] })
-        onCreated?.(newRole)
-        toast('Role created successfully', { color: 'success', position: 'top-right' })
-      }
+      const newRole = await authorityService.createRole({ ...data, attachedPermissions: [] })
+      onCreated?.(newRole)
+      toast('Role created successfully', { color: 'success' })
 
-      onClose()
-    } catch (error: any) {
-      setErrorMessage(axiosErrorMessage(error))
-    } finally {
+      onClose?.()
+      setTimeout(() => {
+        reset()
+        setIsLoading(false)
+      }, 500)
+    } catch (e) {
+      setErrorMessage(axiosErrorMessage(e))
       setIsLoading(false)
     }
   })
 
   return (
-    <MainModal className="max-w-xl" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl" show={show}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <h4 className="mb-4 text-2xl font-semibold">{role ? 'Update Role' : 'Create Role'}</h4>
+        <h4 className="mb-4 text-2xl font-semibold">Create Role</h4>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
@@ -79,11 +65,11 @@ const CreateOrUpdateModal: React.FC<CreateOrUpdateModalProps> = ({ role, show, o
         <Textarea label="Description" labelRequired rows={6} error={errors.description?.message} {...register('description')} />
 
         <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" onClick={onClose} color="primary" variant="light">
+          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
             Cancel
           </Button>
-          <Button type="submit" color="primary" disabled={isLoading} loading={isLoading}>
-            {role ? 'Update' : 'Create'}
+          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+            Save
           </Button>
         </div>
       </form>
@@ -91,4 +77,4 @@ const CreateOrUpdateModal: React.FC<CreateOrUpdateModalProps> = ({ role, show, o
   )
 }
 
-export default CreateOrUpdateModal
+export default CreateModal

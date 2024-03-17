@@ -6,7 +6,7 @@ import SettingsDepartmentPage from '@/pages/settings/department/index/SettingsDe
 import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
 import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
 import SettingsPositionPage from '@/pages/settings/position/index/SettingsPositionPage'
-import SettingsRolePage from '@/pages/settings/roles/index/SettingsRolePage'
+import SettingRolesPage from '@/pages/settings/roles/SettingRolesPage'
 import SettingsWorkPlacementPage from '@/pages/settings/workplacement/index/SettingsWorkPlacementPage'
 
 const settingsRoute: RouteObject = {
@@ -44,9 +44,9 @@ const settingsRoute: RouteObject = {
       element: <SettingsEmploymentStatusPage />,
     },
     {
-      path: 'role',
+      path: 'roles',
       name: 'Roles',
-      element: <SettingsRolePage />,
+      element: <SettingRolesPage />,
     },
     {
       path: 'workplacement',

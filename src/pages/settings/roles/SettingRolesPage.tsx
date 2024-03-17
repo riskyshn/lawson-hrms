@@ -1,5 +1,4 @@
 import Container from '@/components/Elements/Container'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
@@ -7,15 +6,19 @@ import { authorityService } from '@/services'
 import { PaginationResponse } from '@/types/pagination'
 import { Button } from 'jobseeker-ui'
 import { useCallback, useEffect, useState } from 'react'
+import CardHeader from '../components/CardHeader'
+import CreateModal from './components/CreateModal'
+import EditPermissionModal from './components/EditPermissionModal'
 import Table from './components/Table'
-import CreateOrUpdateModal from './components/CreateOrUpdateModal'
+import EditModal from './components/EditModal'
 
-const SettingsRolePage: React.FC = () => {
-  const [showCreateRoleModal, setShowCreateRoleModal] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+const SettingRolesPage: React.FC = () => {
+  const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [pageData, setPageData] = useState<PaginationResponse<IRole>>()
+  const [pageError, setPageError] = useState<any>()
   const [toUpdateSelected, setToUpdateSelected] = useState<IRole | null>(null)
+  const [toUpdateSelectedPermission, setToUpdateSelectedPermission] = useState<IRole | null>(null)
   const [loadData, setLoadData] = useState(false)
 
   const pagination = usePagination({
@@ -29,24 +32,18 @@ const SettingsRolePage: React.FC = () => {
     const signal = controller.signal
 
     const load = async (signal: AbortSignal) => {
-      setErrorMessage('')
       setIsLoading(true)
       try {
         const data = await authorityService.fetchRoles({ page: pagination.currentPage, limit: 20 }, signal)
         setPageData(data)
+        setIsLoading(false)
       } catch (e: any) {
-        if (e.message !== 'canceled') {
-          setErrorMessage(e.response?.data?.meta?.message || e.message)
-        }
+        if (e.message !== 'canceled') setPageError(e)
       }
-      setIsLoading(false)
     }
 
     load(signal)
-
-    return () => {
-      controller.abort()
-    }
+    return () => controller.abort()
   }, [loadData, pagination.currentPage])
 
   const handleUpdate = useCallback(
@@ -57,54 +54,36 @@ const SettingsRolePage: React.FC = () => {
     [pageData],
   )
 
-  const refreshPageData = useCallback(() => {
-    setLoadData((value) => !value)
-  }, [])
+  const refreshPageData = useCallback(() => setLoadData((value) => !value), [])
 
-  if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
+  if (pageError) throw pageError
 
   return (
     <>
       <PageHeader
         breadcrumb={[{ text: 'Settings' }, { text: 'Role' }]}
         title="Role"
-        subtitle="Manage Your Role"
+        subtitle="Manage Your Company Role"
         actions={
-          <Button onClick={() => setShowCreateRoleModal(true)} color="primary" className="ml-3">
+          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
             Add New Role
           </Button>
         }
       />
 
-      <CreateOrUpdateModal
-        show={showCreateRoleModal || !!toUpdateSelected}
-        role={toUpdateSelected || undefined}
-        onCreated={refreshPageData}
-        onUpdated={handleUpdate}
-        onClose={() => {
-          if (toUpdateSelected) setToUpdateSelected(null)
-          else setShowCreateRoleModal(false)
-        }}
-      />
+      <CreateModal show={showCreateModal} onCreated={refreshPageData} onClose={() => setShowCreateModal(false)} />
+      <EditModal role={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={handleUpdate} />
+      <EditPermissionModal role={toUpdateSelectedPermission} onClose={() => setToUpdateSelectedPermission(null)} onUpdated={handleUpdate} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={
-            <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <span className="block text-lg font-semibold">Role List</span>
-                <span className="block text-sm">
-                  You have <span className="text-primary-600">{pageData?.totalElements || 0} Role</span> in this list
-                </span>
-              </div>
-            </div>
-          }
+          header={<CardHeader name="Role" total={pageData?.totalElements} />}
           body={
             <Table
               items={pageData?.content || []}
               loading={isLoading}
               setSelectedToUpdate={setToUpdateSelected}
-              setSelectedToUpdatePermission={setToUpdateSelected}
+              setSelectedToUpdatePermission={setToUpdateSelectedPermission}
               onDeleted={refreshPageData}
             />
           }
@@ -115,4 +94,4 @@ const SettingsRolePage: React.FC = () => {
   )
 }
 
-export default SettingsRolePage
+export default SettingRolesPage
