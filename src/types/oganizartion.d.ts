@@ -130,6 +130,7 @@ export interface IBranch {
 interface IDepartment {
   oid: string
   name?: string
+  code?: string
   company?: IAttachCompany
   status?: boolean
   totalEmployee?: number

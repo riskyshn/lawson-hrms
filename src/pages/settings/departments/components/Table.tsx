@@ -1,19 +1,20 @@
 import React from 'react'
 import MainTable from '@/components/Elements/MainTable'
 import ActionMenu from './ActionMenu'
-import { IPosition } from '@/types/oganizartion'
+import { IDepartment } from '@/types/oganizartion'
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
-  items: IPosition[]
+  items: IDepartment[]
   loading?: boolean
-  setSelectedToUpdate?: (item: IPosition) => void
+  setSelectedToUpdate?: (item: IDepartment) => void
   onDeleted?: (oid: string) => void
 }
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
   const headerItems = [
     { children: 'Name', className: 'text-left' },
+    { children: 'Code', className: 'text-left' },
     // { children: 'Employees' },
     { children: 'Action', className: 'w-24' },
   ]
@@ -22,6 +23,9 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
     items: [
       {
         children: <span className="block font-semibold">{item.name}</span>,
+      },
+      {
+        children: item.code,
       },
       // {
       //   children: (

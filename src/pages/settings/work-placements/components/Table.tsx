@@ -21,11 +21,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
   const bodyItems = items.map((item, index) => ({
     items: [
       {
-        children: (
-          <>
-            <span className="block font-semibold">{item.name}</span>
-          </>
-        ),
+        children: <span className="block font-semibold">{item.name}</span>,
       },
       // {
       //   children: (

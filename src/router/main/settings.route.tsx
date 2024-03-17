@@ -2,7 +2,7 @@ import type { RouteObject } from 'react-router-dom'
 
 import SettingsBranchPage from '@/pages/settings/branch/index/SettingsBranchPage'
 import SettingsCompanyPage from '@/pages/settings/company/index/SettingsCompanyPage'
-import SettingsDepartmentPage from '@/pages/settings/department/index/SettingsDepartmentPage'
+import SettingDepartmentsPage from '@/pages/settings/departments/SettingDepartmentsPage'
 import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
 import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
 import SettingPositionsPage from '@/pages/settings/positions/SettingPositionsPage'
@@ -24,9 +24,9 @@ const settingsRoute: RouteObject = {
       element: <SettingsBranchPage />,
     },
     {
-      path: 'department',
-      name: 'Department',
-      element: <SettingsDepartmentPage />,
+      path: 'departments',
+      name: 'Departments',
+      element: <SettingDepartmentsPage />,
     },
     {
       path: 'positions',

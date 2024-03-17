@@ -47,10 +47,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
       if (confirmed) {
         try {
           await organizationService.deleteWorkplacement(item.oid)
-          toast('Role deleted successfully.', { color: 'success', position: 'top-right' })
+          toast('Role deleted successfully.', { color: 'success' })
           onDeleted?.(item.oid)
         } catch (e: any) {
-          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
       }
     },

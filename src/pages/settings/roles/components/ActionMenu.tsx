@@ -55,10 +55,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       if (confirmed) {
         try {
           await authorityService.deleteRole(role.oid)
-          toast('Role deleted successfully.', { color: 'success', position: 'top-right' })
+          toast('Role deleted successfully.', { color: 'success' })
           onDeleted?.(role.oid)
         } catch (e: any) {
-          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
       }
     },

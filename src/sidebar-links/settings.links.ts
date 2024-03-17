@@ -9,7 +9,7 @@ const settingsLinks = genSidebarLinks({
       child: [
         { text: 'Company', to: '/settings/company' },
         { text: 'Branch', to: '/settings/branch' },
-        { text: 'Department', to: '/settings/department' },
+        { text: 'Department', to: '/settings/departments' },
         { text: 'Position', to: '/settings/positions' },
         { text: 'Job Level', to: '/settings/job-level' },
         { text: 'Employment Status', to: '/settings/employment-status' },
