@@ -14,7 +14,7 @@ type CreateModalProps = {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Role Name'),
+  name: yup.string().required().label('Name'),
   code: yup.string().required().label('Code'),
   description: yup.string().required().label('Description'),
 })
@@ -60,7 +60,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input label="Role Name" labelRequired error={errors.name?.message} {...register('name')} />
+        <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
         <Input label="Code" labelRequired error={errors.code?.message} {...register('code')} />
         <Textarea label="Description" labelRequired rows={6} error={errors.description?.message} {...register('description')} />
 

@@ -12,7 +12,7 @@ type TableProps = {
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
   const headerItems = [
-    { children: 'Role name', className: 'text-left' },
+    { children: 'Name', className: 'text-left' },
     { children: 'Code' },
     { children: 'Description' },
     { children: 'Action', className: 'w-24' },

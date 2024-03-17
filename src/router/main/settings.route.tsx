@@ -7,7 +7,7 @@ import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/ind
 import SettingsJobLevelPage from '@/pages/settings/job-level/index/SettingsJobLevelPage'
 import SettingsPositionPage from '@/pages/settings/position/index/SettingsPositionPage'
 import SettingRolesPage from '@/pages/settings/roles/SettingRolesPage'
-import SettingsWorkPlacementPage from '@/pages/settings/workplacement/index/SettingsWorkPlacementPage'
+import SettingWorkPlacementsPage from '@/pages/settings/work-placements/SettingWorkPlacementsPage'
 
 const settingsRoute: RouteObject = {
   path: 'settings',
@@ -45,13 +45,13 @@ const settingsRoute: RouteObject = {
     },
     {
       path: 'roles',
-      name: 'Roles',
+      name: 'Role',
       element: <SettingRolesPage />,
     },
     {
-      path: 'workplacement',
-      name: 'Work Placement',
-      element: <SettingsWorkPlacementPage />,
+      path: 'work-placements',
+      name: 'Work Placements',
+      element: <SettingWorkPlacementsPage />,
     },
   ],
 }
