@@ -47,7 +47,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
       if (confirmed) {
         try {
           await organizationService.deleteDepartment(item.oid)
-          toast('Role deleted successfully.', { color: 'success' })
+          toast('Department deleted successfully.', { color: 'success' })
           onDeleted?.(item.oid)
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error' })

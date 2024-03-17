@@ -3,7 +3,7 @@ import type { RouteObject } from 'react-router-dom'
 import SettingsBranchPage from '@/pages/settings/branch/index/SettingsBranchPage'
 import SettingsCompanyPage from '@/pages/settings/company/index/SettingsCompanyPage'
 import SettingDepartmentsPage from '@/pages/settings/departments/SettingDepartmentsPage'
-import SettingsEmploymentStatusPage from '@/pages/settings/employment-status/index/SettingsEmploymentStatusPage'
+import SettingEmploymentStatusPage from '@/pages/settings/employment-status/SettingEmploymentStatusPage'
 import SettingJobLevelsPage from '@/pages/settings/job-levels/SettingJobLevelsPage'
 import SettingPositionsPage from '@/pages/settings/positions/SettingPositionsPage'
 import SettingRolesPage from '@/pages/settings/roles/SettingRolesPage'
@@ -41,7 +41,7 @@ const settingsRoute: RouteObject = {
     {
       path: 'employment-status',
       name: 'Employment Status',
-      element: <SettingsEmploymentStatusPage />,
+      element: <SettingEmploymentStatusPage />,
     },
     {
       path: 'roles',
