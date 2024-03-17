@@ -30,7 +30,7 @@ const data = [
             processDate: '24/01/2024',
             processRemarks:
               'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit laborum quo labore culpa nam, pariatur numquam unde, voluptatibus expedita cumque assumenda voluptate. Animi rerum asperiores a officia corrupti ipsa debitis.',
-            document: 'http://localhost:5173/sample.pdf',
+            document: '/sample.pdf',
           },
         ],
       },
@@ -45,7 +45,7 @@ const data = [
             processDate: '24/01/2024',
             processRemarks:
               'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit laborum quo labore culpa nam, pariatur numquam unde, voluptatibus expedita cumque assumenda voluptate. Animi rerum asperiores a officia corrupti ipsa debitis.',
-            document: 'http://localhost:5173/sample.pdf',
+            document: '/sample.pdf',
           },
         ],
       },
@@ -60,7 +60,7 @@ const data = [
             processDate: '24/01/2024',
             processRemarks:
               'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit laborum quo labore culpa nam, pariatur numquam unde, voluptatibus expedita cumque assumenda voluptate. Animi rerum asperiores a officia corrupti ipsa debitis.',
-            document: 'http://localhost:5173/sample.pdf',
+            document: '/sample.pdf',
           },
         ],
       },
@@ -76,7 +76,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, onClose }) => {
   }
 
   const handleOpenPdf = () => {
-    window.open('http://localhost:5173/sample.pdf', '_blank')
+    window.open('/sample.pdf', '_blank')
   }
 
   const renderStatus = (status: string) => {
