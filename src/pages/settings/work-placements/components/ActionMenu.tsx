@@ -26,8 +26,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     },
   }
 
-  const viewCandidates: Table.ActionMenuItemProps = {
-    text: 'View Candidates',
+  const viewEmployees: Table.ActionMenuItemProps = {
+    text: 'View Employees',
     icon: UsersIcon,
     action() {
       //
@@ -56,7 +56,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     },
   }
 
-  const menus = [editWorkPlacement, viewCandidates, deleteWorkPlacement]
+  const menus = [editWorkPlacement, viewEmployees, deleteWorkPlacement]
 
   return (
     <Table.ActionMenu up={index >= total - upSpace}>
