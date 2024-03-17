@@ -1,4 +1,4 @@
-export interface IMasterCountry {
+interface IMasterCountry {
   oid: string
   name: string
   code: string
@@ -7,30 +7,30 @@ export interface IMasterCountry {
   subRegion: string
 }
 
-export interface IMasterProvince {
+interface IMasterProvince {
   oid: string
   name: string
   country: string
 }
 
-export interface IMasterCity {
+interface IMasterCity {
   oid: string
   name: string
   province: string
 }
 
-export interface IMasterDistrict {
+interface IMasterDistrict {
   oid: string
   name: string
   city: string
 }
 
-export interface IMasterSubDistrict {
+interface IMasterSubDistrict {
   oid: string
   name: string
 }
 
-export interface IMasterEducationLevel {
+interface IMasterEducationLevel {
   oid: string
   name: string
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import moment from 'moment'
 import MainTable from '@/components/Elements/MainTable'
 import ActionMenu from './ActionMenu'
-import { IVacancy } from '@/types/vacancy'
 import { twJoin } from 'tailwind-merge'
 
 interface TableProps {

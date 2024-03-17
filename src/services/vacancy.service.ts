@@ -1,11 +1,9 @@
 import type { GenericAbortSignal } from 'axios'
-import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
-import { IVacancy } from '@/types/vacancy'
 
-type FetchVacanciesParams = PaginationParam & {
+type FetchVacanciesParams = IPaginationParam & {
   departmentId?: string
   status?: string
   isRequisition?: 0 | 1
@@ -17,19 +15,19 @@ const axios = createAxiosInstance({
 })
 
 export const fetchVacancies = (params?: FetchVacanciesParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: IPaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchVacancyDetail = (id: string) => {
-  return axios.get(`/vacancy/${id}`).then((response) => response.data.data as IVacancy)
+  return axios.get<{ data: IVacancy }>(`/vacancy/${id}`).then((response) => response.data.data)
 }
 
 export const createVacancy = (payload: Record<string, any>) => {
-  return axios.post(`/vacancy`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IVacancy }>(`/vacancy`, payload).then((response) => response.data.data)
 }
 
 export const udpateVacancy = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/vacancy/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IVacancy }>(`/vacancy/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteDraftVacancy = (id: string) => {
@@ -53,5 +51,5 @@ export const approveRequisition = (id: string, payload: Record<string, any>) => 
 }
 
 export const fetchVacancyStratistic = (params?: { isRequisition: boolean }) => {
-  return axios.get(`/vacancy/statistics`, { params }).then((response) => response.data.data as Record<string, number>)
+  return axios.get<{ data: Record<string, number> }>(`/vacancy/statistics`, { params }).then((response) => response.data.data)
 }

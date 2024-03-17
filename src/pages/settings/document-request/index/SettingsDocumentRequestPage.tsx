@@ -8,7 +8,6 @@ import Table from '../components/Table'
 // import usePagination from '@/hooks/use-pagination'
 // import { organizationService } from '@/services'
 // import ErrorScreen from '@/components/Elements/ErrorScreen'
-// import { PaginationResponse } from '@/types/pagination'
 
 const SettingsDocumentRequestPage: React.FC = () => {
   const pageData = {
@@ -39,7 +38,7 @@ const SettingsDocumentRequestPage: React.FC = () => {
   // const [showModal, setShowModal] = useState(false)
   // const [errorMessage, setErrorMessage] = useState('')
   // const [isLoading, setIsLoading] = useState(true)
-  // const [pageData, setPageData] = useState<PaginationResponse<IDocumentRequest>>()
+  // const [pageData, setPageData] = useState<IPaginationResponse<IDocumentRequest>>()
   // const [selectedDocumentRequest, setSelectedDocumentRequest] = useState<IDocumentRequest | null>(null)
   // const [loadData, setLoadData] = useState(false)
 

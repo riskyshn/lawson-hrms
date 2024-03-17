@@ -1,6 +1,5 @@
 import * as Table from '@/components/Elements/MainTable'
 import { organizationService } from '@/services'
-import { IJobType } from '@/types/oganizartion'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
 import React from 'react'

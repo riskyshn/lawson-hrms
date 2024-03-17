@@ -1,5 +1,4 @@
 import { useOrganizationStore } from '@/store'
-import { IRecruitmentStage } from '@/types/oganizartion'
 import { BaseInput, Button, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon } from 'lucide-react'
 import { useState } from 'react'

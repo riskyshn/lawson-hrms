@@ -1,18 +1,6 @@
 import { organizationService } from '@/services'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
-import {
-  IApproval,
-  IBenefit,
-  IBranch,
-  ICompany,
-  IDepartment,
-  IJobLevel,
-  IJobType,
-  IPosition,
-  IRecruitmentStage,
-  IWorkplacement,
-} from '@/types/oganizartion'
 
 interface OrganizationStore {
   company: ICompany | null

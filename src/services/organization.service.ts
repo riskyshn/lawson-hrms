@@ -1,18 +1,6 @@
-import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 import type { GenericAbortSignal } from 'axios'
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
-import {
-  IApproval,
-  IBenefit,
-  IBranch,
-  IDepartment,
-  IJobLevel,
-  IJobType,
-  IPosition,
-  IRecruitmentStage,
-  IWorkplacement,
-} from '@/types/oganizartion'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({
@@ -25,27 +13,27 @@ const axios = createAxiosInstance({
  *
  */
 export const fetchCompany = () => {
-  return axios.get(`/company`).then((response) => response.data.data)
+  return axios.get<{ data: ICompany }>(`/company`).then((response) => response.data.data)
 }
 
 export const updateCompany = (payload: Record<string, any>) => {
-  return axios.put(`/company`, payload).then((response) => response.data.data)
+  return axios.put<{ data: ICompany }>(`/company`, payload).then((response) => response.data.data)
 }
 
 /**
  * Branches
  *
  */
-export const fetchBranches = (params?: PaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IBranch> }>(`/branch`, { params, signal }).then((response) => response.data.data)
+export const fetchBranches = (params?: IPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IBranch> }>(`/branch`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createBranch = (payload: Record<string, any>) => {
-  return axios.post(`/branch`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IBranch }>(`/branch`, payload).then((response) => response.data.data)
 }
 
 export const updateBranch = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/branch/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IBranch }>(`/branch/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteBranch = (id: string) => {
@@ -56,16 +44,16 @@ export const deleteBranch = (id: string) => {
  * Department
  *
  */
-export const fetchDepartments = (params?: PaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IDepartment> }>(`/department`, { params, signal }).then((response) => response.data.data)
+export const fetchDepartments = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IDepartment> }>(`/department`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createDepartment = (payload: Record<string, any>) => {
-  return axios.post(`/department`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IDepartment }>(`/department`, payload).then((response) => response.data.data)
 }
 
 export const updateDepartment = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/department/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IDepartment }>(`/department/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteDepartment = (id: string) => {
@@ -76,16 +64,16 @@ export const deleteDepartment = (id: string) => {
  * Benefits
  *
  */
-export const fetchBenefits = (params?: PaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IBenefit> }>(`/benefit`, { params, signal }).then((response) => response.data.data)
+export const fetchBenefits = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IBenefit> }>(`/benefit`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createBenefit = (payload: Record<string, any>) => {
-  return axios.post(`/benefit`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IBenefit }>(`/benefit`, payload).then((response) => response.data.data)
 }
 
 export const updateBenefit = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/benefit/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IBenefit }>(`/benefit/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteBenefit = (id: string) => {
@@ -96,16 +84,16 @@ export const deleteBenefit = (id: string) => {
  * JobLevels
  *
  */
-export const fetchJobLevels = (params?: PaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IJobLevel> }>(`/job-level`, { params, signal }).then((response) => response.data.data)
+export const fetchJobLevels = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IJobLevel> }>(`/job-level`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createJobLevel = (payload: Record<string, any>) => {
-  return axios.post(`/job-level`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IJobLevel }>(`/job-level`, payload).then((response) => response.data.data)
 }
 
 export const updateJobLevel = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/job-level/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IJobLevel }>(`/job-level/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteJobLevel = (id: string) => {
@@ -116,16 +104,16 @@ export const deleteJobLevel = (id: string) => {
  * Positions
  *
  */
-export const fetchPositions = (params?: PaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IPosition> }>(`/position`, { params, signal }).then((response) => response.data.data)
+export const fetchPositions = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IPosition> }>(`/position`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createPosition = (payload: Record<string, any>) => {
-  return axios.post(`/position`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IPosition }>(`/position`, payload).then((response) => response.data.data)
 }
 
 export const updatePosition = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/position/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IPosition }>(`/position/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deletePosition = (id: string) => {
@@ -136,18 +124,18 @@ export const deletePosition = (id: string) => {
  * Workplacements
  *
  */
-export const fetchWorkplacements = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+export const fetchWorkplacements = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: PaginationResponse<IWorkplacement> }>(`/workplacement`, { params, signal })
+    .get<{ data: IPaginationResponse<IWorkplacement> }>(`/workplacement`, { params, signal })
     .then((response) => response.data.data)
 }
 
 export const createWorkplacement = (payload: Record<string, any>) => {
-  return axios.post(`/workplacement`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IWorkplacement }>(`/workplacement`, payload).then((response) => response.data.data)
 }
 
 export const updateWorkplacement = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/workplacement/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IWorkplacement }>(`/workplacement/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteWorkplacement = (id: string) => {
@@ -158,16 +146,16 @@ export const deleteWorkplacement = (id: string) => {
  * JobTypes
  *
  */
-export const fetchJobTypes = (params?: PaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
+export const fetchJobTypes = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
 }
 
 export const createJobType = (payload: Record<string, any>) => {
-  return axios.post(`/job-type`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IJobType }>(`/job-type`, payload).then((response) => response.data.data)
 }
 
 export const updateJobType = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/job-type/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IJobType }>(`/job-type/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteJobType = (id: string) => {
@@ -178,18 +166,18 @@ export const deleteJobType = (id: string) => {
  * RecruitmentStage
  *
  */
-export const fetchRecruitmentStages = (params?: PaginationParam, signal?: GenericAbortSignal) => {
+export const fetchRecruitmentStages = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: PaginationResponse<IRecruitmentStage> }>(`/recruitment-stage`, { params, signal })
+    .get<{ data: IPaginationResponse<IRecruitmentStage> }>(`/recruitment-stage`, { params, signal })
     .then((response) => response.data.data)
 }
 
 export const createRecruitmentStage = (payload: Record<string, any>) => {
-  return axios.post(`/recruitment-stage`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IRecruitmentStage }>(`/recruitment-stage`, payload).then((response) => response.data.data)
 }
 
 export const updateRecruitmentStage = (id: string, payload: Record<string, any>) => {
-  return axios.put(`/recruitment-stage/${id}`, payload).then((response) => response.data.data)
+  return axios.put<{ data: IRecruitmentStage }>(`/recruitment-stage/${id}`, payload).then((response) => response.data.data)
 }
 
 export const deleteRecruitmentStage = (id: string) => {
@@ -200,8 +188,8 @@ export const deleteRecruitmentStage = (id: string) => {
  * Approval
  *
  */
-export const fetchApprovals = (params?: PaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IApproval> }>(`/approval`, { params, signal }).then((response) => response.data.data)
+export const fetchApprovals = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IApproval> }>(`/approval`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchApproval = (oid: string) => {

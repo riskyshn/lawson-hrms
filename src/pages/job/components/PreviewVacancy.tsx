@@ -1,4 +1,3 @@
-import { IVacancy } from '@/types/vacancy'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Card, CardBody, CardHeader, Skeleton } from 'jobseeker-ui'
 import React from 'react'

@@ -1,4 +1,4 @@
-export interface PaginationParam {
+interface IPaginationParam {
   page?: number
   limit?: number
   q?: string
@@ -6,7 +6,7 @@ export interface PaginationParam {
   sortDirection?: 'ASC' | 'DESC'
 }
 
-export interface PaginationResponse<T = any> {
+interface IPaginationResponse<T = any> {
   content: T[]
   totalElements: number
   totalPages: number

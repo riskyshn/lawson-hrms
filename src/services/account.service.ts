@@ -4,5 +4,5 @@ import { createAxiosInstance } from '@/utils/axios'
 const axios = createAxiosInstance({ baseURL: API_AUTH_BASE_URL, withAuth: true })
 
 export const fetchProfile = () => {
-  return axios.get('/account/profile').then((res) => res.data)
+  return axios.get<{ data: IUser }>('/account/profile').then((res) => res.data)
 }
