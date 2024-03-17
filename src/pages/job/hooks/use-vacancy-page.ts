@@ -1,5 +1,4 @@
 import { vacancyService } from '@/services'
-import { IVacancy } from '@/types/vacancy'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 

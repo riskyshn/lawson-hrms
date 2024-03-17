@@ -1,6 +1,5 @@
 import MainModal from '@/components/Elements/MainModal'
 import { organizationService } from '@/services'
-import { IWorkplacement } from '@/types/oganizartion'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Input, useToast } from 'jobseeker-ui'

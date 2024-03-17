@@ -1,4 +1,3 @@
-import { IVacancy } from '@/types/vacancy'
 import numberToCurrency from '@/utils/number-to-currency'
 
 export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {

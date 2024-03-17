@@ -1,4 +1,3 @@
-import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 import type { GenericAbortSignal } from 'axios'
 
 import { API_AUTH_BASE_URL } from '@/constants/base-urls'
@@ -13,8 +12,8 @@ const axios = createAxiosInstance({
  * Roles
  *
  */
-export const fetchRoles = (params?: PaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IRole> }>(`/authority/roles`, { params, signal }).then((response) => response.data.data)
+export const fetchRoles = (params?: IPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IRole> }>(`/authority/roles`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchRole = (oid: string) => {
@@ -37,9 +36,9 @@ export const deleteRole = (oid: string) => {
  * Permissions
  *
  */
-export const fetchPermissions = (params?: PaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+export const fetchPermissions = (params?: IPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: PaginationResponse<IPermission> }>(`/authority/permissions`, { params, signal })
+    .get<{ data: IPaginationResponse<IPermission> }>(`/authority/permissions`, { params, signal })
     .then((response) => response.data.data)
 }
 

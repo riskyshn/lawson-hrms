@@ -3,8 +3,6 @@ import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { organizationService } from '@/services'
-import { IWorkplacement } from '@/types/oganizartion'
-import { PaginationResponse } from '@/types/pagination'
 import { Button } from 'jobseeker-ui'
 import { useCallback, useEffect, useState } from 'react'
 import CardHeader from '../components/CardHeader'
@@ -15,7 +13,7 @@ import EditModal from './components/EditModal'
 const SettingWorkPlacementsPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [pageData, setPageData] = useState<PaginationResponse<IWorkplacement>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IWorkplacement>>()
   const [pageError, setPageError] = useState<any>()
   const [toUpdateSelected, setToUpdateSelected] = useState<IWorkplacement | null>(null)
   const [loadData, setLoadData] = useState(false)

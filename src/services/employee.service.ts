@@ -1,4 +1,3 @@
-import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 import type { GenericAbortSignal } from 'axios'
 
 import { API_EMPLOYEE_BASE_URL } from '@/constants/base-urls'
@@ -13,6 +12,6 @@ const axios = createAxiosInstance({
  * Employee
  *
  */
-export const fetchEmployees = (params?: PaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IEmployee> }>(`/employee`, { params, signal }).then((response) => response.data.data)
+export const fetchEmployees = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IEmployee> }>(`/employee`, { params, signal }).then((response) => response.data.data)
 }

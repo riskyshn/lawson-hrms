@@ -1,7 +1,6 @@
 import React from 'react'
 import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { IVacancy } from '@/types/vacancy'
 import * as Table from '@/components/Elements/MainTable'
 import { vacancyService } from '@/services'
 import { useConfirm, useToast } from 'jobseeker-ui'

@@ -1,7 +1,6 @@
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 import MainModal from '@/components/Elements/MainModal'
 import { masterService, organizationService } from '@/services'
-import { IBranch } from '@/types/oganizartion'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Input, Textarea, useToast } from 'jobseeker-ui'

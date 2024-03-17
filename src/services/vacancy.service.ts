@@ -1,11 +1,9 @@
 import type { GenericAbortSignal } from 'axios'
-import type { PaginationParam, PaginationResponse } from '@/types/pagination'
 
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
-import { IVacancy } from '@/types/vacancy'
 
-type FetchVacanciesParams = PaginationParam & {
+type FetchVacanciesParams = IPaginationParam & {
   departmentId?: string
   status?: string
   isRequisition?: 0 | 1
@@ -17,7 +15,7 @@ const axios = createAxiosInstance({
 })
 
 export const fetchVacancies = (params?: FetchVacanciesParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: PaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: IPaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchVacancyDetail = (id: string) => {

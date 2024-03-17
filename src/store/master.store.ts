@@ -1,6 +1,5 @@
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
-import { IMasterCity, IMasterCountry, IMasterDistrict, IMasterEducationLevel, IMasterProvince, IMasterSubDistrict } from '@/types/master'
 import { masterService } from '@/services'
 
 interface MasterStore {

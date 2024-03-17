@@ -4,8 +4,6 @@ import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
-import { PaginationResponse } from '@/types/pagination'
-import { IVacancy } from '@/types/vacancy'
 import { Button, Input, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
@@ -22,7 +20,7 @@ const JobManajementPage: React.FC = () => {
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<PaginationResponse<IVacancy>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IVacancy>>()
   const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
 

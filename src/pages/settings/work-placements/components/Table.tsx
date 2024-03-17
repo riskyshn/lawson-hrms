@@ -1,7 +1,6 @@
 import React from 'react'
 import MainTable from '@/components/Elements/MainTable'
 import ActionMenu from './ActionMenu'
-import { IWorkplacement } from '@/types/oganizartion'
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
