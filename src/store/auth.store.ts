@@ -1,7 +1,7 @@
 import { accountService, authService } from '@/services'
-import { mountStoreDevtool } from 'simple-zustand-devtools'
+import mountStoreDevtool from '@/utils/mount-store-devtool'
 import { create } from 'zustand'
-import { useTokenStore, useOrganizationStore, useMasterStore } from '.'
+import { useMasterStore, useOrganizationStore, useTokenStore } from '.'
 
 interface AuthStore {
   user: IUser | null

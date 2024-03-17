@@ -1,6 +1,6 @@
-import { mountStoreDevtool } from 'simple-zustand-devtools'
-import { create } from 'zustand'
 import { masterService } from '@/services'
+import mountStoreDevtool from '@/utils/mount-store-devtool'
+import { create } from 'zustand'
 
 interface MasterStore {
   area: {

@@ -4,7 +4,6 @@ import { RouterProvider } from 'react-router-dom'
 import { Provider } from 'jobseeker-ui'
 import Boot from './Boot'
 import router from './router'
-import './fontsource'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

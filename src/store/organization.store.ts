@@ -1,5 +1,5 @@
 import { organizationService } from '@/services'
-import { mountStoreDevtool } from 'simple-zustand-devtools'
+import mountStoreDevtool from '@/utils/mount-store-devtool'
 import { create } from 'zustand'
 
 interface OrganizationStore {
