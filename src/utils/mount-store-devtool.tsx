@@ -10,15 +10,14 @@ export default function mountStoreDevtool<T extends object = Record<string, any>
 ) {
   type StoreState = ReturnType<UseBoundStore<StoreApi<T>>['getState']>
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const externalUpdates = useRef({ count: 0 })
+  const externalUpdates = { count: 0 }
 
   const ZustandDevtool: React.FC<StoreState> = (props) => {
-    const allUpdatesCount = useRef(externalUpdates.current.count)
+    const allUpdatesCount = useRef(externalUpdates.count)
 
     useEffect(() => {
       allUpdatesCount.current += 1
-      if (allUpdatesCount.current === externalUpdates.current.count + 1) {
+      if (allUpdatesCount.current === externalUpdates.count + 1) {
         allUpdatesCount.current -= 1
         store.setState(props)
       }
@@ -37,7 +36,7 @@ export default function mountStoreDevtool<T extends object = Record<string, any>
   const renderDevtool = (state: StoreState | void) => {
     if (!state) return
     newRoot.render(<ZustandDevtool {...state} />)
-    externalUpdates.current.count += 1
+    externalUpdates.count += 1
   }
 
   renderDevtool(store.getState())
