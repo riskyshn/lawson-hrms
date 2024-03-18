@@ -40,7 +40,7 @@ const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading,
               onChange={(e) => search.setValue(e.currentTarget.value)}
             />
           )}
-          {filter && filterToogle && (
+          {filterToogle && (
             <Button iconOnly type="button" color="primary" onClick={filterToogle}>
               <FilterIcon size={16} />
             </Button>
