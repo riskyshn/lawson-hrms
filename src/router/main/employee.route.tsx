@@ -1,4 +1,5 @@
 import CreateEmployeePage from '@/pages/employee/employee-management/create/CreateEmployeePage'
+import EditEmployeePage from '@/pages/employee/employee-management/edit/EditEmployeePage'
 import EmployeeDetailPage from '@/pages/employee/employee-management/index/EmployeeDetailPage'
 import EmployeeManagementPage from '@/pages/employee/employee-management/index/EmployeeManagementPage'
 import PreviousEmployeePage from '@/pages/employee/previous-employee/index/PreviousEmployeePage'
@@ -25,6 +26,11 @@ const employeeRoute: RouteObject = {
           path: ':employeeId/view',
           name: 'View',
           element: <EmployeeDetailPage />,
+        },
+        {
+          path: ':employeeId/edit',
+          name: 'Edit',
+          element: <EditEmployeePage />,
         },
       ],
     },

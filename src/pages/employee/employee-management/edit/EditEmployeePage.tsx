@@ -8,7 +8,7 @@ import EmploymentDataForm from '../components/EmploymentDataForm'
 import PayrollDataForm from '../components/PayrollDataForm'
 import ComponentsDataForm from '../components/ComponentsDataForm'
 
-const CreateEmployeePage = () => {
+const EditEmployeePage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
@@ -46,7 +46,7 @@ const CreateEmployeePage = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Create' }]}
-        title="Add Employee"
+        title="Edit Employee"
         actions={
           <Button as={Link} to="/employee/employee-management" variant="light" color="error">
             Cancel
@@ -97,4 +97,4 @@ const CreateEmployeePage = () => {
   )
 }
 
-export default CreateEmployeePage
+export default EditEmployeePage

@@ -34,6 +34,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items }) => {
     if (type == 'View Details') {
       navigate(`/employee/employee-management/${items.id}/view`)
     }
+
+    if (type == 'Edit Employee') {
+      navigate(`/employee/employee-management/${items.id}/edit`)
+    }
   }
 
   const closeModal = () => {
