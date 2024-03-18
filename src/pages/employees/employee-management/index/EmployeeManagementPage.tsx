@@ -105,7 +105,7 @@ const EmployeeManagementPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }]}
+        breadcrumb={[{ text: 'Employees' }, { text: 'Employee Management' }]}
         title="Employee Management"
         actions={
           <>

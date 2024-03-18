@@ -5,10 +5,10 @@ const hrisLinks = genSidebarLinks({
   title: 'HRIS',
   items: [
     {
-      parent: { icon: UserPlus2Icon, text: 'Employee', to: '/employee' },
+      parent: { icon: UserPlus2Icon, text: 'Employees', to: '/employees' },
       child: [
-        { text: 'Employee Management', to: '/employee/employee-management' },
-        { text: 'Previous Employee', to: '/employee/previous-employee' },
+        { text: 'Employee Management', to: '/employees/employee-management' },
+        { text: 'Previous Employee', to: '/employees/previous-employee' },
       ],
     },
     { parent: { icon: UserCogIcon, text: 'Attendance', to: '/attendance' } },
