@@ -3,6 +3,12 @@ import type { GenericAbortSignal } from 'axios'
 import { API_EMPLOYEE_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
+type FetchEmployeesParams = IPaginationParam & {
+  departmentId?: string
+  branchId?: string
+  status?: 1 | 2
+}
+
 const axios = createAxiosInstance({
   baseURL: API_EMPLOYEE_BASE_URL,
   withAuth: true,
@@ -12,7 +18,7 @@ const axios = createAxiosInstance({
  * Employee
  *
  */
-export const fetchEmployees = (params?: IPaginationParam & { status?: 1 | 2 }, signal?: GenericAbortSignal) => {
+export const fetchEmployees = (params?: FetchEmployeesParams, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IEmployee> }>(`/employee`, { params, signal }).then((response) => response.data.data)
 }
 
