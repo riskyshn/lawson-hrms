@@ -3,8 +3,21 @@ import { Skeleton } from 'jobseeker-ui'
 import React, { memo, useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
-const Card: React.FC<{ label: string; value: number | string }> = ({ value, label }) => (
-  <div className="flex flex-col items-center justify-center rounded-lg border bg-white px-3 py-4 text-center">
+const Card: React.FC<{ label: string; value: number | string; background?: string; color?: string; border?: string }> = ({
+  value,
+  label,
+  background,
+  color,
+  border,
+}) => (
+  <div
+    className={twJoin(
+      'flex flex-col items-center justify-center rounded-lg  px-3 py-4 text-center',
+      color,
+      border ? border : 'border',
+      background ? background : 'bg-white',
+    )}
+  >
     <span className="mb-2 block text-2xl font-semibold">{value}</span>
     <span className="block text-xs">{label}</span>
   </div>
@@ -37,19 +50,79 @@ const StatisticCards: React.FC<{ isRequisition?: boolean }> = ({ isRequisition }
 
     const cardData = isRequisition
       ? [
-          { label: 'Total Requisition Posted', value: data.published },
-          { label: 'Approved Requisition', value: data.approved },
-          { label: 'Waiting for Approval', value: data.progress },
-          { label: 'Requisition Rejected', value: data.rejected },
-          { label: 'Draft', value: data.draft },
+          {
+            label: 'Total Requisition Posted',
+            value: data.published,
+            background: 'bg-jsc-secondary',
+            color: 'text-white',
+            border: 'border border-gray-100',
+          },
+          {
+            label: 'Approved Requisition',
+            value: data.approved,
+            background: 'bg-green-700',
+            color: 'text-green-50',
+            border: 'border border-green-100',
+          },
+          {
+            label: 'Waiting for Approval',
+            value: data.progress,
+            background: 'bg-amber-600',
+            color: 'text-amber-50',
+            border: 'border border-amber-100',
+          },
+          {
+            label: 'Requisition Rejected',
+            value: data.rejected,
+            background: 'bg-rose-700',
+            color: 'text-rose-50',
+            border: 'border border-rose-100',
+          },
+          { label: 'Draft', value: data.draft, background: 'bg-gray-200', color: 'text-gray-700', border: 'border border-gray-100' },
         ]
       : [
-          { label: 'Total Job Posted', value: data.all },
-          { label: 'Active Jobs', value: data.active },
-          { label: 'Inactive Jobs', value: data.inactive },
-          { label: 'Fulfilled Jobs', value: data.fulfilled },
-          { label: 'Draft Jobs', value: data.draft },
-          { label: 'Expired Jobs', value: data.expired },
+          {
+            label: 'Total Job Posted',
+            value: data.all,
+            background: 'bg-jsc-secondary',
+            color: 'text-white',
+            border: 'border border-jsc-secondary/5',
+          },
+          {
+            label: 'Active Jobs',
+            value: data.active,
+            background: 'bg-green-700',
+            color: 'text-green-50',
+            border: 'border border-green-100',
+          },
+          {
+            label: 'Inactive Jobs',
+            value: data.inactive,
+            background: 'bg-rose-700',
+            color: 'text-rose-50',
+            border: 'border border-rose-100',
+          },
+          {
+            label: 'Fulfilled Jobs',
+            value: data.fulfilled,
+            background: 'bg-purple-700',
+            color: 'text-purple-50',
+            border: 'border border-purple-100',
+          },
+          {
+            label: 'Draft Jobs',
+            value: data.draft,
+            background: 'bg-indigo-700',
+            color: 'text-indigo-50',
+            border: 'border border-indigo-100',
+          },
+          {
+            label: 'Expired Jobs',
+            value: data.expired,
+            background: 'bg-gray-200',
+            color: 'text-gray-700',
+            border: 'border border-gray-100',
+          },
         ]
 
     return cardData.map((rest, index) => <Card key={index} {...rest} />)

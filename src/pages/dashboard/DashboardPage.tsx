@@ -7,6 +7,7 @@ import AnnouncementCard from './components/AnnouncementCard'
 import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidatesCard'
 import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
 import UpcomingScheduleCard from './components/UpcomingScheduleCard'
+import moment from 'moment'
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuthStore()
@@ -18,7 +19,7 @@ const DashboardPage: React.FC = () => {
       <Container className="py-3 xl:pb-8">
         <div className="relative mb-3 overflow-hidden rounded-lg bg-primary-600 px-3 py-14 text-white">
           <span
-            className="absolute inset-0 block bg-cover bg-center bg-no-repeat opacity-20"
+            className="absolute inset-0 block bg-cover bg-center bg-no-repeat opacity-10"
             style={{
               backgroundImage: `url(${BgImage})`,
             }}
@@ -30,7 +31,7 @@ const DashboardPage: React.FC = () => {
             <h1 className="mb-2 text-3xl font-semibold text-white">{company?.name}</h1>
             <>
               Good day to you, <span className="font-semibold capitalize">{user?.firstName}</span>! <br />
-              Today is <span className="font-semibold">{new Date().toDateString()}</span>
+              Today is <span className="font-semibold">{moment(new Date()).format('dddd, D MMMM YYYY')}</span>
             </>
           </div>
         </div>
