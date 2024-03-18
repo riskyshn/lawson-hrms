@@ -30,7 +30,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
       source: 'Careersite',
       status: ['Open', 'Locked', 'Hired'][Math.floor(Math.random() * 3)],
       videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      pdfUrl: 'http://localhost:5173/sample.pdf',
+      pdfUrl: '/sample.pdf',
     }
   })
 

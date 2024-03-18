@@ -1,5 +1,4 @@
 import MainModal from '@/components/Elements/MainModal'
-import { IVacancy } from '@/types/vacancy'
 import { Button, Card, CardBody } from 'jobseeker-ui'
 import { CheckCircle2Icon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'

@@ -1,4 +1,4 @@
-export interface IVacancy {
+interface IVacancy {
   id: string
   createdAt?: string
   updatedAt?: string

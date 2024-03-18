@@ -1,27 +1,4 @@
-export interface IAttachBranch {
-  oid: string
-  name?: string
-  address?: string
-}
-
-export interface IAttachCompany {
-  oid: string
-  name?: string
-  code?: string
-}
-
-export interface IAttachDepartment {
-  oid: string
-  name?: string
-}
-
-export interface IAttachEmployee {
-  oid: string
-  name?: string
-  email?: string
-}
-
-export interface ICompany {
+interface ICompany {
   oid: string
   code?: string
   name?: string
@@ -111,18 +88,41 @@ export interface ICompany {
     description?: string
     date?: string // date
   }>
-  branch?: Array<IAttachBranch>
+  branch?: Array<{
+    oid: string
+    name?: string
+    address?: string
+  }>
 }
 
-export interface IBranch {
+interface IBranch {
   oid: string
   name?: string
   address?: string
-  company?: IAttachCompany
-  pic?: IAttachEmployee
+  company?: {
+    oid: string
+    name?: string
+    code?: string
+  }
+  pic?: {
+    oid: string
+    name?: string
+    email?: string
+  }
   status?: boolean
+  coordinate?: {
+    x: number
+    y: number
+    type: string
+    coordinates: [number, number]
+  }
+  range?: number
   totalEmployee?: number
   totalVacancy?: number
+  city?: {
+    oid: string
+    name?: string
+  }
   createdAt?: string // date
   updatedAt?: string // date
 }
@@ -130,7 +130,12 @@ export interface IBranch {
 interface IDepartment {
   oid: string
   name?: string
-  company?: IAttachCompany
+  code?: string
+  company?: {
+    oid: string
+    name?: string
+    code?: string
+  }
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
@@ -138,10 +143,14 @@ interface IDepartment {
   updatedAt?: string
 }
 
-export interface IJobLevel {
+interface IJobLevel {
   oid: string
   name?: string
-  company?: IAttachCompany
+  company?: {
+    oid: string
+    name?: string
+    code?: string
+  }
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
@@ -149,11 +158,18 @@ export interface IJobLevel {
   updatedAt?: string
 }
 
-export interface IPosition {
+interface IPosition {
   oid: string
   name?: string
-  company?: IAttachCompany
-  department?: AttachDepartment
+  company?: {
+    oid: string
+    name?: string
+    code?: string
+  }
+  department?: {
+    oid: string
+    name?: string
+  }
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
@@ -161,29 +177,45 @@ export interface IPosition {
   updatedAt?: string
 }
 
-export interface IBenefit {
+interface IBenefit {
   oid: string
   name?: string
-  company?: IAttachCompany
+  company?: {
+    oid: string
+    name?: string
+    code?: string
+  }
   status?: boolean
   totalVacancy?: number
   createdAt?: string
   updatedAt?: string
 }
 
-export interface IWorkplacement {
+interface IWorkplacement {
   oid: string
   name?: string
 }
 
-export interface IJobType {
+interface IJobType {
   oid: string
   name?: string
   totalEmployee?: number
 }
 
-export interface IRecruitmentStage {
+interface IRecruitmentStage {
   oid: string
   type: 'INTERVIEW' | 'ASSESMENT'
   name: string
+}
+
+interface IApproval {
+  oid: string
+  status: number
+  employee: {
+    oid: string
+    name?: string
+  }
+  position?: stirng | null
+  department?: stirng | null
+  branch?: stirng | null
 }

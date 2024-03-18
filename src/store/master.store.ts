@@ -1,7 +1,6 @@
-import { mountStoreDevtool } from 'simple-zustand-devtools'
-import { create } from 'zustand'
-import { IMasterCity, IMasterCountry, IMasterDistrict, IMasterEducationLevel, IMasterProvince, IMasterSubDistrict } from '@/types/master'
 import { masterService } from '@/services'
+import mountStoreDevtool from '@/utils/mount-store-devtool'
+import { create } from 'zustand'
 
 interface MasterStore {
   area: {
@@ -66,17 +65,16 @@ export const useMasterStore = create<MasterStore>((set, get) => ({
     set((state) => ({ ...state, area: { ...state.area, [key]: uniqueData } }))
   },
 
-  getArea: async (key, oids) => {
-    let data = get().area[key].filter((el) => oids.includes(el.oid))
-    const oidsWithoutData = oids.filter((oid) => !data.some((el) => el.oid === oid))
-
-    if (oidsWithoutData.length > 0) {
-      const { content } = await masterService.fetchCitiesByOids(key, oidsWithoutData)
-      data = [...data, ...content]
-      get().addArea(key, data as any)
-    }
-
-    return data as any
+  getArea: async (_key, _oids) => {
+    // let data = get().area[key].filter((el) => oids.includes(el.oid))
+    // const oidsWithoutData = oids.filter((oid) => !data.some((el) => el.oid === oid))
+    // if (oidsWithoutData.length > 0) {
+    //   const { content } = await masterService.fetchCitiesByOids(key, oidsWithoutData)
+    //   data = [...data, ...content]
+    //   get().addArea(key, data as any)
+    // }
+    // return data as any
+    return null as any
   },
 }))
 

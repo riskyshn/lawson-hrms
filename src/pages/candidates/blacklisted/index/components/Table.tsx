@@ -21,7 +21,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
       blacklistedBy: 'Anna Smith',
       blacklistReason: 'Bad Mannering',
       videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      pdfUrl: 'http://localhost:5173/sample.pdf',
+      pdfUrl: '/sample.pdf',
     }
   })
 

@@ -1,7 +1,6 @@
-import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XCircleIcon } from 'lucide-react'
-import PdfViewer from '@/components/Elements/PdfViewer'
+import { Fragment, useEffect, useState } from 'react'
 
 type PropTypes = {
   url?: string | null
@@ -51,18 +50,14 @@ const PreviewPdfResumeModal: React.FC<PropTypes> = ({ url, onClose }) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="relative flex h-full w-full max-w-3xl items-center justify-center shadow-xl transition-all">
+                <Dialog.Panel className="relative flex h-full w-full items-center justify-center shadow-xl transition-all">
                   <button
                     className="absolute -right-3 -top-3 z-50 text-error-600 hover:text-error-700 focus:outline-none"
                     onClick={handleClose}
                   >
                     <XCircleIcon size={32} fill="white" />
                   </button>
-                  <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-lg bg-white">
-                    <div className="chrome-scrollbar flex max-h-full w-full justify-center overflow-auto">
-                      {pdfUrl && <PdfViewer url={pdfUrl} />}
-                    </div>
-                  </div>
+                  <iframe src={pdfUrl} className="block h-full w-full rounded-lg bg-white" />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

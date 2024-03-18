@@ -1,5 +1,4 @@
 import { useOrganizationStore } from '@/store'
-import { IVacancy } from '@/types/vacancy'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React from 'react'
 

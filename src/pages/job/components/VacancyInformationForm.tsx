@@ -13,13 +13,13 @@ import {
   InputCurrency,
   InputDate,
   InputWrapper,
-  MultiSelect,
   Select,
   Textarea,
 } from 'jobseeker-ui'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import InputApprovalProcess from './InputApprovalProcess'
 
 const VacancyInformationForm: React.FC<{
   isRequisition?: boolean
@@ -67,7 +67,7 @@ const VacancyInformationForm: React.FC<{
     negotiableSalary: yup.boolean().required(),
     other: yup.string().required().label('Task, Responsibility & Others'),
     approvals: yup
-      .array()
+      .array(yup.string().required())
       .min(1)
       .when('isRequisition', {
         is: true,
@@ -94,6 +94,11 @@ const VacancyInformationForm: React.FC<{
   const masterStore = useMasterStore()
   const organizationoStore = useOrganizationStore()
   const initialCity = masterStore.area.cities.find((el) => el.oid === getValues('cityId'))
+
+  useEffect(() => {
+    if (initialCity || !props.defaultValue?.cityId) return
+    masterService.fetchCities({ limit: 1, q: props.defaultValue.cityId })
+  }, [props.defaultValue?.cityId, initialCity])
 
   return (
     <Card as="form" onSubmit={onSubmit}>
@@ -147,23 +152,23 @@ const VacancyInformationForm: React.FC<{
             trigger('expiredDate')
           }}
         />
+      </CardBody>
 
-        {props.isRequisition && (
-          <MultiSelect
-            label="Approval Process"
-            labelRequired
-            placeholder="Approval Process"
-            options={dummy.map((el) => ({ label: `${el.name} (${el.email})`, value: el.oid }))}
-            name="approvals"
-            error={errors.approvals?.message}
+      {props.isRequisition && (
+        <CardBody className="grid grid-cols-1 gap-2">
+          <div className="pb-2">
+            <h3 className="text-lg font-semibold">Approval Process</h3>
+          </div>
+          <InputApprovalProcess
+            error={errors.approvals?.message || errors.approvals?.map?.((el) => el?.message)}
             value={getValues('approvals')}
-            onChange={(v) => {
-              setValue('approvals', v)
+            onChange={(value) => {
+              setValue('approvals', value)
               trigger('approvals')
             }}
           />
-        )}
-      </CardBody>
+        </CardBody>
+      )}
 
       <CardBody className="grid grid-cols-1 gap-2">
         <div className="pb-2">
@@ -278,46 +283,3 @@ const VacancyInformationForm: React.FC<{
 }
 
 export default VacancyInformationForm
-
-const dummy = [
-  {
-    oid: '65d2e8985a44ab03fb6ce39f',
-    email: 'example@gmail.com',
-    name: 'Jhon doe',
-  },
-  {
-    oid: '7b3fe90a6d78c593f10a90e2',
-    email: 'another@example.com',
-    name: 'Jane Smith',
-  },
-  {
-    oid: '2c1f3d7a8b9e6c4f5d9a1b2c',
-    email: 'test@test.com',
-    name: 'Alice Johnson',
-  },
-  {
-    oid: '9a8b7c6d5e4f3a2b1c0d9e8f',
-    email: 'someone@example.org',
-    name: 'Bob Brown',
-  },
-  {
-    oid: '1a2b3c4d5e6f7a8b9c0d1e2',
-    email: 'user@example.net',
-    name: 'Emily Davis',
-  },
-  {
-    oid: '3e4f5g6h7i8j9k0l1m2n3o',
-    email: 'jdoe@example.com',
-    name: 'John Doe',
-  },
-  {
-    oid: '4p5q6r7s8t9u0v1w2x3y4z',
-    email: 'janesmith@example.org',
-    name: 'Jane Smith',
-  },
-  {
-    oid: '5a6b7c8d9e0f1g2h3i4j5k',
-    email: 'jack@example.com',
-    name: 'Jack Johnson',
-  },
-]

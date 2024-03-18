@@ -1,0 +1,55 @@
+import React from 'react'
+import MainTable from '@/components/Elements/MainTable'
+import ActionMenu from './ActionMenu'
+// import { Avatar } from 'jobseeker-ui'
+
+type TableProps = {
+  items: IBranch[]
+  loading?: boolean
+  setSelectedToUpdate?: (item: IBranch) => void
+  onDeleted?: (oid: string) => void
+}
+
+const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
+  const headerItems = [
+    { children: 'Name', className: 'text-left' },
+    { children: 'Address', className: 'text-left' },
+    { children: 'Longitude-Latitude' },
+    // { children: 'Employees' },
+    { children: 'Range' },
+    { children: 'Action', className: 'w-24' },
+  ]
+
+  const bodyItems = items.map((item, index) => ({
+    items: [
+      {
+        children: <span className="block font-semibold">{item.name}</span>,
+      },
+      { children: item.address },
+      { children: item?.coordinate ? `${item.coordinate.y}, ${item.coordinate.x}` : '-', className: 'text-center' },
+      // {
+      //   children: (
+      //     <span className="flex items-center justify-center gap-2">
+      //       <span className="flex">
+      //         <Avatar name="John Doe" size={38} className="rounded-full bg-success-100 text-success-700" />
+      //         <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-primary-100 text-primary-700" />
+      //         <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-error-100 text-error-700" />
+      //       </span>
+      //       <a href="#" className="text-primary-600">
+      //         0
+      //       </a>
+      //     </span>
+      //   ),
+      //   className: 'text-center',
+      // },
+      { children: item?.range || '-', className: 'text-center' },
+      {
+        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+      },
+    ],
+  }))
+
+  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+}
+
+export default Table

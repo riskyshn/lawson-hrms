@@ -1,14 +1,15 @@
-export interface PaginationParam {
+interface IPaginationParam {
   page?: number
-  size?: number
+  limit?: number
+  q?: string
   sortedField?: string
   sortDirection?: 'ASC' | 'DESC'
 }
 
-export interface PaginationResponse<T = any> {
+interface IPaginationResponse<T = any> {
   content: T[]
   totalElements: number
   totalPages: number
-  size: number
   page: number
+  limit: number
 }

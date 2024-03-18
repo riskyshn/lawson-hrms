@@ -21,7 +21,7 @@ const AsyncSelect: React.FC<PropTypes> = ({
   ...props
 }) => {
   const [search, setSearch] = useState('')
-  const [results, setResults] = useState<OptionProps[]>(initialOptions || [])
+  const [results, setResults] = useState<OptionProps[]>([])
   const [loading, setLoading] = useState(false)
 
   const stringParams = new URLSearchParams(fetcherParams).toString()
@@ -33,10 +33,10 @@ const AsyncSelect: React.FC<PropTypes> = ({
     const fetchData = async (search: string, signal: AbortSignal) => {
       setLoading(true)
       try {
-        const { content } = await fetcher({ size: 20, page: 0, ...rFetcherParams, q: search }, signal)
+        const { content } = await fetcher({ limit: 20, page: 0, ...rFetcherParams, q: search }, signal)
         setResults(converter(content))
       } catch (error) {
-        console.error('Error fetching data:', error)
+        // console.error('Error fetching data:', error)
       }
       setLoading(false)
     }
@@ -46,6 +46,8 @@ const AsyncSelect: React.FC<PropTypes> = ({
 
     if (search.trim().length >= searchMinCharacter) {
       fetchData(search, signal)
+    } else if (results.length == 0 && initialOptions) {
+      setResults(initialOptions)
     }
 
     return () => {
@@ -58,7 +60,7 @@ const AsyncSelect: React.FC<PropTypes> = ({
       setLoading(true)
 
       try {
-        const { content } = await fetcher({ size: 20, page: 0, ...rFetcherParams })
+        const { content } = await fetcher({ limit: 20, page: 0, ...rFetcherParams })
         setResults(converter(content))
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -68,6 +70,10 @@ const AsyncSelect: React.FC<PropTypes> = ({
 
     if (hideSearch) fetchData()
   }, [hideSearch, rFetcherParams])
+
+  useEffect(() => {
+    if (initialOptions) setResults(initialOptions)
+  }, [initialOptions])
 
   const getMessage = () => {
     const trimmedSearch = search.trim()

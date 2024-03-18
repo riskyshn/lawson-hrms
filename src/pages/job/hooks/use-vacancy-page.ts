@@ -1,12 +1,11 @@
 import { vacancyService } from '@/services'
-import { IVacancy } from '@/types/vacancy'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export default function useVacancyPage() {
   const { vacancyId } = useParams()
   const [isLoading, setIsLoading] = useState(true)
-  const [pageError, setPageError] = useState<{ code: 404 | 500; message?: string }>()
+  const [pageError, setPageError] = useState<any>()
   const [vacancy, setVacancy] = useState<IVacancy>()
 
   const navigate = useNavigate()
@@ -20,11 +19,7 @@ export default function useVacancyPage() {
         setVacancy(vacancy)
         setIsLoading(false)
       } catch (e: any) {
-        if (e.response?.status === 404) {
-          setPageError({ code: 404 })
-        } else {
-          setPageError({ code: 500, message: e.response?.data?.meta?.message || e.message })
-        }
+        setPageError(e)
       }
     }
 
@@ -35,5 +30,7 @@ export default function useVacancyPage() {
     }
   }, [vacancyId, navigate])
 
-  return { vacancyId, isLoading, pageError, vacancy }
+  if (pageError) throw pageError
+
+  return { vacancyId, isLoading, vacancy }
 }

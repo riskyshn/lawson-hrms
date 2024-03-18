@@ -1,19 +1,16 @@
 import Container from '@/components/Elements/Container'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
-import { PaginationResponse } from '@/types/pagination'
-import { IVacancy } from '@/types/vacancy'
 import { Button, Input, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import StatisticCards from '../../components/StatisticCards'
 import HistoryModal from './components/HistoryModal'
 import Table from './components/Table'
-import StatisticCards from '../../components/StatisticCards'
 
 const JobRequisitionPage = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -24,8 +21,8 @@ const JobRequisitionPage = () => {
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<PaginationResponse<IVacancy>>()
-  const [errorMessage, setErrorMessage] = useState('')
+  const [pageData, setPageData] = useState<IPaginationResponse<IVacancy>>()
+  const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
   const [historyMadalData, setHistoryMadalData] = useState<IVacancy | null>(null)
 
@@ -40,14 +37,13 @@ const JobRequisitionPage = () => {
     const signal = controller.signal
 
     const load = async (signal: AbortSignal) => {
-      setErrorMessage('')
       setIsLoading(true)
       try {
         const data = await vacancyService.fetchVacancies(
           {
-            keyword: search,
+            q: search,
             page: pagination.currentPage,
-            size: 30,
+            limit: 20,
             status,
             departmentId: department,
             isRequisition: 1,
@@ -57,10 +53,7 @@ const JobRequisitionPage = () => {
         setPageData(data)
         setIsLoading(false)
       } catch (e: any) {
-        if (e.message !== 'canceled') {
-          setErrorMessage(e.response?.data?.meta?.message || e.message)
-          setIsLoading(false)
-        }
+        if (e.message !== 'canceled') setPageError(e)
       }
     }
 
@@ -87,7 +80,7 @@ const JobRequisitionPage = () => {
     [pageData],
   )
 
-  if (errorMessage) return <ErrorScreen code={500} message={errorMessage} />
+  if (pageError) throw pageError
 
   return (
     <>

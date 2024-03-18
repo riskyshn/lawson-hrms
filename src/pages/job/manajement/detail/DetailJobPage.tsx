@@ -1,5 +1,4 @@
 import Container from '@/components/Elements/Container'
-import ErrorScreen from '@/components/Elements/ErrorScreen'
 import PageHeader from '@/components/Elements/PageHeader'
 import { Button } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
@@ -7,9 +6,7 @@ import PreviewVacancy from '../../components/PreviewVacancy'
 import useVacancyPage from '../../hooks/use-vacancy-page'
 
 const DetailJobPage: React.FC = () => {
-  const { vacancy, isLoading, pageError } = useVacancyPage()
-
-  if (pageError) return <ErrorScreen {...pageError} />
+  const { vacancy, isLoading } = useVacancyPage()
 
   return (
     <>
