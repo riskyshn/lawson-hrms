@@ -8,6 +8,7 @@ import { useOrganizationStore } from '@/store'
 import { Button, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+import ResignTerminateModal from './components/ResignTerminateModal'
 import Table from './components/Table'
 
 const EmployeeManagementPage: React.FC = () => {
@@ -74,6 +75,8 @@ const EmployeeManagementPage: React.FC = () => {
           </Button>
         }
       />
+
+      <ResignTerminateModal item={selectedToTerminate} onClose={() => setSelectedToTerminate(null)} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
