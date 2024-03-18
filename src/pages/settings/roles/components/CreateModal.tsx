@@ -69,7 +69,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
             Cancel
           </Button>
           <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Save
+            Next
           </Button>
         </div>
       </form>

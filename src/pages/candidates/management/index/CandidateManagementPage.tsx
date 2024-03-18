@@ -2,7 +2,7 @@ import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
-import { Button, Input, Select } from 'jobseeker-ui'
+import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon } from 'lucide-react'
 import { useState } from 'react'
 import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
@@ -36,12 +36,12 @@ const CandidateManagementPage: React.FC = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Input
-                    type="text"
-                    placeholder="Search..."
-                    className="peer w-full rounded-r-none lg:w-64"
-                    leftChild={<SearchIcon size={16} />}
-                  />
+                  <div className="relative flex flex-1">
+                    <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
+                    <Button iconOnly color="primary" className="rounded-l-none">
+                      <SearchIcon size={16} />
+                    </Button>
+                  </div>
                   <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
                     <FilterIcon size={16} />
                   </Button>

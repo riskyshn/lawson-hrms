@@ -61,4 +61,8 @@
   .chrome-scrollbar::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
+  .leaflet-container {
+    width: 100wh; 
+    height: 100vh;
+  }
 }

@@ -1,5 +1,6 @@
-import axios, { CreateAxiosDefaults } from 'axios'
+import { SOURCE_APP } from '@/constants/globals'
 import { useTokenStore } from '@/store'
+import axios, { CreateAxiosDefaults } from 'axios'
 
 type CreateAxiosInstanceOptions<T = any> = CreateAxiosDefaults<T> & {
   withAuth?: boolean
@@ -7,6 +8,12 @@ type CreateAxiosInstanceOptions<T = any> = CreateAxiosDefaults<T> & {
 
 export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
   const { withAuth = false, ...axiosDefault } = options || {}
+
+  axiosDefault.headers = {
+    ...(axiosDefault.headers || {}),
+    'X-Source-App': SOURCE_APP,
+  }
+
   const request = axios.create(axiosDefault)
 
   if (withAuth) {
