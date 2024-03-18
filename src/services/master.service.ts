@@ -57,3 +57,19 @@ export const fetchEducationLevel = (params?: IPaginationParam, signal?: GenericA
     .get<{ data: IPaginationResponse<IMasterEducationLevel> }>(`/education-level`, { params, signal })
     .then((response) => response.data.data)
 }
+
+/**
+ * Genders
+ *
+ */
+export const fetchGenders = () => {
+  return axios.get<{ data: { content: Array<IMasterGender> } }>(`/gender`).then((response) => response.data.data)
+}
+
+/**
+ * Religions
+ *
+ */
+export const fetchReligions = () => {
+  return axios.get<{ data: { content: Array<IMasterReligion> } }>(`/gender`).then((response) => response.data.data)
+}
