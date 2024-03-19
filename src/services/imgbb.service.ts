@@ -44,7 +44,7 @@ const axios = createAxiosInstance({
   withoutSource: true,
   baseURL: 'https://api.imgbb.com',
   params: {
-    key: import.meta.env.IMGBB_KEY,
+    key: import.meta.env.VITE_IMGBB_KEY,
   },
 })
 
