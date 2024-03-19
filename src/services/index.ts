@@ -5,3 +5,6 @@ export * as organizationService from './organization.service'
 export * as vacancyService from './vacancy.service'
 export * as authorityService from './authority.service'
 export * as employeeService from './employee.service'
+
+// for development
+export * as imgbbService from './imgbb.service'

@@ -4,14 +4,17 @@ import axios, { CreateAxiosDefaults } from 'axios'
 
 type CreateAxiosInstanceOptions<T = any> = CreateAxiosDefaults<T> & {
   withAuth?: boolean
+  withoutSource?: boolean
 }
 
 export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
-  const { withAuth = false, ...axiosDefault } = options || {}
+  const { withAuth = false, withoutSource = false, ...axiosDefault } = options || {}
 
-  axiosDefault.headers = {
-    ...(axiosDefault.headers || {}),
-    'X-Source-App': SOURCE_APP,
+  if (!withoutSource) {
+    axiosDefault.headers = {
+      ...(axiosDefault.headers || {}),
+      'X-Source-App': SOURCE_APP,
+    }
   }
 
   const request = axios.create(axiosDefault)
@@ -37,5 +40,5 @@ export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
 }
 
 export function axiosErrorMessage(e: any) {
-  return e.response?.data.meta.message || e.response?.message || e.message
+  return e.response?.data?.meta?.message || e.response?.message || e.message
 }
