@@ -23,7 +23,27 @@ const recruitmentLinks = genSidebarLinks({
         { text: 'Candidate Offered', to: '/candidates/offered' },
       ],
     },
-    { parent: { icon: RepeatIcon, text: 'Process', to: '/process' } },
+    {
+      parent: { icon: RepeatIcon, text: 'Process', to: '/process' },
+      child: [
+        {
+          text: 'Interview',
+          to: '/process/interview',
+        },
+        {
+          text: 'Assessment',
+          to: '/process/assessment',
+        },
+        {
+          text: 'Offering Letter',
+          to: '/process/offering-letter',
+        },
+        {
+          text: 'Onboarding',
+          to: '/process/onboarding',
+        },
+      ],
+    },
     { parent: { icon: FileIcon, text: 'Report', to: '/report' } },
   ],
 })
