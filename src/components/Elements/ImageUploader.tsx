@@ -89,7 +89,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, onStart, on
     >
       <div className="flex aspect-video h-full items-center justify-center rounded-lg bg-gray-200 text-gray-400">
         {!valueValidUrl && <ImageIcon className="block h-6 w-6 md:h-12 md:w-12" />}
-        {valueValidUrl && <img alt={value} src={value} className="block h-full w-full rounded-lg bg-black object-fill" />}
+        {valueValidUrl && <img alt={value} src={value} className="block h-full w-full rounded-lg object-contain" />}
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center rounded-lg py-5">
@@ -98,33 +98,33 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, onStart, on
           <div className="flex flex-col">
             <span className="block text-sm font-semibold text-gray-500">Click to upload or drag your file here</span>
             <span className="mb-2 block text-xs text-gray-500">Supported formats: JPG, JPEG, or PNG</span>
-
-            {selectedImage && (
-              <>
-                <span className="block text-sm font-semibold text-gray-800">{truncateFilename(selectedImage.name)}</span>
-                <span className="block text-xs">
-                  {formatFileSize(selectedImage.size)}
-                  {uploading && uploadProgress !== 100 && ` | Uploading: ${uploadProgress}% (${estimatedTimeRemaining})`}
-                  {uploading && uploadProgress === 100 && ` | Processing your image...`}
-                  {' | '}
-                  <button type="button" className="text-error-600" onClick={handleCancel}>
-                    Cancel
-                  </button>
-                </span>
-              </>
-            )}
-
-            {!selectedImage && value && valueValidUrl && (
-              <>
-                <span className="block text-sm font-semibold text-gray-800">{truncateFilename(urlToFilename(value))}</span>
-                <span className="block text-xs">
-                  <button type="button" className="text-error-600" onClick={handleRemove}>
-                    Remove
-                  </button>
-                </span>
-              </>
-            )}
           </div>
+        </div>
+        <div className="text-center">
+          {selectedImage && (
+            <>
+              <span className="block text-sm font-semibold text-gray-800">{truncateFilename(selectedImage.name)}</span>
+              <span className="block text-xs">
+                {formatFileSize(selectedImage.size)}
+                {uploading && uploadProgress !== 100 && ` | Uploading: ${uploadProgress}% (${estimatedTimeRemaining})`}
+                {uploading && uploadProgress === 100 && ` | Processing your image...`}
+                {' | '}
+                <button type="button" className="text-error-600" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </span>
+            </>
+          )}
+          {!selectedImage && value && valueValidUrl && (
+            <>
+              <span className="block text-sm font-semibold text-gray-800">{truncateFilename(urlToFilename(value))}</span>
+              <span className="block text-xs">
+                <button type="button" className="text-error-600" onClick={handleRemove}>
+                  Remove
+                </button>
+              </span>
+            </>
+          )}
         </div>
       </div>
 
