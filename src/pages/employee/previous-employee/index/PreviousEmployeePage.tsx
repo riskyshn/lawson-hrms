@@ -3,7 +3,6 @@ import Container from '@/components/Elements/Container'
 import Table from '../components/Table'
 import MainCard from '@/components/Elements/MainCard'
 import { BaseInput, Button, Select } from 'jobseeker-ui'
-import { Link } from 'react-router-dom'
 import { FilterIcon, SearchIcon } from 'lucide-react'
 
 const PreviousEmployeePage: React.FC = () => {

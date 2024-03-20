@@ -1,21 +1,7 @@
 import Container from '@/components/Elements/Container'
-import {
-  Avatar,
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Dropzone,
-  Input,
-  InputCheckbox,
-  InputDate,
-  OptionProps,
-  Select,
-  Textarea,
-} from 'jobseeker-ui'
+import { Avatar, Button, Card, CardBody } from 'jobseeker-ui'
 import { useState } from 'react'
 import { MailIcon, MapPinnedIcon, User2Icon } from 'lucide-react'
-import { useForm } from 'react-hook-form'
 import AttendanceTable from '../components/AttendanceTable'
 import LeaveTable from '../components/LeaveTable'
 
@@ -27,7 +13,7 @@ interface TabContent {
 const EmployeeDetailPage: React.FC<{
   defaultValue?: any
   handlePrev?: () => void
-}> = (props) => {
+}> = () => {
   const pageDataAttendance = {
     content: [
       {
@@ -79,20 +65,6 @@ const EmployeeDetailPage: React.FC<{
   const changeTab = (tabNumber: number) => {
     setActiveTab(tabNumber)
   }
-
-  const genderOptions: OptionProps[] = [
-    { label: 'Male', value: 'male' },
-    { label: 'Female', value: 'female' },
-  ]
-
-  const religionOptions: OptionProps[] = [
-    { label: 'Islam', value: 'islam' },
-    { label: 'Kristen', value: 'kristen' },
-    { label: 'Hindu', value: 'hindu' },
-    { label: 'Buddha', value: 'buddha' },
-    { label: 'Katolik', value: 'katolik' },
-    { label: 'Konghucu', value: 'konghucu' },
-  ]
 
   const tabsContent: TabContent[] = [
     {

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { updateCompany } from '@/services/organization.service'
 
 const OfferingLetterForm: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formData, setFormData] = useState({
     name: '',
     nppNumber: '',
@@ -11,14 +12,6 @@ const OfferingLetterForm: React.FC = () => {
     logo: '',
     greetingMessage: '',
   })
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }))
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
