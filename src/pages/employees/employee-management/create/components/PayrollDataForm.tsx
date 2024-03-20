@@ -4,9 +4,7 @@ import { HelpCircleIcon } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-/**
-
-*/
+import getCategory from '../../utils/get-category'
 
 const schema = yup.object({
   taxMethod: yup.string().required().label('Tax Method'),
@@ -31,7 +29,6 @@ const schema = yup.object({
     .label('Employment Tax Status'),
   npwpNumber: yup.string().required().label('NPWP Number'),
   ptkpStatus: yup.string().required().label('PTKP Status'),
-  category: yup.string().required().label('Category'),
   isParticipateBpjs: yup.boolean(),
   jkk: yup
     .number()
@@ -51,8 +48,7 @@ const options = {
     { label: 'Pegawai Tidak Tetap', value: 2 },
   ],
   ptkpStatus: ['TK/0', 'TK/1', 'K/0', 'TK/2', 'TK/3', 'K/1', 'K/2', 'K/3'].map((el) => ({ label: el, value: el })),
-  category: ['A', 'B', 'C'].map((el) => ({ label: el, value: el })),
-  jkk: [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el.toString(), value: el })),
+  jkk: [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el })),
 }
 
 const PayrollDataForm: React.FC<{
@@ -67,6 +63,7 @@ const PayrollDataForm: React.FC<{
     getValues,
     formState: { errors },
     trigger,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
@@ -172,19 +169,7 @@ const PayrollDataForm: React.FC<{
           />
         </div>
 
-        <Select
-          label="Category"
-          labelRequired
-          options={options.category}
-          hideSearch
-          name="category"
-          error={errors.category?.message}
-          value={getValues('category')}
-          onChange={(v) => {
-            setValue('category', v.toString())
-            trigger('category')
-          }}
-        />
+        <Input label="Category" name="category" value={getCategory(watch('ptkpStatus'))} disabled />
       </CardBody>
 
       <CardBody className="grid grid-cols-1 gap-2">
@@ -193,9 +178,7 @@ const PayrollDataForm: React.FC<{
           <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
         </div>
         <div className="pb-2">
-          <div className="pb-1">
-            <h3 className="text-sm font-semibold">Paid by Company</h3>
-          </div>
+          <h3 className="text-sm font-semibold">Paid by Company</h3>
           <div className="grid grid-cols-2 gap-4">
             <Input label="Jaminan Hari Tua (JHT)" disabled value="3.70%" />
             <Select
@@ -213,14 +196,10 @@ const PayrollDataForm: React.FC<{
           </div>
           <div className="grid grid-cols-2 gap-4">
             <Input label="Jaminan Kematian (JKM)" disabled value="0.30%" />
-            <div>
-              <Input label="Jaminan Pensiun (JP)" disabled required value="2%" />
-              <p className="text-xs italic">JP Maximum Cap Rp. 191.980,00*</p>
-            </div>
+            <Input label="Jaminan Pensiun (JP)" disabled required value="2%" help="JP Maximum Cap Rp. 191.980,00*" />
           </div>
           <div className="mb-3">
-            <Input label="Jaminan Kesehatan (KS)" disabled required value="4%" />
-            <p className="text-xs italic">KS Maximum Cap Rp. 480.000,00*</p>
+            <Input label="Jaminan Kesehatan (KS)" disabled required value="4%" help="KS Maximum Cap Rp. 480.000,00*" />
           </div>
           <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('isParticipateBpjs')}>
             Employee will not participate in BPJS KS Program{' '}
@@ -237,10 +216,7 @@ const PayrollDataForm: React.FC<{
           <Input label="Jaminan Hari Tua (JHT)" disabled value="2%" />
           <Input label="Jaminan Pensiun (JP)" disabled value="1%" />
         </div>
-        <div>
-          <Input label="Jaminan Kesehatan (KS)" disabled value="1%" />
-          <p className="text-xs italic">KS Maximum Cap Rp. 480.000,00*</p>
-        </div>
+        <Input label="Jaminan Kesehatan (KS)" disabled value="1%" help="KS Maximum Cap Rp. 480.000,00*" />
       </CardBody>
 
       <CardFooter className="gap-3">
