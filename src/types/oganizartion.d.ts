@@ -13,6 +13,11 @@ interface ICompany {
   totalFollowers?: number
   totalBookmark?: number
   totalLike?: number
+
+  greetingMsg?: string
+  nppNumber?: string
+  npwpNumber?: string
+
   latestOnline?: string // date
   loginDate?: string // date
   deletedAt?: string // date

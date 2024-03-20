@@ -18,6 +18,7 @@ interface OrganizationStore {
   init: () => Promise<void>
   refresh: () => Promise<void>
   clean: () => void
+  refreshCompany: () => Promise<void>
   setApprovals: (approvals: IApproval[]) => Promise<void>
   createRecruitmentStage: (payload: Record<string, any>) => Promise<void>
   updateRecruitmentStage: (oid: string, payload: Record<string, any>) => Promise<void>
@@ -88,6 +89,8 @@ export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
       },
     })
   },
+
+  refreshCompany: async () => set({ company: await organizationService.fetchCompany() }),
 
   setApprovals: async (approvals) => {
     set((state) => ({

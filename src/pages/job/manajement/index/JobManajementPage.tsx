@@ -24,6 +24,8 @@ const JobManajementPage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
 
+  const [switchData, setSwitchData] = useState(false)
+
   const pagination = usePagination({
     pathname: '/job/management',
     totalPage: pageData?.totalPages || 0,
@@ -66,6 +68,7 @@ const JobManajementPage: React.FC = () => {
     (vacancy: IVacancy) => {
       if (!pageData) return
       setPageData({ ...pageData, content: pageData.content.map((el) => (el.id === vacancy.id ? vacancy : el)) })
+      setSwitchData((v) => !v)
     },
     [pageData],
   )
@@ -74,6 +77,7 @@ const JobManajementPage: React.FC = () => {
     (id: string) => {
       if (!pageData) return
       setPageData({ ...pageData, content: pageData.content.filter((el) => el.id !== id) })
+      setSwitchData((v) => !v)
     },
     [pageData],
   )
@@ -106,7 +110,7 @@ const JobManajementPage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards />
+        <StatisticCards switchData={switchData} />
 
         <MainCard
           header={(open, toggleOpen) => (

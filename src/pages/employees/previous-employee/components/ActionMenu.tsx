@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
 import { UserXIcon } from 'lucide-react'
@@ -21,6 +22,7 @@ type ActionMenuProps = {
 const ActionMenu: React.FC<ActionMenuProps> = ({ options }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
+  const [_showModal, setShowModal] = useState(false)
 
   const handleViewDetails = (option: string) => {
     switch (option) {

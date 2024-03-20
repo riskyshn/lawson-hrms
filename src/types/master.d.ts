@@ -34,3 +34,13 @@ interface IMasterEducationLevel {
   oid: string
   name: string
 }
+
+interface IMasterGender {
+  oid: string
+  name: string
+}
+
+interface IMasterReligion {
+  oid: string
+  name: string
+}

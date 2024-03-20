@@ -33,7 +33,7 @@ const AsyncSelect: React.FC<PropTypes> = ({
     const fetchData = async (search: string, signal: AbortSignal) => {
       setLoading(true)
       try {
-        const { content } = await fetcher({ limit: 20, page: 0, ...rFetcherParams, q: search }, signal)
+        const { content } = await fetcher({ limit: 20, ...rFetcherParams, q: search || undefined }, signal)
         setResults(converter(content))
       } catch (error) {
         // console.error('Error fetching data:', error)
@@ -60,7 +60,7 @@ const AsyncSelect: React.FC<PropTypes> = ({
       setLoading(true)
 
       try {
-        const { content } = await fetcher({ limit: 20, page: 0, ...rFetcherParams })
+        const { content } = await fetcher({ limit: 20, ...rFetcherParams })
         setResults(converter(content))
       } catch (error) {
         console.error('Error fetching data:', error)

@@ -197,5 +197,5 @@ export const fetchApproval = (oid: string) => {
 }
 
 export const createApproval = (employeeIds: string[]) => {
-  return axios.post<{ data: IApproval[] }>(`/approval`, { employeeIds }).then((response) => response.data.data)
+  return axios.post<{ data: { content: IApproval[] } }>(`/approval`, { employeeIds }).then((response) => response.data.data)
 }

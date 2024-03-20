@@ -3,3 +3,4 @@ export const API_MASTER_BASE_URL = import.meta.env.API_MASTER_BASE_URL || 'https
 export const API_ORGANIZATION_BASE_URL = import.meta.env.API_ORGANIZATION_BASE_URL || 'https://basic-organization.api-jobseeker.site'
 export const API_VACANCY_BASE_URL = import.meta.env.API_VACANCY_BASE_URL || 'https://basic-vacancy.api-jobseeker.site'
 export const API_EMPLOYEE_BASE_URL = import.meta.env.API_EMPLOYEE_BASE_URL || 'https://basic-employee.api-jobseeker.site'
+export const API_ATTENDANCE_BASE_URL = import.meta.env.API_EMPLOYEE_BASE_URL || 'https://basic-attendance.api-jobseeker.site'

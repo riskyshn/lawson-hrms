@@ -5,10 +5,10 @@ import dashboardRoute from './dashboard.route'
 import jobRoute from './job.route'
 import candidatesRoute from './candidates.route'
 import settingsRoute from './settings.route'
-import employeeRoute from './employee.route'
+import employeesRoute from './employees.route'
 import processRoute from './process.route'
 
 export const mainRoute: RouteObject = {
   element: <MainLayout />,
-  children: [dashboardRoute, jobRoute, candidatesRoute, settingsRoute, employeeRoute, processRoute],
+  children: [dashboardRoute, jobRoute, candidatesRoute, settingsRoute, employeesRoute, processRoute],
 }

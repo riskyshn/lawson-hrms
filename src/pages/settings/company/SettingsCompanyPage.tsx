@@ -1,6 +1,6 @@
 import PageHeader from '@/components/Elements/PageHeader'
 import Container from '@/components/Elements/Container'
-import SettingsCompanyForm from '../components/SettingsCompanyForm'
+import SettingsCompanyForm from './components/SettingsCompanyForm'
 
 const SettingsCompanyPage: React.FC = () => {
   return (
