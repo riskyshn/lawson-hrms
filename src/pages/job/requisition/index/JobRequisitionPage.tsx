@@ -26,6 +26,8 @@ const JobRequisitionPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [historyMadalData, setHistoryMadalData] = useState<IVacancy | null>(null)
 
+  const [switchData, setSwitchData] = useState(false)
+
   const pagination = usePagination({
     pathname: '/job/requisition',
     totalPage: pageData?.totalPages || 0,
@@ -68,6 +70,7 @@ const JobRequisitionPage = () => {
     (vacancy: IVacancy) => {
       if (!pageData) return
       setPageData({ ...pageData, content: pageData.content.map((el) => (el.id === vacancy.id ? vacancy : el)) })
+      setSwitchData((v) => !v)
     },
     [pageData],
   )
@@ -76,6 +79,7 @@ const JobRequisitionPage = () => {
     (id: string) => {
       if (!pageData) return
       setPageData({ ...pageData, content: pageData.content.filter((el) => el.id !== id) })
+      setSwitchData((v) => !v)
     },
     [pageData],
   )
@@ -85,6 +89,7 @@ const JobRequisitionPage = () => {
   return (
     <>
       <HistoryModal vacancy={historyMadalData} onClose={() => setHistoryMadalData(null)} />
+
       <PageHeader
         breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
         title="Job Requisition"
@@ -109,7 +114,7 @@ const JobRequisitionPage = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards isRequisition />
+        <StatisticCards isRequisition switchData={switchData} />
 
         <MainCard
           header={(open, toggleOpen) => (
