@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom'
 import { updateCompany } from '@/services/organization.service'
 
 const SetupOfferingLetterForm: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [formData, setFormData] = useState({
+  const [formData] = useState({
     name: '',
     nppNumber: '',
     npwpNumber: '',

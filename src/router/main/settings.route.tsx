@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom'
 
 import SettingBranchesPage from '@/pages/settings/branches/SettingBranchesPage'
-import SettingsCompanyPage from '@/pages/settings/company/index/SettingsCompanyPage'
+import SettingsCompanyPage from '@/pages/settings/company/SettingsCompanyPage'
 import SettingDepartmentsPage from '@/pages/settings/departments/SettingDepartmentsPage'
 import SettingEmploymentStatusPage from '@/pages/settings/employment-status/SettingEmploymentStatusPage'
 import SettingJobLevelsPage from '@/pages/settings/job-levels/SettingJobLevelsPage'

@@ -1,17 +1,13 @@
-import React from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XCircleIcon } from 'lucide-react'
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import React from 'react'
 
-type PreviewMapsModalProps = {
-  location: {
-    lat: number
-    lng: number
-  }
+type PreviewImageModalProps = {
+  imageUrl: string
   onClose: () => void
 }
 
-const PreviewMapsModal: React.FC<PreviewMapsModalProps> = ({ location, onClose }) => {
+const PreviewImageModal: React.FC<PreviewImageModalProps> = ({ imageUrl, onClose }) => {
   return (
     <Transition appear show={true} as={React.Fragment}>
       <Dialog as="div" className="fixed inset-0 z-50 overflow-y-auto" onClose={onClose}>
@@ -47,22 +43,7 @@ const PreviewMapsModal: React.FC<PreviewMapsModalProps> = ({ location, onClose }
               </button>
               <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-lg bg-white">
                 <div className="z-10 flex max-h-full w-full justify-center overflow-auto">
-                  <MapContainer
-                    center={[location.lat, location.lng]}
-                    zoom={20}
-                    scrollWheelZoom={false}
-                    style={{ height: '400px', width: '100%' }}
-                  >
-                    <TileLayer
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    <Marker position={[location.lat, location.lng]}>
-                      <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                      </Popup>
-                    </Marker>
-                  </MapContainer>
+                  <img src={imageUrl} alt="Image Preview" className="max-h-full max-w-full" />
                 </div>
               </div>
             </div>
@@ -73,4 +54,4 @@ const PreviewMapsModal: React.FC<PreviewMapsModalProps> = ({ location, onClose }
   )
 }
 
-export default PreviewMapsModal
+export default PreviewImageModal

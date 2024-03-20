@@ -23,7 +23,7 @@ const Card: React.FC<{ label: string; value: number | string; background?: strin
   </div>
 )
 
-const StatisticCards: React.FC<{ isRequisition?: boolean }> = ({ isRequisition }) => {
+const StatisticCards: React.FC<{ isRequisition?: boolean; switchData?: boolean }> = ({ isRequisition, switchData }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<Record<string, number> | null>(null)
   const [error, setError] = useState<any>(null)
@@ -40,7 +40,7 @@ const StatisticCards: React.FC<{ isRequisition?: boolean }> = ({ isRequisition }
       setLoading(false)
     }
     fetchData()
-  }, [isRequisition])
+  }, [isRequisition, switchData])
 
   const renderCards = () => {
     if (error) {
@@ -130,7 +130,7 @@ const StatisticCards: React.FC<{ isRequisition?: boolean }> = ({ isRequisition }
 
   return (
     <div className={twJoin('grid gap-3', isRequisition ? 'grid-cols-1 md:grid-cols-5' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6')}>
-      {renderCards()}
+      {!loading && renderCards()}
       {loading && <Skeleton className="h-[90px]" count={isRequisition ? 5 : 6} />}
     </div>
   )

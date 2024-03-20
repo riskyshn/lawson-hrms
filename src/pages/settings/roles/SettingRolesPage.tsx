@@ -69,7 +69,14 @@ const SettingRolesPage: React.FC = () => {
         }
       />
 
-      <CreateModal show={showCreateModal} onCreated={setToUpdateSelectedPermission} onClose={() => setShowCreateModal(false)} />
+      <CreateModal
+        show={showCreateModal}
+        onCreated={(r) => {
+          refreshPageData()
+          setToUpdateSelectedPermission(r)
+        }}
+        onClose={() => setShowCreateModal(false)}
+      />
       <EditModal role={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={handleUpdate} />
       <EditPermissionModal role={toUpdateSelectedPermission} onClose={() => setToUpdateSelectedPermission(null)} onUpdated={handleUpdate} />
 

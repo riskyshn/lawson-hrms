@@ -50,6 +50,10 @@ export const approveRequisition = (id: string, payload: Record<string, any>) => 
   return axios.patch(`/requisition/${id}/approve`, payload).then((response) => response.data.data)
 }
 
+export const sendReminder = (id: string) => {
+  return axios.post(`/requisition/${id}/send-reminder`).then((response) => response.data.data)
+}
+
 export const fetchVacancyStratistic = (params?: { isRequisition: boolean }) => {
   return axios.get<{ data: Record<string, number> }>(`/vacancy/statistics`, { params }).then((response) => response.data.data)
 }

@@ -2,9 +2,9 @@ import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
 import { EditIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 import ResignTerminateModal from './ResignTerminateModal'
-import { useNavigate } from 'react-router-dom'
 
 type Employee = {
   id: string
@@ -32,10 +32,6 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ items }) => {
     }
     if (type == 'View Details') {
       navigate(`/employee/employee-management/${items.id}/view`)
-    }
-
-    if (type == 'Edit Employee') {
-      navigate(`/employee/employee-management/${items.id}/edit`)
     }
   }
 

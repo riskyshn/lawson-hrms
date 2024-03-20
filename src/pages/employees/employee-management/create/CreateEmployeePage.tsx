@@ -2,14 +2,13 @@ import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { Link, useNavigate } from 'react-router-dom'
-import PersonalDataForm from '../components/PersonalDataForm'
-import { useState } from 'react'
-import EmploymentDataForm from '../components/EmploymentDataForm'
-import PayrollDataForm from '../components/PayrollDataForm'
-import ComponentsDataForm from '../components/ComponentsDataForm'
+import PersonalDataForm from './components/PersonalDataForm'
+import { useEffect, useState } from 'react'
+import EmploymentDataForm from './components/EmploymentDataForm'
+import PayrollDataForm from './components/PayrollDataForm'
+import ComponentsDataForm from './components/ComponentsDataForm'
 
 const CreateEmployeePage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
@@ -21,7 +20,7 @@ const CreateEmployeePage = () => {
     componentsData: {},
   })
 
-  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(4, {
+  const { activeStep, isLastStep, handlePrev, handleNext, setActiveStep } = useSteps(4, {
     onNext() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     },
@@ -43,25 +42,30 @@ const CreateEmployeePage = () => {
     }
   }
 
+  useEffect(() => {
+    setActiveStep(3)
+  }, [setActiveStep])
+
   return (
     <>
       <PageHeader
         breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Create' }]}
         title="Add Employee"
         actions={
-          <Button as={Link} to="/employee/employee-management" variant="light" color="error">
+          <Button as={Link} to="/employees/employee-management" variant="light" color="error">
             Cancel
           </Button>
         }
       />
+
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
           steps={[
             { title: 'Personal Data', details: 'Set Requirement Personal Data' },
             { title: 'Employment Data', details: 'Set Requirement Employment Data' },
-            { title: 'Payroll', details: 'Set Payroll Data' },
-            { title: 'Components', details: 'Set Components Data' },
+            { title: 'Payroll', details: 'Set Payroll' },
+            { title: 'Components', details: 'Set Components' },
           ]}
         />
 
@@ -91,6 +95,7 @@ const CreateEmployeePage = () => {
             defaultValue={formValues.payrollData}
             handlePrev={handlePrev}
             handleSubmit={(componentsData) => handleStepSubmit({ ...formValues, componentsData })}
+            isLoading={isSubmitLoading}
           />
         )}
       </Container>

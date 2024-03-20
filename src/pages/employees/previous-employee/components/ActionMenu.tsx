@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
 import { EditIcon, XCircleIcon } from 'lucide-react'
@@ -18,8 +19,7 @@ type ActionMenuProps = {
 
 const ActionMenu: React.FC<ActionMenuProps> = () => {
   const [modalType, setModalType] = useState('')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showModal, setShowModal] = useState(false)
+  const [_showModal, setShowModal] = useState(false)
 
   const openModal = (type: string = '') => {
     if (type == 'Resign/Terminate') {
