@@ -1,26 +1,17 @@
-import PageHeader from '@/components/Elements/PageHeader'
 import Container from '@/components/Elements/Container'
-import Table from '../components/Table'
 import MainCard from '@/components/Elements/MainCard'
+import PageHeader from '@/components/Elements/PageHeader'
+import usePagination from '@/hooks/use-pagination'
 import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon } from 'lucide-react'
+import Table from '../components/Table'
 
-const PreviousEmployeePage: React.FC = () => {
-  const pageData = {
-    content: [
-      {
-        name: 'John Doe',
-        email: 'jd@gmail.com',
-        lastDay: '12/12/2024',
-        status: 'Senior Accountant',
-        reason: 'Level 3',
-      },
-    ],
-  }
+const InterviewPage: React.FC = () => {
+  const pagination = usePagination({ pathname: '/employee/interview', totalPage: 2, params: { search: 'querysearch' } })
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Employee' }, { text: 'Previous Employee' }]} title="Previous Employee" />
+      <PageHeader breadcrumb={[{ text: 'Employee' }, { text: 'Interview' }]} title="Interview" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -29,9 +20,9 @@ const PreviousEmployeePage: React.FC = () => {
               <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                   <div className="mb-2">
-                    <span className="block text-lg font-semibold">Employee List</span>
+                    <span className="block text-lg font-semibold">Candidate List</span>
                     <span className="block text-sm">
-                      You have <span className="text-primary-600">{pageData?.content?.length ?? 0} Employee</span> in this list
+                      You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
                     </span>
                   </div>
                 </div>
@@ -48,18 +39,19 @@ const PreviousEmployeePage: React.FC = () => {
                 </div>
               </div>
               {open && (
-                <div className="grid grid-cols-1 gap-3 p-3 lg:grid-cols-2">
-                  <Select placeholder="All Department" options={[]} />
+                <div className="grid grid-cols-2 gap-3 p-3">
+                  <Select placeholder="All Vacancy" options={[]} />
+                  <Select placeholder="All Stage" options={[]} />
                 </div>
               )}
             </>
           )}
-          body={<Table items={pageData.content} />}
-          footer={0}
+          body={<Table />}
+          footer={pagination.render()}
         />
       </Container>
     </>
   )
 }
 
-export default PreviousEmployeePage
+export default InterviewPage

@@ -6,8 +6,9 @@ import jobRoute from './job.route'
 import candidatesRoute from './candidates.route'
 import settingsRoute from './settings.route'
 import employeeRoute from './employee.route'
+import processRoute from './process.route'
 
 export const mainRoute: RouteObject = {
   element: <MainLayout />,
-  children: [dashboardRoute, jobRoute, candidatesRoute, settingsRoute, employeeRoute],
+  children: [dashboardRoute, jobRoute, candidatesRoute, settingsRoute, employeeRoute, processRoute],
 }
