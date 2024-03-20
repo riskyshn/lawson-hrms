@@ -4,6 +4,7 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon } from 'lucide-react'
 import Table from '../components/Table'
+import usePagination from '@/hooks/use-pagination'
 
 const PreviousEmployeePage: React.FC = () => {
   const pageData = {
@@ -17,6 +18,8 @@ const PreviousEmployeePage: React.FC = () => {
       },
     ],
   }
+
+  const pagination = usePagination({ pathname: '/employee/previous-employee', totalPage: 2, params: { search: 'querysearch' } })
 
   return (
     <>
@@ -55,7 +58,7 @@ const PreviousEmployeePage: React.FC = () => {
             </>
           )}
           body={<Table items={pageData.content} />}
-          footer={0}
+          footer={pagination.render()}
         />
       </Container>
     </>

@@ -2,7 +2,7 @@ import PageHeader from '@/components/Elements/PageHeader'
 import Container from '@/components/Elements/Container'
 import SetupOfferingLetterForm from '../components/SetupOfferingLetterForm'
 
-const SetupOfferingLetterPage: React.FC = () => {
+const SetupPage: React.FC = () => {
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'Setup Offering Letter' }]} />
@@ -13,4 +13,4 @@ const SetupOfferingLetterPage: React.FC = () => {
   )
 }
 
-export default SetupOfferingLetterPage
+export default SetupPage

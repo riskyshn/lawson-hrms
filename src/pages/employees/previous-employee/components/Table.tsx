@@ -49,7 +49,7 @@ const Table: React.FC<TableProps> = ({ items }) => {
         children: item.reason,
       },
       {
-        children: <ActionMenu items={item} />,
+        children: <ActionMenu options={['Blacklist']} items={item} />,
       },
     ],
   }))
