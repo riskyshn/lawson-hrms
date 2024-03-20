@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import HireModal from '../../Modals/HireModal'
 
-const OfferingPage: React.FC = () => {
+const ViewPage: React.FC = () => {
   const [showModal, setShowModal] = useState(false)
 
   const handleNextButtonClick = () => {
@@ -49,4 +49,4 @@ const OfferingPage: React.FC = () => {
   )
 }
 
-export default OfferingPage
+export default ViewPage

@@ -6,6 +6,7 @@ import NotFoundPage from '@/pages/NotFoundPage'
 import privateRoutes from './private.route'
 import guestRoutes from './guest.route'
 import ErrorBoundary from '@/pages/ErrorBoundary'
+import clientRoutes from './client.route'
 
 const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) => {
   const { user } = useAuthStore()
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     element: <AuthChecker guest />,
     children: guestRoutes,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    children: clientRoutes,
     errorElement: <ErrorBoundary />,
   },
   {
