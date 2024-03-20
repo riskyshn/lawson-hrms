@@ -168,7 +168,13 @@ const JobRequisitionPage = () => {
             </>
           )}
           body={
-            <Table items={pageData?.content || []} loading={isLoading} onVacancyUpdated={updateVacancy} onVacancyDeleted={removeVacancy} />
+            <Table
+              items={pageData?.content || []}
+              loading={isLoading}
+              onVacancyUpdated={updateVacancy}
+              onVacancyDeleted={removeVacancy}
+              setHistoryMadalData={setHistoryMadalData}
+            />
           }
           footer={pagination.render()}
         />
