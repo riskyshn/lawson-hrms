@@ -6,6 +6,7 @@ import EmployeeDetailsForm from './EmployeeDetailsForm'
 import RenumerationForm from './RenumerationForm'
 
 const OfferingLetterForm = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
