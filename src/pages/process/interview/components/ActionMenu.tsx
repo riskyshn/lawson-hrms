@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { useNavigate } from 'react-router-dom'
-import ProcessModal from '../../Modals/ProcessModal'
 import ViewHistoryModal from '../../Modals/ViewHistoryModal'
 import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
 import UpdateResultModal from '../../Modals/UpdateResultModal'
@@ -40,8 +39,6 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
 
   const renderModal = () => {
     switch (modalType) {
-      case 'Process':
-        return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'View History':
         return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
       case 'Move to Another Vacancy':

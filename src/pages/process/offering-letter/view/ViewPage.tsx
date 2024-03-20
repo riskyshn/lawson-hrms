@@ -13,7 +13,7 @@ const OfferingPage: React.FC = () => {
   }
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Assessment' }, { text: 'Offering Letter' }]} title="Offering Letter" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'Offering Letter' }]} title="Offering Letter" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <Card>

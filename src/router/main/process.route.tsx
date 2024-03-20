@@ -2,15 +2,14 @@ import type { RouteObject } from 'react-router-dom'
 
 import InterviewPage from '@/pages/process/interview/index/InterviewPage'
 import AssessmentPage from '@/pages/process/assessment/index/AssessmentPage'
-import CreateProcessPage from '@/pages/process/assessment/create/CreateProcessPage'
-import ReviewProcessPage from '@/pages/process/assessment/index/ReviewProcessPage'
-import OfferingPage from '@/pages/process/assessment/index/OfferingPage'
+import UploadPage from '@/pages/process/offering-letter/upload/UploadPage'
+import ViewPage from '@/pages/process/offering-letter/view/ViewPage'
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
-import PreviewOfferingLetterPage from '@/pages/process/offering-letter/index/PreviewOfferingLetterPage'
+import PreviewPage from '@/pages/process/offering-letter/preview/PreviewPage'
 import OnboardingPage from '@/pages/process/onboarding/index/OnboardingPage'
 import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
-import SetupOfferingLetterPage from '@/pages/process/offering-letter/create/SetupOfferingLetterPage'
-import ViewOfferingLetterPage from '@/pages/process/offering-letter/index/ViewOfferingLetterPage'
+import SetupPage from '@/pages/process/offering-letter/setup/SetupPage'
+import ViewSignedPage from '@/pages/process/offering-letter/view-signed/ViewSignedPage'
 
 const candidatesRoute: RouteObject = {
   path: 'process',
@@ -34,18 +33,6 @@ const candidatesRoute: RouteObject = {
           path: '',
           element: <AssessmentPage />,
         },
-        {
-          path: ':candidateId/process',
-          element: <CreateProcessPage />,
-        },
-        {
-          path: ':candidateId/process/view',
-          element: <ReviewProcessPage />,
-        },
-        {
-          path: ':candidateId/offering-letter',
-          element: <OfferingPage />,
-        },
       ],
     },
     {
@@ -58,11 +45,11 @@ const candidatesRoute: RouteObject = {
         },
         {
           path: 'setup',
-          element: <SetupOfferingLetterPage />,
+          element: <SetupPage />,
         },
         {
           path: 'preview',
-          element: <PreviewOfferingLetterPage />,
+          element: <PreviewPage />,
         },
         {
           path: 'create',
@@ -70,7 +57,15 @@ const candidatesRoute: RouteObject = {
         },
         {
           path: 'view',
-          element: <ViewOfferingLetterPage />,
+          element: <ViewSignedPage />,
+        },
+        {
+          path: 'upload-document',
+          element: <UploadPage />,
+        },
+        {
+          path: ':candidateId/view/offering-letter',
+          element: <ViewPage />,
         },
       ],
     },
