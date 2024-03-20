@@ -1,5 +1,5 @@
 import CreateEmployeePage from '@/pages/employees/employee-management/create/CreateEmployeePage'
-import EmployeeDetailPage from '@/pages/employees/employee-management/index/EmployeeDetailPage'
+import EmployeeDetailPage from '@/pages/employees/employee-management/detail/EmployeeDetailPage'
 import EmployeeManagementPage from '@/pages/employees/employee-management/index/EmployeeManagementPage'
 import PreviousEmployeePage from '@/pages/employees/previous-employee/index/PreviousEmployeePage'
 import type { RouteObject } from 'react-router-dom'
@@ -22,7 +22,7 @@ const employeeRoute: RouteObject = {
           element: <CreateEmployeePage />,
         },
         {
-          path: ':employeeId/view',
+          path: ':employeeId',
           name: 'View',
           element: <EmployeeDetailPage />,
         },
