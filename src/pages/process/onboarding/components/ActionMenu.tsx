@@ -1,27 +1,16 @@
-import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
-import {
-  CalendarDaysIcon,
-  FileTextIcon,
-  HistoryIcon,
-  RefreshCwIcon,
-  SendToBackIcon,
-  UserPlus2Icon,
-  UserXIcon,
-  XCircleIcon,
-} from 'lucide-react'
+import { EditIcon, HistoryIcon, LogOutIcon, UserRoundPlusIcon, UserXIcon, XCircleIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import ViewHistoryModal from '../../Modals/ViewHistoryModal'
-import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
-import UpdateResultModal from '../../Modals/UpdateResultModal'
 import RejectModal from '../../Modals/RejectModal'
 import BlacklistModal from '../../Modals/BlacklistModal'
 
 interface MenuListProps {
   options: string[]
-  items?: { id: number }
+  items?: any
 }
 
 const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
@@ -31,24 +20,24 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
 
   const handleViewDetails = (option: string) => {
     switch (option) {
-      case 'Offering Letter':
-        navigate(`/process/offering-letter`)
+      case 'View History':
+      case 'Reject':
+      case 'Blacklist':
+        setModalType(option)
+        setShowOptionModal(true)
+        break
+      case 'Add as Employee':
+        navigate('/employee/employee-management/create')
         break
       default:
-        setModalType(option)
         break
     }
-    setShowOptionModal(true)
   }
 
   const renderModal = () => {
     switch (modalType) {
       case 'View History':
         return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
-      case 'Move to Another Vacancy':
-        return <MoveAnotherVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'Update Result':
-        return <UpdateResultModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'Reject':
         return <RejectModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'Blacklist':
@@ -56,17 +45,6 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
       default:
         return null
     }
-  }
-
-  const iconMap: { [key: string]: JSX.Element } = {
-    Process: <RefreshCwIcon />,
-    'Move to Another Vacancy': <SendToBackIcon />,
-    'View History': <HistoryIcon />,
-    Blacklist: <UserXIcon />,
-    'View in Interview': <CalendarDaysIcon />,
-    'Offering Letter': <FileTextIcon />,
-    'Update Result': <UserPlus2Icon />,
-    Reject: <XCircleIcon />,
   }
 
   return (
@@ -83,13 +61,18 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
                   className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm ${active && 'bg-primary-100'}`}
                   onClick={() => handleViewDetails(option)}
                 >
-                  {iconMap[option] &&
-                    React.cloneElement(iconMap[option], {
-                      className: twJoin(
-                        'h-4 w-4',
-                        option === 'Reject' ? (active ? 'text-red-600' : 'text-red-400') : active ? 'text-primary-600' : 'text-gray-400',
-                      ),
-                    })}
+                  {option === 'Add as Employee' && (
+                    <UserRoundPlusIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+                  {option === 'Edit Join Date' && <EditIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
+                  {option === 'View History' && (
+                    <HistoryIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+                  {option === 'Blacklist' && <UserXIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
+
+                  {option === 'Reject' && <XCircleIcon className={twJoin('h-4 w-4', active ? 'text-red-600' : 'text-red-400')} />}
+                  {option === 'Withdraw' && <LogOutIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
+
                   {option}
                 </button>
               )}

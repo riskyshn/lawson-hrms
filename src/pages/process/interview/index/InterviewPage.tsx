@@ -7,11 +7,11 @@ import { FilterIcon, SearchIcon } from 'lucide-react'
 import Table from '../components/Table'
 
 const InterviewPage: React.FC = () => {
-  const pagination = usePagination({ pathname: '/employee/interview', totalPage: 2, params: { search: 'querysearch' } })
+  const pagination = usePagination({ pathname: '/process/interview', totalPage: 2, params: { search: 'querysearch' } })
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Employee' }, { text: 'Interview' }]} title="Interview" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Interview' }]} title="Interview" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
