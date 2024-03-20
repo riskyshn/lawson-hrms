@@ -1,21 +1,22 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import { Button, Card, CardBody, CardFooter, Dropzone, Input, Textarea } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
-import { updateCompany } from '@/services/organization.service'
+// import { updateCompany } from '@/services/organization.service'
 
 const SetupOfferingLetterForm: React.FC = () => {
-  const [formData] = useState({
-    name: '',
-    nppNumber: '',
-    npwpNumber: '',
-    logo: '',
-    greetingMessage: '',
-  })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   nppNumber: '',
+  //   npwpNumber: '',
+  //   logo: '',
+  //   greetingMessage: '',
+  // })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      await updateCompany(formData)
+      // await updateCompany(formData)
       console.log('Company updated successfully!')
     } catch (error) {
       console.error('Error updating company:', error)
