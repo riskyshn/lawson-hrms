@@ -1,11 +1,12 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
+import MainCardHeader from '@/components/Elements/MainCardHeader'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
-import { Button, Input, Select } from 'jobseeker-ui'
-import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
+import { Button, Select } from 'jobseeker-ui'
+import { SettingsIcon } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from '../../components/StatisticCards'
@@ -118,59 +119,49 @@ const JobRequisitionPage = () => {
 
         <MainCard
           header={(open, toggleOpen) => (
-            <>
-              <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <span className="block text-lg font-semibold">Vacancy List</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Input
-                    type="text"
-                    placeholder="Search..."
-                    className="m-0 mt-1 w-full lg:w-64"
-                    inputClassName="peer pl-7"
-                    rightChild={
-                      <SearchIcon
-                        className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
-                        size={16}
-                      />
-                    }
-                    value={search || ''}
-                    onChange={(e) => setSearchParam({ search: e.currentTarget.value })}
-                  />
-                  <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
-                    <FilterIcon size={16} />
-                  </Button>
-                </div>
-              </div>
-              {open && (
-                <div className="grid grid-cols-2 gap-3 p-3">
-                  <Select
-                    placeholder="All Departement"
-                    withReset
-                    value={department}
-                    onChange={(e) => {
-                      searchParams.set('department', e.toString())
-                      setSearchParam(searchParams)
-                    }}
-                    options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                  />
-                  <Select
-                    placeholder="All Status"
-                    withReset
-                    value={status}
-                    onChange={(e) => {
-                      searchParams.set('status', e.toString())
-                      setSearchParam(searchParams)
-                    }}
-                    options={['Active', 'Inactive', 'Draft', 'Expired', 'Fullfilled'].map((el) => ({
-                      label: el,
-                      value: el.toLocaleLowerCase(),
-                    }))}
-                  />
-                </div>
-              )}
-            </>
+            <MainCardHeader
+              title="Vacancy List"
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              subtitle={
+                <>
+                  You have <span className="text-primary-600">{pageData?.totalElements} Vacancy</span> in total
+                </>
+              }
+              search={{
+                value: search || '',
+                setValue: (v) => setSearchParam({ search: v }),
+              }}
+              filterToogle={toggleOpen}
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <Select
+                      placeholder="All Departement"
+                      withReset
+                      value={department}
+                      onChange={(e) => {
+                        searchParams.set('department', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    />
+                    <Select
+                      placeholder="All Status"
+                      withReset
+                      value={status}
+                      onChange={(e) => {
+                        searchParams.set('status', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={['Active', 'Inactive', 'Draft', 'Expired', 'Fullfilled'].map((el) => ({
+                        label: el,
+                        value: el.toLocaleLowerCase(),
+                      }))}
+                    />
+                  </div>
+                )
+              }
+            />
           )}
           body={
             <Table

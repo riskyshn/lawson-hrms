@@ -1,12 +1,15 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import PersonalDataForm from './components/PersonalDataForm'
-import { useEffect, useState } from 'react'
+import ComponentsDataForm from './components/ComponentsDataForm'
 import EmploymentDataForm from './components/EmploymentDataForm'
 import PayrollDataForm from './components/PayrollDataForm'
-import ComponentsDataForm from './components/ComponentsDataForm'
+import PersonalDataForm from './components/PersonalDataForm'
+import moment from 'moment'
+import currencyToNumber from '@/utils/currency-to-number'
+import { employeeService } from '@/services'
 
 const CreateEmployeePage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
@@ -15,12 +18,12 @@ const CreateEmployeePage = () => {
 
   const [formValues, setFormValues] = useState<any>({
     personalData: {},
-    employmentData: {},
-    payrollData: {},
-    componentsData: {},
+    employment: {},
+    payroll: {},
+    components: {},
   })
 
-  const { activeStep, isLastStep, handlePrev, handleNext, setActiveStep } = useSteps(4, {
+  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(4, {
     onNext() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     },
@@ -32,19 +35,39 @@ const CreateEmployeePage = () => {
 
     if (!isLastStep) return
 
+    setIsSubmitLoading(true)
+
     try {
-      setIsSubmitLoading(true)
-      toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/employee/employee-management`)
+      const { personalData, payroll, components } = data
+
+      const payload = {
+        name: personalData.name,
+        email: personalData.email,
+        ...data,
+        personalData: {
+          ...personalData,
+          dateOfBirth: moment(personalData.dateOfBirth).format('YYYY-MM-DD'),
+        },
+        payroll: {
+          ...payroll,
+          baseSalary: currencyToNumber(payroll.baseSalary),
+        },
+        components: {
+          ...components,
+          benefits: components.benefits.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount) })),
+          deductions: components.deductions.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount) })),
+        },
+      }
+
+      await employeeService.createEmployee(payload)
+
+      toast('Employee successfully created.', { color: 'success' })
+      navigate(`/employees/employee-management`)
     } catch (error) {
-      toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
+      toast('An error occurred while creating the Employee.', { color: 'error' })
       setIsSubmitLoading(false)
     }
   }
-
-  useEffect(() => {
-    setActiveStep(3)
-  }, [setActiveStep])
 
   return (
     <>
@@ -78,23 +101,23 @@ const CreateEmployeePage = () => {
         )}
         {activeStep === 1 && (
           <EmploymentDataForm
-            defaultValue={formValues.employmentData}
+            defaultValue={formValues.employment}
             handlePrev={handlePrev}
-            handleSubmit={(employmentData) => handleStepSubmit({ ...formValues, employmentData })}
+            handleSubmit={(employment) => handleStepSubmit({ ...formValues, employment })}
           />
         )}
         {activeStep === 2 && (
           <PayrollDataForm
-            defaultValue={formValues.payrollData}
+            defaultValue={formValues.payroll}
             handlePrev={handlePrev}
-            handleSubmit={(payrollData) => handleStepSubmit({ ...formValues, payrollData })}
+            handleSubmit={(payroll) => handleStepSubmit({ ...formValues, payroll })}
           />
         )}
         {activeStep === 3 && (
           <ComponentsDataForm
-            defaultValue={formValues.payrollData}
+            defaultValue={formValues.components}
             handlePrev={handlePrev}
-            handleSubmit={(componentsData) => handleStepSubmit({ ...formValues, componentsData })}
+            handleSubmit={(components) => handleStepSubmit({ ...formValues, components })}
             isLoading={isSubmitLoading}
           />
         )}
