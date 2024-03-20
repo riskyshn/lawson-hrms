@@ -19,7 +19,7 @@ type ActionMenuProps = {
 const ActionMenu: React.FC<ActionMenuProps> = () => {
   const [modalType, setModalType] = useState('')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const openModal = (type: string = '') => {
     if (type == 'Resign/Terminate') {

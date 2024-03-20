@@ -10,7 +10,7 @@ import ComponentsDataForm from '../components/ComponentsDataForm'
 
 const EditEmployeePage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
 
