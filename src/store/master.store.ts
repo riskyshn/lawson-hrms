@@ -65,6 +65,7 @@ export const useMasterStore = create<MasterStore>((set, get) => ({
     set((state) => ({ ...state, area: { ...state.area, [key]: uniqueData } }))
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getArea: async (_key, _oids) => {
     // let data = get().area[key].filter((el) => oids.includes(el.oid))
     // const oidsWithoutData = oids.filter((oid) => !data.some((el) => el.oid === oid))

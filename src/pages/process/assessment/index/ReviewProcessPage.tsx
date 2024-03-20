@@ -11,6 +11,7 @@ import PaymentSlipForm from '../components/PaymentSlipForm'
 import { DownloadIcon } from 'lucide-react'
 
 const ReviewProcessPage = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
