@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
@@ -6,9 +7,19 @@ import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import Table from '../components/Table'
 import { Link } from 'react-router-dom'
+import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 
 const OfferingLetterPage: React.FC = () => {
+  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
   const pagination = usePagination({ pathname: '/process/offering-letter', totalPage: 2, params: { search: 'querysearch' } })
+
+  const handlePreviewPdfModalOpen = (url: string) => {
+    setPreviewPdfModalUrl(url)
+  }
+
+  const handlePreviewPdfModalClose = () => {
+    setPreviewPdfModalUrl(null)
+  }
 
   return (
     <>
@@ -16,20 +27,20 @@ const OfferingLetterPage: React.FC = () => {
         breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }]}
         title="Offering Letter"
         actions={
-          <>
-            <Button
-              as={Link}
-              to="/process/offering-letter/setup"
-              variant="light"
-              color="primary"
-              className="text-gray-600"
-              leftChild={<SettingsIcon size={16} />}
-            >
-              Setup Offering Letter
-            </Button>
-          </>
+          <Button
+            as={Link}
+            to="/process/offering-letter/setup"
+            variant="light"
+            color="primary"
+            className="text-gray-600"
+            leftChild={<SettingsIcon size={16} />}
+          >
+            Setup Offering Letter
+          </Button>
         }
       />
+
+      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={handlePreviewPdfModalClose} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -64,7 +75,7 @@ const OfferingLetterPage: React.FC = () => {
               )}
             </>
           )}
-          body={<Table />}
+          body={<Table setPreviewPdfModalUrl={handlePreviewPdfModalOpen} />}
           footer={pagination.render()}
         />
       </Container>
