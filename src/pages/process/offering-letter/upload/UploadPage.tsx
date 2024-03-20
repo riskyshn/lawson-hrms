@@ -10,8 +10,6 @@ import PaklaringForm from '../components/PaklaringForm'
 import PaymentSlipForm from '../components/PaymentSlipForm'
 
 const UploadPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
 
@@ -35,12 +33,10 @@ const UploadPage = () => {
     if (!isLastStep) return
 
     try {
-      setIsSubmitLoading(true)
       toast('Upload document offering letter successfully created.', { color: 'success', position: 'top-right' })
       navigate(`/process/offering-letter`)
     } catch (error) {
       toast('An error occurred while creating the upload document offering letter.', { color: 'error', position: 'top-right' })
-      setIsSubmitLoading(false)
     }
   }
 

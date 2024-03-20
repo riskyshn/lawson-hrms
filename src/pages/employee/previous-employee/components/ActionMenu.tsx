@@ -1,8 +1,9 @@
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
-import { EditIcon, XCircleIcon } from 'lucide-react'
-import { useState } from 'react'
+import { UserXIcon } from 'lucide-react'
+import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+import BlacklistModal from './BlacklistModal'
 
 type Employee = {
   name: string
@@ -13,47 +14,54 @@ type Employee = {
 }
 
 type ActionMenuProps = {
+  options: string[]
   items: Employee
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = () => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ options }) => {
+  const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showModal, setShowModal] = useState(false)
 
-  const openModal = (type: string = '') => {
-    if (type == 'Resign/Terminate') {
-      setModalType(type)
-      setShowModal(true)
+  const handleViewDetails = (option: string) => {
+    switch (option) {
+      default:
+        setModalType(option)
+        break
     }
+    setShowOptionModal(true)
   }
 
   const renderModal = () => {
     switch (modalType) {
-      case 'Resign/Terminate':
-        return null
+      case 'Blacklist':
+        return <BlacklistModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       default:
         return null
     }
   }
 
+  const iconMap: { [key: string]: JSX.Element } = {
+    Blacklist: <UserXIcon />,
+  }
+
   return (
     <div className="text-center">
-      {renderModal()}
       <Menu as="div" className="relative">
         <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
           Action
         </Menu.Button>
         <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
-          {['Edit Employee', 'Resign/Terminate'].map((option, i) => (
-            <Menu.Item key={i}>
+          {options.map((option, index) => (
+            <Menu.Item key={index}>
               {({ active }) => (
                 <button
-                  className={twJoin('group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm', active && 'bg-primary-100')}
-                  onClick={() => openModal(option)}
+                  className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm ${active && 'bg-primary-100'}`}
+                  onClick={() => handleViewDetails(option)}
                 >
-                  {i === 0 && <EditIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {i === 1 && <XCircleIcon className={twJoin('h-4 w-4', active ? 'text-red-600' : 'text-red-400')} />}
+                  {iconMap[option] &&
+                    React.cloneElement(iconMap[option], {
+                      className: twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400'),
+                    })}
                   {option}
                 </button>
               )}
@@ -61,6 +69,7 @@ const ActionMenu: React.FC<ActionMenuProps> = () => {
           ))}
         </Menu.Items>
       </Menu>
+      {showOptionModal && renderModal()}
     </div>
   )
 }

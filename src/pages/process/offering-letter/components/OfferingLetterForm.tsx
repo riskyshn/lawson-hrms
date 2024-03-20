@@ -6,8 +6,6 @@ import EmployeeDetailsForm from './EmployeeDetailsForm'
 import RenumerationForm from './RenumerationForm'
 
 const OfferingLetterForm = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
 
@@ -31,12 +29,10 @@ const OfferingLetterForm = () => {
     if (!isLastStep) return
 
     try {
-      setIsSubmitLoading(true)
       toast('Offering letter successfully created.', { color: 'success', position: 'top-right' })
       navigate(`/process/offering-letter`)
     } catch (error) {
       toast('An error occurred while creating the offering letter.', { color: 'error', position: 'top-right' })
-      setIsSubmitLoading(false)
     }
   }
 

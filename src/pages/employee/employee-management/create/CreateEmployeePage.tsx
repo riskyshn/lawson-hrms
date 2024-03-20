@@ -9,8 +9,6 @@ import PayrollDataForm from '../components/PayrollDataForm'
 import ComponentsDataForm from '../components/ComponentsDataForm'
 
 const CreateEmployeePage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
 
@@ -34,12 +32,10 @@ const CreateEmployeePage = () => {
     if (!isLastStep) return
 
     try {
-      setIsSubmitLoading(true)
       toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
       navigate(`/employee/employee-management`)
     } catch (error) {
       toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
-      setIsSubmitLoading(false)
     }
   }
 

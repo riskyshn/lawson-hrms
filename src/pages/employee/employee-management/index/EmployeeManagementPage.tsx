@@ -5,6 +5,7 @@ import MainCard from '@/components/Elements/MainCard'
 import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
 import { FilterIcon, SearchIcon } from 'lucide-react'
+import usePagination from '@/hooks/use-pagination'
 
 const EmployeeManagementPage: React.FC = () => {
   const pageData = {
@@ -102,6 +103,8 @@ const EmployeeManagementPage: React.FC = () => {
     ],
   }
 
+  const pagination = usePagination({ pathname: '/employee/employee-management', totalPage: 2, params: { search: 'querysearch' } })
+
   return (
     <>
       <PageHeader
@@ -150,7 +153,7 @@ const EmployeeManagementPage: React.FC = () => {
             </>
           )}
           body={<Table items={pageData.content} />}
-          footer={0}
+          footer={pagination.render()}
         />
       </Container>
     </>
