@@ -1,14 +1,16 @@
 import type { RouteObject } from 'react-router-dom'
 
-import CandidateRejectedPage from '@/pages/candidates/rejected/index/CandidateRejectedPage'
 import InterviewPage from '@/pages/process/interview/index/InterviewPage'
 import AssessmentPage from '@/pages/process/assessment/index/AssessmentPage'
 import CreateProcessPage from '@/pages/process/assessment/create/CreateProcessPage'
 import ReviewProcessPage from '@/pages/process/assessment/index/ReviewProcessPage'
 import OfferingPage from '@/pages/process/assessment/index/OfferingPage'
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
-import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
 import PreviewOfferingLetterPage from '@/pages/process/offering-letter/index/PreviewOfferingLetterPage'
+import OnboardingPage from '@/pages/process/onboarding/index/OnboardingPage'
+import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
+import SetupOfferingLetterPage from '@/pages/process/offering-letter/create/SetupOfferingLetterPage'
+import ViewOfferingLetterPage from '@/pages/process/offering-letter/index/ViewOfferingLetterPage'
 
 const candidatesRoute: RouteObject = {
   path: 'process',
@@ -55,12 +57,20 @@ const candidatesRoute: RouteObject = {
           element: <OfferingLetterPage />,
         },
         {
-          path: 'create',
-          element: <CreateOfferingLetterPage />,
+          path: 'setup',
+          element: <SetupOfferingLetterPage />,
         },
         {
           path: 'preview',
           element: <PreviewOfferingLetterPage />,
+        },
+        {
+          path: 'create',
+          element: <CreateOfferingLetterPage />,
+        },
+        {
+          path: 'view',
+          element: <ViewOfferingLetterPage />,
         },
       ],
     },
@@ -70,7 +80,7 @@ const candidatesRoute: RouteObject = {
       children: [
         {
           path: '',
-          element: <CandidateRejectedPage />,
+          element: <OnboardingPage />,
         },
       ],
     },

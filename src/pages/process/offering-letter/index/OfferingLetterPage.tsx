@@ -3,7 +3,7 @@ import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { BaseInput, Button, Select } from 'jobseeker-ui'
-import { FilterIcon, SearchIcon } from 'lucide-react'
+import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
 import Table from '../components/Table'
 import { Link } from 'react-router-dom'
 
@@ -17,7 +17,14 @@ const OfferingLetterPage: React.FC = () => {
         title="Offering Letter"
         actions={
           <>
-            <Button as={Link} to="/process/offering-letter/create" color="primary" className="ml-3">
+            <Button
+              as={Link}
+              to="/process/offering-letter/setup"
+              variant="light"
+              color="primary"
+              className="text-gray-600"
+              leftChild={<SettingsIcon size={16} />}
+            >
               Setup Offering Letter
             </Button>
           </>
@@ -51,7 +58,7 @@ const OfferingLetterPage: React.FC = () => {
               </div>
               {open && (
                 <div className="grid grid-cols-2 gap-3 p-3">
-                  <Select placeholder="All Vacancy" options={[]} />
+                  <Select placeholder="All Position" options={[]} />
                   <Select placeholder="All Stage" options={[]} />
                 </div>
               )}
