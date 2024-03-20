@@ -33,10 +33,12 @@ const CreateEmployeePage = () => {
     if (!isLastStep) return
 
     try {
+      setIsSubmitLoading(true)
       toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
       navigate(`/employee/employee-management`)
     } catch (error) {
       toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
+      setIsSubmitLoading(false)
     }
   }
 

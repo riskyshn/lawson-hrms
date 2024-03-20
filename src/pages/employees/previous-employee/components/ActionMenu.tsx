@@ -22,7 +22,6 @@ type ActionMenuProps = {
 const ActionMenu: React.FC<ActionMenuProps> = ({ options }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
-  const [_showModal, setShowModal] = useState(false)
 
   const handleViewDetails = (option: string) => {
     switch (option) {
