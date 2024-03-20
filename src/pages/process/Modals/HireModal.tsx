@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select, Button, InputDate } from 'jobseeker-ui'
+import { Button, InputDate } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 
 type HireModalProps = {

@@ -10,6 +10,7 @@ import PaklaringForm from '../components/PaklaringForm'
 import PaymentSlipForm from '../components/PaymentSlipForm'
 
 const CreateProcessPage = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()

@@ -3,7 +3,6 @@ import { Button } from 'jobseeker-ui'
 import { EditIcon, XCircleIcon } from 'lucide-react'
 import { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
-import { useNavigate } from 'react-router-dom'
 
 type Employee = {
   name: string
@@ -17,20 +16,16 @@ type ActionMenuProps = {
   items: Employee
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ items }) => {
+const ActionMenu: React.FC<ActionMenuProps> = () => {
   const [modalType, setModalType] = useState('')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showModal, setShowModal] = useState(false)
-  const navigate = useNavigate()
 
   const openModal = (type: string = '') => {
     if (type == 'Resign/Terminate') {
       setModalType(type)
       setShowModal(true)
     }
-  }
-
-  const closeModal = () => {
-    setShowModal(false)
   }
 
   const renderModal = () => {

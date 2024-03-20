@@ -11,7 +11,7 @@ type ModalProps = {
   items?: any
 }
 
-const ResignTerminateModal: React.FC<ModalProps> = ({ show, onClose, items }) => {
+const ResignTerminateModal: React.FC<ModalProps> = ({ show, onClose }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
