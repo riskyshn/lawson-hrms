@@ -40,8 +40,8 @@ const ApproveListPage: React.FC = () => {
     setLoading(true)
 
     try {
-      const data = await organizationService.createApproval(values.filter((el) => !!el))
-      organizationStore.setApprovals(data)
+      const { content } = await organizationService.createApproval(values.filter((el) => !!el))
+      organizationStore.setApprovals(content)
       toast('Approval process setup successfully', { color: 'success', position: 'top-right' })
     } catch (error: any) {
       toast(axiosErrorMessage(error), { color: 'error', position: 'top-right' })
