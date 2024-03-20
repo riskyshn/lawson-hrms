@@ -1,5 +1,5 @@
 import Container from '@/components/Elements/Container'
-import { Avatar, Button, Card, CardBody } from 'jobseeker-ui'
+import { Avatar, Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
 import { useState } from 'react'
 import { MailIcon, MapPinnedIcon, User2Icon } from 'lucide-react'
 import AttendanceTable from '../components/AttendanceTable'
@@ -70,277 +70,309 @@ const EmployeeDetailPage: React.FC<{
     {
       id: 1,
       content: (
-        <Card as="form" onSubmit={() => {}}>
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
+        <>
+          <Card className="mb-4">
+            <CardHeader>
               <h3 className="text-lg font-semibold">Personal Data</h3>
               <p className="text-xs text-gray-500">Employee personal basic information data</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Name</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Gender</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Religion</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Email</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Phone Number</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Place of Birth</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Date of Birth</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Marital Status</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Number of Children</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-          </CardBody>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="table w-full text-sm">
+                <tbody>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Name</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Gender</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Religion</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Email</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Phone Number</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Place of Birth</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Date of Birth</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Marital Status</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Number of Children</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
 
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
+          <Card className="mb-4">
+            <CardHeader>
               <h3 className="text-lg font-semibold">Identity & Address</h3>
               <p className="text-xs text-gray-500">Employee identity address information</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">National ID</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">National ID Number</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Postal Code</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Nation ID Address</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Residential Address</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-          </CardBody>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="table w-full text-sm">
+                <tbody>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">National ID</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">National ID Number</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Postal Code</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Nation ID Address</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Residential Address</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
 
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
+          <Card className="mb-4">
+            <CardHeader>
               <h3 className="text-lg font-semibold">Employment Data</h3>
               <p className="text-xs text-gray-500">Employee data information related to company</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Employee ID</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Role</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Employment Status</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Branch Placement</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Department</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Position</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Job Level</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">PIC for Approval</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Schedule</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-          </CardBody>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="table w-full text-sm">
+                <tbody>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Employee ID</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Role</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Employment Status</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Branch Placement</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Department</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Position</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Job Level</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr>
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">PIC for Approval</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Schedule</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
 
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
+          <Card className="mb-4">
+            <CardHeader>
               <h3 className="text-lg font-semibold">Payroll Information</h3>
               <p className="text-xs text-gray-500">Payroll Information Details</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Tax Method</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Base Salary</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Allow for Overtime</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-          </CardBody>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="table w-full text-sm">
+                <tbody>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Tax Method</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Base Salary</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Allow for Overtime</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
 
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
+          <Card className="mb-4">
+            <CardHeader>
               <h3 className="text-lg font-semibold">Bank Information</h3>
               <p className="text-xs text-gray-500">Employee bank information details</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Bank Name</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Account Number</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Account Holder Name</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-          </CardBody>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="table w-full text-sm">
+                <tbody>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Bank Name</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Account Number</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Account Holder Name</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
 
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
-              <h3 className="text-lg font-semibold">Tax Configuration</h3>
+          <Card className="mb-4">
+            <CardHeader>
+              <h3 className="text-lg font-semibold">Tax Information</h3>
               <p className="text-xs text-gray-500">The tax calculation type relevant to your company</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Employment Tax Status</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">NPWP Number</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">PTKP Status</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Category</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-          </CardBody>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="table w-full text-sm">
+                <tbody>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Employment Tax Status</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">NPWP Number</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">PTKP Status</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Category</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
 
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
-              <h3 className="text-lg font-semibold">BPJS Configuration</h3>
+          <Card className="mb-4">
+            <CardHeader>
+              <h3 className="text-lg font-semibold">BPJS Information</h3>
               <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
-            </div>
-            <div className="mb-4">
-              <p className="text-sm font-semibold">Paid by Company</p>
-            </div>
-            <div className="mb-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <label className="block text-sm font-semibold">Jaminan Hari Tua (JHT)</label>
-                  <label className="block text-sm">Test</label>
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-semibold">Jaminan Kecelakaan Kerja (JKK)</label>
-                  <label className="block text-sm">Test</label>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <label className="block text-sm font-semibold">Jaminan Kematian (JKM)</label>
-                  <label className="block text-sm">Test</label>
-                </div>
-                <div className="flex flex-col">
-                  <label className="block text-sm font-semibold">Jaminan Pensiun (JP)</label>
-                  <label className="block text-sm">Test</label>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <label className="block text-sm font-semibold">Jaminan Kesehatan (KS)</label>
-                  <label className="block text-sm">Test</label>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <p className="text-sm font-semibold">Paid by Employee</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Jaminan Hari Tua (JHT)</label>
-                <label className="block text-sm">Test</label>
-              </div>
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Jaminan Pensiun (JP)</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label className="block text-sm font-semibold">Jaminan Kesehatan (KS)</label>
-                <label className="block text-sm">Test</label>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
+            </CardHeader>
+            <CardBody className="p-0">
+              <table className="table w-full text-sm">
+                <tbody>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Paid by Company</th>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Hari Tua (JHT)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kecelakaan Kerja (JKK)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kematian (JKM)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Pensiun (JP)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kesehatan (KS)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Paid by Employee</th>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Hari Tua (JHT)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Pensiun (JP)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                  <tr className="odd:bg-gray-50">
+                    <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kesehatan (KS)</th>
+                    <td className="border-y px-3 py-2">:</td>
+                    <td className="w-full border-y px-3 py-2">Test</td>
+                  </tr>
+                </tbody>
+              </table>
+            </CardBody>
+          </Card>
+        </>
       ),
     },
     {
