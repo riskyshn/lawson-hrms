@@ -9,7 +9,7 @@ import KKForm from '../components/KKForm'
 import PaklaringForm from '../components/PaklaringForm'
 import PaymentSlipForm from '../components/PaymentSlipForm'
 
-const CreateProcessPage = () => {
+const SetupPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
@@ -36,10 +36,10 @@ const CreateProcessPage = () => {
 
     try {
       setIsSubmitLoading(true)
-      toast('Assessment process successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/process/assessment`)
+      toast('Upload document offering letter successfully created.', { color: 'success', position: 'top-right' })
+      navigate(`/process/offering-letter`)
     } catch (error) {
-      toast('An error occurred while creating the assessment process.', { color: 'error', position: 'top-right' })
+      toast('An error occurred while creating the upload document offering letter.', { color: 'error', position: 'top-right' })
       setIsSubmitLoading(false)
     }
   }
@@ -50,11 +50,6 @@ const CreateProcessPage = () => {
         breadcrumb={[{ text: 'Process' }, { text: 'Assesment' }, { text: 'Process' }]}
         title="Upload Document"
         subtitle="Company Name requires you to upload your documents inorder to complete the hiring process"
-        actions={
-          <Button as={Link} to="/process/assessment" variant="light" color="error">
-            Cancel
-          </Button>
-        }
       />
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
@@ -108,4 +103,4 @@ const CreateProcessPage = () => {
   )
 }
 
-export default CreateProcessPage
+export default SetupPage

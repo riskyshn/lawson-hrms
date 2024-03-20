@@ -1,46 +1,17 @@
-import React, { useState } from 'react'
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { BaseInput, Button, Select } from 'jobseeker-ui'
-import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
+import { FilterIcon, SearchIcon } from 'lucide-react'
 import Table from '../components/Table'
-import { Link } from 'react-router-dom'
-import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 
-const OfferingLetterPage: React.FC = () => {
-  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
+const OnboardingPage: React.FC = () => {
   const pagination = usePagination({ pathname: '/process/offering-letter', totalPage: 2, params: { search: 'querysearch' } })
-
-  const handlePreviewPdfModalOpen = (url: string) => {
-    setPreviewPdfModalUrl(url)
-  }
-
-  const handlePreviewPdfModalClose = () => {
-    setPreviewPdfModalUrl(null)
-  }
 
   return (
     <>
-      <PageHeader
-        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }]}
-        title="Offering Letter"
-        actions={
-          <Button
-            as={Link}
-            to="/process/offering-letter/setup"
-            variant="light"
-            color="primary"
-            className="text-gray-600"
-            leftChild={<SettingsIcon size={16} />}
-          >
-            Setup Offering Letter
-          </Button>
-        }
-      />
-
-      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={handlePreviewPdfModalClose} />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Onboarding' }]} title="Onboarding" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -69,13 +40,13 @@ const OfferingLetterPage: React.FC = () => {
               </div>
               {open && (
                 <div className="grid grid-cols-2 gap-3 p-3">
-                  <Select placeholder="All Position" options={[]} />
+                  <Select placeholder="All Vacancy" options={[]} />
                   <Select placeholder="All Stage" options={[]} />
                 </div>
               )}
             </>
           )}
-          body={<Table setPreviewPdfModalUrl={handlePreviewPdfModalOpen} />}
+          body={<Table />}
           footer={pagination.render()}
         />
       </Container>
@@ -83,4 +54,4 @@ const OfferingLetterPage: React.FC = () => {
   )
 }
 
-export default OfferingLetterPage
+export default OnboardingPage

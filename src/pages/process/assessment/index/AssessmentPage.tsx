@@ -40,7 +40,7 @@ const AssessmentPage: React.FC = () => {
               </div>
               {open && (
                 <div className="grid grid-cols-2 gap-3 p-3">
-                  <Select placeholder="All Vacancy" options={[]} />
+                  <Select placeholder="All Position" options={[]} />
                   <Select placeholder="All Stage" options={[]} />
                 </div>
               )}

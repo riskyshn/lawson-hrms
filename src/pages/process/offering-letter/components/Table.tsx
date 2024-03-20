@@ -2,10 +2,15 @@ import React from 'react'
 import { Avatar } from 'jobseeker-ui'
 import MainTable from '@/components/Elements/MainTable'
 import ActionMenu from './ActionMenu'
+import { FileTextIcon } from 'lucide-react'
+
+type PropTypes = {
+  setPreviewPdfModalUrl: (url: string) => void
+}
 
 const total = 20
 
-const Table: React.FC = () => {
+const Table: React.FC<PropTypes> = ({ setPreviewPdfModalUrl }) => {
   const candidates = Array.from(Array(total)).map((_, i) => {
     return {
       name: `Candidate ${i + 1}`,
@@ -54,7 +59,20 @@ const Table: React.FC = () => {
         })(),
         className: 'text-center',
       },
-      { children: candidate.documentPdf, className: 'text-center' },
+      {
+        children: (
+          <span className="flex items-center justify-center gap-2">
+            <button
+              title="Preview Pdf Resume"
+              className="text-primary-600 hover:text-primary-700 focus:outline-none"
+              onClick={() => setPreviewPdfModalUrl(candidate.documentPdf)}
+            >
+              <FileTextIcon size={18} />
+            </button>
+          </span>
+        ),
+        className: 'text-center',
+      },
       {
         children: (() => {
           if (candidate.status === 'Waiting for Documents') {
@@ -63,6 +81,8 @@ const Table: React.FC = () => {
             return <ActionMenu options={['View Signed Offering Letter', 'Hire', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
           } else if (candidate.status === 'Offering Letter Sent') {
             return <ActionMenu options={['Send Reminder', 'Revise Offering Letter', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
+          } else if (candidate.status === 'Ready to Offer') {
+            return <ActionMenu options={['Create Offering Letter', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
           }
         })(),
       },

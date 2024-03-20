@@ -1,62 +1,72 @@
+import Container from '@/components/Elements/Container'
+import { Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { Button, Card, CardBody, CardFooter, Dropzone, Input, Textarea } from 'jobseeker-ui'
-import { Link } from 'react-router-dom'
-import { updateCompany } from '@/services/organization.service'
+import EmployeeDetailsForm from './EmployeeDetailsForm'
+import RenumerationForm from './RenumerationForm'
 
-const OfferingLetterForm: React.FC = () => {
+const OfferingLetterForm = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [formData, setFormData] = useState({
-    name: '',
-    nppNumber: '',
-    npwpNumber: '',
-    logo: '',
-    greetingMessage: '',
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const navigate = useNavigate()
+  const toast = useToast()
+
+  const [formValues, setFormValues] = useState<any>({
+    personalData: {},
+    employmentData: {},
+    payrollData: {},
+    componentsData: {},
   })
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(2, {
+    onNext() {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+  })
+
+  const handleStepSubmit = async (data: any) => {
+    setFormValues(data)
+    handleNext()
+
+    if (!isLastStep) return
+
     try {
-      await updateCompany(formData)
-      console.log('Company updated successfully!')
+      setIsSubmitLoading(true)
+      toast('Offering letter successfully created.', { color: 'success', position: 'top-right' })
+      navigate(`/process/offering-letter`)
     } catch (error) {
-      console.error('Error updating company:', error)
+      toast('An error occurred while creating the offering letter.', { color: 'error', position: 'top-right' })
+      setIsSubmitLoading(false)
     }
   }
 
   return (
-    <Card as="form" onSubmit={handleSubmit}>
-      <CardBody className="grid grid-cols-1 gap-2">
-        <div className="pb-2">
-          <h3 className="text-lg font-semibold">Setup Offering Letter</h3>
-          <p className="text-xs text-gray-500">Adjust your offering letter template</p>
-        </div>
-        <p className="text-xs">
-          Letter Head<span className="text-red-600">*</span>
-        </p>
-        <Dropzone />
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Greetings" />
-          <Input label="Candidate Name" disabled />
-        </div>
-        <Textarea label="Body" />
-        <Input label="Salary & Benefits" disabled />
-        <Textarea label="Additional Information" />
-        <Input label="Signee Role" />
-        <Input label="Signee Full Name" />
+    <>
+      <Container className="flex flex-col gap-3 py-3 xl:pb-8">
+        <Stepper
+          activeStep={activeStep}
+          steps={[
+            { title: 'Employment Details', details: 'Set Employment Detail’s' },
+            { title: 'Remuneration & Benefits', details: 'Set Information' },
+          ]}
+        />
 
-        <p className="text-xs">Upload Signature</p>
-        <Dropzone />
-      </CardBody>
-
-      <CardFooter>
-        <Button as={Link} to="/settings/company" variant="light" color="primary" className="mr-3">
-          Preview Template
-        </Button>
-        <Button type="submit" color="primary" className="w-32">
-          Save Changes
-        </Button>
-      </CardFooter>
-    </Card>
+        {activeStep === 0 && (
+          <EmployeeDetailsForm
+            defaultValue={formValues.personalData}
+            handlePrev={handlePrev}
+            handleSubmit={(employeeData) => handleStepSubmit({ ...formValues, employeeData })}
+          />
+        )}
+        {activeStep === 1 && (
+          <RenumerationForm
+            defaultValue={formValues.employmentData}
+            handlePrev={handlePrev}
+            handleSubmit={(renumerationData) => handleStepSubmit({ ...formValues, renumerationData })}
+          />
+        )}
+      </Container>
+    </>
   )
 }
 
