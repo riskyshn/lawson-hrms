@@ -107,7 +107,7 @@ const JobRequisitionPage = () => {
               Approve List
             </Button>
             <Button as={Link} to="/job/requisition/create" color="primary" className="ml-3">
-              Create Job Posting
+              Create Requisition
             </Button>
           </>
         }
