@@ -6,12 +6,12 @@ import { BaseInput, Button, Select } from 'jobseeker-ui'
 import { FilterIcon, SearchIcon } from 'lucide-react'
 import Table from '../components/Table'
 
-const AssessmentPage: React.FC = () => {
-  const pagination = usePagination({ pathname: '/employee/interview', totalPage: 2, params: { search: 'querysearch' } })
+const OnboardingPage: React.FC = () => {
+  const pagination = usePagination({ pathname: '/process/offering-letter', totalPage: 2, params: { search: 'querysearch' } })
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Assessment' }]} title="Assessment" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Onboarding' }]} title="Onboarding" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -40,7 +40,7 @@ const AssessmentPage: React.FC = () => {
               </div>
               {open && (
                 <div className="grid grid-cols-2 gap-3 p-3">
-                  <Select placeholder="All Position" options={[]} />
+                  <Select placeholder="All Vacancy" options={[]} />
                   <Select placeholder="All Stage" options={[]} />
                 </div>
               )}
@@ -54,4 +54,4 @@ const AssessmentPage: React.FC = () => {
   )
 }
 
-export default AssessmentPage
+export default OnboardingPage

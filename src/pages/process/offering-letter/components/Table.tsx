@@ -63,6 +63,8 @@ const Table: React.FC = () => {
             return <ActionMenu options={['View Signed Offering Letter', 'Hire', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
           } else if (candidate.status === 'Offering Letter Sent') {
             return <ActionMenu options={['Send Reminder', 'Revise Offering Letter', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
+          } else if (candidate.status === 'Ready to Offer') {
+            return <ActionMenu options={['Create Offering Letter', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
           }
         })(),
       },

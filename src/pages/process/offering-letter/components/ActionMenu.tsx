@@ -1,26 +1,13 @@
-import { useState } from 'react'
-import ProcessModal from '../../Modals/ProcessModal'
-import ViewHistoryModal from '../../Modals/ViewHistoryModal'
+import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
-import {
-  CalendarDaysIcon,
-  FileEditIcon,
-  FileTextIcon,
-  HistoryIcon,
-  LogOutIcon,
-  RefreshCwIcon,
-  SendIcon,
-  SendToBackIcon,
-  UserPlus2Icon,
-  UserXIcon,
-  XCircleIcon,
-} from 'lucide-react'
+import { FileEditIcon, FileTextIcon, HistoryIcon, LogOutIcon, SendIcon, UserPlus2Icon, UserXIcon, XCircleIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
-import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
-import UpdateResultModal from '../../Modals/UpdateResultModal'
+import { useNavigate } from 'react-router-dom'
+import ViewHistoryModal from '../../Modals/ViewHistoryModal'
 import RejectModal from '../../Modals/RejectModal'
 import BlacklistModal from '../../Modals/BlacklistModal'
+import HireModal from '../../Modals/HireModal'
 
 interface MenuListProps {
   options: string[]
@@ -30,51 +17,53 @@ interface MenuListProps {
 const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
+  const navigate = useNavigate()
 
   const handleViewDetails = (option: string) => {
-    if (option === 'Move to Another Vacancy') {
-      setModalType('MoveAnotherVacancy')
-      setShowOptionModal(true)
-    }
-    if (option === 'Process') {
-      setModalType('Process')
-      setShowOptionModal(true)
-    }
-    if (option === 'View History') {
-      setModalType('ViewHistory')
-      setShowOptionModal(true)
-    }
-    if (option === 'Update Result') {
-      setModalType('UpdateResult')
-      setShowOptionModal(true)
-    }
-    if (option === 'Reject') {
-      setModalType('Reject')
-      setShowOptionModal(true)
-    }
-    if (option === 'Blacklist') {
-      setModalType('Blacklist')
-      setShowOptionModal(true)
+    switch (option) {
+      case 'View History':
+      case 'Reject':
+      case 'Blacklist':
+      case 'Hire':
+        setModalType(option)
+        setShowOptionModal(true)
+        break
+      case 'Create Offering Letter':
+        navigate('/process/offering-letter/create')
+        break
+      case 'View Signed Offering Letter':
+        navigate('/process/offering-letter/view')
+        break
+      default:
+        break
     }
   }
 
   const renderModal = () => {
     switch (modalType) {
-      case 'Process':
-        return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'ViewHistory':
+      case 'View History':
         return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
-      case 'MoveAnotherVacancy':
-        return <MoveAnotherVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'UpdateResult':
-        return <UpdateResultModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'Reject':
         return <RejectModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'Blacklist':
         return <BlacklistModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+      case 'Hire':
+        return <HireModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       default:
         return null
     }
+  }
+
+  const iconMap: { [key: string]: JSX.Element } = {
+    'Create Offering Letter': <FileTextIcon />,
+    'Send Reminder': <SendIcon />,
+    'View History': <HistoryIcon />,
+    Blacklist: <UserXIcon />,
+    Reject: <XCircleIcon />,
+    Withdraw: <LogOutIcon />,
+    'View Signed Offering Letter': <FileTextIcon />,
+    Hire: <UserPlus2Icon />,
+    'Revise Offering Letter': <FileEditIcon />,
   }
 
   return (
@@ -91,36 +80,13 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
                   className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm ${active && 'bg-primary-100'}`}
                   onClick={() => handleViewDetails(option)}
                 >
-                  {option === 'Process' && <RefreshCwIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {option === 'Move to Another Vacancy' && (
-                    <SendToBackIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'View History' && (
-                    <HistoryIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'Blacklist' && <UserXIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {option === 'View in Interview' && (
-                    <CalendarDaysIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'Offering Letter' && (
-                    <FileTextIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'Update Result' && (
-                    <UserPlus2Icon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'Reject' && <XCircleIcon className={twJoin('h-4 w-4', active ? 'text-red-600' : 'text-red-400')} />}
-                  {option === 'Create Offering Letter' && (
-                    <FileTextIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'Send Reminder' && <SendIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {option === 'Withdraw' && <LogOutIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
-                  {option === 'View Signed Offering Letter' && (
-                    <FileTextIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'Revise Offering Letter' && (
-                    <FileEditIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
-                  )}
-                  {option === 'Hire' && <UserPlus2Icon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
+                  {iconMap[option] &&
+                    React.cloneElement(iconMap[option], {
+                      className: twJoin(
+                        'h-4 w-4',
+                        option === 'Reject' ? (active ? 'text-red-600' : 'text-red-400') : active ? 'text-primary-600' : 'text-gray-400',
+                      ),
+                    })}
                   {option}
                 </button>
               )}
