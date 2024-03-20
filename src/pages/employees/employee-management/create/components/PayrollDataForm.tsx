@@ -1,17 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  Input,
-  InputCheckbox,
-  InputCurrency,
-  InputRadio,
-  InputWrapper,
-  OptionProps,
-  Select,
-} from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputRadio, InputWrapper, Select } from 'jobseeker-ui'
 import { HelpCircleIcon } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'

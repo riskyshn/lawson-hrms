@@ -1,7 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XCircleIcon } from 'lucide-react'
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import React from 'react'
 
 type PreviewImageModalProps = {
   imageUrl: string

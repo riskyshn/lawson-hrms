@@ -1,11 +1,10 @@
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
-import { ArrowLeftRightIcon, EditIcon, EyeIcon, XCircleIcon } from 'lucide-react'
+import { EditIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 import ResignTerminateModal from './ResignTerminateModal'
-import EmployeeDetailPage from '../index/EmployeeDetailPage'
-import { useNavigate } from 'react-router-dom'
 
 type Employee = {
   id: string

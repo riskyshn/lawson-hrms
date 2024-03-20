@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
 import MainTable from '@/components/Elements/MainTable'
-import { ImageIcon, MapPinIcon } from 'lucide-react'
-import PreviewMapsModal from '../../previous-employee/components/PreviewMapsModal'
+import { ImageIcon } from 'lucide-react'
+import React, { useState } from 'react'
 import PreviewImageModal from '../../previous-employee/components/PreviewImageModal'
 
 type TableItem = {

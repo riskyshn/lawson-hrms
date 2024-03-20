@@ -1,17 +1,17 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
-import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import { Link, useNavigate } from 'react-router-dom'
+import { Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import KKForm from '../components/KKForm'
 import KTPForm from '../components/KTPForm'
 import NPWPForm from '../components/NPWPForm'
-import KKForm from '../components/KKForm'
 import PaklaringForm from '../components/PaklaringForm'
 import PaymentSlipForm from '../components/PaymentSlipForm'
 
 const SetupPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const [_isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
 
