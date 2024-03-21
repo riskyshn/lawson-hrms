@@ -6,33 +6,17 @@ import MainTable from '@/components/Elements/MainTable'
 import MenuList from '../../../components/MenuList'
 
 type PropTypes = {
+  items: ICandidate[]
+  loading?: boolean
   setPreviewVideoModalUrl: (url: string) => void
   setPreviewPdfModalUrl: (url: string) => void
 }
 
-const total = 20
-
-const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
+const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading }) => {
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null)
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | 'CandidateMatch' | null>(null)
   const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'Reject']
-
-  const candidates = Array.from(Array(total)).map((_, i) => {
-    const applyDate = new Date(2024, 2, i + 1)
-    const formattedApplyDate = applyDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
-
-    return {
-      name: `Candidate ${i + 1}`,
-      match: 100,
-      vacancy: `Last Position ${i + 1}`,
-      applyDate: formattedApplyDate,
-      source: 'Careersite',
-      status: ['Open', 'Locked', 'Hired'][Math.floor(Math.random() * 3)],
-      videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      pdfUrl: '/sample.pdf',
-    }
-  })
 
   const handleViewDetails = (candidate: any, option: string) => {
     setSelectedCandidate(candidate)
@@ -42,13 +26,13 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
     }
   }
 
-  const bodyItems = candidates.map((candidate) => ({
+  const bodyItems = items.map((candidate) => ({
     items: [
       {
         children: (
           <div className="flex gap-3">
             <div>
-              <Avatar name={candidate.name} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar name={candidate.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>
@@ -56,7 +40,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
                 onClick={() => handleViewDetails(candidate, 'Candidate Match')}
                 className="rounded-lg bg-green-100 px-2 py-1 text-xs font-semibold text-success-600"
               >
-                {candidate.match}% Match
+                {candidate.matchPercentage || '-'}% Match
               </button>
             </div>
           </div>
@@ -65,27 +49,27 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.vacancy}</span>
-            <span className="text-xs text-gray-500">#RR0000001</span>
+            <span className="block font-semibold">{candidate.position}</span>
+            <span className="text-xs text-gray-500">{candidate.rrNumber}</span>
           </>
         ),
       },
-      { children: candidate.applyDate, className: 'text-center' },
-      { children: candidate.source, className: 'text-center' },
+      { children: candidate.applyDate || '-', className: 'text-center' },
+      { children: candidate.source || '-', className: 'text-center' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
             <button
               title="Preview Pdf Resume"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setPreviewPdfModalUrl(candidate.pdfUrl)}
+              onClick={() => setPreviewPdfModalUrl(candidate.cv || '-')}
             >
               <FileTextIcon size={18} />
             </button>
             <button
               title="Preview Video Resume"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setPreviewVideoModalUrl(candidate.videoUrl)}
+              onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
             >
               <FileVideoIcon size={18} />
             </button>
@@ -132,6 +116,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
           { children: 'Action', className: 'w-24' },
         ]}
         bodyItems={bodyItems}
+        loading={loading}
       />
 
       {showOptionModal && selectedCandidate && modalType === 'CandidateMatch' && (

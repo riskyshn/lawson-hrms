@@ -6,6 +6,7 @@ export * as vacancyService from './vacancy.service'
 export * as authorityService from './authority.service'
 export * as employeeService from './employee.service'
 export * as attendanceService from './attendance.service'
+export * as candidateService from './candidate.service'
 
 // for development
 export * as imgbbService from './imgbb.service'

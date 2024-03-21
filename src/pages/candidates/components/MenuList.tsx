@@ -6,6 +6,7 @@ import { Button } from 'jobseeker-ui'
 import {
   BookUserIcon,
   CalendarDaysIcon,
+  CopyPlusIcon,
   HistoryIcon,
   RefreshCwIcon,
   SendIcon,
@@ -18,6 +19,8 @@ import {
 import { twJoin } from 'tailwind-merge'
 import MoveAnotherVacancyModal from '../Modals/MoveAnotherVacancyModal'
 import SendReminderModal from '../offered/index/components/SendReminderModal'
+import { candidateService } from '@/services'
+import ApplyVacancyModal from '../Modals/ApplyVacancyModal'
 
 interface MenuListProps {
   options: string[]
@@ -29,21 +32,83 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
   const [modalType, setModalType] = useState('')
 
   const handleViewDetails = (option: string) => {
-    if (option === 'Move to Another Vacancy') {
-      setModalType('MoveAnotherVacancy')
-      setShowOptionModal(true)
-    }
-    if (option === 'Process') {
-      setModalType('Process')
-      setShowOptionModal(true)
-    }
-    if (option === 'View History') {
-      setModalType('ViewHistory')
-      setShowOptionModal(true)
-    }
-    if (option === 'Send Reminder') {
-      setModalType('SendReminder')
-      setShowOptionModal(true)
+    setShowOptionModal(true)
+
+    let payload: any
+
+    switch (option) {
+      case 'Move to Another Vacancy':
+      case 'Apply Vacancy':
+      case 'Process':
+      case 'View History':
+      case 'Send Reminder':
+        setModalType(option)
+        break
+
+      case 'Unblacklist':
+        candidateService
+          .unblacklist(candidate.candidateId)
+          .then(() => {
+            // Optionally, you can handle success here (e.g., show a success message)
+          })
+          .catch((error) => {
+            // Handle error here (e.g., show an error message)
+            console.error('Error unblacklisting:', error)
+          })
+        break
+
+      case 'Shortlist':
+        payload = {
+          candidateId: candidate.candidateId,
+          vacancyId: candidate.id,
+        }
+        candidateService
+          .createShortlist(payload)
+          .then(() => {
+            // Optionally, you can handle success here (e.g., show a success message)
+          })
+          .catch((error) => {
+            // Handle error here (e.g., show an error message)
+            console.error('Error shortlisting:', error)
+          })
+        break
+
+      case 'Blacklist':
+        payload = {
+          applicantId: candidate.applicantId,
+          blacklistReasonId: candidate.blacklistReasonId,
+          blacklistReason: candidate.blacklistReason,
+        }
+        candidateService
+          .createBlacklist(payload)
+          .then(() => {
+            // Optionally, you can handle success here (e.g., show a success message)
+          })
+          .catch((error) => {
+            // Handle error here (e.g., show an error message)
+            console.error('Error blacklisting:', error)
+          })
+        break
+
+      case 'Reject':
+        payload = {
+          rejectReasonId: candidate.rejectReasonId,
+          rejectReason: candidate.rejectReason,
+          applicantId: candidate.id,
+        }
+        candidateService
+          .reject(payload)
+          .then(() => {
+            // Optionally, you can handle success here (e.g., show a success message)
+          })
+          .catch((error) => {
+            // Handle error here (e.g., show an error message)
+            console.error('Error rejecting:', error)
+          })
+        break
+
+      default:
+        break
     }
   }
 
@@ -51,12 +116,14 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
     switch (modalType) {
       case 'Process':
         return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
-      case 'ViewHistory':
+      case 'View History':
         return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
-      case 'MoveAnotherVacancy':
+      case 'Move to Another Vacancy':
         return <MoveAnotherVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
-      case 'SendReminder':
+      case 'Send Reminder':
         return <SendReminderModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+      case 'Apply Vacancy':
+        return <ApplyVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
       default:
         return null
     }
@@ -79,6 +146,9 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
                   {option === 'Process' && <RefreshCwIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
                   {option === 'Move to Another Vacancy' && (
                     <SendToBackIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+                  {option === 'Apply Vacancy' && (
+                    <CopyPlusIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
                   {option === 'Shortlist' && <BookUserIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
                   {option === 'View History' && (
