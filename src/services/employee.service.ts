@@ -37,3 +37,8 @@ export const updateEmployee = (id: string, payload: Record<string, any>) => {
 export const deleteEmployee = (id: string) => {
   return axios.delete(`/employee/${id}`).then((response) => response.data.data)
 }
+
+export const updateEmployeeStatus = (id: string, payload: Record<string, any>) => {
+  throw new Error('Endpoint api belum ada.')
+  return axios.patch<{ data: IEmployee }>(`/employee/${id}`, payload).then((response) => response.data.data)
+}

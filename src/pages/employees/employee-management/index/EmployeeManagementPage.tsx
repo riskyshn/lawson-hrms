@@ -24,6 +24,7 @@ const EmployeeManagementPage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
   const [selectedToTerminate, setSelectedToTerminate] = useState<IEmployee | null>(null)
+  const [refresh, setRefresh] = useState(false)
 
   const pagination = usePagination({
     pathname: '/employees/employee-management',
@@ -60,7 +61,7 @@ const EmployeeManagementPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, department, branch, pagination.currentPage])
+  }, [search, department, branch, pagination.currentPage, refresh])
 
   if (pageError) throw pageError
 
@@ -76,7 +77,11 @@ const EmployeeManagementPage: React.FC = () => {
         }
       />
 
-      <ResignTerminateModal item={selectedToTerminate} onClose={() => setSelectedToTerminate(null)} />
+      <ResignTerminateModal
+        item={selectedToTerminate}
+        onSuccess={() => setRefresh((v) => !v)}
+        onClose={() => setSelectedToTerminate(null)}
+      />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard

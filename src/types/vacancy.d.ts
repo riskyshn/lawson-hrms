@@ -101,6 +101,8 @@ interface IVacancy {
       id: string
       seq?: number
       flag?: number
+      name?: string
+      email?: string
       notes?: string
     }>
   }
