@@ -1,25 +1,68 @@
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
+import MainCardHeader from '@/components/Elements/MainCardHeader'
 import PageHeader from '@/components/Elements/PageHeader'
-import { BaseInput, Button, Select } from 'jobseeker-ui'
-import { FilterIcon, SearchIcon } from 'lucide-react'
-import Table from '../components/Table'
 import usePagination from '@/hooks/use-pagination'
+import { employeeService } from '@/services'
+import { useOrganizationStore } from '@/store'
+import { Select } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import Table from '../components/Table'
 
 const PreviousEmployeePage: React.FC = () => {
-  const pageData = {
-    content: [
-      {
-        name: 'John Doe',
-        email: 'jd@gmail.com',
-        lastDay: '12/12/2024',
-        status: 'Senior Accountant',
-        reason: 'Level 3',
-      },
-    ],
-  }
+  const [searchParams, setSearchParam] = useSearchParams()
 
-  const pagination = usePagination({ pathname: '/employee/previous-employee', totalPage: 2, params: { search: 'querysearch' } })
+  const search = searchParams.get('search') || undefined
+  const department = searchParams.get('department') || undefined
+  const branch = searchParams.get('branch') || undefined
+
+  const { master } = useOrganizationStore()
+
+  const [pageData, setPageData] = useState<IPaginationResponse<IEmployee>>()
+  const [pageError, setPageError] = useState<any>()
+  const [isLoading, setIsLoading] = useState(true)
+  const [refresh] = useState(false)
+
+  const pagination = usePagination({
+    pathname: '/employees/previous-employee',
+    totalPage: pageData?.totalPages || 0,
+    params: { search, department, branch },
+  })
+
+  useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+
+    const load = async (signal: AbortSignal) => {
+      setIsLoading(true)
+      try {
+        const data = await employeeService.fetchEmployees(
+          {
+            q: search,
+            page: pagination.currentPage,
+            limit: 20,
+            branchId: branch,
+            departmentId: department,
+            status: 2,
+          },
+          signal,
+        )
+        setPageData(data)
+        setIsLoading(false)
+      } catch (e: any) {
+        if (e.message !== 'canceled') setPageError(e)
+      }
+    }
+
+    load(signal)
+
+    return () => {
+      controller.abort()
+    }
+  }, [search, department, branch, pagination.currentPage, refresh])
+
+  if (pageError) throw pageError
 
   return (
     <>
@@ -28,36 +71,48 @@ const PreviousEmployeePage: React.FC = () => {
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
           header={(open, toggleOpen) => (
-            <>
-              <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <div className="mb-2">
-                    <span className="block text-lg font-semibold">Employee List</span>
-                    <span className="block text-sm">
-                      You have <span className="text-primary-600">{pageData?.content?.length ?? 0} Employee</span> in this list
-                    </span>
+            <MainCardHeader
+              title="Employee List"
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              subtitle={
+                <>
+                  You have <span className="text-primary-600">{pageData?.totalElements} Employee</span> in total
+                </>
+              }
+              search={{
+                value: search || '',
+                setValue: (v) => setSearchParam({ search: v }),
+              }}
+              filterToogle={toggleOpen}
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <Select
+                      placeholder="All Departement"
+                      withReset
+                      value={department}
+                      onChange={(e) => {
+                        searchParams.set('department', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    />
+                    <Select
+                      placeholder="All Branch"
+                      withReset
+                      value={branch}
+                      onChange={(e) => {
+                        searchParams.set('branch', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    />
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="relative flex flex-1">
-                    <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
-                    <Button iconOnly color="primary" className="rounded-l-none">
-                      <SearchIcon size={16} />
-                    </Button>
-                  </div>
-                  <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
-                    <FilterIcon size={16} />
-                  </Button>
-                </div>
-              </div>
-              {open && (
-                <div className="grid grid-cols-1 gap-3 p-3 lg:grid-cols-2">
-                  <Select placeholder="All Department" options={[]} />
-                </div>
-              )}
-            </>
+                )
+              }
+            />
           )}
-          body={<Table items={pageData.content} />}
+          body={<Table items={pageData?.content || []} loading={isLoading} />}
           footer={pagination.render()}
         />
       </Container>

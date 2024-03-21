@@ -1,77 +1,28 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Menu } from '@headlessui/react'
-import { Button } from 'jobseeker-ui'
-import { UserXIcon } from 'lucide-react'
-import React, { useState } from 'react'
-import { twJoin } from 'tailwind-merge'
-import BlacklistModal from './BlacklistModal'
-
-type Employee = {
-  name: string
-  email?: string
-  lastDay?: string
-  status?: string
-  reason?: string
-}
+import * as Table from '@/components/Elements/MainTable'
+import { PowerIcon } from 'lucide-react'
+import React from 'react'
 
 type ActionMenuProps = {
-  options: string[]
-  items: Employee
+  item: IEmployee
+  index: number
+  total: number
+  upSpace: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ options }) => {
-  const [showOptionModal, setShowOptionModal] = useState(false)
-  const [modalType, setModalType] = useState('')
-
-  const handleViewDetails = (option: string) => {
-    switch (option) {
-      default:
-        setModalType(option)
-        break
-    }
-    setShowOptionModal(true)
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, total, upSpace }) => {
+  const blacklist: Table.ActionMenuItemProps = {
+    text: 'Blacklist',
+    icon: PowerIcon,
   }
 
-  const renderModal = () => {
-    switch (modalType) {
-      case 'Blacklist':
-        return <BlacklistModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      default:
-        return null
-    }
-  }
-
-  const iconMap: { [key: string]: JSX.Element } = {
-    Blacklist: <UserXIcon />,
-  }
+  const menuItems = [blacklist]
 
   return (
-    <div className="text-center">
-      <Menu as="div" className="relative">
-        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
-          Action
-        </Menu.Button>
-        <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
-          {options.map((option, index) => (
-            <Menu.Item key={index}>
-              {({ active }) => (
-                <button
-                  className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm ${active && 'bg-primary-100'}`}
-                  onClick={() => handleViewDetails(option)}
-                >
-                  {iconMap[option] &&
-                    React.cloneElement(iconMap[option], {
-                      className: twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400'),
-                    })}
-                  {option}
-                </button>
-              )}
-            </Menu.Item>
-          ))}
-        </Menu.Items>
-      </Menu>
-      {showOptionModal && renderModal()}
-    </div>
+    <Table.ActionMenu up={index >= total - upSpace}>
+      {menuItems.map((item, i) => (
+        <Table.ActionMenuItem key={i} {...item} />
+      ))}
+    </Table.ActionMenu>
   )
 }
 
