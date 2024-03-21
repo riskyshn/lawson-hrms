@@ -1,10 +1,11 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
-import { vacancyService } from '@/services'
+import { employeeService, vacancyService } from '@/services'
+import { useAuthStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Textarea, useToast } from 'jobseeker-ui'
-import { useState } from 'react'
+import { Alert, Button, Card, CardBody, CardFooter, Skeleton, Textarea, useToast } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
@@ -18,7 +19,28 @@ const schema = yup.object().shape({
 const DetailJobRequisitionPage: React.FC = () => {
   const { vacancy, isLoading } = useVacancyPage()
   const [loading, setLoading] = useState(false)
+  const [employee, setEmployee] = useState<IEmployee>()
+  const [pageError, setPageError] = useState<any>()
   const toast = useToast()
+  const { user } = useAuthStore()
+
+  const isAdmin = '65f297de3360276728e011a7' === user?.employeeId // hard code is admin if employee == "omiomi"
+  const queuedEmployee = vacancy?.approvals?.users?.find((el) => el.flag === 0)
+
+  useEffect(() => {
+    if (!isAdmin || !queuedEmployee || queuedEmployee.id === user?.employeeId) return
+
+    const load = async () => {
+      try {
+        const employee = await employeeService.fetchEmployee(queuedEmployee?.id)
+        setEmployee(employee)
+      } catch (e) {
+        setPageError(axiosErrorMessage(e))
+      }
+    }
+
+    load()
+  }, [isAdmin, queuedEmployee, user?.employeeId])
 
   const {
     register,
@@ -28,13 +50,13 @@ const DetailJobRequisitionPage: React.FC = () => {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = (flag: number) =>
+  const onSubmit = (flag: number, oid: string) =>
     handleSubmit(async (data) => {
       if (!vacancy) return
       try {
         setLoading(true)
         vacancyService.approveRequisition(vacancy.id, {
-          approvalId: '65effbbb2b046273e0abd77f',
+          approvalId: oid,
           flag,
           notes: data.notes,
         })
@@ -45,6 +67,8 @@ const DetailJobRequisitionPage: React.FC = () => {
         setLoading(false)
       }
     })
+
+  if (pageError) throw pageError
 
   return (
     <>
@@ -60,20 +84,33 @@ const DetailJobRequisitionPage: React.FC = () => {
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
 
-        <Card>
-          <CardBody>
-            <Textarea label="Notes" placeholder="Add Your Notes Here" error={errors.notes?.message} {...register('notes')} />
-          </CardBody>
+        {queuedEmployee && (isAdmin || queuedEmployee.id === user?.employeeId) && (
+          <Card>
+            <CardBody>
+              {queuedEmployee.id !== user?.employeeId && (
+                <>
+                  {employee ? (
+                    <Alert color="warning" className="mb-3 text-center">
+                      You will represent "<strong>{employee.name}</strong>" to accept or reject this requisition.
+                    </Alert>
+                  ) : (
+                    <Skeleton className="mb-3 h-12" />
+                  )}
+                </>
+              )}
+              <Textarea label="Notes" placeholder="Add Your Notes Here" error={errors.notes?.message} {...register('notes')} />
+            </CardBody>
 
-          <CardFooter className="gap-3">
-            <Button type="button" color="error" className="w-32" onClick={() => onSubmit(2)()} disabled={loading}>
-              Reject
-            </Button>
-            <Button type="button" color="primary" className="w-32" onClick={() => onSubmit(1)()} disabled={loading}>
-              Approve
-            </Button>
-          </CardFooter>
-        </Card>
+            <CardFooter className="gap-3">
+              <Button type="button" color="error" className="w-32" onClick={() => onSubmit(2, queuedEmployee.id)()} disabled={loading}>
+                Reject
+              </Button>
+              <Button type="button" color="primary" className="w-32" onClick={() => onSubmit(1, queuedEmployee.id)()} disabled={loading}>
+                Approve
+              </Button>
+            </CardFooter>
+          </Card>
+        )}
       </Container>
     </>
   )

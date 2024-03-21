@@ -1,6 +1,7 @@
 import MainModal from '@/components/Elements/MainModal'
 import { Button, Card, CardBody } from 'jobseeker-ui'
 import { CheckCircle2Icon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
+import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
 type PropTypes = {
@@ -25,12 +26,16 @@ const renderStatus = (status?: number) => {
   )
 }
 
-const HistoryDetail: React.FC<{ id: string; index: number; seq?: number; flag?: number; notes?: string }> = ({
-  id,
-  index,
-  flag,
-  notes,
-}) => {
+const HistoryDetail: React.FC<{
+  id: string
+  index: number
+  seq?: number
+  flag?: number
+  notes?: string
+  name?: string
+  email?: string
+  updatedAt?: string
+}> = ({ id, index, flag, notes, name, updatedAt }) => {
   const [show, setShow] = useState(false)
 
   return (
@@ -39,7 +44,10 @@ const HistoryDetail: React.FC<{ id: string; index: number; seq?: number; flag?: 
       <div className="flex items-center justify-between">
         <div>
           <h3 className="flex items-center gap-3 font-semibold">Step {index + 1}</h3>
-          <p className="mb-2 text-xs text-gray-500">Sent Date: dd/mm/yyyy | Approval Date: dd/mm/yyyy</p>
+          <p className="mb-2 text-xs text-gray-500">
+            Sent Date: {updatedAt ? moment(updatedAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
+            {updatedAt ? moment(updatedAt).format('DD/MM/YYYY') : '-'}
+          </p>
           <Button type="button" size="small" color="default" variant="light" className="text-xs" onClick={() => setShow(true)}>
             Show Details
           </Button>
@@ -54,7 +62,7 @@ const HistoryDetail: React.FC<{ id: string; index: number; seq?: number; flag?: 
               <h3 className="text-sm font-semibold">Aprovee:</h3>
               <span className="flex items-center gap-1 text-xs">
                 <UserIcon size={16} />
-                {id}
+                {name}
               </span>
             </div>
 
