@@ -5,34 +5,22 @@ import MainTable from '@/components/Elements/MainTable'
 import MenuList from '../../../components/MenuList'
 
 type PropTypes = {
+  items: ICandidate[]
+  loading?: boolean
   setPreviewVideoModalUrl: (url: string) => void
   setPreviewPdfModalUrl: (url: string) => void
 }
 
-const total = 20
-
-const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
+const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading }) => {
   const options = ['Move to Another Vacancy', 'View History', 'Blacklist']
 
-  const candidates = Array.from(Array(total)).map((_, i) => {
-    return {
-      name: `Candidate ${i + 1}`,
-      email: `candidate${i + 1}@jobseeker.com`,
-      vacancy: `Last Position ${i + 1}`,
-      education: 'S1',
-      rejectReason: 'Overbudgeting',
-      videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      pdfUrl: '/sample.pdf',
-    }
-  })
-
-  const bodyItems = candidates.map((candidate) => ({
+  const bodyItems = items.map((candidate) => ({
     items: [
       {
         children: (
           <div className="flex gap-3">
             <div>
-              <Avatar name={candidate.name} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar name={candidate.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>
@@ -44,12 +32,12 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.vacancy}</span>
+            <span className="block font-semibold">{candidate.position}</span>
             <span className="text-xs text-gray-500">#RR0000001</span>
           </>
         ),
       },
-      { children: candidate.education, className: 'text-center' },
+      { children: candidate.lastEducation, className: 'text-center' },
       { children: candidate.rejectReason, className: 'text-center' },
       {
         children: (
@@ -57,14 +45,14 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
             <button
               title="Preview Pdf Resume"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setPreviewPdfModalUrl(candidate.pdfUrl)}
+              onClick={() => setPreviewPdfModalUrl(candidate.cv || '-')}
             >
               <FileTextIcon size={18} />
             </button>
             <button
               title="Preview Video Resume"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setPreviewVideoModalUrl(candidate.videoUrl)}
+              onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
             >
               <FileVideoIcon size={18} />
             </button>
@@ -88,6 +76,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
           { children: 'Action', className: 'w-24' },
         ]}
         bodyItems={bodyItems}
+        loading={loading}
       />
     </>
   )

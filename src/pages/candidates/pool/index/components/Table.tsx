@@ -4,29 +4,16 @@ import { FileTextIcon, FileVideoIcon } from 'lucide-react'
 import MenuList from '../../../components/MenuList'
 
 type PropTypes = {
+  items: ICandidate[]
+  loading?: boolean
   setPreviewVideoModalUrl: (url: string) => void
   setPreviewPdfModalUrl: (url: string) => void
 }
 
-const total = 20
+const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading }) => {
+  const options = ['Apply Vacancy', 'View History']
 
-const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModalUrl }) => {
-  const options = ['Move to Another Vacancy', 'View History']
-
-  const candidates = Array.from(Array(total)).map((_, i) => {
-    return {
-      name: `Candidate ${i + 1}`,
-      email: `candidate${i + 1}@jobseeker.com`,
-      vacancy: `Last Position ${i + 1}`,
-      education: 'S1',
-      province: 'DKI Jakarta',
-      city: 'Jakarta',
-      videoUrl: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-      pdfUrl: '/sample.pdf',
-    }
-  })
-
-  const bodyItems = candidates.map((candidate) => ({
+  const bodyItems = items.map((candidate) => ({
     items: [
       {
         children: (
@@ -44,12 +31,12 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.vacancy}</span>
-            <span className="text-xs text-gray-500">#RR0000001</span>
+            <span className="block font-semibold">{candidate.position}</span>
+            <span className="text-xs text-gray-500">{candidate.rrNumber}</span>
           </>
         ),
       },
-      { children: candidate.education, className: 'text-center' },
+      { children: candidate.lastEducation, className: 'text-center' },
       { children: candidate.province, className: 'text-center' },
       { children: candidate.city, className: 'text-center' },
       {
@@ -58,14 +45,14 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
             <button
               title="Preview Pdf Resume"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setPreviewPdfModalUrl(candidate.pdfUrl)}
+              onClick={() => setPreviewPdfModalUrl(candidate?.cv || '-')}
             >
               <FileTextIcon size={18} />
             </button>
             <button
               title="Preview Video Resume"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setPreviewVideoModalUrl(candidate.videoUrl)}
+              onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
             >
               <FileVideoIcon size={18} />
             </button>
@@ -90,6 +77,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewVideoModalUrl, setPreviewPdfModa
           { children: 'Action', className: 'w-24' },
         ]}
         bodyItems={bodyItems}
+        loading={loading}
       />
     </>
   )
