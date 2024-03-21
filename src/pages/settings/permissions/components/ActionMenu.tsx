@@ -1,7 +1,7 @@
 import * as Table from '@/components/Elements/MainTable'
 import { authorityService } from '@/services'
 import { useConfirm, useToast } from 'jobseeker-ui'
-import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'
+import { PenToolIcon, TrashIcon } from 'lucide-react'
 import React from 'react'
 
 type ActionMenuProps = {
