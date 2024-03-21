@@ -10,6 +10,7 @@ import Table from './components/Table'
 import { candidateService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
+import { useMasterStore, useOrganizationStore } from '@/store'
 
 const CandidateManagementPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -18,11 +19,21 @@ const CandidateManagementPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const search = searchParams.get('search') || undefined
 
+  const position = searchParams.get('position') || undefined
+  const province = searchParams.get('province') || undefined
+  const education = searchParams.get('education') || undefined
+
+  const { master } = useOrganizationStore()
+  const { educatioLevels } = useMasterStore()
+
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
 
-  const pagination = usePagination({ pathname: '/candidates/management', totalPage: 2, params: { search: 'querysearch' } })
-
+  const pagination = usePagination({
+    pathname: '/candidates/management',
+    totalPage: pageData?.totalPages || 0,
+    params: { search, position, province, education },
+  })
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
@@ -35,6 +46,9 @@ const CandidateManagementPage: React.FC = () => {
             q: search,
             page: pagination.currentPage,
             limit: 20,
+            education: education,
+            position: position,
+            province: province,
           },
           signal,
         )
@@ -50,7 +64,7 @@ const CandidateManagementPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage])
+  }, [search, position, education, province, pagination.currentPage])
 
   if (pageError) throw pageError
 
