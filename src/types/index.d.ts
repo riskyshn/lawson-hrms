@@ -16,6 +16,10 @@ interface IUser {
   firstName: string
   lastName: string
   email: string
+
+  companyId: string
+  employeeId: string
+
   accessGranted: IRole[]
   accessDirectPermissions: IPermission[]
 }
