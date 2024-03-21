@@ -10,6 +10,7 @@ import Table from './components/Table'
 import { candidateService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
+import { useMasterStore, useOrganizationStore } from '@/store'
 
 const CandidateManagementPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
