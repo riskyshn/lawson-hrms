@@ -15,7 +15,7 @@ const HireModal: React.FC<HireModalProps> = ({ show, onClose }) => {
         <h4 className="mb-2 text-center text-2xl font-semibold">Hire Candidate</h4>
         <p className="text-center">Add join date for this candidate</p>
       </div>
-      <InputDate asSingle displayFormat="DD/MM/YYYY" className="mb-3" />
+      <InputDate asSingle useRange={false} displayFormat="DD/MM/YYYY" className="mb-3" />
       <div className="mt-8">
         <Button as={Link} to={'/process/onboarding'} block color="primary" className="mx-auto">
           Confirm

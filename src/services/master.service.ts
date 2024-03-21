@@ -71,5 +71,13 @@ export const fetchGenders = () => {
  *
  */
 export const fetchReligions = () => {
-  return axios.get<{ data: { content: Array<IMasterReligion> } }>(`/gender`).then((response) => response.data.data)
+  return axios.get<{ data: { content: Array<IMasterReligion> } }>(`/religion`).then((response) => response.data.data)
+}
+
+/**
+ * Marital Status
+ *
+ */
+export const fetchMaritalStatus = () => {
+  return axios.get<{ data: { content: Array<IMasterMaritalStatus> } }>(`/marital-status`).then((response) => response.data.data)
 }

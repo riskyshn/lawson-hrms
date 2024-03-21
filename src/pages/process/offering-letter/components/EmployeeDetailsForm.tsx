@@ -19,8 +19,8 @@ const EmployeeDetailsForm: React.FC<{
         <Select label="Job Level" options={[]} />
         <Select label="Employment Type" options={[]} />
         <Select label="City" options={[]} />
-        <InputDate label="Join Date" asSingle />
-        <InputDate label="Expiry Date" asSingle />
+        <InputDate label="Join Date" asSingle useRange={false} />
+        <InputDate label="Expiry Date" asSingle useRange={false} />
       </CardBody>
 
       <CardFooter>

@@ -41,8 +41,8 @@ const ComponentsDataForm: React.FC<{
 
   useEffect(() => {
     if (!props.defaultValue) return
-    setValue('benefits', props.defaultValue.benefits || [])
-    setValue('deductions', props.defaultValue.deductions || [])
+    setValue('benefits', props.defaultValue.benefits || [{ amount: '', applicationType: 0, componentId: '' }])
+    setValue('deductions', props.defaultValue.deductions || [{ amount: '', applicationType: 0, componentId: '' }])
   }, [props.defaultValue, setValue])
 
   const watchBenefits = watch('benefits')
@@ -143,21 +143,21 @@ const ComponentsDataForm: React.FC<{
         <h3 className="text-sm font-semibold">Deduction</h3>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Hari Tua (JHT)" disabled />
-          <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled />
+          <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="3.70%" />
+          <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled defaultValue="0.24%" />
         </div>
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Kematian (JKM)" disabled />
-          <Input label="Jaminan Pensiun (JP)" labelRequired disabled />
+          <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
+          <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" />
         </div>
-        <Input label="Jaminan Kesehatan (KS)" disabled help="KS Maximum Cap Rp. 480.000,00*" />
+        <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Hari Tua (JHT)" disabled />
-          <Input label="Jaminan Pensiun (JP)" disabled />
+          <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="2%" />
+          <Input label="Jaminan Pensiun (JP)" disabled defaultValue="1%" />
         </div>
 
-        <Input label="Jaminan Kesehatan (KS)" disabled help="KS Maximum Cap Rp. 480.000,00*" />
+        <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="1%" help="KS Maximum Cap Rp. 480.000,00*" />
       </CardBody>
 
       <CardBody className="grid grid-cols-1 gap-3">

@@ -51,7 +51,8 @@ const SettingsCompanyForm: React.FC = () => {
     setValue('npwpNumber', company.npwpNumber || '')
     setValue('greetingMsg', company.greetingMsg || '')
     setValue('logoUrl', company.logo?.file || '')
-  }, [company, setValue])
+    trigger(['logoUrl', 'nppNumber', 'greetingMsg', 'npwpNumber'])
+  }, [company, setValue, trigger])
 
   const onSubmit = handleSubmit(async (data) => {
     setErrorMessage('')
