@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Card, CardBody, CardFooter, Skeleton, Textarea, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import PreviewVacancy from '../../components/PreviewVacancy'
 import useVacancyPage from '../../hooks/use-vacancy-page'
@@ -22,6 +22,7 @@ const DetailJobRequisitionPage: React.FC = () => {
   const [employee, setEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
   const toast = useToast()
+  const navigate = useNavigate()
   const { user } = useAuthStore()
 
   const isAdmin = '65f297de3360276728e011a7' === user?.employeeId // hard code is admin if employee == "omiomi"
@@ -60,9 +61,10 @@ const DetailJobRequisitionPage: React.FC = () => {
           flag,
           notes: data.notes,
         })
-        toast(`Success fully ${flag === 1 ? 'Approve' : 'Reject'} this requisition.`, { color: 'success', position: 'top-right' })
+        toast(`Success fully ${flag === 1 ? 'Approve' : 'Reject'} this requisition.`, { color: 'success' })
+        navigate('/job/requisition')
       } catch (error: any) {
-        toast(axiosErrorMessage(error), { color: 'error', position: 'top-right' })
+        toast(axiosErrorMessage(error), { color: 'error' })
       } finally {
         setLoading(false)
       }

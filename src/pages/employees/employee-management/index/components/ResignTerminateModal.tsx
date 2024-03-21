@@ -1,4 +1,5 @@
 import MainModal from '@/components/Elements/MainModal'
+import { employeeService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Select, Textarea, useToast } from 'jobseeker-ui'
@@ -9,6 +10,7 @@ import * as yup from 'yup'
 type ModalProps = {
   item: IEmployee | null
   onClose: () => void
+  onSuccess: () => void
 }
 
 const schema = yup.object().shape({
@@ -16,7 +18,7 @@ const schema = yup.object().shape({
   reason: yup.string(),
 })
 
-const ResignTerminateModal: React.FC<ModalProps> = ({ item, onClose }) => {
+const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
@@ -37,15 +39,15 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onClose }) => {
     if (item) reset()
   }, [item, reset])
 
-  const onSubmit = handleSubmit(async () => {
+  const onSubmit = handleSubmit(async (data) => {
+    if (!item) return
+
     try {
       setIsLoading(true)
       setErrorMessage('')
-
-      throw new Error('End point belum ada.')
-
+      await employeeService.updateEmployeeStatus(item.oid, data)
       toast('Employee status updated successfully', { color: 'success' })
-      onClose()
+      onSuccess()
     } catch (error) {
       setErrorMessage(axiosErrorMessage(error))
     } finally {

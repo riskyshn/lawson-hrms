@@ -2,11 +2,12 @@ import Container from '@/components/Elements/Container'
 import { Avatar, Button } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, User2Icon } from 'lucide-react'
 import { useState } from 'react'
-import AttendanceTable from '../components/AttendanceTable'
-import LeaveTable from '../components/LeaveTable'
+import AttendanceTable from './components/AttendanceTable'
+import LeaveTable from './components/LeaveTable'
 import useEmployeePage from '../hooks/use-employee-page'
 import ButtonDeleteEmployee from './components/ButtonDeleteEmployee'
 import EmployeDetailCard from './components/EmployeDetailCard'
+import { Link } from 'react-router-dom'
 
 interface TabContent {
   id: number
@@ -126,7 +127,7 @@ const EmployeeDetailPage: React.FC<{
               </div>
             </div>
             <div className="flex gap-4">
-              <Button variant="default" color="primary">
+              <Button as={Link} to={`/employees/employee-management/${employee.oid}/edit`} variant="default" color="primary">
                 Edit
               </Button>
               <ButtonDeleteEmployee oid={employee.oid} />
