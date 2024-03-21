@@ -14,6 +14,7 @@ interface MasterStore {
   educatioLevels: Array<IMasterEducationLevel>
   genders: Array<IMasterGender>
   religions: Array<IMasterReligion>
+  maritalStatus: Array<IMasterMaritalStatus>
 
   init: () => Promise<void>
   refresh: () => Promise<void>
@@ -33,22 +34,25 @@ export const useMasterStore = create<MasterStore>((set, get) => ({
   educatioLevels: [],
   genders: [],
   religions: [],
+  maritalStatus: [],
 
   init: async () => {
     await get().refresh()
   },
 
   refresh: async () => {
-    const [educatioLevels, genders, religions] = await Promise.all([
+    const [educatioLevels, genders, religions, maritalStatus] = await Promise.all([
       masterService.fetchEducationLevel(),
       masterService.fetchGenders(),
       masterService.fetchReligions(),
+      masterService.fetchMaritalStatus(),
     ])
 
     set({
       educatioLevels: educatioLevels.content,
       genders: genders.content,
       religions: religions.content,
+      maritalStatus: maritalStatus.content,
     })
   },
 

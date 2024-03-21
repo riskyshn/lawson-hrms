@@ -144,6 +144,7 @@ const VacancyInformationForm: React.FC<{
           labelRequired
           error={errors.expiredDate?.message}
           asSingle
+          useRange={false}
           displayFormat="DD/MM/YYYY"
           value={{ startDate: getValues('expiredDate'), endDate: getValues('expiredDate') }}
           onChange={(v) => {

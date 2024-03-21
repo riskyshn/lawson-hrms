@@ -44,3 +44,8 @@ interface IMasterReligion {
   oid: string
   name: string
 }
+
+interface IMasterMaritalStatus {
+  oid: string
+  name: string
+}

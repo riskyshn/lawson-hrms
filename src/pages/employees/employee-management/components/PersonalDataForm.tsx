@@ -51,7 +51,7 @@ const PersonalDataForm: React.FC<{
   handlePrev: () => void
   handleSubmit: (data: any) => void
 }> = (props) => {
-  const { religions, genders } = useMasterStore()
+  const { religions, genders, maritalStatus } = useMasterStore()
 
   const {
     register,
@@ -143,6 +143,7 @@ const PersonalDataForm: React.FC<{
             labelRequired
             error={errors.dateOfBirth?.message}
             asSingle
+            useRange={false}
             displayFormat="DD/MM/YYYY"
             value={{ startDate: getValues('dateOfBirth'), endDate: getValues('dateOfBirth') }}
             onChange={(v) => {
@@ -159,7 +160,7 @@ const PersonalDataForm: React.FC<{
             labelRequired
             placeholder="Married, Single"
             hideSearch
-            options={['Married', 'Single'].map((el) => ({ label: el, value: el }))}
+            options={maritalStatus.map((el) => ({ label: el.name, value: el.oid }))}
             name="maritalStatus"
             error={errors.maritalStatus?.message}
             value={getValues('maritalStatus')}
