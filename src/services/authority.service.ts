@@ -46,6 +46,18 @@ export const fetchPermission = (oid: string) => {
   return axios.get<{ data: IPermission }>(`/authority/permissions/${oid}`).then((response) => response.data.data)
 }
 
+export const createPermission = (payload: Record<string, any>) => {
+  return axios.post<{ data: IPermission }>(`/authority/permissions`, payload).then((response) => response.data.data)
+}
+
+export const updatePermission = (oid: string, payload: Record<string, any>) => {
+  return axios.put<{ data: IPermission }>(`/authority/permissions`, { id: oid, ...payload }).then((response) => response.data.data)
+}
+
+export const deletePermission = (oid: string) => {
+  return axios.delete(`/authority/permissions/${oid}`).then((response) => response.data.data)
+}
+
 /**
  * Given access
  *

@@ -5,6 +5,11 @@ interface IPermission {
   name: string
   path: string
   action: string
+  arn: {
+    apiId: string
+    region: string
+    stage: string
+  }
 }
 
 interface IRole {

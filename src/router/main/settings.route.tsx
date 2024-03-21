@@ -9,6 +9,7 @@ import SettingPositionsPage from '@/pages/settings/positions/SettingPositionsPag
 import SettingRolesPage from '@/pages/settings/roles/SettingRolesPage'
 import SettingWorkPlacementsPage from '@/pages/settings/work-placements/SettingWorkPlacementsPage'
 import SettingsDocumentRequestPage from '@/pages/settings/document-request/index/SettingsDocumentRequestPage'
+import SettingPermissionsPage from '@/pages/settings/permissions/SettingPermissionsPage'
 
 const settingsRoute: RouteObject = {
   path: 'settings',
@@ -53,6 +54,11 @@ const settingsRoute: RouteObject = {
       path: 'roles',
       name: 'Roles',
       element: <SettingRolesPage />,
+    },
+    {
+      path: 'permissions',
+      name: 'Permissions',
+      element: <SettingPermissionsPage />,
     },
     {
       path: 'work-placements',
