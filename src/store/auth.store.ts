@@ -15,14 +15,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   login: async (payload) => {
     const { data } = await authService.login(payload)
-    set((state) => ({ ...state, user: data.user }))
+    set((state) => ({ ...state, user: { ...data.user, employeeId: '65f297de3360276728e011a7' } }))
     useTokenStore.getState().setTokens(data)
     await Promise.all([useOrganizationStore.getState().init(), useMasterStore.getState().init()])
   },
 
   refreshAuth: async () => {
     const { data } = await accountService.fetchProfile()
-    set((state) => ({ ...state, user: data }))
+    set((state) => ({ ...state, user: { ...data, employeeId: '65f297de3360276728e011a7' } }))
     await Promise.all([useOrganizationStore.getState().refresh(), useMasterStore.getState().refresh()])
   },
 

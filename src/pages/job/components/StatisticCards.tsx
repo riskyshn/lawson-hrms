@@ -78,6 +78,13 @@ const StatisticCards: React.FC<{ isRequisition?: boolean; switchData?: boolean }
             color: 'text-rose-50',
             border: 'border border-rose-100',
           },
+          {
+            label: 'Requisition Canceled',
+            value: data.canceled,
+            background: 'bg-red-700',
+            color: 'text-red-50',
+            border: 'border border-red-100',
+          },
           { label: 'Draft', value: data.draft, background: 'bg-gray-200', color: 'text-gray-700', border: 'border border-gray-100' },
         ]
       : [
@@ -129,9 +136,9 @@ const StatisticCards: React.FC<{ isRequisition?: boolean; switchData?: boolean }
   }
 
   return (
-    <div className={twJoin('grid gap-3', isRequisition ? 'grid-cols-1 md:grid-cols-5' : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6')}>
+    <div className={twJoin('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6')}>
       {!loading && renderCards()}
-      {loading && <Skeleton className="h-[90px]" count={isRequisition ? 5 : 6} />}
+      {loading && <Skeleton className="h-[90px]" count={6} />}
     </div>
   )
 }

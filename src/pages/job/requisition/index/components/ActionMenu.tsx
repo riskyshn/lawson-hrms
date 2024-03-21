@@ -5,6 +5,7 @@ import * as Table from '@/components/Elements/MainTable'
 import { vacancyService } from '@/services'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import moment from 'moment'
+import { useAuthStore } from '@/store'
 
 type ActionMenuProps = {
   vacancy: IVacancy
@@ -28,6 +29,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
+  const { user } = useAuthStore()
 
   const goToJobManagement: Table.ActionMenuItemProps = {
     text: 'Go to Job Management',
@@ -53,6 +55,22 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
   const sendReminder: Table.ActionMenuItemProps = {
     text: 'Send Reminder',
     icon: UsersIcon,
+    action: async () => {
+      const approval = vacancy.approvals?.users?.find((el) => el.flag === 0)
+      if (!approval) return
+
+      if (user?.employeeId === approval.id) return toast('You cannot send a reminder to yourself!', { color: 'error' })
+
+      const confirmed = await confirm(`Are you sure you want to send a reminder to ${approval.name}?`)
+      if (confirmed) {
+        try {
+          await vacancyService.sendReminder(vacancy.id)
+          toast('Reminder sent successfully.', { color: 'success' })
+        } catch (e: any) {
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+        }
+      }
+    },
   }
 
   const viewHistory: Table.ActionMenuItemProps = {
@@ -84,10 +102,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       if (confirmed) {
         try {
           await vacancyService.cancelRequisition(vacancy.id)
-          toast('Requisition canceled successfully.', { color: 'success', position: 'top-right' })
+          toast('Requisition canceled successfully.', { color: 'success' })
           onVacancyUpdated?.({ ...vacancy, canceledDate: moment.now().toString() })
         } catch (e: any) {
-          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
       }
     },
@@ -101,10 +119,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       if (confirmed) {
         try {
           await vacancyService.publishRequisition(vacancy.id)
-          toast('Vacancy posted successfully.', { color: 'success', position: 'top-right' })
+          toast('Vacancy posted successfully.', { color: 'success' })
           onVacancyUpdated?.({ ...vacancy, flag: 1 })
         } catch (e: any) {
-          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
       }
     },
@@ -123,10 +141,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       if (confirmed) {
         try {
           await vacancyService.deleteDraftVacancy(vacancy.id)
-          toast('Draft vacancy deleted successfully.', { color: 'success', position: 'top-right' })
+          toast('Draft vacancy deleted successfully.', { color: 'success' })
           onVacancyDeleted?.(vacancy.id)
         } catch (e: any) {
-          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
       }
     },
