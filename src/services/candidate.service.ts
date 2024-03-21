@@ -48,7 +48,7 @@ export const fetchOffer = (params?: FetchCandidateParams, signal?: GenericAbortS
   return axios.get<{ data: IPaginationResponse<ICandidate> }>(`/applicant/offer`, { params, signal }).then((response) => response.data.data)
 }
 
-export const fetchCandidateManagement = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {
+export const fetchCandidateManagement = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: IPaginationResponse<ICandidate> }>(`/candidate-management`, { params, signal })
     .then((response) => response.data.data)
