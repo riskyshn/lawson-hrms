@@ -1,17 +1,22 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
-import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import { useState } from 'react'
+import { employeeService } from '@/services'
+import currencyToNumber from '@/utils/currency-to-number'
+import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import moment from 'moment'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ComponentsDataForm from '../components/ComponentsDataForm'
 import EmploymentDataForm from '../components/EmploymentDataForm'
 import PayrollDataForm from '../components/PayrollDataForm'
 import PersonalDataForm from '../components/PersonalDataForm'
-import moment from 'moment'
-import currencyToNumber from '@/utils/currency-to-number'
-import { employeeService } from '@/services'
+import useEmployeePage from '../hooks/use-employee-page'
+import { employeeToFormEdit } from '../utils/employee-to-form-edit'
 
-const CreateEmployeePage = () => {
+const EditEmployeePage = () => {
+  const { employee } = useEmployeePage()
+  const [isLoaded, setIsLoaded] = useState(false)
+
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
@@ -29,11 +34,18 @@ const CreateEmployeePage = () => {
     },
   })
 
+  useEffect(() => {
+    if (employee) {
+      setFormValues(employeeToFormEdit(employee))
+      setIsLoaded(true)
+    }
+  }, [employee])
+
   const handleStepSubmit = async (data: any) => {
     setFormValues(data)
     handleNext()
 
-    if (!isLastStep) return
+    if (!isLastStep || !employee) return
 
     setIsSubmitLoading(true)
 
@@ -59,12 +71,12 @@ const CreateEmployeePage = () => {
         },
       }
 
-      await employeeService.createEmployee(payload)
+      await employeeService.updateEmployee(employee.oid, payload)
 
-      toast('Employee successfully created.', { color: 'success' })
+      toast('Employee successfully updated.', { color: 'success' })
       navigate(`/employees/employee-management`)
     } catch (error) {
-      toast('An error occurred while creating the Employee.', { color: 'error' })
+      toast('An error occurred while updating the Employee.', { color: 'error' })
       setIsSubmitLoading(false)
     }
   }
@@ -72,8 +84,8 @@ const CreateEmployeePage = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Create' }]}
-        title="Add Employee"
+        breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Edit' }]}
+        title="Edit Employee"
         actions={
           <Button as={Link} to="/employees/employee-management" variant="light" color="error">
             Cancel
@@ -92,29 +104,36 @@ const CreateEmployeePage = () => {
           ]}
         />
 
-        {activeStep === 0 && (
+        {!isLoaded && (
+          <div className="flex items-center justify-center py-48">
+            <Spinner height={40} className="text-primary-600" />
+          </div>
+        )}
+
+        {isLoaded && activeStep === 0 && (
           <PersonalDataForm
             defaultValue={formValues.personalData}
             handlePrev={handlePrev}
             handleSubmit={(personalData) => handleStepSubmit({ ...formValues, personalData })}
           />
         )}
-        {activeStep === 1 && (
+        {isLoaded && activeStep === 1 && (
           <EmploymentDataForm
             defaultValue={formValues.employment}
             handlePrev={handlePrev}
             handleSubmit={(employment) => handleStepSubmit({ ...formValues, employment })}
           />
         )}
-        {activeStep === 2 && (
+        {isLoaded && activeStep === 2 && (
           <PayrollDataForm
             defaultValue={formValues.payroll}
             handlePrev={handlePrev}
             handleSubmit={(payroll) => handleStepSubmit({ ...formValues, payroll })}
           />
         )}
-        {activeStep === 3 && (
+        {isLoaded && activeStep === 3 && (
           <ComponentsDataForm
+            isEdit
             defaultValue={formValues.components}
             handlePrev={handlePrev}
             handleSubmit={(components) => handleStepSubmit({ ...formValues, components })}
@@ -126,4 +145,4 @@ const CreateEmployeePage = () => {
   )
 }
 
-export default CreateEmployeePage
+export default EditEmployeePage

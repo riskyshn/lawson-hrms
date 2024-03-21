@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import MainTable from '@/components/Elements/MainTable'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
-import PreviewMapsModal from '../../previous-employee/components/PreviewMapsModal'
-import PreviewImageModal from '../../previous-employee/components/PreviewImageModal'
+import PreviewMapsModal from './PreviewMapsModal'
+import PreviewImageModal from './PreviewImageModal'
 
 type AttendanceData = {
   date: string
