@@ -84,7 +84,6 @@ const CreateEmployeePage = () => {
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
-          className="grid grid-cols-1 md:grid-flow-row md:grid-cols-2"
           steps={[
             { title: 'Personal Data', details: 'Set Requirement Personal Data' },
             { title: 'Employment Data', details: 'Set Requirement Employment Data' },
