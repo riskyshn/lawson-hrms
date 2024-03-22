@@ -13,6 +13,7 @@ interface TableProps {
 }
 
 const getFlag = (vacancy: IVacancy) => {
+  if (vacancy.flag === 4) return 4
   if (vacancy.flag === 1) return 1
   if (vacancy.canceledDate) return 'canceled'
   if (vacancy.canceledDate) return 'canceled'
@@ -33,6 +34,7 @@ const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
   const statusMap: Record<number | string, { text: string; color: string }> = {
     1: { text: 'Posted', color: 'bg-green-100 text-green-600' },
     9: { text: 'Draft', color: 'bg-pink-100 text-pink-600' },
+    4: { text: 'Inactive', color: 'bg-gray-100 text-gray-600' },
     13: { text: 'Fulfilled', color: 'bg-yellow-100 text-yellow-600' },
     approved: { text: 'Approved', color: 'bg-blue-100 text-blue-600' },
     approval: { text: 'Approval ' + getApprovalCounter(vacancy), color: 'bg-purple-100 text-purple-600' },

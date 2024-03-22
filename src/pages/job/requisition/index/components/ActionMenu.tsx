@@ -152,6 +152,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
 
   const menuItems = [
     { code: 1, items: [goToJobManagement, viewCandidates] },
+    { code: 4, items: [goToJobManagement] },
     {
       code: 6,
       items:
