@@ -1,5 +1,5 @@
 import { SOURCE_APP } from '@/constants/globals'
-import { useTokenStore } from '@/store'
+import { useOrganizationStore, useTokenStore } from '@/store'
 import axios, { CreateAxiosDefaults } from 'axios'
 
 type CreateAxiosInstanceOptions<T = any> = CreateAxiosDefaults<T> & {
@@ -30,6 +30,15 @@ export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
         }
       } catch {
         //
+      }
+
+      const isLocla =
+        config?.baseURL?.startsWith('http://192.') ||
+        config?.baseURL?.startsWith('http://172.') ||
+        config?.baseURL?.startsWith('http://localhost')
+
+      if (isLocla && useOrganizationStore.getState().company?.oid) {
+        config.headers['company_id'] = useOrganizationStore.getState().company?.oid
       }
 
       return config
