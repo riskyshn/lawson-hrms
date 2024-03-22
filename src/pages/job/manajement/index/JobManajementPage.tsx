@@ -149,7 +149,7 @@ const JobManajementPage: React.FC = () => {
                         searchParams.set('status', e.toString())
                         setSearchParam(searchParams)
                       }}
-                      options={['Active', 'Inactive', 'Draft', 'Expired', 'Fullfilled'].map((el) => ({
+                      options={['Active', 'Inactive', 'Draft', 'Expired', 'Fulfilled'].map((el) => ({
                         label: el,
                         value: el.toLocaleLowerCase(),
                       }))}
