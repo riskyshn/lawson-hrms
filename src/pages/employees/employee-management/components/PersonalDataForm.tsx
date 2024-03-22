@@ -20,7 +20,7 @@ const schema = yup.object({
   religionId: yup.string().required().label('Religion'),
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
   cityOfBirth: yup.string().required().label('Place of Birth'),
-  dateOfBirth: yup.date().max(new Date()).required().label('Date Of Birth'),
+  birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
 
   maritalStatus: yup.string().required().label('Marital Status'),
   numberOfChildren: yup
@@ -141,15 +141,15 @@ const PersonalDataForm: React.FC<{
           <InputDate
             label="Date of Birth"
             labelRequired
-            error={errors.dateOfBirth?.message}
+            error={errors.birthDate?.message}
             asSingle
             useRange={false}
             displayFormat="DD/MM/YYYY"
-            value={{ startDate: getValues('dateOfBirth'), endDate: getValues('dateOfBirth') }}
+            value={{ startDate: getValues('birthDate'), endDate: getValues('birthDate') }}
             onChange={(v) => {
               // @ts-expect-error
-              setValue('dateOfBirth', v?.startDate || v?.endDate)
-              trigger('dateOfBirth')
+              setValue('birthDate', v?.startDate || v?.endDate)
+              trigger('birthDate')
             }}
           />
         </div>

@@ -46,7 +46,7 @@ const CreateEmployeePage = () => {
         ...data,
         personalData: {
           ...personalData,
-          dateOfBirth: moment(personalData.dateOfBirth).format('YYYY-MM-DD'),
+          birthDate: moment(personalData.birthDate).format('YYYY-MM-DD'),
         },
         payroll: {
           ...payroll,

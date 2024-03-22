@@ -42,7 +42,7 @@ export function employeeToFormEdit(employee: IEmployee) {
       linkNationalId: 'https://i.ibb.co/MgCTT2k/Screenshot-from-2024-03-07-09-24-26.png',
       numberOfChildren: 4,
       maritalStatus: 'Single',
-      dateOfBirth: new Date('2024-03-04'),
+      birthDate: new Date('2024-03-04'),
       cityOfBirth: 'Makassar, Sulawesi Selatan',
       phoneNumber: '6281343912883',
       religionId: '65efe27862bcce96a57001aa',
