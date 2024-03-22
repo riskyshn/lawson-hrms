@@ -111,26 +111,18 @@ const EmployeeDetailPage: React.FC<{
                   <p className="text-sm text-gray-500">Developer</p>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <a
-                  href="/new"
-                  className="group flex w-full flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 py-3 text-sm font-medium leading-6 text-slate-900 hover:border-solid hover:border-blue-500 hover:bg-white hover:text-blue-500"
+              <div className="flex flex-1 gap-4">
+                <Button
+                  className="w-full"
+                  as={Link}
+                  to={`/employees/employee-management/${employee.oid}/edit`}
+                  variant="default"
+                  color="primary"
                 >
-                  Attendance
-                </a>
-                <a
-                  href="/new"
-                  className="group flex w-full flex-col items-center justify-center rounded-md border-2 border-dashed border-slate-300 py-3 text-sm font-medium leading-6 text-slate-900 hover:border-solid hover:border-blue-500 hover:bg-white hover:text-blue-500"
-                >
-                  Leave Quota
-                </a>
+                  Edit
+                </Button>
+                <ButtonDeleteEmployee oid={employee.oid} />
               </div>
-            </div>
-            <div className="flex gap-4">
-              <Button as={Link} to={`/employees/employee-management/${employee.oid}/edit`} variant="default" color="primary">
-                Edit
-              </Button>
-              <ButtonDeleteEmployee oid={employee.oid} />
             </div>
           </div>
         </div>

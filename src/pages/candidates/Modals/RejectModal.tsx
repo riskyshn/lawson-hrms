@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Select, Button, useToast } from 'jobseeker-ui'
+import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { candidateService } from '@/services'
 
@@ -13,6 +13,7 @@ type RejectModalProps = {
 const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
   const [selectReasonId, setSelectReasonId] = useState<string | number>('')
   const toast = useToast()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleChange = (selectedValue: string | number) => {
     setSelectReasonId(selectedValue)
@@ -29,6 +30,7 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
       rejectReason: candidate.rejectReason,
     }
 
+    setLoading(true)
     candidateService
       .reject(payload)
       .then(() => {
@@ -38,6 +40,9 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
       })
       .catch(() => {
         toast('An error occurred while reject.', { color: 'error' })
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -56,7 +61,7 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
         onChange={handleChange}
       />
       <Button block color="primary" className="mx-auto" onClick={handleSelectReason}>
-        Submit
+        {loading ? <Spinner height={20} className="text-white-600" /> : 'Submit'}
       </Button>
     </MainModal>
   )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Select, Button, useToast } from 'jobseeker-ui'
+import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { candidateService, vacancyService } from '@/services'
 
@@ -14,9 +14,9 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
   const [selectedVacancyId, setSelectedVacancyId] = useState<string | number>('')
   const [vacancies, setVacancies] = useState<any[]>([])
   const toast = useToast()
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    // Fetch vacancies when component mounts
     fetchVacancies()
   }, [])
 
@@ -43,6 +43,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
       source: candidate.source,
     }
 
+    setLoading(true)
     candidateService
       .applyVacancy(payload)
       .then(() => {
@@ -53,6 +54,9 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
       })
       .catch(() => {
         toast('An error occurred while creating apply to vacancy.', { color: 'error' })
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -71,7 +75,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
         onChange={handleChange}
       />
       <Button block color="primary" className="mx-auto" onClick={handleSelectVacancy}>
-        Select Vacancy
+        {loading ? <Spinner height={20} className="text-white-600" /> : 'Select Vacancy'}
       </Button>
     </MainModal>
   )

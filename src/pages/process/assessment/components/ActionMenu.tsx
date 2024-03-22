@@ -18,13 +18,15 @@ import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
 import UpdateResultModal from '../../Modals/UpdateResultModal'
 import RejectModal from '../../Modals/RejectModal'
 import BlacklistModal from '../../Modals/BlacklistModal'
+import ProcessModal from '../../Modals/ProcessModal'
 
 interface MenuListProps {
   options: string[]
   items?: { id: number }
+  candidate?: any
 }
 
-const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
+const ActionMenu: React.FC<MenuListProps> = ({ options, items, candidate }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const navigate = useNavigate()
@@ -53,6 +55,8 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
         return <RejectModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'Blacklist':
         return <BlacklistModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+      case 'Process':
+        return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
       default:
         return null
     }

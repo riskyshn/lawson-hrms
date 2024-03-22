@@ -22,10 +22,37 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
   const handleViewDetails = (candidate: any, option: string) => {
     setSelectedCandidate(candidate)
     if (option === 'Candidate Match') {
-      console.log(candidate)
       setModalType('CandidateMatch')
       setShowOptionModal(true)
     }
+  }
+
+  const renderMatchButton = (candidate: any) => {
+    const matchPercentage = candidate.matchPercentage || '-'
+    let bgClass, textClass
+
+    if (matchPercentage >= 90) {
+      bgClass = 'bg-green-100'
+      textClass = 'text-success-600'
+    } else if (matchPercentage >= 70) {
+      bgClass = 'bg-blue-100'
+      textClass = 'text-blue-600'
+    } else if (matchPercentage >= 50) {
+      bgClass = 'bg-yellow-100'
+      textClass = 'text-yellow-600'
+    } else {
+      bgClass = 'bg-gray-100'
+      textClass = 'text-gray-600'
+    }
+
+    return (
+      <button
+        onClick={() => handleViewDetails(candidate, 'Candidate Match')}
+        className={`rounded-lg ${bgClass} px-2 py-1 text-xs font-semibold ${textClass}`}
+      >
+        {matchPercentage}% Match
+      </button>
+    )
   }
 
   const bodyItems = items.map((candidate) => ({
@@ -38,12 +65,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>
-              <button
-                onClick={() => handleViewDetails(candidate, 'Candidate Match')}
-                className="rounded-lg bg-green-100 px-2 py-1 text-xs font-semibold text-success-600"
-              >
-                {candidate.matchPercentage || '-'}% Match
-              </button>
+              {renderMatchButton(candidate)}
             </div>
           </div>
         ),

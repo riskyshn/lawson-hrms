@@ -54,6 +54,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         break
 
       case 'Unblacklist':
+        setModalType('')
         candidateService
           .unblacklist(candidate.candidateId)
           .then(() => {
@@ -67,20 +68,20 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         break
 
       case 'Shortlist':
+        setModalType('')
         payload = {
           candidateId: candidate.candidateId,
           vacancyId: candidate.vacancyId,
         }
-        console.log(option)
         candidateService
           .createShortlist(payload)
-          .then(() => {
+          .catch(() => {
+            toast('An error occurred while shortlist.', { color: 'error' })
+          })
+          .finally(() => {
             toast('shortlist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
             onApplyVacancy(newData)
-          })
-          .catch(() => {
-            toast('An error occurred while shortlist.', { color: 'error' })
           })
         break
 
