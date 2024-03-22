@@ -23,6 +23,7 @@ const CandidatePoolPage: React.FC = () => {
   const search = searchParams.get('search') || undefined
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
+  const [onChangeData, setOnChangeData] = useState<string>()
 
   const position = searchParams.get('position') || undefined
   const province = searchParams.get('province') || undefined
@@ -67,7 +68,7 @@ const CandidatePoolPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage])
+  }, [search, position, education, province, pagination.currentPage, onChangeData])
 
   if (pageError) throw pageError
 
@@ -157,6 +158,7 @@ const CandidatePoolPage: React.FC = () => {
               loading={isLoading}
               setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
               setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+              onDataChange={setOnChangeData}
             />
           }
           footer={pagination.render()}

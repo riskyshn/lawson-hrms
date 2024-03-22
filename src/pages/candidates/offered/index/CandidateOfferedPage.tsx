@@ -19,6 +19,7 @@ const CandidateOfferedPage: React.FC = () => {
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const search = searchParams.get('search') || undefined
+  const [onChangeData, setOnChangeData] = useState<string>()
 
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
@@ -66,7 +67,7 @@ const CandidateOfferedPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage])
+  }, [search, position, education, province, pagination.currentPage, onChangeData])
 
   if (pageError) throw pageError
 
@@ -142,6 +143,7 @@ const CandidateOfferedPage: React.FC = () => {
               loading={isLoading}
               setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
               setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+              onDataChange={setOnChangeData}
             />
           }
           footer={pagination.render()}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ProcessModal from '../Modals/ProcessModal'
 import ViewHistoryModal from '../Modals/ViewHistoryModal'
 import { Menu } from '@headlessui/react'
-import { Button } from 'jobseeker-ui'
+import { Button, useToast } from 'jobseeker-ui'
 import {
   BookUserIcon,
   CalendarDaysIcon,
@@ -21,15 +21,20 @@ import MoveAnotherVacancyModal from '../Modals/MoveAnotherVacancyModal'
 import SendReminderModal from '../offered/index/components/SendReminderModal'
 import { candidateService } from '@/services'
 import ApplyVacancyModal from '../Modals/ApplyVacancyModal'
+import BlacklistModal from '../Modals/BlacklistModal'
+import RejectModal from '../Modals/RejectModal'
+import WithdrawModal from '../Modals/WithdrawModal'
 
 interface MenuListProps {
   options: string[]
   candidate?: any
+  onApplyVacancy: (data: string) => void
 }
 
-const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
+const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
+  const toast = useToast()
 
   const handleViewDetails = (option: string) => {
     setShowOptionModal(true)
@@ -42,6 +47,9 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
       case 'Process':
       case 'View History':
       case 'Send Reminder':
+      case 'Blacklist':
+      case 'Reject':
+      case 'Withdraw':
         setModalType(option)
         break
 
@@ -49,61 +57,30 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
         candidateService
           .unblacklist(candidate.candidateId)
           .then(() => {
-            // Optionally, you can handle success here (e.g., show a success message)
+            toast('unblacklist successfully.', { color: 'success' })
+            const newData = new Date().toISOString()
+            onApplyVacancy(newData)
           })
-          .catch((error) => {
-            // Handle error here (e.g., show an error message)
-            console.error('Error unblacklisting:', error)
+          .catch(() => {
+            toast('An error occurred while unblacklist.', { color: 'error' })
           })
         break
 
       case 'Shortlist':
         payload = {
           candidateId: candidate.candidateId,
-          vacancyId: candidate.id,
+          vacancyId: candidate.vacancyId,
         }
+        console.log(option)
         candidateService
           .createShortlist(payload)
           .then(() => {
-            // Optionally, you can handle success here (e.g., show a success message)
+            toast('shortlist successfully.', { color: 'success' })
+            const newData = new Date().toISOString()
+            onApplyVacancy(newData)
           })
-          .catch((error) => {
-            // Handle error here (e.g., show an error message)
-            console.error('Error shortlisting:', error)
-          })
-        break
-
-      case 'Blacklist':
-        payload = {
-          applicantId: candidate.applicantId,
-          blacklistReasonId: candidate.blacklistReasonId,
-          blacklistReason: candidate.blacklistReason,
-        }
-        candidateService
-          .createBlacklist(payload)
-          .then(() => {
-            // Optionally, you can handle success here (e.g., show a success message)
-          })
-          .catch((error) => {
-            // Handle error here (e.g., show an error message)
-            console.error('Error blacklisting:', error)
-          })
-        break
-
-      case 'Reject':
-        payload = {
-          rejectReasonId: candidate.rejectReasonId,
-          rejectReason: candidate.rejectReason,
-          applicantId: candidate.id,
-        }
-        candidateService
-          .reject(payload)
-          .then(() => {
-            // Optionally, you can handle success here (e.g., show a success message)
-          })
-          .catch((error) => {
-            // Handle error here (e.g., show an error message)
-            console.error('Error rejecting:', error)
+          .catch(() => {
+            toast('An error occurred while shortlist.', { color: 'error' })
           })
         break
 
@@ -119,11 +96,52 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate }) => {
       case 'View History':
         return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
       case 'Move to Another Vacancy':
-        return <MoveAnotherVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
+        return (
+          <MoveAnotherVacancyModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            candidate={candidate}
+            onApplyVacancy={onApplyVacancy}
+          />
+        )
       case 'Send Reminder':
         return <SendReminderModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'Apply Vacancy':
-        return <ApplyVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
+        return (
+          <ApplyVacancyModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            candidate={candidate}
+            onApplyVacancy={onApplyVacancy}
+          />
+        )
+      case 'Blacklist':
+        return (
+          <BlacklistModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            candidate={candidate}
+            onApplyVacancy={onApplyVacancy}
+          />
+        )
+      case 'Reject':
+        return (
+          <RejectModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            candidate={candidate}
+            onApplyVacancy={onApplyVacancy}
+          />
+        )
+      case 'Withdraw':
+        return (
+          <WithdrawModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            candidate={candidate}
+            onApplyVacancy={onApplyVacancy}
+          />
+        )
       default:
         return null
     }

@@ -1,19 +1,35 @@
-import React, { useState } from 'react'
-import { Select, Button } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
+import { Select, Button, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
-import { candidateService } from '@/services'
+import { candidateService, vacancyService } from '@/services'
 
 type MoveAnotherVacancyModalProps = {
   show: boolean
   onClose: () => void
   candidate: any
+  onApplyVacancy: (data: string) => void
 }
 
-const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose, candidate }) => {
+const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
   const [selectedVacancyId, setSelectedVacancyId] = useState<string | number>('')
+  const [vacancies, setVacancies] = useState<any[]>([])
+  const toast = useToast()
+
+  useEffect(() => {
+    fetchVacancies()
+  }, [])
+
+  const fetchVacancies = async () => {
+    try {
+      const data = await vacancyService.fetchVacancies()
+      setVacancies(data.content)
+    } catch (error) {
+      console.error('Error fetching vacancies:', error)
+    }
+  }
+
   const handleChange = (selectedValue: string | number) => {
-    const parsedValue = parseInt(selectedValue.toString())
-    setSelectedVacancyId(parsedValue)
+    setSelectedVacancyId(selectedValue)
   }
 
   const handleSelectVacancy = () => {
@@ -23,18 +39,20 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
 
     const payload = {
       candidateId: candidate.candidateId,
-      vacancyId: candidate.id,
+      vacancyId: candidate.vacancyId,
       newVacancyId: selectedVacancyId,
     }
 
     candidateService
       .moveToAnotherVacancy(payload)
-      .then((data) => {
-        console.log('Candidate moved to another vacancy:', data)
+      .then(() => {
+        toast('Apply to another vacancy successfully created.', { color: 'success' })
         onClose()
+        const newData = new Date().toISOString()
+        onApplyVacancy(newData)
       })
-      .catch((error) => {
-        console.error('Error moving candidate to another vacancy:', error)
+      .catch(() => {
+        toast('An error occurred while creating apply to another vacancy.', { color: 'error' })
       })
   }
 
@@ -46,9 +64,10 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
       </div>
       <Select
         label="Select Vacancy"
-        placeholder="Back-End Developer, Cashier, Barista"
-        options={[]}
+        placeholder="Select Vacancy"
+        options={vacancies.map((vacancy) => ({ value: vacancy.id, label: vacancy.vacancyName }))}
         className="mb-3"
+        value={selectedVacancyId}
         onChange={handleChange}
       />
       <Button block color="primary" className="mx-auto" onClick={handleSelectVacancy}>

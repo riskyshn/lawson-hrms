@@ -10,9 +10,10 @@ type PropTypes = {
   loading?: boolean
   setPreviewVideoModalUrl: (url: string) => void
   setPreviewPdfModalUrl: (url: string) => void
+  onDataChange: (data: string) => void
 }
 
-const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading }) => {
+const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading, onDataChange }) => {
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null)
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | 'CandidateMatch' | null>(null)
@@ -21,6 +22,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
   const handleViewDetails = (candidate: any, option: string) => {
     setSelectedCandidate(candidate)
     if (option === 'Candidate Match') {
+      console.log(candidate)
       setModalType('CandidateMatch')
       setShowOptionModal(true)
     }
@@ -92,11 +94,11 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
       {
         children: (() => {
           if (candidate.status === 'Locked') {
-            return <MenuList options={['View in Interview']} candidate={candidate} />
+            return <MenuList options={['View in Interview']} candidate={candidate} onApplyVacancy={onDataChange} />
           } else if (candidate.status === 'Hired') {
-            return <MenuList options={['View in Onboarding']} candidate={candidate} />
+            return <MenuList options={['View in Onboarding']} candidate={candidate} onApplyVacancy={onDataChange} />
           } else {
-            return <MenuList options={options} candidate={candidate} />
+            return <MenuList options={options} candidate={candidate} onApplyVacancy={onDataChange} />
           }
         })(),
       },
