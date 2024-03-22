@@ -153,7 +153,7 @@ const JobRequisitionPage = () => {
                         searchParams.set('status', e.toString())
                         setSearchParam(searchParams)
                       }}
-                      options={['Active', 'Inactive', 'Draft', 'Expired', 'Fullfilled'].map((el) => ({
+                      options={['Approvall', 'Approved', 'Published', 'Draft', 'Canceled'].map((el) => ({
                         label: el,
                         value: el.toLocaleLowerCase(),
                       }))}
