@@ -6,6 +6,7 @@ import { SearchIcon } from 'lucide-react'
 type ProcessModalProps = {
   show: boolean
   onClose: () => void
+  candidate: any
 }
 
 const data = [
