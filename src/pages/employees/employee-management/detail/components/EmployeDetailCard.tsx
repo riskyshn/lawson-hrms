@@ -257,6 +257,8 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
             <tbody>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Paid by Company</th>
+                <td className="border-y px-3 py-2"></td>
+                <td className="w-full border-y px-3 py-2"></td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Hari Tua (JHT)</th>
@@ -285,6 +287,8 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Paid by Employee</th>
+                <td className="border-y px-3 py-2"></td>
+                <td className="w-full border-y px-3 py-2"></td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Hari Tua (JHT)</th>

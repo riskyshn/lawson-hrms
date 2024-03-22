@@ -31,7 +31,7 @@ const ButtonDeleteEmployee: React.FC<{ oid: string }> = ({ oid }) => {
   }
 
   return (
-    <Button type="button" variant="light" color="error" disabled={isLoading} loading={isLoading} onClick={handleDelete}>
+    <Button className="w-full" type="button" variant="light" color="error" disabled={isLoading} loading={isLoading} onClick={handleDelete}>
       Delete
     </Button>
   )
