@@ -9,7 +9,7 @@ type MoveAnotherVacancyModalProps = {
   candidate: any
 }
 
-const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose, candidate }) => {
+const ApplyVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose, candidate }) => {
   const [selectedVacancyId, setSelectedVacancyId] = useState<string | number>('')
   const handleChange = (selectedValue: string | number) => {
     const parsedValue = parseInt(selectedValue.toString())
@@ -41,8 +41,8 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
   return (
     <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
       <div className="mb-8">
-        <h4 className="mb-2 text-center text-2xl font-semibold">Move to Another Vacancy</h4>
-        <p className="text-center">Move candidates to a more suitable job vacancy</p>
+        <h4 className="mb-2 text-center text-2xl font-semibold">Apply to Vacancy</h4>
+        <p className="text-center">Apply candidates to a more suitable job vacancy</p>
       </div>
       <Select
         label="Select Vacancy"
@@ -58,4 +58,4 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
   )
 }
 
-export default MoveAnotherVacancyModal
+export default ApplyVacancyModal
