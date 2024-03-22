@@ -150,31 +150,24 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
     },
   }
 
-  const menuItems = [
-    { code: 1, items: [goToJobManagement, viewCandidates] },
-    { code: 4, items: [goToJobManagement] },
-    {
-      code: 6,
-      items:
-        vacancy.approvals?.flag == 1
-          ? [postVacancy, reviewRequisition, viewHistory]
-          : [reviewRequisition, sendReminder, editRequisition, viewHistory, cancelRequisition],
-    },
-    { code: 9, items: [reviewRequisition, editRequisition, deleteDraft] },
-    { code: 13, items: [viewCandidates, editRequisition, viewHistory] },
-  ]
+  const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
+    published: [goToJobManagement, viewCandidates],
+    draft: [reviewRequisition, editRequisition, deleteDraft],
+    rejected: [reviewRequisition, editRequisition, viewHistory],
+    approved: [postVacancy, reviewRequisition, viewHistory],
+    progress: [reviewRequisition, sendReminder, editRequisition, viewHistory, cancelRequisition],
+    canceled: [reviewRequisition, viewHistory],
+  }
 
-  const menu = menuItems.find((el) => el.code == vacancy.flag)
+  const menu = menuItems[vacancy.status || '']
   if (!menu) return null
 
   return (
-    <>
-      <Table.ActionMenu up={index >= total - upSpace}>
-        {menu.items.map((item, i) => (
-          <Table.ActionMenuItem key={i} {...item} />
-        ))}
-      </Table.ActionMenu>
-    </>
+    <Table.ActionMenu up={index >= total - upSpace}>
+      {menu.map((item, i) => (
+        <Table.ActionMenuItem key={i} {...item} />
+      ))}
+    </Table.ActionMenu>
   )
 }
 

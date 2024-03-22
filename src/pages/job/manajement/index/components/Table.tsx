@@ -5,15 +5,16 @@ import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
 import ActionMenu from './ActionMenu'
 
-const getStatus = (flag?: number): { text: string; color: string } => {
-  const statusMap: Record<number, { text: string; color: string }> = {
-    1: { text: 'Active', color: 'bg-green-100 text-green-600' },
-    4: { text: 'Inactive', color: 'bg-gray-100 text-gray-600' },
-    9: { text: 'Draft', color: 'bg-pink-100 text-pink-600' },
-    13: { text: 'Fulfilled', color: 'bg-yellow-400 text-white' },
+const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
+  const statusMap: Record<string, { text: string; color: string }> = {
+    active: { text: 'Active', color: 'bg-green-100 text-green-600' },
+    inactive: { text: 'Inactive', color: 'bg-gray-100 text-gray-600' },
+    draft: { text: 'Draft', color: 'bg-pink-100 text-pink-600' },
+    expired: { text: 'Expired', color: 'bg-red-100 text-red-600' },
+    fulfilled: { text: 'Fulfilled', color: 'bg-yellow-400 text-white' },
   }
 
-  return flag !== undefined && statusMap[flag] ? statusMap[flag] : { text: 'Unknown', color: 'bg-gray-400 text-white' }
+  return statusMap[vacancy.status || ''] || { text: vacancy.status || 'Unknown', color: 'bg-gray-400 text-white' }
 }
 
 const Table: React.FC<{
@@ -60,8 +61,8 @@ const Table: React.FC<{
       },
       {
         children: (
-          <span className={twJoin('rounded-lg px-2 py-1 text-sm font-semibold', getStatus(vacancy.flag).color)}>
-            {getStatus(vacancy.flag).text}
+          <span className={twJoin('rounded-lg px-2 py-1 text-sm font-semibold capitalize', getStatus(vacancy).color)}>
+            {getStatus(vacancy).text}
           </span>
         ),
         className: 'text-center',

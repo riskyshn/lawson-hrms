@@ -91,24 +91,23 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     },
   }
 
-  const menuItems = [
-    { code: 1, items: [viewDetail, viewCandidates, editVacancy, deactivate] },
-    { code: 4, items: [reactivate, viewDetail, viewCandidates, editVacancy] },
-    { code: 9, items: [viewDetail, deleteDraft] },
-    { code: 13, items: [viewDetail, viewCandidates] },
-  ]
+  const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
+    active: [viewDetail, viewCandidates, editVacancy, deactivate],
+    inactive: [reactivate, viewDetail, viewCandidates, editVacancy],
+    draft: [viewDetail, deleteDraft],
+    fulfilled: [viewDetail, viewCandidates],
+    expired: [reactivate, viewDetail, viewCandidates, editVacancy],
+  }
 
-  const menu = menuItems.find((el) => el.code == vacancy.flag)
+  const menu = menuItems[vacancy.status || '']
   if (!menu) return null
 
   return (
-    <>
-      <Table.ActionMenu up={index >= total - upSpace}>
-        {menu.items.map((item, i) => (
-          <Table.ActionMenuItem key={i} {...item} />
-        ))}
-      </Table.ActionMenu>
-    </>
+    <Table.ActionMenu up={index >= total - upSpace}>
+      {menu.map((item, i) => (
+        <Table.ActionMenuItem key={i} {...item} />
+      ))}
+    </Table.ActionMenu>
   )
 }
 
