@@ -25,11 +25,11 @@ const DetailJobRequisitionPage: React.FC = () => {
   const navigate = useNavigate()
   const { user } = useAuthStore()
 
-  const isAdmin = '65f297de3360276728e011a7' === user?.employeeId // hard code is admin if employee == "omiomi"
+  const isAdmin = true // hard code is have permission to approve requisition.
   const queuedEmployee = vacancy?.approvals?.users?.find((el) => el.flag === 0)
 
   useEffect(() => {
-    if (!isAdmin || !queuedEmployee || queuedEmployee.id === user?.employeeId) return
+    if (!isAdmin || !queuedEmployee || queuedEmployee.id === user?.employee?.oid) return
 
     const load = async () => {
       try {
@@ -41,7 +41,7 @@ const DetailJobRequisitionPage: React.FC = () => {
     }
 
     load()
-  }, [isAdmin, queuedEmployee, user?.employeeId])
+  }, [isAdmin, queuedEmployee, user?.employee?.oid])
 
   const {
     register,
@@ -86,10 +86,10 @@ const DetailJobRequisitionPage: React.FC = () => {
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
 
-        {queuedEmployee && (isAdmin || queuedEmployee.id === user?.employeeId) && (
+        {queuedEmployee && (isAdmin || queuedEmployee.id === user?.employee?.oid) && (
           <Card>
             <CardBody>
-              {queuedEmployee.id !== user?.employeeId && (
+              {queuedEmployee.id !== user?.employee?.oid && (
                 <>
                   {employee ? (
                     <Alert color="warning" className="mb-3 text-center">
