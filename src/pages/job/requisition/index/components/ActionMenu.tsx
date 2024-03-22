@@ -59,7 +59,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       const approval = vacancy.approvals?.users?.find((el) => el.flag === 0)
       if (!approval) return
 
-      if (user?.employeeId === approval.id) return toast('You cannot send a reminder to yourself!', { color: 'error' })
+      if (user?.employee?.oid === approval.id) return toast('You cannot send a reminder to yourself!', { color: 'error' })
 
       const confirmed = await confirm(`Are you sure you want to send a reminder to ${approval.name}?`)
       if (confirmed) {
@@ -152,6 +152,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
 
   const menuItems = [
     { code: 1, items: [goToJobManagement, viewCandidates] },
+    { code: 4, items: [goToJobManagement] },
     {
       code: 6,
       items:

@@ -13,12 +13,19 @@ interface IAccessGrantedRole {
 
 interface IUser {
   oid: string
-  firstName: string
-  lastName: string
   email: string
+  firstName?: string
+  lastName?: string
 
-  companyId: string
-  employeeId: string
+  company?: {
+    oid: string
+    name?: string
+  }
+
+  employee?: {
+    oid: string
+    name?: string
+  }
 
   accessGranted: IRole[]
   accessDirectPermissions: IPermission[]
