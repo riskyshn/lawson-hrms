@@ -16,6 +16,7 @@ type FetchCandidateParams = IPaginationParam & {
   position?: string
   province?: string
   education?: string
+  vacancyId?: string
 }
 
 export const fetchBlacklist = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {

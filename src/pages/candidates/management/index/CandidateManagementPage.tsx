@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
 import Table from './components/Table'
-import { candidateService } from '@/services'
+import { candidateService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
 
@@ -17,10 +17,10 @@ const CandidateManagementPage: React.FC = () => {
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const search = searchParams.get('search') || undefined
+  const [onChangeData, setOnChangeData] = useState<string>()
+  const [vacancies, setVacancies] = useState<any[]>([])
 
-  const position = searchParams.get('position') || undefined
-  const province = searchParams.get('province') || undefined
-  const education = searchParams.get('education') || undefined
+  const vacancy = searchParams.get('vacancy') || undefined
 
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
@@ -28,8 +28,9 @@ const CandidateManagementPage: React.FC = () => {
   const pagination = usePagination({
     pathname: '/candidates/management',
     totalPage: pageData?.totalPages || 0,
-    params: { search, position, province, education },
+    params: { search, vacancy },
   })
+
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
@@ -42,9 +43,7 @@ const CandidateManagementPage: React.FC = () => {
             q: search,
             page: pagination.currentPage,
             limit: 20,
-            education: education,
-            position: position,
-            province: province,
+            vacancyId: vacancy,
           },
           signal,
         )
@@ -60,7 +59,20 @@ const CandidateManagementPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage])
+  }, [search, vacancy, pagination.currentPage, onChangeData])
+
+  useEffect(() => {
+    fetchVacancies()
+  }, [])
+
+  const fetchVacancies = async () => {
+    try {
+      const data = await vacancyService.fetchVacancies()
+      setVacancies(data.content)
+    } catch (error) {
+      console.error('Error fetching vacancies:', error)
+    }
+  }
 
   if (pageError) throw pageError
 
@@ -91,15 +103,15 @@ const CandidateManagementPage: React.FC = () => {
                 open && (
                   <div className="grid grid-cols-1 gap-3 p-3">
                     <Select
-                      placeholder="All Vacancy"
+                      placeholder="Select Vacancy"
                       withReset
-                      // value={vacancy}
+                      options={vacancies.map((vacancy) => ({ value: vacancy.id, label: vacancy.vacancyName }))}
+                      className="mb-3"
+                      value={vacancy}
                       onChange={(e) => {
                         searchParams.set('vacancy', e.toString())
                         setSearchParam(searchParams)
                       }}
-                      options={[]}
-                      // options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
                     />
                   </div>
                 )
@@ -112,6 +124,7 @@ const CandidateManagementPage: React.FC = () => {
               loading={isLoading}
               setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
               setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+              onDataChange={setOnChangeData}
             />
           }
           footer={pagination.render()}

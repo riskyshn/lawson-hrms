@@ -24,6 +24,7 @@ const CandidateWithdrawPage: React.FC = () => {
   const position = searchParams.get('position') || undefined
   const province = searchParams.get('province') || undefined
   const education = searchParams.get('education') || undefined
+  const [onChangeData, setOnChangeData] = useState<string>()
 
   const { master } = useOrganizationStore()
   const { educatioLevels } = useMasterStore()
@@ -65,7 +66,7 @@ const CandidateWithdrawPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage])
+  }, [search, position, education, province, pagination.currentPage, onChangeData])
 
   if (pageError) throw pageError
 
@@ -141,6 +142,7 @@ const CandidateWithdrawPage: React.FC = () => {
               loading={isLoading}
               setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
               setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+              onDataChange={setOnChangeData}
             />
           }
           footer={pagination.render()}
