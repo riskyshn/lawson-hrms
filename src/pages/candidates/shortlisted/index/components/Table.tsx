@@ -9,9 +9,10 @@ type PropTypes = {
   loading?: boolean
   setPreviewVideoModalUrl: (url: string) => void
   setPreviewPdfModalUrl: (url: string) => void
+  onDataChange: (data: string) => void
 }
 
-const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading }) => {
+const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading, onDataChange }) => {
   const options = ['Process', 'Move to Another Vacancy', 'View History', 'Blacklist', 'Reject']
 
   const bodyItems = items.map((candidate) => ({
@@ -61,7 +62,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         ),
         className: 'text-center',
       },
-      { children: <MenuList options={options} candidate={candidate} /> },
+      { children: <MenuList options={options} candidate={candidate} onApplyVacancy={onDataChange} /> },
     ],
   }))
 
