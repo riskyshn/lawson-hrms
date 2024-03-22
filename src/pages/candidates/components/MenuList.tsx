@@ -75,13 +75,13 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         }
         candidateService
           .createShortlist(payload)
-          .then(() => {
+          .catch(() => {
+            toast('An error occurred while shortlist.', { color: 'error' })
+          })
+          .finally(() => {
             toast('shortlist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
             onApplyVacancy(newData)
-          })
-          .catch(() => {
-            toast('An error occurred while shortlist.', { color: 'error' })
           })
         break
 
