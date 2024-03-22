@@ -12,7 +12,6 @@ import Table from './components/Table'
 import { candidateService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useMasterStore, useOrganizationStore } from '@/store'
 
 const CandidateManagementPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -25,9 +24,6 @@ const CandidateManagementPage: React.FC = () => {
   const position = searchParams.get('position') || undefined
   const province = searchParams.get('province') || undefined
   const education = searchParams.get('education') || undefined
-
-  const { master } = useOrganizationStore()
-  const { educatioLevels } = useMasterStore()
 
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
