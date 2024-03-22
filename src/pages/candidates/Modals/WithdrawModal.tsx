@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Select, Button, useToast } from 'jobseeker-ui'
+import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { candidateService } from '@/services'
 
@@ -13,6 +13,7 @@ type WithdrawModalProps = {
 const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
   const [selectReasonId, setSelectReasonId] = useState<string | number>('')
   const toast = useToast()
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleChange = (selectedValue: string | number) => {
     setSelectReasonId(selectedValue)
@@ -29,6 +30,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
       withdrawReason: candidate.blacklistReason,
     }
 
+    setLoading(true)
     candidateService
       .withdraw(payload)
       .then(() => {
@@ -38,6 +40,9 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
       })
       .catch(() => {
         toast('An error occurred while withdraw.', { color: 'error' })
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -56,7 +61,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
         onChange={handleChange}
       />
       <Button block color="primary" className="mx-auto" onClick={handleSelectReason}>
-        Submit
+        {loading ? <Spinner height={20} className="text-white-600" /> : 'Submit'}
       </Button>
     </MainModal>
   )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Select, Button, useToast } from 'jobseeker-ui'
+import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { candidateService, vacancyService } from '@/services'
 
@@ -13,6 +13,7 @@ type MoveAnotherVacancyModalProps = {
 const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
   const [selectedVacancyId, setSelectedVacancyId] = useState<string | number>('')
   const [vacancies, setVacancies] = useState<any[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
       newVacancyId: selectedVacancyId,
     }
 
+    setLoading(true)
     candidateService
       .moveToAnotherVacancy(payload)
       .then(() => {
@@ -53,6 +55,9 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
       })
       .catch(() => {
         toast('An error occurred while creating apply to another vacancy.', { color: 'error' })
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -71,7 +76,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
         onChange={handleChange}
       />
       <Button block color="primary" className="mx-auto" onClick={handleSelectVacancy}>
-        Select Vacancy
+        {loading ? <Spinner height={20} className="text-white-600" /> : 'Select Vacancy'}
       </Button>
     </MainModal>
   )
