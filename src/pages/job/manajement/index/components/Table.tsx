@@ -42,7 +42,7 @@ const Table: React.FC<{
         ),
       },
       { children: vacancy.department?.name || '-', className: 'text-center' },
-      { children: vacancy.publishDate ? moment(vacancy.publishDate).format('D/M/Y') : '-', className: 'text-center' },
+      { children: vacancy.createdAt ? moment(vacancy.createdAt).format('D/M/Y') : '-', className: 'text-center' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">

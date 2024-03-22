@@ -62,7 +62,7 @@ const Table: React.FC<TableProps> = ({ items, loading, setHistoryMadalData, onVa
         ),
       },
       { children: vacancy.department?.name || '-', className: 'text-center' },
-      { children: vacancy.publishDate ? moment(vacancy.publishDate).format('D/M/Y') : '-', className: 'text-center' },
+      { children: vacancy.createdAt ? moment(vacancy.createdAt).format('D/M/Y') : '-', className: 'text-center' },
       {
         children: (
           <span className={twJoin('rounded-lg px-2 py-1 text-sm font-semibold', getStatus(vacancy).color)}>{getStatus(vacancy).text}</span>
