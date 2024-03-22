@@ -27,7 +27,7 @@ const EmploymentDataForm: React.FC<{
   const {
     master: { jobTypes, jobLevels, branches, departments, positions },
   } = useOrganizationStore()
-
+  console.log(props.defaultValue)
   const {
     register,
     handleSubmit,

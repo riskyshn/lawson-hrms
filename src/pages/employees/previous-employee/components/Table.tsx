@@ -5,11 +5,12 @@ import React from 'react'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {
-  items: IEmployee[]
+  items: IPreviousEmployee[]
   loading?: boolean
+  onRestored?: () => void
 }
 
-const Table: React.FC<PropTypes> = ({ items, loading }) => {
+const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
   const headerItems = [
     { children: 'Employee', className: 'text-left' },
     { children: 'Last Day', className: 'text-left' },
@@ -23,31 +24,29 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
       {
         children: (
           <div className="flex gap-3">
-            <div>
-              <Avatar name={item.name || ''} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
-            </div>
+            <Avatar name={item.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
             <div>
               <span className="block font-semibold">{item.name}</span>
-              <span className="text-xs text-gray-500">mail@example.com</span>
+              <span className="text-xs text-gray-500">{item.employeeId}</span>
             </div>
           </div>
         ),
       },
       {
-        children: moment().format('dd/mm/YYYY'),
+        children: moment(item.lastdayAt).format('DD/MM/YYYY'),
       },
       {
         children: (
           <Badge color="error" size="small">
-            Resign
+            {item.jobType?.name}
           </Badge>
         ),
       },
       {
-        children: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.',
+        children: item.reasonInactive,
       },
       {
-        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} />,
+        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} onRestored={onRestored} />,
       },
     ],
   }))

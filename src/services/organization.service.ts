@@ -146,7 +146,7 @@ export const deleteWorkplacement = (id: string) => {
  * JobTypes
  *
  */
-export const fetchJobTypes = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+export const fetchJobTypes = (params?: IPaginationParam & { status?: 0 | 1 | 2 }, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
 }
 

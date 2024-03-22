@@ -1,5 +1,6 @@
 import MainModal from '@/components/Elements/MainModal'
 import { employeeService } from '@/services'
+import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Select, Textarea, useToast } from 'jobseeker-ui'
@@ -8,13 +9,13 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type ModalProps = {
-  item: IEmployee | null
+  item: IDataTableEmployee | null
   onClose: () => void
   onSuccess: () => void
 }
 
 const schema = yup.object().shape({
-  status: yup.string().required().label('Employment status'),
+  jobTypeId: yup.string().required().label('Employment status'),
   reason: yup.string(),
 })
 
@@ -22,6 +23,10 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
+
+  const {
+    master: { jobTypes },
+  } = useOrganizationStore()
 
   const {
     register,
@@ -45,7 +50,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
     try {
       setIsLoading(true)
       setErrorMessage('')
-      await employeeService.updateEmployeeStatus(item.oid, data)
+      await employeeService.setInactiveEmployee(item.oid, data)
       toast('Employee status updated successfully', { color: 'success' })
       onSuccess()
     } catch (error) {
@@ -70,17 +75,19 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
           labelRequired
           placeholder="Resign/Terminated"
           hideSearch
-          name="status"
-          error={errors.status?.message}
-          value={getValues('status')}
+          name="jobTypeId"
+          error={errors.jobTypeId?.message}
+          value={getValues('jobTypeId')}
           onChange={(v) => {
-            setValue('status', v.toString())
-            trigger('status')
+            setValue('jobTypeId', v.toString())
+            trigger('jobTypeId')
           }}
-          options={['Resign', 'Terminated'].map((el) => ({
-            label: el,
-            value: el.toLocaleLowerCase(),
-          }))}
+          options={jobTypes
+            .filter((el) => el.status === 2)
+            .map((el) => ({
+              label: el.name || '',
+              value: el.oid,
+            }))}
         />
 
         <Textarea label="Reason" rows={3} error={errors.reason?.message} {...register('reason')} />

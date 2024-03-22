@@ -2,7 +2,7 @@ import MainModal from '@/components/Elements/MainModal'
 import { organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -15,6 +15,7 @@ type EditModalProps = {
 
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
+  status: yup.number().required().label('Status for employment'),
 })
 
 const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
@@ -26,6 +27,8 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
     register,
     handleSubmit,
     setValue,
+    getValues,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -36,6 +39,7 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       setIsLoading(false)
       setErrorMessage('')
       setValue('name', item.name || '')
+      setValue('status', item.status || 0)
     }
   }, [item, setValue])
 
@@ -64,6 +68,23 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
         <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
+
+        <Select
+          label="Status for employment"
+          labelRequired
+          options={[
+            { label: 'Active', value: 1 },
+            { label: 'Inactive', value: 2 },
+          ]}
+          hideSearch
+          name="status"
+          error={errors.status?.message}
+          value={getValues('status')}
+          onChange={(v) => {
+            setValue('status', Number(v))
+            trigger('status')
+          }}
+        />
 
         <div className="mt-8 flex justify-end gap-3">
           <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>

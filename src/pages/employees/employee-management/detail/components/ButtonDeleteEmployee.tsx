@@ -1,9 +1,9 @@
 import { employeeService } from '@/services'
-import { Button, useConfirm, useToast } from 'jobseeker-ui'
+import { Button, ButtonProps, useConfirm, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const ButtonDeleteEmployee: React.FC<{ oid: string }> = ({ oid }) => {
+const ButtonDeleteEmployee: React.FC<ButtonProps & { oid: string }> = ({ oid, ...props }) => {
   const confirm = useConfirm()
   const toast = useToast()
   const navigate = useNavigate()
@@ -31,7 +31,7 @@ const ButtonDeleteEmployee: React.FC<{ oid: string }> = ({ oid }) => {
   }
 
   return (
-    <Button className="w-full" type="button" variant="light" color="error" disabled={isLoading} loading={isLoading} onClick={handleDelete}>
+    <Button {...props} type="button" disabled={isLoading} loading={isLoading} onClick={handleDelete}>
       Delete
     </Button>
   )

@@ -6,7 +6,6 @@ import { createAxiosInstance } from '@/utils/axios'
 type FetchEmployeesParams = IPaginationParam & {
   departmentId?: string
   branchId?: string
-  status?: 1 | 2
 }
 
 const axios = createAxiosInstance({
@@ -18,8 +17,16 @@ const axios = createAxiosInstance({
  * Employee
  *
  */
-export const fetchEmployees = (params?: FetchEmployeesParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<IEmployee> }>(`/employee`, { params, signal }).then((response) => response.data.data)
+export const fetchEmployees = (params: FetchEmployeesParams = {}, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: IPaginationResponse<IDataTableEmployee> }>(`/employee`, { params: { ...params, status: 1 }, signal })
+    .then((response) => response.data.data)
+}
+
+export const fetchPreviousEmployees = (params: FetchEmployeesParams = {}, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: IPaginationResponse<IPreviousEmployee> }>(`/employee`, { params: { ...params, status: 2 }, signal })
+    .then((response) => response.data.data)
 }
 
 export const fetchEmployee = (oid: string) => {
@@ -38,7 +45,10 @@ export const deleteEmployee = (id: string) => {
   return axios.delete(`/employee/${id}`).then((response) => response.data.data)
 }
 
-export const updateEmployeeStatus = (id: string, payload: Record<string, any>) => {
-  throw new Error('Endpoint api belum ada.')
-  return axios.patch<{ data: IEmployee }>(`/employee/${id}`, payload).then((response) => response.data.data)
+export const setInactiveEmployee = (id: string, payload: Record<string, any>) => {
+  return axios.patch(`/employee/inactive/${id}`, payload).then((response) => response.data.data)
+}
+
+export const restoreEmployee = (id: string) => {
+  return axios.patch(`/employee/restore-inactive/${id}`).then((response) => response.data.data)
 }

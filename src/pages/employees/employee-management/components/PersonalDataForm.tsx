@@ -22,7 +22,7 @@ const schema = yup.object({
   cityOfBirth: yup.string().required().label('Place of Birth'),
   birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
 
-  maritalStatus: yup.string().required().label('Marital Status'),
+  maritalStatusId: yup.string().required().label('Marital Status'),
   numberOfChildren: yup
     .number()
     .transform((value) => (isNaN(value) ? 0 : value))
@@ -161,12 +161,12 @@ const PersonalDataForm: React.FC<{
             placeholder="Married, Single"
             hideSearch
             options={maritalStatus.map((el) => ({ label: el.name, value: el.oid }))}
-            name="maritalStatus"
-            error={errors.maritalStatus?.message}
-            value={getValues('maritalStatus')}
+            name="maritalStatusId"
+            error={errors.maritalStatusId?.message}
+            value={getValues('maritalStatusId')}
             onChange={(v) => {
-              setValue('maritalStatus', v.toString())
-              trigger('maritalStatus')
+              setValue('maritalStatusId', v.toString())
+              trigger('maritalStatusId')
             }}
           />
           <Select

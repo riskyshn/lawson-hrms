@@ -1,6 +1,7 @@
 import React from 'react'
 import MainTable from '@/components/Elements/MainTable'
 import ActionMenu from './ActionMenu'
+import { Badge } from 'jobseeker-ui'
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
@@ -13,6 +14,7 @@ type TableProps = {
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
   const headerItems = [
     { children: 'Name', className: 'text-left' },
+    { children: 'Status for employment', className: 'text-left' },
     // { children: 'Employees' },
     { children: 'Action', className: 'w-24' },
   ]
@@ -21,6 +23,13 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
     items: [
       {
         children: <span className="block font-semibold">{item.name}</span>,
+      },
+      {
+        children: (
+          <Badge size="small" color={item.status == 1 ? 'primary' : 'error'}>
+            {item.status == 1 ? 'Active' : 'Inactive'}
+          </Badge>
+        ),
       },
       // {
       //   children: (

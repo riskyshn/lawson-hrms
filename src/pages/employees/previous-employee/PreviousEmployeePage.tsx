@@ -8,7 +8,7 @@ import { useOrganizationStore } from '@/store'
 import { Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Table from '../components/Table'
+import Table from './components/Table'
 
 const PreviousEmployeePage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -19,10 +19,10 @@ const PreviousEmployeePage: React.FC = () => {
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<IPaginationResponse<IEmployee>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IPreviousEmployee>>()
   const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
-  const [refresh] = useState(false)
+  const [refresh, setRefresh] = useState(false)
 
   const pagination = usePagination({
     pathname: '/employees/previous-employee',
@@ -37,14 +37,13 @@ const PreviousEmployeePage: React.FC = () => {
     const load = async (signal: AbortSignal) => {
       setIsLoading(true)
       try {
-        const data = await employeeService.fetchEmployees(
+        const data = await employeeService.fetchPreviousEmployees(
           {
             q: search,
             page: pagination.currentPage,
             limit: 20,
             branchId: branch,
             departmentId: department,
-            status: 2,
           },
           signal,
         )
@@ -112,7 +111,7 @@ const PreviousEmployeePage: React.FC = () => {
               }
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRestored={() => setRefresh((v) => !v)} />}
           footer={pagination.render()}
         />
       </Container>

@@ -204,6 +204,7 @@ interface IWorkplacement {
 interface IJobType {
   oid: string
   name?: string
+  status?: number
   totalEmployee?: number
 }
 

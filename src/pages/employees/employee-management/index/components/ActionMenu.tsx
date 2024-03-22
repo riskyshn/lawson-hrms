@@ -4,11 +4,11 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 type ActionMenuProps = {
-  item: IEmployee
+  item: IDataTableEmployee
   index: number
   total: number
   upSpace: number
-  setSelectedTerminate?: (item: IEmployee) => void
+  setSelectedTerminate?: (item: IDataTableEmployee) => void
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelectedTerminate }) => {

@@ -3,28 +3,37 @@ import MainTable from '@/components/Elements/MainTable'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
 import PreviewMapsModal from './PreviewMapsModal'
 import PreviewImageModal from './PreviewImageModal'
+import { Card } from 'jobseeker-ui'
 
-type AttendanceData = {
-  date: string
-  type: AttendanceType[]
-}
+const dummyAttendance = [
+  {
+    date: '18/03/2024',
+    type: [
+      {
+        name: 'Clock In',
+        time: '08:40:35',
+        status: 'Pending',
+        location: {
+          lat: -8.7931195,
+          lng: 115.1501316,
+        },
+        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+      },
+      {
+        name: 'Clock Out',
+        time: '17:30:00',
+        status: 'Completed',
+        location: {
+          lat: -8.7931195,
+          lng: 115.1501316,
+        },
+        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+      },
+    ],
+  },
+]
 
-type AttendanceType = {
-  name: string
-  time: string
-  status: string
-  location: {
-    lng: number
-    lat: number
-  }
-  attachment: string
-}
-
-type TableProps = {
-  items: AttendanceData[]
-}
-
-const AttendanceTable: React.FC<TableProps> = ({ items }) => {
+const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
   const [selectedLocation, setSelectedLocation] = useState<{
     lat: number
     lng: number
@@ -51,7 +60,7 @@ const AttendanceTable: React.FC<TableProps> = ({ items }) => {
     { children: 'Attachment', className: 'text-left' },
   ]
 
-  const bodyItems = items.map((item) => ({
+  const bodyItems = dummyAttendance.map((item) => ({
     items: [
       {
         children: item.date,
@@ -110,11 +119,11 @@ const AttendanceTable: React.FC<TableProps> = ({ items }) => {
   }))
 
   return (
-    <>
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} />
+    <Card>
       {selectedLocation && <PreviewMapsModal location={selectedLocation} onClose={() => setSelectedLocation(null)} />}
       {selectedAttachment && <PreviewImageModal imageUrl={selectedAttachment} onClose={() => setSelectedAttachment(null)} />}
-    </>
+      <MainTable headerItems={headerItems} bodyItems={bodyItems} />
+    </Card>
   )
 }
 

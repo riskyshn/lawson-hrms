@@ -20,10 +20,10 @@ const EmployeeManagementPage: React.FC = () => {
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<IPaginationResponse<IEmployee>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IDataTableEmployee>>()
   const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
-  const [selectedToTerminate, setSelectedToTerminate] = useState<IEmployee | null>(null)
+  const [selectedToTerminate, setSelectedToTerminate] = useState<IDataTableEmployee | null>(null)
   const [refresh, setRefresh] = useState(false)
 
   const pagination = usePagination({
@@ -79,7 +79,10 @@ const EmployeeManagementPage: React.FC = () => {
 
       <ResignTerminateModal
         item={selectedToTerminate}
-        onSuccess={() => setRefresh((v) => !v)}
+        onSuccess={() => {
+          setRefresh((v) => !v)
+          setSelectedToTerminate(null)
+        }}
         onClose={() => setSelectedToTerminate(null)}
       />
 

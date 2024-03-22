@@ -1,11 +1,12 @@
 import MainTable from '@/components/Elements/MainTable'
 import React from 'react'
 import ActionMenu from './ActionMenu'
+import { Avatar } from 'jobseeker-ui'
 
 type PropTypes = {
-  items: IEmployee[]
+  items: IDataTableEmployee[]
   loading?: boolean
-  setSelectedTerminate?: (item: IEmployee) => void
+  setSelectedTerminate?: (item: IDataTableEmployee) => void
 }
 
 const Table: React.FC<PropTypes> = ({ items, loading, setSelectedTerminate }) => {
@@ -23,10 +24,13 @@ const Table: React.FC<PropTypes> = ({ items, loading, setSelectedTerminate }) =>
     items: [
       {
         children: (
-          <>
-            <span className="block font-semibold">{item.name}</span>
-            <span className="text-xs text-gray-500">{item.employeeId}</span>
-          </>
+          <div className="flex gap-3">
+            <Avatar name={item.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
+            <div>
+              <span className="block font-semibold">{item.name}</span>
+              <span className="text-xs text-gray-500">{item.employeeId}</span>
+            </div>
+          </div>
         ),
       },
       { children: item.branch?.name || '-' },

@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputRadio, InputWrapper, Select } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, Select } from 'jobseeker-ui'
 import { HelpCircleIcon } from 'lucide-react'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -47,6 +47,10 @@ const options = {
     { label: 'Pegawai Tetap', value: 1 },
     { label: 'Pegawai Tidak Tetap', value: 2 },
   ],
+  baseSalaryType: [
+    { label: 'Based on Working Days', value: 1 },
+    { label: 'Lump Sum', value: 2 },
+  ],
   ptkpStatus: ['TK/0', 'TK/1', 'K/0', 'TK/2', 'TK/3', 'K/1', 'K/2', 'K/3'].map((el) => ({ label: el, value: el })),
   jkk: [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el })),
 }
@@ -91,22 +95,19 @@ const PayrollDataForm: React.FC<{
           }}
         />
         <InputCurrency label="Base Salary" labelRequired prefix="Rp " error={errors.baseSalary?.message} {...register('baseSalary')} />
-        <InputWrapper error={errors.baseSalaryType?.message} className="my-2">
-          <div className="flex gap-6">
-            <InputRadio id="base-salary-type-based-on-working-days" value={1} {...register('baseSalaryType')}>
-              Based on Working Days{' '}
-              <span className="text-gray-500">
-                <HelpCircleIcon size={16} />
-              </span>
-            </InputRadio>
-            <InputRadio id="base-salary-type-lump-sum" value={2} {...register('baseSalaryType')}>
-              Lump Sum{' '}
-              <span className="text-gray-500">
-                <HelpCircleIcon size={16} />
-              </span>
-            </InputRadio>
-          </div>
-        </InputWrapper>
+        <Select
+          label="Base Salary Type"
+          labelRequired
+          options={options.baseSalaryType}
+          hideSearch
+          name="baseSalaryType"
+          error={errors.baseSalaryType?.message}
+          value={getValues('baseSalaryType')}
+          onChange={(v) => {
+            setValue('baseSalaryType', Number(v))
+            trigger('baseSalaryType')
+          }}
+        />
         <Select
           label="Allow Overtime"
           labelRequired
@@ -196,10 +197,16 @@ const PayrollDataForm: React.FC<{
           </div>
           <div className="grid grid-cols-2 gap-4">
             <Input label="Jaminan Kematian (JKM)" disabled value="0.30%" />
-            <Input label="Jaminan Pensiun (JP)" disabled required value="2%" help="JP Maximum Cap Rp. 191.980,00*" />
+            <Input label="Jaminan Pensiun (JP)" disabled required value="2%" help="JP Maximum Cap Rp. 191.192,00*" />
           </div>
           <div className="mb-3">
-            <Input label="Jaminan Kesehatan (KS)" disabled required value="4%" help="KS Maximum Cap Rp. 480.000,00*" />
+            <Input
+              label="Jaminan Kesehatan (KS)"
+              disabled
+              required
+              value={watch('isParticipateBpjs') ? '4%' : '0%'}
+              help="KS Maximum Cap Rp. 480.000,00*"
+            />
           </div>
           <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('isParticipateBpjs')}>
             Employee will not participate in BPJS KS Program{' '}
@@ -214,9 +221,14 @@ const PayrollDataForm: React.FC<{
         </div>
         <div className="grid grid-cols-2 gap-4">
           <Input label="Jaminan Hari Tua (JHT)" disabled value="2%" />
-          <Input label="Jaminan Pensiun (JP)" disabled value="1%" />
+          <Input label="Jaminan Pensiun (JP)" disabled value="1%" help="JP Maximum Cap Rp. 95.596,00*" />
         </div>
-        <Input label="Jaminan Kesehatan (KS)" disabled value="1%" help="KS Maximum Cap Rp. 480.000,00*" />
+        <Input
+          label="Jaminan Kesehatan (KS)"
+          disabled
+          value={watch('isParticipateBpjs') ? '1%' : '0%'}
+          help="KS Maximum Cap Rp. 120.000,00*"
+        />
       </CardBody>
 
       <CardFooter className="gap-3">

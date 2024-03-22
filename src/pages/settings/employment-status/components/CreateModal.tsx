@@ -2,7 +2,7 @@ import MainModal from '@/components/Elements/MainModal'
 import { organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, Select, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -15,6 +15,7 @@ type CreateModalProps = {
 
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
+  status: yup.number().required().label('Status for employment'),
 })
 
 const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
@@ -26,6 +27,9 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
     register,
     handleSubmit,
     reset,
+    getValues,
+    setValue,
+    trigger,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -59,6 +63,23 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
         <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
+
+        <Select
+          label="Status for employment"
+          labelRequired
+          options={[
+            { label: 'Active', value: 1 },
+            { label: 'Inactive', value: 2 },
+          ]}
+          hideSearch
+          name="status"
+          error={errors.status?.message}
+          value={getValues('status')}
+          onChange={(v) => {
+            setValue('status', Number(v))
+            trigger('status')
+          }}
+        />
 
         <div className="mt-8 flex justify-end gap-3">
           <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>

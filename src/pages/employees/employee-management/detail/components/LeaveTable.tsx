@@ -2,24 +2,23 @@ import MainTable from '@/components/Elements/MainTable'
 import { ImageIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import PreviewImageModal from './PreviewImageModal'
+import { Card } from 'jobseeker-ui'
 
-type TableItem = {
-  requestDate: string
-  startDate: string
-  endDate: string
-  requestType: string
-  department: string
-  branch: string
-  attachment: string
-  notes: string
-  status: string
-}
+const dummyLeave = [
+  {
+    requestDate: '18/03/2024',
+    startDate: '20/03/2024',
+    endDate: '21/03/2024',
+    requestType: 'Annual Leave',
+    department: 'IT',
+    branch: 'Kantor Jobseeker Bali',
+    attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+    notes: 'Cuti Lebaran',
+    status: 'Waiting',
+  },
+]
 
-type TableProps = {
-  items: TableItem[]
-}
-
-const LeaveTable: React.FC<TableProps> = ({ items }) => {
+const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
   const [selectedAttachment, setSelectedAttachment] = useState<string | null>(null)
 
   const handleView = (status: string, attachment: string | null) => {
@@ -40,7 +39,7 @@ const LeaveTable: React.FC<TableProps> = ({ items }) => {
     { children: 'Status', className: 'text-left' },
   ]
 
-  const bodyItems = items.map((item) => ({
+  const bodyItems = dummyLeave.map((item) => ({
     items: [
       {
         children: item.requestDate,
@@ -83,10 +82,10 @@ const LeaveTable: React.FC<TableProps> = ({ items }) => {
   }))
 
   return (
-    <>
+    <Card>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} />
       {selectedAttachment && <PreviewImageModal imageUrl={selectedAttachment} onClose={() => setSelectedAttachment(null)} />}
-    </>
+    </Card>
   )
 }
 

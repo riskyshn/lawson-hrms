@@ -2,7 +2,7 @@ import CreateEmployeePage from '@/pages/employees/employee-management/create/Cre
 import EmployeeDetailPage from '@/pages/employees/employee-management/detail/EmployeeDetailPage'
 import EditEmployeePage from '@/pages/employees/employee-management/edit/EditEmployeePage'
 import EmployeeManagementPage from '@/pages/employees/employee-management/index/EmployeeManagementPage'
-import PreviousEmployeePage from '@/pages/employees/previous-employee/index/PreviousEmployeePage'
+import PreviousEmployeePage from '@/pages/employees/previous-employee/PreviousEmployeePage'
 import type { RouteObject } from 'react-router-dom'
 
 const employeeRoute: RouteObject = {
@@ -37,17 +37,7 @@ const employeeRoute: RouteObject = {
     {
       path: 'previous-employee',
       name: 'Previous Employee',
-      children: [
-        {
-          path: '',
-          element: <PreviousEmployeePage />,
-        },
-        {
-          path: 'create',
-          name: 'Create',
-          element: <CreateEmployeePage />,
-        },
-      ],
+      element: <PreviousEmployeePage />,
     },
   ],
 }

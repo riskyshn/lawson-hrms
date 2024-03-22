@@ -1,9 +1,32 @@
+interface IPreviousEmployee {
+  oid: string
+  employeeId?: string
+  name?: string
+  lastdayAt?: string
+  reasonInactive?: string
+  jobType?: {
+    name?: string
+    oid?: string
+  }
+}
+
+interface IDataTableEmployee {
+  oid: string
+  employeeId?: string
+  name?: string
+  branch?: { oid: string; name?: string }
+  department?: { oid: string; name?: string }
+  position?: { oid: string; name?: string }
+  jobType?: { oid: string; name?: string }
+  jobLevel?: { oid: string; name?: string }
+}
+
 interface IEmployee {
   oid: string
-  employeeId: string
+  employeeId?: string
   name?: string
   email?: string
-  personalData: {
+  personalData?: {
     gender?: {
       name?: string
       oid: string
@@ -29,7 +52,7 @@ interface IEmployee {
     nationIdAddress?: string
     residentalAddress?: string
   }
-  employment: {
+  employment?: {
     branch?: {
       name?: string
       oid: string
@@ -58,8 +81,12 @@ interface IEmployee {
       name?: string
       oid: string
     }
+    role?: {
+      name?: string
+      oid: string
+    }
   }
-  payroll: {
+  payroll?: {
     taxMethod?: string
     baseSalary?: number
     baseSalaryType?: number
@@ -92,7 +119,7 @@ interface IEmployee {
       }
     }
   }
-  components: {
+  components?: {
     benefits?: {
       component?: {
         name?: string
