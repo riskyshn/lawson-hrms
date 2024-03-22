@@ -26,16 +26,9 @@ const renderStatus = (status?: number) => {
   )
 }
 
-const HistoryDetail: React.FC<{
-  id: string
-  index: number
-  seq?: number
-  flag?: number
-  notes?: string
-  name?: string
-  email?: string
-  updatedAt?: string
-}> = ({ id, index, flag, notes, name, updatedAt }) => {
+type HistoryDetailPropType = Exclude<Exclude<IVacancy['approvals'], undefined>['users'], undefined>[0] & { index: number }
+
+const HistoryDetail: React.FC<HistoryDetailPropType> = ({ index, flag, notes, name, updatedAt, createdAt }) => {
   const [show, setShow] = useState(false)
 
   return (
@@ -45,7 +38,7 @@ const HistoryDetail: React.FC<{
         <div>
           <h3 className="flex items-center gap-3 font-semibold">Step {index + 1}</h3>
           <p className="mb-2 text-xs text-gray-500">
-            Sent Date: {updatedAt ? moment(updatedAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
+            Sent Date: {createdAt ? moment(createdAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
             {updatedAt ? moment(updatedAt).format('DD/MM/YYYY') : '-'}
           </p>
           <Button type="button" size="small" color="default" variant="light" className="text-xs" onClick={() => setShow(true)}>
@@ -71,14 +64,14 @@ const HistoryDetail: React.FC<{
                 <h3 className="text-sm font-semibold">Request Sent:</h3>
                 <span className="flex items-center gap-1 text-xs">
                   <TimerIcon size={16} />
-                  {id}
+                  {createdAt ? moment(createdAt).fromNow() : '-'}
                 </span>
               </div>
               <div className="flex-1">
                 <h3 className="text-sm font-semibold">Action Date:</h3>
                 <span className="flex items-center gap-1 text-xs">
                   <TimerIcon size={16} />
-                  {id}
+                  {updatedAt ? moment(updatedAt).fromNow() : '-'}
                 </span>
               </div>
             </div>

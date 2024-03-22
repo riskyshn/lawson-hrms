@@ -104,6 +104,18 @@ interface IVacancy {
       name?: string
       email?: string
       notes?: string
+
+      department?: {
+        id: string
+        name?: string
+      }
+      position?: {
+        id: string
+        name?: string
+      }
+
+      createdAt?: string | null
+      updatedAt?: string | null
     }>
   }
   district?: {
