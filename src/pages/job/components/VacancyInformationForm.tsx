@@ -250,8 +250,28 @@ const VacancyInformationForm: React.FC<{
         <div>
           <InputWrapper label="Range Salary" labelRequired={!getValues('negotiableSalary')} className="mb-2">
             <div className="grid grid-cols-2 gap-3">
-              <InputCurrency placeholder="Minimum" prefix="Rp " error={errors.minimumSalary?.message} {...register('minimumSalary')} />
-              <InputCurrency placeholder="Maximum" prefix="Rp " error={errors.maximumSalary?.message} {...register('maximumSalary')} />
+              <InputCurrency
+                placeholder="Minimum"
+                prefix="Rp "
+                error={errors.minimumSalary?.message}
+                name="minimumSalary"
+                value={getValues('minimumSalary')}
+                onValueChange={(v) => {
+                  setValue('minimumSalary', v || '')
+                  trigger('minimumSalary')
+                }}
+              />
+              <InputCurrency
+                placeholder="Maximum"
+                prefix="Rp "
+                error={errors.maximumSalary?.message}
+                name="maximumSalary"
+                value={getValues('maximumSalary')}
+                onValueChange={(v) => {
+                  setValue('maximumSalary', v || '')
+                  trigger('maximumSalary')
+                }}
+              />
             </div>
           </InputWrapper>
           <div className="flex gap-3 pb-2">

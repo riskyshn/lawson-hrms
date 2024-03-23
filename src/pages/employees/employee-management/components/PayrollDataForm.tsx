@@ -72,6 +72,7 @@ const PayrollDataForm: React.FC<{
     resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
+
   const onSubmit = handleSubmit(props.handleSubmit)
 
   return (
@@ -94,7 +95,18 @@ const PayrollDataForm: React.FC<{
             trigger('taxMethod')
           }}
         />
-        <InputCurrency label="Base Salary" labelRequired prefix="Rp " error={errors.baseSalary?.message} {...register('baseSalary')} />
+        <InputCurrency
+          label="Base Salary"
+          labelRequired
+          prefix="Rp "
+          error={errors.baseSalary?.message}
+          name="baseSalary"
+          value={getValues('baseSalary')}
+          onValueChange={(v) => {
+            setValue('baseSalary', v || '')
+            trigger('baseSalary')
+          }}
+        />
         <Select
           label="Base Salary Type"
           labelRequired

@@ -1,5 +1,3 @@
-import numberToCurrency from '@/utils/number-to-currency'
-
 export function employeeToFormEdit(employee: IEmployee) {
   return {
     personalData: {
@@ -40,7 +38,7 @@ export function employeeToFormEdit(employee: IEmployee) {
       bankName: employee.payroll?.bank?.bankName || '',
       isAllowOvertime: employee.payroll?.allowOvertime ? 1 : 0,
       baseSalaryType: employee.payroll?.baseSalaryType || 0,
-      baseSalary: numberToCurrency(employee.payroll?.baseSalary),
+      baseSalary: employee.payroll?.baseSalary,
       taxMethod: employee.payroll?.taxMethod || '',
     },
     components: {
@@ -48,14 +46,14 @@ export function employeeToFormEdit(employee: IEmployee) {
         componentId: benefit.component?.oid || '',
         taxType: benefit.taxType || 0,
         amountType: benefit.amountType || 0,
-        amount: benefit.amount ? numberToCurrency(benefit.amount) : '0',
+        amount: benefit.amount,
         applicationType: benefit.applicationType || 0,
       })),
       deductions: (employee.components?.deductions || []).map((deduction) => ({
         componentId: deduction.component?.oid || '',
         taxType: deduction.taxType || 0,
         amountType: deduction.amountType || 0,
-        amount: deduction.amount ? numberToCurrency(deduction.amount) : '0',
+        amount: deduction.amount,
         applicationType: deduction.applicationType || 0,
       })),
     },
