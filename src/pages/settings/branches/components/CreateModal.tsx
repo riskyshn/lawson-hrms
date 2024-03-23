@@ -17,7 +17,7 @@ type CreateModalProps = {
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
   address: yup.string().required().label('Address'),
-  longitudeLatitude: yup.string().required().label('Longitude-Latitude'),
+  longlat: yup.string().required().label('Longitude-Latitude'),
   range: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -72,7 +72,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
 
         <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
         <Textarea rows={3} label="Address" labelRequired {...register('address')} />
-        <Input label="Longitude-Latitude" labelRequired {...register('longitudeLatitude')} />
+        <Input label="Longitude-Latitude" labelRequired {...register('longlat')} />
         <Input label="Range" labelRequired {...register('range')} type="number" />
         <AsyncSelect
           label="City"

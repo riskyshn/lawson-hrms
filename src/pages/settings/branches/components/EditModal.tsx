@@ -18,7 +18,7 @@ type EditModalProps = {
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
   address: yup.string().required().label('Address'),
-  longitudeLatitude: yup.string().required().label('Longitude-Latitude'),
+  longlat: yup.string().required().label('Longitude-Latitude'),
   range: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -54,8 +54,8 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       setErrorMessage('')
       setValue('name', item.name || '')
       setValue('address', item.address || '')
-      if (item.coordinate) setValue('longitudeLatitude', `${item.coordinate.coordinates[1]},${item.coordinate.coordinates[0]}`)
-      else setValue('longitudeLatitude', '')
+      if (item.coordinate) setValue('longlat', `${item.coordinate.coordinates[1]},${item.coordinate.coordinates[0]}`)
+      else setValue('longlat', '')
       if (item.range) setValue('range', item.range)
       else setValue('range', 0)
       setValue('cityId', item.city?.oid || '')
@@ -91,7 +91,7 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
 
         <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
         <Textarea rows={3} label="Address" labelRequired {...register('address')} />
-        <Input label="Longitude-Latitude" labelRequired {...register('longitudeLatitude')} />
+        <Input label="Longitude-Latitude" labelRequired {...register('longlat')} />
         <Input label="Range" labelRequired {...register('range')} type="number" />
         <AsyncSelect
           label="City"
