@@ -225,3 +225,9 @@ interface IApproval {
   department?: stirng | null
   branch?: stirng | null
 }
+
+interface IDocumentRequest {
+  oid: string
+  allowedFileTypes: string[]
+  name: string
+}

@@ -199,3 +199,29 @@ export const fetchApproval = (oid: string) => {
 export const createApproval = (employeeIds: string[]) => {
   return axios.post<{ data: { content: IApproval[] } }>(`/approval`, { employeeIds }).then((response) => response.data.data)
 }
+
+/**
+ * Document Request
+ *
+ */
+export const fetchDocumentRequests = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: IPaginationResponse<IDocumentRequest> }>(`/document-request`, { params, signal })
+    .then((response) => response.data.data)
+}
+
+export const fetchDocumentRequest = () => {
+  return axios.get<{ data: IPaginationResponse<IDocumentRequest> }>(`/document-request`).then((response) => response.data.data)
+}
+
+export const createDocumentRequest = (payload: Record<string, any>) => {
+  return axios.post<{ data: IDocumentRequest }>(`/document-request`, payload).then((response) => response.data.data)
+}
+
+export const updateDocumentRequest = (id: string, payload: Record<string, any>) => {
+  return axios.put<{ data: IDocumentRequest }>(`/document-request/${id}`, payload).then((response) => response.data.data)
+}
+
+export const deleteDocumentRequest = (id: string) => {
+  return axios.delete(`/document-request/${id}`).then((response) => response.data.data)
+}

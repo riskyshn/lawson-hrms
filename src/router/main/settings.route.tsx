@@ -3,13 +3,13 @@ import type { RouteObject } from 'react-router-dom'
 import SettingBranchesPage from '@/pages/settings/branches/SettingBranchesPage'
 import SettingsCompanyPage from '@/pages/settings/company/SettingsCompanyPage'
 import SettingDepartmentsPage from '@/pages/settings/departments/SettingDepartmentsPage'
+import SettingDocumentRequestPage from '@/pages/settings/document-request/SettingDocumentRequestPage'
 import SettingEmploymentStatusPage from '@/pages/settings/employment-status/SettingEmploymentStatusPage'
 import SettingJobLevelsPage from '@/pages/settings/job-levels/SettingJobLevelsPage'
+import SettingPermissionsPage from '@/pages/settings/permissions/SettingPermissionsPage'
 import SettingPositionsPage from '@/pages/settings/positions/SettingPositionsPage'
 import SettingRolesPage from '@/pages/settings/roles/SettingRolesPage'
 import SettingWorkPlacementsPage from '@/pages/settings/work-placements/SettingWorkPlacementsPage'
-import SettingsDocumentRequestPage from '@/pages/settings/document-request/index/SettingsDocumentRequestPage'
-import SettingPermissionsPage from '@/pages/settings/permissions/SettingPermissionsPage'
 
 const settingsRoute: RouteObject = {
   path: 'settings',
@@ -48,7 +48,7 @@ const settingsRoute: RouteObject = {
     {
       path: 'document-request',
       name: 'Document Request',
-      element: <SettingsDocumentRequestPage />,
+      element: <SettingDocumentRequestPage />,
     },
     {
       path: 'roles',

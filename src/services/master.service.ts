@@ -81,3 +81,11 @@ export const fetchReligions = () => {
 export const fetchMaritalStatus = () => {
   return axios.get<{ data: { content: Array<IMasterMaritalStatus> } }>(`/marital-status`).then((response) => response.data.data)
 }
+
+/**
+ * File Types
+ *
+ */
+export const fetchFileTypes = () => {
+  return axios.get<{ data: { content: Array<IMasterFileType> } }>(`/filetype`).then((response) => response.data.data)
+}

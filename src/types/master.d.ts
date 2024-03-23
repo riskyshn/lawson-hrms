@@ -49,3 +49,8 @@ interface IMasterMaritalStatus {
   oid: string
   name: string
 }
+
+interface IMasterFileType {
+  extension: string // id
+  name: string
+}

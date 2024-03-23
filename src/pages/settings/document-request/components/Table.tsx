@@ -1,43 +1,36 @@
-import React from 'react'
 import MainTable from '@/components/Elements/MainTable'
+import React from 'react'
 import ActionMenu from './ActionMenu'
 
-type DocumentRequest = {
-  document?: string
-  fileType?: string[]
-}
-
 type TableProps = {
-  items: DocumentRequest[]
-  onSubmitSuccess: () => void
+  items: IDocumentRequest[]
+  loading?: boolean
+  setSelectedToUpdate?: (item: IDocumentRequest) => void
+  onDeleted?: (oid: string) => void
 }
 
-const Table: React.FC<TableProps> = ({ items, onSubmitSuccess }) => {
+const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
   const headerItems = [
     { children: 'Document', className: 'text-left' },
-    { children: 'File Type', className: 'text-left' },
+    { children: 'Allowed File Types', className: 'text-left' },
     { children: 'Action', className: 'w-24' },
   ]
 
-  const bodyItems = items.map((documentRequest, index) => ({
+  const bodyItems = items.map((item, index) => ({
     items: [
       {
-        children: (
-          <>
-            <span className="block">{documentRequest.document}</span>
-          </>
-        ),
+        children: <span className="block font-semibold">{item.name}</span>,
       },
       {
-        children: <span className="block">{documentRequest.fileType?.join(', ')}</span>,
+        children: item.allowedFileTypes.join(', '),
       },
       {
-        children: <ActionMenu key={index} items={documentRequest} onSubmitSuccess={onSubmitSuccess} />,
+        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
       },
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} />
+  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
 }
 
 export default Table
