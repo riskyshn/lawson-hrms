@@ -50,6 +50,7 @@ const CreateEmployeePage = () => {
         },
         payroll: {
           ...payroll,
+          allowOvertime: !!payroll.allowOvertime,
           baseSalary: currencyToNumber(payroll.baseSalary),
         },
         components: {
@@ -58,6 +59,9 @@ const CreateEmployeePage = () => {
           deductions: components.deductions.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount) })),
         },
       }
+
+      delete payload.personalData.name
+      delete payload.personalData.email
 
       await employeeService.createEmployee(payload)
 
