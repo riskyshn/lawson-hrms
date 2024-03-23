@@ -63,7 +63,7 @@ const JobManajementPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, department, status, pagination.currentPage])
+  }, [search, department, status, pagination.currentPage, switchData])
 
   const updateVacancy = useCallback(
     (vacancy: IVacancy) => {
