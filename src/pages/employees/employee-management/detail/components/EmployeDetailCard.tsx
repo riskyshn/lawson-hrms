@@ -1,8 +1,11 @@
-import { Card, CardBody, CardHeader } from 'jobseeker-ui'
-import React from 'react'
+import { Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
+import React, { useState } from 'react'
 import getCategory from '../../utils/get-category'
+import numberToCurrency from '@/utils/number-to-currency'
+import MainModal from '@/components/Elements/MainModal'
 
 const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
+  const [showIdCard, setShowIdCard] = useState(false)
   return (
     <>
       <Card>
@@ -74,7 +77,18 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">National ID</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.personalData?.linkNationalId}</td>
+                <td className="w-full border-y px-3 py-2">
+                  {employee.personalData?.linkNationalId && (
+                    <>
+                      <Button type="button" size="small" color="primary" onClick={() => setShowIdCard(true)}>
+                        Show National ID Image
+                      </Button>
+                      <MainModal show={showIdCard} className="max-w-6xl p-0" onClose={() => setShowIdCard(false)}>
+                        <img src={employee.personalData.linkNationalId} className="block h-full w-full rounded-lg" />
+                      </MainModal>
+                    </>
+                  )}
+                </td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">National ID Number</th>
@@ -175,7 +189,7 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Base Salary</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.baseSalary}</td>
+                <td className="w-full border-y px-3 py-2">{numberToCurrency(employee.payroll?.baseSalary)}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Allow for Overtime</th>
@@ -264,27 +278,29 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr>
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Hari Tua (JHT)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jht || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jht || 3.7}%</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kecelakaan Kerja (JKK)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jkk || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jkk || 0}%</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kematian (JKM)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jkm || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jkm || 0.3}%</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Pensiun (JP)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jp || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jp || 2}%</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kesehatan (JKS)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByCompany?.jks || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">
+                  {employee.payroll?.bpjs?.paidByCompany?.jks || employee.payroll?.participateBpjs ? 4 : 0}%
+                </td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left" colSpan={3}>
@@ -294,17 +310,19 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr>
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Hari Tua (JHT)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByEmployee?.jht || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByEmployee?.jht || 2}%</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Pensiun (JP)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByEmployee?.jp || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByEmployee?.jp || 1}%</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kesehatan (JKS)</th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{employee.payroll?.bpjs?.paidByEmployee?.jks || 'N/A'}</td>
+                <td className="w-full border-y px-3 py-2">
+                  {employee.payroll?.bpjs?.paidByEmployee?.jks || employee.payroll?.participateBpjs ? 4 : 0}%
+                </td>
               </tr>
             </tbody>
           </table>
