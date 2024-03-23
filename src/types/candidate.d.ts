@@ -34,4 +34,6 @@ interface ICandidate {
   matchPercentage?: number
   rejectReason?: string
   withdrawReason?: string
+  vacancyId?: string
+  vacancyName?: string
 }
