@@ -67,7 +67,7 @@ const VacancyInformationForm: React.FC<{
     negotiableSalary: yup.boolean().required(),
     other: yup.string().required().label('Task, Responsibility & Others'),
     approvals: yup
-      .array(yup.string().required())
+      .array(yup.string().required().label('Approval'))
       .min(1)
       .when('isRequisition', {
         is: true,
