@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
-import { candidateService } from '@/services'
+import { candidateService, masterService } from '@/services'
 
 type BlacklistModalProps = {
   show: boolean
@@ -12,8 +12,25 @@ type BlacklistModalProps = {
 
 const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
   const [selectReasonId, setSelectReasonId] = useState<string | number>('')
+  const [reasonBlacklist, setReasonBlacklist] = useState<any[]>([])
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    fetchReasonBlacklist()
+  }, [])
+
+  const fetchReasonBlacklist = async () => {
+    const payload = {
+      type: 'blacklist',
+    }
+    try {
+      const data = await masterService.fetchReason(payload)
+      setReasonBlacklist(data.content)
+    } catch (error) {
+      console.error('Error fetching reason:', error)
+    }
+  }
 
   const handleChange = (selectedValue: string | number) => {
     setSelectReasonId(selectedValue)
@@ -24,10 +41,14 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidat
       return
     }
 
+    const selectedReason = reasonBlacklist.find((reason) => reason.oid === selectReasonId)
+
+    const { oid, name } = selectedReason
+
     const payload = {
       applicantId: candidate.id,
-      blacklistReasonId: candidate.blacklistReasonId,
-      blacklistReason: candidate.blacklistReason,
+      blacklistReasonId: oid,
+      blacklistReason: name,
     }
 
     setLoading(true)
@@ -55,7 +76,7 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidat
       <Select
         label="Select Reason"
         placeholder="Underqualified, Salary Expectation Too High"
-        options={[]}
+        options={reasonBlacklist.map((reason) => ({ value: reason.oid, label: reason.name }))}
         className="mb-3"
         value={selectReasonId}
         onChange={handleChange}

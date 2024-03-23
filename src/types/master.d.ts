@@ -54,3 +54,8 @@ interface IMasterFileType {
   extension: string // id
   name: string
 }
+
+interface IMasterReason {
+  name: string
+  oid: string
+}

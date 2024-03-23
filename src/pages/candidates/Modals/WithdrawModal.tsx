@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
-import { candidateService } from '@/services'
+import { candidateService, masterService } from '@/services'
 
 type WithdrawModalProps = {
   show: boolean
@@ -14,7 +14,23 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
   const [selectReasonId, setSelectReasonId] = useState<string | number>('')
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
+  const [reasonWithdraw, setReasonWithdraw] = useState<any[]>([])
 
+  useEffect(() => {
+    fetchReasonWithdraw()
+  }, [])
+
+  const fetchReasonWithdraw = async () => {
+    const payload = {
+      type: 'withdraw',
+    }
+    try {
+      const data = await masterService.fetchReason(payload)
+      setReasonWithdraw(data.content)
+    } catch (error) {
+      console.error('Error fetching reason:', error)
+    }
+  }
   const handleChange = (selectedValue: string | number) => {
     setSelectReasonId(selectedValue)
   }
@@ -24,10 +40,14 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
       return
     }
 
+    const selectedReason = reasonWithdraw.find((reason) => reason.oid === selectReasonId)
+
+    const { oid, name } = selectedReason
+
     const payload = {
       applicantId: candidate.id,
-      withdrawReasonId: candidate.blacklistReasonId,
-      withdrawReason: candidate.blacklistReason,
+      withdrawReasonId: oid,
+      withdrawReason: name,
     }
 
     setLoading(true)
@@ -55,7 +75,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
       <Select
         label="Select Reason"
         placeholder="Underqualified, Salary Expectation Too High"
-        options={[]}
+        options={reasonWithdraw.map((reason) => ({ value: reason.oid, label: reason.name }))}
         className="mb-3"
         value={selectReasonId}
         onChange={handleChange}
