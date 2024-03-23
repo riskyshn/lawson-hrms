@@ -103,5 +103,5 @@ export const moveToAnotherVacancy = (payload: Record<string, any>) => {
 }
 
 export const applyVacancy = (payload: Record<string, any>) => {
-  return axios.post<{ data: ICandidate }>(`/applicant/apply`, payload).then((response) => response.data.data)
+  return axios.post<{ data: ICandidate }>(`/basic/apply`, payload).then((response) => response.data.data)
 }

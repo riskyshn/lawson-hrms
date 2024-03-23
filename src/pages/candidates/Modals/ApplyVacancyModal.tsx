@@ -40,8 +40,10 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
 
     const payload = {
       vacancyId: selectedVacancyId,
-      source: candidate.source,
+      candidateId: candidate.id,
     }
+
+    console.log(payload)
 
     setLoading(true)
     candidateService
