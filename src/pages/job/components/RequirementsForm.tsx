@@ -297,7 +297,12 @@ const RequirementsForm: React.FC<{
             prefix="Rp "
             className="mb-2"
             error={errors.maximumSalaryRequirement?.message}
-            {...register('maximumSalaryRequirement')}
+            name="maximumSalaryRequirement"
+            value={getValues('maximumSalaryRequirement')}
+            onValueChange={(v) => {
+              setValue('maximumSalaryRequirement', v || '')
+              trigger('maximumSalaryRequirement')
+            }}
           />
           <InputCheckbox id="maximum-salary-expectation-required" {...register('isRequiredMaximumSalaryRequirement')}>
             Candidate must meet the criteria

@@ -1,5 +1,3 @@
-import numberToCurrency from '@/utils/number-to-currency'
-
 export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
   return {
     vacancyInformation: {
@@ -12,8 +10,8 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       workplacementTypeId: vacancy.workplacementType?.id || '',
       cityId: vacancy.city?.id || '',
       numberOfEmployeeNeeded: vacancy.numberOfEmployeeNeeded || 0,
-      minimumSalary: numberToCurrency(vacancy.minimumSalary),
-      maximumSalary: numberToCurrency(vacancy.maximumSalary),
+      minimumSalary: vacancy.minimumSalary,
+      maximumSalary: vacancy.maximumSalary,
       hideRangeSalary: !!vacancy.hideRangeSalary,
       negotiableSalary: !!vacancy.negotiableSalary,
       other: vacancy.other || '',
@@ -40,7 +38,7 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       isRequiredCityRequirement: !!vacancy.cityRequirement?.mustMeetCriteria,
       provinceRequirementId: vacancy.provinceRequirement?.id || '',
       isRequiredProvinceRequirement: !!vacancy.provinceRequirement?.mustMeetCriteria,
-      maximumSalaryRequirement: numberToCurrency(vacancy.maximumSalaryRequirement?.maximumSalary),
+      maximumSalaryRequirement: vacancy.maximumSalaryRequirement?.maximumSalary,
       isRequiredMaximumSalaryRequirement: !!vacancy.maximumSalaryRequirement?.mustMeetCriteria,
     },
   }

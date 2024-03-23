@@ -8,6 +8,8 @@ import { ImageIcon, UploadCloudIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { ChangeEvent, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+import MainModal from './MainModal'
+import { Button } from 'jobseeker-ui'
 
 interface ImageUploaderProps {
   value?: string
@@ -25,6 +27,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, onStart, on
   const [estimatedTimeRemaining, setEstimatedTimeRemaining] = useState('')
   const [uploading, setUploading] = useState(false)
   const [controller, setController] = useState<AbortController | null>(null)
+
+  const [showIdCard, setShowIdCard] = useState(false)
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -87,9 +91,21 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, onStart, on
         error ? 'border-error-600 bg-error-50' : 'border-gray-300 bg-gray-50',
       )}
     >
-      <div className="flex aspect-video h-full items-center justify-center rounded-lg bg-gray-200 text-gray-400">
+      <div className="relative flex aspect-video h-full items-center justify-center rounded-lg bg-gray-200 text-gray-400">
         {!valueValidUrl && <ImageIcon className="block h-6 w-6 md:h-12 md:w-12" />}
-        {valueValidUrl && <img alt={value} src={value} className="block h-full w-full rounded-lg object-contain" />}
+        {valueValidUrl && (
+          <>
+            <div className="absolute inset-0 z-[2] flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100">
+              <Button type="button" color="primary" className="border-0 bg-white" variant="light" onClick={() => setShowIdCard(true)}>
+                Preview
+              </Button>
+            </div>
+            <MainModal show={showIdCard} className="max-w-6xl p-0" onClose={() => setShowIdCard(false)}>
+              <img src={value} className="block h-full w-full rounded-lg" alt={value} />
+            </MainModal>
+            <img alt={value} src={value} className="block h-full w-full rounded-lg object-contain" />
+          </>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center rounded-lg py-5">

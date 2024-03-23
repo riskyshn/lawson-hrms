@@ -15,6 +15,7 @@ interface MasterStore {
   genders: Array<IMasterGender>
   religions: Array<IMasterReligion>
   maritalStatus: Array<IMasterMaritalStatus>
+  fileTypes: Array<IMasterFileType>
 
   init: () => Promise<void>
   refresh: () => Promise<void>
@@ -35,17 +36,19 @@ export const useMasterStore = create<MasterStore>((set, get) => ({
   genders: [],
   religions: [],
   maritalStatus: [],
+  fileTypes: [],
 
   init: async () => {
     await get().refresh()
   },
 
   refresh: async () => {
-    const [educatioLevels, genders, religions, maritalStatus] = await Promise.all([
+    const [educatioLevels, genders, religions, maritalStatus, fileTypes] = await Promise.all([
       masterService.fetchEducationLevel(),
       masterService.fetchGenders(),
       masterService.fetchReligions(),
       masterService.fetchMaritalStatus(),
+      masterService.fetchFileTypes(),
     ])
 
     set({
@@ -53,6 +56,7 @@ export const useMasterStore = create<MasterStore>((set, get) => ({
       genders: genders.content,
       religions: religions.content,
       maritalStatus: maritalStatus.content,
+      fileTypes: fileTypes.content,
     })
   },
 
@@ -66,6 +70,10 @@ export const useMasterStore = create<MasterStore>((set, get) => ({
         subDistricts: [],
       },
       educatioLevels: [],
+      genders: [],
+      religions: [],
+      maritalStatus: [],
+      fileTypes: [],
     })
   },
 

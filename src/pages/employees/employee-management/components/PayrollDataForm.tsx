@@ -14,7 +14,7 @@ const schema = yup.object({
     .transform((value) => (isNaN(value) ? undefined : value))
     .required()
     .label('Base Salary Type'),
-  isAllowOvertime: yup
+  allowOvertime: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
     .required()
@@ -29,7 +29,7 @@ const schema = yup.object({
     .label('Employment Tax Status'),
   npwpNumber: yup.string().required().label('NPWP Number'),
   ptkpStatus: yup.string().required().label('PTKP Status'),
-  isParticipateBpjs: yup.boolean(),
+  participateBpjs: yup.boolean(),
   jkk: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -72,6 +72,7 @@ const PayrollDataForm: React.FC<{
     resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
+
   const onSubmit = handleSubmit(props.handleSubmit)
 
   return (
@@ -94,7 +95,18 @@ const PayrollDataForm: React.FC<{
             trigger('taxMethod')
           }}
         />
-        <InputCurrency label="Base Salary" labelRequired prefix="Rp " error={errors.baseSalary?.message} {...register('baseSalary')} />
+        <InputCurrency
+          label="Base Salary"
+          labelRequired
+          prefix="Rp "
+          error={errors.baseSalary?.message}
+          name="baseSalary"
+          value={getValues('baseSalary')}
+          onValueChange={(v) => {
+            setValue('baseSalary', v || '')
+            trigger('baseSalary')
+          }}
+        />
         <Select
           label="Base Salary Type"
           labelRequired
@@ -113,12 +125,12 @@ const PayrollDataForm: React.FC<{
           labelRequired
           options={options.allowOvertime}
           hideSearch
-          name="isAllowOvertime"
-          error={errors.isAllowOvertime?.message}
-          value={getValues('isAllowOvertime')}
+          name="allowOvertime"
+          error={errors.allowOvertime?.message}
+          value={getValues('allowOvertime')}
           onChange={(v) => {
-            setValue('isAllowOvertime', Number(v))
-            trigger('isAllowOvertime')
+            setValue('allowOvertime', Number(v))
+            trigger('allowOvertime')
           }}
         />
       </CardBody>
@@ -204,11 +216,11 @@ const PayrollDataForm: React.FC<{
               label="Jaminan Kesehatan (KS)"
               disabled
               required
-              value={watch('isParticipateBpjs') ? '4%' : '0%'}
+              value={watch('participateBpjs') ? '4%' : '0%'}
               help="KS Maximum Cap Rp. 480.000,00*"
             />
           </div>
-          <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('isParticipateBpjs')}>
+          <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('participateBpjs')}>
             Employee will not participate in BPJS KS Program{' '}
             <span className="text-gray-300">
               <HelpCircleIcon size={16} />
@@ -226,7 +238,7 @@ const PayrollDataForm: React.FC<{
         <Input
           label="Jaminan Kesehatan (KS)"
           disabled
-          value={watch('isParticipateBpjs') ? '1%' : '0%'}
+          value={watch('participateBpjs') ? '1%' : '0%'}
           help="KS Maximum Cap Rp. 120.000,00*"
         />
       </CardBody>

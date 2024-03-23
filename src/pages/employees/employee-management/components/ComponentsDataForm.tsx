@@ -29,12 +29,12 @@ const ComponentsDataForm: React.FC<{
   isEdit?: boolean
 }> = (props) => {
   const {
-    register,
     handleSubmit,
     formState: { errors },
     setValue,
     getValues,
     watch,
+    trigger,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -110,7 +110,12 @@ const ComponentsDataForm: React.FC<{
                 labelRequired
                 prefix="Rp "
                 error={errors.benefits?.[i]?.amount?.message}
-                {...register(`benefits.${i}.amount`)}
+                name={`benefits.${i}.amount`}
+                value={getValues(`benefits.${i}.amount`)}
+                onValueChange={(v) => {
+                  setValue(`benefits.${i}.amount`, v || '')
+                  trigger(`benefits.${i}.amount`)
+                }}
               />
               <Select
                 label="Application Type"
@@ -181,7 +186,12 @@ const ComponentsDataForm: React.FC<{
                 labelRequired
                 prefix="Rp "
                 error={errors.deductions?.[i]?.amount?.message}
-                {...register(`deductions.${i}.amount`)}
+                name={`deductions.${i}.amount`}
+                value={getValues(`deductions.${i}.amount`)}
+                onValueChange={(v) => {
+                  setValue(`deductions.${i}.amount`, v || '')
+                  trigger(`deductions.${i}.amount`)
+                }}
               />
               <Select
                 label="Application Type"

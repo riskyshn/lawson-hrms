@@ -1,29 +1,24 @@
-import { vacancyService } from '@/services'
-import { Skeleton } from 'jobseeker-ui'
 import React, { memo, useEffect, useState } from 'react'
+import { Skeleton } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
+import { vacancyService } from '@/services'
 
-const Card: React.FC<{ label: string; value: number | string; background?: string; color?: string; border?: string }> = ({
-  value,
-  label,
-  background,
-  color,
-  border,
-}) => (
-  <div
-    className={twJoin(
-      'flex flex-col items-center justify-center rounded-lg  px-3 py-4 text-center',
-      color,
-      border ? border : 'border',
-      background ? background : 'bg-white',
-    )}
-  >
+const Card: React.FC<{
+  label: string
+  value: number | string
+  className?: string
+}> = ({ value, label, className = 'bg-white' }) => (
+  <div className={twJoin('flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center', className)}>
     <span className="mb-2 block text-2xl font-semibold">{value}</span>
     <span className="block text-xs">{label}</span>
   </div>
 )
 
-const StatisticCards: React.FC<{ isRequisition?: boolean; switchData?: boolean }> = ({ isRequisition, switchData }) => {
+const StatisticCards: React.FC<{ isRequisition?: boolean; light?: boolean; switchData?: boolean }> = ({
+  isRequisition,
+  switchData,
+  light,
+}) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<Record<string, number> | null>(null)
   const [error, setError] = useState<any>(null)
@@ -48,97 +43,50 @@ const StatisticCards: React.FC<{ isRequisition?: boolean; switchData?: boolean }
     }
     if (!data) return null
 
-    const cardData = isRequisition
+    let cardData = isRequisition
       ? [
-          {
-            label: 'Total Requisition Posted',
-            value: data.published,
-            background: 'bg-jsc-secondary',
-            color: 'text-white',
-            border: 'border border-gray-100',
-          },
-          {
-            label: 'Approved Requisition',
-            value: data.approved,
-            background: 'bg-green-700',
-            color: 'text-green-50',
-            border: 'border border-green-100',
-          },
-          {
-            label: 'Waiting for Approval',
-            value: data.progress,
-            background: 'bg-amber-600',
-            color: 'text-amber-50',
-            border: 'border border-amber-100',
-          },
-          {
-            label: 'Requisition Rejected',
-            value: data.rejected,
-            background: 'bg-rose-700',
-            color: 'text-rose-50',
-            border: 'border border-rose-100',
-          },
-          {
-            label: 'Requisition Canceled',
-            value: data.canceled,
-            background: 'bg-red-700',
-            color: 'text-red-50',
-            border: 'border border-red-100',
-          },
-          { label: 'Draft', value: data.draft, background: 'bg-gray-200', color: 'text-gray-700', border: 'border border-gray-100' },
+          { label: 'Total Requisition Posted', value: data.published, className: 'text-white bg-indigo-600' },
+          { label: 'Approved Requisition', value: data.approved, className: 'text-white bg-green-600' },
+          { label: 'Waiting for Approval', value: data.progress, className: 'text-white bg-amber-600' },
+          { label: 'Requisition Rejected', value: data.rejected, className: 'text-white bg-rose-600' },
+          { label: 'Requisition Canceled', value: data.canceled, className: 'text-white bg-red-600' },
+          { label: 'Draft', value: data.draft, className: 'text-white bg-gray-600' },
         ]
       : [
-          {
-            label: 'Total Job Posted',
-            value: data.all,
-            background: 'bg-jsc-secondary',
-            color: 'text-white',
-            border: 'border border-jsc-secondary/5',
-          },
-          {
-            label: 'Active Jobs',
-            value: data.active,
-            background: 'bg-green-700',
-            color: 'text-green-50',
-            border: 'border border-green-100',
-          },
-          {
-            label: 'Inactive Jobs',
-            value: data.inactive,
-            background: 'bg-rose-700',
-            color: 'text-rose-50',
-            border: 'border border-rose-100',
-          },
-          {
-            label: 'Fulfilled Jobs',
-            value: data.fulfilled,
-            background: 'bg-purple-700',
-            color: 'text-purple-50',
-            border: 'border border-purple-100',
-          },
-          {
-            label: 'Draft Jobs',
-            value: data.draft,
-            background: 'bg-indigo-700',
-            color: 'text-indigo-50',
-            border: 'border border-indigo-100',
-          },
-          {
-            label: 'Expired Jobs',
-            value: data.expired,
-            background: 'bg-gray-200',
-            color: 'text-gray-700',
-            border: 'border border-gray-100',
-          },
+          { label: 'Total Job Posted', value: data.all, className: 'text-white bg-indigo-600' },
+          { label: 'Active Jobs', value: data.active, className: 'text-white bg-green-600' },
+          { label: 'Inactive Jobs', value: data.inactive, className: 'text-white bg-rose-600' },
+          { label: 'Fulfilled Jobs', value: data.fulfilled, className: 'text-white bg-purple-600' },
+          { label: 'Draft Jobs', value: data.draft, className: 'text-white bg-indigo-600' },
+          { label: 'Expired Jobs', value: data.expired, className: 'text-white bg-gray-600' },
         ]
+
+    if (light) {
+      cardData = isRequisition
+        ? [
+            { label: 'Total Requisition Posted', value: data.published, className: 'bg-indigo-100 text-indigo-700' },
+            { label: 'Approved Requisition', value: data.approved, className: 'bg-green-100 text-green-700' },
+            { label: 'Waiting for Approval', value: data.progress, className: 'bg-amber-100 text-amber-700' },
+            { label: 'Requisition Rejected', value: data.rejected, className: 'bg-rose-100 text-rose-700' },
+            { label: 'Requisition Canceled', value: data.canceled, className: 'bg-red-100 text-red-700' },
+            { label: 'Draft', value: data.draft, className: 'bg-gray-200 text-gray-700' },
+          ]
+        : [
+            { label: 'Total Job Posted', value: data.all, className: 'bg-indigo-100 text-indigo-700' },
+            { label: 'Active Jobs', value: data.active, className: 'bg-green-100 text-green-700' },
+            { label: 'Inactive Jobs', value: data.inactive, className: 'bg-rose-100 text-rose-700' },
+            { label: 'Fulfilled Jobs', value: data.fulfilled, className: 'bg-purple-100 text-purple-700' },
+            { label: 'Draft Jobs', value: data.draft, className: 'bg-indigo-100 text-indigo-700' },
+            { label: 'Expired Jobs', value: data.expired, className: 'bg-gray-200 text-gray-700' },
+          ]
+    }
 
     return cardData.map((rest, index) => <Card key={index} {...rest} />)
   }
 
   return (
     <div className={twJoin('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6')}>
-      {!loading && renderCards()}
-      {loading && <Skeleton className="h-[90px]" count={6} />}
+      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={6} />}
     </div>
   )
 }

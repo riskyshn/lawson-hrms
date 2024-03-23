@@ -67,7 +67,7 @@ const VacancyInformationForm: React.FC<{
     negotiableSalary: yup.boolean().required(),
     other: yup.string().required().label('Task, Responsibility & Others'),
     approvals: yup
-      .array(yup.string().required())
+      .array(yup.string().required().label('Approval'))
       .min(1)
       .when('isRequisition', {
         is: true,
@@ -250,8 +250,28 @@ const VacancyInformationForm: React.FC<{
         <div>
           <InputWrapper label="Range Salary" labelRequired={!getValues('negotiableSalary')} className="mb-2">
             <div className="grid grid-cols-2 gap-3">
-              <InputCurrency placeholder="Minimum" prefix="Rp " error={errors.minimumSalary?.message} {...register('minimumSalary')} />
-              <InputCurrency placeholder="Maximum" prefix="Rp " error={errors.maximumSalary?.message} {...register('maximumSalary')} />
+              <InputCurrency
+                placeholder="Minimum"
+                prefix="Rp "
+                error={errors.minimumSalary?.message}
+                name="minimumSalary"
+                value={getValues('minimumSalary')}
+                onValueChange={(v) => {
+                  setValue('minimumSalary', v || '')
+                  trigger('minimumSalary')
+                }}
+              />
+              <InputCurrency
+                placeholder="Maximum"
+                prefix="Rp "
+                error={errors.maximumSalary?.message}
+                name="maximumSalary"
+                value={getValues('maximumSalary')}
+                onValueChange={(v) => {
+                  setValue('maximumSalary', v || '')
+                  trigger('maximumSalary')
+                }}
+              />
             </div>
           </InputWrapper>
           <div className="flex gap-3 pb-2">
