@@ -128,7 +128,7 @@ const PersonalDataForm: React.FC<{
             labelRequired
             placeholder="Choose City"
             fetcher={masterService.fetchCities}
-            converter={(data: any) => data.map((el: any) => ({ label: `${el.name}, ${el.province}`, value: `${el.name}, ${el.province}` }))}
+            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.name }))}
             name="cityId"
             error={errors.cityOfBirth?.message}
             value={getValues('cityOfBirth')}
