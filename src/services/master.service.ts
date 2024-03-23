@@ -9,6 +9,10 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
+type FetchReasonParams = IPaginationParam & {
+  type: string
+}
+
 /**
  * Area
  *
@@ -88,4 +92,12 @@ export const fetchMaritalStatus = () => {
  */
 export const fetchFileTypes = () => {
   return axios.get<{ data: { content: Array<IMasterFileType> } }>(`/filetype`).then((response) => response.data.data)
+}
+
+/**
+ * Reason
+ *
+ */
+export const fetchReason = (params?: FetchReasonParams, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<IMasterReason> }>(`/reason`, { params, signal }).then((response) => response.data.data)
 }

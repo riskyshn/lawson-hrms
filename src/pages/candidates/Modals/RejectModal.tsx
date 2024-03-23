@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
-import { candidateService } from '@/services'
+import { candidateService, masterService } from '@/services'
 
 type RejectModalProps = {
   show: boolean
@@ -14,6 +14,23 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
   const [selectReasonId, setSelectReasonId] = useState<string | number>('')
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
+  const [reasonReject, setReasonReject] = useState<any[]>([])
+
+  useEffect(() => {
+    fetchReasonReject()
+  }, [])
+
+  const fetchReasonReject = async () => {
+    const payload = {
+      type: 'reject',
+    }
+    try {
+      const data = await masterService.fetchReason(payload)
+      setReasonReject(data.content)
+    } catch (error) {
+      console.error('Error fetching reason:', error)
+    }
+  }
 
   const handleChange = (selectedValue: string | number) => {
     setSelectReasonId(selectedValue)
@@ -24,10 +41,14 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
       return
     }
 
+    const selectedReason = reasonReject.find((reason) => reason.oid === selectReasonId)
+
+    const { oid, name } = selectedReason
+
     const payload = {
       applicantId: candidate.id,
-      rejectReasonId: candidate.rejectReasonId,
-      rejectReason: candidate.rejectReason,
+      rejectReasonId: oid,
+      rejectReason: name,
     }
 
     setLoading(true)
@@ -55,7 +76,7 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
       <Select
         label="Select Reason"
         placeholder="Underqualified, Salary Expectation Too High"
-        options={[]}
+        options={reasonReject.map((reason) => ({ value: reason.oid, label: reason.name }))}
         className="mb-3"
         value={selectReasonId}
         onChange={handleChange}
