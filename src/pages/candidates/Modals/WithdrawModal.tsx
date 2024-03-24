@@ -58,8 +58,9 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
         const newData = new Date().toISOString()
         onApplyVacancy(newData)
       })
-      .catch(() => {
-        toast('An error occurred while withdraw.', { color: 'error' })
+      .catch((error: any) => {
+        const errorMessage = error.response?.data?.meta?.message || error.message
+        toast(errorMessage, { color: 'error', position: 'top-right' })
       })
       .finally(() => {
         setLoading(false)
