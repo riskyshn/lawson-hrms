@@ -43,7 +43,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
 
     switch (option) {
       case 'Move to Another Vacancy':
-      case 'Apply Vacancy':
+      case 'Apply to Vacancy':
       case 'Process':
       case 'View History':
       case 'Send Reminder':
@@ -107,7 +107,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         )
       case 'Send Reminder':
         return <SendReminderModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'Apply Vacancy':
+      case 'Apply to Vacancy':
         return (
           <ApplyVacancyModal
             show={showOptionModal}
@@ -166,7 +166,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
                   {option === 'Move to Another Vacancy' && (
                     <SendToBackIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
-                  {option === 'Apply Vacancy' && (
+                  {option === 'Apply to Vacancy' && (
                     <CopyPlusIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
                   {option === 'Shortlist' && <BookUserIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
