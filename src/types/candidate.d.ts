@@ -1,6 +1,7 @@
 interface ICandidate {
   id: string
   candidateId?: string
+  vacancyId?: string
   email?: string
   name?: string
   position?: string

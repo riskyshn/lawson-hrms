@@ -1,63 +1,104 @@
-import React from 'react'
-import { Button, BaseInput, InputRadio } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
-import { SearchIcon } from 'lucide-react'
+import { vacancyService } from '@/services'
+import { useOrganizationStore } from '@/store'
+import { axiosErrorMessage } from '@/utils/axios'
+import { Alert, Button, InputRadio, Spinner, useToast } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
 
 type ProcessModalProps = {
   show: boolean
   onClose: () => void
-  candidate: any
+  candidate?: ICandidate
 }
 
-const data = [
-  {
-    title: 'Interview',
-    options: [
-      { id: 'interviewHR', name: 'interview', value: 'hr', label: 'Interview HR' },
-      { id: 'interviewUser1', name: 'interview', value: 'user1', label: 'Interview User 1' },
-      { id: 'interviewUser2', name: 'interview', value: 'user2', label: 'Interview User 2' },
-    ],
-  },
-  {
-    title: 'Assessment',
-    options: [
-      { id: 'assessmentPsychological', name: 'assessment', value: 'hr', label: 'Psychological Assessment' },
-      { id: 'assessmentTechnical', name: 'assessment', value: 'user1', label: 'Technical Assessment' },
-    ],
-  },
-]
+const ProcessModal: React.FC<ProcessModalProps> = ({ show, candidate, onClose }) => {
+  const [stages, setStages] = useState<{ interviews: IRecruitmentStage[]; assesments: IRecruitmentStage[] }>()
 
-const ProcessModal: React.FC<ProcessModalProps> = ({ show, onClose }) => {
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const { recruitmentStages } = useOrganizationStore()
+  const toast = useToast()
+
+  useEffect(() => {
+    const load = async (vacancyId: string) => {
+      try {
+        const vacancy = await vacancyService.fetchVacancyDetail(vacancyId)
+        const processIds = vacancy.recruitmentProcess?.map((el) => el.id) || []
+        const stages = recruitmentStages.filter((el) => processIds.includes(el.oid))
+
+        const interviews = stages.filter((el) => el.type == 'INTERVIEW')
+        const assesments = stages.filter((el) => el.type == 'ASSESMENT')
+        setStages({ interviews, assesments })
+      } catch (e) {
+        toast(axiosErrorMessage(e))
+        onClose()
+      }
+    }
+
+    if (candidate?.vacancyId) load(candidate.vacancyId)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [candidate])
+
+  const handleNext = async () => {
+    setLoading(true)
+    try {
+      throw new Error('Endpoint api belum ada! untuk informasi lebih lanjut segerah hubungi mas akbar.')
+    } catch (e) {
+      setErrorMessage(axiosErrorMessage(e))
+    }
+    setLoading(false)
+  }
+
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
-      <div className="mb-3">
-        <h3 className="mb-5 text-lg font-semibold">Process Update</h3>
-        <p className="text-xs text-gray-500">Please select the process stage</p>
-        <div className="relative flex flex-1">
-          <BaseInput type="text" placeholder="Search Stage" className="peer w-full rounded-r-none" />
-          <Button iconOnly color="primary" className="rounded-l-none">
-            <SearchIcon size={16} />
-          </Button>
-        </div>
+    <MainModal className="max-w-xl" show={show} onClose={onClose}>
+      <div className="mb-4">
+        <h4 className="mb-2 text-2xl font-semibold">Process Update</h4>
+        <p className="text-xs">Please select the process stage</p>
       </div>
-      {data.map((section, index) => (
-        <div className="mb-3" key={index}>
-          <h6 className="mb-2 text-sm font-semibold">{section.title}</h6>
-          {section.options.map((option, idx) => (
-            <InputRadio className="mb-2" key={idx} id={option.id} name={option.name} value={option.value}>
-              {option.label}
-            </InputRadio>
-          ))}
+
+      {stages && (
+        <>
+          {errorMessage && (
+            <Alert color="error" className="mb-3">
+              {errorMessage}
+            </Alert>
+          )}
+
+          <div className="mb-3">
+            <h6 className="mb-2 text-sm font-semibold">Interview</h6>
+            {stages.interviews.map((option, index) => (
+              <InputRadio className="mb-2" key={index} id={option.oid} name="stageId" value={option.type}>
+                {option.name}
+              </InputRadio>
+            ))}
+          </div>
+
+          <div className="mb-3">
+            <h6 className="mb-2 text-sm font-semibold">Assesment</h6>
+            {stages.assesments.map((option, index) => (
+              <InputRadio className="mb-2" key={index} id={option.oid} name="stageId" value={option.type}>
+                {option.name}
+              </InputRadio>
+            ))}
+          </div>
+          <div className="mt-8 flex justify-end gap-3">
+            <Button type="button" color="error" variant="light" className="w-24" disabled={loading} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="button" color="primary" className="w-24" disabled={loading} loading={loading} onClick={handleNext}>
+              Next
+            </Button>
+          </div>
+        </>
+      )}
+
+      {!stages && (
+        <div className="flex items-center justify-center py-48">
+          <Spinner height={40} className="text-primary-600" />
         </div>
-      ))}
-      <div className="mt-8 flex justify-between">
-        <Button onClick={onClose} color="primary" variant="light" className="mr-2 w-1/2">
-          Cancel
-        </Button>
-        <Button color="primary" className="ml-2 w-1/2">
-          Next
-        </Button>
-      </div>
+      )}
     </MainModal>
   )
 }
