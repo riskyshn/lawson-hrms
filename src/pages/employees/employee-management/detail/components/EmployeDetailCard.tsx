@@ -326,7 +326,7 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Jaminan Kesehatan (JKS)</th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="w-full border-y px-3 py-2">
-                  {employee.payroll?.bpjs?.paidByEmployee?.jks || employee.payroll?.participateBpjs ? 4 : 0}%
+                  {employee.payroll?.bpjs?.paidByEmployee?.jks || employee.payroll?.participateBpjs ? 1 : 0}%
                 </td>
               </tr>
             </tbody>
