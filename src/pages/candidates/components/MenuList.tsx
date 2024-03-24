@@ -62,8 +62,9 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
             const newData = new Date().toISOString()
             onApplyVacancy(newData)
           })
-          .catch(() => {
-            toast('An error occurred while unblacklist.', { color: 'error' })
+          .catch((error: any) => {
+            const errorMessage = error.response?.data?.meta?.message || error.message
+            toast(errorMessage, { color: 'error', position: 'top-right' })
           })
         break
 
@@ -75,8 +76,9 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         }
         candidateService
           .createShortlist(payload)
-          .catch(() => {
-            toast('An error occurred while shortlist.', { color: 'error' })
+          .catch((error: any) => {
+            const errorMessage = error.response?.data?.meta?.message || error.message
+            toast(errorMessage, { color: 'error', position: 'top-right' })
           })
           .finally(() => {
             toast('shortlist successfully.', { color: 'success' })
