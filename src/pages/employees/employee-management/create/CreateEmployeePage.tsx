@@ -1,5 +1,6 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
+import { employeeService } from '@/services'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -7,9 +8,7 @@ import ComponentsDataForm from '../components/ComponentsDataForm'
 import EmploymentDataForm from '../components/EmploymentDataForm'
 import PayrollDataForm from '../components/PayrollDataForm'
 import PersonalDataForm from '../components/PersonalDataForm'
-import moment from 'moment'
-import currencyToNumber from '@/utils/currency-to-number'
-import { employeeService } from '@/services'
+import formDataToPayload from '../utils/form-data-to-payload'
 
 const CreateEmployeePage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
@@ -38,32 +37,7 @@ const CreateEmployeePage = () => {
     setIsSubmitLoading(true)
 
     try {
-      const { personalData, payroll, components } = data
-
-      const payload = {
-        name: personalData.name,
-        email: personalData.email,
-        ...data,
-        personalData: {
-          ...personalData,
-          birthDate: moment(personalData.birthDate).format('YYYY-MM-DD'),
-        },
-        payroll: {
-          ...payroll,
-          allowOvertime: !!payroll.allowOvertime,
-          baseSalary: currencyToNumber(payroll.baseSalary),
-        },
-        components: {
-          ...components,
-          benefits: components.benefits.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount) })),
-          deductions: components.deductions.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount) })),
-        },
-      }
-
-      delete payload.personalData.name
-      delete payload.personalData.email
-
-      await employeeService.createEmployee(payload)
+      await employeeService.createEmployee(formDataToPayload(data))
 
       toast('Employee successfully created.', { color: 'success' })
       navigate(`/employees/employee-management`)

@@ -29,7 +29,7 @@ const schema = yup.object({
     .label('Employment Tax Status'),
   npwpNumber: yup.string().required().label('NPWP Number'),
   ptkpStatus: yup.string().required().label('PTKP Status'),
-  participateBpjs: yup.boolean(),
+  notParticipateBpjs: yup.boolean(),
   jkk: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -193,7 +193,7 @@ const PayrollDataForm: React.FC<{
         <div className="pb-2">
           <h3 className="text-sm font-semibold">Paid by Company</h3>
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Jaminan Hari Tua (JHT)" disabled value="3.70%" />
+            <Input label="Jaminan Hari Tua (JHT)" disabled value="3.7%" />
             <Select
               label="Jaminan Kecelakaan Kerja (JKK)"
               options={options.jkk}
@@ -208,7 +208,7 @@ const PayrollDataForm: React.FC<{
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Jaminan Kematian (JKM)" disabled value="0.30%" />
+            <Input label="Jaminan Kematian (JKM)" disabled value="0.3%" />
             <Input label="Jaminan Pensiun (JP)" disabled required value="2%" help="JP Maximum Cap Rp. 191.192,00*" />
           </div>
           <div className="mb-3">
@@ -216,11 +216,11 @@ const PayrollDataForm: React.FC<{
               label="Jaminan Kesehatan (KS)"
               disabled
               required
-              value={watch('participateBpjs') ? '4%' : '0%'}
+              value={watch('notParticipateBpjs') ? '0%' : '4%'}
               help="KS Maximum Cap Rp. 480.000,00*"
             />
           </div>
-          <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('participateBpjs')}>
+          <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('notParticipateBpjs')}>
             Employee will not participate in BPJS KS Program{' '}
             <span className="text-gray-300">
               <HelpCircleIcon size={16} />
@@ -238,7 +238,7 @@ const PayrollDataForm: React.FC<{
         <Input
           label="Jaminan Kesehatan (KS)"
           disabled
-          value={watch('participateBpjs') ? '1%' : '0%'}
+          value={watch('notParticipateBpjs') ? '0%' : '1%'}
           help="KS Maximum Cap Rp. 120.000,00*"
         />
       </CardBody>

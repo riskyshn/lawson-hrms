@@ -1,8 +1,8 @@
-import { Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
+import MainModal from '@/components/Elements/MainModal'
+import numberToCurrency from '@/utils/number-to-currency'
+import { Alert, Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import getCategory from '../../utils/get-category'
-import numberToCurrency from '@/utils/number-to-currency'
-import MainModal from '@/components/Elements/MainModal'
 
 const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const [showIdCard, setShowIdCard] = useState(false)
@@ -267,6 +267,11 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
           <h3 className="text-lg font-semibold">BPJS Information</h3>
           <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
         </CardHeader>
+        {!employee.payroll?.participateBpjs && (
+          <Alert color="warning" className="rounded-none border-0">
+            This employee is not enrolled in the BPJS KS Program.
+          </Alert>
+        )}
         <CardBody className="p-0">
           <table className="table w-full text-sm">
             <tbody>
