@@ -29,7 +29,7 @@ export function employeeToFormEdit(employee: IEmployee) {
     },
     payroll: {
       jkk: employee.payroll?.bpjs?.paidByCompany?.jkk || 0,
-      participateBpjs: !!employee.payroll?.participateBpjs,
+      notParticipateBpjs: !employee.payroll?.participateBpjs,
       ptkpStatus: employee.payroll?.taxConfig?.ptkpStatus || '',
       npwpNumber: employee.payroll?.taxConfig?.npwpNumber || '',
       employmentTaxStatus: employee.payroll?.taxConfig?.taxStatus || 0,
