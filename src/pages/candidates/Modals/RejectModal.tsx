@@ -59,8 +59,9 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
         const newData = new Date().toISOString()
         onApplyVacancy(newData)
       })
-      .catch(() => {
-        toast('An error occurred while reject.', { color: 'error' })
+      .catch((error: any) => {
+        const errorMessage = error.response?.data?.meta?.message || error.message
+        toast(errorMessage, { color: 'error', position: 'top-right' })
       })
       .finally(() => {
         setLoading(false)
