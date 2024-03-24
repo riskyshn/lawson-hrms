@@ -1,6 +1,6 @@
 interface IPermission {
   oid: string
-  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+  method: '*' | 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   groupName: string
   name: string
   path: string
