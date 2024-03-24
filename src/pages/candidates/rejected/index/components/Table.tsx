@@ -44,15 +44,17 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         children: (
           <span className="flex items-center justify-center gap-2">
             <button
+              disabled={!candidate.cv}
               title="Preview Pdf Resume"
-              className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setPreviewPdfModalUrl(candidate.cv || '-')}
+              className={`text-${!candidate.cv ? 'gray' : 'primary'}-600 hover:text-${!candidate.cv ? 'gray' : 'primary'}-700 focus:outline-none`}
+              onClick={() => setPreviewPdfModalUrl(candidate?.cv || '-')}
             >
               <FileTextIcon size={18} />
             </button>
             <button
+              disabled={!candidate.videoResume}
               title="Preview Video Resume"
-              className="text-primary-600 hover:text-primary-700 focus:outline-none"
+              className={`text-${!candidate.videoResume ? 'gray' : 'primary'}-600 hover:text-${!candidate.videoResume ? 'gray' : 'primary'}-700 focus:outline-none`}
               onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
             >
               <FileVideoIcon size={18} />
