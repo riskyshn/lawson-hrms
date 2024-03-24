@@ -2,11 +2,12 @@ import currencyToNumber from '@/utils/currency-to-number'
 import moment from 'moment'
 
 export default function formDataToPayload(data: any) {
-  const { personalData, payroll, components } = data
+  const { personalData, payroll, components, employment } = data
 
   const payload = {
     name: personalData.name,
     email: personalData.email,
+    employment,
     personalData: {
       ...personalData,
       birthDate: moment(personalData.birthDate).format('YYYY-MM-DD'),
