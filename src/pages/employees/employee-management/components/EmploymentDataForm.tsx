@@ -70,7 +70,7 @@ const EmploymentDataForm: React.FC<{
           label="Employment Status"
           placeholder="Employment Status"
           labelRequired
-          options={jobTypes.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+          options={jobTypes.filter((el) => el.status === 1).map((el) => ({ label: `${el.name}`, value: el.oid }))}
           hideSearch
           name="jobTypeId"
           error={errors.jobTypeId?.message}
