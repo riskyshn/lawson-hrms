@@ -1,9 +1,10 @@
 import MainModal from '@/components/Elements/MainModal'
-import { vacancyService } from '@/services'
+import { processService, vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Alert, Button, InputRadio, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type ProcessModalProps = {
   show: boolean
@@ -14,11 +15,14 @@ type ProcessModalProps = {
 const ProcessModal: React.FC<ProcessModalProps> = ({ show, candidate, onClose }) => {
   const [stages, setStages] = useState<{ interviews: IRecruitmentStage[]; assesments: IRecruitmentStage[] }>()
 
+  const [stageId, setStageId] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   const { recruitmentStages } = useOrganizationStore()
   const toast = useToast()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const load = async (vacancyId: string) => {
@@ -42,9 +46,22 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, candidate, onClose })
   }, [candidate])
 
   const handleNext = async () => {
+    if (!stageId || !candidate?.id) return
+
     setLoading(true)
     try {
-      throw new Error('Endpoint api belum ada! untuk informasi lebih lanjut segerah hubungi mas akbar.')
+      const resp = await processService.updateProcess({
+        applicantId: candidate.id,
+        stageId: stageId,
+      })
+
+      toast('Process updated successfully', { color: 'success' })
+
+      if (resp.type == 'INTERVIEW') {
+        navigate('/process/interview')
+      } else {
+        navigate('/process/assessment')
+      }
     } catch (e) {
       setErrorMessage(axiosErrorMessage(e))
     }
@@ -69,7 +86,15 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, candidate, onClose })
           <div className="mb-3">
             <h6 className="mb-2 text-sm font-semibold">Interview</h6>
             {stages.interviews.map((option, index) => (
-              <InputRadio className="mb-2" key={index} id={option.oid} name="stageId" value={option.type}>
+              <InputRadio
+                className="mb-2"
+                key={index}
+                id={option.oid}
+                name="stageId"
+                value={option.type}
+                checked={stageId == option.oid}
+                onChange={() => setStageId(option.oid)}
+              >
                 {option.name}
               </InputRadio>
             ))}
@@ -78,16 +103,24 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, candidate, onClose })
           <div className="mb-3">
             <h6 className="mb-2 text-sm font-semibold">Assesment</h6>
             {stages.assesments.map((option, index) => (
-              <InputRadio className="mb-2" key={index} id={option.oid} name="stageId" value={option.type}>
+              <InputRadio
+                className="mb-2"
+                key={index}
+                id={option.oid}
+                name="stageId"
+                value={option.type}
+                checked={stageId == option.oid}
+                onChange={() => setStageId(option.oid)}
+              >
                 {option.name}
               </InputRadio>
             ))}
           </div>
           <div className="mt-8 flex justify-end gap-3">
-            <Button type="button" color="error" variant="light" className="w-24" disabled={loading} onClick={onClose}>
+            <Button type="button" color="error" variant="light" className="w-24" disabled={loading && !!stageId} onClick={onClose}>
               Cancel
             </Button>
-            <Button type="button" color="primary" className="w-24" disabled={loading} loading={loading} onClick={handleNext}>
+            <Button type="button" color="primary" className="w-24" disabled={loading && !!stageId} loading={loading} onClick={handleNext}>
               Next
             </Button>
           </div>

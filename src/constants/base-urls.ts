@@ -5,4 +5,5 @@ export const API_VACANCY_BASE_URL = import.meta.env.VITE_API_VACANCY_BASE_URL ||
 export const API_EMPLOYEE_BASE_URL = import.meta.env.VITE_API_EMPLOYEE_BASE_URL || 'https://basic-employee.api-jobseeker.site'
 export const API_ATTENDANCE_BASE_URL = import.meta.env.VITE_API_ATTENDANCE_BASE_URL || 'https://basic-attendance.api-jobseeker.site'
 export const API_APPLICANT_BASE_URL = import.meta.env.VITE_API_APPLICANT_BASE_URL || 'https://basic-applicant.api-jobseeker.site'
-export const API_CANDIDATE_BASE_URL = import.meta.env.VITE_API_CANDIDATE_BASE_URL || 'https://basic-candidate.api-jobseeker.site/'
+export const API_CANDIDATE_BASE_URL = import.meta.env.VITE_API_CANDIDATE_BASE_URL || 'https://basic-candidate.api-jobseeker.site'
+export const API_PROCESS_BASE_URL = import.meta.env.VITE_API_PROCESS_BASE_URL || 'https://basic-process.api-jobseeker.site'
