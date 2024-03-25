@@ -24,7 +24,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, setSelectedTerminate }) =>
     items: [
       {
         children: (
-          <div className="flex gap-3">
+          <div className="flex gap-3 whitespace-nowrap">
             <Avatar name={item.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
             <div>
               <span className="block font-semibold">{item.name}</span>
