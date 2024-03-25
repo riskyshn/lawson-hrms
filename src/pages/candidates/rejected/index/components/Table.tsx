@@ -39,7 +39,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         ),
       },
       { children: candidate.lastEducation, className: 'text-center' },
-      { children: candidate.rejectReason, className: 'text-center' },
+      { children: candidate.rejectReason, className: 'text-center whitespace-normal' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
