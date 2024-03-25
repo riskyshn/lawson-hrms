@@ -78,7 +78,7 @@ const Table: React.FC<PropTypes> = ({ setPreviewPdfModalUrl }) => {
           if (candidate.status === 'Waiting for Documents') {
             return <ActionMenu options={['Create Offering Letter', 'Send Reminder', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
           } else if (candidate.status === 'Offering Signed') {
-            return <ActionMenu options={['View Signed Offering Letter', 'Hire', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
+            return <ActionMenu options={['View Offering Letter', 'Hire', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
           } else if (candidate.status === 'Offering Letter Sent') {
             return <ActionMenu options={['Send Reminder', 'Revise Offering Letter', 'View History', 'Blacklist', 'Reject', 'Withdraw']} />
           } else if (candidate.status === 'Ready to Offer') {

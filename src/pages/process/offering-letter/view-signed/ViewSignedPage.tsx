@@ -6,8 +6,8 @@ const ViewSignedPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'View Signed Offering Letter' }]}
-        title="View Signed Offering Letter"
+        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'View Offering Letter' }]}
+        title="View Offering Letter"
       />
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <iframe src={'/sample.pdf'} className="block h-full w-full rounded-lg bg-white" style={{ height: '100vh', border: 'none' }} />
