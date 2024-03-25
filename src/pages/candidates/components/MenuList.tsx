@@ -76,14 +76,14 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         }
         candidateService
           .createShortlist(payload)
-          .catch((error: any) => {
-            const errorMessage = error.response?.data?.meta?.message || error.message
-            toast(errorMessage, { color: 'error', position: 'top-right' })
-          })
-          .finally(() => {
+          .then(() => {
             toast('shortlist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
             onApplyVacancy(newData)
+          })
+          .catch((error: any) => {
+            const errorMessage = error.response?.data?.meta?.message || error.message
+            toast(errorMessage, { color: 'error', position: 'top-right' })
           })
         break
 
@@ -161,7 +161,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
             <Menu.Item key={index}>
               {({ active }) => (
                 <button
-                  className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm ${active && 'bg-primary-100'}`}
+                  className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm ${active && 'bg-primary-100'}`}
                   onClick={() => handleViewDetails(option)}
                 >
                   {option === 'Process' && <RefreshCwIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
