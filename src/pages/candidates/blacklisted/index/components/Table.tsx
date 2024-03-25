@@ -38,7 +38,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         ),
       },
       { children: candidate.blacklistedBy, className: 'text-center' },
-      { children: candidate.blacklistReason, className: 'text-center' },
+      { children: candidate.blacklistReason, className: 'text-center whitespace-normal' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
