@@ -34,10 +34,13 @@ const EditEmployeePage = () => {
   })
 
   useEffect(() => {
-    if (employee) {
-      setFormValues(employeeToFormEdit(employee))
+    if (!employee) return
+
+    const load = async () => {
+      setFormValues(await employeeToFormEdit(employee))
       setIsLoaded(true)
     }
+    load()
   }, [employee])
 
   const handleStepSubmit = async (data: any) => {
