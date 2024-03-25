@@ -23,6 +23,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
+  const [characterCount, setCharacterCount] = useState(0)
 
   const {
     master: { jobTypes },
@@ -60,6 +61,11 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
     }
   })
 
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const count = event.target.value.length
+    setCharacterCount(count)
+  }
+
   return (
     <MainModal className="max-w-xl py-12" show={!!item} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
@@ -90,7 +96,19 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
             }))}
         />
 
-        <Textarea required label="Reason" rows={3} error={errors.reason?.message} {...register('reason')} />
+        <Textarea
+          maxLength={50}
+          required
+          label="Reason"
+          rows={3}
+          error={errors.reason?.message}
+          {...register('reason')}
+          onChange={handleTextareaChange}
+        />
+
+        <div className="text-right text-xs text-gray-500">
+          <span>{characterCount}</span>/50
+        </div>
 
         <div className="mt-8 flex justify-end gap-3">
           <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
