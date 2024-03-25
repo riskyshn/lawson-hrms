@@ -1,11 +1,11 @@
-import MainModal from '@/components/Elements/MainModal'
+import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Alert, Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
-import React, { useState } from 'react'
+import React from 'react'
 import getCategory from '../../utils/get-category'
 
 const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
-  const [showIdCard, setShowIdCard] = useState(false)
+  const previewImage = usePreviewImage()
   return (
     <>
       <Card className=" overflow-hidden">
@@ -79,14 +79,15 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
                 <td className="p-3">:</td>
                 <td className="w-full p-3">
                   {employee.personalData?.linkNationalId && (
-                    <>
-                      <Button type="button" size="small" variant="light" color="primary" onClick={() => setShowIdCard(true)}>
-                        Preview National ID Image
-                      </Button>
-                      <MainModal show={showIdCard} className="max-w-6xl p-0" onClose={() => setShowIdCard(false)}>
-                        <img src={employee.personalData.linkNationalId} className="block h-full w-full rounded-lg" />
-                      </MainModal>
-                    </>
+                    <Button
+                      type="button"
+                      size="small"
+                      variant="light"
+                      color="primary"
+                      onClick={() => previewImage(employee.personalData?.linkNationalId)}
+                    >
+                      Preview National ID Image
+                    </Button>
                   )}
                 </td>
               </tr>

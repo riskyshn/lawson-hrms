@@ -1,16 +1,3 @@
-interface IAccessGrantedPolicy {
-  oid: string
-  method: string
-  path: string
-  action: string
-}
-
-interface IAccessGrantedRole {
-  oid: string
-  name: string
-  attachedPolicies: IAccessGrantedPolicy[]
-}
-
 interface IUser {
   oid: string
   email: string
@@ -29,4 +16,11 @@ interface IUser {
 
   accessGranted: IRole[]
   accessDirectPermissions: IPermission[]
+}
+
+interface ICoordinate {
+  x: number
+  y: number
+  type: string
+  coordinates: [number, number]
 }
