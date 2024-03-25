@@ -71,15 +71,15 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-2">
           <h4 className="mb-2 text-center text-2xl font-semibold">Select Reason</h4>
-          <p className="text-center">Please select the reason of why this employee is resigned/terminated</p>
+          <p className="text-center">Please select the reason of why this candidate is set as previous employee</p>
         </div>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
         <Select
-          label="Employment Status"
+          label="Select Status"
           labelRequired
-          placeholder="Resign/Terminated"
+          placeholder="Status"
           hideSearch
           name="jobTypeId"
           error={errors.jobTypeId?.message}
