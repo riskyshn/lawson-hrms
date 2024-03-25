@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import ProcessModal from '../Modals/ProcessModal'
-import ViewHistoryModal from '../Modals/ViewHistoryModal'
+import ProcessModal from './ProcessModal'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'
 import {
@@ -17,13 +16,14 @@ import {
   XCircleIcon,
 } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
-import MoveAnotherVacancyModal from '../Modals/MoveAnotherVacancyModal'
+import BlacklistModal from './BlacklistModal'
+import ApplyVacancyModal from './ApplyVacancyModal'
 import SendReminderModal from '../offered/index/components/SendReminderModal'
+import ViewHistoryModal from './ViewHistoryModal'
 import { candidateService } from '@/services'
-import ApplyVacancyModal from '../Modals/ApplyVacancyModal'
-import BlacklistModal from '../Modals/BlacklistModal'
-import RejectModal from '../Modals/RejectModal'
-import WithdrawModal from '../Modals/WithdrawModal'
+import WithdrawModal from './WithdrawModal'
+import RejectModal from './RejectModal'
+import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 
 interface MenuListProps {
   options: string[]
