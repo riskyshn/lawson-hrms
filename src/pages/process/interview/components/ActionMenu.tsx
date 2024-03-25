@@ -80,7 +80,7 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items, candidate }) => {
             <Menu.Item key={index}>
               {({ active }) => (
                 <button
-                  className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm ${active && 'bg-primary-100'}`}
+                  className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm ${active && 'bg-primary-100'}`}
                   onClick={() => handleViewDetails(option)}
                 >
                   {iconMap[option] &&
