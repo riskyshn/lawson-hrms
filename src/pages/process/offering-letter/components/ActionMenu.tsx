@@ -31,7 +31,7 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
       case 'Create Offering Letter':
         navigate('/process/offering-letter/create')
         break
-      case 'View Signed Offering Letter':
+      case 'View Offering Letter':
         navigate('/process/offering-letter/view')
         break
       default:
@@ -61,7 +61,7 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
     Blacklist: <UserXIcon />,
     Reject: <XCircleIcon />,
     Withdraw: <LogOutIcon />,
-    'View Signed Offering Letter': <FileTextIcon />,
+    'View Offering Letter': <FileTextIcon />,
     Hire: <UserPlus2Icon />,
     'Revise Offering Letter': <FileEditIcon />,
   }
