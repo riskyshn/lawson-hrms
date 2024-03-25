@@ -7,6 +7,8 @@ import { employeeService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from './components/Table'
+import { useOrganizationStore } from '@/store'
+import { Select } from 'jobseeker-ui'
 
 const PreviousEmployeePage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -14,6 +16,8 @@ const PreviousEmployeePage: React.FC = () => {
   const search = searchParams.get('search') || undefined
   const department = searchParams.get('department') || undefined
   const branch = searchParams.get('branch') || undefined
+
+  const { master } = useOrganizationStore()
 
   const [pageData, setPageData] = useState<IPaginationResponse<IPreviousEmployee>>()
   const [pageError, setPageError] = useState<any>()
