@@ -38,7 +38,7 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hi
               leaveTo="opacity-0 scale-95"
             >
               <button className="absolute right-3 top-3 z-[999] text-error-600 hover:text-error-700 focus:outline-none" onClick={onClose}>
-                <XCircleIcon size={32} fill="white" />
+                {/* <XCircleIcon size={32} fill="white" /> */}
               </button>
             </Transition.Child>
           )}
@@ -55,6 +55,12 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hi
               <Dialog.Panel
                 className={twMerge('relative w-full max-w-2xl rounded-lg bg-white p-6 text-left shadow-xl transition-all', className)}
               >
+                <button
+                  className="absolute -right-3 -top-3 z-[999] text-error-600 hover:text-error-700 focus:outline-none"
+                  onClick={onClose}
+                >
+                  <XCircleIcon size={32} fill="white" />
+                </button>
                 {children}
               </Dialog.Panel>
             </Transition.Child>
