@@ -115,12 +115,7 @@ interface IBranch {
     email?: string
   }
   status?: boolean
-  coordinate?: {
-    x: number
-    y: number
-    type: string
-    coordinates: [number, number]
-  }
+  coordinate?: ICoordinate
   range?: number
   totalEmployee?: number
   totalVacancy?: number
