@@ -90,7 +90,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
             }))}
         />
 
-        <Textarea label="Reason" rows={3} error={errors.reason?.message} {...register('reason')} />
+        <Textarea required label="Reason" rows={3} error={errors.reason?.message} {...register('reason')} />
 
         <div className="mt-8 flex justify-end gap-3">
           <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>

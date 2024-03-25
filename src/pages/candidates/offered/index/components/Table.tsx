@@ -19,7 +19,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
     items: [
       {
         children: (
-          <div className="flex gap-3">
+          <div className="flex gap-3 whitespace-nowrap">
             <div>
               <Avatar name={candidate.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
             </div>
