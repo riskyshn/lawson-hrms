@@ -7,11 +7,10 @@ import { useEffect, useState } from 'react'
 import PreviewVideoResumeModal from '../../Modals/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
 import usePagination from '@/hooks/use-pagination'
-import { candidateService, masterService } from '@/services'
+import { candidateService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useMasterStore, useOrganizationStore } from '@/store'
-import AsyncSelect from '@/components/Elements/AsyncSelect'
+import { useOrganizationStore } from '@/store'
 
 const CandidateBlacklistedPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -28,7 +27,6 @@ const CandidateBlacklistedPage: React.FC = () => {
   const education = searchParams.get('education') || undefined
 
   const { master } = useOrganizationStore()
-  const { educatioLevels } = useMasterStore()
 
   const pagination = usePagination({
     pathname: '/candidates/blacklisted',

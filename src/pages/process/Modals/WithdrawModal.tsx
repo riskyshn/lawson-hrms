@@ -54,7 +54,6 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, items }) =
       .withdraw(payload)
       .then(() => {
         toast('withdraw successfully.', { color: 'success' })
-        const newData = new Date().toISOString()
       })
       .catch((error: any) => {
         const errorMessage = error.response?.data?.meta?.message || error.message
