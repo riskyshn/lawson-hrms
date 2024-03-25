@@ -78,7 +78,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
 
   return (
     <Card>
-      <MapsPreviewer coordinates={selectedLocation} onClose={() => setSelectedLocation(null)} />
+      <MapsPreviewer coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} />
     </Card>
   )
