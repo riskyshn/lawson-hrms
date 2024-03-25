@@ -65,8 +65,7 @@ const PreviousEmployeePage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          // header={(open, toggleOpen) => (
-          header={() => (
+          header={(open, toggleOpen) => (
             <MainCardHeader
               title="Employee List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
@@ -79,33 +78,33 @@ const PreviousEmployeePage: React.FC = () => {
                 value: search || '',
                 setValue: (v) => setSearchParam({ search: v }),
               }}
-              // filterToogle={toggleOpen}
-              // filter={
-              //   open && (
-              //     <div className="grid grid-cols-2 gap-3 p-3">
-              //       <Select
-              //         placeholder="All Departement"
-              //         withReset
-              //         value={department}
-              //         onChange={(e) => {
-              //           searchParams.set('department', e.toString())
-              //           setSearchParam(searchParams)
-              //         }}
-              //         options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-              //       />
-              //       <Select
-              //         placeholder="All Branch"
-              //         withReset
-              //         value={branch}
-              //         onChange={(e) => {
-              //           searchParams.set('branch', e.toString())
-              //           setSearchParam(searchParams)
-              //         }}
-              //         options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-              //       />
-              //     </div>
-              //   )
-              // }
+              filterToogle={toggleOpen}
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <Select
+                      placeholder="All Departement"
+                      withReset
+                      value={department}
+                      onChange={(e) => {
+                        searchParams.set('department', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    />
+                    <Select
+                      placeholder="All Branch"
+                      withReset
+                      value={branch}
+                      onChange={(e) => {
+                        searchParams.set('branch', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    />
+                  </div>
+                )
+              }
             />
           )}
           body={<Table items={pageData?.content || []} loading={isLoading} onRestored={() => setRefresh((v) => !v)} />}

@@ -7,10 +7,11 @@ type PropTypes = React.PropsWithChildren<{
   show: boolean
   onClose?: () => void
   className?: string
+  closeToggleInOutside?: boolean
   hideCloseToggle?: boolean
 }>
 
-const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hideCloseToggle }) => {
+const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, closeToggleInOutside, hideCloseToggle }) => {
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog as="div" className="relative z-[50]" onClose={() => onClose?.()}>
@@ -27,7 +28,7 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hi
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          {!hideCloseToggle && onClose && (
+          {!hideCloseToggle && closeToggleInOutside && onClose && (
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -38,7 +39,7 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hi
               leaveTo="opacity-0 scale-95"
             >
               <button className="absolute right-3 top-3 z-[999] text-error-600 hover:text-error-700 focus:outline-none" onClick={onClose}>
-                {/* <XCircleIcon size={32} fill="white" /> */}
+                <XCircleIcon size={32} fill="white" />
               </button>
             </Transition.Child>
           )}
@@ -55,12 +56,14 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, hi
               <Dialog.Panel
                 className={twMerge('relative w-full max-w-2xl rounded-lg bg-white p-6 text-left shadow-xl transition-all', className)}
               >
-                <button
-                  className="absolute -right-3 -top-3 z-[999] text-error-600 hover:text-error-700 focus:outline-none"
-                  onClick={onClose}
-                >
-                  <XCircleIcon size={32} fill="white" />
-                </button>
+                {!hideCloseToggle && !closeToggleInOutside && onClose && (
+                  <button
+                    className="absolute -right-3 -top-3 z-50 text-error-600 hover:text-error-700 focus:outline-none"
+                    onClick={onClose}
+                  >
+                    <XCircleIcon size={32} fill="white" />
+                  </button>
+                )}
                 {children}
               </Dialog.Panel>
             </Transition.Child>
