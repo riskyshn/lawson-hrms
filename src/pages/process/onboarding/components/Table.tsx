@@ -25,7 +25,7 @@ const Table: React.FC = () => {
     items: [
       {
         children: (
-          <div className="flex gap-3">
+          <div className="flex gap-3 whitespace-nowrap">
             <div>
               <Avatar name={candidate.name} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
             </div>
@@ -53,7 +53,7 @@ const Table: React.FC = () => {
       { children: candidate.interviewDate, className: 'text-center' },
       {
         children: (() => {
-          return <ActionMenu options={['Add as Employee', 'Edit Join Date', 'View History', 'Blacklist', 'Reject']} />
+          return <ActionMenu options={['Add as Employee', 'Edit Join Date', 'View History', 'Blacklist', 'Withdraw']} />
         })(),
       },
     ],
