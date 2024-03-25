@@ -23,6 +23,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
+  const [characterCount, setCharacterCount] = useState(0)
 
   const {
     master: { jobTypes },
@@ -60,20 +61,25 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
     }
   })
 
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const count = event.target.value.length
+    setCharacterCount(count)
+  }
+
   return (
     <MainModal className="max-w-xl py-12" show={!!item} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-2">
           <h4 className="mb-2 text-center text-2xl font-semibold">Select Reason</h4>
-          <p className="text-center">Please select the reason of why this employee is resigned/terminated</p>
+          <p className="text-center">Please select the reason of why this candidate is set as previous employee</p>
         </div>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
         <Select
-          label="Employment Status"
+          label="Select Status"
           labelRequired
-          placeholder="Resign/Terminated"
+          placeholder="Status"
           hideSearch
           name="jobTypeId"
           error={errors.jobTypeId?.message}
@@ -90,7 +96,19 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
             }))}
         />
 
-        <Textarea required label="Reason" rows={3} error={errors.reason?.message} {...register('reason')} />
+        <Textarea
+          maxLength={50}
+          required
+          label="Reason"
+          rows={3}
+          error={errors.reason?.message}
+          {...register('reason')}
+          onChange={handleTextareaChange}
+        />
+
+        <div className="text-right text-xs text-gray-500">
+          <span>{characterCount}</span>/50
+        </div>
 
         <div className="mt-8 flex justify-end gap-3">
           <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>

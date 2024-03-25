@@ -95,7 +95,7 @@ const CandidateBlacklistedPage: React.FC = () => {
               filterToogle={toggleOpen}
               filter={
                 open && (
-                  <div className="grid grid-cols-3 gap-3 p-3">
+                  <div className="grid grid-cols-1 gap-3 p-3">
                     <Select
                       placeholder="All Position"
                       withReset
@@ -106,7 +106,7 @@ const CandidateBlacklistedPage: React.FC = () => {
                       }}
                       options={master.positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
                     />
-                    <AsyncSelect
+                    {/* <AsyncSelect
                       className="mb-2"
                       placeholder="Province"
                       withReset
@@ -130,7 +130,7 @@ const CandidateBlacklistedPage: React.FC = () => {
                         setSearchParam(searchParams)
                       }}
                       options={educatioLevels.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                    />
+                    /> */}
                   </div>
                 )
               }
