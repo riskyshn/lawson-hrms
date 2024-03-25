@@ -11,7 +11,15 @@ const hrisLinks = genSidebarLinks({
         { text: 'Previous Employee', to: '/employees/previous-employee' },
       ],
     },
-    { parent: { icon: UserCogIcon, text: 'Attendance', to: '/attendance' } },
+    {
+      parent: { icon: UserCogIcon, text: 'Attendance', to: '/attendance' },
+      child: [
+        {
+          text: 'Schedule',
+          to: '/attendance/schedule',
+        },
+      ],
+    },
     { parent: { icon: BanknoteIcon, text: 'Payroll', to: '/payroll' } },
   ],
 })
