@@ -7,6 +7,7 @@ import { useState } from 'react'
 import ViewHistoryModal from '../../Modals/ViewHistoryModal'
 import RejectModal from '../../Modals/RejectModal'
 import BlacklistModal from '../../Modals/BlacklistModal'
+import WithdrawModal from '../../Modals/WithdrawModal'
 
 interface MenuListProps {
   options: string[]
@@ -23,6 +24,7 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
       case 'View History':
       case 'Reject':
       case 'Blacklist':
+      case 'Withdraw':
         setModalType(option)
         setShowOptionModal(true)
         break
@@ -42,6 +44,8 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items }) => {
         return <RejectModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
       case 'Blacklist':
         return <BlacklistModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+      case 'Withdraw':
+        return <WithdrawModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
       default:
         return null
     }

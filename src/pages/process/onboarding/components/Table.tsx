@@ -53,7 +53,7 @@ const Table: React.FC = () => {
       { children: candidate.interviewDate, className: 'text-center' },
       {
         children: (() => {
-          return <ActionMenu options={['Add as Employee', 'Edit Join Date', 'View History', 'Blacklist', 'Reject']} />
+          return <ActionMenu options={['Add as Employee', 'Edit Join Date', 'View History', 'Blacklist', 'Withdraw']} />
         })(),
       },
     ],
