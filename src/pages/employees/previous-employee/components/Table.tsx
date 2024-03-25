@@ -44,6 +44,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
       },
       {
         children: item.reasonInactive,
+        className: 'whitespace-normal',
       },
       {
         children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} onRestored={onRestored} />,
