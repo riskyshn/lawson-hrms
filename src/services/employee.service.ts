@@ -52,3 +52,7 @@ export const setInactiveEmployee = (id: string, payload: Record<string, any>) =>
 export const restoreEmployee = (id: string) => {
   return axios.patch(`/employee/restore-inactive/${id}`).then((response) => response.data.data)
 }
+
+export const isEmployeeActive = (oid: string) => {
+  return axios.get<{ data: { active: boolean } }>(`/employee/${oid}/active`).then((response) => response.data.data)
+}
