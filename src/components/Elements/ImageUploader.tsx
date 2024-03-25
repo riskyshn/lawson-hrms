@@ -1,15 +1,15 @@
+import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { imgbbService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import formatFileSize from '@/utils/format-file-sizes'
 import truncateFilename from '@/utils/truncate-filename'
 import urlToFilename from '@/utils/url-to-filename'
 import { AxiosRequestConfig } from 'axios'
+import { Button } from 'jobseeker-ui'
 import { ImageIcon, UploadCloudIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { ChangeEvent, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
-import MainModal from './MainModal'
-import { Button } from 'jobseeker-ui'
 
 interface ImageUploaderProps {
   value?: string
@@ -28,7 +28,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, onStart, on
   const [uploading, setUploading] = useState(false)
   const [controller, setController] = useState<AbortController | null>(null)
 
-  const [showIdCard, setShowIdCard] = useState(false)
+  const previewImage = usePreviewImage()
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -96,13 +96,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, onStart, on
         {valueValidUrl && (
           <>
             <div className="absolute inset-0 z-[2] flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100">
-              <Button type="button" color="primary" className="border-0 bg-white" variant="light" onClick={() => setShowIdCard(true)}>
+              <Button type="button" color="primary" className="border-0 bg-white" variant="light" onClick={() => previewImage(value)}>
                 Preview
               </Button>
             </div>
-            <MainModal show={showIdCard} className="max-w-6xl p-0" onClose={() => setShowIdCard(false)}>
-              <img src={value} className="block h-full w-full rounded-lg" alt={value} />
-            </MainModal>
             <img alt={value} src={value} className="block h-full w-full rounded-lg object-contain" />
           </>
         )}

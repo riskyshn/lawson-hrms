@@ -1,55 +1,13 @@
-import React, { useState } from 'react'
 import MainTable from '@/components/Elements/MainTable'
-import { ImageIcon, MapPinIcon } from 'lucide-react'
-import PreviewMapsModal from './PreviewMapsModal'
-import PreviewImageModal from './PreviewImageModal'
+import MapsPreviewer from '@/components/Elements/MapsPreviewer'
+import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Card } from 'jobseeker-ui'
-
-const dummyAttendance = [
-  {
-    date: '18/03/2024',
-    type: [
-      {
-        name: 'Clock In',
-        time: '08:40:35',
-        status: 'Pending',
-        location: {
-          lat: -8.7931195,
-          lng: 115.1501316,
-        },
-        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      },
-      {
-        name: 'Clock Out',
-        time: '17:30:00',
-        status: 'Completed',
-        location: {
-          lat: -8.7931195,
-          lng: 115.1501316,
-        },
-        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      },
-    ],
-  },
-]
+import { ImageIcon, MapPinIcon } from 'lucide-react'
+import React, { useState } from 'react'
 
 const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
-  const [selectedLocation, setSelectedLocation] = useState<{
-    lat: number
-    lng: number
-  } | null>(null)
-
-  const [selectedAttachment, setSelectedAttachment] = useState<string | null>(null)
-
-  const handleView = (status: string, location: { lat: number; lng: number } | null, attachment: string | null) => {
-    if (status == 'maps') {
-      setSelectedLocation(location)
-    }
-
-    if (status == 'image') {
-      setSelectedAttachment(attachment)
-    }
-  }
+  const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
+  const previewImage = usePreviewImage()
 
   const headerItems = [
     { children: 'Date', className: 'text-left' },
@@ -95,7 +53,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
             <button
               title="Maps"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => handleView('maps', item.type[0].location, '')}
+              onClick={() => setSelectedLocation([-8.7931195, 115.1501316])}
             >
               <MapPinIcon size={18} />
             </button>
@@ -108,7 +66,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
             <button
               title="Maps"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => handleView('image', null, item.type[0].attachment)}
+              onClick={() => previewImage(item.type[0].attachment)}
             >
               <ImageIcon size={18} />
             </button>
@@ -120,11 +78,32 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
 
   return (
     <Card>
-      {selectedLocation && <PreviewMapsModal location={selectedLocation} onClose={() => setSelectedLocation(null)} />}
-      {selectedAttachment && <PreviewImageModal imageUrl={selectedAttachment} onClose={() => setSelectedAttachment(null)} />}
+      <MapsPreviewer coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} />
     </Card>
   )
 }
 
 export default AttendanceTable
+
+const dummyAttendance = [
+  {
+    date: '18/03/2024',
+    type: [
+      {
+        name: 'Clock In',
+        time: '08:40:35',
+        status: 'Pending',
+        location: [-8.7931195, 115.1501316],
+        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+      },
+      {
+        name: 'Clock Out',
+        time: '17:30:00',
+        status: 'Completed',
+        location: [-8.7931195, 115.1501316],
+        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+      },
+    ],
+  },
+]

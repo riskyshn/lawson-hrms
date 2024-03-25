@@ -93,7 +93,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
           labelRequired
           placeholder="Choose Method"
           name="method"
-          options={['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].map((el) => ({ label: el, value: el }))}
+          options={['*', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'].map((el) => ({ label: el, value: el }))}
           error={errors.method?.message}
           value={getValues('method')}
           onChange={(v) => {

@@ -1,8 +1,8 @@
 import MainTable from '@/components/Elements/MainTable'
-import { ImageIcon } from 'lucide-react'
-import React, { useState } from 'react'
-import PreviewImageModal from './PreviewImageModal'
+import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Card } from 'jobseeker-ui'
+import { ImageIcon } from 'lucide-react'
+import React from 'react'
 
 const dummyLeave = [
   {
@@ -19,13 +19,7 @@ const dummyLeave = [
 ]
 
 const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
-  const [selectedAttachment, setSelectedAttachment] = useState<string | null>(null)
-
-  const handleView = (status: string, attachment: string | null) => {
-    if (status == 'image') {
-      setSelectedAttachment(attachment)
-    }
-  }
+  const previewImage = usePreviewImage()
 
   const headerItems = [
     { children: 'Request Date', className: 'text-left' },
@@ -65,7 +59,7 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
             <button
               title="Maps"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => handleView('image', item.attachment)}
+              onClick={() => previewImage(item.attachment)}
             >
               <ImageIcon size={18} />
             </button>
@@ -84,7 +78,6 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
   return (
     <Card>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} />
-      {selectedAttachment && <PreviewImageModal imageUrl={selectedAttachment} onClose={() => setSelectedAttachment(null)} />}
     </Card>
   )
 }
