@@ -38,7 +38,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
           </>
         ),
       },
-      { children: candidate.lastEducation, className: 'text-center' },
+      { children: candidate.lastEducation, className: 'text-center whitespace-normal' },
       { children: candidate.province, className: 'text-center' },
       { children: candidate.city, className: 'text-center' },
       {

@@ -4,8 +4,6 @@ import MainCardHeader from '@/components/Elements/MainCardHeader'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { employeeService } from '@/services'
-import { useOrganizationStore } from '@/store'
-import { Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from './components/Table'
@@ -16,8 +14,6 @@ const PreviousEmployeePage: React.FC = () => {
   const search = searchParams.get('search') || undefined
   const department = searchParams.get('department') || undefined
   const branch = searchParams.get('branch') || undefined
-
-  const { master } = useOrganizationStore()
 
   const [pageData, setPageData] = useState<IPaginationResponse<IPreviousEmployee>>()
   const [pageError, setPageError] = useState<any>()
