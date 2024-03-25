@@ -9,6 +9,8 @@ import { Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from './components/Table'
+import { useOrganizationStore } from '@/store'
+import { Select } from 'jobseeker-ui'
 
 const PreviousEmployeePage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
