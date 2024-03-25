@@ -5,13 +5,16 @@ import { Provider } from 'jobseeker-ui'
 import Boot from './Boot'
 import router from './router'
 import './index.css'
+import { ImagePreviewerProvider } from './contexts/ImagePreviewerContext'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider>
-      <Boot>
-        <RouterProvider router={router} />
-      </Boot>
+      <ImagePreviewerProvider>
+        <Boot>
+          <RouterProvider router={router} />
+        </Boot>
+      </ImagePreviewerProvider>
     </Provider>
   </React.StrictMode>,
 )

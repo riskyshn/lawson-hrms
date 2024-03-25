@@ -1,13 +1,13 @@
-import ImagePreviewer from '@/components/Elements/ImagePreviewer'
 import MainTable from '@/components/Elements/MainTable'
 import MapsPreviewer from '@/components/Elements/MapsPreviewer'
+import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Card } from 'jobseeker-ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
 import React, { useState } from 'react'
 
 const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
-  const [selectedAttachment, setSelectedAttachment] = useState<string | null>(null)
+  const previewImage = usePreviewImage()
 
   const headerItems = [
     { children: 'Date', className: 'text-left' },
@@ -66,7 +66,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
             <button
               title="Maps"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setSelectedAttachment(item.type[0].attachment)}
+              onClick={() => previewImage(item.type[0].attachment)}
             >
               <ImageIcon size={18} />
             </button>
@@ -79,7 +79,6 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
   return (
     <Card>
       <MapsPreviewer coordinates={selectedLocation} onClose={() => setSelectedLocation(null)} />
-      <ImagePreviewer url={selectedAttachment} onClose={() => setSelectedAttachment(null)} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} />
     </Card>
   )
