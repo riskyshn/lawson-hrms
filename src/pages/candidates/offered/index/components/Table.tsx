@@ -13,7 +13,7 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading, onDataChange }) => {
-  const options = ['Send Reminder']
+  const options = ['Send Reminder', 'View Profile']
 
   const bodyItems = items.map((candidate) => ({
     items: [

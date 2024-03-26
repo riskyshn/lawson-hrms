@@ -36,4 +36,30 @@ interface ICandidate {
   withdrawReason?: string
   vacancyId?: string
   vacancyName?: string
+  phone?: string
+  gender?: string
+  age?: string
+  expectedSalary?: string
+  nik?: string
+  birthdate?: string
+  educations?: {
+    id: string
+    degree?: {
+      id: string
+      name: string
+    }
+    major: string
+    institution: string
+    gpa: string
+    startDate: string
+    graduateDate: string
+    untilNow: string
+  }[]
+  experiences?: {
+    companyName: string
+    position: string
+    startDate: string
+    endDate: string
+  }[]
+  ktp?: string
 }

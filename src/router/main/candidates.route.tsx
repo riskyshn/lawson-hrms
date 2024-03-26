@@ -7,6 +7,7 @@ import CandidateRejectedPage from '@/pages/candidates/rejected/index/CandidateRe
 import CandidateWithdrawPage from '@/pages/candidates/withdraw/index/CandidateWithdrawPage'
 import CandidateBlacklistedPage from '@/pages/candidates/blacklisted/index/CandidateBlacklistedPage'
 import CandidateOfferedPage from '@/pages/candidates/offered/index/CandidateOfferedPage'
+import CandidateProfilePage from '@/pages/candidates/profile/index/CandidateProfilePage'
 
 const candidatesRoute: RouteObject = {
   path: 'candidates',
@@ -79,6 +80,16 @@ const candidatesRoute: RouteObject = {
         {
           path: '',
           element: <CandidateOfferedPage />,
+        },
+      ],
+    },
+    {
+      path: 'profile/:candidateId',
+      name: 'Candidate Profile',
+      children: [
+        {
+          path: '',
+          element: <CandidateProfilePage />,
         },
       ],
     },

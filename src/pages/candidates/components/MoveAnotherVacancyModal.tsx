@@ -39,9 +39,8 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
     }
 
     const payload = {
-      candidateId: candidate.candidateId,
-      vacancyId: candidate.vacancyId,
-      newVacancyId: selectedVacancyId,
+      applicantId: candidate.id,
+      vacancyId: selectedVacancyId,
     }
 
     setLoading(true)

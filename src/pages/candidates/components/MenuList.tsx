@@ -11,6 +11,7 @@ import {
   SendIcon,
   SendToBackIcon,
   ShoppingBagIcon,
+  UserIcon,
   UserRoundPlusIcon,
   UserXIcon,
   XCircleIcon,
@@ -24,6 +25,7 @@ import { candidateService } from '@/services'
 import WithdrawModal from './WithdrawModal'
 import RejectModal from './RejectModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
+import { useNavigate } from 'react-router-dom'
 
 interface MenuListProps {
   options: string[]
@@ -35,6 +37,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const toast = useToast()
+  const navigate = useNavigate()
 
   const handleViewDetails = (option: string) => {
     setShowOptionModal(true)
@@ -87,6 +90,9 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
           })
         break
 
+      case 'View Profile':
+        navigate(`/candidates/profile/${candidate.id}`)
+        break
       default:
         break
     }
@@ -187,6 +193,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
                   {option === 'View in Onboarding' && (
                     <ShoppingBagIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
+                  {option === 'View Profile' && <UserIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
                   {option}
                 </button>
               )}
