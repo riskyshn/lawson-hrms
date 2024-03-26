@@ -1,4 +1,10 @@
-export function employeeToFormEdit(employee: IEmployee) {
+import { employeeService } from '@/services'
+
+export async function employeeToFormEdit(employee: IEmployee) {
+  const isPicActive = employee.employment?.picApproval?.oid
+    ? (await employeeService.isEmployeeActive(employee.employment.picApproval.oid)).active
+    : false
+
   return {
     personalData: {
       name: employee.name || '',
@@ -24,7 +30,7 @@ export function employeeToFormEdit(employee: IEmployee) {
       departmentId: employee.employment?.department?.oid || '',
       positionId: employee.employment?.position?.oid || '',
       jobLevelId: employee.employment?.jobLevel?.oid || '',
-      picApprovalId: employee.employment?.picApproval?.oid || '',
+      picApprovalId: isPicActive ? employee.employment?.picApproval?.oid || '' : '',
       scheduleId: employee.employment?.schedule?.oid || '',
     },
     payroll: {

@@ -14,6 +14,7 @@ interface IDataTableEmployee {
   oid: string
   employeeId?: string
   name?: string
+  email?: string
   branch?: { oid: string; name?: string }
   department?: { oid: string; name?: string }
   position?: { oid: string; name?: string }
