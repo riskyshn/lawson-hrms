@@ -105,3 +105,11 @@ export const moveToAnotherVacancy = (payload: Record<string, any>) => {
 export const applyVacancy = (payload: Record<string, any>) => {
   return axios.post<{ data: ICandidate }>(`/basic/apply`, payload).then((response) => response.data.data)
 }
+
+export const fetchCandidate = (id: string) => {
+  return axiosCandidate.get<{ data: ICandidate }>(`/candidate/profile/${id}`).then((response) => response.data.data)
+}
+
+export const downloadCandidate = (payload: Record<string, any>) => {
+  return axiosCandidate.get(`/candidate/export`, payload).then((response) => response.data)
+}

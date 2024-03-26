@@ -17,7 +17,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null)
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | 'CandidateMatch' | null>(null)
-  const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'Reject']
+  const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'View Profile', 'Reject']
 
   const handleViewDetails = (candidate: any, option: string) => {
     setSelectedCandidate(candidate)

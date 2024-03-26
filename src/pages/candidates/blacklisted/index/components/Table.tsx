@@ -12,7 +12,7 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading, onDataChange }) => {
-  const options = ['Unblacklist']
+  const options = ['Unblacklist', 'View Profile']
 
   const bodyItems = items.map((candidate) => ({
     items: [
