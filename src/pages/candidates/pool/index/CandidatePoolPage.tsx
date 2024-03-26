@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Button, Select } from 'jobseeker-ui'
+import { Button, Select, useToast } from 'jobseeker-ui'
 import { FileSpreadsheetIcon } from 'lucide-react'
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
@@ -9,10 +8,10 @@ import usePagination from '@/hooks/use-pagination'
 import Table from './components/Table'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
-import { candidateService, masterService } from '@/services'
+import { candidateService, masterService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useMasterStore, useOrganizationStore } from '@/store'
+import { useMasterStore } from '@/store'
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 
 const CandidatePoolPage: React.FC = () => {
@@ -24,18 +23,21 @@ const CandidatePoolPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
   const [onChangeData, setOnChangeData] = useState<string>()
+  const toast = useToast()
 
-  const position = searchParams.get('position') || undefined
+  const vacancy = searchParams.get('vacancy') || undefined
   const province = searchParams.get('province') || undefined
   const education = searchParams.get('education') || undefined
 
-  const { master } = useOrganizationStore()
+  const [selectedVacancyId, setSelectedVacancyId] = useState<string | number>('')
+  const [vacancies, setVacancies] = useState<any[]>([])
+
   const { educatioLevels } = useMasterStore()
 
   const pagination = usePagination({
     pathname: '/candidates/pool',
     totalPage: pageData?.totalPages || 0,
-    params: { search, position, province, education },
+    params: { search, vacancy, province, education },
   })
 
   useEffect(() => {
@@ -51,7 +53,7 @@ const CandidatePoolPage: React.FC = () => {
             page: pagination.currentPage,
             limit: 20,
             education: education,
-            position: position,
+            vacancyId: vacancy,
             province: province,
           },
           signal,
@@ -68,7 +70,63 @@ const CandidatePoolPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage, onChangeData])
+  }, [search, vacancy, education, province, pagination.currentPage, onChangeData])
+
+  useEffect(() => {
+    fetchVacancies()
+  }, [])
+
+  const fetchVacancies = async () => {
+    try {
+      const data = await vacancyService.fetchVacancies()
+      setVacancies(data.content)
+    } catch (error) {
+      console.error('Error fetching vacancies:', error)
+    }
+  }
+
+  const handleExportToExcel = async () => {
+    try {
+      const excelData = await candidateService.downloadCandidate({
+        q: search,
+        page: pagination.currentPage,
+        limit: 20,
+        education: education,
+        vacancy: vacancy,
+        province: province,
+      })
+
+      if (!excelData) {
+        console.error('Empty response received.')
+        return
+      }
+
+      const decodedData = atob(excelData)
+      const uint8Array = new Uint8Array(decodedData.length)
+      for (let i = 0; i < decodedData.length; i++) {
+        uint8Array[i] = decodedData.charCodeAt(i)
+      }
+
+      const blob = new Blob([uint8Array], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'candidates.xlsx'
+
+      document.body.appendChild(a)
+      a.click()
+
+      document.body.removeChild(a)
+      toast('Download successfully.', { color: 'success' })
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.meta?.message || error.message
+      toast(errorMessage, { color: 'error', position: 'top-right' })
+    }
+  }
+
+  const handleChange = (selectedValue: string | number) => {
+    setSelectedVacancyId(selectedValue)
+  }
 
   if (pageError) throw pageError
 
@@ -78,13 +136,7 @@ const CandidatePoolPage: React.FC = () => {
         title="Candidate Pool"
         breadcrumb={[{ text: 'Candidates' }, { text: 'Cadiadate Pool' }]}
         actions={
-          <Button
-            as={Link}
-            to="/job/management/recruitment-stages"
-            color="success"
-            className="gap-2"
-            rightChild={<FileSpreadsheetIcon size={18} />}
-          >
+          <Button onClick={handleExportToExcel} color="success" className="gap-2" rightChild={<FileSpreadsheetIcon size={18} />}>
             Export To Excel
           </Button>
         }
@@ -113,14 +165,15 @@ const CandidatePoolPage: React.FC = () => {
                 open && (
                   <div className="grid grid-cols-3 gap-3 p-3">
                     <Select
-                      placeholder="All Position"
+                      placeholder="All Vacancy"
                       withReset
-                      value={position}
+                      value={selectedVacancyId}
                       onChange={(e) => {
-                        searchParams.set('position', e.toString())
+                        searchParams.set('vacancy', e.toString())
                         setSearchParam(searchParams)
+                        handleChange(e)
                       }}
-                      options={master.positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                      options={vacancies.map((vacancy) => ({ value: vacancy.id, label: vacancy.vacancyName }))}
                     />
                     <AsyncSelect
                       className="mb-2"
