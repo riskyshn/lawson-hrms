@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import ActionMenu from './ActionMenu'
 import BlacklistModal from './BlacklistModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
+import ProcessModal from './ProcessModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
 import ViewHistoryModal from './ViewHistoryModal'
@@ -87,6 +88,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
         show={!!selected && selected.type === 'VIEW HISTORY'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
+      />
+      <ProcessModal
+        show={!!selected && selected.type === 'PROCESS'}
+        applicant={selected?.item}
+        onClose={() => setSelected(null)}
+        onSubmited={onRefresh}
       />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>

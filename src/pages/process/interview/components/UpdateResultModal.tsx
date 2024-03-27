@@ -28,7 +28,7 @@ const schema = yup.object({
       'is-error',
       ({ value }) => value?.replace(ERROR_PREFIX_KEY, ''),
       (value) => {
-        if (typeof value === 'string') return !value.startsWith(ERROR_PREFIX_KEY)
+        if (value && typeof value === 'string') return !value.startsWith(ERROR_PREFIX_KEY)
         return true
       },
     )
@@ -51,9 +51,6 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
     reset,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      status: 'FAILED',
-    },
   })
 
   useEffect(() => {
@@ -84,9 +81,8 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Candidate Result</h4>
       </div>
-      <form onSubmit={onSubmit}>
-        <div className="mb-4">
-          <p className="mb-2 text-xs">Update Candidate’s Result</p>
+      <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3">
+        <InputWrapper label="Update Candidate’s Result" labelRequired error={errors.file?.message}>
           <div className="flex gap-4">
             <InputRadio className="text-green-600" id="radio-passed" value="PASSED" {...register('status')}>
               Passed
@@ -95,9 +91,9 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
               Failed
             </InputRadio>
           </div>
-        </div>
+        </InputWrapper>
 
-        <Textarea className="mb-4" label="Notes" rows={4} error={errors.notes?.message} {...register('notes')} />
+        <Textarea label="Notes" rows={4} error={errors.notes?.message} {...register('notes')} />
 
         <InputWrapper label="Upload file" error={errors.file?.message}>
           <ImageUploader
@@ -118,7 +114,7 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
           />
         </InputWrapper>
 
-        <div className="mt-8 flex justify-end gap-2">
+        <div className="mt-4 flex justify-end gap-2">
           <Button type="button" onClick={onClose} color="error" variant="light" disabled={loading} className="w-24">
             Cancel
           </Button>
