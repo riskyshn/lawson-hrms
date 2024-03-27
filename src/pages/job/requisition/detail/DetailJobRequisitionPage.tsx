@@ -29,11 +29,11 @@ const DetailJobRequisitionPage: React.FC = () => {
   const queuedEmployee = vacancy?.approvals?.users?.find((el) => el.flag === 0)
 
   useEffect(() => {
-    if (!isAdmin || !queuedEmployee || queuedEmployee.id === user?.employee?.oid) return
+    if (!isAdmin || !queuedEmployee || queuedEmployee.oid === user?.employee?.oid) return
 
     const load = async () => {
       try {
-        const employee = await employeeService.fetchEmployee(queuedEmployee?.id)
+        const employee = await employeeService.fetchEmployee(queuedEmployee?.oid)
         setEmployee(employee)
       } catch (e) {
         setPageError(axiosErrorMessage(e))
@@ -56,7 +56,7 @@ const DetailJobRequisitionPage: React.FC = () => {
       if (!vacancy) return
       try {
         setLoading(true)
-        vacancyService.approveRequisition(vacancy.id, {
+        vacancyService.approveRequisition(vacancy.oid, {
           approvalId: oid,
           flag,
           notes: data.notes,
@@ -86,10 +86,10 @@ const DetailJobRequisitionPage: React.FC = () => {
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
 
-        {queuedEmployee && (isAdmin || queuedEmployee.id === user?.employee?.oid) && (
+        {queuedEmployee && (isAdmin || queuedEmployee.oid === user?.employee?.oid) && (
           <Card>
             <CardBody>
-              {queuedEmployee.id !== user?.employee?.oid && (
+              {queuedEmployee.oid !== user?.employee?.oid && (
                 <>
                   {employee ? (
                     <Alert color="warning" className="mb-3 text-center">
@@ -104,10 +104,10 @@ const DetailJobRequisitionPage: React.FC = () => {
             </CardBody>
 
             <CardFooter className="gap-3">
-              <Button type="button" color="error" className="w-32" onClick={() => onSubmit(2, queuedEmployee.id)()} disabled={loading}>
+              <Button type="button" color="error" className="w-32" onClick={() => onSubmit(2, queuedEmployee.oid)()} disabled={loading}>
                 Reject
               </Button>
-              <Button type="button" color="primary" className="w-32" onClick={() => onSubmit(1, queuedEmployee.id)()} disabled={loading}>
+              <Button type="button" color="primary" className="w-32" onClick={() => onSubmit(1, queuedEmployee.oid)()} disabled={loading}>
                 Approve
               </Button>
             </CardFooter>

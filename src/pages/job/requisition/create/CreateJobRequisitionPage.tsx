@@ -39,7 +39,7 @@ const CreateJobRequisitionPage = () => {
 
       const createdVacancy = await vacancyService.createVacancy(processedData)
       toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
-      navigate(`/job/requisition/${createdVacancy.id}`)
+      navigate(`/job/requisition/${createdVacancy.oid}`)
     } catch (error) {
       toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
       setIsSubmitLoading(false)

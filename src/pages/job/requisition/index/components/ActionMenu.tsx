@@ -35,7 +35,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
     text: 'Go to Job Management',
     icon: EyeIcon,
     action() {
-      navigate(`/job/management/${vacancy.id}`)
+      navigate(`/job/management/${vacancy.oid}`)
     },
   }
 
@@ -43,7 +43,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
     text: 'Review Requisition',
     icon: EyeIcon,
     action() {
-      navigate(`/job/requisition/${vacancy.id}`)
+      navigate(`/job/requisition/${vacancy.oid}`)
     },
   }
 
@@ -59,12 +59,12 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       const approval = vacancy.approvals?.users?.find((el) => el.flag === 0)
       if (!approval) return
 
-      if (user?.employee?.oid === approval.id) return toast('You cannot send a reminder to yourself!', { color: 'error' })
+      if (user?.employee?.oid === approval.oid) return toast('You cannot send a reminder to yourself!', { color: 'error' })
 
       const confirmed = await confirm(`Are you sure you want to send a reminder to ${approval.name}?`)
       if (confirmed) {
         try {
-          await vacancyService.sendReminder(vacancy.id)
+          await vacancyService.sendReminder(vacancy.oid)
           toast('Reminder sent successfully.', { color: 'success' })
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
@@ -85,7 +85,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
     text: 'Edit Requisition',
     icon: PenToolIcon,
     action() {
-      navigate(`/job/requisition/${vacancy.id}/edit`)
+      navigate(`/job/requisition/${vacancy.oid}/edit`)
     },
   }
 
@@ -101,7 +101,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       })
       if (confirmed) {
         try {
-          await vacancyService.cancelRequisition(vacancy.id)
+          await vacancyService.cancelRequisition(vacancy.oid)
           toast('Requisition canceled successfully.', { color: 'success' })
           onVacancyUpdated?.({ ...vacancy, canceledDate: moment.now().toString() })
         } catch (e: any) {
@@ -118,7 +118,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       const confirmed = await confirm('Are you sure you want to post this vacancy?')
       if (confirmed) {
         try {
-          await vacancyService.publishRequisition(vacancy.id)
+          await vacancyService.publishRequisition(vacancy.oid)
           toast('Vacancy posted successfully.', { color: 'success' })
           onVacancyUpdated?.({ ...vacancy, flag: 1 })
         } catch (e: any) {
@@ -140,9 +140,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
       })
       if (confirmed) {
         try {
-          await vacancyService.deleteDraftVacancy(vacancy.id)
+          await vacancyService.deleteDraftVacancy(vacancy.oid)
           toast('Draft vacancy deleted successfully.', { color: 'success' })
-          onVacancyDeleted?.(vacancy.id)
+          onVacancyDeleted?.(vacancy.oid)
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }

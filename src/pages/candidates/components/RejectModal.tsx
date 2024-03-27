@@ -21,11 +21,8 @@ const RejectModal: React.FC<RejectModalProps> = ({ show, onClose, candidate, onA
   }, [])
 
   const fetchReasonReject = async () => {
-    const payload = {
-      type: 'reject',
-    }
     try {
-      const data = await masterService.fetchReason(payload)
+      const data = await masterService.fetchReasons({ type: 'reject' })
       setReasonReject(data.content)
     } catch (error) {
       console.error('Error fetching reason:', error)

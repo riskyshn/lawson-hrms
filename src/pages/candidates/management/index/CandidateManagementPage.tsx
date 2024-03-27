@@ -105,7 +105,7 @@ const CandidateManagementPage: React.FC = () => {
                     <Select
                       placeholder="Select Vacancy"
                       withReset
-                      options={vacancies.map((vacancy) => ({ value: vacancy.id, label: vacancy.vacancyName }))}
+                      options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
                       className="mb-3"
                       value={vacancy}
                       onChange={(e) => {

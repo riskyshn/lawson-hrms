@@ -68,7 +68,7 @@ const JobManajementPage: React.FC = () => {
   const updateVacancy = useCallback(
     (vacancy: IVacancy) => {
       if (!pageData) return
-      setPageData({ ...pageData, content: pageData.content.map((el) => (el.id === vacancy.id ? vacancy : el)) })
+      setPageData({ ...pageData, content: pageData.content.map((el) => (el.oid === vacancy.oid ? vacancy : el)) })
       setSwitchData((v) => !v)
     },
     [pageData],
@@ -77,7 +77,7 @@ const JobManajementPage: React.FC = () => {
   const removeVacancy = useCallback(
     (id: string) => {
       if (!pageData) return
-      setPageData({ ...pageData, content: pageData.content.filter((el) => el.id !== id) })
+      setPageData({ ...pageData, content: pageData.content.filter((el) => el.oid !== id) })
       setSwitchData((v) => !v)
     },
     [pageData],

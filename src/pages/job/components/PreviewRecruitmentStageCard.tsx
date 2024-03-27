@@ -5,7 +5,7 @@ import React from 'react'
 const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruitmentProcess'], undefined> }> = ({ process }) => {
   const { recruitmentStages } = useOrganizationStore()
 
-  const stages = process.map((el) => el.id)
+  const stages = process.map((el) => el.oid)
   const interviews = recruitmentStages.filter((el) => el.type == 'INTERVIEW').filter((el) => stages.includes(el.oid))
   const assesments = recruitmentStages.filter((el) => el.type == 'ASSESMENT').filter((el) => stages.includes(el.oid))
 

@@ -1,5 +1,5 @@
 interface IVacancy {
-  id: string
+  oid: string
   createdAt?: string
   updatedAt?: string
   expiredDate?: string
@@ -17,41 +17,41 @@ interface IVacancy {
   negotiableSalary?: boolean
   other?: string
   company?: {
-    id: string
+    oid: string
     name?: string
   }
   jobLevel?: {
-    id: string
+    oid: string
     name?: string
   }
   jobType?: {
-    id: string
-    name?: { en?: string; id: string }
+    oid: string
+    name?: { en?: string; oid: string }
   }
   workplacementType?: {
-    id: string
+    oid: string
     name?: {
       en?: string
-      id: string
+      oid: string
     }
   }
   department?: {
-    id: string
+    oid: string
     name?: string
   }
   branch?: {
-    id: string
+    oid: string
     name?: string
   }
   city?: {
-    id: string
+    oid: string
     name?: string
   }
   genderRequirement?: {
     type?: string
     name?: {
       en?: string
-      id: string
+      oid: string
     }
     mustMeetCriteria?: boolean
   }
@@ -61,6 +61,7 @@ interface IVacancy {
     mustMeetCriteria?: boolean
   }
   minimalEducationRequirement?: {
+    oid: string
     minimalEducation?: {
       en?: string
       id: string
@@ -77,12 +78,12 @@ interface IVacancy {
     mustMeetCriteria?: boolean
   }
   cityRequirement?: {
-    id: string
+    oid: string
     name?: string
     mustMeetCriteria?: boolean
   }
   provinceRequirement?: {
-    id: string
+    oid: string
     name?: string
     mustMeetCriteria?: boolean
   }
@@ -91,14 +92,14 @@ interface IVacancy {
     mustMeetCriteria?: boolean
   }
   recruitmentProcess?: Array<{
-    id: string
+    oid: string
     name?: string
     seq?: number
   }>
   approvals?: {
     flag?: number
     users?: Array<{
-      id: string
+      oid: string
       seq?: number
       flag?: number
       name?: string
@@ -106,11 +107,11 @@ interface IVacancy {
       notes?: string
 
       department?: {
-        id: string
+        oid: string
         name?: string
       }
       position?: {
-        id: string
+        oid: string
         name?: string
       }
 
@@ -119,7 +120,7 @@ interface IVacancy {
     }>
   }
   district?: {
-    id: string
+    oid: string
     name?: string
   }
   status?: string

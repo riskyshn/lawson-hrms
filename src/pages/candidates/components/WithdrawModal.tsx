@@ -21,11 +21,8 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, candidate,
   }, [])
 
   const fetchReasonWithdraw = async () => {
-    const payload = {
-      type: 'withdraw',
-    }
     try {
-      const data = await masterService.fetchReason(payload)
+      const data = await masterService.fetchReasons({ type: 'withdraw' })
       setReasonWithdraw(data.content)
     } catch (error) {
       console.error('Error fetching reason:', error)

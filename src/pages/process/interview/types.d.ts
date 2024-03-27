@@ -1,0 +1,8 @@
+export type ModalType =
+  | 'PROCESS'
+  | 'UPDATE RESULT'
+  | 'OFFERING LETTER'
+  | 'MOVE TO ANOTHER VACANCY'
+  | 'VIEW HISTORY'
+  | 'BLACKLIST'
+  | 'REJECT'
