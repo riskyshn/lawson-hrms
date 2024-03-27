@@ -82,7 +82,7 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
         <h4 className="mb-2 text-center text-2xl font-semibold">Candidate Result</h4>
       </div>
       <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3">
-        <InputWrapper label="Update Candidate’s Result" labelRequired error={errors.file?.message}>
+        <InputWrapper label="Update Candidate’s Result" labelRequired error={errors.status?.message}>
           <div className="flex gap-4">
             <InputRadio className="text-green-600" id="radio-passed" value="PASSED" {...register('status')}>
               Passed
