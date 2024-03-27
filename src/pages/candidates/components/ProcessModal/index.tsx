@@ -26,7 +26,7 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, candidate, onClose })
     const load = async (vacancyId: string) => {
       try {
         const vacancy = await vacancyService.fetchVacancyDetail(vacancyId)
-        const processIds = vacancy.recruitmentProcess?.map((el) => el.id) || []
+        const processIds = vacancy.recruitmentProcess?.map((el) => el.oid) || []
         const stages = recruitmentStages.filter((el) => processIds.includes(el.oid))
 
         const interviews = stages.filter((el) => el.type == 'INTERVIEW')

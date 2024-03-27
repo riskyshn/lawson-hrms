@@ -23,7 +23,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     text: 'View Detail',
     icon: EyeIcon,
     action() {
-      navigate(`/job/management/${vacancy.id}`)
+      navigate(`/job/management/${vacancy.oid}`)
     },
   }
 
@@ -36,7 +36,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     text: 'Edit Vacancy',
     icon: PenToolIcon,
     action() {
-      navigate(`/job/management/${vacancy.id}/edit`)
+      navigate(`/job/management/${vacancy.oid}/edit`)
     },
   }
 
@@ -46,7 +46,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     iconClassName: 'text-error-600',
     action: async () => {
       try {
-        await vacancyService.updateVacancyStatus(vacancy.id, 'inactive')
+        await vacancyService.updateVacancyStatus(vacancy.oid, 'inactive')
         toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
         onVacancyUpdated?.({ ...vacancy, flag: 4 })
       } catch (e: any) {
@@ -60,7 +60,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     icon: PowerIcon,
     action: async () => {
       try {
-        await vacancyService.updateVacancyStatus(vacancy.id, 'active')
+        await vacancyService.updateVacancyStatus(vacancy.oid, 'active')
         toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
         onVacancyUpdated?.({ ...vacancy, flag: 1 })
       } catch (e: any) {
@@ -81,9 +81,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
       })
       if (confirmed) {
         try {
-          await vacancyService.deleteDraftVacancy(vacancy.id)
+          await vacancyService.deleteDraftVacancy(vacancy.oid)
           toast('Draft vacancy deleted successfully.', { color: 'success', position: 'top-right' })
-          onVacancyDeleted?.(vacancy.id)
+          onVacancyDeleted?.(vacancy.oid)
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
         }

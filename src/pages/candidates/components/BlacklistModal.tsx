@@ -21,11 +21,8 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidat
   }, [])
 
   const fetchReasonBlacklist = async () => {
-    const payload = {
-      type: 'blacklist',
-    }
     try {
-      const data = await masterService.fetchReason(payload)
+      const data = await masterService.fetchReasons({ type: 'blacklist' })
       setReasonBlacklist(data.content)
     } catch (error) {
       console.error('Error fetching reason:', error)

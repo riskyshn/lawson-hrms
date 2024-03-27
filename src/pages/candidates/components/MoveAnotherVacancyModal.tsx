@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/MainModal'
 import { candidateService, vacancyService } from '@/services'
+import { Button, Select, useToast } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
 
 type MoveAnotherVacancyModalProps = {
   show: boolean
@@ -71,13 +71,13 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
       <Select
         label="Select Vacancy"
         placeholder="Select Vacancy"
-        options={vacancies.map((vacancy) => ({ value: vacancy.id, label: vacancy.vacancyName }))}
+        options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
         className="mb-3"
         value={selectedVacancyId}
         onChange={handleChange}
       />
-      <Button block color="primary" className="mx-auto" onClick={handleSelectVacancy}>
-        {loading ? <Spinner height={20} className="text-white-600" /> : 'Select Vacancy'}
+      <Button block type="button" color="primary" className="mx-auto" loading={loading} onClick={handleSelectVacancy}>
+        Select Vacancy
       </Button>
     </MainModal>
   )

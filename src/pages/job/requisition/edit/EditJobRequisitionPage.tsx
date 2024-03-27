@@ -47,8 +47,8 @@ const EditJobRequisitionPage = () => {
     try {
       const processedData = processFormData(data)
       setIsSubmitLoading(true)
-      console.log(vacancy.id, processedData)
-      await vacancyService.udpateVacancy(vacancy.id, processedData)
+      console.log(vacancy.oid, processedData)
+      await vacancyService.udpateVacancy(vacancy.oid, processedData)
       toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
       navigate('/job/requisition')
     } catch (error) {

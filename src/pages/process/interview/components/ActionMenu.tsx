@@ -1,104 +1,50 @@
-import React, { useState } from 'react'
-import { Menu } from '@headlessui/react'
-import { Button } from 'jobseeker-ui'
-import {
-  CalendarDaysIcon,
-  FileTextIcon,
-  HistoryIcon,
-  RefreshCwIcon,
-  SendToBackIcon,
-  UserPlus2Icon,
-  UserXIcon,
-  XCircleIcon,
-} from 'lucide-react'
-import { twJoin } from 'tailwind-merge'
-import { useNavigate } from 'react-router-dom'
-import ViewHistoryModal from '../../Modals/ViewHistoryModal'
-import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
-import UpdateResultModal from '../../Modals/UpdateResultModal'
-import RejectModal from '../../Modals/RejectModal'
-import BlacklistModal from '../../Modals/BlacklistModal'
-import ProcessModal from '../../Modals/ProcessModal'
+import React from 'react'
+import * as Table from '@/components/Elements/MainTable'
+import { HistoryIcon, LucideIcon, RepeatIcon, SendToBackIcon, UserPlusIcon, UserXIcon, XCircleIcon } from 'lucide-react'
+import { ModalType } from '../types'
 
-interface MenuListProps {
-  options: string[]
-  items?: any
-  candidate?: any
+type ActionMenuProps = {
+  item: IDataTableApplicant
+  index: number
+  total: number
+  upSpace: number
+  onVacancyUpdated?: (item: IVacancy) => void
+  onVacancyDeleted?: (id: string) => void
+  setSelected: (selected: { item: IDataTableApplicant; type: ModalType }) => void
 }
 
-const ActionMenu: React.FC<MenuListProps> = ({ options, items, candidate }) => {
-  const [showOptionModal, setShowOptionModal] = useState(false)
-  const [modalType, setModalType] = useState('')
-  const navigate = useNavigate()
+const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelected }) => {
+  const createMenuItem = (text: string, icon: LucideIcon, type: ModalType, iconClassName?: string): Table.ActionMenuItemProps => ({
+    text,
+    icon,
+    action: () => setSelected({ item, type }),
+    iconClassName,
+  })
 
-  const handleViewDetails = (option: string) => {
-    setModalType(option)
-    setShowOptionModal(true)
-    if (option === 'Offering Letter') {
-      navigate('/process/offering-letter')
-    }
+  const process = createMenuItem('Process', RepeatIcon, 'PROCESS')
+  const updateResult = createMenuItem('Update Result', UserPlusIcon, 'UPDATE RESULT')
+  const offeringLetter = createMenuItem('Offering Letter', RepeatIcon, 'OFFERING LETTER')
+  const moveToAnotherVacancy = createMenuItem('Move to Another Vacancy', SendToBackIcon, 'MOVE TO ANOTHER VACANCY')
+  const viewHistory = createMenuItem('View History', HistoryIcon, 'VIEW HISTORY')
+  const blacklist = createMenuItem('Blacklist', UserXIcon, 'BLACKLIST')
+  const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
+
+  const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
+    '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject],
+    '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
+    '2': [process, offeringLetter, moveToAnotherVacancy, blacklist, reject],
   }
 
-  const renderModal = () => {
-    switch (modalType) {
-      case 'View History':
-        return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
-      case 'Move to Another Vacancy':
-        return <MoveAnotherVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'Update Result':
-        return <UpdateResultModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'Reject':
-        return <RejectModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'Blacklist':
-        return <BlacklistModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
-      case 'Process':
-        return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
-      default:
-        return null
-    }
-  }
+  const menu = menuItems[item.status?.oid || '0']
 
-  const iconMap: { [key: string]: JSX.Element } = {
-    Process: <RefreshCwIcon />,
-    'Offering Letter': <FileTextIcon />,
-    'Move to Another Vacancy': <SendToBackIcon />,
-    'View History': <HistoryIcon />,
-    'View in Interview': <CalendarDaysIcon />,
-    Blacklist: <UserXIcon />,
-    Reject: <XCircleIcon />,
-    'Update Result': <UserPlus2Icon />,
-  }
+  if (!menu) return null
 
   return (
-    <div className="text-center">
-      <Menu as="div" className="relative">
-        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
-          Action
-        </Menu.Button>
-        <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
-          {options.map((option, index) => (
-            <Menu.Item key={index}>
-              {({ active }) => (
-                <button
-                  className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm ${active && 'bg-primary-100'}`}
-                  onClick={() => handleViewDetails(option)}
-                >
-                  {iconMap[option] &&
-                    React.cloneElement(iconMap[option], {
-                      className: twJoin(
-                        'h-4 w-4',
-                        option === 'Reject' ? (active ? 'text-red-600' : 'text-red-400') : active ? 'text-primary-600' : 'text-gray-400',
-                      ),
-                    })}
-                  {option}
-                </button>
-              )}
-            </Menu.Item>
-          ))}
-        </Menu.Items>
-      </Menu>
-      {showOptionModal && renderModal()}
-    </div>
+    <Table.ActionMenu up={index >= total - upSpace}>
+      {menu.map((menuItem, i) => (
+        <Table.ActionMenuItem key={i} {...menuItem} />
+      ))}
+    </Table.ActionMenu>
   )
 }
 
