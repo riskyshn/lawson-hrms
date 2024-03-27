@@ -1,3 +1,4 @@
+import SchedulePage from '@/pages/attendance/schedule/index/SchedulePage'
 import type { RouteObject } from 'react-router-dom'
 
 const attendanceRoute: RouteObject = {
@@ -10,7 +11,7 @@ const attendanceRoute: RouteObject = {
       children: [
         {
           path: '',
-          // element: <CandidatePoolPage />,
+          element: <SchedulePage />,
         },
       ],
     },
