@@ -97,7 +97,7 @@ const ApplyToPage: React.FC = () => {
                 </ul>
               )}
 
-              {!data.unselected.length && (
+              {employees && !data.unselected.length && (
                 <div className="py-6 text-center">
                   <span className="mb-2 block text-xl">No available employees</span>
                   <span className="block text-xs">Please select an employee from the list below.</span>
@@ -145,7 +145,7 @@ const ApplyToPage: React.FC = () => {
                 </ul>
               )}
 
-              {!data.selected.length && (
+              {employees && !data.selected.length && (
                 <div className="py-6 text-center">
                   <span className="mb-2 block text-xl">No selected employees</span>
                   <span className="block text-xs">You haven't selected any employees yet.</span>
