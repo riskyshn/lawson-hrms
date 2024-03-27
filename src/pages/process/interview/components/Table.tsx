@@ -81,7 +81,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
         show={!!selected && selected.type === 'UPDATE RESULT'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
-        // onRejected={onRefresh}
+        onSubmited={onRefresh}
       />
       <ViewHistoryModal
         show={!!selected && selected.type === 'VIEW HISTORY'}
