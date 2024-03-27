@@ -31,7 +31,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject],
-    '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
+    '1': [offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
     '2': [process, offeringLetter, moveToAnotherVacancy, blacklist, reject],
   }
 

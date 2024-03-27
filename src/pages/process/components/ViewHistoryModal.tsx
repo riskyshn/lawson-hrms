@@ -1,9 +1,20 @@
 import MainModal from '@/components/Elements/MainModal'
 import { processService } from '@/services'
 import { Button, Card, CardBody, Spinner } from 'jobseeker-ui'
-import { CalendarIcon, CheckCircle2Icon, FileInputIcon, UserIcon, XCircleIcon } from 'lucide-react'
+import {
+  AlertCircleIcon,
+  CalendarIcon,
+  CheckCircle2Icon,
+  CircleEllipsisIcon,
+  ClockIcon,
+  FileInputIcon,
+  LucideIcon,
+  UserIcon,
+  XCircleIcon,
+} from 'lucide-react'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
+import { twJoin } from 'tailwind-merge'
 
 type OptionModalProps = {
   show?: boolean
@@ -11,26 +22,20 @@ type OptionModalProps = {
   onClose?: () => void
 }
 
+const statusConfig: Record<string, { Icon: LucideIcon; className: string }> = {
+  PASSED: { Icon: CheckCircle2Icon, className: 'text-green-600' },
+  FAILED: { Icon: XCircleIcon, className: 'text-error-600' },
+  WAITING: { Icon: ClockIcon, className: 'text-gray-600' },
+  PROCESS: { Icon: CircleEllipsisIcon, className: 'text-primary-600' },
+}
+
 const Status: React.FC<{ status?: string }> = ({ status }) => {
-  if (status === 'PASSED') {
-    return (
-      <div className="flex gap-2">
-        <CheckCircle2Icon className="text-green-600" />
-        <span className="text-sm font-semibold text-green-600">Passed</span>
-      </div>
-    )
-  } else if (status === 'FAILED') {
-    return (
-      <div className="flex gap-2">
-        <XCircleIcon className="text-red-600" />
-        <span className="text-sm font-semibold text-red-600">Failed</span>
-      </div>
-    )
-  }
+  status = status?.toUpperCase() || 'UNKNOWN'
+  const { Icon = AlertCircleIcon, className = 'text-warning-600' } = statusConfig[status]
   return (
-    <div className="flex gap-2">
-      <XCircleIcon className="text-red-600" />
-      <span className="text-sm font-semibold text-red-600">{status}</span>
+    <div className={twJoin(className, 'flex justify-center gap-2')}>
+      <Icon size={18} />
+      <span className="text-sm font-semibold capitalize">{status.toLowerCase()}</span>
     </div>
   )
 }
@@ -84,7 +89,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose
                 {aplicantDetail.histories?.map((item, index) => (
                   <li key={index} className="relative mb-5 pl-6 last:mb-0">
                     <span className="absolute left-[-0.4rem] top-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-white ring-4 ring-primary-600" />
-                    <div className="flex justify-between">
+                    <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="flex gap-3 font-semibold">{item.applyProcess}</h3>
                         <p className="mb-2 text-xs text-gray-500">{moment(item.actionAt).format('Y/M/D')}</p>
@@ -94,12 +99,12 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose
                           color="default"
                           variant="light"
                           className="text-xs"
-                          onClick={() => setShowDetailIndex(index)}
+                          onClick={() => setShowDetailIndex((v) => (v === index ? null : index))}
                         >
-                          Show Details
+                          {index === showDetailIndex ? 'Hide Details' : 'Show Details'}
                         </Button>
                       </div>
-                      <div className="flex gap-2">{<Status status={item.status} />}</div>
+                      <Status status={item.status} />
                     </div>
 
                     {showDetailIndex === index && (
@@ -126,12 +131,14 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose
                               dummy
                             </span>
                           </div>
-                          <div className="mb-3">
-                            <h3 className="text-sm font-semibold">Process Remarks</h3>
-                            <span className="flex items-center gap-1 text-xs">{item.notes}</span>
-                          </div>
+                          {item.notes && (
+                            <div className="mb-3">
+                              <h3 className="text-sm font-semibold">Process Remarks</h3>
+                              <span className="flex items-center gap-1 text-xs">{item.notes}</span>
+                            </div>
+                          )}
                           {item.file && (
-                            <>
+                            <div className="mb-3">
                               <h3 className="mb-1 text-sm font-semibold">Document</h3>
                               <Button<'a'>
                                 as="a"
@@ -145,7 +152,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose
                               >
                                 <span className="text-xs">Result Attachment</span>
                               </Button>
-                            </>
+                            </div>
                           )}
                         </CardBody>
                       </Card>

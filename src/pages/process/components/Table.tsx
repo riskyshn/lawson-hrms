@@ -1,7 +1,7 @@
 import type { ModalType } from '../types'
 
 import MainTable from '@/components/Elements/MainTable'
-import { Avatar } from 'jobseeker-ui'
+import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import moment from 'moment'
 import React, { useState } from 'react'
 import ActionMenu from './ActionMenu'
@@ -46,9 +46,17 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
           </div>
         ),
       },
-      { children: item.vacancy?.name || '-' },
-      { children: item.recruitmentStage || '-' },
-      { children: item.status?.name?.toLocaleLowerCase() || '-', className: 'capitalize' },
+      { children: item.vacancy?.name || '-', className: 'whitespace-normal' },
+      { children: item.recruitmentStage || '-', className: 'whitespace-normal' },
+      {
+        children: item.status ? (
+          <Badge color={statusColors(item.status.name?.toLowerCase())} size="small" className="font-semibold capitalize">
+            {item.status.name?.toLowerCase()}
+          </Badge>
+        ) : (
+          '-'
+        ),
+      },
       { children: item.interviewDate ? moment(item.interviewDate).format('D/M/Y HH:MM') : '-' },
       {
         children: (
@@ -99,5 +107,13 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
     </>
   )
 }
+
+const statusColors = genStyles<string, Color>({
+  passed: 'success',
+  failed: 'error',
+  process: 'primary',
+  waiting: 'default',
+  default: 'default',
+})
 
 export default Table
