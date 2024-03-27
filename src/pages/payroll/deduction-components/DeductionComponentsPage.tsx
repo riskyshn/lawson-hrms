@@ -67,7 +67,6 @@ const DeductionComponentsPage: React.FC = () => {
       <PageHeader
         breadcrumb={[{ text: 'Payroll' }, { text: 'Deduction Components' }]}
         title="Deduction Components"
-        subtitle="Manage Your Job Vacancy"
         actions={
           <>
             <Button
@@ -103,7 +102,7 @@ const DeductionComponentsPage: React.FC = () => {
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Vacancy</span> in total
+                  You have <span className="text-primary-600">{pageData?.totalElements} Component</span> in total
                 </>
               }
               search={{

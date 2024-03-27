@@ -67,7 +67,6 @@ const BenefitComponentsPage: React.FC = () => {
       <PageHeader
         breadcrumb={[{ text: 'Payroll' }, { text: 'Benefit Components' }]}
         title="Benefit Components"
-        subtitle="Manage Your Job Vacancy"
         actions={
           <>
             <Button
@@ -103,7 +102,7 @@ const BenefitComponentsPage: React.FC = () => {
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Vacancy</span> in total
+                  You have <span className="text-primary-600">{pageData?.totalElements} Component</span> in total
                 </>
               }
               search={{
