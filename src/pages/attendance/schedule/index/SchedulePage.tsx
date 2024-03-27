@@ -88,7 +88,7 @@ const SchedulePage: React.FC = () => {
             />
           )}
           body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
-          footer={[]}
+          footer={pagination.render()}
         />
       </Container>
     </>
