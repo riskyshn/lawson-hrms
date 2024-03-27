@@ -23,12 +23,12 @@ const employeeRoute: RouteObject = {
           element: <CreateEmployeePage />,
         },
         {
-          path: ':employeeId',
+          path: ':employeeCode',
           name: 'View',
           element: <EmployeeDetailPage />,
         },
         {
-          path: ':employeeId/edit',
+          path: ':employeeCode/edit',
           name: 'View',
           element: <EditEmployeePage />,
         },

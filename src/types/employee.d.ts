@@ -1,6 +1,6 @@
 interface IPreviousEmployee {
   oid: string
-  employeeId?: string
+  employeeCode?: string
   name?: string
   lastdayAt?: string
   reasonInactive?: string
@@ -12,7 +12,7 @@ interface IPreviousEmployee {
 
 interface IDataTableEmployee {
   oid: string
-  employeeId?: string
+  employeeCode?: string
   name?: string
   email?: string
   branch?: { oid: string; name?: string }
@@ -24,7 +24,7 @@ interface IDataTableEmployee {
 
 interface IEmployee {
   oid: string
-  employeeId?: string
+  employeeCode?: string
   name?: string
   email?: string
   personalData?: {

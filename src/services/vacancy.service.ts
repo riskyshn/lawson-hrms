@@ -57,3 +57,7 @@ export const sendReminder = (id: string) => {
 export const fetchVacancyStratistic = (params?: { isRequisition: boolean }) => {
   return axios.get<{ data: Record<string, number> }>(`/vacancy/statistics`, { params }).then((response) => response.data.data)
 }
+
+export const fetchVacancyRRNumber = () => {
+  return axios.get<{ data: string }>(`/requisition/rr-number`).then((response) => response.data.data)
+}

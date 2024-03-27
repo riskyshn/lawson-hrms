@@ -1,5 +1,5 @@
 import AsyncSelect from '@/components/Elements/AsyncSelect'
-import { masterService } from '@/services'
+import { masterService, vacancyService } from '@/services'
 import { useMasterStore, useOrganizationStore } from '@/store'
 import currencyToNumber from '@/utils/currency-to-number'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -20,6 +20,7 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputApprovalProcess from './InputApprovalProcess'
+import { axiosErrorMessage } from '@/utils/axios'
 
 const VacancyInformationForm: React.FC<{
   isRequisition?: boolean
@@ -75,6 +76,14 @@ const VacancyInformationForm: React.FC<{
         otherwise: (s) => s.optional(),
       })
       .label('Approval Process'),
+    rrNumber: yup
+      .string()
+      .when('isRequisition', {
+        is: true,
+        then: (s) => s.required(),
+        otherwise: (s) => s.optional(),
+      })
+      .label('Approval Process'),
     isRequisition: yup.boolean().required(),
   })
 
@@ -85,6 +94,8 @@ const VacancyInformationForm: React.FC<{
     getValues,
     formState: { errors },
     trigger,
+    watch,
+    setError,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: { ...props.defaultValue, isRequisition: !!props.isRequisition } as yup.InferType<typeof schema>,
@@ -100,6 +111,19 @@ const VacancyInformationForm: React.FC<{
     masterService.fetchCities({ limit: 1, q: props.defaultValue.cityId })
   }, [props.defaultValue?.cityId, initialCity])
 
+  useEffect(() => {
+    const loadRrNumber = async () => {
+      try {
+        const rrNumber = await vacancyService.fetchVacancyRRNumber()
+        setValue('rrNumber', rrNumber)
+      } catch (e) {
+        setError('rrNumber', axiosErrorMessage(e))
+      }
+      trigger('rrNumber')
+    }
+    if (props.isRequisition && !getValues('rrNumber') && !props.defaultValue.rrNumber) loadRrNumber()
+  }, [getValues, props.defaultValue.rrNumber, props.isRequisition, setError, setValue, trigger])
+
   return (
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
@@ -109,6 +133,11 @@ const VacancyInformationForm: React.FC<{
         </div>
 
         <Input label="Position Name" labelRequired error={errors.vacancyName?.message} {...register('vacancyName')} />
+
+        {props.isRequisition && (
+          <Input label="RR Number" labelRequired error={errors.rrNumber?.message} name="rrNumber" value={watch('rrNumber')} disabled />
+        )}
+
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <Select
             label="Department"

@@ -127,7 +127,7 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap p-3 text-left">Employee ID</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.employeeId}</td>
+                <td className="w-full p-3">{employee.employeeCode}</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap p-3 text-left">Role</th>

@@ -2,6 +2,7 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
   return {
     vacancyInformation: {
       vacancyName: vacancy.vacancyName || '',
+      rrNumber: vacancy.rrNumber || '',
       departmentId: vacancy.department?.oid || '',
       branchId: vacancy.branch?.oid || '',
       expiredDate: vacancy.expiredDate ? new Date(vacancy.expiredDate) : '',

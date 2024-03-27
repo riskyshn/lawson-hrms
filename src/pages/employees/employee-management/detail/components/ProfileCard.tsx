@@ -27,7 +27,7 @@ const ProfileCard: React.FC<PropType> = ({ employee, children }) => {
             <div className="flex flex-col lg:gap-3">
               <div className="flex items-center gap-2">
                 <User2Icon className="text-gray-400" size={14} />
-                <span className="block text-sm">{employee.employeeId}</span>
+                <span className="block text-sm">{employee.employeeCode}</span>
               </div>
               <div className="flex items-center gap-2">
                 <MapPinnedIcon className="text-gray-400" size={14} />
