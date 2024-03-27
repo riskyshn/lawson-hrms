@@ -58,7 +58,7 @@ const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
           {typeof header === 'function' ? header(isOpenFilter && scrollY < distance - 64, toggleOpenFilter) : header}
         </div>
 
-        <CardBody ref={ref} className="overflow-x-auto p-0 lg:overflow-x-visible">
+        <CardBody ref={ref} className="overflow-x-auto p-0 2xl:overflow-x-visible">
           {body}
         </CardBody>
 
