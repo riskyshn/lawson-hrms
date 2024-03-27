@@ -72,7 +72,6 @@ const EditJobPage = () => {
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
-    obj.rrNumber = 'JOC1'
 
     return obj
   }
