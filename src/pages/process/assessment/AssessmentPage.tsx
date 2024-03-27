@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 
-const InterviewPage: React.FC = () => {
+const AssesmentPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
@@ -46,7 +46,7 @@ const InterviewPage: React.FC = () => {
             limit: 20,
             stage,
             vacancy,
-            type: 'INTERVIEW',
+            type: 'ASSESMENT',
           },
           signal,
         )
@@ -68,7 +68,7 @@ const InterviewPage: React.FC = () => {
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Interview' }]} title="Interview" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Assesment' }]} title="Assesment" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -125,4 +125,4 @@ const InterviewPage: React.FC = () => {
   )
 }
 
-export default InterviewPage
+export default AssesmentPage

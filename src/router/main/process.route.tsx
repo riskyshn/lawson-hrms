@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom'
 
 import InterviewPage from '@/pages/process/interview/InterviewPage'
-import AssessmentPage from '@/pages/process/assessment/index/AssessmentPage'
+import AssessmentPage from '@/pages/process/assessment/AssessmentPage'
 import UploadPage from '@/pages/process/offering-letter/upload/UploadPage'
 import ViewPage from '@/pages/process/offering-letter/view/ViewPage'
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
@@ -23,12 +23,7 @@ const candidatesRoute: RouteObject = {
     {
       path: 'assessment',
       name: 'Assessment',
-      children: [
-        {
-          path: '',
-          element: <AssessmentPage />,
-        },
-      ],
+      element: <AssessmentPage />,
     },
     {
       path: 'offering-letter',
