@@ -9,6 +9,7 @@ import BlacklistModal from './BlacklistModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
+import ViewHistoryModal from './ViewHistoryModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -81,6 +82,11 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         // onRejected={onRefresh}
+      />
+      <ViewHistoryModal
+        show={!!selected && selected.type === 'VIEW HISTORY'}
+        applicant={selected?.item}
+        onClose={() => setSelected(null)}
       />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>
