@@ -3,6 +3,7 @@ interface ITimezone {
   title: string
   createdAt?: string
   updatedAt?: string
+  oid?: string
 }
 
 interface ISchedule {
