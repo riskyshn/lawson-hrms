@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object({
-  employeeId: yup.string().required().label('Employee ID'),
+  employeeCode: yup.string().required().label('Employee ID'),
   roleId: yup.string().required().label('Role'),
   jobTypeId: yup.string().required().label('Employment Status'),
   branchId: yup.string().required().label('Branch Placement'),
@@ -49,7 +49,7 @@ const EmploymentDataForm: React.FC<{
           <p className="text-xs text-gray-500">Fill all employee data information related to company</p>
         </div>
 
-        <Input label="Employee ID" labelRequired placeholder="JSC-001" error={errors.employeeId?.message} {...register('employeeId')} />
+        <Input label="Employee ID" labelRequired placeholder="JSC-001" error={errors.employeeCode?.message} {...register('employeeCode')} />
         <AsyncSelect
           label="Role"
           labelRequired

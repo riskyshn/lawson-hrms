@@ -20,7 +20,23 @@ const hrisLinks = genSidebarLinks({
         },
       ],
     },
-    { parent: { icon: BanknoteIcon, text: 'Payroll', to: '/payroll' } },
+    {
+      parent: { icon: BanknoteIcon, text: 'Payroll', to: '/payroll' },
+      child: [
+        {
+          text: 'BPJS Component',
+          to: '/payroll/bpjs-component',
+        },
+        {
+          text: 'Benefit Components',
+          to: '/payroll/benefit-components',
+        },
+        {
+          text: 'Deduction Components',
+          to: '/payroll/deduction-components',
+        },
+      ],
+    },
   ],
 })
 

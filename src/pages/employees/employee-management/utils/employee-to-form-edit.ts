@@ -23,7 +23,7 @@ export async function employeeToFormEdit(employee: IEmployee) {
       email: employee.email || '',
     },
     employment: {
-      employeeId: employee.employeeId || '',
+      employeeCode: employee.employeeCode || '',
       roleId: employee.employment?.role?.oid || '',
       jobTypeId: employee.employment?.jobType?.oid || '',
       branchId: employee.employment?.branch?.oid || '',

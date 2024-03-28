@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 export default function useEmployeePage() {
-  const { employeeId } = useParams()
+  const { employeeCode } = useParams()
   const [isLoading, setIsLoading] = useState(true)
   const [pageError, setPageError] = useState<any>()
   const [employee, setEmployee] = useState<IEmployee>()
@@ -11,11 +11,11 @@ export default function useEmployeePage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const load = async (employeeId: string) => {
+    const load = async (employeeCode: string) => {
       setPageError(undefined)
       setIsLoading(true)
       try {
-        const employee = await employeeService.fetchEmployee(employeeId)
+        const employee = await employeeService.fetchEmployee(employeeCode)
         setEmployee(employee)
         setIsLoading(false)
       } catch (e: any) {
@@ -23,14 +23,14 @@ export default function useEmployeePage() {
       }
     }
 
-    if (employeeId) {
-      load(employeeId)
+    if (employeeCode) {
+      load(employeeCode)
     } else {
       navigate('/404')
     }
-  }, [employeeId, navigate])
+  }, [employeeCode, navigate])
 
   if (pageError) throw pageError
 
-  return { employeeId, isLoading, employee }
+  return { employeeCode, isLoading, employee }
 }
