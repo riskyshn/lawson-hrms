@@ -173,7 +173,7 @@ const CandidatePoolPage: React.FC = () => {
                         setSearchParam(searchParams)
                         handleChange(e)
                       }}
-                      options={vacancies.map((vacancy) => ({ value: vacancy.id, label: vacancy.vacancyName }))}
+                      options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
                     />
                     <AsyncSelect
                       className="mb-2"
