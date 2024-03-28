@@ -1,10 +1,10 @@
 import MainTable from '@/components/Elements/MainTable'
-import { Avatar } from 'jobseeker-ui'
-import ActionMenu from './ActionMenu'
+import { Avatar, Button } from 'jobseeker-ui'
 import { useState } from 'react'
-import { ImageIcon, MapPinIcon } from 'lucide-react'
+import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import MapsPreviewer from '@/components/Elements/MapsPreviewer'
+import ConfirmationModal from './ConfirmationModal'
 type PropTypes = {
   items: IAttendance[]
   loading?: boolean
@@ -13,12 +13,26 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisit }) => {
-  const options = ['View Details', 'Edit Schedule', 'Delete']
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
+  const [showConfirmation, setShowConfirmation] = useState(false)
 
   const handlePinClick = (lat: number, lng: number) => {
     setSelectedLocation([lat, lng])
+  }
+
+  const openConfirmation = () => {
+    setShowConfirmation(true)
+  }
+
+  const closeConfirmation = () => {
+    setShowConfirmation(false)
+  }
+
+  const handleConfirmAction = () => {
+    closeConfirmation()
+    const newData = new Date().toISOString()
+    onDataChange(newData)
   }
 
   const headerItems = [
@@ -136,7 +150,20 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
         className: 'text-center',
       },
       {
-        children: <>{!isClientVisit && <ActionMenu options={options} items={item} onApplyVacancy={onDataChange} />}</>,
+        children: (
+          <>
+            {!isClientVisit && (
+              <div className="flex gap-2">
+                <Button color="success" size="small" onClick={openConfirmation}>
+                  <CheckIcon size={16} />
+                </Button>
+                <Button color="error" size="small" onClick={openConfirmation}>
+                  <XIcon size={16} />
+                </Button>
+              </div>
+            )}
+          </>
+        ),
       },
     ],
   }))
@@ -144,8 +171,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
   return (
     <>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
-
       {selectedLocation && <MapsPreviewer coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />}
+      <ConfirmationModal show={showConfirmation} onClose={closeConfirmation} onConfirm={handleConfirmAction} />
     </>
   )
 }
