@@ -111,5 +111,5 @@ export const fetchCandidate = (id: string) => {
 }
 
 export const downloadCandidate = (payload: Record<string, any>) => {
-  return axiosCandidate.get(`/candidate/export`, payload).then((response) => response.data)
+  return axiosCandidate.post(`/candidate/export`, payload).then((response) => response.data)
 }

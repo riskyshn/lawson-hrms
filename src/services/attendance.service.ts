@@ -49,3 +49,19 @@ export const fetchAttendanceManagement = (params?: FetchAttendanceParams, signal
     .get<{ data: IPaginationResponse<IAttendance> }>(`/employer/history`, { params, signal })
     .then((response) => response.data.data)
 }
+
+/**
+ * Request Management
+ *
+ */
+export const fetchRequestManagement = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse<ILeave> }>(`/employer/leave`, { params, signal }).then((response) => response.data.data)
+}
+
+export const approvedRequestManagement = (oid: string) => {
+  return axios.post(`/employer/leave/${oid}/approved`).then((response) => response.data.data)
+}
+
+export const rejectedRequestManagement = (oid: string) => {
+  return axios.post(`/employer/leave/${oid}/rejected`).then((response) => response.data.data)
+}

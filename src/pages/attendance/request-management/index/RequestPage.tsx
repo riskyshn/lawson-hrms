@@ -7,25 +7,18 @@ import { attendanceService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
-import { BaseInputDate, CardBody, Select } from 'jobseeker-ui'
-import { useOrganizationStore } from '@/store'
-import StatisticCards from '@/pages/job/components/StatisticCards'
-import PageCard from '../components/PageCard'
+import { BaseInputDate } from 'jobseeker-ui'
 
-const OvertimePage: React.FC = () => {
+const RequestPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
-  const [pageData, setPageData] = useState<IPaginationResponse<IAttendance>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<ILeave>>()
   const [pageError, setPageError] = useState<any>()
 
-  const branch = searchParams.get('branch') || undefined
-
-  const { master } = useOrganizationStore()
-
   const pagination = usePagination({
-    pathname: '/attendance/attendance-management/overtime',
+    pathname: '/attendance/request-management',
     totalPage: pageData?.totalPages || 0,
     params: { search },
   })
@@ -37,12 +30,12 @@ const OvertimePage: React.FC = () => {
     const load = async (signal: AbortSignal) => {
       setIsLoading(true)
       try {
-        const data = await attendanceService.fetchAttendanceManagement(
+        const data = await attendanceService.fetchRequestManagement(
           {
             q: search,
             page: pagination.currentPage,
             limit: 20,
-            attendance_group: 'overtime',
+            attendance_group: 'clock',
           },
           signal,
         )
@@ -67,29 +60,19 @@ const OvertimePage: React.FC = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Attendance' }, { text: 'Attendance Management' }]}
-        title="Attendance Management"
-        subtitle="Manage Your Team Attendance"
-        actions={
-          <CardBody className="p-0">
-            <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
-              {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
-                <PageCard key={index} label={label} activeLabel={'Overtime'} />
-              ))}
-            </div>
-          </CardBody>
-        }
+        title="Request Management"
+        subtitle="Manage Your Team Request"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards isAttendance />
         <MainCard
           header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Overtime List"
+              title="Request List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Attendance</span> in total
+                  You have <span className="text-primary-600">{pageData?.totalElements} Request</span> in total
                 </>
               }
               search={{
@@ -99,17 +82,7 @@ const OvertimePage: React.FC = () => {
               filterToogle={toggleOpen}
               filter={
                 open && (
-                  <div className="grid grid-cols-2 gap-3 p-3">
-                    <Select
-                      placeholder="All Branch"
-                      withReset
-                      value={branch}
-                      onChange={(e) => {
-                        searchParams.set('branch', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                    />
+                  <div className="grid grid-cols-1 gap-3 p-3">
                     <BaseInputDate asSingle placeholder="Filter by date" />
                   </div>
                 )
@@ -124,4 +97,4 @@ const OvertimePage: React.FC = () => {
   )
 }
 
-export default OvertimePage
+export default RequestPage
