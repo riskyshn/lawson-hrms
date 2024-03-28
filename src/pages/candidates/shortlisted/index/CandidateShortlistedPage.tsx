@@ -8,9 +8,9 @@ import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import usePagination from '@/hooks/use-pagination'
 import { useSearchParams } from 'react-router-dom'
-import { candidateService, masterService } from '@/services'
+import { candidateService, masterService, vacancyService } from '@/services'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useMasterStore, useOrganizationStore } from '@/store'
+import { useMasterStore } from '@/store'
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 
 const CandidateShortlistedPage: React.FC = () => {
@@ -23,17 +23,17 @@ const CandidateShortlistedPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
   const [onChangeData, setOnChangeData] = useState<string>()
+  const [vacancies, setVacancies] = useState<any[]>([])
+  const vacancy = searchParams.get('vacancy') || undefined
 
-  const position = searchParams.get('position') || undefined
   const province = searchParams.get('province') || undefined
   const education = searchParams.get('education') || undefined
-  const { master } = useOrganizationStore()
   const { educatioLevels } = useMasterStore()
 
   const pagination = usePagination({
     pathname: '/candidates/shortlisted',
     totalPage: pageData?.totalPages || 0,
-    params: { search, position, province, education },
+    params: { search, vacancy, province, education },
   })
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const CandidateShortlistedPage: React.FC = () => {
             page: pagination.currentPage,
             limit: 20,
             education: education,
-            position: position,
+            vacancyId: vacancy,
             province: province,
           },
           signal,
@@ -66,7 +66,20 @@ const CandidateShortlistedPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage, onChangeData])
+  }, [search, vacancy, education, province, pagination.currentPage, onChangeData])
+
+  useEffect(() => {
+    fetchVacancies()
+  }, [])
+
+  const fetchVacancies = async () => {
+    try {
+      const data = await vacancyService.fetchVacancies()
+      setVacancies(data.content)
+    } catch (error) {
+      console.error('Error fetching vacancies:', error)
+    }
+  }
 
   if (pageError) throw pageError
 
@@ -97,14 +110,15 @@ const CandidateShortlistedPage: React.FC = () => {
                 open && (
                   <div className="grid grid-cols-3 gap-3 p-3">
                     <Select
-                      placeholder="All Position"
+                      placeholder="Select Vacancy"
                       withReset
-                      value={position}
+                      options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
+                      className="mb-3"
+                      value={vacancy}
                       onChange={(e) => {
-                        searchParams.set('position', e.toString())
+                        searchParams.set('vacancy', e.toString())
                         setSearchParam(searchParams)
                       }}
-                      options={master.positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
                     />
                     <AsyncSelect
                       className="mb-2"

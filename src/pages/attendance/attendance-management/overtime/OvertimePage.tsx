@@ -7,20 +7,25 @@ import { attendanceService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
-import { Button } from 'jobseeker-ui'
-import CreateScheduleModal from '../components/CreateScheduleModal'
+import { BaseInputDate, CardBody, Select } from 'jobseeker-ui'
+import { useOrganizationStore } from '@/store'
+import StatisticCards from '@/pages/job/components/StatisticCards'
+import PageCard from '../components/PageCard'
 
-const SchedulePage: React.FC = () => {
-  const [showCreateModal, setShowCreateModal] = useState(false)
+const OvertimePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
-  const [pageData, setPageData] = useState<IPaginationResponse<ISchedule>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IAttendance>>()
   const [pageError, setPageError] = useState<any>()
 
+  const branch = searchParams.get('branch') || undefined
+
+  const { master } = useOrganizationStore()
+
   const pagination = usePagination({
-    pathname: '/attendance/schedule',
+    pathname: '/attendance/attendance-management/overtime',
     totalPage: pageData?.totalPages || 0,
     params: { search },
   })
@@ -32,14 +37,16 @@ const SchedulePage: React.FC = () => {
     const load = async (signal: AbortSignal) => {
       setIsLoading(true)
       try {
-        const data = await attendanceService.fetchSchedules(
+        const data = await attendanceService.fetchAttendanceManagement(
           {
             q: search,
             page: pagination.currentPage,
             limit: 20,
+            attendance_group: 'overtime',
           },
           signal,
         )
+
         setPageData(data)
         setIsLoading(false)
       } catch (e: any) {
@@ -59,32 +66,54 @@ const SchedulePage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Attendance' }, { text: 'Schedule' }]}
-        title="Schedule"
+        breadcrumb={[{ text: 'Attendance' }, { text: 'Attendance Management' }]}
+        title="Attendance Management"
+        subtitle="Manage Your Team Attendance"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-            Add New Schedule
-          </Button>
+          <CardBody className="p-0">
+            <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
+              {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
+                <PageCard key={index} label={label} activeLabel={'Overtime'} />
+              ))}
+            </div>
+          </CardBody>
         }
       />
 
-      <CreateScheduleModal show={showCreateModal} onApplyVacancy={setOnChangeData} onClose={() => setShowCreateModal(false)} />
-
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
+        <StatisticCards isAttendance />
         <MainCard
-          header={() => (
+          header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Schedule List"
+              title="Overtime List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Schedule</span> in total
+                  You have <span className="text-primary-600">{pageData?.totalElements} Attendance</span> in total
                 </>
               }
               search={{
                 value: search || '',
                 setValue: (v) => setSearchParam({ search: v }),
               }}
+              filterToogle={toggleOpen}
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <Select
+                      placeholder="All Branch"
+                      withReset
+                      value={branch}
+                      onChange={(e) => {
+                        searchParams.set('branch', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    />
+                    <BaseInputDate asSingle placeholder="Filter by date" />
+                  </div>
+                )
+              }
             />
           )}
           body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
@@ -95,4 +124,4 @@ const SchedulePage: React.FC = () => {
   )
 }
 
-export default SchedulePage
+export default OvertimePage

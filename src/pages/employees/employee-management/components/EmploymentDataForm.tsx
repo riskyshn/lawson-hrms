@@ -166,7 +166,7 @@ const EmploymentDataForm: React.FC<{
             fetcher={attendanceService.fetchSchedules}
             fetcherParams={{ limit: '99999' }}
             searchMinCharacter={0}
-            converter={(data: any) => data.map((el: ISchedule) => ({ label: el.title, value: el.id }))}
+            converter={(data: any) => data.map((el: ISchedule) => ({ label: el.name, value: el.id }))}
             name="scheduleId"
             error={errors.scheduleId?.message}
             value={getValues('scheduleId')}

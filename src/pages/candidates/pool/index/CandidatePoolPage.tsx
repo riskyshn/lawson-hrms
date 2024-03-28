@@ -8,10 +8,10 @@ import usePagination from '@/hooks/use-pagination'
 import Table from './components/Table'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
-import { candidateService, masterService, vacancyService } from '@/services'
+import { candidateService, masterService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useMasterStore } from '@/store'
+import { useMasterStore, useOrganizationStore } from '@/store'
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 
 const CandidatePoolPage: React.FC = () => {
@@ -25,19 +25,17 @@ const CandidatePoolPage: React.FC = () => {
   const [onChangeData, setOnChangeData] = useState<string>()
   const toast = useToast()
 
-  const vacancy = searchParams.get('vacancy') || undefined
+  const position = searchParams.get('position') || undefined
   const province = searchParams.get('province') || undefined
   const education = searchParams.get('education') || undefined
 
-  const [selectedVacancyId, setSelectedVacancyId] = useState<string | number>('')
-  const [vacancies, setVacancies] = useState<any[]>([])
-
+  const { master } = useOrganizationStore()
   const { educatioLevels } = useMasterStore()
 
   const pagination = usePagination({
     pathname: '/candidates/pool',
     totalPage: pageData?.totalPages || 0,
-    params: { search, vacancy, province, education },
+    params: { search, position, province, education },
   })
 
   useEffect(() => {
@@ -53,7 +51,7 @@ const CandidatePoolPage: React.FC = () => {
             page: pagination.currentPage,
             limit: 20,
             education: education,
-            vacancyId: vacancy,
+            position: position,
             province: province,
           },
           signal,
@@ -70,20 +68,7 @@ const CandidatePoolPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, vacancy, education, province, pagination.currentPage, onChangeData])
-
-  useEffect(() => {
-    fetchVacancies()
-  }, [])
-
-  const fetchVacancies = async () => {
-    try {
-      const data = await vacancyService.fetchVacancies()
-      setVacancies(data.content)
-    } catch (error) {
-      console.error('Error fetching vacancies:', error)
-    }
-  }
+  }, [search, position, education, province, pagination.currentPage, onChangeData])
 
   const handleExportToExcel = async () => {
     try {
@@ -92,7 +77,7 @@ const CandidatePoolPage: React.FC = () => {
         page: pagination.currentPage,
         limit: 20,
         education: education,
-        vacancy: vacancy,
+        position: position,
         province: province,
       })
 
@@ -122,10 +107,6 @@ const CandidatePoolPage: React.FC = () => {
       const errorMessage = error.response?.data?.meta?.message || error.message
       toast(errorMessage, { color: 'error', position: 'top-right' })
     }
-  }
-
-  const handleChange = (selectedValue: string | number) => {
-    setSelectedVacancyId(selectedValue)
   }
 
   if (pageError) throw pageError
@@ -165,15 +146,14 @@ const CandidatePoolPage: React.FC = () => {
                 open && (
                   <div className="grid grid-cols-3 gap-3 p-3">
                     <Select
-                      placeholder="All Vacancy"
+                      placeholder="All Position"
                       withReset
-                      value={selectedVacancyId}
+                      value={position}
                       onChange={(e) => {
-                        searchParams.set('vacancy', e.toString())
+                        searchParams.set('position', e.toString())
                         setSearchParam(searchParams)
-                        handleChange(e)
                       }}
-                      options={vacancies.map((vacancy) => ({ value: vacancy.id, label: vacancy.vacancyName }))}
+                      options={master.positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
                     />
                     <AsyncSelect
                       className="mb-2"

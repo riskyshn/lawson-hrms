@@ -7,20 +7,18 @@ import { attendanceService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
-import { Button } from 'jobseeker-ui'
-import CreateScheduleModal from '../components/CreateScheduleModal'
+import { BaseInputDate } from 'jobseeker-ui'
 
-const SchedulePage: React.FC = () => {
-  const [showCreateModal, setShowCreateModal] = useState(false)
+const RequestPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
-  const [pageData, setPageData] = useState<IPaginationResponse<ISchedule>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<ILeave>>()
   const [pageError, setPageError] = useState<any>()
 
   const pagination = usePagination({
-    pathname: '/attendance/schedule',
+    pathname: '/attendance/request-management',
     totalPage: pageData?.totalPages || 0,
     params: { search },
   })
@@ -32,14 +30,16 @@ const SchedulePage: React.FC = () => {
     const load = async (signal: AbortSignal) => {
       setIsLoading(true)
       try {
-        const data = await attendanceService.fetchSchedules(
+        const data = await attendanceService.fetchRequestManagement(
           {
             q: search,
             page: pagination.currentPage,
             limit: 20,
+            attendance_group: 'clock',
           },
           signal,
         )
+
         setPageData(data)
         setIsLoading(false)
       } catch (e: any) {
@@ -59,32 +59,34 @@ const SchedulePage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Attendance' }, { text: 'Schedule' }]}
-        title="Schedule"
-        actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-            Add New Schedule
-          </Button>
-        }
+        breadcrumb={[{ text: 'Attendance' }, { text: 'Attendance Management' }]}
+        title="Request Management"
+        subtitle="Manage Your Team Request"
       />
-
-      <CreateScheduleModal show={showCreateModal} onApplyVacancy={setOnChangeData} onClose={() => setShowCreateModal(false)} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={() => (
+          header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Schedule List"
+              title="Request List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Schedule</span> in total
+                  You have <span className="text-primary-600">{pageData?.totalElements} Request</span> in total
                 </>
               }
               search={{
                 value: search || '',
                 setValue: (v) => setSearchParam({ search: v }),
               }}
+              filterToogle={toggleOpen}
+              filter={
+                open && (
+                  <div className="grid grid-cols-1 gap-3 p-3">
+                    <BaseInputDate asSingle placeholder="Filter by date" />
+                  </div>
+                )
+              }
             />
           )}
           body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
@@ -95,4 +97,4 @@ const SchedulePage: React.FC = () => {
   )
 }
 
-export default SchedulePage
+export default RequestPage

@@ -11,7 +11,7 @@ type ViewScheduleModalProps = {
 
 const ViewScheduleModal: React.FC<ViewScheduleModalProps> = ({ show, onClose, items }) => {
   const [timezones, setTimezones] = useState<any[]>([])
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
   useEffect(() => {
     fetchTimezone()
@@ -33,7 +33,7 @@ const ViewScheduleModal: React.FC<ViewScheduleModalProps> = ({ show, onClose, it
         <p className="text-center text-sm text-gray-500">Details for this schedule</p>
       </div>
 
-      <Input labelRequired label="Schedule Name" defaultValue={items?.title} disabled />
+      <Input labelRequired label="Schedule Name" defaultValue={items?.name} disabled />
       <Select
         disabled
         label="Select Timezone"

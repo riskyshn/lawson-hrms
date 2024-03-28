@@ -5,11 +5,28 @@ import { useForm } from 'react-hook-form'
 import { attendanceService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 
+type DaySchedule = {
+  day: string
+  start: string
+  end: string
+  isActive: boolean
+}
+
 type CreateModalProps = {
   show: boolean
   onClose?: () => void
   onApplyVacancy: (data: string) => void
 }
+
+const initialDaySchedules: DaySchedule[] = [
+  { day: 'Monday', start: '', end: '', isActive: false },
+  { day: 'Tuesday', start: '', end: '', isActive: false },
+  { day: 'Wednesday', start: '', end: '', isActive: false },
+  { day: 'Thursday', start: '', end: '', isActive: false },
+  { day: 'Friday', start: '', end: '', isActive: false },
+  { day: 'Saturday', start: '', end: '', isActive: false },
+  { day: 'Sunday', start: '', end: '', isActive: false },
+]
 
 const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onApplyVacancy }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -17,61 +34,8 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
   const toast = useToast()
   const [timezones, setTimezones] = useState<any[]>([])
   const [selectTimezoneId, setSelectTimezoneId] = useState<string | number>('')
-
   const { register, handleSubmit, reset } = useForm()
-
-  const [daySchedules, setDaySchedules] = useState([
-    { day: 'Monday', start: '', end: '', isActive: false },
-    { day: 'Tuesday', start: '', end: '', isActive: false },
-    { day: 'Wednesday', start: '', end: '', isActive: false },
-    { day: 'Thursday', start: '', end: '', isActive: false },
-    { day: 'Friday', start: '', end: '', isActive: false },
-    { day: 'Saturday', start: '', end: '', isActive: false },
-    { day: 'Sunday', start: '', end: '', isActive: false },
-  ])
-
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      setIsLoading(true)
-      setErrorMessage('')
-
-      const payload = {
-        title: data.title,
-        timezoneId: selectTimezoneId,
-        details: daySchedules.map(({ start, end, isActive }, index) => ({
-          day: index,
-          start,
-          end,
-          isActive: isActive,
-        })),
-      }
-
-      await attendanceService.createSchedule(payload)
-      toast('Schedule created successfully', { color: 'success' })
-      const newData = new Date().toISOString()
-      onApplyVacancy(newData)
-      onClose?.()
-      setTimeout(() => {
-        reset()
-        setIsLoading(false)
-      }, 500)
-    } catch (e) {
-      setErrorMessage(axiosErrorMessage(e))
-      setIsLoading(false)
-    }
-  })
-
-  const handleInputChange = (index: number, field: string, value: string | boolean) => {
-    setDaySchedules((prevState) => {
-      const updatedSchedules = [...prevState]
-      updatedSchedules[index] = { ...updatedSchedules[index], [field]: value }
-      return updatedSchedules
-    })
-  }
-
-  const handleChange = (selectedValue: string | number) => {
-    setSelectTimezoneId(selectedValue)
-  }
+  const [daySchedules, setDaySchedules] = useState<DaySchedule[]>(initialDaySchedules)
 
   useEffect(() => {
     fetchTimezone()
@@ -79,28 +43,74 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
 
   const fetchTimezone = async () => {
     try {
-      const data = await attendanceService.fetchTimezones()
-      setTimezones(data.content)
+      const { content } = await attendanceService.fetchTimezones()
+      setTimezones(content)
     } catch (error) {
-      console.error('Error fetching timezone:', error)
+      console.error('Error fetching timezones:', error)
     }
   }
 
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true)
+    setErrorMessage('')
+
+    try {
+      const payload = {
+        name: data.name,
+        timezoneId: selectTimezoneId,
+        details: daySchedules.map(({ start, end, isActive }, index) => ({
+          day: index,
+          start,
+          end,
+          isActive,
+        })),
+      }
+
+      await attendanceService.createSchedule(payload)
+      toast('Schedule created successfully', { color: 'success' })
+      onApplyVacancy(new Date().toISOString())
+      handleCloseModal()
+    } catch (error) {
+      setErrorMessage(axiosErrorMessage(error))
+    } finally {
+      setIsLoading(false)
+    }
+  })
+
+  const handleInputChange = (index: number, field: keyof DaySchedule, value: string | boolean) => {
+    setDaySchedules((prevSchedules) => {
+      const updatedSchedules = [...prevSchedules]
+      updatedSchedules[index] = { ...updatedSchedules[index], [field]: value }
+      return updatedSchedules
+    })
+  }
+
+  const handleChange = (value: string | number) => {
+    setSelectTimezoneId(value)
+  }
+
+  const handleCloseModal = () => {
+    reset()
+    setSelectTimezoneId('')
+    setDaySchedules(initialDaySchedules)
+    onClose?.()
+  }
+
   return (
-    <MainModal className="max-w-xl" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl" show={show} onClose={handleCloseModal}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-3">
-          <h3 className="text-center text-2xl font-semibold">Schedule Details</h3>
-          <p className="text-center text-sm text-gray-500">Details for this schedule</p>
+          <h3 className="text-center text-2xl font-semibold">Add Schedule</h3>
+          <p className="text-center text-sm text-gray-500">Add new schedules for your employees</p>
         </div>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input labelRequired label="Schedule Name" {...register('title')} />
+        <Input labelRequired label="Schedule Name" required {...register('name')} />
         <Select
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
-          options={timezones.map((timezone) => ({ value: timezone.oid, label: timezone.title }))}
+          options={timezones.map(({ oid, title }) => ({ value: oid, label: title }))}
           className="mb-3"
           value={selectTimezoneId}
           {...register('timezone')}
@@ -110,7 +120,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
         {daySchedules.map((schedule, index) => (
           <div key={index} className="mb-2">
             <span className="text-xs">{schedule.day}</span>
-            <div className="flex flex-1 justify-between gap-4">
+            <div className="flex flex-1 items-center justify-between gap-4">
               <Input
                 type="time"
                 className="w-full"
@@ -137,11 +147,8 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
         ))}
 
         <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Next
+          <Button type="submit" color="primary" className="w-full" disabled={isLoading} loading={isLoading}>
+            Submit
           </Button>
         </div>
       </form>

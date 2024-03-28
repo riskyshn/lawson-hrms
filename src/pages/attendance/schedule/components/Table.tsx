@@ -12,7 +12,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
 
   const bodyItems = items.map((item) => ({
     items: [
-      { children: item.title },
+      { children: item.name, className: 'whitespace-normal' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
