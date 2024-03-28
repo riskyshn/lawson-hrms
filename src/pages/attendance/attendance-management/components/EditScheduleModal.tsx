@@ -40,7 +40,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
       setErrorMessage('')
 
       const payload = {
-        name: data.name,
+        title: data.title,
         timezoneId: selectTimezoneId || items?.timezone?.oid || null,
         details: daySchedules.map(({ day, start, end, isActive }) => ({
           day,
@@ -87,7 +87,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input label="Schedule Name" defaultValue={items.name} {...register('name')} />
+        <Input label="Schedule Name" defaultValue={items.title} {...register('title')} />
         <Select
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
