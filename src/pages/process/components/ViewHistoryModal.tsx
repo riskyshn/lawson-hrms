@@ -92,7 +92,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="flex gap-3 font-semibold">{item.applyProcess}</h3>
-                        <p className="mb-2 text-xs text-gray-500">{moment(item.actionAt).format('Y/M/D')}</p>
+                        <p className="mb-2 text-xs text-gray-500">{moment(item.processAt).format('D/M/Y HH:MM')}</p>
                         <Button
                           type="button"
                           size="small"
@@ -114,23 +114,27 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose
                             <h3 className="text-sm font-semibold">Attendee</h3>
                             <span className="flex items-center gap-1 text-xs">
                               <UserIcon size={16} />
-                              dummy
+                              {aplicantDetail.candidate?.name}
                             </span>
                           </div>
-                          <div className="mb-3">
-                            <h3 className="text-sm font-semibold">Action Scheduled</h3>
-                            <span className="flex items-center gap-1 text-xs">
-                              <CalendarIcon size={16} />
-                              dummy
-                            </span>
-                          </div>
-                          <div className="mb-3">
-                            <h3 className="text-sm font-semibold">Process Date</h3>
-                            <span className="flex items-center gap-1 text-xs">
-                              <CalendarIcon size={16} />
-                              dummy
-                            </span>
-                          </div>
+                          {item.actionAt && (
+                            <div className="mb-3">
+                              <h3 className="text-sm font-semibold">Action Scheduled</h3>
+                              <span className="flex items-center gap-1 text-xs">
+                                <CalendarIcon size={16} />
+                                {moment(item.actionAt).format('D/M/Y HH:MM')}
+                              </span>
+                            </div>
+                          )}
+                          {item.processAt && (
+                            <div className="mb-3">
+                              <h3 className="text-sm font-semibold">Process Date</h3>
+                              <span className="flex items-center gap-1 text-xs">
+                                <CalendarIcon size={16} />
+                                {moment(item.processAt).format('D/M/Y HH:MM')}
+                              </span>
+                            </div>
+                          )}
                           {item.notes && (
                             <div className="mb-3">
                               <h3 className="text-sm font-semibold">Process Remarks</h3>

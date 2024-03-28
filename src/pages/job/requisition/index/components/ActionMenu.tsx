@@ -50,6 +50,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
   const viewCandidates: Table.ActionMenuItemProps = {
     text: 'View Candidates',
     icon: UsersIcon,
+    action() {
+      navigate(`/candidates/management?vacancy=${vacancy.oid}`)
+    },
   }
 
   const sendReminder: Table.ActionMenuItemProps = {
