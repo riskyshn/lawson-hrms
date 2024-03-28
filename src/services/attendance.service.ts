@@ -59,9 +59,9 @@ export const fetchRequestManagement = (params?: FetchAttendanceParams, signal?: 
 }
 
 export const approvedRequestManagement = (oid: string) => {
-  return axios.post(`/employer/leave/${oid}/approved`).then((response) => response.data.data)
+  return axios.patch(`/employer/leave/${oid}/approved`).then((response) => response.data.data)
 }
 
 export const rejectedRequestManagement = (oid: string) => {
-  return axios.post(`/employer/leave/${oid}/rejected`).then((response) => response.data.data)
+  return axios.patch(`/employer/leave/${oid}/rejected`).then((response) => response.data.data)
 }

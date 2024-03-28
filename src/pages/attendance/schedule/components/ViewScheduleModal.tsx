@@ -11,7 +11,7 @@ type ViewScheduleModalProps = {
 
 const ViewScheduleModal: React.FC<ViewScheduleModalProps> = ({ show, onClose, items }) => {
   const [timezones, setTimezones] = useState<any[]>([])
-  const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
   useEffect(() => {
     fetchTimezone()

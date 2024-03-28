@@ -33,8 +33,8 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.position}</span>
-            <span className="text-xs text-gray-500"></span>
+            <span className="block font-semibold">{candidate.vacancyName}</span>
+            <span className="text-xs text-gray-500">{candidate.vacancyId}</span>
           </>
         ),
       },
@@ -72,7 +72,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
       <MainTable
         headerItems={[
           { children: 'Candidate', className: 'text-left' },
-          { children: 'Last Position', className: 'text-left' },
+          { children: 'Vacancy', className: 'text-left' },
           { children: 'Education' },
           { children: 'Reject Reason' },
           { children: 'Resume', className: 'w-24' },

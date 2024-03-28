@@ -15,11 +15,11 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ show, onClose, on
         <h3 className="text-2xl font-semibold">Are you sure you want to proceed?</h3>
         <p className="text-sm">This action cannot be undone.</p>
       </div>
-      <div className="mt-8 flex justify-end gap-3">
-        <Button type="button" color="error" variant="light" className="w-24" onClick={onClose}>
+      <div className="mt-8 flex flex-1 justify-end gap-3">
+        <Button type="button" color="error" variant="light" className="w-full" onClick={onClose}>
           Cancel
         </Button>
-        <Button type="button" color="primary" className="w-24" onClick={onConfirm}>
+        <Button type="button" color="primary" className="w-full" onClick={onConfirm}>
           Confirm
         </Button>
       </div>

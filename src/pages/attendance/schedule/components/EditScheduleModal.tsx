@@ -18,7 +18,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
   const toast = useToast()
   const [timezones, setTimezones] = useState<any[]>([])
   const [selectTimezoneId, setSelectTimezoneId] = useState<string | number>(items.timezoneId)
-  const { register, handleSubmit, reset } = useForm()
+  const { register, handleSubmit } = useForm()
   const [daySchedules, setDaySchedules] = useState<any[]>(items.details || [])
 
   useEffect(() => {
@@ -55,10 +55,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
       const newData = new Date().toISOString()
       onApplyVacancy(newData)
       onClose?.()
-      setTimeout(() => {
-        reset()
-        setIsLoading(false)
-      }, 500)
+      setIsLoading(false)
     } catch (e) {
       setErrorMessage(axiosErrorMessage(e))
       setIsLoading(false)
@@ -77,12 +74,17 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
     setSelectTimezoneId(selectedValue)
   }
 
+  const getDayFullName = (dayIndex: number) => {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    return days[dayIndex]
+  }
+
   return (
     <MainModal className="max-w-xl" show={show} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-3">
           <h3 className="text-center text-2xl font-semibold">Edit Schedule</h3>
-          <p className="text-center text-sm text-gray-500">Edit this schedule for your employee </p>
+          <p className="text-center text-sm text-gray-500">Edit this schedule for your employee</p>
         </div>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
@@ -99,7 +101,8 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
 
         {daySchedules.map((schedule, index) => (
           <div key={index} className="mb-2">
-            <span className="text-xs">{schedule.day}</span>
+            <span className="text-xs">{getDayFullName(schedule.day)}</span>
+
             <div className="flex flex-1 justify-between gap-4">
               <Input
                 type="time"
@@ -129,11 +132,8 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
         ))}
 
         <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Next
+          <Button type="submit" color="primary" className="w-full" disabled={isLoading} loading={isLoading}>
+            Submit
           </Button>
         </div>
       </form>

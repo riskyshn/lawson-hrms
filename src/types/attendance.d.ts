@@ -90,4 +90,6 @@ interface ILeave {
   status?: string
   duration?: number
   createdAt?: string
+  oid?: string
+  updatedAt?: string
 }

@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
-import { Button } from 'jobseeker-ui'
+import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { CheckCircleIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
-import ConfirmationModal from './ConfirmationModal'
+import { attendanceService } from '@/services'
 
 interface ActionMenuProps {
   options: string[]
@@ -12,51 +12,55 @@ interface ActionMenuProps {
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy }) => {
-  const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
+  const confirm = useConfirm()
+  const toast = useToast()
 
   const handleViewDetails = async (option: string) => {
-    setShowOptionModal(true)
-
-    switch (option) {
-      case 'View Details':
-      case 'Approve':
-      case 'Reject':
-        setModalType(option)
-        break
-      default:
-        break
-    }
+    setModalType(option)
   }
 
-  const renderModal = () => {
+  const handleConfirmation = async () => {
+    let confirmed = false
     switch (modalType) {
-      case 'View Details':
-        return
       case 'Approve':
-        return (
-          <ConfirmationModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
-            onApplyVacancy={onApplyVacancy}
-            items={items}
-            confirmFlag
-          />
-        )
       case 'Reject':
-        return (
-          <ConfirmationModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
-            onApplyVacancy={onApplyVacancy}
-            items={items}
-            rejectFlag
-          />
-        )
+        confirmed = await confirm({
+          text: `Are you sure you want to ${modalType.toLowerCase()} this request?`,
+          confirmBtnColor: 'primary',
+          cancelBtnColor: 'error',
+        })
+        break
       default:
-        return null
+        break
+    }
+    return confirmed
+  }
+
+  const handleAction = async () => {
+    const confirmed = await handleConfirmation()
+    if (confirmed) {
+      try {
+        if (modalType === 'Approve') {
+          await attendanceService.approvedRequestManagement(items.oid)
+        } else if (modalType === 'Reject') {
+          await attendanceService.rejectedRequestManagement(items.oid)
+        }
+        toast('Confirmed successfully', { color: 'success' })
+        const newData = new Date().toISOString()
+        onApplyVacancy(newData)
+      } catch (e: any) {
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+      }
     }
   }
+
+  React.useEffect(() => {
+    if (modalType === 'Approve' || modalType === 'Reject') {
+      handleAction()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalType])
 
   return (
     <div className="text-center">
@@ -84,7 +88,6 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
           ))}
         </Menu.Items>
       </Menu>
-      {showOptionModal && renderModal()}
     </div>
   )
 }

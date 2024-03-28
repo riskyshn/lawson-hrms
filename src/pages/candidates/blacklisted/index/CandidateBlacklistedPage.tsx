@@ -7,10 +7,9 @@ import { useEffect, useState } from 'react'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import usePagination from '@/hooks/use-pagination'
-import { candidateService } from '@/services'
+import { candidateService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useOrganizationStore } from '@/store'
 
 const CandidateBlacklistedPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -19,19 +18,18 @@ const CandidateBlacklistedPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
+  const [vacancies, setVacancies] = useState<any[]>([])
 
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
-  const position = searchParams.get('position') || undefined
+  const vacancy = searchParams.get('vacancy') || undefined
   const province = searchParams.get('province') || undefined
   const education = searchParams.get('education') || undefined
-
-  const { master } = useOrganizationStore()
 
   const pagination = usePagination({
     pathname: '/candidates/blacklisted',
     totalPage: pageData?.totalPages || 0,
-    params: { search, position, province, education },
+    params: { search, vacancy, province, education },
   })
 
   useEffect(() => {
@@ -47,7 +45,7 @@ const CandidateBlacklistedPage: React.FC = () => {
             page: pagination.currentPage,
             limit: 20,
             education: education,
-            position: position,
+            vacancyId: vacancy,
             province: province,
           },
           signal,
@@ -64,7 +62,20 @@ const CandidateBlacklistedPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage, onChangeData])
+  }, [search, vacancy, education, province, pagination.currentPage, onChangeData])
+
+  useEffect(() => {
+    fetchVacancies()
+  }, [])
+
+  const fetchVacancies = async () => {
+    try {
+      const data = await vacancyService.fetchVacancies()
+      setVacancies(data.content)
+    } catch (error) {
+      console.error('Error fetching vacancies:', error)
+    }
+  }
 
   if (pageError) throw pageError
 
@@ -95,40 +106,16 @@ const CandidateBlacklistedPage: React.FC = () => {
                 open && (
                   <div className="grid grid-cols-1 gap-3 p-3">
                     <Select
-                      placeholder="All Position"
+                      placeholder="Select Vacancy"
                       withReset
-                      value={position}
+                      options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
+                      className="mb-3"
+                      value={vacancy}
                       onChange={(e) => {
-                        searchParams.set('position', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                    />
-                    {/* <AsyncSelect
-                      className="mb-2"
-                      placeholder="Province"
-                      withReset
-                      fetcher={masterService.fetchProvinces}
-                      fetcherParams={{ country: 'Indonesia' }}
-                      searchMinCharacter={0}
-                      converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
-                      name="province"
-                      value={province}
-                      onChange={(v) => {
-                        searchParams.set('province', v.toString())
+                        searchParams.set('vacancy', e.toString())
                         setSearchParam(searchParams)
                       }}
                     />
-                    <Select
-                      placeholder="All Education"
-                      withReset
-                      value={education}
-                      onChange={(e) => {
-                        searchParams.set('education', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={educatioLevels.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                    /> */}
                   </div>
                 )
               }

@@ -10,7 +10,7 @@ import usePagination from '@/hooks/use-pagination'
 import { candidateService, masterService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useMasterStore, useOrganizationStore } from '@/store'
+import { useMasterStore } from '@/store'
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 
 const CandidateWithdrawPage: React.FC = () => {
