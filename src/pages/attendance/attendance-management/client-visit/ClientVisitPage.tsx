@@ -25,7 +25,7 @@ const ClientVisitPage: React.FC = () => {
   const { master } = useOrganizationStore()
 
   const pagination = usePagination({
-    pathname: '/attendance/attendance-management',
+    pathname: '/attendance/attendance-management/client-visit',
     totalPage: pageData?.totalPages || 0,
     params: { search },
   })

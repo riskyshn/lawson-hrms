@@ -55,114 +55,79 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
           <div className="flex gap-3 whitespace-nowrap">
             <div>
               <Avatar
-                name={(item.records && item.records[0].employee?.name) || '-'}
+                name={item.records?.[0]?.employee?.name || '-'}
                 size={38}
                 className="static rounded-lg bg-primary-100 text-primary-700"
               />
             </div>
             <div>
-              <span className="block font-semibold">{item.records && item.records[0].employee?.name}</span>
+              <span className="block font-semibold">{item.records?.[0]?.employee?.name}</span>
               <span className="text-xs text-gray-500">{item.employeeId}</span>
             </div>
           </div>
         ),
       },
-      { children: item.records && item.records[0]?.employee?.employment?.branch?.name },
+      { children: item.records?.[0]?.employee?.employment?.branch?.name },
       {
-        children: (
-          <>
-            {item.records &&
-              item.records.map((record, index) => (
-                <div className="mb-1">
-                  <div key={index} className={item.records && item.records.length > 2 && (index + 1) % 2 === 0 ? 'mb-4' : ''}>
-                    <span className="block font-semibold">{record.attendanceType}</span>
-                  </div>
-                </div>
-              ))}
-          </>
-        ),
+        children: item.records?.map((record, index) => (
+          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
+            <span className="block font-semibold">{record.attendanceType}</span>
+          </div>
+        )),
       },
       {
-        children: (
-          <>
-            {item.records &&
-              item.records.map((record, index) => (
-                <div key={index} className={item.records && item.records.length > 2 && (index + 1) % 2 === 0 ? 'mb-4' : ''}>
-                  <div className="mb-1">
-                    {record &&
-                      record.timezoneTime &&
-                      record.employee &&
-                      record.employee.employment &&
-                      record.employee.employment.schedule &&
-                      record.employee.employment.schedule.timezone && (
-                        <span className="block font-semibold">
-                          {record.timezoneTime.split(' ')[1]} {record.employee.employment.schedule.timezone.title}
-                        </span>
-                      )}
-                  </div>
-                </div>
-              ))}
-          </>
-        ),
+        children: item.records?.map((record, index) => (
+          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
+            <div>
+              <span className="block font-semibold">
+                {record?.timezoneTime?.split(' ')[1]} {record?.employee?.employment?.schedule?.timezone?.title}
+              </span>
+            </div>
+          </div>
+        )),
       },
       {
-        children: (
-          <>
-            {item.records &&
-              item.records.map((record, index) => (
-                <div key={index} className={item.records && item.records.length > 2 && (index + 1) % 2 === 0 ? 'mb-4' : ''}>
-                  <span className={'mb-1 flex items-center justify-center gap-2'}>
-                    <button
-                      key={index}
-                      title="Maps"
-                      className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                      onClick={() => handlePinClick(record.lng || 0, record.lat || 0)}
-                    >
-                      <MapPinIcon size={18} />
-                    </button>
-                  </span>
-                </div>
-              ))}
-          </>
-        ),
+        children: item.records?.map((record, index) => (
+          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
+            <span className="flex items-center justify-center gap-2">
+              <button
+                title="Maps"
+                className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                onClick={() => handlePinClick(record.lng || 0, record.lat || 0)}
+              >
+                <MapPinIcon size={18} />
+              </button>
+            </span>
+          </div>
+        )),
         className: 'text-center',
       },
       {
-        children: (
-          <>
-            {item.records &&
-              item.records.map((record, index) => (
-                <div key={index} className={item.records && item.records.length > 2 && (index + 1) % 2 === 0 ? 'mb-4' : ''}>
-                  <span className="mb-1 flex items-center justify-center gap-2">
-                    <button
-                      key={index}
-                      title="Image"
-                      className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                      onClick={() => previewImage(record.photo)}
-                    >
-                      <ImageIcon size={18} />
-                    </button>
-                  </span>
-                </div>
-              ))}
-          </>
-        ),
+        children: item.records?.map((record, index) => (
+          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
+            <span className="flex items-center justify-center gap-2">
+              <button
+                title="Image"
+                className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                onClick={() => previewImage(record.photo)}
+              >
+                <ImageIcon size={18} />
+              </button>
+            </span>
+          </div>
+        )),
         className: 'text-center',
       },
       {
-        children: (
-          <>
-            {!isClientVisit && (
-              <div className="flex gap-2">
-                <Button color="success" size="small" onClick={openConfirmation}>
-                  <CheckIcon size={16} />
-                </Button>
-                <Button color="error" size="small" onClick={openConfirmation}>
-                  <XIcon size={16} />
-                </Button>
-              </div>
-            )}
-          </>
+        children: !isClientVisit && (
+          <div className="flex gap-2">
+            <Button color="success" size="small" onClick={openConfirmation}>
+              <CheckIcon size={16} />
+            </Button>
+            <Button color="error" size="small" onClick={openConfirmation}>
+              <XIcon size={16} />
+            </Button>
+          </div>
         ),
       },
     ],

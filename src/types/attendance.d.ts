@@ -1,14 +1,14 @@
 interface ITimezone {
-  id: string
-  title: string
+  id?: string
+  title?: string
   createdAt?: string
   updatedAt?: string
   oid?: string
 }
 
 interface ISchedule {
-  id: string
-  name: string
+  id?: string
+  name?: string
   createdAt?: string
   updatedAt?: string
   timezone?: ITimezone
@@ -52,4 +52,42 @@ interface IAttendance {
       }
     }
   }[]
+}
+
+interface ILeave {
+  leaveType?: {
+    oid?: string
+    title?: string
+    isBalance?: boolean
+    isRequiredAttachment?: boolean
+    isSalaryDeduction?: boolean
+  }
+  employee?: {
+    name?: string
+    employeeCode?: string
+    employment?: {
+      schedule?: {
+        name?: string
+        timezone?: {
+          title?: string
+          code?: string
+        }
+      }
+      branch?: {
+        name?: string
+      }
+      position?: {
+        department?: {
+          name?: string
+        }
+      }
+    }
+  }
+  startDate?: string
+  endDate?: string
+  attachment?: string
+  note?: string
+  status?: string
+  duration?: number
+  createdAt?: string
 }
