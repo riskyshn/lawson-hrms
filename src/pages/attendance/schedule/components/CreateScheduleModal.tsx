@@ -110,7 +110,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
         {daySchedules.map((schedule, index) => (
           <div key={index} className="mb-2">
             <span className="text-xs">{schedule.day}</span>
-            <div className="flex flex-1 justify-between gap-4">
+            <div className="flex flex-1 items-center justify-between gap-4">
               <Input
                 type="time"
                 className="w-full"
