@@ -4,6 +4,7 @@ import { Avatar } from 'jobseeker-ui'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
 import ActionMenu from './ActionMenu'
+import { Link } from 'react-router-dom'
 
 const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
   const statusMap: Record<string, { text: string; color: string }> = {
@@ -52,9 +53,9 @@ const Table: React.FC<{
               <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-primary-100 text-primary-700" />
               <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-error-100 text-error-700" />
             </span>
-            <a href="#" className="text-primary-600">
+            <Link to={`/candidates/management?vacancy=${vacancy.oid}`} className="text-primary-600">
               {vacancy.applicantCount}+
-            </a>
+            </Link>
           </span>
         ),
         className: 'text-center',
