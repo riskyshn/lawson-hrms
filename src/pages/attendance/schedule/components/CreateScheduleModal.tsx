@@ -90,13 +90,13 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
     <MainModal className="max-w-xl" show={show} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-3">
-          <h3 className="text-center text-2xl font-semibold">Schedule Details</h3>
-          <p className="text-center text-sm text-gray-500">Details for this schedule</p>
+          <h3 className="text-center text-2xl font-semibold">Add Schedule</h3>
+          <p className="text-center text-sm text-gray-500">Add new schedules for your employee </p>
         </div>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input labelRequired label="Schedule Name" {...register('name')} />
+        <Input labelRequired label="Schedule Name" required {...register('name')} />
         <Select
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
@@ -137,11 +137,8 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
         ))}
 
         <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Next
+          <Button type="submit" color="primary" className="w-full" disabled={isLoading} loading={isLoading}>
+            Submit
           </Button>
         </div>
       </form>

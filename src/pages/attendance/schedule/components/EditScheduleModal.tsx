@@ -81,13 +81,13 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
     <MainModal className="max-w-xl" show={show} onClose={onClose}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-3">
-          <h3 className="text-center text-2xl font-semibold">Schedule Details</h3>
-          <p className="text-center text-sm text-gray-500">Details for this schedule</p>
+          <h3 className="text-center text-2xl font-semibold">Edit Schedule</h3>
+          <p className="text-center text-sm text-gray-500">Edit this schedule for your employee </p>
         </div>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input label="Schedule Name" defaultValue={items.name} {...register('name')} />
+        <Input label="Schedule Name" defaultValue={items.name} labelRequired required {...register('name')} />
         <Select
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"

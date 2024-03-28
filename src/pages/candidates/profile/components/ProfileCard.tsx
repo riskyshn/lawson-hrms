@@ -47,7 +47,7 @@ const ProfileCard: React.FC<PropType> = ({ items, children }) => {
               </div>
               <div className="flex items-center gap-2">
                 <User2Icon className="text-gray-400" size={14} />
-                <span className="block text-sm">{items.age || '-'}</span>
+                <span className="block text-sm">{items.age || '-'} Tahun</span>
               </div>
             </div>
           </div>
