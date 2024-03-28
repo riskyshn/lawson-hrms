@@ -36,7 +36,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
       setErrorMessage('')
 
       const payload = {
-        title: data.title,
+        name: data.name,
         timezoneId: selectTimezoneId,
         details: daySchedules.map(({ start, end, isActive }, index) => ({
           day: index,
@@ -96,7 +96,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input labelRequired label="Schedule Name" {...register('title')} />
+        <Input labelRequired label="Schedule Name" {...register('name')} />
         <Select
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
