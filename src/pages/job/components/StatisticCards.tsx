@@ -24,6 +24,8 @@ const StatisticCards: React.FC<{ isRequisition?: boolean; light?: boolean; switc
   const [data, setData] = useState<Record<string, number> | null>(null)
   const [error, setError] = useState<any>(null)
 
+  console.log(isAttendance)
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
@@ -108,7 +110,7 @@ const StatisticCards: React.FC<{ isRequisition?: boolean; light?: boolean; switc
   }
 
   return (
-    <div className={twJoin(`grid gap-3 sm:grid-cols-3 lg:grid-cols-${isAttendance ? 8 : 6}`)}>
+    <div className={twJoin(`grid gap-3 sm:grid-cols-${isAttendance ? 8 : 6} lg:grid-cols-${isAttendance ? 8 : 6}`)}>
       {!loading ? renderCards() : <Skeleton className="h-[88px]" count={isAttendance ? 8 : 6} />}
     </div>
   )

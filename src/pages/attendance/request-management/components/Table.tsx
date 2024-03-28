@@ -1,5 +1,5 @@
 import MainTable from '@/components/Elements/MainTable'
-import { Avatar } from 'jobseeker-ui'
+import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import ActionMenu from './ActionMenu'
@@ -12,6 +12,16 @@ type PropTypes = {
 
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
   const previewImage = usePreviewImage()
+  const formatDateRequestDate = (dateString?: string): string => {
+    if (!dateString) return ''
+    return new Date(dateString).toLocaleDateString('en-GB')
+  }
+
+  const formatDate = (dateString?: string): string => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`
+  }
 
   const options = ['View Details', 'Approve', 'Reject']
 
@@ -44,14 +54,22 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
           </div>
         ),
       },
-      { children: item.createdAt },
-      { children: item.startDate },
-      { children: item.endDate },
+      { children: formatDateRequestDate(item.createdAt) },
+      { children: formatDate(item.startDate) },
+      { children: formatDate(item.endDate) },
       { children: item.leaveType?.title },
       { children: item.employee?.employment?.position?.department?.name },
       { children: item.employee?.employment?.branch?.name },
       { children: item.note },
-      { children: item.status },
+      {
+        children: item.status ? (
+          <Badge color={statusColors(item.status?.toLowerCase())} size="small" className="font-semibold capitalize">
+            {item.status?.toLowerCase()}
+          </Badge>
+        ) : (
+          '-'
+        ),
+      },
       {
         children: (
           <span className="mb-1 flex items-center justify-center gap-2">
@@ -75,5 +93,13 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
 
   return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
 }
+
+const statusColors = genStyles<string, Color>({
+  approved: 'success',
+  rejected: 'error',
+  process: 'primary',
+  waiting: 'default',
+  default: 'default',
+})
 
 export default Table
