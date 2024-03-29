@@ -31,7 +31,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
       case 'Delete':
         setModalType('')
         confirmed = await confirm({
-          text: `Are you sure you want to delete this request?`,
+          text: `Are you sure you want to delete this schedule?`,
           confirmBtnColor: 'primary',
           cancelBtnColor: 'error',
         })
