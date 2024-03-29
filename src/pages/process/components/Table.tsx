@@ -57,7 +57,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
           '-'
         ),
       },
-      { children: item.interviewDate ? moment(item.interviewDate).format('D/M/Y HH:MM') : '-' },
+      { children: item.actionAt ? moment(item.actionAt).format('D/M/Y HH:MM') : '-' },
       {
         children: (
           <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} setSelected={setSelected} />

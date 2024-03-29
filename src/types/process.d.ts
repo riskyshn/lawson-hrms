@@ -1,7 +1,7 @@
 interface IDataTableApplicant {
   oid: string
   recruitmentStage?: string
-  interviewDate?: string | null
+  actionAt?: string | null
   createdAt?: string
 
   status?: {
