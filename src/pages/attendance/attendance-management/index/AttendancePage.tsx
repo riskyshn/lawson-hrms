@@ -9,7 +9,7 @@ import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 import { BaseInputDate, CardBody, Select } from 'jobseeker-ui'
 import { useOrganizationStore } from '@/store'
-import StatisticCards from '@/pages/job/components/StatisticCards'
+import StatisticCards from './components/StatisticCards'
 import PageCard from '../components/PageCard'
 
 const AttendancePage: React.FC = () => {
@@ -81,7 +81,7 @@ const AttendancePage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards isAttendance />
+        <StatisticCards />
         <MainCard
           header={(open, toggleOpen) => (
             <MainCardHeader
