@@ -1,5 +1,6 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
+import useSearchItem from '@/hooks/use-search-item'
 import { employeeService } from '@/services'
 import { Button, Card, CardBody, CardFooter, CardHeader, Input, Spinner } from 'jobseeker-ui'
 import { SearchIcon } from 'lucide-react'
@@ -45,19 +46,8 @@ const ApplyToPage: React.FC = () => {
     [employees, selected],
   )
 
-  const filteredSelected = useMemo(() => {
-    const filter = (search: string, data: IDataTableEmployee) => {
-      return (data.name?.toLowerCase() || '').replace(/\s+/g, '').includes(search.toLowerCase().replace(/\s+/g, ''))
-    }
-    return search.selected ? data.selected.filter((data) => filter(search.selected, data)) : data.selected
-  }, [data.selected, search.selected])
-
-  const filteredUnselected = useMemo(() => {
-    const filter = (search: string, data: IDataTableEmployee) => {
-      return (data.name?.toLowerCase() || '').replace(/\s+/g, '').includes(search.toLowerCase().replace(/\s+/g, ''))
-    }
-    return search.unselected ? data.unselected.filter((data) => filter(search.unselected, data)) : data.unselected
-  }, [data.unselected, search.unselected])
+  const filteredSelected = useSearchItem<IDataTableEmployee>(search.selected, data.selected, 'name')
+  const filteredUnselected = useSearchItem<IDataTableEmployee>(search.unselected, data.unselected, 'name')
 
   if (pageError) throw pageError
 
