@@ -1,14 +1,14 @@
 interface ITimezone {
-  id?: string
-  title?: string
+  oid: string
+  title: string
   createdAt?: string
   updatedAt?: string
   oid?: string
 }
 
 interface ISchedule {
-  id?: string
-  name?: string
+  oid: string
+  name: string
   createdAt?: string
   updatedAt?: string
   timezone?: ITimezone
