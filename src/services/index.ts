@@ -8,6 +8,4 @@ export * as employeeService from './employee.service'
 export * as attendanceService from './attendance.service'
 export * as candidateService from './candidate.service'
 export * as processService from './process.service'
-
-// for development
-export * as imgbbService from './imgbb.service'
+export * as s3Service from './s3.service'

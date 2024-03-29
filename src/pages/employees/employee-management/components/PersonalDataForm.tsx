@@ -1,5 +1,5 @@
 import AsyncSelect from '@/components/Elements/AsyncSelect'
-import ImageUploader from '@/components/Elements/ImageUploader'
+import ImageUploader from '@/components/Features/FIleUpload/ImageUploader'
 import { PHONE_REG_EXP } from '@/constants/globals'
 import { masterService } from '@/services'
 import { useMasterStore } from '@/store'
@@ -196,6 +196,7 @@ const PersonalDataForm: React.FC<{
 
         <InputWrapper label="National ID" labelRequired error={errors.linkNationalId?.message}>
           <ImageUploader
+            type="employee-national-id"
             value={getValues('linkNationalId')}
             error={errors.linkNationalId?.message}
             onStart={() => {
