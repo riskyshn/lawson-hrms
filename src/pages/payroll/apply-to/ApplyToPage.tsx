@@ -6,11 +6,15 @@ import { Button, Card, CardBody, CardFooter, CardHeader, Input, Spinner } from '
 import { SearchIcon } from 'lucide-react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import EmployeeItem from './components/EmployeeItem'
+import SubmitModal from './components/SubmitModal'
 
 const ApplyToPage: React.FC = () => {
   const [employees, setEmployees] = useState<IDataTableEmployee[]>()
+  const [component, setComponent] = useState<IBenefitComponent>()
   const [selected, setSelected] = useState<string[]>([])
   const [pageError, setPageError] = useState<any>()
+
+  const [showCreateModal, setShowCreateModal] = useState(false)
 
   const [search, setSearch] = useState({
     selected: '',
@@ -18,7 +22,7 @@ const ApplyToPage: React.FC = () => {
   })
 
   useEffect(() => {
-    const load = async () => {
+    const loadEmployees = async () => {
       try {
         const response = await employeeService.fetchEmployees({ limit: 99999999 })
         setEmployees(response.content)
@@ -27,7 +31,19 @@ const ApplyToPage: React.FC = () => {
       }
     }
 
-    load()
+    const loadComponents = async () => {
+      try {
+        setComponent({
+          oid: 'dummyoid',
+          name: 'Component name',
+        })
+      } catch (error) {
+        setPageError(error)
+      }
+    }
+
+    loadEmployees()
+    loadComponents()
   }, [])
 
   const handleSelect = useCallback((oid: string) => {
@@ -55,13 +71,15 @@ const ApplyToPage: React.FC = () => {
     <>
       <PageHeader breadcrumb={[{ text: 'Payroll' }, { text: 'Apply To' }]} />
 
+      {component && <SubmitModal component={component} show={showCreateModal} onClose={() => setShowCreateModal(false)} />}
+
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <Card>
           <CardHeader className="font-semibold">Select Employee(s)</CardHeader>
           <CardBody className="grid grid-cols-2 gap-px bg-gray-200 p-0">
-            <div className="bg-white">
+            <div className="flex flex-col bg-white">
               {!employees && (
-                <div className="flex items-center justify-center py-10">
+                <div className="flex flex-1 items-center justify-center py-10">
                   <Spinner className="h-10 w-10 text-primary-600" />
                 </div>
               )}
@@ -110,7 +128,7 @@ const ApplyToPage: React.FC = () => {
                 </>
               )}
             </div>
-            <div className="bg-white">
+            <div className="flex flex-col bg-white">
               <div className="flex items-center justify-between p-3">
                 <span className="block text-sm font-semibold">{selected.length} employee(s) selected</span>
                 <button
@@ -154,7 +172,7 @@ const ApplyToPage: React.FC = () => {
             </div>
           </CardBody>
           <CardFooter>
-            <Button type="button" color="primary">
+            <Button type="button" color="primary" onClick={() => setShowCreateModal(true)}>
               Submit
             </Button>
           </CardFooter>
