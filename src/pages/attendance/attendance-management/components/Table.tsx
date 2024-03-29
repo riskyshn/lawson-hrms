@@ -25,7 +25,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
   const openConfirmation = async (status: string, id?: string) => {
     let confirmed = false
     confirmed = await confirm({
-      text: `Are you sure you want to ${status} this request?`,
+      text: `Are you sure you want to ${status} this attendance?`,
       confirmBtnColor: 'primary',
       cancelBtnColor: 'error',
     })
@@ -34,12 +34,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
       try {
         if (status === 'approved' && id) {
           await attendanceService.approvedAttendanceManagement(id)
-          toast('Schedule deleted successfully', { color: 'success' })
+          toast('Attendance approved successfully', { color: 'success' })
           const newData = new Date().toISOString()
           onDataChange(newData)
         } else if (status === 'rejected' && id) {
           await attendanceService.rejectedAttendanceManagement(id)
-          toast('Schedule deleted successfully', { color: 'success' })
+          toast('Attendance rejected successfully', { color: 'success' })
           const newData = new Date().toISOString()
           onDataChange(newData)
         }
