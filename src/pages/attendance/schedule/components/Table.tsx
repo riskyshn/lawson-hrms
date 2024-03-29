@@ -22,7 +22,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
               <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-error-100 text-error-700" />
             </span>
             <a href="#" className="text-primary-600">
-              0
+              {item.count}
             </a>
           </span>
         ),

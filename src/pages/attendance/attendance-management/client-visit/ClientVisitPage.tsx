@@ -9,8 +9,8 @@ import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 import { BaseInputDate, CardBody, Select } from 'jobseeker-ui'
 import { useOrganizationStore } from '@/store'
-import StatisticCards from '@/pages/job/components/StatisticCards'
 import PageCard from '../components/PageCard'
+import StatisticCards from '../index/components/StatisticCards'
 
 const ClientVisitPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -81,7 +81,7 @@ const ClientVisitPage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards isAttendance />
+        <StatisticCards />
         <MainCard
           header={(open, toggleOpen) => (
             <MainCardHeader

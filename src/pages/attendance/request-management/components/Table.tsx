@@ -57,7 +57,20 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
       { children: formatDateRequestDate(item.createdAt) },
       { children: formatDate(item.startDate) },
       { children: formatDate(item.endDate) },
-      { children: item.leaveType?.title },
+      {
+        children: (
+          <div className="mb-1">
+            <span className="block font-semibold">
+              {item.leaveType?.title
+                ?.replace(/_/g, ' ')
+                .toLowerCase()
+                .replace(/(?:^|\s)\S/g, function (a) {
+                  return a.toUpperCase()
+                })}
+            </span>
+          </div>
+        ),
+      },
       { children: item.employee?.employment?.position?.department?.name },
       { children: item.employee?.employment?.branch?.name },
       { children: item.note },

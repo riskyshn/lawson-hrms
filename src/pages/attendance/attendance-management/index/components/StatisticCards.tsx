@@ -1,4 +1,4 @@
-import { vacancyService } from '@/services'
+import { attendanceService } from '@/services'
 import { Skeleton } from 'jobseeker-ui'
 import React, { memo, useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
@@ -16,15 +16,15 @@ const Card: React.FC<{
 
 const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ switchData, light }) => {
   const [loading, setLoading] = useState(true)
-  const [data, setData] = useState<Record<string, number> | null>(null)
+  const [data, setData] = useState<any>(null)
   const [error, setError] = useState<any>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const fetchedData = await vacancyService.fetchVacancyStratistic()
-        setData(fetchedData)
+        const data = await attendanceService.fetchStatistic()
+        setData(data)
       } catch (error) {
         setError(error)
       }
@@ -35,40 +35,24 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
 
   const renderCards = () => {
     if (error) {
-      return Array.from(Array(6)).map((_, i) => <Card key={i} label="Failed to load Data" value="Error" />)
+      return Array.from(Array(6)).map((_, i: number) => <Card key={i} label="Failed to load Data" value="Error" />)
     }
     if (!data) return null
 
-    let cardData = [
-      { label: 'Total Employee', value: data.total, className: 'text-white bg-green-600' },
-      { label: 'Check In', value: data.checkin, className: 'text-white bg-amber-600' },
-      { label: 'On Time', value: data.ontime, className: 'text-white bg-rose-600' },
-      { label: 'Late', value: data.late, className: 'text-white bg-red-600' },
-      { label: 'Absent', value: data.absent, className: 'text-white bg-gray-600' },
-      { label: 'Leave', value: data.leave, className: 'text-white bg-red-600' },
-      { label: 'Client Visit', value: data.client, className: 'text-white bg-sky-600' },
-      { label: 'Overtime', value: data.overtime, className: 'text-white bg-yellow-600' },
-    ]
+    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'sky']
 
-    if (light) {
-      cardData = [
-        { label: 'Total Employee', value: data.total, className: 'text-white bg-green-600' },
-        { label: 'Check In', value: data.checkin, className: 'text-white bg-amber-600' },
-        { label: 'On Time', value: data.ontime, className: 'text-white bg-rose-600' },
-        { label: 'Late', value: data.late, className: 'text-white bg-red-600' },
-        { label: 'Absent', value: data.absent, className: 'text-white bg-gray-600' },
-        { label: 'Leave', value: data.leave, className: 'text-white bg-gray-600' },
-        { label: 'Client Visit', value: data.client, className: 'text-white bg-gray-600' },
-        { label: 'Overtime', value: data.overtime, className: 'text-white bg-gray-600' },
-      ]
-    }
+    const cardData = data.map((item: { title: string; count: number }, index: number) => ({
+      label: item.title,
+      value: item.count,
+      className: `text-white bg-${light ? colors[index] : colors[index]}-600`,
+    }))
 
-    return cardData.map((rest, index) => <Card key={index} {...rest} />)
+    return cardData.map((rest: any, index: number) => <Card key={index} {...rest} />)
   }
 
   return (
-    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-8`)}>
-      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={8} />}
+    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-${data ? data.length : 7}`)}>
+      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={data ? data.length : 7} />}
     </div>
   )
 }

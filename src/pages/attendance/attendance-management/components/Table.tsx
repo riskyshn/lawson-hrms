@@ -1,10 +1,10 @@
 import MainTable from '@/components/Elements/MainTable'
-import { Avatar, Button } from 'jobseeker-ui'
+import { Avatar, Button, useConfirm, useToast } from 'jobseeker-ui'
 import { useState } from 'react'
 import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import MapsPreviewer from '@/components/Elements/MapsPreviewer'
-import ConfirmationModal from './ConfirmationModal'
+import { attendanceService } from '@/services'
 type PropTypes = {
   items: IAttendance[]
   loading?: boolean
@@ -15,24 +15,38 @@ type PropTypes = {
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisit }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
-  const [showConfirmation, setShowConfirmation] = useState(false)
+  const confirm = useConfirm()
+  const toast = useToast()
 
   const handlePinClick = (lat: number, lng: number) => {
     setSelectedLocation([lat, lng])
   }
 
-  const openConfirmation = () => {
-    setShowConfirmation(true)
-  }
+  const openConfirmation = async (status: string, id?: string) => {
+    let confirmed = false
+    confirmed = await confirm({
+      text: `Are you sure you want to ${status} this request?`,
+      confirmBtnColor: 'primary',
+      cancelBtnColor: 'error',
+    })
 
-  const closeConfirmation = () => {
-    setShowConfirmation(false)
-  }
-
-  const handleConfirmAction = () => {
-    closeConfirmation()
-    const newData = new Date().toISOString()
-    onDataChange(newData)
+    if (confirmed) {
+      try {
+        if (status === 'approved' && id) {
+          await attendanceService.approvedAttendanceManagement(id)
+          toast('Schedule deleted successfully', { color: 'success' })
+          const newData = new Date().toISOString()
+          onDataChange(newData)
+        } else if (status === 'rejected' && id) {
+          await attendanceService.rejectedAttendanceManagement(id)
+          toast('Schedule deleted successfully', { color: 'success' })
+          const newData = new Date().toISOString()
+          onDataChange(newData)
+        }
+      } catch (e: any) {
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+      }
+    }
   }
 
   const headerItems = [
@@ -69,11 +83,19 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
       },
       { children: item.records?.[0]?.employee?.employment?.branch?.name },
       {
-        children: item.records?.map((record, index) => (
-          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
-            <span className="block font-semibold">{record.attendanceType}</span>
-          </div>
-        )),
+        children: item.records?.map((record, index) => {
+          const modifiedAttendanceType = record?.attendanceType
+            ?.replace(/_/g, ' ')
+            .toLowerCase()
+            .replace(/(?:^|\s)\S/g, function (a) {
+              return a.toUpperCase()
+            })
+          return (
+            <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
+              <span className="block font-semibold">{modifiedAttendanceType}</span>
+            </div>
+          )
+        }),
       },
       {
         children: item.records?.map((record, index) => (
@@ -119,16 +141,18 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
         className: 'text-center',
       },
       {
-        children: !isClientVisit && (
-          <div className="flex gap-2">
-            <Button color="success" size="small" onClick={openConfirmation}>
-              <CheckIcon size={16} />
-            </Button>
-            <Button color="error" size="small" onClick={openConfirmation}>
-              <XIcon size={16} />
-            </Button>
-          </div>
-        ),
+        children:
+          !isClientVisit &&
+          item?.records?.map((record, index) => (
+            <div key={index} className="mb-2 flex gap-2">
+              <Button color="success" size="small" onClick={() => openConfirmation('approved', record.oid)}>
+                <CheckIcon size={16} />
+              </Button>
+              <Button color="error" size="small" onClick={() => openConfirmation('rejected', record.oid)}>
+                <XIcon size={16} />
+              </Button>
+            </div>
+          )),
       },
     ],
   }))
@@ -137,7 +161,6 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
     <>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
       {selectedLocation && <MapsPreviewer coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />}
-      <ConfirmationModal show={showConfirmation} onClose={closeConfirmation} onConfirm={handleConfirmAction} />
     </>
   )
 }
