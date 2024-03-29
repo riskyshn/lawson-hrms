@@ -1,4 +1,4 @@
-import ImageUploader from '@/components/Elements/ImageUploader'
+import ImageUploader from '@/components/Features/FIleUpload/ImageUploader'
 import { organizationService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
@@ -100,6 +100,7 @@ const SettingsCompanyForm: React.FC = () => {
         />
         <InputWrapper label="Company Logo" labelRequired error={errors.logoUrl?.message}>
           <ImageUploader
+            type="company-logo"
             value={getValues('logoUrl')}
             error={errors.logoUrl?.message}
             onStart={() => {

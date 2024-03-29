@@ -1,5 +1,5 @@
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
-import { imgbbService } from '@/services'
+import { s3Service } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import formatFileSize from '@/utils/format-file-sizes'
 import truncateFilename from '@/utils/truncate-filename'
@@ -12,6 +12,7 @@ import React, { ChangeEvent, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 interface ImageUploaderProps {
+  type: 'employee-national-id' | 'candidate-photo-profile' | 'company-logo'
   value?: string
   error?: string
   hidePreview?: boolean
@@ -21,7 +22,7 @@ interface ImageUploaderProps {
   onProgress?: (data: { progress: number; estimated: number }) => void
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, hidePreview, onStart, onChange, onProgress, onError }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ type, value, error, hidePreview, onStart, onChange, onProgress, onError }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
@@ -61,8 +62,8 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ value, error, hidePreview
       setUploading(true)
       setUploadProgress(0)
       setEstimatedTimeRemaining('preparing upload...')
-      const { data } = await imgbbService.upload(formData, config)
-      onChange?.(data.url)
+      const data = await s3Service.upload(type, formData, config)
+      onChange?.(data.link)
     } catch (e: any) {
       onError?.(axiosErrorMessage(e))
     } finally {
