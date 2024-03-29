@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Menu } from '@headlessui/react'
-import { Button, useToast } from 'jobseeker-ui'
+import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import ViewScheduleModal from './ViewScheduleModal'
@@ -17,9 +17,11 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const toast = useToast()
+  const confirm = useConfirm()
 
   const handleViewDetails = async (option: string) => {
     setShowOptionModal(true)
+    let confirmed = false
 
     switch (option) {
       case 'View Details':
@@ -27,13 +29,21 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
         setModalType(option)
         break
       case 'Delete':
-        try {
-          await attendanceService.deleteSchedule(items?.oid)
-          toast('Schedule deleted successfully', { color: 'success' })
-          const newData = new Date().toISOString()
-          onApplyVacancy(newData)
-        } catch (e: any) {
-          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+        confirmed = await confirm({
+          text: `Are you sure you want to delete this request?`,
+          confirmBtnColor: 'primary',
+          cancelBtnColor: 'error',
+        })
+
+        if (confirmed) {
+          try {
+            await attendanceService.deleteSchedule(items?.oid)
+            toast('Schedule deleted successfully', { color: 'success' })
+            const newData = new Date().toISOString()
+            onApplyVacancy(newData)
+          } catch (e: any) {
+            toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+          }
         }
         break
       default:

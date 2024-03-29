@@ -18,6 +18,7 @@ interface ISchedule {
     end?: string
     isActive?: boolean
   }>
+  count: string
 }
 
 interface IAttendance {

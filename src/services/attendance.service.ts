@@ -65,3 +65,15 @@ export const approvedRequestManagement = (oid: string) => {
 export const rejectedRequestManagement = (oid: string) => {
   return axios.patch(`/employer/leave/${oid}/rejected`).then((response) => response.data.data)
 }
+
+export const fetchStatistic = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IPaginationResponse }>(`/employer/statistics`, { params, signal }).then((response) => response.data.data)
+}
+
+export const approvedAttendanceManagement = (oid: string) => {
+  return axios.patch(`/employer/${oid}/approved`).then((response) => response.data.data)
+}
+
+export const rejectedAttendanceManagement = (oid: string) => {
+  return axios.patch(`/employer/${oid}/rejected`).then((response) => response.data.data)
+}
