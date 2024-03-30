@@ -78,9 +78,10 @@ interface ILeave {
         name?: string
       }
       position?: {
-        department?: {
-          name?: string
-        }
+        name?: string
+      }
+      department?: {
+        name?: string
       }
     }
   }
