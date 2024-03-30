@@ -43,7 +43,7 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
 
   const handleUpload = async (image: File, controller: AbortController) => {
     const formData = new FormData()
-    formData.append('image', image)
+    formData.append('file', image)
 
     const config: AxiosRequestConfig = {
       headers: { 'content-type': 'multipart/form-data' },
