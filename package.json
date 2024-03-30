@@ -16,7 +16,7 @@
     "@tinymce/tinymce-react": "^5.0.0",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
-    "jobseeker-ui": "^0.0.39",
+    "jobseeker-ui": "^0.0.47",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.330.0",

@@ -1,8 +1,6 @@
-import MainModal from '@/components/Elements/MainModal'
-import { vacancyService } from '@/services'
-import { useOrganizationStore } from '@/store'
+import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { Spinner, useToast } from 'jobseeker-ui'
+import { Modal, ModalHeader, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import ProcessForm from './ProcessForm'
 import StagePickerForm from './StagePickerForm'
@@ -15,24 +13,20 @@ type ProcessModalProps = {
 }
 
 const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited, onClose }) => {
-  const [stages, setStages] = useState<{ interviews: IRecruitmentStage[]; assesments: IRecruitmentStage[] }>()
+  const [stages, setStages] = useState<{ interviews: IApplicantStage[]; assesments: IApplicantStage[] }>()
   const [dataApplicant, setDataApplicant] = useState<IDataTableApplicant>()
 
   const [tab, setTab] = useState(0)
   const [stageId, setStageId] = useState('')
 
-  const { recruitmentStages } = useOrganizationStore()
   const toast = useToast()
 
   useEffect(() => {
-    const load = async (vacancyId: string) => {
+    const load = async (applicantId: string) => {
       try {
-        const vacancy = await vacancyService.fetchVacancyDetail(vacancyId)
-        const processIds = vacancy.recruitmentProcess?.map((el) => el.oid) || []
-        const stages = recruitmentStages.filter((el) => processIds.includes(el.oid))
-
-        const interviews = stages.filter((el) => el.type == 'INTERVIEW')
-        const assesments = stages.filter((el) => el.type == 'ASSESMENT')
+        const stages = await processService.fetchDetailStages(applicantId)
+        const interviews = stages.content.filter((el) => el.type == 'INTERVIEW')
+        const assesments = stages.content.filter((el) => el.type == 'ASSESMENT')
         setStages({ interviews, assesments })
       } catch (e) {
         toast(axiosErrorMessage(e))
@@ -40,23 +34,26 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited
       }
     }
 
-    if (applicant?.vacancy?.oid) {
+    if (applicant) {
       setDataApplicant(applicant)
-      load(applicant.vacancy.oid)
+      load(applicant.oid)
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applicant])
 
-  const stage = recruitmentStages.find((el) => el.oid == stageId)
+  const stage = stages?.assesments.find((el) => el.oid == stageId) || stages?.interviews.find((el) => el.oid == stageId)
 
   return (
-    <MainModal className="max-w-xl" show={!!show} onClose={onClose}>
-      <div className="mb-4">
-        <h4 className="mb-2 text-2xl font-semibold">{tab ? 'Schedule Your Process' : 'Process Update'}</h4>
-        <p className="text-xs">{tab ? 'Add Process to Your Calendar' : 'Please select the process stage'}</p>
-      </div>
-
+    <Modal className="max-w-xl" show={!!show}>
+      <ModalHeader subTitle={tab ? 'Add Process to Your Calendar' : 'Please select the process stage'} onClose={onClose}>
+        {tab ? 'Schedule Your Process' : 'Process Update'}
+      </ModalHeader>
+      {!stages && (
+        <div className="flex items-center justify-center py-48">
+          <Spinner height={40} className="text-primary-600" />
+        </div>
+      )}
       {stages && (
         <>
           {!tab ? (
@@ -70,13 +67,7 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited
           )}
         </>
       )}
-
-      {!stages && (
-        <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
-        </div>
-      )}
-    </MainModal>
+    </Modal>
   )
 }
 

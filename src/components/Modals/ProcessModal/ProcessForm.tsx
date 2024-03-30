@@ -1,11 +1,14 @@
-import { employeeService, processService } from '@/services'
+import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, InputCheckbox, InputDate, MultiSelect, OptionProps, Select, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, InputDate, InputTime, InputWrapper, ModalFooter, Select, Switch, Textarea, useToast } from 'jobseeker-ui'
+import { ClockIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import SelectEmployees from './SelectEmployees'
+import { useNavigate } from 'react-router-dom'
 
 const schema = yup.object({
   name: yup.string().required().label('Title'),
@@ -14,7 +17,7 @@ const schema = yup.object({
     .string()
     .required()
     .test('started_at_test', '${label} must be before ended at', function (value) {
-      return moment(value, 'HH:mm').isSameOrBefore(moment(this.parent.endedAt, 'HH:mm'))
+      return moment(value, 'HH:mm').isBefore(moment(this.parent.endedAt, 'HH:mm'))
     })
     .label('Started at'),
   endedAt: yup.string().required().label('Ended at'),
@@ -25,40 +28,35 @@ const schema = yup.object({
   description: yup.string().required().label('Description'),
 })
 
+const timezones = [
+  { label: '(GMT+07:00) Western Indonesian Time', value: 'Asia/Jakarta' },
+  { label: '(GMT+08:00) Center Indonesian Time', value: 'Asia/Makassar' },
+  { label: '(GMT+09:00) Eastern Indonesian Time', value: 'Asia/Jayapura' },
+]
+
+const getCurrentTimezone = () => {
+  const currentDate = new Date()
+  const offset = -currentDate.getTimezoneOffset()
+  const offsetHours = Math.floor(Math.abs(offset) / 60)
+  const offsetMinutes = Math.abs(offset) % 60
+  const formattedOffset = `${offset < 0 ? '-' : '+'}${offsetHours.toString().padStart(2, '0')}:${offsetMinutes.toString().padStart(2, '0')}`
+  if (formattedOffset === '+07:00') return 'Asia/Jakarta'
+  if (formattedOffset === '+09:00') return 'Asia/Jayapura'
+  return 'Asia/Makassar'
+}
+
 const ProcessForm: React.FC<{
-  stage: IRecruitmentStage
+  stage: IApplicantStage
   applicant?: IDataTableApplicant
   onClose?: () => void
   onSubmited?: () => void
   onPrev?: () => void
 }> = ({ stage, applicant, onPrev, onClose, onSubmited }) => {
   const [loading, setLoading] = useState(false)
-  const [employees, setEmployees] = useState<OptionProps[]>([])
   const [errorMessage, setErrorMessage] = useState('')
 
   const toast = useToast()
-
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const employees = await employeeService.fetchEmployees({ limit: 99999 })
-        setEmployees(
-          employees.content
-            .filter((el) => !!el.email)
-            .map((el) => ({
-              label: `${el.name} (${el.email})`,
-              value: el.email || '',
-            })),
-        )
-      } catch (e) {
-        toast(axiosErrorMessage(e))
-        onPrev?.()
-      }
-    }
-
-    load()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const navigate = useNavigate()
 
   const {
     register,
@@ -67,12 +65,19 @@ const ProcessForm: React.FC<{
     getValues,
     formState: { errors },
     trigger,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      date: new Date(),
-    },
   })
+
+  useEffect(() => {
+    setValue('name', stage.name)
+    setValue('date', moment().toDate())
+    setValue('startedAt', moment().add(60, 'minutes').format('HH:mm'))
+    setValue('endedAt', moment().add(90, 'minutes').format('HH:mm'))
+    setValue('timezone', getCurrentTimezone())
+    setValue('meet', true)
+  }, [stage, setValue, trigger])
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true)
@@ -94,6 +99,7 @@ const ProcessForm: React.FC<{
       })
 
       toast('Process updated successfully', { color: 'success' })
+      navigate(`/process/${stage.type.toLowerCase()}`)
       setTimeout(() => {
         onPrev?.()
       }, 200)
@@ -106,23 +112,24 @@ const ProcessForm: React.FC<{
   })
 
   return (
-    <form onSubmit={onSubmit}>
-      {errorMessage && (
-        <Alert color="error" className="mb-3">
-          {errorMessage}
-        </Alert>
-      )}
+    <form onSubmit={onSubmit} className="divide-y">
+      <div className="grid grid-cols-1 gap-2 p-3">
+        {errorMessage && (
+          <Alert color="error" className="mb-3">
+            {errorMessage}
+          </Alert>
+        )}
 
-      <div>
-        <Input label="Title" placeholder="Add Title" error={errors.name?.message} {...register('name')} />
+        <Input label="Title" labelRequired placeholder="Add Title" error={errors.name?.message} {...register('name')} />
 
         <InputDate
+          placeholder="Pick date"
+          label="Date"
           asSingle
           useRange={false}
-          label="Date"
-          placeholder="Pick date"
-          labelRequired
-          displayFormat="D/M/YYYY"
+          displayFormat="DD-MM-YYYY"
+          minDate={moment().toDate()}
+          error={errors.date?.message}
           value={{ startDate: getValues('date'), endDate: getValues('date') }}
           onChange={(v) => {
             // @ts-expect-error
@@ -130,22 +137,32 @@ const ProcessForm: React.FC<{
             trigger('date')
           }}
         />
-        <div className="grid grid-cols-2 gap-3">
-          <Input
-            label="Started at"
-            placeholder="Started at"
+
+        <div className="grid grid-cols-2 gap-2">
+          <InputTime
+            label="Started At"
             labelRequired
-            type="time"
             error={errors.startedAt?.message}
-            {...register('startedAt')}
+            name="startedAt"
+            value={watch('startedAt')}
+            onValueChange={(v) => {
+              setValue('startedAt', v)
+              trigger('startedAt')
+            }}
+            rightChild={<ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />}
           />
-          <Input
-            label="Ended at"
-            placeholder="Ended at"
+          <InputTime
+            label="Ended At"
             labelRequired
-            type="time"
             error={errors.endedAt?.message}
-            {...register('endedAt')}
+            name="endedAt"
+            value={watch('endedAt')}
+            onValueChange={(v) => {
+              setValue('endedAt', v)
+              trigger('startedAt')
+              trigger('endedAt')
+            }}
+            rightChild={<ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />}
           />
         </div>
 
@@ -153,11 +170,9 @@ const ProcessForm: React.FC<{
           label="Timezone"
           placeholder="Timezone"
           labelRequired
-          options={[
-            { label: 'WIB', value: 'Asia/Jakarta' },
-            { label: 'WITA', value: 'Asia/Makassar' },
-            { label: 'WIT', value: 'Asia/Jayapura' },
-          ]}
+          hideSearch
+          wrapperClassName="m-0"
+          options={timezones}
           error={errors.timezone?.message}
           value={getValues('timezone')}
           onChange={(v) => {
@@ -166,53 +181,51 @@ const ProcessForm: React.FC<{
           }}
         />
 
-        <MultiSelect
-          label="Email"
-          labelRequired
-          placeholder="Email"
-          name="emials"
-          options={employees.length ? employees : [{ label: 'arddede4@gmail.com', value: 'arddede4@gmail.com' }]}
-          error={
-            errors.guests?.message ||
-            errors.guests
-              ?.map?.((el) => el?.message)
-              .filter((el) => !!el)
-              .join(', ')
-          }
-          value={getValues('guests')}
-          onChange={(v) => {
-            setValue(
-              'guests',
-              v.map((el) => el.toString()),
-            )
-            trigger('guests')
-          }}
-        />
-        <div className="py-3">
-          <InputCheckbox id="generate-meet" {...register('meet')}>
-            Add Google Meet Video Conferencing For Online Interview
-          </InputCheckbox>
+        <div className="flex items-center gap-2 py-3">
+          <Switch
+            color="primary"
+            id="generate-meet"
+            value={!!watch('meet')}
+            onChange={(v) => {
+              setValue('meet', v)
+              trigger('meet')
+            }}
+          />
+          <label htmlFor="generate-meet" className="block text-sm">
+            Add Google Meet Video Conferencing For Online <span className="capitalize">{stage.type.toLowerCase()}</span>
+          </label>
         </div>
 
-        <Input label="Location" placeholder="Add Location" error={errors.location?.message} {...register('location')} />
+        <InputWrapper label="Guests" labelRequired error={errors.guests?.message}>
+          <SelectEmployees
+            candidate={applicant?.candidate}
+            onValueChange={(value) => {
+              setValue('guests', value)
+              trigger('guests')
+            }}
+          />
+        </InputWrapper>
+
+        <Input label="Location" labelRequired placeholder="Add Location" error={errors.location?.message} {...register('location')} />
         <Textarea
           rows={2}
           maxLength={156}
           label="Description"
+          labelRequired
           placeholder="Add Description"
           error={errors.description?.message}
           {...register('description')}
         />
       </div>
 
-      <div className="mt-8 flex justify-end gap-3">
+      <ModalFooter className="gap-3">
         <Button type="button" color="error" variant="light" className="w-24" disabled={loading} onClick={onPrev}>
           Prev
         </Button>
         <Button color="primary" disabled={loading} loading={loading}>
           Add an Interview
         </Button>
-      </div>
+      </ModalFooter>
     </form>
   )
 }

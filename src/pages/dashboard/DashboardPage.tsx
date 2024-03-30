@@ -8,7 +8,6 @@ import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidate
 import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
 import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 import moment from 'moment'
-import ShowModals from './ShowModals'
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuthStore()
@@ -18,8 +17,6 @@ const DashboardPage: React.FC = () => {
       <PageHeader breadcrumb={[{ text: 'Dashboard' }]} />
 
       <Container className="py-3 xl:pb-8">
-        <ShowModals />
-
         <div className="relative mb-3 overflow-hidden rounded-lg bg-primary-600 px-3 py-14 text-white">
           <span
             className="absolute inset-0 block bg-cover bg-center bg-no-repeat opacity-10"

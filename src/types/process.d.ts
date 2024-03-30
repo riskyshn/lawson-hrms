@@ -34,3 +34,10 @@ interface IApplicant extends IDataTableApplicant {
     processAt?: string
   }>
 }
+
+interface IApplicantStage {
+  oid: string
+  name: string
+  type: 'INTERVIEW' | 'ASSESMENT'
+  isAvailable: boolean
+}

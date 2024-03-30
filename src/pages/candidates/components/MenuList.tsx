@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import ProcessModal from './ProcessModal'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'
 import {
@@ -26,6 +25,7 @@ import WithdrawModal from './WithdrawModal'
 import RejectModal from './RejectModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import { useNavigate } from 'react-router-dom'
+import ProcessModal from '@/components/Modals/ProcessModal'
 
 interface MenuListProps {
   options: string[]
@@ -101,7 +101,13 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
   const renderModal = () => {
     switch (modalType) {
       case 'Process':
-        return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
+        return (
+          <ProcessModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            applicant={{ oid: candidate.id, candidate: { oid: candidate.candidateId, email: candidate.email, name: candidate.name } }}
+          />
+        )
       case 'View History':
         return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
       case 'Move to Another Vacancy':
