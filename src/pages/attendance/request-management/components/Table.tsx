@@ -71,7 +71,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
           </div>
         ),
       },
-      { children: item.employee?.employment?.position?.department?.name },
+      { children: item.employee?.employment?.department?.name },
       { children: item.employee?.employment?.branch?.name },
       { children: item.note },
       {
