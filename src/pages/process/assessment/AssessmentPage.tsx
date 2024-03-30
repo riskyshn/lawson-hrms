@@ -117,7 +117,7 @@ const AssessmentPage: React.FC = () => {
               }
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
+          body={<Table type="ASSESSMENT" items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
           footer={pagination.render()}
         />
       </Container>

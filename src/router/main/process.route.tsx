@@ -42,7 +42,7 @@ const candidatesRoute: RouteObject = {
           element: <PreviewPage />,
         },
         {
-          path: 'create',
+          path: ':applicanId/create',
           element: <CreateOfferingLetterPage />,
         },
         {

@@ -3,6 +3,7 @@ interface IDataTableApplicant {
   recruitmentStage?: string
   actionAt?: string | null
   createdAt?: string
+  documentLink?: string
 
   status?: {
     oid: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7'

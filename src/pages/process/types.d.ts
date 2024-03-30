@@ -1,8 +1,3 @@
-export type ModalType =
-  | 'PROCESS'
-  | 'UPDATE RESULT'
-  | 'OFFERING LETTER'
-  | 'MOVE TO ANOTHER VACANCY'
-  | 'VIEW HISTORY'
-  | 'BLACKLIST'
-  | 'REJECT'
+export type ModalType = 'PROCESS' | 'UPDATE RESULT' | 'MOVE TO ANOTHER VACANCY' | 'VIEW HISTORY' | 'BLACKLIST' | 'REJECT'
+
+export type TableType = 'INTERVIEW' | 'ASSESSMENT' | 'OFFERING'
