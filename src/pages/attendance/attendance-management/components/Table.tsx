@@ -5,6 +5,7 @@ import { attendanceService } from '@/services'
 import { Avatar, Button, useConfirm, useToast } from 'jobseeker-ui'
 import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
+
 type PropTypes = {
   items: IAttendance[]
   loading?: boolean
