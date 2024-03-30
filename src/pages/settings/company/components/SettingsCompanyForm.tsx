@@ -1,4 +1,4 @@
-import ImageUploader from '@/components/Features/FIleUpload/ImageUploader'
+import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
 import { organizationService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
@@ -99,7 +99,7 @@ const SettingsCompanyForm: React.FC = () => {
           {...register('npwpNumber')}
         />
         <InputWrapper label="Company Logo" labelRequired error={errors.logoUrl?.message}>
-          <ImageUploader
+          <ImageFileUpload
             type="company-logo"
             value={getValues('logoUrl')}
             error={errors.logoUrl?.message}

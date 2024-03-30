@@ -18,7 +18,7 @@ import { twJoin } from 'tailwind-merge'
 
 type OptionModalProps = {
   show?: boolean
-  candidate?: ICandidate
+  applicant?: IDataTableApplicant
   onClose?: () => void
 }
 
@@ -31,7 +31,7 @@ const statusConfig: Record<string, { Icon: LucideIcon; className: string }> = {
 
 const Status: React.FC<{ status?: string }> = ({ status }) => {
   status = status?.toUpperCase() || 'UNKNOWN'
-  const { Icon = AlertCircleIcon, className = 'text-warning-600' } = statusConfig[status]
+  const { Icon = AlertCircleIcon, className = 'text-warning-600' } = statusConfig[status] || {}
   return (
     <div className={twJoin(className, 'flex justify-center gap-2')}>
       <Icon size={18} />
@@ -40,20 +40,19 @@ const Status: React.FC<{ status?: string }> = ({ status }) => {
   )
 }
 
-const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate: applicant, onClose }) => {
-  const [aplicantDataTable, setAplicantDataTable] = useState<ICandidate>()
+const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose }) => {
+  const [aplicantDataTable, setAplicantDataTable] = useState<IDataTableApplicant>()
   const [aplicantDetail, setAplicantDetail] = useState<IApplicant | null>(null)
   const [showDetailIndex, setShowDetailIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    console.log(applicant)
     const controller = new AbortController()
-    const load = async (applicant: ICandidate, signal: AbortSignal) => {
-      const data = await processService.fetchDetailProcess(applicant.id, signal)
-      setAplicantDetail(data)
+    const load = async (applicant: IDataTableApplicant, signal: AbortSignal) => {
+      const data = await processService.fetchDetailProcess(applicant.oid, signal)
+      setAplicantDetail({ ...applicant, ...data })
     }
 
-    if (applicant?.id) {
+    if (applicant?.oid) {
       setAplicantDataTable(applicant)
       setAplicantDetail(null)
       load(applicant, controller.signal)
@@ -68,7 +67,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate: applica
     <MainModal className="max-w-xl py-12" show={!!show} onClose={onClose}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Candidate History</h4>
-        <p className="text-center">Candidate Process History for {aplicantDataTable?.name}</p>
+        <p className="text-center">Candidate Process History for {aplicantDataTable?.candidate?.name}</p>
       </div>
 
       {!aplicantDetail && (
@@ -173,4 +172,4 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate: applica
   )
 }
 
-export default ViewHistoryModal
+export default ViewProcessHistoryModal

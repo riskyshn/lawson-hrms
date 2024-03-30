@@ -45,3 +45,7 @@ export const rescheduleProcess = (payload: Record<string, any>, signal?: Generic
 export const updateProcessResult = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
   return axios.put('/process/result', payload, { signal }).then(({ data }) => data.data)
 }
+
+export const fetchDetailStages = (oid: string, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: { content: IApplicantStage[] } }>(`/process/stages/${oid}`, { signal }).then((response) => response.data.data)
+}

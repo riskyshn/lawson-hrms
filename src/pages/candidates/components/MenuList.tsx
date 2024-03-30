@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import ProcessModal from './ProcessModal'
+import ProcessModal from '@/components/Modals/ProcessModal'
+import ViewProcessHistoryModal from '@/components/Modals/ViewProcessHistoryModal'
+import { candidateService } from '@/services'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'
 import {
@@ -16,16 +17,15 @@ import {
   UserXIcon,
   XCircleIcon,
 } from 'lucide-react'
-import { twJoin } from 'tailwind-merge'
-import BlacklistModal from './BlacklistModal'
-import ApplyVacancyModal from './ApplyVacancyModal'
-import SendReminderModal from '../offered/index/components/SendReminderModal'
-import ViewHistoryModal from './ViewHistoryModal'
-import { candidateService } from '@/services'
-import WithdrawModal from './WithdrawModal'
-import RejectModal from './RejectModal'
-import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { twJoin } from 'tailwind-merge'
+import SendReminderModal from '../offered/index/components/SendReminderModal'
+import ApplyVacancyModal from './ApplyVacancyModal'
+import BlacklistModal from './BlacklistModal'
+import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
+import RejectModal from './RejectModal'
+import WithdrawModal from './WithdrawModal'
 
 interface MenuListProps {
   options: string[]
@@ -101,9 +101,21 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
   const renderModal = () => {
     switch (modalType) {
       case 'Process':
-        return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
+        return (
+          <ProcessModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            applicant={{ oid: candidate.id, candidate: { oid: candidate.candidateId, email: candidate.email, name: candidate.name } }}
+          />
+        )
       case 'View History':
-        return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
+        return (
+          <ViewProcessHistoryModal
+            show={showOptionModal}
+            onClose={() => setShowOptionModal(false)}
+            applicant={{ oid: candidate.id, candidate: { oid: candidate.candidateId, email: candidate.email, name: candidate.name } }}
+          />
+        )
       case 'Move to Another Vacancy':
         return (
           <MoveAnotherVacancyModal

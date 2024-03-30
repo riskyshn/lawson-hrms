@@ -1,7 +1,7 @@
 interface IDataTableApplicant {
   oid: string
   recruitmentStage?: string
-  interviewDate?: string | null
+  actionAt?: string | null
   createdAt?: string
 
   status?: {
@@ -33,4 +33,11 @@ interface IApplicant extends IDataTableApplicant {
     actionAt?: string | null
     processAt?: string
   }>
+}
+
+interface IApplicantStage {
+  oid: string
+  name: string
+  type: 'INTERVIEW' | 'ASSESMENT'
+  isAvailable: boolean
 }

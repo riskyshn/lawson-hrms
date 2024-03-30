@@ -1,5 +1,5 @@
 import MainModal from '@/components/Elements/MainModal'
-import DocumentUploader from '@/components/Features/FIleUpload/DocumentUploader'
+import DocumentFileUpload from '@/components/FileUploads/DocumentFileUpload'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -96,7 +96,7 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
         <Textarea label="Notes" rows={4} error={errors.notes?.message} {...register('notes')} />
 
         <InputWrapper label="Upload file" error={errors.file?.message}>
-          <DocumentUploader
+          <DocumentFileUpload
             type="applicant-result"
             value={getValues('file')}
             error={errors.file?.message}

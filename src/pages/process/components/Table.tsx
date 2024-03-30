@@ -1,16 +1,16 @@
 import type { ModalType } from '../types'
 
 import MainTable from '@/components/Elements/MainTable'
+import ProcessModal from '@/components/Modals/ProcessModal'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import moment from 'moment'
 import React, { useState } from 'react'
 import ActionMenu from './ActionMenu'
 import BlacklistModal from './BlacklistModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
-import ProcessModal from './ProcessModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
-import ViewHistoryModal from './ViewHistoryModal'
+import ViewProcessHistoryModal from '@/components/Modals/ViewProcessHistoryModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -57,7 +57,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
           '-'
         ),
       },
-      { children: item.interviewDate ? moment(item.interviewDate).format('D/M/Y HH:MM') : '-' },
+      { children: item.actionAt ? moment(item.actionAt).format('D/M/Y HH:MM') : '-' },
       {
         children: (
           <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} setSelected={setSelected} />
@@ -92,7 +92,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
         onClose={() => setSelected(null)}
         onSubmited={onRefresh}
       />
-      <ViewHistoryModal
+      <ViewProcessHistoryModal
         show={!!selected && selected.type === 'VIEW HISTORY'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}

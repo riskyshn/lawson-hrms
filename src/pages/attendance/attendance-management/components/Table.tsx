@@ -1,10 +1,11 @@
 import MainTable from '@/components/Elements/MainTable'
-import { Avatar, Button, useConfirm, useToast } from 'jobseeker-ui'
-import { useState } from 'react'
-import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
+import MapsPreviewerModal from '@/components/Modals/MapsPreviewerModal'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
-import MapsPreviewer from '@/components/Elements/MapsPreviewer'
 import { attendanceService } from '@/services'
+import { Avatar, Button, useConfirm, useToast } from 'jobseeker-ui'
+import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
+import { useState } from 'react'
+
 type PropTypes = {
   items: IAttendance[]
   loading?: boolean
@@ -160,7 +161,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
   return (
     <>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
-      {selectedLocation && <MapsPreviewer coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />}
+      {selectedLocation && <MapsPreviewerModal coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />}
     </>
   )
 }
