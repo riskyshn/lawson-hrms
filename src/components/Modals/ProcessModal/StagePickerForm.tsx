@@ -5,7 +5,7 @@ import { twJoin } from 'tailwind-merge'
 type PropTypes = {
   stages: {
     interviews: IApplicantStage[]
-    assesments: IApplicantStage[]
+    assessments: IApplicantStage[]
   }
   value?: string
   onValueChange?: (value: string) => void
@@ -37,10 +37,10 @@ const StagePickerForm: React.FC<PropTypes> = ({ value, stages, onValueChange, on
           </div>
         )}
 
-        {stages.assesments.length > 0 && (
+        {stages.assessments.length > 0 && (
           <div>
-            <h6 className="mb-3 text-sm font-semibold">Assesment</h6>
-            {stages.assesments.map((option, index) => (
+            <h6 className="mb-3 text-sm font-semibold">Assessment</h6>
+            {stages.assessments.map((option, index) => (
               <InputRadio
                 className={twJoin('mb-3', !option.isAvailable ? 'pointer-events-none opacity-70' : 'text-gray-900')}
                 key={index}

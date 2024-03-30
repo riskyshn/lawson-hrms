@@ -27,7 +27,7 @@ const InterviewPage: React.FC = () => {
   const [switchData, setSwitchData] = useState(false)
 
   const pagination = usePagination({
-    pathname: '/job/management',
+    pathname: '/process/interview',
     totalPage: pageData?.totalPages || 0,
     params: { search, vacancy, stage },
   })

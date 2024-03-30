@@ -2,6 +2,10 @@ import React from 'react'
 import * as Table from '@/components/Elements/MainTable'
 import { HistoryIcon, LucideIcon, RepeatIcon, SendToBackIcon, UserPlusIcon, UserXIcon, XCircleIcon } from 'lucide-react'
 import { ModalType } from '../types'
+import { useConfirm, useToast } from 'jobseeker-ui'
+import { processService } from '@/services'
+import { useNavigate } from 'react-router-dom'
+import { axiosErrorMessage } from '@/utils/axios'
 
 type ActionMenuProps = {
   item: IDataTableApplicant
@@ -14,16 +18,37 @@ type ActionMenuProps = {
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelected }) => {
-  const createMenuItem = (text: string, icon: LucideIcon, type: ModalType, iconClassName?: string): Table.ActionMenuItemProps => ({
+  const confirm = useConfirm()
+  const toast = useToast()
+  const navigate = useNavigate()
+
+  const createMenuItem = (
+    text: string,
+    icon: LucideIcon,
+    type: ModalType,
+    iconClassName?: string,
+    action?: () => void,
+  ): Table.ActionMenuItemProps => ({
     text,
     icon,
-    action: () => setSelected({ item, type }),
     iconClassName,
+    action: () => (action ? action() : setSelected({ item, type })),
   })
 
   const process = createMenuItem('Process', RepeatIcon, 'PROCESS')
   const updateResult = createMenuItem('Update Result', UserPlusIcon, 'UPDATE RESULT')
-  const offeringLetter = createMenuItem('Offering Letter', RepeatIcon, 'OFFERING LETTER')
+  const offeringLetter = createMenuItem('Offering Letter', RepeatIcon, 'OFFERING LETTER', undefined, async () => {
+    const confirmed = await confirm('Are you sure you want to move this item to offering letter?')
+    if (!confirmed) return
+
+    try {
+      await processService.moveToOfferingLetter({ applicantId: item.oid })
+      toast('Success fully move item to offering letter.', { color: 'success' })
+      navigate('/process/offering-letter')
+    } catch (e) {
+      toast(axiosErrorMessage(e), { color: 'error' })
+    }
+  })
   const moveToAnotherVacancy = createMenuItem('Move to Another Vacancy', SendToBackIcon, 'MOVE TO ANOTHER VACANCY')
   const viewHistory = createMenuItem('View History', HistoryIcon, 'VIEW HISTORY')
   const blacklist = createMenuItem('Blacklist', UserXIcon, 'BLACKLIST')

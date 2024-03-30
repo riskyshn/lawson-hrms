@@ -13,7 +13,7 @@ type ProcessModalProps = {
 }
 
 const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited, onClose }) => {
-  const [stages, setStages] = useState<{ interviews: IApplicantStage[]; assesments: IApplicantStage[] }>()
+  const [stages, setStages] = useState<{ interviews: IApplicantStage[]; assessments: IApplicantStage[] }>()
   const [dataApplicant, setDataApplicant] = useState<IDataTableApplicant>()
 
   const [tab, setTab] = useState(0)
@@ -26,8 +26,8 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited
       try {
         const stages = await processService.fetchDetailStages(applicantId)
         const interviews = stages.content.filter((el) => el.type == 'INTERVIEW')
-        const assesments = stages.content.filter((el) => el.type == 'ASSESMENT')
-        setStages({ interviews, assesments })
+        const assessments = stages.content.filter((el) => el.type == 'ASSESSMENT')
+        setStages({ interviews, assessments })
       } catch (e) {
         toast(axiosErrorMessage(e))
         onClose?.()
@@ -42,7 +42,7 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applicant])
 
-  const stage = stages?.assesments.find((el) => el.oid == stageId) || stages?.interviews.find((el) => el.oid == stageId)
+  const stage = stages?.assessments.find((el) => el.oid == stageId) || stages?.interviews.find((el) => el.oid == stageId)
 
   return (
     <Modal className="max-w-xl" show={!!show}>

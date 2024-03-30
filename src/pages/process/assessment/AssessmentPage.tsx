@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 
-const AssesmentPage: React.FC = () => {
+const AssessmentPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
@@ -27,7 +27,7 @@ const AssesmentPage: React.FC = () => {
   const [switchData, setSwitchData] = useState(false)
 
   const pagination = usePagination({
-    pathname: '/job/management',
+    pathname: '/process/assessment',
     totalPage: pageData?.totalPages || 0,
     params: { search, vacancy, stage },
   })
@@ -46,7 +46,7 @@ const AssesmentPage: React.FC = () => {
             limit: 20,
             stage,
             vacancy,
-            type: 'ASSESMENT',
+            type: 'ASSESSMENT',
           },
           signal,
         )
@@ -68,7 +68,7 @@ const AssesmentPage: React.FC = () => {
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Assesment' }]} title="Assesment" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Assessment' }]} title="Assessment" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -125,4 +125,4 @@ const AssesmentPage: React.FC = () => {
   )
 }
 
-export default AssesmentPage
+export default AssessmentPage

@@ -51,7 +51,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
       {
         children: item.status ? (
           <Badge color={statusColors(item.status.name?.toLowerCase())} size="small" className="font-semibold capitalize">
-            {item.status.name?.toLowerCase()}
+            {item.status.name?.toLowerCase().replace(/_/g, ' ')}
           </Badge>
         ) : (
           '-'
@@ -112,6 +112,7 @@ const statusColors = genStyles<string, Color>({
   passed: 'success',
   failed: 'error',
   process: 'primary',
+  waiting_documents: 'warning',
   waiting: 'default',
   default: 'default',
 })

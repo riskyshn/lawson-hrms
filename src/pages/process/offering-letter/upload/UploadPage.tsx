@@ -43,7 +43,7 @@ const UploadPage = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Process' }, { text: 'Assesment' }, { text: 'Process' }]}
+        breadcrumb={[{ text: 'Process' }, { text: 'Assessment' }, { text: 'Process' }]}
         title="Upload Document"
         subtitle="Company Name requires you to upload your documents inorder to complete the hiring process"
       />

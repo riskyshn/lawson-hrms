@@ -5,7 +5,7 @@ interface IDataTableApplicant {
   createdAt?: string
 
   status?: {
-    oid: '0' | '1' | '2'
+    oid: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7'
     name?: string
   }
 
@@ -38,6 +38,6 @@ interface IApplicant extends IDataTableApplicant {
 interface IApplicantStage {
   oid: string
   name: string
-  type: 'INTERVIEW' | 'ASSESMENT'
+  type: 'INTERVIEW' | 'ASSESSMENT'
   isAvailable: boolean
 }

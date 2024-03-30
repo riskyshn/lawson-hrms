@@ -205,7 +205,7 @@ interface IJobType {
 
 interface IRecruitmentStage {
   oid: string
-  type: 'INTERVIEW' | 'ASSESMENT'
+  type: 'INTERVIEW' | 'ASSESSMENT'
   name: string
 }
 

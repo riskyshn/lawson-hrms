@@ -11,7 +11,7 @@ const ProcessForm: React.FC<{ defaultValue: any; handlePrev: () => void; handleS
   const [stages, setStages] = useState<Array<string>>(() => props.defaultValue?.recruitmentProcess || [])
 
   const interviews = recruitmentStages.filter((el) => el.type == 'INTERVIEW')
-  const assesments = recruitmentStages.filter((el) => el.type == 'ASSESMENT')
+  const assessments = recruitmentStages.filter((el) => el.type == 'ASSESSMENT')
 
   const items = [
     {
@@ -25,7 +25,7 @@ const ProcessForm: React.FC<{ defaultValue: any; handlePrev: () => void; handleS
     {
       text: 'Assessment',
       modalEditor: true,
-      items: assesments,
+      items: assessments,
     },
     {
       text: 'Offering Letter',

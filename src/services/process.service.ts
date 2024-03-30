@@ -7,19 +7,8 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
-type UpdateProcessResponseData = {
-  applyProcess: string
-  status: string
-  type: 'INTERVIEW' | 'ASSESMENT'
-  from: string
-  interviewDate?: string
-  createdAt: string
-  updatedAt?: string
-  oid: '6600e551bcbda62fbcc985bf'
-}
-
 type FetchProcessParams = IPaginationParam & {
-  type?: 'INTERVIEW' | 'ASSESMENT' | 'OFFERING LETTER' | 'ONBOARDING'
+  type?: 'INTERVIEW' | 'ASSESSMENT' | 'OFFERING' | 'ONBOARDING'
   vacancy?: string
   stage?: string
 }
@@ -35,7 +24,7 @@ export const fetchDetailProcess = (oid: string, signal?: GenericAbortSignal) => 
 }
 
 export const updateProcess = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
-  return axios.put<{ data: UpdateProcessResponseData }>('/process', payload, { signal }).then(({ data }) => data.data)
+  return axios.put<{ data: IApplicant }>('/process', payload, { signal }).then(({ data }) => data.data)
 }
 
 export const rescheduleProcess = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
@@ -48,4 +37,8 @@ export const updateProcessResult = (payload: Record<string, any>, signal?: Gener
 
 export const fetchDetailStages = (oid: string, signal?: GenericAbortSignal) => {
   return axios.get<{ data: { content: IApplicantStage[] } }>(`/process/stages/${oid}`, { signal }).then((response) => response.data.data)
+}
+
+export const moveToOfferingLetter = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+  return axios.put<{ data: IApplicant }>(`/process/offering-letter`, payload, { signal }).then((response) => response.data.data)
 }
