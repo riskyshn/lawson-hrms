@@ -1,5 +1,5 @@
 import MainTable from '@/components/Elements/MainTable'
-import MapsPreviewer from '@/components/Elements/MapsPreviewer'
+import MapsPreviewerModal from '@/components/Modals/MapsPreviewerModal'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Card } from 'jobseeker-ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
@@ -78,7 +78,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
 
   return (
     <Card>
-      <MapsPreviewer coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />
+      <MapsPreviewerModal coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} />
     </Card>
   )

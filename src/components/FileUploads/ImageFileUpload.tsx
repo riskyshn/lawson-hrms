@@ -1,31 +1,36 @@
+import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { s3Service } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import formatFileSize from '@/utils/format-file-sizes'
 import truncateFilename from '@/utils/truncate-filename'
 import urlToFilename from '@/utils/url-to-filename'
 import { AxiosRequestConfig } from 'axios'
-import { UploadCloudIcon } from 'lucide-react'
+import { Button } from 'jobseeker-ui'
+import { ImageIcon, UploadCloudIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { ChangeEvent, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
-interface DocumentUploaderProps {
-  type: 'applicant-result'
+interface ImageFileUploadProps {
+  type: 'employee-national-id' | 'candidate-photo-profile' | 'company-logo'
   value?: string
   error?: string
+  hidePreview?: boolean
   onStart?: () => void
   onChange?: (value: string) => void
   onError?: (value: string) => void
   onProgress?: (data: { progress: number; estimated: number }) => void
 }
 
-const DocumentUploader: React.FC<DocumentUploaderProps> = ({ type, value, error, onStart, onChange, onProgress, onError }) => {
+const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, hidePreview, onStart, onChange, onProgress, onError }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
   const [estimatedTimeRemaining, setEstimatedTimeRemaining] = useState('')
   const [uploading, setUploading] = useState(false)
   const [controller, setController] = useState<AbortController | null>(null)
+
+  const previewImage = usePreviewImage()
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -36,9 +41,9 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({ type, value, error,
     }
   }
 
-  const handleUpload = async (file: File, controller: AbortController) => {
+  const handleUpload = async (image: File, controller: AbortController) => {
     const formData = new FormData()
-    formData.append('file', file)
+    formData.append('image', image)
 
     const config: AxiosRequestConfig = {
       headers: { 'content-type': 'multipart/form-data' },
@@ -88,11 +93,28 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({ type, value, error,
         error ? 'border-error-600 bg-error-50' : 'border-gray-300 bg-gray-50',
       )}
     >
+      {!hidePreview && (
+        <div className="relative flex aspect-video h-full items-center justify-center rounded-lg bg-gray-200 text-gray-400">
+          {!valueValidUrl && <ImageIcon className="block h-6 w-6 md:h-12 md:w-12" />}
+          {valueValidUrl && (
+            <>
+              <div className="absolute inset-0 z-[2] flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100">
+                <Button type="button" color="primary" className="border-0 bg-white" variant="light" onClick={() => previewImage(value)}>
+                  Preview
+                </Button>
+              </div>
+              <img alt={value} src={value} className="block h-full w-full rounded-lg object-contain" />
+            </>
+          )}
+        </div>
+      )}
+
       <div className="flex flex-1 flex-col items-center justify-center rounded-lg py-5">
         <div className="flex items-center justify-center gap-4">
           <UploadCloudIcon className="hidden h-10 w-10 text-gray-500 sm:block" />
           <div className="flex flex-col">
-            <span className="mb-2 block text-sm font-semibold text-gray-500">Click to upload or drag your file here</span>
+            <span className="block text-sm font-semibold text-gray-500">Click to upload or drag your file here</span>
+            <span className="mb-2 block text-xs text-gray-500">Supported formats: JPG, JPEG, or PNG</span>
           </div>
         </div>
         <div className="text-center">
@@ -102,7 +124,7 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({ type, value, error,
               <span className="block text-xs">
                 {formatFileSize(selectedImage.size)}
                 {uploading && uploadProgress !== 100 && ` | Uploading: ${uploadProgress}% (${estimatedTimeRemaining})`}
-                {uploading && uploadProgress === 100 && ` | Processing your file...`}
+                {uploading && uploadProgress === 100 && ` | Processing your image...`}
                 {' | '}
                 <button type="button" className="text-error-600" onClick={handleCancel}>
                   Cancel
@@ -124,10 +146,17 @@ const DocumentUploader: React.FC<DocumentUploaderProps> = ({ type, value, error,
       </div>
 
       {!selectedImage && !valueValidUrl && (
-        <input ref={inputRef} aria-hidden="true" type="file" className="absolute inset-0 opacity-0" onChange={handleImageChange} />
+        <input
+          ref={inputRef}
+          aria-hidden="true"
+          type="file"
+          className="absolute inset-0 opacity-0"
+          onChange={handleImageChange}
+          accept="image/png, image/jpeg, image/jpg"
+        />
       )}
     </div>
   )
 }
 
-export default DocumentUploader
+export default ImageFileUpload
