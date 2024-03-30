@@ -42,3 +42,7 @@ export const fetchDetailStages = (oid: string, signal?: GenericAbortSignal) => {
 export const moveToOfferingLetter = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
   return axios.put<{ data: IApplicant }>(`/process/offering-letter`, payload, { signal }).then((response) => response.data.data)
 }
+
+export const uploadDocumentRequest = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+  return axios.put<{ data: IApplicant }>(`/process/offering-letter/documents`, payload, { signal }).then((response) => response.data.data)
+}

@@ -1,15 +1,15 @@
 import type { RouteObject } from 'react-router-dom'
 
-import InterviewPage from '@/pages/process/interview/InterviewPage'
 import AssessmentPage from '@/pages/process/assessment/AssessmentPage'
-import UploadPage from '@/pages/process/offering-letter/upload/UploadPage'
-import ViewPage from '@/pages/process/offering-letter/view/ViewPage'
+import InterviewPage from '@/pages/process/interview/InterviewPage'
+import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
 import PreviewPage from '@/pages/process/offering-letter/preview/PreviewPage'
-import OnboardingPage from '@/pages/process/onboarding/index/OnboardingPage'
-import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
 import SetupPage from '@/pages/process/offering-letter/setup/SetupPage'
+import UploadDocumentsPage from '@/pages/process/offering-letter/upload-documents/UploadDocumentsPage'
 import ViewSignedPage from '@/pages/process/offering-letter/view-signed/ViewSignedPage'
+import ViewPage from '@/pages/process/offering-letter/view/ViewPage'
+import OnboardingPage from '@/pages/process/onboarding/index/OnboardingPage'
 
 const candidatesRoute: RouteObject = {
   path: 'process',
@@ -34,6 +34,14 @@ const candidatesRoute: RouteObject = {
           element: <OfferingLetterPage />,
         },
         {
+          path: ':applicantId/create',
+          element: <CreateOfferingLetterPage />,
+        },
+        {
+          path: ':applicantId/upload-documents',
+          element: <UploadDocumentsPage />,
+        },
+        {
           path: 'setup',
           element: <SetupPage />,
         },
@@ -42,16 +50,8 @@ const candidatesRoute: RouteObject = {
           element: <PreviewPage />,
         },
         {
-          path: ':applicanId/create',
-          element: <CreateOfferingLetterPage />,
-        },
-        {
           path: 'view',
           element: <ViewSignedPage />,
-        },
-        {
-          path: 'upload-document',
-          element: <UploadPage />,
         },
         {
           path: ':candidateId/view/offering-letter',

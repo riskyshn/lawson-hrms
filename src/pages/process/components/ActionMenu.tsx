@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Table from '@/components/Elements/MainTable'
-import { HistoryIcon, LucideIcon, RepeatIcon, SendToBackIcon, UserPlusIcon, UserXIcon, XCircleIcon } from 'lucide-react'
+import { HistoryIcon, LucideIcon, RepeatIcon, SendToBackIcon, UploadIcon, UserPlusIcon, UserXIcon, XCircleIcon } from 'lucide-react'
 import { ModalType } from '../types'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { processService } from '@/services'
@@ -37,6 +37,11 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
 
   const process = createMenuItem('Process', RepeatIcon, 'PROCESS')
   const updateResult = createMenuItem('Update Result', UserPlusIcon, 'UPDATE RESULT')
+  const moveToAnotherVacancy = createMenuItem('Move to Another Vacancy', SendToBackIcon, 'MOVE TO ANOTHER VACANCY')
+  const viewHistory = createMenuItem('View History', HistoryIcon, 'VIEW HISTORY')
+  const blacklist = createMenuItem('Blacklist', UserXIcon, 'BLACKLIST')
+  const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
+
   const offeringLetter = createMenuItem('Offering Letter', RepeatIcon, undefined, undefined, async () => {
     const confirmed = await confirm('Are you sure you want to move this item to offering letter?')
     if (!confirmed) return
@@ -49,19 +54,18 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
       toast(axiosErrorMessage(e), { color: 'error' })
     }
   })
-  const moveToAnotherVacancy = createMenuItem('Move to Another Vacancy', SendToBackIcon, 'MOVE TO ANOTHER VACANCY')
-  const viewHistory = createMenuItem('View History', HistoryIcon, 'VIEW HISTORY')
-  const blacklist = createMenuItem('Blacklist', UserXIcon, 'BLACKLIST')
-  const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
   const createOfferingLetter = createMenuItem('Create Offering Letter', RepeatIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/create`),
+  )
+  const uploadDocuments = createMenuItem('Upload Documents', UploadIcon, undefined, undefined, () =>
+    navigate(`/process/offering-letter/${item.oid}/upload-documents`),
   )
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject],
     '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
     '2': [process, offeringLetter, moveToAnotherVacancy, blacklist, reject],
-    '3': [createOfferingLetter, blacklist, reject],
+    '3': [createOfferingLetter, uploadDocuments, blacklist, reject],
   }
 
   const menu = menuItems[item.status?.oid || '0']
