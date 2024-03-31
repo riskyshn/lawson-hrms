@@ -7,8 +7,8 @@ import { Stepper, useSteps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import EmployeeDetailsForm from './components/EmployeeDetailsForm'
-import RenumerationForm from './components/RenumerationForm'
+import EmployeeDetailsForm from '../components/EmployeeDetailsForm'
+import RenumerationForm from '../components/RenumerationForm'
 
 const CreateOfferingLetterPage: React.FC = () => {
   const { applicantId } = useParams()
