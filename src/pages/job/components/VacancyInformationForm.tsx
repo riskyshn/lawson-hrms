@@ -22,71 +22,71 @@ import * as yup from 'yup'
 import InputApprovalProcess from './InputApprovalProcess'
 import { axiosErrorMessage } from '@/utils/axios'
 
+const schema = yup.object({
+  vacancyName: yup.string().required().label('Position Name'),
+  departmentId: yup.string().required().label('Depantment'),
+  branchId: yup.string().required().label('Branch'),
+  expiredDate: yup.date().min(new Date()).required().label('Expired Date'),
+  jobLevelId: yup.string().required().label('Job Level'),
+  jobTypeId: yup.string().required().label('Job Type'),
+  workplacementTypeId: yup.string().optional().label('Workplacement Type'),
+  cityId: yup.string().required().label('City'),
+  numberOfEmployeeNeeded: yup
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .min(1)
+    .required()
+    .label('Number of Employee Needed'),
+  minimumSalary: yup
+    .string()
+    .when('negotiableSalary', {
+      is: false,
+      then: (s) => s.required(),
+      otherwise: (s) => s.optional(),
+    })
+    .label('Minimum Salary'),
+  maximumSalary: yup
+    .string()
+    .when('negotiableSalary', {
+      is: false,
+      then: (s) => s.required(),
+      otherwise: (s) => s.optional(),
+    })
+    .test('is-greater', '${label} must be greater than or equal minimum salary', function (value) {
+      const minSalary = currencyToNumber(this.parent.minimumSalary)
+      const maxSalary = currencyToNumber(value)
+      return maxSalary >= minSalary
+    })
+    .label('Maximum Salary'),
+  hideRangeSalary: yup.boolean().required(),
+  negotiableSalary: yup.boolean().required(),
+  other: yup.string().required().label('Task, Responsibility & Others'),
+  approvals: yup
+    .array(yup.string().required().label('Approval'))
+    .min(1)
+    .when('isRequisition', {
+      is: true,
+      then: (s) => s.required(),
+      otherwise: (s) => s.optional(),
+    })
+    .label('Approval Process'),
+  rrNumber: yup
+    .string()
+    .when('isRequisition', {
+      is: true,
+      then: (s) => s.required(),
+      otherwise: (s) => s.optional(),
+    })
+    .label('Approval Process'),
+  isRequisition: yup.boolean().required(),
+})
+
 const VacancyInformationForm: React.FC<{
   isRequisition?: boolean
   defaultValue: any
   handlePrev: () => void
   handleSubmit: (data: any) => void
 }> = (props) => {
-  const schema = yup.object({
-    vacancyName: yup.string().required().label('Position Name'),
-    departmentId: yup.string().required().label('Depantment'),
-    branchId: yup.string().required().label('Branch'),
-    expiredDate: yup.date().min(new Date()).required().label('Expired Date'),
-    jobLevelId: yup.string().required().label('Job Level'),
-    jobTypeId: yup.string().required().label('Job Type'),
-    workplacementTypeId: yup.string().optional().label('Workplacement Type'),
-    cityId: yup.string().required().label('City'),
-    numberOfEmployeeNeeded: yup
-      .number()
-      .transform((value) => (isNaN(value) ? undefined : value))
-      .min(1)
-      .required()
-      .label('Number of Employee Needed'),
-    minimumSalary: yup
-      .string()
-      .when('negotiableSalary', {
-        is: false,
-        then: (s) => s.required(),
-        otherwise: (s) => s.optional(),
-      })
-      .label('Minimum Salary'),
-    maximumSalary: yup
-      .string()
-      .when('negotiableSalary', {
-        is: false,
-        then: (s) => s.required(),
-        otherwise: (s) => s.optional(),
-      })
-      .test('is-greater', '${label} must be greater than or equal minimum salary', function (value) {
-        const minSalary = currencyToNumber(this.parent.minimumSalary)
-        const maxSalary = currencyToNumber(value)
-        return maxSalary >= minSalary
-      })
-      .label('Maximum Salary'),
-    hideRangeSalary: yup.boolean().required(),
-    negotiableSalary: yup.boolean().required(),
-    other: yup.string().required().label('Task, Responsibility & Others'),
-    approvals: yup
-      .array(yup.string().required().label('Approval'))
-      .min(1)
-      .when('isRequisition', {
-        is: true,
-        then: (s) => s.required(),
-        otherwise: (s) => s.optional(),
-      })
-      .label('Approval Process'),
-    rrNumber: yup
-      .string()
-      .when('isRequisition', {
-        is: true,
-        then: (s) => s.required(),
-        otherwise: (s) => s.optional(),
-      })
-      .label('Approval Process'),
-    isRequisition: yup.boolean().required(),
-  })
-
   const {
     register,
     handleSubmit,
