@@ -12,6 +12,7 @@ import BlacklistModal from './BlacklistModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
+import HireModal from './HireModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -166,6 +167,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, type, onRefresh }) => {
         onClose={() => setSelected(null)}
         onSubmited={onRefresh}
       />
+      <HireModal show={!!selected && selected.type === 'HIRE CANDIDATE'} applicant={selected?.item} onClose={() => setSelected(null)} />
+
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>
   )

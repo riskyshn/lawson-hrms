@@ -52,6 +52,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const moveToAnotherVacancy = createMenuItem('Move to Another Vacancy', SendToBackIcon, 'MOVE TO ANOTHER VACANCY')
   const viewHistory = createMenuItem('View History', HistoryIcon, 'VIEW HISTORY')
   const blacklist = createMenuItem('Blacklist', UserXIcon, 'BLACKLIST')
+  const hire = createMenuItem('Hire', UserPlusIcon, 'HIRE CANDIDATE')
   const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
 
   const sendReminder: Table.ActionMenuItemProps = {
@@ -110,7 +111,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject],
     '4': [createOfferingLetter, viewHistory, blacklist, reject],
     '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject],
-    '6': [viewSignedOfferingLetter, viewHistory, blacklist, reject],
+    '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject],
   }
 
   const menu = menuItems[item.status?.oid || '0']

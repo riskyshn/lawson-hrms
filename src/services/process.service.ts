@@ -59,3 +59,7 @@ export const createOfferingLetter = (payload: Record<string, any>) => {
 export const uploadSignedOfferingLetter = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
   return axios.put<{ data: IApplicant }>(`/process/offering-letter/signed`, payload, { signal }).then((response) => response.data.data)
 }
+
+export const setJoinDate = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+  return axios.put<{ data: IApplicant }>(`/process/onboarding`, payload, { signal }).then((response) => response.data.data)
+}
