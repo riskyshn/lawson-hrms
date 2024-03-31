@@ -1,20 +1,25 @@
-import PageHeader from '@/components/Elements/PageHeader'
-import { useNavigate } from 'react-router-dom'
-import { Stepper, useSteps, useToast } from 'jobseeker-ui'
-import { useState } from 'react'
 import Container from '@/components/Elements/Container'
-import RenumerationForm from './components/RenumerationForm'
+import PageHeader from '@/components/Elements/PageHeader'
+import { processService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
+import currencyToNumber from '@/utils/currency-to-number'
+import { Stepper, useSteps, useToast } from 'jobseeker-ui'
+import moment from 'moment'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import EmployeeDetailsForm from './components/EmployeeDetailsForm'
+import RenumerationForm from './components/RenumerationForm'
 
 const CreateOfferingLetterPage: React.FC = () => {
+  const { applicantId } = useParams()
   const navigate = useNavigate()
   const toast = useToast()
 
+  const [loading, setLoading] = useState(false)
+
   const [formValues, setFormValues] = useState<any>({
-    personalData: {},
-    employmentData: {},
-    payrollData: {},
-    componentsData: {},
+    step1: {},
+    step2: {},
   })
 
   const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(2, {
@@ -28,13 +33,36 @@ const CreateOfferingLetterPage: React.FC = () => {
     handleNext()
 
     if (!isLastStep) return
-
+    setLoading(true)
     try {
-      toast('Offering letter successfully created.', { color: 'success', position: 'top-right' })
+      await processService.createOfferingLetter(processFormData(data))
+      toast('Offering letter successfully created.', { color: 'success' })
       navigate(`/process/offering-letter`)
     } catch (error) {
-      toast('An error occurred while creating the offering letter.', { color: 'error', position: 'top-right' })
+      toast(axiosErrorMessage(error), { color: 'error' })
+      setLoading(false)
     }
+  }
+
+  const processFormData = (data: Record<string, Record<string, any>>) => {
+    const obj: Record<string, any> = {}
+    Object.values(data).forEach((item) => {
+      for (const key in item) {
+        if (Object.prototype.hasOwnProperty.call(item, key)) {
+          obj[key] = item[key]
+        }
+      }
+    })
+
+    obj.applicantId = applicantId
+    obj.joinDate = moment(obj.joinDate).format('YYYY-MM-DD')
+    if (obj.expiryDate) obj.expiryDate = moment(obj.expiryDate).format('YYYY-MM-DD')
+    obj.baseSalary = currencyToNumber(obj.baseSalary)
+    obj.maximumSalary = currencyToNumber(obj.maximumSalary)
+    obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
+    obj.benefits = obj.benefits.map((el: Record<string, any>) => ({ ...el, amount: currencyToNumber(el.amount) }))
+
+    return obj
   }
 
   return (
@@ -56,16 +84,17 @@ const CreateOfferingLetterPage: React.FC = () => {
 
         {activeStep === 0 && (
           <EmployeeDetailsForm
-            defaultValue={formValues.personalData}
+            defaultValue={formValues.step1}
             handlePrev={handlePrev}
-            handleSubmit={(employeeData) => handleStepSubmit({ ...formValues, employeeData })}
+            handleSubmit={(step1) => handleStepSubmit({ ...formValues, step1 })}
           />
         )}
         {activeStep === 1 && (
           <RenumerationForm
-            defaultValue={formValues.employmentData}
+            isLoading={loading}
+            defaultValue={formValues.step2}
             handlePrev={handlePrev}
-            handleSubmit={(renumerationData) => handleStepSubmit({ ...formValues, renumerationData })}
+            handleSubmit={(step2) => handleStepSubmit({ ...formValues, step2 })}
           />
         )}
       </Container>

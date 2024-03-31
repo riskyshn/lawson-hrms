@@ -51,3 +51,7 @@ export const sendReminder = (oid: string) => {
   throw new Error('Endpoint api belum ada! segerah hubungi mas akbar.')
   return axios.post(`/process/${oid}/send-reminder`).then((response) => response.data.data)
 }
+
+export const createOfferingLetter = (payload: Record<string, any>) => {
+  return axios.put(`/process/offering-letter/create`, payload).then((response) => response.data.data)
+}
