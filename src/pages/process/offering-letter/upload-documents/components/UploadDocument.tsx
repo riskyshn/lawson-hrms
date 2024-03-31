@@ -1,4 +1,5 @@
 import DocumentFileUpload from '@/components/FileUploads/DocumentFileUpload'
+import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, InputWrapper } from 'jobseeker-ui'
 import React from 'react'
@@ -30,6 +31,7 @@ const UploadDocument: React.FC<{
   link?: string
   handlePrev: () => void
   handleSubmit: (link: string) => void
+  allowedFileTypes: string[]
 }> = (props) => {
   const {
     handleSubmit,
@@ -44,26 +46,47 @@ const UploadDocument: React.FC<{
 
   const onSubmit = handleSubmit(({ link }) => props.handleSubmit(link))
 
+  const isImage = props.allowedFileTypes.some((type) => ['png', 'jpg', 'pdf', 'jpeg', 'webp'].includes(type))
+
   return (
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
         <InputWrapper label="Document" labelRequired error={errors.link?.message}>
-          <DocumentFileUpload
-            type="applicant-result"
-            value={getValues('link')}
-            error={errors.link?.message}
-            onStart={() => {
-              setValue('link', PROGRESS_KEY)
-            }}
-            onChange={(value) => {
-              setValue('link', value)
-              trigger('link')
-            }}
-            onError={(message) => {
-              setValue('link', ERROR_PREFIX_KEY + message)
-              trigger('link')
-            }}
-          />
+          {isImage ? (
+            <ImageFileUpload
+              type="employee-national-id"
+              value={getValues('link')}
+              error={errors.link?.message}
+              onStart={() => {
+                setValue('link', PROGRESS_KEY)
+              }}
+              onChange={(value) => {
+                setValue('link', value)
+                trigger('link')
+              }}
+              onError={(message) => {
+                setValue('link', ERROR_PREFIX_KEY + message)
+                trigger('link')
+              }}
+            />
+          ) : (
+            <DocumentFileUpload
+              type="applicant-result"
+              value={getValues('link')}
+              error={errors.link?.message}
+              onStart={() => {
+                setValue('link', PROGRESS_KEY)
+              }}
+              onChange={(value) => {
+                setValue('link', value)
+                trigger('link')
+              }}
+              onError={(message) => {
+                setValue('link', ERROR_PREFIX_KEY + message)
+                trigger('link')
+              }}
+            />
+          )}
         </InputWrapper>
       </CardBody>
 

@@ -3,18 +3,19 @@ import type { ModalType, TableType } from '../types'
 import MainTable from '@/components/Elements/MainTable'
 import ProcessModal from '@/components/Modals/ProcessModal'
 import ViewProcessHistoryModal from '@/components/Modals/ViewProcessHistoryModal'
+import WithdrawModal from '@/components/Modals/WithdrawModal'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import { FileIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import ActionMenu from './ActionMenu'
 import BlacklistModal from './BlacklistModal'
+import EditJoinDateModal from './EditJoinDateModal'
+import HireModal from './HireModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
-import HireModal from './HireModal'
-import EditJoinDateModal from './EditJoinDateModal'
-import WithdrawModal from '@/components/Modals/WithdrawModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -121,9 +122,18 @@ const generateBodyItems = (
           {
             className: 'text-center',
             children: (
-              <button className={item.documentLink ? 'hover:text-primary-600' : 'cursor-default'}>
-                <FileIcon size={18} />
-              </button>
+              <span className="inline-block">
+                {item.status?.oid === '4' ? (
+                  <Link
+                    to={`/process/offering-letter/${item.oid}/upload-documents?edit=true`}
+                    className="text-primary-600 hover:text-primary-700"
+                  >
+                    <FileIcon size={18} />
+                  </Link>
+                ) : (
+                  <FileIcon size={18} />
+                )}
+              </span>
             ),
           },
           getActionMenu(),

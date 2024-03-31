@@ -106,6 +106,7 @@ const UploadDocumentsPage = () => {
                 isLoading={isLoading}
                 handlePrev={handlePrev}
                 handleSubmit={(link) => handleStepSubmit({ ...formValues, [item.oid]: link })}
+                allowedFileTypes={item.allowedFileTypes}
               />
             ) : null,
           )}
