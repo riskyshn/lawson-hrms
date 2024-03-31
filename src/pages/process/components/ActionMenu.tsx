@@ -99,6 +99,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const uploadDocuments = createMenuItem('Upload Documents', UploadIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-documents`),
   )
+  const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Le...', FileIcon, undefined, undefined, () =>
+    navigate(`/process/offering-letter/${item.oid}/view-signed`),
+  )
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject],
@@ -107,6 +110,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject],
     '4': [createOfferingLetter, viewHistory, blacklist, reject],
     '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject],
+    '6': [viewSignedOfferingLetter, viewHistory, blacklist, reject],
   }
 
   const menu = menuItems[item.status?.oid || '0']
