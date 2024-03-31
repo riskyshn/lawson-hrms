@@ -22,7 +22,7 @@ export const updateBpjsComponent = (payload: Record<string, any>, signal?: Gener
 /**
  * Benefit Components
  */
-export const fetchBenefitComponents = (params?: Omit<IPaginationParam, 'q'>, signal?: GenericAbortSignal) => {
+export const fetchBenefitComponents = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: IPaginationResponse<IBenefitComponent> }>(`/benefit-component`, { params, signal })
     .then((response) => response.data.data)
@@ -55,7 +55,7 @@ export const removeBenefitFromEmployees = (payload: { employeeIds: string[]; com
 /**
  * Deduction Components
  */
-export const fetchDeductionComponents = (params?: Omit<IPaginationParam, 'q'>, signal?: GenericAbortSignal) => {
+export const fetchDeductionComponents = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: IPaginationResponse<IDeductionComponent> }>(`/deduction-component`, { params, signal })
     .then((response) => response.data.data)

@@ -1,4 +1,5 @@
 import * as Table from '@/components/Elements/MainTable'
+import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
@@ -47,9 +48,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
       })
       if (confirmed) {
         try {
-          // await vacancyService.deleteDraftVacancy(item.oid)
-          throw new Error('Endpoint api belum ada!')
-          toast('Draft item deleted successfully.', { color: 'success' })
+          await payrollService.deleteBenefitComponent(item.oid)
+          toast('Benefit component deleted successfully.', { color: 'success' })
           onRefresh?.()
         } catch (e) {
           toast(axiosErrorMessage(e), { color: 'error' })
