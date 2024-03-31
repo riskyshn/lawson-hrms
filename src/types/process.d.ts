@@ -2,7 +2,6 @@ interface IDataTableApplicant {
   oid: string
   recruitmentStage?: string
   actionAt?: string | null
-  joinDate?: string | null
   createdAt?: string
   documentLink?: string
 
@@ -42,4 +41,16 @@ interface IApplicantStage {
   name: string
   type: 'INTERVIEW' | 'ASSESSMENT'
   isAvailable: boolean
+}
+
+interface IUploadedProcessDocument {
+  document: {
+    name: string
+    oid: string
+  }
+  file: {
+    link: string
+    type?: string | null
+  }
+  uploadedAt: string
 }

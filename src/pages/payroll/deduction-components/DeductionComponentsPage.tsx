@@ -3,13 +3,13 @@ import MainCard from '@/components/Elements/MainCard'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
-import { vacancyService } from '@/services'
+import { payrollService } from '@/services'
 import { Button } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import Table from './components/Table'
 import CreateModal from './components/CreateModal'
+import Table from './components/Table'
 
 const DeductionComponentsPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -24,7 +24,7 @@ const DeductionComponentsPage: React.FC = () => {
   const [switchData, setSwitchData] = useState(false)
 
   const pagination = usePagination({
-    pathname: '/payroll/benefit-components',
+    pathname: '/payroll/deduction-components',
     totalPage: pageData?.totalPages || 0,
     params: { search },
   })
@@ -36,7 +36,7 @@ const DeductionComponentsPage: React.FC = () => {
     const load = async (signal: AbortSignal) => {
       setIsLoading(true)
       try {
-        const data = await vacancyService.fetchVacancies(
+        const data = await payrollService.fetchDeductionComponents(
           {
             q: search,
             page: pagination.currentPage,
@@ -86,13 +86,7 @@ const DeductionComponentsPage: React.FC = () => {
         }
       />
 
-      <CreateModal
-        show={showCreateModal}
-        onClose={() => {
-          setShowCreateModal(false)
-          refresh()
-        }}
-      />
+      <CreateModal show={showCreateModal} onClose={() => setShowCreateModal(false)} onCreated={refresh} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard

@@ -112,7 +112,9 @@ const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ type, value, er
           )}
           {!selectedImage && value && valueValidUrl && (
             <>
-              <span className="block text-sm font-semibold text-gray-800">{truncateFilename(urlToFilename(value))}</span>
+              <a target="_blank" href={value} className="block text-sm font-semibold text-gray-800 hover:text-primary-600">
+                {truncateFilename(urlToFilename(value))}
+              </a>
               <span className="block text-xs">
                 <button type="button" className="text-error-600" onClick={handleRemove}>
                   Remove

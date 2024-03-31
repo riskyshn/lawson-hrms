@@ -1,10 +1,47 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
-import { Button, Card, CardBody, CardFooter, Input, Select } from 'jobseeker-ui'
-import React from 'react'
+import { payrollService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
+import numberToCurrency from '@/utils/number-to-currency'
+import { Button, Card, CardBody, CardFooter, Input, Select, Spinner, useToast } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
 
+const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el }))
 const BpjsComponentPage: React.FC = () => {
-  const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el }))
+  const [pageData, setPageData] = useState<IBPJSComponent>()
+  const [pageError, setPageError] = useState<any>()
+
+  const [jkk, setJkk] = useState(0)
+  const [loading, setLoading] = useState(false)
+
+  const toast = useToast()
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await payrollService.fetchBpjsComponent()
+        setPageData(data)
+        setJkk(data.paidByEmployer.jkk.rate)
+      } catch (e) {
+        setPageError(e)
+      }
+    }
+    load()
+  }, [])
+
+  const submit = async () => {
+    setLoading(true)
+    try {
+      const data = await payrollService.updateBpjsComponent({ bpjsComponentId: pageData?.bpjsComponentId, jkk: { rate: jkk } })
+      setPageData(data)
+      toast('BPJS component updated successfully.', { color: 'success' })
+    } catch (e) {
+      toast(axiosErrorMessage(e), { color: 'error' })
+    }
+    setLoading(false)
+  }
+
+  if (pageError) throw pageError
 
   return (
     <>
@@ -15,34 +52,73 @@ const BpjsComponentPage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <Card as="form">
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
-              <h3 className="text-lg font-semibold">BPJS Paid by Employer</h3>
-              <p className="text-xs text-gray-500">Percentage from based salary paid by company as allowance</p>
-            </div>
-            <Input label="Jaminan Hari Tua (JHT)" disabled value="3.7%" />
-            <Select label="Jaminan Kecelakaan Kerja (JKK)" value={0.24} options={jkkOptions} hideSearch name="jkk" />
-            <Input label="Jaminan Kematian (JKM)" disabled value="0.3%" />
-            <Input label="Jaminan Pensiun (JP)" disabled required value="2%" help="JP Maximum Cap Rp 191.192,00*" />
-            <Input label="Jaminan Kesehatan (KS)" disabled required value="4%" help="KS Maximum Cap Rp 480.000,00*" />
-          </CardBody>
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
-              <h3 className="text-lg font-semibold">BPJS Paid by Employee</h3>
-              <p className="text-xs text-gray-500">Percentage from based salary paid by the employee</p>
-            </div>
-            <Input label="Jaminan Hari Tua (JHT)" disabled value="3.7%" />
-            <Input label="Jaminan Pensiun (JP)" disabled required value="2%" help="JP Maximum Cap Rp 95.596,00*" />
-            <Input label="Jaminan Kesehatan (KS)" disabled required value="1%" help="KS Maximum Cap Rp 120.000,00*" />
-          </CardBody>
+        {!pageData && (
+          <div className="flex items-center justify-center py-48">
+            <Spinner height={40} className="text-primary-600" />
+          </div>
+        )}
 
-          <CardFooter>
-            <Button type="button" color="primary">
-              Save Changes
-            </Button>
-          </CardFooter>
-        </Card>
+        {pageData && (
+          <Card as="form">
+            <CardBody className="grid grid-cols-1 gap-2">
+              <div className="pb-2">
+                <h3 className="text-lg font-semibold">BPJS Paid by Employer</h3>
+                <p className="text-xs text-gray-500">Percentage from based salary paid by company as allowance</p>
+              </div>
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${pageData.paidByEmployer.jht.rate}%`} />
+              <Select
+                label="Jaminan Kecelakaan Kerja (JKK)"
+                options={jkkOptions}
+                hideSearch
+                name="jkk"
+                value={jkk}
+                onChange={(v) => setJkk(Number(v))}
+              />
+              <Input label="Jaminan Kematian (JKM)" disabled value={`${pageData.paidByEmployer.jkm.rate}%`} />
+              <Input
+                label="Jaminan Pensiun (JP)"
+                disabled
+                required
+                value={`${pageData.paidByEmployer.jp.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(pageData.paidByEmployer.jp.maxCap)}*`}
+              />
+              <Input
+                label="Jaminan Kesehatan (KS)"
+                disabled
+                required
+                value={`${pageData.paidByEmployer.jks.rate}%`}
+                help={`JKS Maximum Cap ${numberToCurrency(pageData.paidByEmployer.jks.maxCap)}*`}
+              />
+            </CardBody>
+            <CardBody className="grid grid-cols-1 gap-2">
+              <div className="pb-2">
+                <h3 className="text-lg font-semibold">BPJS Paid by Employee</h3>
+                <p className="text-xs text-gray-500">Percentage from based salary paid by the employee</p>
+              </div>
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${pageData.paidByEmployee.jht.rate}%`} />
+              <Input
+                label="Jaminan Pensiun (JP)"
+                disabled
+                required
+                value={`${pageData.paidByEmployee.jp.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(pageData.paidByEmployee.jp.maxCap)}*`}
+              />
+              <Input
+                label="Jaminan Kesehatan (KS)"
+                disabled
+                required
+                value={`${pageData.paidByEmployee.jks.rate}%`}
+                help={`JKS Maximum Cap ${numberToCurrency(pageData.paidByEmployee.jks.maxCap)}*`}
+              />
+            </CardBody>
+
+            <CardFooter>
+              <Button type="button" color="primary" disabled={loading} loading={loading} onClick={submit}>
+                Save Changes
+              </Button>
+            </CardFooter>
+          </Card>
+        )}
       </Container>
     </>
   )

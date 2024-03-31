@@ -49,6 +49,7 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
     formState: { errors },
     trigger,
     reset,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -83,11 +84,33 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
       </div>
       <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3">
         <InputWrapper label="Update Candidate’s Result" labelRequired error={errors.status?.message}>
-          <div className="flex gap-4">
-            <InputRadio className="text-green-600" id="radio-passed" value="PASSED" {...register('status')}>
+          <div className="flex gap-4 py-3">
+            <InputRadio
+              className="text-green-600"
+              id="radio-passed"
+              value="PASSED"
+              checked={watch('status') === 'PASSED'}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setValue('status', 'PASSED')
+                  trigger('status')
+                }
+              }}
+            >
               Passed
             </InputRadio>
-            <InputRadio className="text-red-600" id="radio-failed" value="FAILED" {...register('status')}>
+            <InputRadio
+              className="text-red-600"
+              id="radio-failed"
+              value="FAILED"
+              checked={watch('status') === 'FAILED'}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setValue('status', 'FAILED')
+                  trigger('status')
+                }
+              }}
+            >
               Failed
             </InputRadio>
           </div>

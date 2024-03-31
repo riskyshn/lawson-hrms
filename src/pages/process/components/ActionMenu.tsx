@@ -1,6 +1,7 @@
 import React from 'react'
 import * as Table from '@/components/Elements/MainTable'
 import {
+  EditIcon,
   FileEditIcon,
   FileIcon,
   HistoryIcon,
@@ -105,6 +106,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const uploadDocuments = createMenuItem('Upload Documents', UploadIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-documents`),
   )
+  const editDocuments = createMenuItem('Edit Documents', EditIcon, undefined, undefined, () =>
+    navigate(`/process/offering-letter/${item.oid}/upload-documents?edit=true`),
+  )
   const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Le...', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/view-signed`),
   )
@@ -113,13 +117,21 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   )
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
+    // Action menu items for applications in the "Process" status (0).
     '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Passed" status (1).
     '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Failed" status (2).
     '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Waiting for Documents" status (3).
     '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject, withdraw],
-    '4': [createOfferingLetter, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Ready to Offer" status (4).
+    '4': [createOfferingLetter, editDocuments, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Offering Letter Sent" status (5).
     '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Offering Signed" status (6).
     '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Waiting to Join" status (7).
     '7': [addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw],
   }
 

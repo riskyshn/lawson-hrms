@@ -3,6 +3,7 @@ import { Avatar } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import ActionMenu from './ActionMenu'
 import EditModal from './EditModal'
+import numberToCurrency from '@/utils/number-to-currency'
 
 type PropTypes = {
   items: IDeductionComponent[]
@@ -26,12 +27,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
 
   const bodyItems = items.map((item, index) => ({
     items: [
-      { children: item.oid, className: 'font-semibold' },
-      { children: '-' },
-      { children: '-' },
-      { children: '-' },
-      { children: '-' },
-      { children: '-' },
+      { children: item.name, className: 'font-semibold' },
+      { children: item.amountType },
+      { children: numberToCurrency(item.amount) },
+      { children: typeof item.maxCap === 'number' ? item.maxCap + '%' : '-' },
+      { children: item.taxType },
+      { children: item.applicationType },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
@@ -64,7 +65,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
 
   return (
     <>
-      <EditModal item={selectedToEdit} onClose={() => setSelectedToEdit(null)} />
+      <EditModal item={selectedToEdit} onClose={() => setSelectedToEdit(null)} onUpdated={onRefresh} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>
   )

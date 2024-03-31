@@ -8,3 +8,4 @@ export const API_APPLICANT_BASE_URL = import.meta.env.VITE_API_APPLICANT_BASE_UR
 export const API_CANDIDATE_BASE_URL = import.meta.env.VITE_API_CANDIDATE_BASE_URL || 'https://basic-candidate.api-jobseeker.site'
 export const API_PROCESS_BASE_URL = import.meta.env.VITE_API_PROCESS_BASE_URL || 'https://basic-process.api-jobseeker.site'
 export const API_S3_BASE_URL = import.meta.env.VITE_API_S3_BASE_URL || 'https://basic-s3.api-jobseeker.site'
+export const API_PAYROLL_BASE_URL = import.meta.env.VITE_API_PAYROLL_BASE_URL || 'https://basic-payroll.api-jobseeker.site'
