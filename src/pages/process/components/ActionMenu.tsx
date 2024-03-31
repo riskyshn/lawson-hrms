@@ -5,10 +5,12 @@ import {
   FileIcon,
   HistoryIcon,
   LucideIcon,
+  PenIcon,
   RepeatIcon,
   SendIcon,
   SendToBackIcon,
   UploadIcon,
+  UserIcon,
   UserPlusIcon,
   UserXIcon,
   XCircleIcon,
@@ -53,6 +55,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const viewHistory = createMenuItem('View History', HistoryIcon, 'VIEW HISTORY')
   const blacklist = createMenuItem('Blacklist', UserXIcon, 'BLACKLIST')
   const hire = createMenuItem('Hire', UserPlusIcon, 'HIRE CANDIDATE')
+  const editJoinDate = createMenuItem('Edit Join Date', PenIcon, 'EDIT JOIN DATE')
   const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
 
   const sendReminder: Table.ActionMenuItemProps = {
@@ -103,6 +106,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Le...', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/view-signed`),
   )
+  const addAsEmployee = createMenuItem('Add As Employee', UserIcon, undefined, undefined, () =>
+    navigate(`/employees/employee-management/create?applicantId=${item.oid}`),
+  )
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject],
@@ -112,6 +118,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     '4': [createOfferingLetter, viewHistory, blacklist, reject],
     '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject],
     '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject],
+    '7': [addAsEmployee, editJoinDate, viewHistory, blacklist],
   }
 
   const menu = menuItems[item.status?.oid || '0']

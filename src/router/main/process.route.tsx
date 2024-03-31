@@ -6,7 +6,7 @@ import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/Cre
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
 import UploadDocumentsPage from '@/pages/process/offering-letter/upload-documents/UploadDocumentsPage'
 import ViewSignedPage from '@/pages/process/offering-letter/view-signed/ViewSignedPage'
-import OnboardingPage from '@/pages/process/onboarding/index/OnboardingPage'
+import OnboardingPage from '@/pages/process/onboarding/OnboardingPage'
 import UploadSignedOfferingLetterPage from '@/pages/process/offering-letter/upload-signed/UploadSignedOfferingLetterPage'
 
 const candidatesRoute: RouteObject = {
@@ -52,12 +52,7 @@ const candidatesRoute: RouteObject = {
     {
       path: 'onboarding',
       name: 'Onboarding',
-      children: [
-        {
-          path: '',
-          element: <OnboardingPage />,
-        },
-      ],
+      element: <OnboardingPage />,
     },
   ],
 }

@@ -13,6 +13,7 @@ import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
 import HireModal from './HireModal'
+import EditJoinDateModal from './EditJoinDateModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -39,6 +40,14 @@ const generateHeaderItems = (type: TableType) => {
         { children: 'Vacancy', className: 'text-left' },
         { children: 'Status', className: 'text-left' },
         { children: 'Documents' },
+        { children: 'Action', className: 'w-24' },
+      ]
+    case 'ONBOARDING':
+      return [
+        { children: 'Candidate', className: 'text-left' },
+        { children: 'Vacancy', className: 'text-left' },
+        { children: 'Status', className: 'text-left' },
+        { children: 'Join Date', className: 'text-left' },
         { children: 'Action', className: 'w-24' },
       ]
   }
@@ -98,7 +107,7 @@ const generateBodyItems = (
           getVacancyInfo(),
           { children: item.recruitmentStage || '-', className: 'whitespace-normal' },
           getStatusContent(),
-          { children: item.actionAt ? moment(item.actionAt).format('D/M/Y HH:MM') : '-' },
+          { children: item.actionAt ? moment(item.actionAt).format('DD-MM-YYYY HH:MM') : '-' },
           getActionMenu(),
         ],
       }
@@ -119,8 +128,16 @@ const generateBodyItems = (
           getActionMenu(),
         ],
       }
-    default:
-      throw new Error(`Unsupported table type: ${type}`)
+    case 'ONBOARDING':
+      return {
+        items: [
+          getCandidateInfo(),
+          getVacancyInfo(),
+          getStatusContent(),
+          { children: item.joinDate ? moment(item.joinDate).format('DD-MM-YYYY') : '-' },
+          getActionMenu(),
+        ],
+      }
   }
 }
 
@@ -168,6 +185,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, type, onRefresh }) => {
         onSubmited={onRefresh}
       />
       <HireModal show={!!selected && selected.type === 'HIRE CANDIDATE'} applicant={selected?.item} onClose={() => setSelected(null)} />
+      <EditJoinDateModal
+        show={!!selected && selected.type === 'EDIT JOIN DATE'}
+        applicant={selected?.item}
+        onClose={() => setSelected(null)}
+        onUpdated={onRefresh}
+      />
 
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>
@@ -182,6 +205,7 @@ const statusColors = genStyles<string, Color>({
   waiting_documents: 'warning',
   offering_sent: 'primary',
   offering_sign: 'success',
+  waiting_to_join: 'warning',
   waiting: 'default',
   default: 'default',
 })

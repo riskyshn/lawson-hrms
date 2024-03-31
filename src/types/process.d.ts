@@ -2,6 +2,7 @@ interface IDataTableApplicant {
   oid: string
   recruitmentStage?: string
   actionAt?: string | null
+  joinDate?: string | null
   createdAt?: string
   documentLink?: string
 
