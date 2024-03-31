@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import { processService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, InputDate, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import moment from 'moment'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useNavigate } from 'react-router-dom'
-import { axiosErrorMessage } from '@/utils/axios'
-import { processService } from '@/services'
-import moment from 'moment'
 
 const schema = yup.object({
   joinDate: yup.date().required().label('Join Date'),
@@ -22,7 +21,6 @@ type PropTypes = {
 const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
-  const navigate = useNavigate()
 
   const {
     handleSubmit,
