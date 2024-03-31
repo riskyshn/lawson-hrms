@@ -135,7 +135,7 @@ const generateBodyItems = (
           getCandidateInfo(),
           getVacancyInfo(),
           getStatusContent(),
-          { children: item.joinDate ? moment(item.joinDate).format('DD-MM-YYYY') : '-' },
+          { children: item.actionAt ? moment(item.actionAt).format('DD-MM-YYYY') : '-' },
           getActionMenu(),
         ],
       }

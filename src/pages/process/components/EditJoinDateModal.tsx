@@ -33,11 +33,11 @@ const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose }) =>
   })
 
   useEffect(() => {
-    if (show && applicant?.joinDate) {
-      setValue('joinDate', new Date(applicant.joinDate))
+    if (show && applicant?.actionAt) {
+      setValue('joinDate', new Date(applicant.actionAt))
       trigger('joinDate')
     }
-  }, [show, applicant?.joinDate, setValue, trigger])
+  }, [show, applicant?.actionAt, setValue, trigger])
 
   const onSubmit = handleSubmit(async ({ joinDate }) => {
     if (!applicant) return
