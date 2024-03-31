@@ -14,6 +14,7 @@ import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
 import HireModal from './HireModal'
 import EditJoinDateModal from './EditJoinDateModal'
+import WithdrawModal from '@/components/Modals/WithdrawModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -166,6 +167,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, type, onRefresh }) => {
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onRejected={onRefresh}
+      />
+      <WithdrawModal
+        show={!!selected && selected.type === 'WITHDRAW'}
+        applicant={selected?.item}
+        onClose={() => setSelected(null)}
+        onUpdated={onRefresh}
       />
       <UpdateResultModal
         show={!!selected && selected.type === 'UPDATE RESULT'}

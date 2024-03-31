@@ -7,5 +7,6 @@ export type ModalType =
   | 'VIEW HISTORY'
   | 'BLACKLIST'
   | 'REJECT'
+  | 'WITHDRAW'
 
 export type TableType = 'INTERVIEW' | 'ASSESSMENT' | 'OFFERING' | 'ONBOARDING'

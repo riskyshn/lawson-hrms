@@ -4,6 +4,7 @@ import {
   FileEditIcon,
   FileIcon,
   HistoryIcon,
+  LogOutIcon,
   LucideIcon,
   PenIcon,
   RepeatIcon,
@@ -57,6 +58,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const hire = createMenuItem('Hire', UserPlusIcon, 'HIRE CANDIDATE')
   const editJoinDate = createMenuItem('Edit Join Date', PenIcon, 'EDIT JOIN DATE')
   const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
+  const withdraw = createMenuItem('Withdraw', LogOutIcon, 'WITHDRAW')
 
   const sendReminder: Table.ActionMenuItemProps = {
     text: 'Send Reminder',
@@ -111,14 +113,14 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   )
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
-    '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject],
-    '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
-    '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
-    '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject],
-    '4': [createOfferingLetter, viewHistory, blacklist, reject],
-    '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject],
-    '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject],
-    '7': [addAsEmployee, editJoinDate, viewHistory, blacklist],
+    '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject, withdraw],
+    '4': [createOfferingLetter, viewHistory, blacklist, reject, withdraw],
+    '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw],
+    '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
+    '7': [addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw],
   }
 
   const menu = menuItems[item.status?.oid || '0']
