@@ -5,6 +5,7 @@ import { Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import UploadDocument from './components/UploadDocument'
+import { axiosErrorMessage } from '@/utils/axios'
 
 const UploadDocumentsPage = () => {
   const [documentRequests, setDocumentRequests] = useState<IDocumentRequest[]>()
@@ -48,7 +49,7 @@ const UploadDocumentsPage = () => {
       toast('Upload document requests successfully created.', { color: 'success' })
       navigate(`/process/offering-letter`)
     } catch (error) {
-      toast('An error occurred while creating the upload document requests.', { color: 'error' })
+      toast(axiosErrorMessage(error), { color: 'error' })
       setIsLoading(false)
     }
   }

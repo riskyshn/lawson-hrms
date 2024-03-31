@@ -55,3 +55,7 @@ export const sendReminder = (oid: string) => {
 export const createOfferingLetter = (payload: Record<string, any>) => {
   return axios.put(`/process/offering-letter/create`, payload).then((response) => response.data.data)
 }
+
+export const uploadSignedOfferingLetter = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+  return axios.put<{ data: IApplicant }>(`/process/offering-letter/signed`, payload, { signal }).then((response) => response.data.data)
+}

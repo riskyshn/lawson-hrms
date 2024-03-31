@@ -1,6 +1,8 @@
 import React from 'react'
 import * as Table from '@/components/Elements/MainTable'
 import {
+  FileEditIcon,
+  FileIcon,
   HistoryIcon,
   LucideIcon,
   RepeatIcon,
@@ -80,8 +82,19 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
       toast(axiosErrorMessage(e), { color: 'error' })
     }
   })
-  const createOfferingLetter = createMenuItem('Create Offering Letter', RepeatIcon, undefined, undefined, () =>
+  const createOfferingLetter = createMenuItem('Create Offering Letter', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/create`),
+  )
+  const reviseOfferingLetter = createMenuItem(
+    'Revise Offering Letter',
+    FileEditIcon,
+    undefined,
+    undefined,
+    () => toast('Endpoint api belum ada! segera hubungi mas akbar.'),
+    // navigate(`/process/offering-letter/${item.oid}/revise`),
+  )
+  const uploadSignedOfferingLetter = createMenuItem('Upload Signed Of... Le...', FileIcon, undefined, undefined, () =>
+    navigate(`/process/offering-letter/${item.oid}/upload-signed`),
   )
   const uploadDocuments = createMenuItem('Upload Documents', UploadIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-documents`),
@@ -92,7 +105,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
     '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
     '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject],
-    '4': [createOfferingLetter, sendReminder, viewHistory, blacklist, reject],
+    '4': [createOfferingLetter, viewHistory, blacklist, reject],
+    '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject],
   }
 
   const menu = menuItems[item.status?.oid || '0']

@@ -9,6 +9,7 @@ import UploadDocumentsPage from '@/pages/process/offering-letter/upload-document
 import ViewSignedPage from '@/pages/process/offering-letter/view-signed/ViewSignedPage'
 import ViewPage from '@/pages/process/offering-letter/view/ViewPage'
 import OnboardingPage from '@/pages/process/onboarding/index/OnboardingPage'
+import UploadSignedOfferingLetterPage from '@/pages/process/offering-letter/upload-signed/UploadSignedOfferingLetterPage'
 
 const candidatesRoute: RouteObject = {
   path: 'process',
@@ -39,6 +40,10 @@ const candidatesRoute: RouteObject = {
         {
           path: ':applicantId/upload-documents',
           element: <UploadDocumentsPage />,
+        },
+        {
+          path: ':applicantId/upload-signed',
+          element: <UploadSignedOfferingLetterPage />,
         },
         {
           path: 'preview',

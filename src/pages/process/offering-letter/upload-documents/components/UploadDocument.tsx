@@ -66,7 +66,7 @@ const UploadDocument: React.FC<{
         </InputWrapper>
       </CardBody>
 
-      <CardFooter>
+      <CardFooter className="gap-3">
         {!props.isFirst && (
           <Button type="button" color="default" variant="light" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
             Prev

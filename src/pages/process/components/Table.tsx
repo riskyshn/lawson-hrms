@@ -177,6 +177,7 @@ const statusColors = genStyles<string, Color>({
   process: 'primary',
   ready_to_offer: 'success',
   waiting_documents: 'warning',
+  offering_sent: 'primary',
   waiting: 'default',
   default: 'default',
 })
