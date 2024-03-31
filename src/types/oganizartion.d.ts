@@ -226,3 +226,14 @@ interface IDocumentRequest {
   allowedFileTypes: string[]
   name: string
 }
+
+interface IOfferingLetterSetting {
+  offeringLetterId: string
+  letterHead?: string
+  greetings?: string
+  body?: string
+  additionalInformation?: string
+  signeeRole?: string
+  signeeName?: string
+  signature?: string
+}

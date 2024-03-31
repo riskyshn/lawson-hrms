@@ -1,6 +1,16 @@
 import React from 'react'
 import * as Table from '@/components/Elements/MainTable'
-import { HistoryIcon, LucideIcon, RepeatIcon, SendToBackIcon, UploadIcon, UserPlusIcon, UserXIcon, XCircleIcon } from 'lucide-react'
+import {
+  HistoryIcon,
+  LucideIcon,
+  RepeatIcon,
+  SendIcon,
+  SendToBackIcon,
+  UploadIcon,
+  UserPlusIcon,
+  UserXIcon,
+  XCircleIcon,
+} from 'lucide-react'
 import { ModalType } from '../types'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { processService } from '@/services'
@@ -42,6 +52,22 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const blacklist = createMenuItem('Blacklist', UserXIcon, 'BLACKLIST')
   const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
 
+  const sendReminder: Table.ActionMenuItemProps = {
+    text: 'Send Reminder',
+    icon: SendIcon,
+    action: async () => {
+      const confirmed = await confirm(`Are you sure you want to send a reminder to ${item.candidate?.email}?`)
+      if (confirmed) {
+        try {
+          await processService.sendReminder(item.oid)
+          toast('Reminder sent successfully.', { color: 'success' })
+        } catch (e) {
+          toast(axiosErrorMessage(e), { color: 'error' })
+        }
+      }
+    },
+  }
+
   const offeringLetter = createMenuItem('Offering Letter', RepeatIcon, undefined, undefined, async () => {
     const confirmed = await confirm('Are you sure you want to move this item to offering letter?')
     if (!confirmed) return
@@ -64,8 +90,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject],
     '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
-    '2': [process, offeringLetter, moveToAnotherVacancy, blacklist, reject],
-    '3': [createOfferingLetter, uploadDocuments, blacklist, reject],
+    '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject],
+    '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject],
+    '4': [createOfferingLetter, sendReminder, viewHistory, blacklist, reject],
   }
 
   const menu = menuItems[item.status?.oid || '0']

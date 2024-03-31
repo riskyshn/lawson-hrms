@@ -225,3 +225,15 @@ export const updateDocumentRequest = (id: string, payload: Record<string, any>) 
 export const deleteDocumentRequest = (id: string) => {
   return axios.delete(`/document-request/${id}`).then((response) => response.data.data)
 }
+
+/**
+ * Offering Letter
+ *
+ */
+export const fetchOfferingLetterSetting = () => {
+  return axios.get<{ data: IOfferingLetterSetting }>(`/offering-letter`).then((response) => response.data.data)
+}
+
+export const updateOfferingLetterSetting = (payload: IOfferingLetterSetting) => {
+  return axios.put<{ data: IOfferingLetterSetting }>(`/offering-letter`, payload).then((response) => response.data.data)
+}

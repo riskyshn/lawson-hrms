@@ -6,10 +6,12 @@ import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { processService, vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
-import { Select } from 'jobseeker-ui'
+import { Button, Select, usePubSub } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import Table from '../../components/Table'
+import { SettingsIcon } from 'lucide-react'
+import SetupOfferingLetterModal from './components/SetupOfferingLetterModal'
 
 const OfferingLetterPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -23,6 +25,7 @@ const OfferingLetterPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPaginationResponse<IDataTableApplicant>>()
   const [pageError, setPageError] = useState<any>()
   const [isLoading, setIsLoading] = useState(true)
+  const [showSetupOfferingLetterModal, setShowSetupOfferingLetterModal] = useState(false)
 
   const [switchData, setSwitchData] = useState(false)
 
@@ -68,7 +71,24 @@ const OfferingLetterPage: React.FC = () => {
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }]} title="Offering Letter" />
+      <PageHeader
+        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }]}
+        title="Offering Letter"
+        actions={
+          <Button
+            type="button"
+            variant="light"
+            color="primary"
+            className="text-gray-600"
+            leftChild={<SettingsIcon size={16} />}
+            onClick={() => setShowSetupOfferingLetterModal(true)}
+          >
+            Setup Offering Letter
+          </Button>
+        }
+      />
+
+      <SetupOfferingLetterModal show={showSetupOfferingLetterModal} onClose={() => setShowSetupOfferingLetterModal(false)} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard

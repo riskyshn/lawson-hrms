@@ -5,7 +5,6 @@ import InterviewPage from '@/pages/process/interview/InterviewPage'
 import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
 import PreviewPage from '@/pages/process/offering-letter/preview/PreviewPage'
-import SetupPage from '@/pages/process/offering-letter/setup/SetupPage'
 import UploadDocumentsPage from '@/pages/process/offering-letter/upload-documents/UploadDocumentsPage'
 import ViewSignedPage from '@/pages/process/offering-letter/view-signed/ViewSignedPage'
 import ViewPage from '@/pages/process/offering-letter/view/ViewPage'
@@ -40,10 +39,6 @@ const candidatesRoute: RouteObject = {
         {
           path: ':applicantId/upload-documents',
           element: <UploadDocumentsPage />,
-        },
-        {
-          path: 'setup',
-          element: <SetupPage />,
         },
         {
           path: 'preview',

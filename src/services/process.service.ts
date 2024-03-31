@@ -46,3 +46,8 @@ export const moveToOfferingLetter = (payload: Record<string, any>, signal?: Gene
 export const uploadDocumentRequest = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
   return axios.put<{ data: IApplicant }>(`/process/offering-letter/documents`, payload, { signal }).then((response) => response.data.data)
 }
+
+export const sendReminder = (oid: string) => {
+  throw new Error('Endpoint api belum ada! segerah hubungi mas akbar.')
+  return axios.post(`/process/${oid}/send-reminder`).then((response) => response.data.data)
+}

@@ -2,7 +2,9 @@ import type { ModalType, TableType } from '../types'
 
 import MainTable from '@/components/Elements/MainTable'
 import ProcessModal from '@/components/Modals/ProcessModal'
+import ViewProcessHistoryModal from '@/components/Modals/ViewProcessHistoryModal'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
+import { FileIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useMemo, useState } from 'react'
 import ActionMenu from './ActionMenu'
@@ -10,9 +12,6 @@ import BlacklistModal from './BlacklistModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
-import ViewProcessHistoryModal from '@/components/Modals/ViewProcessHistoryModal'
-import { FileIcon } from 'lucide-react'
-import { twJoin } from 'tailwind-merge'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -51,52 +50,72 @@ const generateBodyItems = (
   total: number,
   setSelected: (value: { item: IDataTableApplicant; type: ModalType }) => void,
 ) => {
-  const getCandidateInfo = () => (
-    <div className="flex items-center gap-3">
-      <Avatar name={item.candidate?.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
-      <div>
-        <span className="block font-semibold">{item.candidate?.name || '-'}</span>
-        <span className="block">{item.candidate?.email || '-'}</span>
+  const getCandidateInfo = () => ({
+    children: (
+      <div className="flex items-center gap-3">
+        <Avatar name={item.candidate?.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
+        <div>
+          <span className="block font-semibold">{item.candidate?.name || '-'}</span>
+          <span className="block">{item.candidate?.email || '-'}</span>
+        </div>
       </div>
-    </div>
-  )
+    ),
+  })
 
-  const getStatusContent = () =>
-    item.status ? (
+  const getVacancyInfo = () => ({
+    children: item.vacancy ? (
+      <>
+        <span className="block">{item.vacancy.name}</span>
+        <span className="block text-xs text-gray-500">{item.vacancy.rrNumber || '-'}</span>
+      </>
+    ) : (
+      '-'
+    ),
+    className: 'whitespace-normal',
+  })
+
+  const getStatusContent = () => ({
+    children: item.status ? (
       <Badge color={statusColors(item.status.name?.toLowerCase())} size="small" className="font-semibold capitalize">
         {item.status.name?.toLowerCase().replace(/_/g, ' ')}
       </Badge>
     ) : (
       '-'
-    )
+    ),
+  })
 
-  const getDocuments = () => (
-    <button className={item.documentLink ? 'hover:text-primary-600' : 'cursor-default'}>
-      <FileIcon size={18} />
-    </button>
-  )
+  const getActionMenu = () => ({
+    children: <ActionMenu item={item} index={index} total={total} upSpace={total > 8 ? 3 : 0} setSelected={setSelected} />,
+  })
 
   switch (type) {
     case 'INTERVIEW':
     case 'ASSESSMENT':
       return {
         items: [
-          { children: getCandidateInfo() },
-          { children: item.vacancy?.name || '-', className: 'whitespace-normal' },
+          getCandidateInfo(),
+          getVacancyInfo(),
           { children: item.recruitmentStage || '-', className: 'whitespace-normal' },
-          { children: getStatusContent() },
+          getStatusContent(),
           { children: item.actionAt ? moment(item.actionAt).format('D/M/Y HH:MM') : '-' },
-          { children: <ActionMenu item={item} index={index} total={total} upSpace={total > 8 ? 3 : 0} setSelected={setSelected} /> },
+          getActionMenu(),
         ],
       }
     case 'OFFERING':
       return {
         items: [
-          { children: getCandidateInfo() },
-          { children: item.vacancy?.name || '-', className: 'whitespace-normal' },
-          { children: getStatusContent() },
-          { children: getDocuments(), className: 'text-center' },
-          { children: <ActionMenu item={item} index={index} total={total} upSpace={total > 8 ? 3 : 0} setSelected={setSelected} /> },
+          getCandidateInfo(),
+          getVacancyInfo(),
+          getStatusContent(),
+          {
+            className: 'text-center',
+            children: (
+              <button className={item.documentLink ? 'hover:text-primary-600' : 'cursor-default'}>
+                <FileIcon size={18} />
+              </button>
+            ),
+          },
+          getActionMenu(),
         ],
       }
     default:
@@ -156,6 +175,7 @@ const statusColors = genStyles<string, Color>({
   passed: 'success',
   failed: 'error',
   process: 'primary',
+  ready_to_offer: 'success',
   waiting_documents: 'warning',
   waiting: 'default',
   default: 'default',
