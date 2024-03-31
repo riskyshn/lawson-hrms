@@ -47,6 +47,12 @@ export const uploadDocumentRequest = (payload: Record<string, any>, signal?: Gen
   return axios.put<{ data: IApplicant }>(`/process/offering-letter/documents`, payload, { signal }).then((response) => response.data.data)
 }
 
+export const getDocumentRequest = (oid: string, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: IUploadedProcessDocument[] }>(`/process/offering-letter/documents/${oid}`, { signal })
+    .then((response) => response.data.data)
+}
+
 export const sendReminder = (oid: string) => {
   throw new Error('Endpoint api belum ada! segerah hubungi mas akbar.')
   return axios.post(`/process/${oid}/send-reminder`).then((response) => response.data.data)

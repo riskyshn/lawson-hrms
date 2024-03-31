@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, InputWrapper } from 'jobseeker-ui'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 import * as yup from 'yup'
 
 const PROGRESS_KEY = '[PROGRESS]'
@@ -70,6 +71,19 @@ const UploadDocument: React.FC<{
         {!props.isFirst && (
           <Button type="button" color="default" variant="light" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
             Prev
+          </Button>
+        )}
+        {props.isFirst && (
+          <Button
+            as={Link}
+            to="/process/offering-letter"
+            color="error"
+            variant="light"
+            className="w-32"
+            disabled={props.isLoading}
+            onClick={props.handlePrev}
+          >
+            Cancel
           </Button>
         )}
         {!props.isLast && (

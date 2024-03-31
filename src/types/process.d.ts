@@ -42,3 +42,15 @@ interface IApplicantStage {
   type: 'INTERVIEW' | 'ASSESSMENT'
   isAvailable: boolean
 }
+
+interface IUploadedProcessDocument {
+  document: {
+    name: string
+    oid: string
+  }
+  file: {
+    link: string
+    type?: string | null
+  }
+  uploadedAt: string
+}
