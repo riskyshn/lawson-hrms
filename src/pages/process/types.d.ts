@@ -1,8 +1,11 @@
 export type ModalType =
+  | 'HIRE CANDIDATE'
+  | 'EDIT JOIN DATE'
   | 'PROCESS'
   | 'UPDATE RESULT'
-  | 'OFFERING LETTER'
   | 'MOVE TO ANOTHER VACANCY'
   | 'VIEW HISTORY'
   | 'BLACKLIST'
   | 'REJECT'
+
+export type TableType = 'INTERVIEW' | 'ASSESSMENT' | 'OFFERING' | 'ONBOARDING'

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 
-const AssessmentPage: React.FC = () => {
+const OnboardingPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
@@ -27,7 +27,7 @@ const AssessmentPage: React.FC = () => {
   const [switchData, setSwitchData] = useState(false)
 
   const pagination = usePagination({
-    pathname: '/process/assessment',
+    pathname: '/process/onboarding',
     totalPage: pageData?.totalPages || 0,
     params: { search, vacancy, stage },
   })
@@ -46,7 +46,7 @@ const AssessmentPage: React.FC = () => {
             limit: 20,
             stage,
             vacancy,
-            type: 'ASSESSMENT',
+            type: 'ONBOARDING',
           },
           signal,
         )
@@ -68,7 +68,7 @@ const AssessmentPage: React.FC = () => {
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Assessment' }]} title="Assessment" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Onboarding' }]} title="Onboarding" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -117,7 +117,7 @@ const AssessmentPage: React.FC = () => {
               }
             />
           )}
-          body={<Table type="ASSESSMENT" items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
+          body={<Table type="ONBOARDING" items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
           footer={pagination.render()}
         />
       </Container>
@@ -125,4 +125,4 @@ const AssessmentPage: React.FC = () => {
   )
 }
 
-export default AssessmentPage
+export default OnboardingPage

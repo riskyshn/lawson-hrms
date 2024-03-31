@@ -1,25 +1,73 @@
-import React, { useState } from 'react'
+import AsyncSelect from '@/components/Elements/AsyncSelect'
 import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
+import MainCardHeader from '@/components/Elements/MainCardHeader'
 import PageHeader from '@/components/Elements/PageHeader'
 import usePagination from '@/hooks/use-pagination'
-import { BaseInput, Button, Select } from 'jobseeker-ui'
-import { FilterIcon, SearchIcon, SettingsIcon } from 'lucide-react'
-import Table from '../components/Table'
-import { Link } from 'react-router-dom'
-import PreviewPdfResumeModal from '../../Modals/PreviewPdfResumeModal'
+import { processService, vacancyService } from '@/services'
+import { useOrganizationStore } from '@/store'
+import { Button, Select } from 'jobseeker-ui'
+import { SettingsIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import Table from '../../components/Table'
+import SetupOfferingLetterModal from './components/SetupOfferingLetterModal'
 
 const OfferingLetterPage: React.FC = () => {
-  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
-  const pagination = usePagination({ pathname: '/process/offering-letter', totalPage: 2, params: { search: 'querysearch' } })
+  const [searchParams, setSearchParam] = useSearchParams()
 
-  const handlePreviewPdfModalOpen = (url: string) => {
-    setPreviewPdfModalUrl(url)
-  }
+  const search = searchParams.get('search') || undefined
+  const vacancy = searchParams.get('vacancy') || undefined
+  const stage = searchParams.get('stage') || undefined
 
-  const handlePreviewPdfModalClose = () => {
-    setPreviewPdfModalUrl(null)
-  }
+  const { recruitmentStages } = useOrganizationStore()
+
+  const [pageData, setPageData] = useState<IPaginationResponse<IDataTableApplicant>>()
+  const [pageError, setPageError] = useState<any>()
+  const [isLoading, setIsLoading] = useState(true)
+  const [showSetupOfferingLetterModal, setShowSetupOfferingLetterModal] = useState(false)
+
+  const [switchData, setSwitchData] = useState(false)
+
+  const pagination = usePagination({
+    pathname: '/process/offering-letter',
+    totalPage: pageData?.totalPages || 0,
+    params: { search, vacancy, stage },
+  })
+
+  useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+
+    const load = async (signal: AbortSignal) => {
+      setIsLoading(true)
+      try {
+        const data = await processService.fetchProcess(
+          {
+            q: search,
+            page: pagination.currentPage,
+            limit: 20,
+            stage,
+            vacancy,
+            type: 'OFFERING',
+          },
+          signal,
+        )
+        setPageData(data)
+        setIsLoading(false)
+      } catch (e: any) {
+        if (e.message !== 'canceled') setPageError(e)
+      }
+    }
+
+    load(signal)
+
+    return () => {
+      controller.abort()
+    }
+  }, [search, vacancy, stage, pagination.currentPage, switchData])
+
+  if (pageError) throw pageError
 
   return (
     <>
@@ -28,54 +76,68 @@ const OfferingLetterPage: React.FC = () => {
         title="Offering Letter"
         actions={
           <Button
-            as={Link}
-            to="/process/offering-letter/setup"
+            type="button"
             variant="light"
             color="primary"
             className="text-gray-600"
             leftChild={<SettingsIcon size={16} />}
+            onClick={() => setShowSetupOfferingLetterModal(true)}
           >
             Setup Offering Letter
           </Button>
         }
       />
 
-      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={handlePreviewPdfModalClose} />
+      <SetupOfferingLetterModal show={showSetupOfferingLetterModal} onClose={() => setShowSetupOfferingLetterModal(false)} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
           header={(open, toggleOpen) => (
-            <>
-              <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <div className="mb-2">
-                    <span className="block text-lg font-semibold">Candidate List</span>
-                    <span className="block text-sm">
-                      You have <span className="text-primary-600">You have 21000 Candidates in total</span> in total
-                    </span>
+            <MainCardHeader
+              title="Candidate List"
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              subtitle={
+                <>
+                  You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total
+                </>
+              }
+              search={{
+                value: search || '',
+                setValue: (v) => setSearchParam({ search: v }),
+              }}
+              filterToogle={toggleOpen}
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <AsyncSelect
+                      placeholder="All Vacancy"
+                      withReset
+                      fetcher={vacancyService.fetchVacancies}
+                      fetcherParams={{ limit: '99999' }}
+                      searchMinCharacter={0}
+                      converter={(data: IVacancy[]) => data.map((el) => ({ label: el.vacancyName || '', value: el.oid }))}
+                      value={vacancy}
+                      onChange={(e) => {
+                        searchParams.set('vacancy', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                    />
+                    <Select
+                      placeholder="All Stage"
+                      withReset
+                      value={stage}
+                      onChange={(e) => {
+                        searchParams.set('stage', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={recruitmentStages.map((el) => ({ label: el.name, value: el.oid }))}
+                    />
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="relative flex flex-1">
-                    <BaseInput type="text" placeholder="Search..." className="peer w-full rounded-r-none lg:w-64" />
-                    <Button iconOnly color="primary" className="rounded-l-none">
-                      <SearchIcon size={16} />
-                    </Button>
-                  </div>
-                  <Button iconOnly type="button" color="primary" onClick={toggleOpen}>
-                    <FilterIcon size={16} />
-                  </Button>
-                </div>
-              </div>
-              {open && (
-                <div className="grid grid-cols-2 gap-3 p-3">
-                  <Select placeholder="All Position" options={[]} />
-                  <Select placeholder="All Stage" options={[]} />
-                </div>
-              )}
-            </>
+                )
+              }
+            />
           )}
-          body={<Table setPreviewPdfModalUrl={handlePreviewPdfModalOpen} />}
+          body={<Table type="OFFERING" items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
           footer={pagination.render()}
         />
       </Container>

@@ -7,12 +7,12 @@ const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruit
 
   const stages = process.map((el) => el.oid)
   const interviews = recruitmentStages.filter((el) => el.type == 'INTERVIEW').filter((el) => stages.includes(el.oid))
-  const assesments = recruitmentStages.filter((el) => el.type == 'ASSESMENT').filter((el) => stages.includes(el.oid))
+  const assessments = recruitmentStages.filter((el) => el.type == 'ASSESSMENT').filter((el) => stages.includes(el.oid))
 
   const items = [
     { text: 'Candidate Apply' },
     { text: 'Interview', items: interviews },
-    { text: 'Assessment', items: assesments },
+    { text: 'Assessment', items: assessments },
     { text: 'Offering Letter' },
     { text: 'Onboarding' },
   ]

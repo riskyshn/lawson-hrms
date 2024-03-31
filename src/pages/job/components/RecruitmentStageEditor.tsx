@@ -8,10 +8,10 @@ const RecruitmentStagesEditor: React.FC = () => {
   const { recruitmentStages } = useOrganizationStore()
 
   const [toCreateInterviews, setToCreateInterviews] = useState<Array<number>>([])
-  const [toCreateAssesments, setToCreateAssesments] = useState<Array<number>>([])
+  const [toCreateAssessments, setToCreateAssessments] = useState<Array<number>>([])
 
   const interviews = recruitmentStages.filter((el) => el.type == 'INTERVIEW')
-  const assesments = recruitmentStages.filter((el) => el.type == 'ASSESMENT')
+  const assessments = recruitmentStages.filter((el) => el.type == 'ASSESSMENT')
 
   return (
     <Card>
@@ -40,16 +40,16 @@ const RecruitmentStagesEditor: React.FC = () => {
       </CardBody>
 
       <CardBody className="grid grid-cols-1 gap-2">
-        <h3 className="text-lg font-semibold">Assesment</h3>
-        {assesments.map((el) => (
+        <h3 className="text-lg font-semibold">Assessment</h3>
+        {assessments.map((el) => (
           <RecruitmentStageItem key={el.oid} item={el} />
         ))}
-        {toCreateAssesments.map((id) => (
+        {toCreateAssessments.map((id) => (
           <RecruitmentStageItem
             key={id}
             isNew
-            type="ASSESMENT"
-            onRemove={() => setToCreateAssesments([...toCreateAssesments.filter((i) => i != id)])}
+            type="ASSESSMENT"
+            onRemove={() => setToCreateAssessments([...toCreateAssessments.filter((i) => i != id)])}
           />
         ))}
         <Button
@@ -57,7 +57,7 @@ const RecruitmentStagesEditor: React.FC = () => {
           variant="light"
           color="primary"
           type="button"
-          onClick={() => setToCreateAssesments([...toCreateAssesments, Date.now() + Math.random() * 10])}
+          onClick={() => setToCreateAssessments([...toCreateAssessments, Date.now() + Math.random() * 10])}
         >
           <PlusCircleIcon size={16} />
         </Button>

@@ -1,17 +1,18 @@
-import PageHeader from '@/components/Elements/PageHeader'
 import Container from '@/components/Elements/Container'
+import PageHeader from '@/components/Elements/PageHeader'
 import { Button } from 'jobseeker-ui'
+import { Link } from 'react-router-dom'
 
 const ViewSignedPage: React.FC = () => {
   return (
     <>
-      <PageHeader
-        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'View Offering Letter' }]}
-        title="View Offering Letter"
-      />
-      <Container className="flex flex-col gap-3 py-3 xl:pb-8">
-        <iframe src={'/sample.pdf'} className="block h-full w-full rounded-lg bg-white" style={{ height: '100vh', border: 'none' }} />
-        <div className="flex justify-end">
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'View Signed Offering Letter' }]} />
+      <Container className="flex h-[calc(100vh-102px)] flex-col gap-3 py-3">
+        <iframe src={'/sample.pdf'} className="block h-full flex-1 rounded-lg bg-white" />
+        <div className="flex justify-end gap-3">
+          <Button as={Link} to="/process/offering-letter" color="primary" variant="light" className="w-32">
+            Back
+          </Button>
           <Button color="primary" className="w-32">
             Download
           </Button>

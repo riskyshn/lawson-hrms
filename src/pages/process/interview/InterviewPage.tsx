@@ -27,7 +27,7 @@ const InterviewPage: React.FC = () => {
   const [switchData, setSwitchData] = useState(false)
 
   const pagination = usePagination({
-    pathname: '/job/management',
+    pathname: '/process/interview',
     totalPage: pageData?.totalPages || 0,
     params: { search, vacancy, stage },
   })
@@ -117,7 +117,7 @@ const InterviewPage: React.FC = () => {
               }
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
+          body={<Table type="INTERVIEW" items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
           footer={pagination.render()}
         />
       </Container>
