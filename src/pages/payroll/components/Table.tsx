@@ -4,23 +4,29 @@ import React, { useState } from 'react'
 import ActionMenu from './ActionMenu'
 import EditModal from './EditModal'
 import numberToCurrency from '@/utils/number-to-currency'
+import ApplyToModal from './ApplyToModal'
 
 type PropTypes = {
-  items: IDeductionComponent[]
+  type: 'BENEFIT' | 'DEDUCTION'
+  items: (IBenefitComponent | IDeductionComponent)[]
   loading?: boolean
   onRefresh?: () => void
 }
 
-const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
-  const [selectedToEdit, setSelectedToEdit] = useState<IDeductionComponent | null>(null)
+const Table: React.FC<PropTypes> = ({ type, items, loading, onRefresh }) => {
+  type ComponentsMap = { BENEFIT: IBenefitComponent; DEDUCTION: IDeductionComponent }
+  type SelectedType = ComponentsMap[typeof type]
+
+  const [selectedToEdit, setSelectedToEdit] = useState<SelectedType | null>(null)
+  const [selectedToApply, setSelectedToApply] = useState<SelectedType | null>(null)
 
   const headerItems = [
-    { children: 'Component', className: 'text-left' },
-    { children: 'Fixed/Percentage', className: 'text-left' },
+    { children: 'Component Name', className: 'text-left' },
+    { children: 'Amount type', className: 'text-left' },
     { children: 'Amount', className: 'text-left' },
     { children: 'Max. Cap', className: 'text-left' },
     { children: 'Application Type', className: 'text-left' },
-    { children: 'Taxable/Non Taxable', className: 'text-left' },
+    { children: 'Tax type', className: 'text-left' },
     { children: 'Applied Employees' },
     { children: 'Action', className: 'w-24' },
   ]
@@ -29,10 +35,10 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
     items: [
       { children: item.name, className: 'font-semibold' },
       { children: item.amountType },
-      { children: numberToCurrency(item.amount) },
-      { children: typeof item.maxCap === 'number' ? item.maxCap + '%' : '-' },
-      { children: item.taxType },
+      { children: item.amountType === 'fixed' ? numberToCurrency(item.amount) : `${item.amount}%` },
+      { children: numberToCurrency(item.maxCap) },
       { children: item.applicationType },
+      { children: item.taxType },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
@@ -51,11 +57,13 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
       {
         children: (
           <ActionMenu
+            type={type}
             item={item}
             index={index}
             total={items.length}
             upSpace={items.length > 8 ? 3 : 0}
             setSelectedToEdit={setSelectedToEdit}
+            setSelectedToApply={setSelectedToApply}
             onRefresh={onRefresh}
           />
         ),
@@ -65,7 +73,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
 
   return (
     <>
-      <EditModal item={selectedToEdit} onClose={() => setSelectedToEdit(null)} onUpdated={onRefresh} />
+      <ApplyToModal type={type} item={selectedToApply} onClose={() => setSelectedToApply(null)} />
+      <EditModal type={type} item={selectedToEdit} onClose={() => setSelectedToEdit(null)} onUpdated={onRefresh} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>
   )

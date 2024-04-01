@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type PropType = {
+  type: 'BENEFIT' | 'DEDUCTION'
   show?: boolean
   onClose?: () => void
   onCreated?: () => void
@@ -34,7 +35,7 @@ const options = {
 
 const generateOptions = (items: string[]) => items.map((item) => ({ label: item, value: item }))
 
-const CreateModal: React.FC<PropType> = ({ show, onClose, onCreated }) => {
+const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -54,8 +55,9 @@ const CreateModal: React.FC<PropType> = ({ show, onClose, onCreated }) => {
     setLoading(true)
 
     try {
-      await payrollService.createBenefitComponent({ ...data, maxCap: currencyToNumber(data.maxCap) })
-      toast('Benefit component created successfully.', { color: 'success' })
+      const createFn = type === 'BENEFIT' ? payrollService.createBenefitComponent : payrollService.createDeductionComponent
+      await createFn({ ...data, maxCap: currencyToNumber(data.maxCap) })
+      toast('Component created successfully.', { color: 'success' })
       onCreated?.()
       onClose?.()
       setTimeout(() => {
@@ -69,8 +71,8 @@ const CreateModal: React.FC<PropType> = ({ show, onClose, onCreated }) => {
 
   return (
     <Modal as="form" onSubmit={onSubmit} show={!!show} className="p-0">
-      <ModalHeader subTitle="Add Your Company Payroll Component" onClose={onClose}>
-        Create Benefit Component
+      <ModalHeader subTitle="Add Your Company Payroll Component" className="capitalize" onClose={onClose}>
+        Create {type.toLowerCase()} component
       </ModalHeader>
       <div className="grid grid-cols-1 gap-2 p-3">
         <Input label="Component Title" placeholder="Component Title" labelRequired error={errors.name?.message} {...register('name')} />

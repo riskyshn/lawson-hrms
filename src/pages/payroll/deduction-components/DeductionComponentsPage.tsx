@@ -8,8 +8,8 @@ import { Button } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import CreateModal from './components/CreateModal'
-import Table from './components/Table'
+import CreateModal from '../components/CreateModal'
+import Table from '../components/Table'
 
 const DeductionComponentsPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
@@ -86,7 +86,7 @@ const DeductionComponentsPage: React.FC = () => {
         }
       />
 
-      <CreateModal show={showCreateModal} onClose={() => setShowCreateModal(false)} onCreated={refresh} />
+      <CreateModal type="DEDUCTION" show={showCreateModal} onClose={() => setShowCreateModal(false)} onCreated={refresh} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
@@ -105,7 +105,7 @@ const DeductionComponentsPage: React.FC = () => {
               }}
             />
           }
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={refresh} />}
+          body={<Table type="DEDUCTION" items={pageData?.content || []} loading={isLoading} onRefresh={refresh} />}
           footer={pagination.render()}
         />
       </Container>
