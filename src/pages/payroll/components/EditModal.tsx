@@ -9,7 +9,7 @@ import * as yup from 'yup'
 
 type PropType = {
   type: 'BENEFIT' | 'DEDUCTION'
-  item?: IBenefitComponent | null
+  item?: IBenefitComponent | IDeductionComponent | null
   onClose?: () => void
   onUpdated?: () => void
 }
