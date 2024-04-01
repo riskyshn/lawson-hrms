@@ -1,8 +1,8 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
-import { employeeService } from '@/services'
+import { employeeService, payrollService } from '@/services'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ComponentsDataForm from '../components/ComponentsDataForm'
 import EmploymentDataForm from '../components/EmploymentDataForm'
@@ -14,6 +14,9 @@ const CreateEmployeePage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
+  const [pageError, setPageError] = useState<any>()
+
+  if (pageError) throw pageError
 
   const [formValues, setFormValues] = useState<any>({
     personalData: {},
@@ -27,6 +30,19 @@ const CreateEmployeePage = () => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     },
   })
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await payrollService.fetchBpjsComponent()
+        setFormValues({ ...formValues, payroll: { ...formValues.payroll, jkk: data.paidByEmployer.jkk.rate } })
+      } catch (e) {
+        setPageError(e)
+      }
+    }
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleStepSubmit = async (data: any) => {
     setFormValues(data)
