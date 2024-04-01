@@ -91,7 +91,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         break
 
       case 'View Profile':
-        navigate(`/candidates/profile/${candidate.candidateId}`)
+        navigate(`/candidates/profile/${candidate.candidateId || candidate.id}`)
         break
       default:
         break
