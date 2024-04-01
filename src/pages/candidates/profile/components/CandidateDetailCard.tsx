@@ -152,13 +152,25 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
             <h3 className="text-lg font-semibold">{'Resume/CV'}</h3>
           </CardHeader>
           <CardBody className="h-96 p-5">
-            <iframe src={items?.cv} className="block h-full w-full rounded-lg bg-white" />
+            {items?.cv ? (
+              <iframe src={items.cv} className="block h-full w-full rounded-lg bg-white" />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <p className="text-gray-500">No data found</p>
+              </div>
+            )}
           </CardBody>
           <CardHeader>
             <h3 className="text-lg font-semibold">{'Video'}</h3>
           </CardHeader>
           <CardBody className="relative flex h-96 items-center justify-center p-5">
-            <video className="h-full rounded-lg bg-black" src={items?.videoResume} loop controls />
+            {items?.videoResume ? (
+              <video className="h-full rounded-lg bg-black" src={items.videoResume} loop controls />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <p className="text-gray-500">No video found</p>
+              </div>
+            )}
           </CardBody>
         </>
       ) : flag === 'document' ? (
@@ -167,7 +179,13 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
             <h3 className="text-lg font-semibold">{'KTP'}</h3>
           </CardHeader>
           <CardBody className="relative flex h-96 items-center justify-center p-5">
-            <iframe src={items?.ktp} className="block h-full w-full rounded-lg bg-white" />
+            {items?.ktp ? (
+              <iframe src={items.ktp} className="block h-full w-full rounded-lg bg-white" />
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <p className="text-gray-500">No data found</p>
+              </div>
+            )}
           </CardBody>
         </>
       ) : null}
