@@ -4,6 +4,8 @@ import ApplyToPage from '@/pages/payroll/apply-to/ApplyToPage'
 import BenefitComponentsPage from '@/pages/payroll/benefit-components/BenefitComponentsPage'
 import BpjsComponentPage from '@/pages/payroll/bpjs-component/BpjsComponentPage'
 import DeductionComponentsPage from '@/pages/payroll/deduction-components/DeductionComponentsPage'
+import RunPage from '@/pages/payroll/run/RunPage'
+import RequestPage from '@/pages/payroll/run/RequestPage'
 
 const payrollRoute: RouteObject = {
   path: 'payroll',
@@ -28,6 +30,16 @@ const payrollRoute: RouteObject = {
       path: 'apply-to/:type/:oid',
       name: 'Apply To',
       element: <ApplyToPage />,
+    },
+    {
+      path: 'run',
+      name: 'Run Payroll',
+      element: <RunPage />,
+    },
+    {
+      path: 'detail',
+      name: 'Detail Payroll',
+      element: <RequestPage />,
     },
   ],
 }
