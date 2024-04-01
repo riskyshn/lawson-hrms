@@ -1,6 +1,7 @@
+import { payrollService } from '@/services'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCurrency, Select } from 'jobseeker-ui'
-import React, { useEffect } from 'react'
+import { Button, Card, CardBody, CardFooter, Input, InputCurrency, Select, Spinner } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -39,6 +40,29 @@ const ComponentsDataForm: React.FC<{
     resolver: yupResolver(schema),
   })
 
+  const [pageError, setPageError] = useState<any>()
+  const [componentData, setComponentData] = useState<{ benefits: IBenefitComponent[]; deductions: IDeductionComponent[] }>()
+  if (pageError) throw pageError
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const [benefits, deductions] = await Promise.all([
+          payrollService.fetchBenefitComponents({ limit: 99999 }),
+          payrollService.fetchDeductionComponents({ limit: 99999 }),
+        ])
+
+        setComponentData({
+          benefits: benefits.content,
+          deductions: deductions.content,
+        })
+      } catch (e) {
+        setPageError(e)
+      }
+    }
+    load()
+  }, [])
+
   useEffect(() => {
     if (!props.defaultValue) return
     setValue('benefits', props.defaultValue.benefits || [{ amount: '', applicationType: 0, componentId: '' }])
@@ -72,182 +96,197 @@ const ComponentsDataForm: React.FC<{
 
   return (
     <Card as="form" onSubmit={onSubmit}>
-      <CardBody className="grid grid-cols-1 gap-2">
-        <div className="pb-2">
-          <h3 className="text-lg font-semibold">Components</h3>
-          <p className="text-xs text-gray-500">Please Adjust Components You Would Like to Apply for this Employee</p>
+      {!componentData && (
+        <div className="flex items-center justify-center py-48">
+          <Spinner height={40} className="text-primary-600" />
         </div>
-        <h3 className="text-sm font-semibold">Benefits</h3>
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="3.70%" />
-          <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled defaultValue="0.24%" />
-        </div>
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
-          <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" />
-        </div>
-        <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
-      </CardBody>
-
-      <CardBody className="grid grid-cols-1 gap-3">
-        {watchBenefits?.map((el, i) => (
-          <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border p-3 shadow-sm even:bg-gray-100">
-            <Select
-              label="Component"
-              value={el.componentId}
-              name={`benefits.${i}.componentId`}
-              error={errors.benefits?.[i]?.componentId?.message}
-              onChange={(v) => setValue(`benefits.${i}.componentId`, v.toString())}
-              options={dummyComponents}
-            />
+      )}
+      {componentData && (
+        <>
+          <CardBody className="grid grid-cols-1 gap-2">
+            <div className="pb-2">
+              <h3 className="text-lg font-semibold">Components</h3>
+              <p className="text-xs text-gray-500">Please Adjust Components You Would Like to Apply for this Employee</p>
+            </div>
+            <h3 className="text-sm font-semibold">Benefits</h3>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Type" placeholder="Taxable/Non Taxable" disabled />
-              <Input label="Percentage/Fixed" placeholder="Percentage/Fixed" disabled />
+              <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="3.70%" />
+              <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled defaultValue="0.24%" />
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <InputCurrency
-                label="Amount"
-                labelRequired
-                prefix="Rp "
-                error={errors.benefits?.[i]?.amount?.message}
-                name={`benefits.${i}.amount`}
-                value={getValues(`benefits.${i}.amount`)}
-                onValueChange={(v) => {
-                  setValue(`benefits.${i}.amount`, v || '')
-                  trigger(`benefits.${i}.amount`)
-                }}
-              />
-              <Select
-                label="Application Type"
-                labelRequired
-                placeholder="'Based on Working Days', 'Lump Sum'"
-                hideSearch
-                value={el.applicationType}
-                name={`benefits.${i}.applicationType`}
-                error={errors.benefits?.[i]?.applicationType?.message}
-                onChange={(v) => setValue(`benefits.${i}.applicationType`, Number(v))}
-                options={[
-                  { label: 'Based on Working Days', value: 1 },
-                  { label: 'Lump Sum', value: 2 },
-                ]}
-              />
+              <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
+              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" />
             </div>
-            <div className="flex justify-end">
-              <Button type="button" color="error" variant="light" onClick={() => handleRemoveBenefit(i)}>
-                Remove Component
-              </Button>
-            </div>
-          </div>
-        ))}
-        <Button type="button" block color="primary" variant="light" onClick={handleAddBenefit}>
-          Add Component
-        </Button>
-      </CardBody>
+            <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
+          </CardBody>
 
-      <CardBody className="grid grid-cols-1 gap-2">
-        <h3 className="text-sm font-semibold">Deduction</h3>
+          <CardBody className="grid grid-cols-1 gap-3">
+            {watchBenefits?.map((el, i) => (
+              <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border p-3 shadow-sm even:bg-gray-100">
+                <Select
+                  label="Component"
+                  value={el.componentId}
+                  name={`benefits.${i}.componentId`}
+                  error={errors.benefits?.[i]?.componentId?.message}
+                  onChange={(v) => setValue(`benefits.${i}.componentId`, v.toString())}
+                  options={componentData.benefits.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                />
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                  <Input
+                    label="Type"
+                    placeholder="Taxable/Non Taxable"
+                    disabled
+                    inputClassName="capitalize"
+                    value={componentData.benefits.find(({ oid }) => oid === el.componentId)?.taxType}
+                  />
+                  <Input
+                    label="Percentage/Fixed"
+                    placeholder="Percentage/Fixed"
+                    disabled
+                    inputClassName="capitalize"
+                    value={componentData.benefits.find(({ oid }) => oid === el.componentId)?.amountType}
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                  <InputCurrency
+                    label="Amount"
+                    labelRequired
+                    prefix="Rp "
+                    error={errors.benefits?.[i]?.amount?.message}
+                    name={`benefits.${i}.amount`}
+                    value={getValues(`benefits.${i}.amount`)}
+                    onValueChange={(v) => {
+                      setValue(`benefits.${i}.amount`, v || '')
+                      trigger(`benefits.${i}.amount`)
+                    }}
+                  />
+                  <Select
+                    label="Application Type"
+                    labelRequired
+                    placeholder="'Based on Working Days', 'Lump Sum'"
+                    hideSearch
+                    value={el.applicationType}
+                    name={`benefits.${i}.applicationType`}
+                    error={errors.benefits?.[i]?.applicationType?.message}
+                    onChange={(v) => setValue(`benefits.${i}.applicationType`, Number(v))}
+                    options={[
+                      { label: 'Based on Working Days', value: 1 },
+                      { label: 'Lump Sum', value: 2 },
+                    ]}
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <Button type="button" color="error" variant="light" onClick={() => handleRemoveBenefit(i)}>
+                    Remove Component
+                  </Button>
+                </div>
+              </div>
+            ))}
+            <Button type="button" block color="primary" variant="light" onClick={handleAddBenefit}>
+              Add Component
+            </Button>
+          </CardBody>
 
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="3.70%" />
-          <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled defaultValue="0.24%" />
-        </div>
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
-          <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" />
-        </div>
-        <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
+          <CardBody className="grid grid-cols-1 gap-2">
+            <h3 className="text-sm font-semibold">Deduction</h3>
 
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="2%" />
-          <Input label="Jaminan Pensiun (JP)" disabled defaultValue="1%" />
-        </div>
-
-        <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="1%" help="KS Maximum Cap Rp. 480.000,00*" />
-      </CardBody>
-
-      <CardBody className="grid grid-cols-1 gap-3">
-        {watchDeductions?.map((el, i) => (
-          <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border p-3 shadow-sm even:bg-gray-100">
-            <Select
-              label="Component"
-              value={el.componentId}
-              name={`deductions.${i}.componentId`}
-              error={errors.deductions?.[i]?.componentId?.message}
-              onChange={(v) => setValue(`deductions.${i}.componentId`, v.toString())}
-              options={dummyComponents}
-            />
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Type" placeholder="Taxable/Non Taxable" disabled />
-              <Input label="Percentage/Fixed" placeholder="Percentage/Fixed" disabled />
+              <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="3.70%" />
+              <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled defaultValue="0.24%" />
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <InputCurrency
-                label="Amount"
-                labelRequired
-                prefix="Rp "
-                error={errors.deductions?.[i]?.amount?.message}
-                name={`deductions.${i}.amount`}
-                value={getValues(`deductions.${i}.amount`)}
-                onValueChange={(v) => {
-                  setValue(`deductions.${i}.amount`, v || '')
-                  trigger(`deductions.${i}.amount`)
-                }}
-              />
-              <Select
-                label="Application Type"
-                labelRequired
-                placeholder="'Based on Working Days', 'Lump Sum'"
-                hideSearch
-                value={el.applicationType}
-                name={`deductions.${i}.applicationType`}
-                error={errors.deductions?.[i]?.applicationType?.message}
-                onChange={(v) => setValue(`deductions.${i}.applicationType`, Number(v))}
-                options={[
-                  { label: 'Based on Working Days', value: 1 },
-                  { label: 'Lump Sum', value: 2 },
-                ]}
-              />
+              <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
+              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" />
             </div>
-            <div className="flex justify-end">
-              <Button type="button" color="error" variant="light" onClick={() => handleRemoveDeduction(i)}>
-                Remove Component
-              </Button>
-            </div>
-          </div>
-        ))}
-        <Button type="button" block color="primary" variant="light" onClick={handleAddDeduction}>
-          Add Component
-        </Button>
-      </CardBody>
+            <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
 
-      <CardFooter className="gap-3">
-        <Button type="button" color="primary" variant="light" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
-          Prev
-        </Button>
-        <Button type="submit" color="primary" className="w-32" disabled={props.isLoading} loading={props.isLoading}>
-          {props.isEdit ? 'Update' : 'Submit'}
-        </Button>
-      </CardFooter>
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+              <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="2%" />
+              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="1%" />
+            </div>
+
+            <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="1%" help="KS Maximum Cap Rp. 480.000,00*" />
+          </CardBody>
+
+          <CardBody className="grid grid-cols-1 gap-3">
+            {watchDeductions?.map((el, i) => (
+              <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border p-3 shadow-sm even:bg-gray-100">
+                <Select
+                  label="Component"
+                  value={el.componentId}
+                  name={`deductions.${i}.componentId`}
+                  error={errors.deductions?.[i]?.componentId?.message}
+                  onChange={(v) => setValue(`deductions.${i}.componentId`, v.toString())}
+                  options={componentData.deductions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                />
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                  <Input
+                    label="Type"
+                    placeholder="Taxable/Non Taxable"
+                    disabled
+                    inputClassName="capitalize"
+                    value={componentData.deductions.find(({ oid }) => oid === el.componentId)?.taxType}
+                  />
+                  <Input
+                    label="Percentage/Fixed"
+                    placeholder="Percentage/Fixed"
+                    disabled
+                    inputClassName="capitalize"
+                    value={componentData.deductions.find(({ oid }) => oid === el.componentId)?.amountType}
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                  <InputCurrency
+                    label="Amount"
+                    labelRequired
+                    prefix="Rp "
+                    error={errors.deductions?.[i]?.amount?.message}
+                    name={`deductions.${i}.amount`}
+                    value={getValues(`deductions.${i}.amount`)}
+                    onValueChange={(v) => {
+                      setValue(`deductions.${i}.amount`, v || '')
+                      trigger(`deductions.${i}.amount`)
+                    }}
+                  />
+                  <Select
+                    label="Application Type"
+                    labelRequired
+                    placeholder="'Based on Working Days', 'Lump Sum'"
+                    hideSearch
+                    value={el.applicationType}
+                    name={`deductions.${i}.applicationType`}
+                    error={errors.deductions?.[i]?.applicationType?.message}
+                    onChange={(v) => setValue(`deductions.${i}.applicationType`, Number(v))}
+                    options={[
+                      { label: 'Based on Working Days', value: 1 },
+                      { label: 'Lump Sum', value: 2 },
+                    ]}
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <Button type="button" color="error" variant="light" onClick={() => handleRemoveDeduction(i)}>
+                    Remove Component
+                  </Button>
+                </div>
+              </div>
+            ))}
+            <Button type="button" block color="primary" variant="light" onClick={handleAddDeduction}>
+              Add Component
+            </Button>
+          </CardBody>
+
+          <CardFooter className="gap-3">
+            <Button type="button" color="primary" variant="light" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
+              Prev
+            </Button>
+            <Button type="submit" color="primary" className="w-32" disabled={props.isLoading} loading={props.isLoading}>
+              {props.isEdit ? 'Update' : 'Submit'}
+            </Button>
+          </CardFooter>
+        </>
+      )}
     </Card>
   )
 }
 
 export default ComponentsDataForm
-
-const dummyComponents = [
-  { label: 'Communication Allowance', value: 'communication_allowance' },
-  { label: 'Travel Allowance', value: 'travel_allowance' },
-  { label: 'Housing Allowance', value: 'housing_allowance' },
-  { label: 'Medical Allowance', value: 'medical_allowance' },
-  { label: 'Food Allowance', value: 'food_allowance' },
-  { label: 'Entertainment Allowance', value: 'entertainment_allowance' },
-  { label: 'Clothing Allowance', value: 'clothing_allowance' },
-  { label: 'Education Allowance', value: 'education_allowance' },
-  { label: 'Transportation Allowance', value: 'transportation_allowance' },
-  { label: 'Telephone Allowance', value: 'telephone_allowance' },
-  { label: 'Internet Allowance', value: 'internet_allowance' },
-  { label: 'Professional Development Allowance', value: 'professional_development_allowance' },
-  { label: 'Relocation Allowance', value: 'relocation_allowance' },
-  { label: 'Dependent Allowance', value: 'dependent_allowance' },
-  { label: 'Other Allowance (Specify)', value: 'other_allowance' }, // Option for custom entries
-]
