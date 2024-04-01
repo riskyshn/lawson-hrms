@@ -26,7 +26,15 @@ const schema = yup.object({
   vacancyName: yup.string().required().label('Position Name'),
   departmentId: yup.string().required().label('Depantment'),
   branchId: yup.string().required().label('Branch'),
-  expiredDate: yup.date().min(new Date()).required().label('Expired Date'),
+  expiredDate: yup
+    .date()
+    .min(new Date())
+    .when('isRequisition', {
+      is: true,
+      then: (s) => s.required(),
+      otherwise: (s) => s.optional(),
+    })
+    .label('Expired Date'),
   jobLevelId: yup.string().required().label('Job Level'),
   jobTypeId: yup.string().required().label('Job Type'),
   workplacementTypeId: yup.string().optional().label('Workplacement Type'),
@@ -124,6 +132,7 @@ const VacancyInformationForm: React.FC<{
     if (props.isRequisition && !getValues('rrNumber') && !props.defaultValue.rrNumber) loadRrNumber()
   }, [getValues, props.defaultValue.rrNumber, props.isRequisition, setError, setValue, trigger])
 
+  const expiredDate = getValues('expiredDate')
   return (
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
@@ -168,20 +177,23 @@ const VacancyInformationForm: React.FC<{
             }}
           />
         </div>
-        <InputDate
-          label="Expired at"
-          labelRequired
-          error={errors.expiredDate?.message}
-          asSingle
-          useRange={false}
-          displayFormat="DD/MM/YYYY"
-          value={{ startDate: getValues('expiredDate'), endDate: getValues('expiredDate') }}
-          onChange={(v) => {
-            // @ts-expect-error
-            setValue('expiredDate', v?.startDate || v?.endDate)
-            trigger('expiredDate')
-          }}
-        />
+        {!props.isRequisition && (
+          <InputDate
+            label="Expired at"
+            labelRequired
+            error={errors.expiredDate?.message}
+            asSingle
+            useRange={false}
+            minDate={new Date()}
+            displayFormat="DD/MM/YYYY"
+            value={expiredDate ? { startDate: expiredDate, endDate: expiredDate } : undefined}
+            onChange={(v) => {
+              // @ts-expect-error
+              setValue('expiredDate', v?.startDate || v?.endDate)
+              trigger('expiredDate')
+            }}
+          />
+        )}
       </CardBody>
 
       {props.isRequisition && (
@@ -304,7 +316,7 @@ const VacancyInformationForm: React.FC<{
             </div>
           </InputWrapper>
           <div className="flex gap-3 pb-2">
-            <InputCheckbox id="negotiable-salary" {...register('negotiableSalary', {})}>
+            <InputCheckbox id="negotiable-salary" {...register('negotiableSalary')}>
               Negotiable Salary
             </InputCheckbox>
             <InputCheckbox id="hide-range-of-salary" {...register('hideRangeSalary')}>
@@ -321,6 +333,12 @@ const VacancyInformationForm: React.FC<{
           error={errors.other?.message}
           {...register('other')}
         />
+
+        <div className="pb-2">
+          <InputCheckbox id="negotiable-salary" {...register('negotiableSalary')}>
+            Negotiable Salary
+          </InputCheckbox>
+        </div>
       </CardBody>
 
       <CardFooter>
