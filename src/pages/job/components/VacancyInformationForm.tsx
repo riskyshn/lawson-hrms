@@ -67,7 +67,10 @@ const schema = yup.object({
     })
     .label('Maximum Salary'),
   hideRangeSalary: yup.boolean().required(),
-  negotiableSalary: yup.boolean().required(),
+  negotiableSalary: yup
+    .boolean()
+    .transform((value) => !!value)
+    .required(),
   other: yup.string().required().label('Task, Responsibility & Others'),
   approvals: yup
     .array(yup.string().required().label('Approval'))
@@ -333,12 +336,6 @@ const VacancyInformationForm: React.FC<{
           error={errors.other?.message}
           {...register('other')}
         />
-
-        <div className="pb-2">
-          <InputCheckbox id="negotiable-salary" {...register('negotiableSalary')}>
-            Negotiable Salary
-          </InputCheckbox>
-        </div>
       </CardBody>
 
       <CardFooter>
