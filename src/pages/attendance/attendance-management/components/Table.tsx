@@ -146,10 +146,22 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
           !isClientVisit &&
           item?.records?.map((record, index) => (
             <div key={index} className="mb-2 flex gap-2">
-              <Button color="success" size="small" onClick={() => openConfirmation('approved', record.oid)}>
+              <Button
+                disabled={record.status === 'approved'}
+                color="success"
+                style={{ opacity: record.status === 'approved' ? 0.5 : 1 }}
+                size="small"
+                onClick={() => openConfirmation('approved', record.oid)}
+              >
                 <CheckIcon size={16} />
               </Button>
-              <Button color="error" size="small" onClick={() => openConfirmation('rejected', record.oid)}>
+              <Button
+                disabled={record.status === 'rejected'}
+                color="error"
+                style={{ opacity: record.status === 'rejected' ? 0.5 : 1 }}
+                size="small"
+                onClick={() => openConfirmation('rejected', record.oid)}
+              >
                 <XIcon size={16} />
               </Button>
             </div>
