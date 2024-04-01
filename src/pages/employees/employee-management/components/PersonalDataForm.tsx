@@ -4,8 +4,8 @@ import { PHONE_REG_EXP } from '@/constants/globals'
 import { masterService } from '@/services'
 import { useMasterStore } from '@/store'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputDate, InputWrapper, Select, Textarea } from 'jobseeker-ui'
-import React from 'react'
+import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate, InputWrapper, Select, Textarea } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
@@ -52,6 +52,7 @@ const PersonalDataForm: React.FC<{
   handleSubmit: (data: any) => void
 }> = (props) => {
   const { religions, genders, maritalStatus } = useMasterStore()
+  const [sameAsNationalId, setSameAsNationalId] = useState(false)
 
   const {
     register,
@@ -69,6 +70,13 @@ const PersonalDataForm: React.FC<{
   const onSubmit = handleSubmit(props.handleSubmit)
 
   const initialCityOfBirth = watch('cityOfBirth') ? [{ label: watch('cityOfBirth'), value: watch('cityOfBirth') }] : []
+
+  const nationIdAddress = watch('nationIdAddress')
+  useEffect(() => {
+    if (!sameAsNationalId) return
+    setValue('residentalAddress', nationIdAddress)
+    trigger('residentalAddress')
+  }, [sameAsNationalId, nationIdAddress, setValue, trigger])
 
   return (
     <Card as="form" onSubmit={onSubmit}>
@@ -218,7 +226,22 @@ const PersonalDataForm: React.FC<{
           <Input label="Postal Code" error={errors.postalCode?.message} {...register('postalCode')} />
         </div>
         <Textarea label="Nation ID Address" rows={6} error={errors.nationIdAddress?.message} {...register('nationIdAddress')} />
-        <Textarea label="Residential Address" rows={6} error={errors.residentalAddress?.message} {...register('residentalAddress')} />
+        <Textarea
+          label="Residential Address"
+          className="mb-2"
+          rows={6}
+          error={errors.residentalAddress?.message}
+          {...register('residentalAddress')}
+          disabled={sameAsNationalId}
+        />
+
+        <InputCheckbox
+          id="same-as-national-id-address"
+          checked={sameAsNationalId}
+          onChange={(e) => setSameAsNationalId(e.currentTarget.checked)}
+        >
+          Same as National ID Address
+        </InputCheckbox>
       </CardBody>
 
       <CardFooter>
