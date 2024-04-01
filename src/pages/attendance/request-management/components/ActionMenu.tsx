@@ -4,6 +4,7 @@ import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { CheckCircleIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { attendanceService } from '@/services'
+import ViewModal from './ViewModal'
 
 interface ActionMenuProps {
   options: string[]
@@ -12,12 +13,14 @@ interface ActionMenuProps {
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy }) => {
+  const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const confirm = useConfirm()
   const toast = useToast()
 
-  const handleViewDetails = async (option: string) => {
+  const handleViewDetails = (option: string) => {
     setModalType(option)
+    setShowOptionModal(true)
   }
 
   const handleConfirmation = async () => {
@@ -53,6 +56,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
       }
     }
+    setShowOptionModal(false)
   }
 
   React.useEffect(() => {
@@ -88,6 +92,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
           ))}
         </Menu.Items>
       </Menu>
+      {showOptionModal && modalType === 'View Details' && (
+        <ViewModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
+      )}
     </div>
   )
 }

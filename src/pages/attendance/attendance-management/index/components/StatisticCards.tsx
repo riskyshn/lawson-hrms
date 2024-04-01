@@ -39,7 +39,7 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
     }
     if (!data) return null
 
-    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'sky']
+    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple']
 
     const cardData = data.map((item: { title: string; count: number }, index: number) => ({
       label: item.title,

@@ -67,7 +67,7 @@ export const rejectedRequestManagement = (oid: string) => {
 }
 
 export const fetchStatistic = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse }>(`/employer/statistics`, { params, signal }).then((response) => response.data.data)
+  return axios.get(`/employer/statistics`, { params, signal }).then((response) => response.data.data)
 }
 
 export const approvedAttendanceManagement = (oid: string) => {
