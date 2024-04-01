@@ -6,13 +6,14 @@ import EditModal from './EditModal'
 import numberToCurrency from '@/utils/number-to-currency'
 
 type PropTypes = {
-  items: IDeductionComponent[]
+  type: 'BENEFIT' | 'DEDUCTION'
+  items: IBenefitComponent[]
   loading?: boolean
   onRefresh?: () => void
 }
 
-const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
-  const [selectedToEdit, setSelectedToEdit] = useState<IDeductionComponent | null>(null)
+const Table: React.FC<PropTypes> = ({ type, items, loading, onRefresh }) => {
+  const [selectedToEdit, setSelectedToEdit] = useState<IBenefitComponent | null>(null)
 
   const headerItems = [
     { children: 'Component', className: 'text-left' },
@@ -29,8 +30,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
     items: [
       { children: item.name, className: 'font-semibold' },
       { children: item.amountType },
-      { children: numberToCurrency(item.amount) },
-      { children: typeof item.maxCap === 'number' ? item.maxCap + '%' : '-' },
+      { children: item.amountType === 'fixed' ? numberToCurrency(item.amount) : `${item.amount}%` },
+      { children: numberToCurrency(item.maxCap) },
       { children: item.taxType },
       { children: item.applicationType },
       {
@@ -51,6 +52,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
       {
         children: (
           <ActionMenu
+            type={type}
             item={item}
             index={index}
             total={items.length}
@@ -65,7 +67,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
 
   return (
     <>
-      <EditModal item={selectedToEdit} onClose={() => setSelectedToEdit(null)} onUpdated={onRefresh} />
+      <EditModal type={type} item={selectedToEdit} onClose={() => setSelectedToEdit(null)} onUpdated={onRefresh} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>
   )

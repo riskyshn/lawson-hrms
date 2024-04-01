@@ -3,14 +3,15 @@ import { axiosErrorMessage } from '@/utils/axios'
 import currencyToNumber from '@/utils/currency-to-number'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type PropType = {
-  show?: boolean
+  type: 'BENEFIT' | 'DEDUCTION'
+  item?: IBenefitComponent | null
   onClose?: () => void
-  onCreated?: () => void
+  onUpdated?: () => void
 }
 
 const schema = yup.object().shape({
@@ -34,7 +35,7 @@ const options = {
 
 const generateOptions = (items: string[]) => items.map((item) => ({ label: item, value: item }))
 
-const CreateModal: React.FC<PropType> = ({ show, onClose, onCreated }) => {
+const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -50,13 +51,27 @@ const CreateModal: React.FC<PropType> = ({ show, onClose, onCreated }) => {
     resolver: yupResolver(schema),
   })
 
+  useEffect(() => {
+    if (!item) return
+    setValue('name', item.name || '')
+    setValue('amountType', item.amountType || '')
+    setValue('amount', item.amount || 0)
+    setValue('maxCap', String(item.maxCap))
+    setValue('applicationType', item.applicationType || '')
+    setValue('taxType', item.taxType || '')
+    trigger()
+  }, [item, setValue, trigger])
+
   const onSubmit = handleSubmit(async (data) => {
+    if (!item) return
+
     setLoading(true)
 
     try {
-      await payrollService.createDeductionComponent({ ...data, maxCap: currencyToNumber(data.maxCap) })
-      toast('Deduction component created successfully.', { color: 'success' })
-      onCreated?.()
+      const updateFn = type === 'BENEFIT' ? payrollService.updateBenefitComponent : payrollService.updateDeductionComponent
+      await updateFn(item.oid, { ...data, maxCap: currencyToNumber(data.maxCap) })
+      toast('Component updated successfully.', { color: 'success' })
+      onUpdated?.()
       onClose?.()
       setTimeout(() => {
         reset()
@@ -68,9 +83,9 @@ const CreateModal: React.FC<PropType> = ({ show, onClose, onCreated }) => {
   })
 
   return (
-    <Modal as="form" onSubmit={onSubmit} show={!!show} className="p-0">
-      <ModalHeader subTitle="Add Your Company Payroll Component" onClose={onClose}>
-        Create Deduction Component
+    <Modal as="form" onSubmit={onSubmit} show={!!item} className="p-0">
+      <ModalHeader subTitle="Edit Your Company Payroll Component" className="capitalize" onClose={onClose}>
+        Edit {type.toLowerCase()} component
       </ModalHeader>
       <div className="grid grid-cols-1 gap-2 p-3">
         <Input label="Component Title" placeholder="Component Title" labelRequired error={errors.name?.message} {...register('name')} />
@@ -140,4 +155,4 @@ const CreateModal: React.FC<PropType> = ({ show, onClose, onCreated }) => {
   )
 }
 
-export default CreateModal
+export default EditModal
