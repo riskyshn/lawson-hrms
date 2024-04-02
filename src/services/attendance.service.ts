@@ -6,6 +6,9 @@ const axios = createAxiosInstance({ baseURL: API_ATTENDANCE_BASE_URL, withAuth: 
 
 type FetchAttendanceParams = IPaginationParam & {
   attendance_group?: string
+  start_date?: string
+  end_date?: string
+  branch_id?: string
 }
 
 /**

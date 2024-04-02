@@ -11,6 +11,7 @@ import { BaseInputDate, CardBody, Select } from 'jobseeker-ui'
 import { useOrganizationStore } from '@/store'
 import PageCard from '../components/PageCard'
 import StatisticCards from '../index/components/StatisticCards'
+import { DateValueType } from 'react-tailwindcss-datepicker'
 
 const ClientVisitPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -19,6 +20,11 @@ const ClientVisitPage: React.FC = () => {
   const [onChangeData, setOnChangeData] = useState<string>()
   const [pageData, setPageData] = useState<IPaginationResponse<IAttendance>>()
   const [pageError, setPageError] = useState<any>()
+  const todayFormatted = new Date().toISOString().split('T')[0]
+  const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
+    startDate: todayFormatted,
+    endDate: todayFormatted,
+  })
 
   const branch = searchParams.get('branch') || undefined
 
@@ -43,6 +49,9 @@ const ClientVisitPage: React.FC = () => {
             page: pagination.currentPage,
             limit: 20,
             attendance_group: 'client_visit',
+            start_date: filterDate?.startDate,
+            end_date: filterDate?.endDate,
+            branch_id: branch,
           },
           signal,
         )
@@ -59,7 +68,19 @@ const ClientVisitPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage, onChangeData])
+  }, [search, pagination.currentPage, branch, filterDate, onChangeData])
+
+  const handleDateChange = (selectedDate: DateValueType) => {
+    if (selectedDate?.startDate && selectedDate.endDate) {
+      const startDate = selectedDate?.startDate ? new Date(selectedDate.startDate) : null
+      const endDate = selectedDate?.endDate ? new Date(selectedDate.endDate) : startDate
+
+      const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
+      const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
+
+      setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+    }
+  }
 
   if (pageError) throw pageError
 
@@ -110,7 +131,7 @@ const ClientVisitPage: React.FC = () => {
                       }}
                       options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
                     />
-                    <BaseInputDate asSingle placeholder="Filter by date" />
+                    <BaseInputDate placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
                   </div>
                 )
               }

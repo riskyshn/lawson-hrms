@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 import { BaseInputDate } from 'jobseeker-ui'
+import { DateValueType } from 'react-tailwindcss-datepicker'
 
 const RequestPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -16,6 +17,11 @@ const RequestPage: React.FC = () => {
   const [onChangeData, setOnChangeData] = useState<string>()
   const [pageData, setPageData] = useState<IPaginationResponse<ILeave>>()
   const [pageError, setPageError] = useState<any>()
+  const todayFormatted = new Date().toISOString().split('T')[0]
+  const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
+    startDate: todayFormatted,
+    endDate: todayFormatted,
+  })
 
   const pagination = usePagination({
     pathname: '/attendance/request-management',
@@ -36,6 +42,8 @@ const RequestPage: React.FC = () => {
             page: pagination.currentPage,
             limit: 20,
             attendance_group: 'clock',
+            start_date: filterDate?.startDate,
+            end_date: filterDate?.endDate,
           },
           signal,
         )
@@ -52,7 +60,19 @@ const RequestPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage, onChangeData])
+  }, [search, pagination.currentPage, filterDate, onChangeData])
+
+  const handleDateChange = (selectedDate: DateValueType) => {
+    if (selectedDate?.startDate && selectedDate.endDate) {
+      const startDate = selectedDate?.startDate ? new Date(selectedDate.startDate) : null
+      const endDate = selectedDate?.endDate ? new Date(selectedDate.endDate) : startDate
+
+      const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
+      const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
+
+      setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+    }
+  }
 
   if (pageError) throw pageError
 
@@ -83,7 +103,7 @@ const RequestPage: React.FC = () => {
               filter={
                 open && (
                   <div className="grid grid-cols-1 gap-3 p-3">
-                    <BaseInputDate asSingle placeholder="Filter by date" />
+                    <BaseInputDate placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
                   </div>
                 )
               }
