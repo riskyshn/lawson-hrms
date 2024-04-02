@@ -24,8 +24,9 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
     getValues,
     setValue,
     trigger,
-    formState: { errors },
     reset,
+    watch,
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -34,8 +35,8 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
     if (!item) return
     setValue('name', item.name || '')
     setValue('amountType', item.amountType || '')
-    setValue('amount', item.amount || 0)
-    setValue('maxCap', String(item.maxCap))
+    setValue('amount', String(item.amount || ''))
+    setValue('maxCap', String(item.maxCap || ''))
     setValue('applicationType', item.applicationType || '')
     setValue('taxType', item.taxType || '')
     trigger()
@@ -81,7 +82,23 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
             trigger('amountType')
           }}
         />
-        <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register('amount')} />
+        {watch(`amountType`) === 'fixed' ? (
+          <InputCurrency
+            label="Amount"
+            placeholder="Amount"
+            labelRequired
+            prefix="Rp "
+            error={errors.amount?.message}
+            name={`amount`}
+            value={getValues(`amount`)}
+            onValueChange={(v) => {
+              setValue(`amount`, v || '')
+              trigger(`amount`)
+            }}
+          />
+        ) : (
+          <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register(`amount`)} type="number" />
+        )}
         <InputCurrency
           label="Max. Cap"
           placeholder="Max. Cap"

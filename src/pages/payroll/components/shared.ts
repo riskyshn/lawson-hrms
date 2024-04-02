@@ -1,14 +1,16 @@
+import genOptions from '@/utils/gen-options'
 import * as yup from 'yup'
-
-const generateOptions = (items: string[]) => items.map((item) => ({ label: item, value: item }))
 
 export const schema = yup.object().shape({
   name: yup.string().required().label('Component Name'),
   amountType: yup.string().required().label('Amount Type'),
   amount: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
+    .string()
     .required()
+    .when('amountType', {
+      is: 'percentage',
+      then: (s) => s.transform(parseFloat).min(0).transform(String),
+    })
     .label('Amount'),
   maxCap: yup.string().required().label('Max Cap'),
   applicationType: yup.string().required().label('Application Type'),
@@ -16,7 +18,7 @@ export const schema = yup.object().shape({
 })
 
 export const options = {
-  amountType: generateOptions(['percentage', 'fixed']),
-  applicationType: generateOptions(['lump-sum', 'working-days']),
-  taxType: generateOptions(['taxable', 'non-taxable']),
+  amountType: genOptions(['percentage', 'fixed']),
+  applicationType: genOptions(['lump-sum', 'working-days']),
+  taxType: genOptions(['taxable', 'non-taxable']),
 }

@@ -26,6 +26,7 @@ const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => 
     trigger,
     formState: { errors },
     reset,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -68,7 +69,23 @@ const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => 
             trigger('amountType')
           }}
         />
-        <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register('amount')} />
+        {watch(`amountType`) === 'fixed' ? (
+          <InputCurrency
+            label="Amount"
+            placeholder="Amount"
+            labelRequired
+            prefix="Rp "
+            error={errors.amount?.message}
+            name={`amount`}
+            value={getValues(`amount`)}
+            onValueChange={(v) => {
+              setValue(`amount`, v || '')
+              trigger(`amount`)
+            }}
+          />
+        ) : (
+          <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register(`amount`)} type="number" />
+        )}
         <InputCurrency
           label="Max. Cap"
           placeholder="Max. Cap"

@@ -126,20 +126,22 @@ interface IEmployee {
         name?: string
         oid?: string
       }
-      taxType?: number
-      amountType?: number
+      taxType?: string
+      maxCap?: number
+      amountType?: string
       amount?: number
-      applicationType?: number
+      applicationType?: string
     }[]
     deductions?: {
       component?: {
         name?: string
         oid?: string
       }
-      taxType?: number
-      amountType?: number
+      taxType?: string
+      maxCap?: number
+      amountType?: string
       amount?: number
-      applicationType?: number
+      applicationType?: string
     }[]
   }
 }

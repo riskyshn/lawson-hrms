@@ -28,6 +28,7 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmi
     trigger,
     formState: { errors },
     reset,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -36,8 +37,8 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmi
     if (!item) return
     setValue('name', item.name || '')
     setValue('amountType', item.amountType || '')
-    setValue('amount', item.amount || 0)
-    setValue('maxCap', String(item.maxCap))
+    setValue('amount', String(item.amount || ''))
+    setValue('maxCap', String(item.maxCap || ''))
     setValue('applicationType', item.applicationType || '')
     setValue('taxType', item.taxType || '')
     trigger()
@@ -97,15 +98,23 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmi
             setUpdated(true)
           }}
         />
-        <Input
-          label="Amount"
-          placeholder="Amount"
-          inputMode="decimal"
-          labelRequired
-          error={errors.amount?.message}
-          {...register('amount')}
-          type="number"
-        />
+        {watch(`amountType`) === 'fixed' ? (
+          <InputCurrency
+            label="Amount"
+            placeholder="Amount"
+            labelRequired
+            prefix="Rp "
+            error={errors.amount?.message}
+            name={`amount`}
+            value={getValues(`amount`)}
+            onValueChange={(v) => {
+              setValue(`amount`, v || '')
+              trigger(`amount`)
+            }}
+          />
+        ) : (
+          <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register(`amount`)} type="number" />
+        )}
         <InputCurrency
           label="Max. Cap"
           placeholder="Max. Cap"
