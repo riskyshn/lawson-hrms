@@ -11,9 +11,10 @@ type PropTypes = {
   type: 'BENEFIT' | 'DEDUCTION'
   item?: IBenefitComponent | IDeductionComponent | null
   onClose?: () => void
+  onSubmited?: () => void
 }
 
-const ApplyToModal: React.FC<PropTypes> = ({ item, onClose }) => {
+const ApplyToModal: React.FC<PropTypes> = ({ type, item, onClose, onSubmited }) => {
   const [selected, setSelected] = useState<string[]>([])
   const [selectall, setSelectall] = useState(false)
   const [total, setTotal] = useState(0)
@@ -57,6 +58,7 @@ const ApplyToModal: React.FC<PropTypes> = ({ item, onClose }) => {
     setPage(1)
     setHasNextPage(true)
     setItems([])
+    setSelectall(false)
     loadMore(controller.signal, 1)
     return () => {
       controller.abort()
@@ -72,6 +74,10 @@ const ApplyToModal: React.FC<PropTypes> = ({ item, onClose }) => {
       setSelected((prev) => [...prev, item.oid])
     }
   }
+
+  const payload = selectall
+    ? { ex: { ids: selected } }
+    : { in: { all: selected.length === 0, ids: selected.length > 0 ? selected : undefined } }
 
   return (
     <SideModal show={!!item}>
@@ -96,22 +102,39 @@ const ApplyToModal: React.FC<PropTypes> = ({ item, onClose }) => {
               size={16}
             />
           </div>
-          <Button type="button" color={selectall ? 'error' : 'primary'} onClick={() => setSelectall((v) => !v)}>
-            {selectall ? 'Clear Selection' : 'Select All'}
+          <Button
+            type="button"
+            color="primary"
+            onClick={() => {
+              setSelected([])
+              setSelectall(true)
+            }}
+          >
+            Select All
           </Button>
         </div>
         {(!!selected.length || selectall) && (
           <div className="pt-3 text-sm">
-            Total Selected <span className=" font-semibold text-primary-600">{selectall ? total : selected.length}</span>
-            {!selectall && <ClearToggle onClear={() => setSelected([])} />}
+            Total Selected <span className=" font-semibold text-primary-600">{selectall ? total - selected.length : selected.length}</span>
+            <ClearToggle
+              onClear={() => {
+                setSelected([])
+                setSelectall(false)
+              }}
+            />
           </div>
         )}
       </div>
       <ul ref={rootRef} className="grid select-none grid-cols-2 gap-px overflow-y-scroll">
         {items.map((item, index) => (
-          <EmployeeItem key={index} item={item} selected={selected.includes(item.oid)} selectall={selectall} onClick={handleItemClick} />
+          <EmployeeItem
+            key={index}
+            item={item}
+            selected={selectall ? !selected.includes(item.oid) : selected.includes(item.oid)}
+            onClick={handleItemClick}
+          />
         ))}
-        <li className="col-span-2 flex">
+        <li className="col-span-2 flex flex-col">
           {loading && (
             <div className="grid flex-1 grid-cols-2 gap-px">
               {Array.from(Array(10)).map((_, index) => (
@@ -119,13 +142,40 @@ const ApplyToModal: React.FC<PropTypes> = ({ item, onClose }) => {
               ))}
             </div>
           )}
-          {!hasNextPage && <p className="flex-1  py-8 text-center text-xl">No employees to show</p>}
-          {hasNextPage && <div ref={infiniteRef} className="block h-px" />}
+          <p className="flex-1 py-8 text-center text-xl empty:hidden">
+            {!!error && <span className="text-error-600">{error.message}</span>}
+            {!error && (
+              <>
+                {!hasNextPage && !loading && 'No more employees to show'}
+                {!loading && !!search.length && total == 0 && (
+                  <>
+                    No result for "<span className="text-primary-600">{search}</span>"
+                  </>
+                )}
+              </>
+            )}
+          </p>
+          {!!hasNextPage && <div ref={infiniteRef} className="h-px w-full" />}
         </li>
       </ul>
-      <div className="mt-auto flex justify-end bg-white p-3">
-        {item && <SubmitModal show={submit} component={item} onClose={() => setSubmit(false)} />}
-        <Button type="button" color="primary" onClick={() => setSubmit(true)}>
+      <div className="mt-auto flex justify-end gap-3 border-t bg-white p-3">
+        <SubmitModal
+          type={type}
+          item={submit ? item : undefined}
+          payload={payload}
+          onClose={() => setSubmit(false)}
+          onSubmited={() => {
+            setSelectall(false)
+            setSearch('')
+            setSelected([])
+            onSubmited?.()
+            onClose?.()
+          }}
+        />
+        <Button type="button" className="min-w-24" color="error" variant="light" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="button" className="min-w-24" color="primary" onClick={() => setSubmit(true)}>
           Submit
         </Button>
       </div>

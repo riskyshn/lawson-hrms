@@ -5,21 +5,14 @@ import { twJoin } from 'tailwind-merge'
 type PropTypes = {
   item: IDataTableEmployee
   selected?: boolean
-  selectall?: boolean
   onClick?: (item: IDataTableEmployee) => void
 }
 
-const EmployeeItem: React.FC<PropTypes> = ({ item, selectall, selected, onClick }) => {
+const EmployeeItem: React.FC<PropTypes> = ({ item, selected, onClick }) => {
   return (
     <li
-      className={twJoin(
-        'flex justify-center gap-3 p-3',
-        !selectall && onClick && 'cursor-pointer',
-        selected || selectall ? 'bg-primary-50' : 'bg-white',
-      )}
-      onClick={() => {
-        if (!selectall) onClick?.(item)
-      }}
+      className={twJoin('flex justify-center gap-3 p-3', onClick && 'cursor-pointer', selected ? 'bg-primary-50' : 'bg-white')}
+      onClick={() => onClick?.(item)}
     >
       <Avatar name={item.name || ''} size={32} className="bg-primary-100 text-xs text-primary-600" />
       <div className="flex-1">

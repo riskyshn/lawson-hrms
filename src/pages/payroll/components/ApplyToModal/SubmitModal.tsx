@@ -1,39 +1,165 @@
-import MainModal from '@/components/Elements/MainModal'
-import { Button, Input, Select } from 'jobseeker-ui'
-import React from 'react'
+import { payrollService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
+import currencyToNumber from '@/utils/currency-to-number'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { options, schema } from '../shared'
 
-type PropTypes = {
-  component: IBenefitComponent | IDeductionComponent
-  show: boolean
-  onClose: () => void
+type PropType = {
+  type: 'BENEFIT' | 'DEDUCTION'
+  item?: IBenefitComponent | IDeductionComponent | null
+  onClose?: () => void
+  onSubmited?: () => void
+  payload: Record<any, any>
 }
 
-const SubmitModal: React.FC<PropTypes> = ({ show, component, onClose }) => {
+const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmited }) => {
+  const [loading, setLoading] = useState(false)
+  const toast = useToast()
+  const [updated, setUpdated] = useState(false)
+
+  const {
+    handleSubmit,
+    register,
+    getValues,
+    setValue,
+    trigger,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
+
+  useEffect(() => {
+    if (!item) return
+    setValue('name', item.name || '')
+    setValue('amountType', item.amountType || '')
+    setValue('amount', item.amount || 0)
+    setValue('maxCap', String(item.maxCap))
+    setValue('applicationType', item.applicationType || '')
+    setValue('taxType', item.taxType || '')
+    trigger()
+  }, [item, setValue, trigger])
+
+  const onSubmit = handleSubmit(async (data) => {
+    if (!item) return
+
+    setLoading(true)
+
+    try {
+      if (updated) {
+        const updateFn = type === 'BENEFIT' ? payrollService.updateBenefitComponent : payrollService.updateDeductionComponent
+        await updateFn(item.oid, { ...data, maxCap: currencyToNumber(data.maxCap) })
+      }
+      const applyFn = type === 'BENEFIT' ? payrollService.applyBenefitToEmployees : payrollService.applyDeductionToEmployees
+      await applyFn({ employees: payload, componentId: item.oid })
+      toast('Apply component to employees successfully.', { color: 'success' })
+      onSubmited?.()
+      onClose?.()
+      setTimeout(() => {
+        reset()
+        setUpdated(false)
+      }, 200)
+    } catch (e) {
+      toast(axiosErrorMessage(e), { color: 'error' })
+    }
+    setLoading(false)
+  })
+
   return (
-    <MainModal show={show} className="flex flex-col gap-5">
-      <div className="text-center">
-        <h4 className="mb-2 text-2xl font-semibold">Component Details</h4>
-        <p className="text-xs">Apply {component.name} to Employee</p>
+    <Modal as="form" onSubmit={onSubmit} show={!!item} className="p-0">
+      <ModalHeader subTitle={`Apply "${item?.name}" to Employee`} className="capitalize" onClose={onClose}>
+        Component Details
+      </ModalHeader>
+      <div className="grid grid-cols-1 gap-2 p-3">
+        <Input
+          label="Component Name"
+          placeholder="Component Name"
+          labelRequired
+          error={errors.name?.message}
+          {...register('name')}
+          disabled
+        />
+        <Select
+          hideSearch
+          label="Amount Type"
+          placeholder="Fixed/Percentage"
+          labelRequired
+          options={options.amountType}
+          name="amountType"
+          error={errors.amountType?.message}
+          value={getValues('amountType')}
+          onChange={(v) => {
+            setValue('amountType', v.toString())
+            trigger('amountType')
+            setUpdated(true)
+          }}
+        />
+        <Input
+          label="Amount"
+          placeholder="Amount"
+          inputMode="decimal"
+          labelRequired
+          error={errors.amount?.message}
+          {...register('amount')}
+          type="number"
+        />
+        <InputCurrency
+          label="Max. Cap"
+          placeholder="Max. Cap"
+          labelRequired
+          prefix="Rp "
+          error={errors.maxCap?.message}
+          name="maxCap"
+          value={getValues('maxCap')}
+          onValueChange={(v) => {
+            setValue('maxCap', v || '')
+            trigger('maxCap')
+            setUpdated(true)
+          }}
+        />
+        <Select
+          hideSearch
+          label="Application Type"
+          placeholder="Application Type"
+          labelRequired
+          options={options.applicationType}
+          name="applicationType"
+          error={errors.applicationType?.message}
+          value={getValues('applicationType')}
+          onChange={(v) => {
+            setValue('applicationType', v.toString())
+            trigger('applicationType')
+            setUpdated(true)
+          }}
+        />
+        <Select
+          hideSearch
+          label="Taxable/Non-Taxable"
+          placeholder="Taxable/Non-Taxable"
+          labelRequired
+          options={options.taxType}
+          name="taxType"
+          error={errors.taxType?.message}
+          value={getValues('taxType')}
+          onChange={(v) => {
+            setValue('taxType', v.toString())
+            trigger('taxType')
+            setUpdated(true)
+          }}
+        />
       </div>
-
-      <div className="flex flex-col gap-3">
-        <Input label="Component Title" labelRequired value={component.name} disabled />
-        <Select label="Fixed/Percentage" placeholder="Fixed/Percentage" labelRequired options={[]} />
-        <Input label="Amount" placeholder="Amount" labelRequired />
-        <Input label="Max. Cap" placeholder="Rp." labelRequired />
-        <Select label="Application Type" placeholder="Based on Working Days, Lump Sum" labelRequired options={[]} />
-        <Select label="Taxable/Non-Taxable" placeholder="Taxable/Non-Taxable" labelRequired options={[]} />
-      </div>
-
-      <div className="flex justify-end gap-3">
-        <Button type="button" color="error" variant="light" className="w-24" onClick={onClose}>
+      <ModalFooter className="gap-3">
+        <Button type="button" color="error" variant="light" className="w-24" disabled={loading} onClick={onClose}>
           Cancel
         </Button>
-        <Button color="primary" onClick={onClose}>
-          Submit
+        <Button type="submit" color="primary" disabled={loading} loading={loading}>
+          {updated ? 'Update and Apply' : 'Apply'}
         </Button>
-      </div>
-    </MainModal>
+      </ModalFooter>
+    </Modal>
   )
 }
 
