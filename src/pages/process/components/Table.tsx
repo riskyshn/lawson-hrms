@@ -1,9 +1,9 @@
 import type { ModalType, TableType } from '../types'
 
 import MainTable from '@/components/Elements/MainTable'
-import ProcessModal from '@/components/Modals/ProcessModal'
-import ViewProcessHistoryModal from '@/components/Modals/ViewProcessHistoryModal'
-import WithdrawModal from '@/components/Modals/WithdrawModal'
+import ProcessModal from '@/components/Modules/Process/ProcessModal'
+import ViewProcessHistoryModal from '@/components/Modules/Process/ViewProcessHistoryModal'
+import WithdrawModal from '@/components/Modules/Process/WithdrawModal'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import { FileIcon } from 'lucide-react'
 import moment from 'moment'

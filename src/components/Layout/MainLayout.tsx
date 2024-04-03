@@ -4,7 +4,7 @@ import { twJoin } from 'tailwind-merge'
 import Navbar from './Navbar/Navbar'
 import Sidebar from './Sidebar/Sidebar'
 
-const MainLayout: React.FC = () => {
+const MainLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { sidebarMini } = useLayout()
   return (
     <>
@@ -12,7 +12,7 @@ const MainLayout: React.FC = () => {
       <Sidebar />
 
       <main className={twJoin(sidebarMini ? 'lg:pl-16' : 'lg:pl-64', 'min-h-screen pt-16 transition-[padding]')}>
-        <Outlet />
+        {children ? children : <Outlet />}
       </main>
     </>
   )
