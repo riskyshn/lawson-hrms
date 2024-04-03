@@ -34,7 +34,12 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
   const toast = useToast()
   const [timezones, setTimezones] = useState<any[]>([])
   const [selectTimezoneId, setSelectTimezoneId] = useState<string | number>('')
-  const { register, handleSubmit, reset } = useForm()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm()
   const [daySchedules, setDaySchedules] = useState<DaySchedule[]>(initialDaySchedules)
 
   useEffect(() => {
@@ -101,19 +106,21 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-3">
           <h3 className="text-center text-2xl font-semibold">Add Schedule</h3>
-          <p className="text-center text-sm text-gray-500">Add new schedules for your employees</p>
+          <p className="text-center text-sm text-gray-500">Add new schedules for your employee</p>
         </div>
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
+        {errors.timezone && <Alert color="error">Timezone is required.</Alert>}
 
         <Input labelRequired label="Schedule Name" required {...register('name')} />
         <Select
+          labelRequired
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
           options={timezones.map(({ oid, title }) => ({ value: oid, label: title }))}
           className="mb-3"
           value={selectTimezoneId}
-          {...register('timezone')}
+          {...register('timezone', { required: true })}
           onChange={handleChange}
         />
 

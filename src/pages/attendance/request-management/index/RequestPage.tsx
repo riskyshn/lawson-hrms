@@ -74,6 +74,12 @@ const RequestPage: React.FC = () => {
     }
   }
 
+  const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -92,7 +98,7 @@ const RequestPage: React.FC = () => {
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Request</span> in total today
+                  {formatDate(filterDate?.startDate)} - {formatDate(filterDate?.endDate)}
                 </>
               }
               search={{
