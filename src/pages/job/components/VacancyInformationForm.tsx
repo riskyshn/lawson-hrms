@@ -31,8 +31,8 @@ const schema = yup.object({
     .min(new Date())
     .when('isRequisition', {
       is: true,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
+      then: (s) => s.optional(),
+      otherwise: (s) => s.required(),
     })
     .label('Expired Date'),
   jobLevelId: yup.string().required().label('Job Level'),
