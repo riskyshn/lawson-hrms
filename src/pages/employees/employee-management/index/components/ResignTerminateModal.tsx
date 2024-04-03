@@ -15,7 +15,7 @@ type ModalProps = {
 
 const schema = yup.object().shape({
   jobTypeId: yup.string().required().label('Employment status'),
-  reason: yup.string(),
+  reason: yup.string().required(),
 })
 
 const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }) => {
@@ -90,6 +90,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
 
         <Textarea
           label="Reason"
+          labelRequired
           error={errors.reason?.message}
           help={`${watch('reason')?.length || 0}/50`}
           rows={3}
