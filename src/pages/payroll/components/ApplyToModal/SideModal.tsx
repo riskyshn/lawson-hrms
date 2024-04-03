@@ -1,13 +1,15 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, forwardRef } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 type PropTypes = {
   show?: boolean
   onClose?: () => void
   children?: React.ReactNode
+  className?: string
 }
 
-const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ show, onClose, children }, ref) => {
+const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ show, onClose, children, className }, ref) => {
   return (
     <Transition show={!!show} as={Fragment}>
       <Dialog as="div" ref={ref} className="relative z-50" onClose={() => onClose?.()}>
@@ -33,7 +35,12 @@ const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ show, onClose, childr
             leaveFrom="right-0"
             leaveTo="-right-full"
           >
-            <Dialog.Panel className="relative flex h-full w-full max-w-5xl transform flex-col overflow-hidden bg-gray-200 shadow-xl transition-all">
+            <Dialog.Panel
+              className={twMerge(
+                'relative flex h-full w-full max-w-5xl transform flex-col overflow-hidden bg-gray-200 shadow-xl transition-all',
+                className,
+              )}
+            >
               {children}
             </Dialog.Panel>
           </Transition.Child>

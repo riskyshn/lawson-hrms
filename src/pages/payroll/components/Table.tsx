@@ -73,7 +73,7 @@ const Table: React.FC<PropTypes> = ({ type, items, loading, onRefresh }) => {
 
   return (
     <>
-      <ApplyToModal type={type} item={selectedToApply} onClose={() => setSelectedToApply(null)} />
+      <ApplyToModal type={type} item={selectedToApply} onClose={() => setSelectedToApply(null)} onSubmited={onRefresh} />
       <EditModal type={type} item={selectedToEdit} onClose={() => setSelectedToEdit(null)} onUpdated={onRefresh} />
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>

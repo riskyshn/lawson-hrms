@@ -20,8 +20,12 @@ export default function formDataToPayload(data: any) {
     },
     components: {
       ...components,
-      benefits: components.benefits.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount) })),
-      deductions: components.deductions.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount) })),
+      benefits: components.benefits.map((el: any) => ({ ...el, amount: currencyToNumber(el.amount), maxCap: currencyToNumber(el.amount) })),
+      deductions: components.deductions.map((el: any) => ({
+        ...el,
+        amount: currencyToNumber(el.amount),
+        maxCap: currencyToNumber(el.maxCap),
+      })),
     },
   }
 

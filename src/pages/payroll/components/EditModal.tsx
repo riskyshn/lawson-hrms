@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
+import { options, schema } from './shared'
 
 type PropType = {
   type: 'BENEFIT' | 'DEDUCTION'
@@ -13,27 +13,6 @@ type PropType = {
   onClose?: () => void
   onUpdated?: () => void
 }
-
-const schema = yup.object().shape({
-  name: yup.string().required().label('Component Name'),
-  amountType: yup.string().required().label('Amount Type'),
-  amount: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .required()
-    .label('Amount'),
-  maxCap: yup.string().required().label('Max Cap'),
-  applicationType: yup.string().required().label('Application Type'),
-  taxType: yup.string().required().label('Tax Type'),
-})
-
-const options = {
-  amountType: ['percentage', 'fixed'],
-  applicationType: ['lump-sum', 'working-days'],
-  taxType: ['taxable', 'non-taxable'],
-}
-
-const generateOptions = (items: string[]) => items.map((item) => ({ label: item, value: item }))
 
 const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
   const [loading, setLoading] = useState(false)
@@ -45,8 +24,9 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
     getValues,
     setValue,
     trigger,
-    formState: { errors },
     reset,
+    watch,
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -55,8 +35,8 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
     if (!item) return
     setValue('name', item.name || '')
     setValue('amountType', item.amountType || '')
-    setValue('amount', item.amount || 0)
-    setValue('maxCap', String(item.maxCap))
+    setValue('amount', String(item.amount || ''))
+    setValue('maxCap', String(item.maxCap || ''))
     setValue('applicationType', item.applicationType || '')
     setValue('taxType', item.taxType || '')
     trigger()
@@ -93,7 +73,7 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
           label="Fixed/Percentage"
           placeholder="Fixed/Percentage"
           labelRequired
-          options={generateOptions(options.amountType)}
+          options={options.amountType}
           name="amountType"
           error={errors.amountType?.message}
           value={getValues('amountType')}
@@ -102,7 +82,23 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
             trigger('amountType')
           }}
         />
-        <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register('amount')} />
+        {watch(`amountType`) === 'fixed' ? (
+          <InputCurrency
+            label="Amount"
+            placeholder="Amount"
+            labelRequired
+            prefix="Rp "
+            error={errors.amount?.message}
+            name={`amount`}
+            value={getValues(`amount`)}
+            onValueChange={(v) => {
+              setValue(`amount`, v || '')
+              trigger(`amount`)
+            }}
+          />
+        ) : (
+          <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register(`amount`)} type="number" />
+        )}
         <InputCurrency
           label="Max. Cap"
           placeholder="Max. Cap"
@@ -120,7 +116,7 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
           label="Application Type"
           placeholder="Application Type"
           labelRequired
-          options={generateOptions(options.applicationType)}
+          options={options.applicationType}
           name="applicationType"
           error={errors.applicationType?.message}
           value={getValues('applicationType')}
@@ -133,7 +129,7 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
           label="Taxable/Non-Taxable"
           placeholder="Taxable/Non-Taxable"
           labelRequired
-          options={generateOptions(options.taxType)}
+          options={options.taxType}
           name="taxType"
           error={errors.taxType?.message}
           value={getValues('taxType')}

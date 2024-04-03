@@ -50,17 +50,19 @@ export async function employeeToFormEdit(employee: IEmployee) {
     components: {
       benefits: (employee.components?.benefits || []).map((benefit) => ({
         componentId: benefit.component?.oid || '',
-        taxType: benefit.taxType || 0,
-        amountType: benefit.amountType || 0,
+        taxType: benefit.taxType || '',
+        amountType: benefit.amountType || '',
         amount: benefit.amount,
-        applicationType: benefit.applicationType || 0,
+        maxCap: benefit.maxCap,
+        applicationType: benefit.applicationType || '',
       })),
       deductions: (employee.components?.deductions || []).map((deduction) => ({
         componentId: deduction.component?.oid || '',
-        taxType: deduction.taxType || 0,
-        amountType: deduction.amountType || 0,
+        taxType: deduction.taxType || '',
+        amountType: deduction.amountType || '',
         amount: deduction.amount,
-        applicationType: deduction.applicationType || 0,
+        maxCap: deduction.maxCap,
+        applicationType: deduction.applicationType || '',
       })),
     },
   }

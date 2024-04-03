@@ -1,26 +1,10 @@
 import { payrollService } from '@/services'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCurrency, Select, Spinner } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, Input, Spinner } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
-
-const schema = yup.object().shape({
-  benefits: yup.array().of(
-    yup.object().shape({
-      componentId: yup.string().required().label('Component'),
-      amount: yup.string().required().label('Amount'),
-      applicationType: yup.number().required().label('Application Type'),
-    }),
-  ),
-  deductions: yup.array().of(
-    yup.object().shape({
-      componentId: yup.string().required().label('Component'),
-      amount: yup.string().required().label('Amount'),
-      applicationType: yup.number().required().label('Application Type'),
-    }),
-  ),
-})
+import ComponentItem from './ComponentItem'
+import { componentDataSchema, defaultComponentValue } from './shared'
 
 const ComponentsDataForm: React.FC<{
   defaultValue: any
@@ -29,16 +13,7 @@ const ComponentsDataForm: React.FC<{
   isLoading?: boolean
   isEdit?: boolean
 }> = (props) => {
-  const {
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-    watch,
-    trigger,
-  } = useForm({
-    resolver: yupResolver(schema),
-  })
+  const form = useForm({ resolver: yupResolver(componentDataSchema) })
 
   const [pageError, setPageError] = useState<any>()
   const [componentData, setComponentData] = useState<{ benefits: IBenefitComponent[]; deductions: IDeductionComponent[] }>()
@@ -65,34 +40,34 @@ const ComponentsDataForm: React.FC<{
 
   useEffect(() => {
     if (!props.defaultValue) return
-    setValue('benefits', props.defaultValue.benefits || [{ amount: '', applicationType: 0, componentId: '' }])
-    setValue('deductions', props.defaultValue.deductions || [{ amount: '', applicationType: 0, componentId: '' }])
-  }, [props.defaultValue, setValue])
+    form.setValue('benefits', props.defaultValue.benefits || [defaultComponentValue])
+    form.setValue('deductions', props.defaultValue.deductions || [defaultComponentValue])
+  }, [props.defaultValue, form.setValue, form])
 
-  const watchBenefits = watch('benefits')
-  const watchDeductions = watch('deductions')
+  const watchBenefits = form.watch('benefits')
+  const watchDeductions = form.watch('deductions')
 
   const handleAddBenefit = () => {
-    const benefits = getValues('benefits') || []
-    setValue('benefits', [...benefits, { amount: '', applicationType: 0, componentId: '' }])
+    const benefits = form.getValues('benefits') || []
+    form.setValue('benefits', [...benefits, defaultComponentValue])
   }
 
   const handleRemoveBenefit = (index: number) => {
-    const benefits = getValues('benefits') || []
-    setValue('benefits', [...benefits.filter((_, i) => i !== index)])
+    const benefits = form.getValues('benefits') || []
+    form.setValue('benefits', [...benefits.filter((_, i) => i !== index)])
   }
 
   const handleAddDeduction = () => {
-    const deductions = getValues('deductions') || []
-    setValue('deductions', [...deductions, { amount: '', applicationType: 0, componentId: '' }])
+    const deductions = form.getValues('deductions') || []
+    form.setValue('deductions', [...deductions, defaultComponentValue])
   }
 
   const handleRemoveDeduction = (index: number) => {
-    const deductions = getValues('deductions') || []
-    setValue('deductions', [...deductions.filter((_, i) => i !== index)])
+    const deductions = form.getValues('deductions') || []
+    form.setValue('deductions', [...deductions.filter((_, i) => i !== index)])
   }
 
-  const onSubmit = handleSubmit(props.handleSubmit)
+  const onSubmit = form.handleSubmit(props.handleSubmit)
 
   return (
     <Card as="form" onSubmit={onSubmit}>
@@ -122,65 +97,15 @@ const ComponentsDataForm: React.FC<{
 
           <CardBody className="grid grid-cols-1 gap-3">
             {watchBenefits?.map((el, i) => (
-              <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border p-3 shadow-sm even:bg-gray-100">
-                <Select
-                  label="Component"
-                  value={el.componentId}
-                  name={`benefits.${i}.componentId`}
-                  error={errors.benefits?.[i]?.componentId?.message}
-                  onChange={(v) => setValue(`benefits.${i}.componentId`, v.toString())}
-                  options={componentData.benefits.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                />
-                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                  <Input
-                    label="Type"
-                    placeholder="Taxable/Non Taxable"
-                    disabled
-                    inputClassName="capitalize"
-                    value={componentData.benefits.find(({ oid }) => oid === el.componentId)?.taxType}
-                  />
-                  <Input
-                    label="Percentage/Fixed"
-                    placeholder="Percentage/Fixed"
-                    disabled
-                    inputClassName="capitalize"
-                    value={componentData.benefits.find(({ oid }) => oid === el.componentId)?.amountType}
-                  />
-                </div>
-                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                  <InputCurrency
-                    label="Amount"
-                    labelRequired
-                    prefix="Rp "
-                    error={errors.benefits?.[i]?.amount?.message}
-                    name={`benefits.${i}.amount`}
-                    value={getValues(`benefits.${i}.amount`)}
-                    onValueChange={(v) => {
-                      setValue(`benefits.${i}.amount`, v || '')
-                      trigger(`benefits.${i}.amount`)
-                    }}
-                  />
-                  <Select
-                    label="Application Type"
-                    labelRequired
-                    placeholder="'Based on Working Days', 'Lump Sum'"
-                    hideSearch
-                    value={el.applicationType}
-                    name={`benefits.${i}.applicationType`}
-                    error={errors.benefits?.[i]?.applicationType?.message}
-                    onChange={(v) => setValue(`benefits.${i}.applicationType`, Number(v))}
-                    options={[
-                      { label: 'Based on Working Days', value: 1 },
-                      { label: 'Lump Sum', value: 2 },
-                    ]}
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <Button type="button" color="error" variant="light" onClick={() => handleRemoveBenefit(i)}>
-                    Remove Component
-                  </Button>
-                </div>
-              </div>
+              <ComponentItem
+                key={i}
+                index={i}
+                item={el}
+                type="benefits"
+                components={componentData}
+                form={form}
+                onRemove={handleRemoveBenefit}
+              />
             ))}
             <Button type="button" block color="primary" variant="light" onClick={handleAddBenefit}>
               Add Component
@@ -210,65 +135,15 @@ const ComponentsDataForm: React.FC<{
 
           <CardBody className="grid grid-cols-1 gap-3">
             {watchDeductions?.map((el, i) => (
-              <div key={i} className="grid grid-cols-1 gap-3 rounded-lg border p-3 shadow-sm even:bg-gray-100">
-                <Select
-                  label="Component"
-                  value={el.componentId}
-                  name={`deductions.${i}.componentId`}
-                  error={errors.deductions?.[i]?.componentId?.message}
-                  onChange={(v) => setValue(`deductions.${i}.componentId`, v.toString())}
-                  options={componentData.deductions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                />
-                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                  <Input
-                    label="Type"
-                    placeholder="Taxable/Non Taxable"
-                    disabled
-                    inputClassName="capitalize"
-                    value={componentData.deductions.find(({ oid }) => oid === el.componentId)?.taxType}
-                  />
-                  <Input
-                    label="Percentage/Fixed"
-                    placeholder="Percentage/Fixed"
-                    disabled
-                    inputClassName="capitalize"
-                    value={componentData.deductions.find(({ oid }) => oid === el.componentId)?.amountType}
-                  />
-                </div>
-                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-                  <InputCurrency
-                    label="Amount"
-                    labelRequired
-                    prefix="Rp "
-                    error={errors.deductions?.[i]?.amount?.message}
-                    name={`deductions.${i}.amount`}
-                    value={getValues(`deductions.${i}.amount`)}
-                    onValueChange={(v) => {
-                      setValue(`deductions.${i}.amount`, v || '')
-                      trigger(`deductions.${i}.amount`)
-                    }}
-                  />
-                  <Select
-                    label="Application Type"
-                    labelRequired
-                    placeholder="'Based on Working Days', 'Lump Sum'"
-                    hideSearch
-                    value={el.applicationType}
-                    name={`deductions.${i}.applicationType`}
-                    error={errors.deductions?.[i]?.applicationType?.message}
-                    onChange={(v) => setValue(`deductions.${i}.applicationType`, Number(v))}
-                    options={[
-                      { label: 'Based on Working Days', value: 1 },
-                      { label: 'Lump Sum', value: 2 },
-                    ]}
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <Button type="button" color="error" variant="light" onClick={() => handleRemoveDeduction(i)}>
-                    Remove Component
-                  </Button>
-                </div>
-              </div>
+              <ComponentItem
+                key={i}
+                index={i}
+                item={el}
+                type="deductions"
+                components={componentData}
+                form={form}
+                onRemove={handleRemoveDeduction}
+              />
             ))}
             <Button type="button" block color="primary" variant="light" onClick={handleAddDeduction}>
               Add Component
