@@ -20,7 +20,19 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar name="Jhon Doe" size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              {/* {candidate.photoProfile ? (
+                <img
+                  alt={candidate.photoProfile}
+                  src={candidate.photoProfile}
+                  className="block rounded-lg object-cover"
+                  style={{
+                    height: '38px',
+                    width: '38px',
+                  }}
+                />
+              ) : ( */}
+              <Avatar name={candidate?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              {/* )} */}
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>

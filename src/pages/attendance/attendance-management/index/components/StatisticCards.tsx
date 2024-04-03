@@ -51,8 +51,8 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
   }
 
   return (
-    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-${data ? data.length : 7}`)}>
-      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={data ? data.length : 7} />}
+    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-7`)}>
+      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={7} />}
     </div>
   )
 }
