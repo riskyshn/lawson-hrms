@@ -61,6 +61,7 @@ const SchedulePage: React.FC = () => {
       <PageHeader
         breadcrumb={[{ text: 'Attendance' }, { text: 'Schedule' }]}
         title="Schedule"
+        subtitle="Manage Your Team Schedule"
         actions={
           <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
             Add New Schedule

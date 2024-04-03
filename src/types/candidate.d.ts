@@ -36,6 +36,10 @@ interface ICandidate {
   withdrawReason?: string
   vacancyId?: string
   vacancyName?: string
+  lastPosition?: {
+    name?: string
+    oid: string
+  }
   phone?: string
   gender?: string
   age?: string

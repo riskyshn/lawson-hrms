@@ -44,8 +44,8 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.vacancyName}</span>
-            <span className="text-xs text-gray-500">{candidate.vacancyId}</span>
+            <span className="block font-semibold">{candidate.lastPosition?.name}</span>
+            <span className="text-xs text-gray-500">{candidate.lastPosition?.oid}</span>
           </>
         ),
       },

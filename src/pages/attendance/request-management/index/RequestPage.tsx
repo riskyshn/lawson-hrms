@@ -92,7 +92,7 @@ const RequestPage: React.FC = () => {
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Request</span> in total today
+                  {filterDate?.startDate} - {filterDate?.endDate}
                 </>
               }
               search={{
