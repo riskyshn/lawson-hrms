@@ -35,7 +35,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
     text: 'Go to Job Management',
     icon: EyeIcon,
     action() {
-      navigate(`/job/management/${vacancy.oid}`)
+      navigate(`/job/management?search=${vacancy.vacancyName}`)
     },
   }
 

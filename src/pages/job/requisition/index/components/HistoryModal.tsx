@@ -1,5 +1,6 @@
-import MainModal from '@/components/Elements/MainModal'
-import { Button, Card, CardBody } from 'jobseeker-ui'
+import HistoryItem from '@/components/UI/HistoryItem'
+import { Timeline, TimelineItem } from '@/components/UI/Timeline'
+import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import { CheckCircle2Icon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
@@ -26,102 +27,78 @@ const renderStatus = (status?: number) => {
   )
 }
 
-type HistoryDetailPropType = Exclude<Exclude<IVacancy['approvals'], undefined>['users'], undefined>[0] & { index: number }
-
-const HistoryDetail: React.FC<HistoryDetailPropType> = ({ index, flag, notes, name, updatedAt, createdAt }) => {
-  const [show, setShow] = useState(false)
-
-  return (
-    <li className="relative mb-5 pl-6 last:mb-0">
-      <span className="absolute left-[-0.4rem] top-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-white ring-4 ring-primary-600" />
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="flex items-center gap-3 font-semibold">Step {index + 1}</h3>
-          <p className="mb-2 text-xs text-gray-500">
-            Sent Date: {createdAt ? moment(createdAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
-            {updatedAt ? moment(updatedAt).format('DD/MM/YYYY') : '-'}
-          </p>
-          <Button type="button" size="small" color="default" variant="light" className="text-xs" onClick={() => setShow(true)}>
-            Show Details
-          </Button>
-        </div>
-        <div className="flex items-center gap-2">{renderStatus(flag)}</div>
-      </div>
-
-      {show && (
-        <Card className="mt-4 px-2 py-4">
-          <CardBody>
-            <div className="mb-3">
-              <h3 className="text-sm font-semibold">Aprovee:</h3>
-              <span className="flex items-center gap-1 text-xs">
-                <UserIcon size={16} />
-                {name}
-              </span>
-            </div>
-
-            <div className="mb-3 flex gap-2">
-              <div className="flex-1">
-                <h3 className="text-sm font-semibold">Request Sent:</h3>
-                <span className="flex items-center gap-1 text-xs">
-                  <TimerIcon size={16} />
-                  {createdAt ? moment(createdAt).fromNow() : '-'}
-                </span>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-sm font-semibold">Action Date:</h3>
-                <span className="flex items-center gap-1 text-xs">
-                  <TimerIcon size={16} />
-                  {updatedAt ? moment(updatedAt).fromNow() : '-'}
-                </span>
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <h3 className="text-sm font-semibold">Request Remarks:</h3>
-              <span className="flex items-center gap-1 text-xs">
-                <NotepadTextIcon size={16} />
-                {notes}
-              </span>
-            </div>
-          </CardBody>
-        </Card>
-      )}
-    </li>
-  )
-}
-
 const HistoryModal: React.FC<PropTypes> = ({ vacancy, onClose }) => {
   const [data, setData] = useState<IVacancy | null>(null)
-  const [isShow, setIsShow] = useState(false)
+  const [showDetailIndex, setShowDetailIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    if (vacancy) {
-      setData(vacancy)
-      setIsShow(true)
-    }
+    if (vacancy) setData(vacancy)
   }, [vacancy])
 
-  const handleClose = () => {
-    onClose?.()
-    setIsShow(false)
-  }
-
   return (
-    <MainModal show={isShow} onClose={handleClose}>
-      <div className="mb-8">
-        <h4 className="mb-2 text-center text-2xl font-semibold">Approval History</h4>
-        <p className="text-center">
-          Approval History for <span className="font-semibold">Sales Promotion</span> |{' '}
-          <span className="font-semibold">#{data?.rrNumber}</span>
-        </p>
-      </div>
+    <Modal show={!!vacancy} onClose={onClose}>
+      <ModalHeader subTitle={`Approval History for ${data?.vacancyName} (${data?.rrNumber})`}>Approval History</ModalHeader>
+      <div className="p-6">
+        <Timeline>
+          {data?.approvals?.users?.map((item, index) => (
+            <TimelineItem key={index}>
+              <HistoryItem
+                title={`Step ${index + 1}`}
+                subTitle={
+                  <>
+                    Sent Date: {item.createdAt ? moment(item.createdAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
+                    {item.updatedAt ? moment(item.updatedAt).format('DD/MM/YYYY') : '-'}
+                  </>
+                }
+                status={<div className="flex items-center gap-2">{renderStatus(item.flag)}</div>}
+                showDetail={showDetailIndex === index}
+                onDetailToggleClick={() => setShowDetailIndex((v) => (v === index ? null : index))}
+              >
+                <div className="mb-3">
+                  <h3 className="text-sm font-semibold">Aprovee:</h3>
+                  <span className="flex items-center gap-1 text-xs">
+                    <UserIcon size={16} />
+                    {item.name}
+                  </span>
+                </div>
 
-      <div className="p-3">
-        <ol className="border-l border-dashed">
-          {data?.approvals?.users?.map((user, i) => <HistoryDetail key={i} {...user} index={i} />)}
-        </ol>
+                <div className="mb-3 flex gap-2">
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold">Request Sent:</h3>
+                    <span className="flex items-center gap-1 text-xs">
+                      <TimerIcon size={16} />
+                      {item.createdAt ? moment(item.createdAt).fromNow() : '-'}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold">Action Date:</h3>
+                    <span className="flex items-center gap-1 text-xs">
+                      <TimerIcon size={16} />
+                      {item.updatedAt ? moment(item.updatedAt).fromNow() : '-'}
+                    </span>
+                  </div>
+                </div>
+
+                {!!item.notes && (
+                  <div className="mb-3">
+                    <h3 className="text-sm font-semibold">Request Remarks:</h3>
+                    <span className="flex items-center gap-1 text-xs">
+                      <NotepadTextIcon size={16} />
+                      {item.notes}
+                    </span>
+                  </div>
+                )}
+              </HistoryItem>
+            </TimelineItem>
+          ))}
+        </Timeline>
       </div>
-    </MainModal>
+      <ModalFooter>
+        <Button variant="light" color="error" className="w-24" onClick={onClose}>
+          Close
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 
