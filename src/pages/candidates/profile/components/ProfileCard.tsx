@@ -15,11 +15,23 @@ const ProfileCard: React.FC<PropType> = ({ items, children }) => {
 
   return (
     <Card>
-      <CardBody className="flex gap-3">
+      <CardBody className="flex items-center gap-3">
         <div className="flex">
-          <Avatar name={items.name || ''} size={md ? 128 : 64} className="flex bg-primary-100 text-2xl text-primary-700" />
+          {items.photoProfile ? (
+            <img
+              alt={items.photoProfile}
+              src={items.photoProfile}
+              className="block rounded-lg object-cover"
+              style={{
+                height: md ? '128px' : '64px',
+                width: md ? '128px' : '64px',
+              }}
+            />
+          ) : (
+            <Avatar name={items.name || ''} size={md ? 128 : 64} className="flex bg-primary-100 text-2xl text-primary-700" />
+          )}
         </div>
-        <div className="flex flex-1 flex-col gap-3 lg:flex-row">
+        <div className="ml-2 flex flex-1 flex-col gap-3 lg:flex-row">
           <div className="flex-1">
             <span className="mb-2 block text-lg font-semibold lg:text-2xl">{items.name || '-'}</span>
             <div className="flex lg:gap-3">

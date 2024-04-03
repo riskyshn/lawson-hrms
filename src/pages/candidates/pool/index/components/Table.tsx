@@ -20,7 +20,19 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar name="Jhon Doe" size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              {/* {candidate.photoProfile ? (
+                <img
+                  alt={candidate.photoProfile}
+                  src={candidate.photoProfile}
+                  className="block rounded-lg object-cover"
+                  style={{
+                    height: '38px',
+                    width: '38px',
+                  }}
+                />
+              ) : ( */}
+              <Avatar name={candidate?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              {/* )} */}
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>
@@ -32,8 +44,8 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.position}</span>
-            <span className="text-xs text-gray-500">{candidate.rrNumber}</span>
+            <span className="block font-semibold">{candidate.vacancyName}</span>
+            <span className="text-xs text-gray-500">{candidate.vacancyId}</span>
           </>
         ),
       },
@@ -72,7 +84,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
       <MainTable
         headerItems={[
           { children: 'Candidate', className: 'text-left' },
-          { children: 'Last Position', className: 'text-left' },
+          { children: 'Vacancy', className: 'text-left' },
           { children: 'Education' },
           { children: 'Province' },
           { children: 'City' },

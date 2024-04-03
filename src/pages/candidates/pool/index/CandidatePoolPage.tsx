@@ -8,10 +8,10 @@ import usePagination from '@/hooks/use-pagination'
 import Table from './components/Table'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
-import { candidateService, masterService } from '@/services'
+import { candidateService, masterService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
-import { useMasterStore, useOrganizationStore } from '@/store'
+import { useMasterStore } from '@/store'
 import AsyncSelect from '@/components/Elements/AsyncSelect'
 
 const CandidatePoolPage: React.FC = () => {
@@ -24,18 +24,18 @@ const CandidatePoolPage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
   const [onChangeData, setOnChangeData] = useState<string>()
   const toast = useToast()
+  const [vacancies, setVacancies] = useState<any[]>([])
 
-  const position = searchParams.get('position') || undefined
+  const vacancy = searchParams.get('vacancy') || undefined
   const province = searchParams.get('province') || undefined
   const education = searchParams.get('education') || undefined
 
-  const { master } = useOrganizationStore()
   const { educatioLevels } = useMasterStore()
 
   const pagination = usePagination({
     pathname: '/candidates/pool',
     totalPage: pageData?.totalPages || 0,
-    params: { search, position, province, education },
+    params: { search, vacancy, province, education },
   })
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const CandidatePoolPage: React.FC = () => {
             page: pagination.currentPage,
             limit: 20,
             education: education,
-            position: position,
+            vacancyId: vacancy,
             province: province,
           },
           signal,
@@ -68,7 +68,7 @@ const CandidatePoolPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, position, education, province, pagination.currentPage, onChangeData])
+  }, [search, vacancy, education, province, pagination.currentPage, onChangeData])
 
   const handleExportToExcel = async () => {
     try {
@@ -77,7 +77,7 @@ const CandidatePoolPage: React.FC = () => {
         page: pagination.currentPage,
         limit: 20,
         education: education,
-        position: position,
+        vacancyId: vacancy,
         province: province,
       })
 
@@ -106,6 +106,19 @@ const CandidatePoolPage: React.FC = () => {
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
       toast(errorMessage, { color: 'error', position: 'top-right' })
+    }
+  }
+
+  useEffect(() => {
+    fetchVacancies()
+  }, [])
+
+  const fetchVacancies = async () => {
+    try {
+      const data = await vacancyService.fetchVacancies()
+      setVacancies(data.content)
+    } catch (error) {
+      console.error('Error fetching vacancies:', error)
     }
   }
 
@@ -146,14 +159,15 @@ const CandidatePoolPage: React.FC = () => {
                 open && (
                   <div className="grid grid-cols-3 gap-3 p-3">
                     <Select
-                      placeholder="All Position"
+                      placeholder="Select Vacancy"
                       withReset
-                      value={position}
+                      options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
+                      className="mb-3"
+                      value={vacancy}
                       onChange={(e) => {
-                        searchParams.set('position', e.toString())
+                        searchParams.set('vacancy', e.toString())
                         setSearchParam(searchParams)
                       }}
-                      options={master.positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
                     />
                     <AsyncSelect
                       className="mb-2"
