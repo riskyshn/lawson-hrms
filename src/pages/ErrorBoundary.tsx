@@ -1,3 +1,4 @@
+import { axiosErrorMessage } from '@/utils/axios'
 import { Button } from 'jobseeker-ui'
 import { Link, useRouteError } from 'react-router-dom'
 
@@ -7,7 +8,8 @@ const ErrorBoundary: React.FC = () => {
   const code = error.response?.status || 500
 
   const errorStatus = code === 404 ? 'Page Not Found' : 'Something Went Wrong'
-  const errorMessage = code === 404 ? 'The page you requested was not found.' : 'An error occurred.'
+  // const errorMessage = code === 404 ? 'The page you requested was not found.' : 'An error occurred.'
+  const errorMessage = axiosErrorMessage(error) || 'An error occurred.'
 
   console.log('Error Boundary :', error)
 
@@ -38,9 +40,14 @@ const ErrorBoundary: React.FC = () => {
                 Back To Home
               </Button>
             ) : (
-              <Button onClick={() => window.location.reload()} color="primary" className="px-6">
-                Refresh
-              </Button>
+              <div className="flex gap-3">
+                <Button as={Link} to="/" color="primary" className="w-24">
+                  Home
+                </Button>
+                <Button onClick={() => window.location.reload()} color="primary" className="w-24">
+                  Refresh
+                </Button>
+              </div>
             )}
           </div>
         </div>
