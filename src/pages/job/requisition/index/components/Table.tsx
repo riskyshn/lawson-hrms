@@ -47,7 +47,7 @@ const Table: React.FC<TableProps> = ({ items, loading, setHistoryMadalData, onVa
         children: (
           <>
             <span className="block font-semibold">{vacancy.vacancyName}</span>
-            <span className="text-xs text-gray-500">{vacancy.rrNumber ? `#${vacancy.rrNumber}` : '-'}</span>
+            <span className="text-xs text-gray-500">{vacancy.rrNumber || '-'}</span>
           </>
         ),
       },
