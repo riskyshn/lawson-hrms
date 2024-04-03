@@ -44,11 +44,11 @@ export const deleteBenefitComponent = (oid: string, signal?: GenericAbortSignal)
   return axios.delete(`/benefit-component/${oid}`, { signal }).then(({ data }) => data.data)
 }
 
-export const applyBenefitToEmployees = (payload: { employees: any; componentId: string }, signal?: GenericAbortSignal) => {
+export const applyBenefitToEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
   return axios.post('/benefit-component/apply-to-employees', payload, { signal }).then(({ data }) => data.data)
 }
 
-export const removeBenefitFromEmployees = (payload: { employees: any; componentId: string }, signal?: GenericAbortSignal) => {
+export const removeBenefitFromEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
   return axios.post('/benefit-component/remove-from-employees', payload, { signal }).then(({ data }) => data.data)
 }
 
@@ -77,10 +77,10 @@ export const deleteDeductionComponent = (oid: string, signal?: GenericAbortSigna
   return axios.delete(`/deduction-component/${oid}`, { signal }).then(({ data }) => data.data)
 }
 
-export const applyDeductionToEmployees = (payload: { employees: any; componentId: string }, signal?: GenericAbortSignal) => {
+export const applyDeductionToEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
   return axios.post('/deduction-component/apply-to-employees', payload, { signal }).then(({ data }) => data.data)
 }
 
-export const removeDeductionFromEmployees = (payload: { employees: any; componentId: string }, signal?: GenericAbortSignal) => {
+export const removeDeductionFromEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
   return axios.post('/deduction-component/remove-from-employees', payload, { signal }).then(({ data }) => data.data)
 }

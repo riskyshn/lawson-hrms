@@ -10,12 +10,13 @@ import { options, schema } from '../shared'
 type PropType = {
   type: 'BENEFIT' | 'DEDUCTION'
   item?: IBenefitComponent | IDeductionComponent | null
+  show?: boolean
   onClose?: () => void
   onSubmited?: () => void
-  payload: Record<any, any>
+  payload: string[]
 }
 
-const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmited }) => {
+const SubmitModal: React.FC<PropType> = ({ payload, type, show, item, onClose, onSubmited }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
   const [updated, setUpdated] = useState(false)
@@ -55,7 +56,7 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmi
         await updateFn(item.oid, { ...data, maxCap: currencyToNumber(data.maxCap) })
       }
       const applyFn = type === 'BENEFIT' ? payrollService.applyBenefitToEmployees : payrollService.applyDeductionToEmployees
-      await applyFn({ employees: payload, componentId: item.oid })
+      await applyFn({ employeeIds: payload, componentId: item.oid })
       toast('Apply component to employees successfully.', { color: 'success' })
       onSubmited?.()
       onClose?.()
@@ -70,7 +71,7 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmi
   })
 
   return (
-    <Modal as="form" onSubmit={onSubmit} show={!!item} className="p-0">
+    <Modal as="form" onSubmit={onSubmit} show={show} className="p-0">
       <ModalHeader subTitle={`Apply "${item?.name}" to Employee`} className="capitalize" onClose={onClose}>
         Component Details
       </ModalHeader>
@@ -164,7 +165,7 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, item, onClose, onSubmi
         <Button type="button" color="error" variant="light" className="w-24" disabled={loading} onClick={onClose}>
           Cancel
         </Button>
-        <Button type="submit" color="primary" disabled={loading} loading={loading}>
+        <Button type="submit" color="primary" className="min-w-24" disabled={loading} loading={loading}>
           {updated ? 'Update and Apply' : 'Apply'}
         </Button>
       </ModalFooter>
