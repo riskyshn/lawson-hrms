@@ -1,5 +1,5 @@
 import MainTable from '@/components/Elements/MainTable'
-import MapsPreviewerModal from '@/components/Modals/MapsPreviewerModal'
+import MapsPreviewerModal from '@/components/Modules/Process/MapsPreviewerModal'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { attendanceService } from '@/services'
 import { Avatar, Button, useConfirm, useToast } from 'jobseeker-ui'

@@ -1,9 +1,8 @@
-import MainModal from '@/components/Elements/MainModal'
 import { employeeService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Select, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, Button, Modal, ModalFooter, ModalHeader, Select, Textarea, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -16,14 +15,13 @@ type ModalProps = {
 
 const schema = yup.object().shape({
   jobTypeId: yup.string().required().label('Employment status'),
-  reason: yup.string(),
+  reason: yup.string().required(),
 })
 
 const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
-  const [characterCount, setCharacterCount] = useState(0)
 
   const {
     master: { jobTypes },
@@ -36,6 +34,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
     trigger,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -61,21 +60,14 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
     }
   })
 
-  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const count = event.target.value.length
-    setCharacterCount(count)
-  }
-
   return (
-    <MainModal className="max-w-xl py-12" show={!!item} onClose={onClose}>
-      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <div className="mb-2">
-          <h4 className="mb-2 text-center text-2xl font-semibold">Select Reason</h4>
-          <p className="text-center">Please select the reason of why this candidate is set as previous employee</p>
-        </div>
+    <Modal as="form" show={!!item} onSubmit={onSubmit}>
+      <ModalHeader subTitle="Please select the reason of why this candidate is set as previous employee" onClose={onClose}>
+        Select Reason
+      </ModalHeader>
 
+      <div className="grid grid-cols-1 gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-
         <Select
           label="Select Status"
           labelRequired
@@ -97,29 +89,25 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
         />
 
         <Textarea
-          maxLength={50}
-          required
           label="Reason"
-          rows={3}
+          labelRequired
           error={errors.reason?.message}
+          help={`${watch('reason')?.length || 0}/50`}
+          rows={3}
+          maxLength={50}
           {...register('reason')}
-          onChange={handleTextareaChange}
         />
+      </div>
 
-        <div className="text-right text-xs text-gray-500">
-          <span>{characterCount}</span>/50
-        </div>
-
-        <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Submit
-          </Button>
-        </div>
-      </form>
-    </MainModal>
+      <ModalFooter className="gap-3">
+        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+          Submit
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

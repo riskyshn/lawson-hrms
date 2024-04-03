@@ -1,5 +1,5 @@
-import ProcessModal from '@/components/Modals/ProcessModal'
-import ViewProcessHistoryModal from '@/components/Modals/ViewProcessHistoryModal'
+import ProcessModal from '@/components/Modules/Process/ProcessModal'
+import ViewProcessHistoryModal from '@/components/Modules/Process/ViewProcessHistoryModal'
 import { candidateService } from '@/services'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'

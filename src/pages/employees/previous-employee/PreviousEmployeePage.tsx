@@ -2,66 +2,39 @@ import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
 import PageHeader from '@/components/Elements/PageHeader'
+import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { employeeService } from '@/services'
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import Table from './components/Table'
 import { useOrganizationStore } from '@/store'
 import { Select } from 'jobseeker-ui'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import Table from './components/Table'
 
 const PreviousEmployeePage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
   const department = searchParams.get('department') || undefined
+  const page = searchParams.get('page') || undefined
   const branch = searchParams.get('branch') || undefined
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<IPaginationResponse<IPreviousEmployee>>()
-  const [pageError, setPageError] = useState<any>()
-  const [isLoading, setIsLoading] = useState(true)
   const [refresh, setRefresh] = useState(false)
+
+  const { pageData, isLoading } = useAsyncSearch<IPreviousEmployee>({
+    action: employeeService.fetchPreviousEmployees,
+    params: { limit: 20, branchId: branch, departmentId: department, page },
+    input: search || '',
+    refresh,
+  })
 
   const pagination = usePagination({
     pathname: '/employees/previous-employee',
     totalPage: pageData?.totalPages || 0,
     params: { search, department, branch },
   })
-
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const load = async (signal: AbortSignal) => {
-      setIsLoading(true)
-      try {
-        const data = await employeeService.fetchPreviousEmployees(
-          {
-            q: search,
-            page: pagination.currentPage,
-            limit: 20,
-            branchId: branch,
-            departmentId: department,
-          },
-          signal,
-        )
-        setPageData(data)
-        setIsLoading(false)
-      } catch (e: any) {
-        if (e.message !== 'canceled') setPageError(e)
-      }
-    }
-
-    load(signal)
-
-    return () => {
-      controller.abort()
-    }
-  }, [search, department, branch, pagination.currentPage, refresh])
-
-  if (pageError) throw pageError
 
   return (
     <>
@@ -80,7 +53,11 @@ const PreviousEmployeePage: React.FC = () => {
               }
               search={{
                 value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
+                setValue: (e) => {
+                  searchParams.set('search', e)
+                  searchParams.delete('page')
+                  setSearchParam(searchParams)
+                },
               }}
               filterToogle={toggleOpen}
               filter={
@@ -92,6 +69,7 @@ const PreviousEmployeePage: React.FC = () => {
                       value={department}
                       onChange={(e) => {
                         searchParams.set('department', e.toString())
+                        searchParams.delete('page')
                         setSearchParam(searchParams)
                       }}
                       options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
@@ -102,6 +80,7 @@ const PreviousEmployeePage: React.FC = () => {
                       value={branch}
                       onChange={(e) => {
                         searchParams.set('branch', e.toString())
+                        searchParams.delete('page')
                         setSearchParam(searchParams)
                       }}
                       options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
