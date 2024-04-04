@@ -29,6 +29,8 @@ const ApplyToModal: React.FC<PropTypes> = ({ type, item, onClose, onSubmited }) 
   const searchRWrapperRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    if (!item) return
+
     const updateSizes = () => {
       const headerHeight = headerRef.current?.getBoundingClientRect().height || 0
       const searchLWrapperHeight = searchLWrapperRef.current?.getBoundingClientRect().height || 0
@@ -40,19 +42,20 @@ const ApplyToModal: React.FC<PropTypes> = ({ type, item, onClose, onSubmited }) 
       setSize({ l, r })
     }
 
-    updateSizes()
-
     let resizeTimeout = setTimeout(updateSizes, 200)
     const handleResize = () => {
+      console.log('resize')
       clearTimeout(resizeTimeout)
       resizeTimeout = setTimeout(updateSizes, 200)
     }
+    handleResize()
+
     window.addEventListener('resize', handleResize)
 
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [headerRef, searchLWrapperRef, searchRWrapperRef, footerRef, employees])
+  }, [headerRef, searchLWrapperRef, searchRWrapperRef, footerRef, employees, item])
 
   const toast = useToast()
   useEffect(() => {
