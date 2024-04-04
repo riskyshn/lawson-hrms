@@ -21,9 +21,8 @@ const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
 const Table: React.FC<{
   items: IVacancy[]
   loading?: boolean
-  onVacancyUpdated?: (vacancy: IVacancy) => void
-  onVacancyDeleted?: (id: string) => void
-}> = ({ items, loading, onVacancyDeleted, onVacancyUpdated }) => {
+  onRefresh?: () => void
+}> = ({ items, loading, onRefresh }) => {
   const headerItems = [
     { children: 'Vacancy', className: 'text-left' },
     { children: 'Department' },
@@ -70,14 +69,7 @@ const Table: React.FC<{
       },
       {
         children: (
-          <ActionMenu
-            vacancy={vacancy}
-            index={index}
-            total={items.length}
-            upSpace={items.length > 8 ? 3 : 0}
-            onVacancyUpdated={onVacancyUpdated}
-            onVacancyDeleted={onVacancyDeleted}
-          />
+          <ActionMenu vacancy={vacancy} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} onRefresh={onRefresh} />
         ),
       },
     ],

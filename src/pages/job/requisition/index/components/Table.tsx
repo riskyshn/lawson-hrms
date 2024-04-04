@@ -7,9 +7,8 @@ import ActionMenu from './ActionMenu'
 interface TableProps {
   items: IVacancy[]
   loading?: boolean
-  setHistoryMadalData?: (vacancy: IVacancy) => void
-  onVacancyUpdated?: (vacancy: IVacancy) => void
-  onVacancyDeleted?: (id: string) => void
+  onRefresh?: () => void
+  setSelectedToShowHistoryModal?: (vacancy: IVacancy) => void
 }
 
 const getApprovalCounter = (vacancy: IVacancy) => {
@@ -32,7 +31,7 @@ const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
   return statusMap[vacancy.status || ''] || { text: vacancy.status || 'Unknown', color: 'bg-gray-400 text-white' }
 }
 
-const Table: React.FC<TableProps> = ({ items, loading, setHistoryMadalData, onVacancyDeleted, onVacancyUpdated }) => {
+const Table: React.FC<TableProps> = ({ items, loading, onRefresh, setSelectedToShowHistoryModal }) => {
   const headerItems = [
     { children: 'Vacancy', className: 'text-left' },
     { children: 'Department' },
@@ -67,10 +66,9 @@ const Table: React.FC<TableProps> = ({ items, loading, setHistoryMadalData, onVa
             vacancy={vacancy}
             index={index}
             total={items.length}
-            setHistoryMadalData={setHistoryMadalData}
             upSpace={items.length > 8 ? 3 : 0}
-            onVacancyDeleted={onVacancyDeleted}
-            onVacancyUpdated={onVacancyUpdated}
+            onRefresh={onRefresh}
+            setSelectedToShowHistoryModal={setSelectedToShowHistoryModal}
           />
         ),
       },

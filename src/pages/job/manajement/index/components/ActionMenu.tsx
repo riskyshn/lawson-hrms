@@ -10,11 +10,10 @@ type ActionMenuProps = {
   index: number
   total: number
   upSpace: number
-  onVacancyUpdated?: (vacancy: IVacancy) => void
-  onVacancyDeleted?: (id: string) => void
+  onRefresh?: () => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, onVacancyDeleted, onVacancyUpdated }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, onRefresh }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
@@ -51,7 +50,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
       try {
         await vacancyService.updateVacancyStatus(vacancy.oid, 'inactive')
         toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
-        onVacancyUpdated?.({ ...vacancy, flag: 4 })
+        onRefresh?.()
       } catch (e: any) {
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
       }
@@ -65,7 +64,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
       try {
         await vacancyService.updateVacancyStatus(vacancy.oid, 'active')
         toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
-        onVacancyUpdated?.({ ...vacancy, flag: 1 })
+        onRefresh?.()
       } catch (e: any) {
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
       }
@@ -86,7 +85,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         try {
           await vacancyService.deleteDraftVacancy(vacancy.oid)
           toast('Draft vacancy deleted successfully.', { color: 'success', position: 'top-right' })
-          onVacancyDeleted?.(vacancy.oid)
+          onRefresh?.()
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
         }

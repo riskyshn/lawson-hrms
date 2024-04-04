@@ -14,11 +14,7 @@ const Card: React.FC<{
   </div>
 )
 
-const StatisticCards: React.FC<{ isRequisition?: boolean; light?: boolean; switchData?: boolean }> = ({
-  isRequisition,
-  switchData,
-  light,
-}) => {
+const StatisticCards: React.FC<{ isRequisition?: boolean; light?: boolean; refresh?: boolean }> = ({ isRequisition, refresh, light }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<Record<string, number> | null>(null)
   const [error, setError] = useState<any>(null)
@@ -35,7 +31,7 @@ const StatisticCards: React.FC<{ isRequisition?: boolean; light?: boolean; switc
       setLoading(false)
     }
     fetchData()
-  }, [isRequisition, switchData])
+  }, [isRequisition, refresh])
 
   const renderCards = () => {
     if (error) {
