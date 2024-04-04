@@ -1,5 +1,5 @@
 import { Button, Input, Skeleton } from 'jobseeker-ui'
-import { FilterIcon, SearchIcon } from 'lucide-react'
+import { FilterIcon, RefreshCcwIcon, SearchIcon } from 'lucide-react'
 import React from 'react'
 
 type PropTypes = {
@@ -12,9 +12,10 @@ type PropTypes = {
   }
   filter?: React.ReactNode
   filterToogle?: () => void
+  onRefresh?: () => void
 }
 
-const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading, search, filter, filterToogle }) => {
+const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading, search, filter, filterToogle, onRefresh }) => {
   return (
     <>
       <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
@@ -24,6 +25,11 @@ const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading,
           {subtitle && !subtitleLoading && <span className="block text-sm">{subtitle}</span>}
         </div>
         <div className="flex items-center gap-2">
+          {onRefresh && (
+            <Button iconOnly title="Refresh Data Table" type="button" variant="outline" className="border-gray-300" onClick={onRefresh}>
+              <RefreshCcwIcon size={16} />
+            </Button>
+          )}
           {search && (
             <Input
               type="text"

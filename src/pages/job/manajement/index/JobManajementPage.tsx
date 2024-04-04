@@ -8,7 +8,6 @@ import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { Button, Select } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
-import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from '../../components/StatisticCards'
 import Table from './components/Table'
@@ -23,13 +22,10 @@ const JobManajementPage: React.FC = () => {
 
   const { master } = useOrganizationStore()
 
-  const [refresh, setRefresh] = useState(false)
-
-  const { pageData, isLoading } = useAsyncSearch<IVacancy>({
+  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch<IVacancy>({
     action: vacancyService.fetchVacancies,
     params: { limit: 20, status, departmentId: department, isRequisition: 0, page },
     input: search || '',
-    refresh,
   })
 
   const pagination = usePagination({
@@ -37,8 +33,6 @@ const JobManajementPage: React.FC = () => {
     totalPage: pageData?.totalPages || 0,
     params: { search, department, status },
   })
-
-  const onRefresh = () => setRefresh((v) => !v)
 
   return (
     <>
@@ -86,6 +80,7 @@ const JobManajementPage: React.FC = () => {
                   setSearchParam(searchParams)
                 },
               }}
+              onRefresh={onRefresh}
               filterToogle={toggleOpen}
               filter={
                 open && (

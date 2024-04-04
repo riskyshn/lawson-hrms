@@ -5,7 +5,6 @@ import PageHeader from '@/components/Elements/PageHeader'
 import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { employeeService } from '@/services'
-import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from './components/Table'
 
@@ -15,13 +14,10 @@ const PreviousEmployeePage: React.FC = () => {
   const search = searchParams.get('search') || undefined
   const page = searchParams.get('page') || undefined
 
-  const [refresh, setRefresh] = useState(false)
-
-  const { pageData, isLoading } = useAsyncSearch<IPreviousEmployee>({
+  const { pageData, isLoading, onRefresh } = useAsyncSearch<IPreviousEmployee>({
     action: employeeService.fetchPreviousEmployees,
     params: { limit: 20, page },
     input: search || '',
-    refresh,
   })
 
   const pagination = usePagination({
@@ -45,6 +41,7 @@ const PreviousEmployeePage: React.FC = () => {
                   You have <span className="text-primary-600">{pageData?.totalElements} Employee</span> in total
                 </>
               }
+              onRefresh={onRefresh}
               search={{
                 value: search || '',
                 setValue: (e) => {
@@ -55,7 +52,7 @@ const PreviousEmployeePage: React.FC = () => {
               }}
             />
           }
-          body={<Table items={pageData?.content || []} loading={isLoading} onRestored={() => setRefresh((v) => !v)} />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRestored={onRefresh} />}
           footer={pagination.render()}
         />
       </Container>
