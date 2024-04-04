@@ -2,32 +2,37 @@ import Container from '@/components/Elements/Container'
 import MainCard from '@/components/Elements/MainCard'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
 import PageHeader from '@/components/Elements/PageHeader'
+import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { Button, Select } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from '../../components/StatisticCards'
 import HistoryModal from './components/HistoryModal'
 import Table from './components/Table'
 
-const JobRequisitionPage = () => {
+const JobRequisitionPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
   const department = searchParams.get('department') || undefined
+  const page = searchParams.get('page') || undefined
   const status = searchParams.get('status') || undefined
 
   const { master } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<IPaginationResponse<IVacancy>>()
-  const [pageError, setPageError] = useState<any>()
-  const [isLoading, setIsLoading] = useState(true)
-  const [historyMadalData, setHistoryMadalData] = useState<IVacancy | null>(null)
+  const [selectedToShowHistoryModal, setSelectedToShowHistoryModal] = useState<IVacancy | null>(null)
+  const [refresh, setRefresh] = useState(false)
 
-  const [switchData, setSwitchData] = useState(false)
+  const { pageData, isLoading } = useAsyncSearch<IVacancy>({
+    action: vacancyService.fetchVacancies,
+    params: { limit: 20, status, departmentId: department, isRequisition: 1, page },
+    input: search || '',
+    refresh,
+  })
 
   const pagination = usePagination({
     pathname: '/job/requisition',
@@ -35,61 +40,10 @@ const JobRequisitionPage = () => {
     params: { search, department, status },
   })
 
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const load = async (signal: AbortSignal) => {
-      setIsLoading(true)
-      try {
-        const data = await vacancyService.fetchVacancies(
-          {
-            q: search,
-            page: pagination.currentPage,
-            limit: 20,
-            status,
-            departmentId: department,
-            isRequisition: 1,
-          },
-          signal,
-        )
-        setPageData(data)
-        setIsLoading(false)
-      } catch (e: any) {
-        if (e.message !== 'canceled') setPageError(e)
-      }
-    }
-
-    load(signal)
-
-    return () => {
-      controller.abort()
-    }
-  }, [search, department, status, pagination.currentPage, switchData])
-
-  const updateVacancy = useCallback(
-    (vacancy: IVacancy) => {
-      if (!pageData) return
-      setPageData({ ...pageData, content: pageData.content.map((el) => (el.oid === vacancy.oid ? vacancy : el)) })
-      setSwitchData((v) => !v)
-    },
-    [pageData],
-  )
-
-  const removeVacancy = useCallback(
-    (id: string) => {
-      if (!pageData) return
-      setPageData({ ...pageData, content: pageData.content.filter((el) => el.oid !== id) })
-      setSwitchData((v) => !v)
-    },
-    [pageData],
-  )
-
-  if (pageError) throw pageError
-
+  const onRefresh = () => setRefresh((v) => !v)
   return (
     <>
-      <HistoryModal vacancy={historyMadalData} onClose={() => setHistoryMadalData(null)} />
+      <HistoryModal item={selectedToShowHistoryModal} onClose={() => setSelectedToShowHistoryModal(null)} />
 
       <PageHeader
         breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
@@ -115,7 +69,7 @@ const JobRequisitionPage = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards isRequisition switchData={switchData} />
+        <StatisticCards isRequisition refresh={refresh} />
 
         <MainCard
           header={(open, toggleOpen) => (
@@ -167,9 +121,8 @@ const JobRequisitionPage = () => {
             <Table
               items={pageData?.content || []}
               loading={isLoading}
-              onVacancyUpdated={updateVacancy}
-              onVacancyDeleted={removeVacancy}
-              setHistoryMadalData={setHistoryMadalData}
+              onRefresh={onRefresh}
+              setSelectedToShowHistoryModal={setSelectedToShowHistoryModal}
             />
           }
           footer={pagination.render()}

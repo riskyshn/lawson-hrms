@@ -6,7 +6,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
 type PropTypes = {
-  vacancy: IVacancy | null
+  item: IVacancy | null
   onClose?: () => void
 }
 
@@ -27,16 +27,16 @@ const renderStatus = (status?: number) => {
   )
 }
 
-const HistoryModal: React.FC<PropTypes> = ({ vacancy, onClose }) => {
+const HistoryModal: React.FC<PropTypes> = ({ item, onClose }) => {
   const [data, setData] = useState<IVacancy | null>(null)
   const [showDetailIndex, setShowDetailIndex] = useState<number | null>(null)
 
   useEffect(() => {
-    if (vacancy) setData(vacancy)
-  }, [vacancy])
+    if (item) setData(item)
+  }, [item])
 
   return (
-    <Modal show={!!vacancy} onClose={onClose}>
+    <Modal show={!!item} onClose={onClose}>
       <ModalHeader subTitle={`Approval History for ${data?.vacancyName} (${data?.rrNumber})`}>Approval History</ModalHeader>
       <div className="p-6">
         <Timeline>

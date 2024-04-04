@@ -1,31 +1,21 @@
-import React from 'react'
-import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 import * as Table from '@/components/Elements/MainTable'
 import { vacancyService } from '@/services'
-import { useConfirm, useToast } from 'jobseeker-ui'
-import moment from 'moment'
 import { useAuthStore } from '@/store'
+import { useConfirm, useToast } from 'jobseeker-ui'
+import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type ActionMenuProps = {
   vacancy: IVacancy
   index: number
   total: number
   upSpace: number
-  setHistoryMadalData?: (vacancy: IVacancy) => void
-  onVacancyUpdated?: (vacancy: IVacancy) => void
-  onVacancyDeleted?: (id: string) => void
+  onRefresh?: () => void
+  setSelectedToShowHistoryModal?: (vacancy: IVacancy) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({
-  vacancy,
-  index,
-  total,
-  upSpace,
-  setHistoryMadalData,
-  onVacancyDeleted,
-  onVacancyUpdated,
-}) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, onRefresh, setSelectedToShowHistoryModal }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
@@ -80,7 +70,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
     text: 'View History',
     icon: UsersIcon,
     action: () => {
-      setHistoryMadalData?.(vacancy)
+      setSelectedToShowHistoryModal?.(vacancy)
     },
   }
 
@@ -106,7 +96,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
         try {
           await vacancyService.cancelRequisition(vacancy.oid)
           toast('Requisition canceled successfully.', { color: 'success' })
-          onVacancyUpdated?.({ ...vacancy, canceledDate: moment.now().toString() })
+          onRefresh?.()
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
@@ -123,7 +113,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
         try {
           await vacancyService.publishRequisition(vacancy.oid)
           toast('Vacancy posted successfully.', { color: 'success' })
-          onVacancyUpdated?.({ ...vacancy, flag: 1 })
+          onRefresh?.()
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
@@ -145,7 +135,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
         try {
           await vacancyService.deleteDraftVacancy(vacancy.oid)
           toast('Draft vacancy deleted successfully.', { color: 'success' })
-          onVacancyDeleted?.(vacancy.oid)
+          onRefresh?.()
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
