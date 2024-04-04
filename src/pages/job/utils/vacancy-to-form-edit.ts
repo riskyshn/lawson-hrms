@@ -5,7 +5,6 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       rrNumber: vacancy.rrNumber || '',
       departmentId: vacancy.department?.oid || '',
       branchId: vacancy.branch?.oid || '',
-      expiredDate: vacancy.expiredDate ? new Date(vacancy.expiredDate) : '',
       jobLevelId: vacancy.jobLevel?.oid || '',
       jobTypeId: vacancy.jobType?.oid || '',
       workplacementTypeId: vacancy.workplacementType?.oid || '',
@@ -41,6 +40,7 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       isRequiredProvinceRequirement: !!vacancy.provinceRequirement?.mustMeetCriteria,
       maximumSalaryRequirement: vacancy.maximumSalaryRequirement?.maximumSalary,
       isRequiredMaximumSalaryRequirement: !!vacancy.maximumSalaryRequirement?.mustMeetCriteria,
+      flag: vacancy.flag,
     },
   }
 }

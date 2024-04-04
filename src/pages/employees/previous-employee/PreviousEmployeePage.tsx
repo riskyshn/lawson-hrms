@@ -5,8 +5,6 @@ import PageHeader from '@/components/Elements/PageHeader'
 import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { employeeService } from '@/services'
-import { useOrganizationStore } from '@/store'
-import { Select } from 'jobseeker-ui'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from './components/Table'
@@ -15,17 +13,13 @@ const PreviousEmployeePage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
-  const department = searchParams.get('department') || undefined
   const page = searchParams.get('page') || undefined
-  const branch = searchParams.get('branch') || undefined
-
-  const { master } = useOrganizationStore()
 
   const [refresh, setRefresh] = useState(false)
 
   const { pageData, isLoading } = useAsyncSearch<IPreviousEmployee>({
     action: employeeService.fetchPreviousEmployees,
-    params: { limit: 20, branchId: branch, departmentId: department, page },
+    params: { limit: 20, page },
     input: search || '',
     refresh,
   })
@@ -33,7 +27,7 @@ const PreviousEmployeePage: React.FC = () => {
   const pagination = usePagination({
     pathname: '/employees/previous-employee',
     totalPage: pageData?.totalPages || 0,
-    params: { search, department, branch },
+    params: { search },
   })
 
   return (
@@ -42,7 +36,7 @@ const PreviousEmployeePage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={(open, toggleOpen) => (
+          header={
             <MainCardHeader
               title="Employee List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
@@ -59,37 +53,8 @@ const PreviousEmployeePage: React.FC = () => {
                   setSearchParam(searchParams)
                 },
               }}
-              filterToogle={toggleOpen}
-              filter={
-                open && (
-                  <div className="grid grid-cols-2 gap-3 p-3">
-                    <Select
-                      placeholder="All Departement"
-                      withReset
-                      value={department}
-                      onChange={(e) => {
-                        searchParams.set('department', e.toString())
-                        searchParams.delete('page')
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                    />
-                    <Select
-                      placeholder="All Branch"
-                      withReset
-                      value={branch}
-                      onChange={(e) => {
-                        searchParams.set('branch', e.toString())
-                        searchParams.delete('page')
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                    />
-                  </div>
-                )
-              }
             />
-          )}
+          }
           body={<Table items={pageData?.content || []} loading={isLoading} onRestored={() => setRefresh((v) => !v)} />}
           footer={pagination.render()}
         />

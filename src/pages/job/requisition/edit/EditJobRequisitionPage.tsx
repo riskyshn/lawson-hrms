@@ -3,7 +3,6 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
@@ -47,7 +46,6 @@ const EditJobRequisitionPage = () => {
     try {
       const processedData = processFormData(data)
       setIsSubmitLoading(true)
-      console.log(vacancy.oid, processedData)
       await vacancyService.udpateVacancy(vacancy.oid, processedData)
       toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
       navigate('/job/requisition')
@@ -68,7 +66,6 @@ const EditJobRequisitionPage = () => {
       }
     })
 
-    obj.expiredDate = moment(obj.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS')
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)

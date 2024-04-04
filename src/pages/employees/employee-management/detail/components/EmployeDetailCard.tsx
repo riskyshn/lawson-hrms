@@ -284,27 +284,27 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr>
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Hari Tua (JHT)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jht || 3.7}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jht}%</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Kecelakaan Kerja (JKK)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jkk || 0}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jkk}%</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Kematian (JKM)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jkm || 0.3}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jkm}%</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Pensiun (JP)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jp || 2}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jp}%</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Kesehatan (JKS)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jks || employee.payroll?.participateBpjs ? 4 : 0}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByCompany?.jks}%</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y p-3 text-left" colSpan={3}>
@@ -314,17 +314,17 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr>
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Hari Tua (JHT)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByEmployee?.jht || 2}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByEmployee?.jht}%</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Pensiun (JP)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByEmployee?.jp || 1}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByEmployee?.jp}%</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap p-3 text-left">Jaminan Kesehatan (JKS)</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByEmployee?.jks || employee.payroll?.participateBpjs ? 1 : 0}%</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.paidByEmployee?.jks}%</td>
               </tr>
             </tbody>
           </table>
