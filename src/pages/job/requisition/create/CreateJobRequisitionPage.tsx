@@ -56,7 +56,6 @@ const CreateJobRequisitionPage = () => {
       }
     })
 
-    obj.expiredDate = moment(obj.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS')
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)

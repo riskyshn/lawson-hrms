@@ -47,7 +47,6 @@ const EditJobRequisitionPage = () => {
     try {
       const processedData = processFormData(data)
       setIsSubmitLoading(true)
-      console.log(vacancy.oid, processedData)
       await vacancyService.udpateVacancy(vacancy.oid, processedData)
       toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
       navigate('/job/requisition')
@@ -68,7 +67,6 @@ const EditJobRequisitionPage = () => {
       }
     })
 
-    obj.expiredDate = moment(obj.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS')
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
