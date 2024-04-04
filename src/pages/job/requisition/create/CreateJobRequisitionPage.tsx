@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
+import moment from 'moment'
 
 const CreateJobRequisitionPage = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
@@ -55,6 +56,7 @@ const CreateJobRequisitionPage = () => {
       }
     })
 
+    obj.expiredDate = moment().add(3, 'months').format('YYYY-MM-DDTHH:mm:ss.SSS') // remove this when omi updated the backend.
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)

@@ -128,7 +128,9 @@ const RequirementsForm: React.FC<{
     setFlag(flag)
     handleSubmit((data) => {
       // @ts-expect-error
-      if (!props.isUpdate) data.flag = props.defaultValue.flag
+      if (!props.isUpdate) data.flag = flag
+      // @ts-expect-error
+      if (props.isUpdate) data.flag = props.defaultValue?.flag
       props.handleSubmit(data)
     })()
   }

@@ -3,6 +3,7 @@ import PageHeader from '@/components/Elements/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
@@ -47,10 +48,10 @@ const EditJobRequisitionPage = () => {
       const processedData = processFormData(data)
       setIsSubmitLoading(true)
       await vacancyService.udpateVacancy(vacancy.oid, processedData)
-      toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
+      toast('Job vacancy successfully updated.', { color: 'success' })
       navigate('/job/requisition')
     } catch (error) {
-      toast('An error occurred while updating the job vacancy.', { color: 'error', position: 'top-right' })
+      toast('An error occurred while updating the job vacancy.', { color: 'error' })
     } finally {
       setIsSubmitLoading(false)
     }
@@ -66,6 +67,7 @@ const EditJobRequisitionPage = () => {
       }
     })
 
+    obj.expiredDate = moment(vacancy?.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS') // remove this when omi updated the backend.
     obj.minimumSalary = currencyToNumber(obj.minimumSalary)
     obj.maximumSalary = currencyToNumber(obj.maximumSalary)
     obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
