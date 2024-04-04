@@ -40,6 +40,7 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       isRequiredProvinceRequirement: !!vacancy.provinceRequirement?.mustMeetCriteria,
       maximumSalaryRequirement: vacancy.maximumSalaryRequirement?.maximumSalary,
       isRequiredMaximumSalaryRequirement: !!vacancy.maximumSalaryRequirement?.mustMeetCriteria,
+      flag: vacancy.flag,
     },
   }
 }
