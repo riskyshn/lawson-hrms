@@ -58,7 +58,14 @@ const InputApprovalProcess: React.FC<{
                 error={typeof error === 'object' ? error[i] : ''}
                 options={employees.filter((employee) => !value.includes(employee.value.toString()) || employee.value === el)}
               />
-              <Button color="error" iconOnly type="button" disabled={value.length <= 1} onClick={() => handleRemove(i)}>
+              <Button
+                color="error"
+                title="Remove approval"
+                iconOnly
+                type="button"
+                disabled={value.length <= 1}
+                onClick={() => handleRemove(i)}
+              >
                 <MinusCircleIcon size={16} />
               </Button>
             </div>
@@ -66,7 +73,7 @@ const InputApprovalProcess: React.FC<{
         ))}
       </InputWrapper>
 
-      <Button block type="button" onClick={() => onChange?.([...(value || []), ''])} variant="light" color="primary">
+      <Button block type="button" title="Add approvals" onClick={() => onChange?.([...(value || []), ''])} variant="light" color="primary">
         <PlusCircleIcon size={16} />
       </Button>
     </>
