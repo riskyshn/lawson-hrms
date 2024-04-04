@@ -59,6 +59,12 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
     setIsLoading(true)
     setErrorMessage('')
 
+    if (!selectTimezoneId) {
+      setErrorMessage('Timezone is required.')
+      setIsLoading(false)
+      return
+    }
+
     try {
       const payload = {
         name: data.name,
@@ -120,10 +126,9 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
           options={timezones.map(({ oid, title }) => ({ value: oid, label: title }))}
           className="mb-3"
           value={selectTimezoneId}
-          {...register('timezone', { required: true })}
+          {...register('timezone')}
           onChange={handleChange}
         />
-
         {daySchedules.map((schedule, index) => (
           <div key={index} className="mb-2">
             <span className="text-xs">{schedule.day}</span>

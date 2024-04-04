@@ -5,6 +5,7 @@ import { attendanceService } from '@/services'
 import { Avatar, Button, useConfirm, useToast } from 'jobseeker-ui'
 import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
+import ConfirmationModal from './ConfirmationModal'
 
 type PropTypes = {
   items: IAttendance[]
@@ -16,37 +17,43 @@ type PropTypes = {
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisit }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
-  const confirm = useConfirm()
   const toast = useToast()
+  const [showOptionModal, setShowOptionModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [selectedRecordId, setSelectedRecordId] = useState<string | undefined | null>(null)
 
   const handlePinClick = (lat: number, lng: number) => {
     setSelectedLocation([lat, lng])
   }
 
-  const openConfirmation = async (status: string, id?: string) => {
-    let confirmed = false
-    confirmed = await confirm({
-      text: `Are you sure you want to ${status} this attendance?`,
-      confirmBtnColor: 'primary',
-      cancelBtnColor: 'error',
-    })
+  const handleViewDetails = (ids?: any) => {
+    setSelectedRecordId(ids)
+    setShowOptionModal(true)
+  }
 
-    if (confirmed) {
-      try {
-        if (status === 'approved' && id) {
-          await attendanceService.approvedAttendanceManagement(id)
-          toast('Attendance approved successfully', { color: 'success' })
-          const newData = new Date().toISOString()
-          onDataChange(newData)
-        } else if (status === 'rejected' && id) {
-          await attendanceService.rejectedAttendanceManagement(id)
-          toast('Attendance rejected successfully', { color: 'success' })
-          const newData = new Date().toISOString()
-          onDataChange(newData)
-        }
-      } catch (e: any) {
-        toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+  const openConfirmation = async (status: string, ids?: any, reason?: string) => {
+    try {
+      setIsLoading(true)
+      const payload = {
+        status: status,
+        oids: ids,
+        rejectedReason: reason,
       }
+      if (status === 'approved' && ids) {
+        await attendanceService.updateAttendance(payload)
+        toast('Attendance approved successfully', { color: 'success' })
+        const newData = new Date().toISOString()
+        onDataChange(newData)
+      } else if (status === 'rejected' && ids) {
+        await attendanceService.updateAttendance(payload)
+        toast('Attendance rejected successfully', { color: 'success' })
+        const newData = new Date().toISOString()
+        onDataChange(newData)
+      }
+      setShowOptionModal(false)
+      setIsLoading(false)
+    } catch (e: any) {
+      toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
     }
   }
 
@@ -142,30 +149,33 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
         className: 'text-center',
       },
       {
-        children:
-          !isClientVisit &&
-          item?.records?.map((record, index) => (
-            <div key={index} className="mb-2 flex gap-2">
-              <Button
-                disabled={record.status === 'approved'}
-                color="success"
-                style={{ opacity: record.status === 'approved' ? 0.5 : 1 }}
-                size="small"
-                onClick={() => openConfirmation('approved', record.oid)}
-              >
-                <CheckIcon size={16} />
-              </Button>
-              <Button
-                disabled={record.status === 'rejected'}
-                color="error"
-                style={{ opacity: record.status === 'rejected' ? 0.5 : 1 }}
-                size="small"
-                onClick={() => openConfirmation('rejected', record.oid)}
-              >
-                <XIcon size={16} />
-              </Button>
-            </div>
-          )),
+        children: !isClientVisit && item?.records && item.records.length > 0 && (
+          <div className="mb-2 flex gap-2">
+            <Button
+              disabled={item.records[0].status === 'approved' || item.records[0].attendanceType === 'clock_in'}
+              color="success"
+              style={{ opacity: item.records[0].status === 'approved' ? 0.5 : 1 }}
+              size="small"
+              onClick={() =>
+                openConfirmation(
+                  'approved',
+                  item?.records?.map((record) => record.oid),
+                )
+              }
+            >
+              <CheckIcon size={16} />
+            </Button>
+            <Button
+              disabled={item.records[0].status === 'rejected'}
+              color="error"
+              style={{ opacity: item.records[0].status === 'rejected' ? 0.5 : 1 }}
+              size="small"
+              onClick={() => handleViewDetails(item?.records?.map((record) => record.oid))}
+            >
+              <XIcon size={16} />
+            </Button>
+          </div>
+        ),
       },
     ],
   }))
@@ -174,6 +184,19 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
     <>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
       {selectedLocation && <MapsPreviewerModal coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />}
+      {showOptionModal && (
+        <ConfirmationModal
+          show={showOptionModal}
+          onClose={() => setShowOptionModal(false)}
+          isLoading={isLoading}
+          handleAction={(reason) => {
+            if (selectedRecordId) {
+              openConfirmation('rejected', selectedRecordId, reason)
+              setSelectedRecordId(null)
+            }
+          }}
+        />
+      )}
     </>
   )
 }

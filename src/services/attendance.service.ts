@@ -73,10 +73,6 @@ export const fetchStatistic = (params?: FetchAttendanceParams, signal?: GenericA
   return axios.get(`/employer/statistics`, { params, signal }).then((response) => response.data.data)
 }
 
-export const approvedAttendanceManagement = (oid: string) => {
-  return axios.patch(`/employer/${oid}/approved`).then((response) => response.data.data)
-}
-
-export const rejectedAttendanceManagement = (oid: string) => {
-  return axios.patch(`/employer/${oid}/rejected`).then((response) => response.data.data)
+export const updateAttendance = (payload: Record<string, any>) => {
+  return axios.post(`/employer/update-status`, payload).then((response) => response.data.data)
 }

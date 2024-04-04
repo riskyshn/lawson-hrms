@@ -18,12 +18,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
   const confirm = useConfirm()
   const toast = useToast()
 
-  const handleViewDetails = (option: string) => {
-    setModalType(option)
+  const handleViewDetails = async (modalType: string) => {
+    setModalType(modalType)
     setShowOptionModal(true)
+    if (modalType === 'Reject' || modalType === 'Approve') {
+      await handleAction(modalType)
+    } else {
+      setShowOptionModal(true)
+    }
   }
 
-  const handleConfirmation = async () => {
+  const handleConfirmation = async (modalType: string) => {
     let confirmed = false
     switch (modalType) {
       case 'Approve':
@@ -40,31 +45,27 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
     return confirmed
   }
 
-  const handleAction = async () => {
-    const confirmed = await handleConfirmation()
+  const handleAction = async (modalType: string) => {
+    const confirmed = await handleConfirmation(modalType)
     if (confirmed) {
       try {
         if (modalType === 'Approve') {
           await attendanceService.approvedRequestManagement(items.oid)
+          toast('Approve successfully', { color: 'success' })
         } else if (modalType === 'Reject') {
           await attendanceService.rejectedRequestManagement(items.oid)
+          toast('Reject successfully', { color: 'success' })
         }
-        toast('Confirmed successfully', { color: 'success' })
         const newData = new Date().toISOString()
         onApplyVacancy(newData)
+        setShowOptionModal(false)
+        setModalType('')
       } catch (e: any) {
         toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
       }
     }
     setShowOptionModal(false)
   }
-
-  React.useEffect(() => {
-    if (modalType === 'Approve' || modalType === 'Reject') {
-      handleAction()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalType])
 
   return (
     <div className="text-center">
