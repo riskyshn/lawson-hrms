@@ -21,40 +21,53 @@ const CmsPage: React.FC = () => {
 
   const [formValues, setFormValues] = useState<any>({
     homeData: {},
-    JobData: {},
+    jobData: {},
   })
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await cmsService.fetchCms()
+        console.log(data)
         const homeData = {
-          heroSectionAsset: data.hero?.asset || '',
-          heroSectionHeading: data.hero?.heading || '',
+          heroAsset: data.hero?.asset || '',
+          heroHeadingId: data.hero?.heading?.id || '',
+          heroHeadingEn: data.hero?.heading?.en || '',
 
           sectionAAsset: data.sectionA?.asset || '',
-          sectionAHeading: data.sectionA?.heading || '',
-          sectionAParagraph: data.sectionA?.paragraph || '',
+          sectionAHeadingId: data.sectionA?.heading?.id || '',
+          sectionAHeadingEn: data.sectionA?.heading?.en || '',
+          sectionAParagraphId: data.sectionA?.paragraph?.id || '',
+          sectionAParagraphEn: data.sectionA?.paragraph?.en || '',
 
           sectionBAsset: data.sectionB?.asset || '',
-          sectionBHeading: data.sectionB?.heading || '',
-          sectionBParagraph: data.sectionB?.paragraph || '',
+          sectionBHeadingId: data.sectionB?.heading?.id || '',
+          sectionBHeadingEn: data.sectionB?.heading?.en || '',
+          sectionBParagraphId: data.sectionB?.paragraph?.id || '',
+          sectionBParagraphEn: data.sectionB?.paragraph?.en || '',
 
           bannerAsset: data.banner?.asset || '',
-          callToAction: data.banner?.callToAction || '',
+          bannerCallToAction: data.banner?.callToAction || '',
+          bannerHeadingId: data.banner?.heading?.id || '',
+          bannerHeadingEn: data.banner?.heading?.en || '',
         }
 
         const jobData = {
           findJobAsset: data.findJob?.asset || '',
-          findJobHeading: data.findJob?.heading || '',
+          findJobHeadingId: data.findJob?.heading?.id || '',
+          findJobHeadingEn: data.findJob?.heading?.en || '',
 
           registerAsset: data.register?.asset || '',
-          registerHeading: data.register?.heading || '',
-          registerSubheading: data.register?.subheading || '',
+          registerHeadingId: data.register?.heading?.id || '',
+          registerHeadingEn: data.register?.heading?.en || '',
+          registerSubheadingId: data.register?.subheading?.id || '',
+          registerSubheadingEn: data.register?.subheading?.en || '',
 
           loginAsset: data.login?.asset || '',
-          loginHeading: data.login?.heading || '',
-          loginSubheading: data.login?.subheading || '',
+          loginHeadingId: data.login?.heading?.id || '',
+          loginHeadingEn: data.login?.heading?.en || '',
+          loginSubheadingId: data.login?.subheading?.id || '',
+          loginSubheadingEn: data.login?.subheading?.en || '',
 
           backgroundColor: data.generalSettings?.backgroundColor || '',
           callToActionColor: data.generalSettings?.callToActionColor || '',
@@ -82,31 +95,48 @@ const CmsPage: React.FC = () => {
     setIsSubmitLoading(true)
 
     const payload = {
-      heroAsset: formValues.homeData.heroSectionAsset,
-      heroHeading: formValues.homeData.heroSectionHeading,
-      aSectionAsset: formValues.homeData.sectionAAsset,
-      aSectionHeading: formValues.homeData.sectionAHeading,
-      aSectionParagraph: formValues.homeData.sectionAParagraph,
-      bSectionAsset: formValues.homeData.sectionBAsset,
-      bSectionHeading: formValues.homeData.sectionBHeading,
-      bSectionParagraph: formValues.homeData.sectionBParagraph,
+      heroAsset: formValues.homeData.heroAsset,
+      heroHeadingId: formValues.homeData.heroHeadingId,
+      heroHeadingEn: formValues.homeData.heroHeadingEn,
+
+      sectionAAsset: formValues.homeData.sectionAAsset,
+      sectionAHeadingId: formValues.homeData.sectionAHeadingId,
+      sectionAHeadingEn: formValues.homeData.sectionAHeadingEn,
+      sectionAParagraphId: formValues.homeData.sectionAParagraphId,
+      sectionAParagraphEn: formValues.homeData.sectionAParagraphEn,
+
+      sectionBAsset: formValues.homeData.sectionBAsset,
+      sectionBHeadingId: formValues.homeData.sectionBHeadingId,
+      sectionBHeadingEn: formValues.homeData.sectionBHeadingEn,
+      sectionBParagraphId: formValues.homeData.sectionBParagraphId,
+      sectionBParagraphEn: formValues.homeData.sectionBParagraphEn,
+
       bannerAsset: formValues.homeData.bannerAsset,
-      bannerHeading: '-',
-      bannerCallToAction: formValues.homeData.callToAction,
+      bannerCallToAction: formValues.homeData.bannerCallToAction,
+      bannerHeadingId: formValues.homeData.bannerHeadingId,
+      bannerHeadingEn: formValues.homeData.bannerHeadingEn,
+
       findJobAsset: formValues.jobData.findJobAsset,
-      findJobHeading: formValues.jobData.findJobHeading,
+      findJobHeadingId: formValues.jobData.findJobHeadingId,
+      findJobHeadingEn: formValues.jobData.findJobHeadingEn,
+
       registerAsset: formValues.jobData.registerAsset,
-      registerHeading: formValues.jobData.registerHeading,
-      registerSubheading: formValues.jobData.registerSubheading,
+      registerHeadingId: formValues.jobData.registerHeadingId,
+      registerHeadingEn: formValues.jobData.registerHeadingEn,
+      registerSubheadingId: formValues.jobData.registerSubheadingId,
+      registerSubheadingEn: formValues.jobData.registerSubheadingEn,
+
       loginAsset: formValues.jobData.loginAsset,
-      loginHeading: formValues.jobData.loginHeading,
-      loginSubheading: formValues.jobData.loginSubheading,
-      settingFont: '-',
-      settingBackgroundColor: formValues.jobData.backgroundColor,
-      settingCallToActionColor: formValues.jobData.callToActionColor,
-      settingHeadingColor: formValues.jobData.headingColor,
-      settingSubheadingColor: formValues.jobData.subheadingColor,
-      settingParagraphColor: formValues.jobData.paragraphColor,
+      loginHeadingId: formValues.jobData.loginHeadingId,
+      loginHeadingEn: formValues.jobData.loginHeadingEn,
+      loginSubheadingId: formValues.jobData.loginSubheadingId,
+      loginSubheadingEn: formValues.jobData.loginSubheadingEn,
+
+      backgroundColor: formValues.jobData.backgroundColor,
+      callToActionColor: formValues.jobData.callToActionColor,
+      headingColor: formValues.jobData.headingColor,
+      subheadingColor: formValues.jobData.subheadingColor,
+      paragraphColor: formValues.jobData.paragraphColor,
     }
 
     if (flag) {
