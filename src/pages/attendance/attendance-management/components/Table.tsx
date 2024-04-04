@@ -37,7 +37,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
       const payload = {
         status: status,
         oids: ids,
-        rejectedReason: reason,
+        rejectedReason: reason || '',
       }
       if (status === 'approved' && ids) {
         await attendanceService.updateAttendance(payload)
@@ -84,7 +84,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
             </div>
             <div>
               <span className="block font-semibold">{item.records?.[0]?.employee?.name}</span>
-              <span className="text-xs text-gray-500">{item.employeeId}</span>
+              <span className="text-xs text-gray-500">{item.records?.[0].employee?.employeeCode}</span>
             </div>
           </div>
         ),
@@ -152,7 +152,10 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
         children: !isClientVisit && item?.records && item.records.length > 0 && (
           <div className="mb-2 flex gap-2">
             <Button
-              disabled={item.records[0].status === 'approved' || item.records[0].attendanceType === 'clock_in'}
+              disabled={
+                item.records[0].status === 'approved' ||
+                (item.records[0].attendanceType != 'clock_in' && item.records[0].attendanceType != 'overtime_in')
+              }
               color="success"
               style={{ opacity: item.records[0].status === 'approved' ? 0.5 : 1 }}
               size="small"

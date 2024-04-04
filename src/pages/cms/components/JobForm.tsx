@@ -19,8 +19,10 @@ const schema = yup.object({
       (value) => !value.startsWith(ERROR_PREFIX_KEY),
     )
     .url()
-    .label('Asset'),
-  findJobHeading: yup.string().required().label('Heading'),
+    .label('findJobAsset'),
+
+  findJobHeadingId: yup.string().required().label('findJobHeadingId'),
+  findJobHeadingEn: yup.string().required().label('findJobHeadingEn'),
 
   registerAsset: yup
     .string()
@@ -32,9 +34,11 @@ const schema = yup.object({
       (value) => !value.startsWith(ERROR_PREFIX_KEY),
     )
     .url()
-    .label('Asset'),
-  registerHeading: yup.string().required().label('Heading'),
-  registerSubheading: yup.string().required().label('Subheading'),
+    .label('registerAsset'),
+  registerHeadingId: yup.string().required().label('registerHeadingId'),
+  registerHeadingEn: yup.string().required().label('registerHeadingEn'),
+  registerSubheadingId: yup.string().required().label('registerSubheadingId'),
+  registerSubheadingEn: yup.string().required().label('registerSubheadingEn'),
 
   loginAsset: yup
     .string()
@@ -46,15 +50,17 @@ const schema = yup.object({
       (value) => !value.startsWith(ERROR_PREFIX_KEY),
     )
     .url()
-    .label('Asset'),
-  loginHeading: yup.string().required().label('Heading'),
-  loginSubheading: yup.string().required().label('Subheading'),
+    .label('loginAsset'),
+  loginHeadingId: yup.string().required().label('loginHeadingId'),
+  loginHeadingEn: yup.string().required().label('loginHeadingEn'),
+  loginSubheadingId: yup.string().required().label('loginSubheadingId'),
+  loginSubheadingEn: yup.string().required().label('loginSubheadingEn'),
 
-  backgroundColor: yup.string().required().label('Background'),
-  callToActionColor: yup.string().required().label('Call to Action'),
-  headingColor: yup.string().required().label('Heading'),
-  subheadingColor: yup.string().required().label('Subheading'),
-  paragraphColor: yup.string().required().label('Paragraph'),
+  backgroundColor: yup.string().required().label('backgroundColor'),
+  callToActionColor: yup.string().required().label('callToActionColor'),
+  headingColor: yup.string().required().label('headingColor'),
+  subheadingColor: yup.string().required().label('subheadingColor'),
+  paragraphColor: yup.string().required().label('paragraphColor'),
 })
 
 const JobForm: React.FC<{
@@ -79,19 +85,25 @@ const JobForm: React.FC<{
       Object.keys(props.defaultValue).forEach((key: any) => {
         switch (key) {
           case 'findJobAsset':
-          case 'findJobHeading':
+          case 'findJobHeadingId':
+          case 'findJobHeadingEn':
           case 'registerAsset':
-          case 'registerHeading':
-          case 'registerSubheading':
+          case 'registerHeadingId':
+          case 'registerHeadingEn':
+          case 'registerSubheadingId':
+          case 'registerSubheadingEn':
           case 'loginAsset':
-          case 'loginHeading':
-          case 'loginSubheading':
+          case 'loginHeadingId':
+          case 'loginHeadingEn':
+          case 'loginSubheadingId':
+          case 'loginSubheadingEn':
           case 'backgroundColor':
           case 'callToActionColor':
           case 'headingColor':
           case 'subheadingColor':
           case 'paragraphColor':
             setValue(key, props.defaultValue[key])
+            trigger(key)
             break
           default:
             setValue(key, props.defaultValue[key])
@@ -110,7 +122,7 @@ const JobForm: React.FC<{
         <InputWrapper label="Asset" labelRequired error={errors?.findJobAsset?.message}>
           <ImageFileUpload
             type="company-logo"
-            value={getValues('findJobAsset') || props.defaultValue.findJobAsset}
+            value={getValues('findJobAsset')}
             error={errors.findJobAsset?.message}
             onStart={() => {
               setValue('findJobAsset', PROGRESS_KEY)
@@ -126,13 +138,14 @@ const JobForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading" labelRequired {...register('findJobHeading')} />
+        <Input label="Heading Id" labelRequired {...register('findJobHeadingId')} />
+        <Input label="Heading En" labelRequired {...register('findJobHeadingEn')} />
 
         <span className="text-lg font-semibold">Register</span>
         <InputWrapper label="Asset" labelRequired error={errors?.registerAsset?.message}>
           <ImageFileUpload
             type="company-logo"
-            value={getValues('registerAsset') || props.defaultValue.registerAsset}
+            value={getValues('registerAsset')}
             error={errors.registerAsset?.message}
             onStart={() => {
               setValue('registerAsset', PROGRESS_KEY)
@@ -148,15 +161,17 @@ const JobForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading" labelRequired {...register('registerHeading')} />
+        <Input label="Heading Id" labelRequired {...register('registerHeadingId')} />
+        <Input label="Heading En" labelRequired {...register('registerHeadingEn')} />
 
-        <Input label="Subheading" labelRequired {...register('registerSubheading')} />
+        <Input label="Subheading Id" labelRequired {...register('registerSubheadingId')} />
+        <Input label="Subheading En" labelRequired {...register('registerSubheadingEn')} />
 
         <span className="text-lg font-semibold">Login</span>
         <InputWrapper label="Asset" labelRequired error={errors?.loginAsset?.message}>
           <ImageFileUpload
             type="company-logo"
-            value={getValues('loginAsset') || props.defaultValue.loginAsset}
+            value={getValues('loginAsset')}
             error={errors.loginAsset?.message}
             onStart={() => {
               setValue('loginAsset', PROGRESS_KEY)
@@ -172,9 +187,11 @@ const JobForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading" labelRequired {...register('loginHeading')} />
+        <Input label="Heading Id" labelRequired {...register('loginHeadingId')} />
+        <Input label="Heading En" labelRequired {...register('loginHeadingEn')} />
 
-        <Input label="Subheading" labelRequired {...register('loginSubheading')} />
+        <Input label="Subheading Id" labelRequired {...register('loginSubheadingId')} />
+        <Input label="Subheading En" labelRequired {...register('loginSubheadingEn')} />
 
         <Input type="color" label="Background" labelRequired {...register('backgroundColor')} />
         <Input type="color" label="Call to Action" labelRequired {...register('callToActionColor')} />
