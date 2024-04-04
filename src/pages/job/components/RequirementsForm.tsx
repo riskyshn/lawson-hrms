@@ -150,9 +150,9 @@ const RequirementsForm: React.FC<{
               placeholder="Male, Female Or All"
               hideSearch
               options={[
-                { label: 'Male', value: 'Male' },
-                { label: 'Female', value: 'Female' },
-                { label: 'All', value: 'All' },
+                { label: 'Male', value: 'MALE' },
+                { label: 'Female', value: 'FEMALE' },
+                { label: 'All', value: 'ALL' },
               ]}
               name="genderRequirement"
               error={errors.genderRequirement?.message}
