@@ -123,7 +123,7 @@ const generateBodyItems = (
             className: 'text-center',
             children: (
               <span className="inline-block">
-                {item.status?.oid === '4' ? (
+                {parseInt(item.status?.oid || '4') >= 4 ? (
                   <Link
                     to={`/process/offering-letter/${item.oid}/upload-documents?edit=true`}
                     className="text-primary-600 hover:text-primary-700"

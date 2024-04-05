@@ -90,7 +90,7 @@ const ComponentsDataForm: React.FC<{
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
               <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
-              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" />
+              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" help="JP Maximum Cap Rp. 191.980,00*" />
             </div>
             <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
           </CardBody>
@@ -121,7 +121,7 @@ const ComponentsDataForm: React.FC<{
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
               <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
-              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" />
+              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" help="JP Maximum Cap Rp. 191.980,00*" />
             </div>
             <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
 

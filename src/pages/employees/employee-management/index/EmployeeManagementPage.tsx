@@ -23,13 +23,11 @@ const EmployeeManagementPage: React.FC = () => {
   const { master } = useOrganizationStore()
 
   const [selectedToTerminate, setSelectedToTerminate] = useState<IDataTableEmployee | null>(null)
-  const [refresh, setRefresh] = useState(false)
 
-  const { pageData, isLoading } = useAsyncSearch<IDataTableEmployee>({
+  const { pageData, isLoading, onRefresh } = useAsyncSearch<IDataTableEmployee>({
     action: employeeService.fetchEmployees,
     params: { limit: 20, branchId: branch, departmentId: department, page },
     input: search || '',
-    refresh,
   })
 
   const pagination = usePagination({
@@ -53,7 +51,7 @@ const EmployeeManagementPage: React.FC = () => {
       <ResignTerminateModal
         item={selectedToTerminate}
         onSuccess={() => {
-          setRefresh((v) => !v)
+          onRefresh()
           setSelectedToTerminate(null)
         }}
         onClose={() => setSelectedToTerminate(null)}
@@ -78,6 +76,7 @@ const EmployeeManagementPage: React.FC = () => {
                   setSearchParam(searchParams)
                 },
               }}
+              onRefresh={onRefresh}
               filterToogle={toggleOpen}
               filter={
                 open && (

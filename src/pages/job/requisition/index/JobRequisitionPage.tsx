@@ -25,13 +25,11 @@ const JobRequisitionPage: React.FC = () => {
   const { master } = useOrganizationStore()
 
   const [selectedToShowHistoryModal, setSelectedToShowHistoryModal] = useState<IVacancy | null>(null)
-  const [refresh, setRefresh] = useState(false)
 
-  const { pageData, isLoading } = useAsyncSearch<IVacancy>({
+  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch<IVacancy>({
     action: vacancyService.fetchVacancies,
     params: { limit: 20, status, departmentId: department, isRequisition: 1, page },
     input: search || '',
-    refresh,
   })
 
   const pagination = usePagination({
@@ -40,7 +38,6 @@ const JobRequisitionPage: React.FC = () => {
     params: { search, department, status },
   })
 
-  const onRefresh = () => setRefresh((v) => !v)
   return (
     <>
       <HistoryModal item={selectedToShowHistoryModal} onClose={() => setSelectedToShowHistoryModal(null)} />
@@ -86,6 +83,7 @@ const JobRequisitionPage: React.FC = () => {
                 setValue: (v) => setSearchParam({ search: v }),
               }}
               filterToogle={toggleOpen}
+              onRefresh={onRefresh}
               filter={
                 open && (
                   <div className="grid grid-cols-2 gap-3 p-3">
@@ -109,7 +107,7 @@ const JobRequisitionPage: React.FC = () => {
                       }}
                       options={['Approvall', 'Approved', 'Published', 'Draft', 'Canceled'].map((el) => ({
                         label: el,
-                        value: el.toLocaleLowerCase(),
+                        value: el.toLowerCase(),
                       }))}
                     />
                   </div>

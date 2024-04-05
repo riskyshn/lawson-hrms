@@ -5,7 +5,6 @@ type PropType<T, Params extends object, A extends (params: Params) => Promise<IP
   action: A
   input: string
   params: Params
-  refresh?: boolean
   paginationKey?: string
 }
 
@@ -17,13 +16,14 @@ const useAsyncSearch = <
   action,
   input,
   params,
-  refresh,
 }: PropType<T, Params, A>) => {
   const [results, setResults] = useState<{ response: IPaginationResponse<T>; query: string }>()
   const [isLoading, setIsLoading] = useState(false)
   const [typing, setTyping] = useState(true)
   const [typingTimeout, setTypingTimeout] = useState<number | null>(null)
   const [error, setError] = useState<any>()
+
+  const [refresh, setRefresh] = useState(false)
 
   const handleSearch = useCallback(
     async (query: string, params?: Params) => {
@@ -59,6 +59,8 @@ const useAsyncSearch = <
     query: results?.query,
     isLoading: isLoading || typing,
     typing,
+    onRefresh: () => setRefresh((v) => !v),
+    refresh,
   }
 }
 
