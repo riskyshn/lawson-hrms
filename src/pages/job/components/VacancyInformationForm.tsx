@@ -286,6 +286,7 @@ const VacancyInformationForm: React.FC<{
         <Input
           label="Number of Employee Needed"
           labelRequired
+          placeholder="5"
           type="number"
           error={errors.numberOfEmployeeNeeded?.message}
           {...register('numberOfEmployeeNeeded')}

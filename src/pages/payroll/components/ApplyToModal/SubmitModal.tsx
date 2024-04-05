@@ -114,7 +114,19 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, show, item, onClose, o
             }}
           />
         ) : (
-          <Input label="Amount" placeholder="Amount" labelRequired error={errors.amount?.message} {...register(`amount`)} type="number" />
+          <Input
+            label="Amount"
+            placeholder="Amount"
+            labelRequired
+            error={errors.amount?.message}
+            {...register(`amount`)}
+            type="number"
+            rightChild={<span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">%</span>}
+            onChange={(v) => {
+              setValue('amount', v.currentTarget.value)
+              trigger('amount')
+            }}
+          />
         )}
         <InputCurrency
           label="Max. Cap"
