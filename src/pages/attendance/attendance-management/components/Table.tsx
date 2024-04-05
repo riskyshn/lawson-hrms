@@ -21,17 +21,19 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [selectedRecordId, setSelectedRecordId] = useState<string | undefined | null>(null)
+  const [modalType, setModalType] = useState<string | undefined>()
 
   const handlePinClick = (lat: number, lng: number) => {
     setSelectedLocation([lat, lng])
   }
 
-  const handleViewDetails = (ids?: any) => {
+  const handleViewDetails = (ids?: any, type?: string) => {
+    setModalType(type)
     setSelectedRecordId(ids)
     setShowOptionModal(true)
   }
 
-  const openConfirmation = async (status: string, ids?: any, reason?: string) => {
+  const openConfirmation = async (status?: string, ids?: any, reason?: string) => {
     try {
       setIsLoading(true)
       const payload = {
@@ -218,9 +220,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
                         style={{ opacity: record.status === 'approved' || record.status === 'rejected' ? 0.5 : 1 }}
                         size="small"
                         onClick={() =>
-                          openConfirmation(
-                            'approved',
+                          handleViewDetails(
                             item?.records?.slice(index, index + 2).map((record) => record.oid),
+                            'approved',
                           )
                         }
                       >
@@ -231,7 +233,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
                         color="error"
                         style={{ opacity: record.status === 'rejected' || record.status === 'approved' ? 0.5 : 1 }}
                         size="small"
-                        onClick={() => handleViewDetails(item?.records?.slice(index, index + 2).map((record) => record.oid))}
+                        onClick={() =>
+                          handleViewDetails(
+                            item?.records?.slice(index, index + 2).map((record) => record.oid),
+                            'rejected',
+                          )
+                        }
                       >
                         <XIcon size={16} />
                       </Button>
@@ -255,10 +262,11 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
           isLoading={isLoading}
           handleAction={(reason) => {
             if (selectedRecordId) {
-              openConfirmation('rejected', selectedRecordId, reason)
+              openConfirmation(modalType, selectedRecordId, reason)
               setSelectedRecordId(null)
             }
           }}
+          modalType={modalType}
         />
       )}
     </>
