@@ -28,7 +28,7 @@ const CmsPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const data = await cmsService.fetchCms()
-        console.log(data)
+
         const homeData = {
           heroAsset: data.hero?.asset || '',
           heroHeadingId: data.hero?.heading?.id || '',
@@ -95,48 +95,64 @@ const CmsPage: React.FC = () => {
     setIsSubmitLoading(true)
 
     const payload = {
-      heroAsset: formValues.homeData.heroAsset,
-      heroHeadingId: formValues.homeData.heroHeadingId,
-      heroHeadingEn: formValues.homeData.heroHeadingEn,
-
-      sectionAAsset: formValues.homeData.sectionAAsset,
-      sectionAHeadingId: formValues.homeData.sectionAHeadingId,
-      sectionAHeadingEn: formValues.homeData.sectionAHeadingEn,
-      sectionAParagraphId: formValues.homeData.sectionAParagraphId,
-      sectionAParagraphEn: formValues.homeData.sectionAParagraphEn,
-
-      sectionBAsset: formValues.homeData.sectionBAsset,
-      sectionBHeadingId: formValues.homeData.sectionBHeadingId,
-      sectionBHeadingEn: formValues.homeData.sectionBHeadingEn,
-      sectionBParagraphId: formValues.homeData.sectionBParagraphId,
-      sectionBParagraphEn: formValues.homeData.sectionBParagraphEn,
-
-      bannerAsset: formValues.homeData.bannerAsset,
-      bannerCallToAction: formValues.homeData.bannerCallToAction,
-      bannerHeadingId: formValues.homeData.bannerHeadingId,
-      bannerHeadingEn: formValues.homeData.bannerHeadingEn,
-
-      findJobAsset: formValues.jobData.findJobAsset,
-      findJobHeadingId: formValues.jobData.findJobHeadingId,
-      findJobHeadingEn: formValues.jobData.findJobHeadingEn,
-
-      registerAsset: formValues.jobData.registerAsset,
-      registerHeadingId: formValues.jobData.registerHeadingId,
-      registerHeadingEn: formValues.jobData.registerHeadingEn,
-      registerSubheadingId: formValues.jobData.registerSubheadingId,
-      registerSubheadingEn: formValues.jobData.registerSubheadingEn,
-
-      loginAsset: formValues.jobData.loginAsset,
-      loginHeadingId: formValues.jobData.loginHeadingId,
-      loginHeadingEn: formValues.jobData.loginHeadingEn,
-      loginSubheadingId: formValues.jobData.loginSubheadingId,
-      loginSubheadingEn: formValues.jobData.loginSubheadingEn,
-
-      backgroundColor: formValues.jobData.backgroundColor,
-      callToActionColor: formValues.jobData.callToActionColor,
-      headingColor: formValues.jobData.headingColor,
-      subheadingColor: formValues.jobData.subheadingColor,
-      paragraphColor: formValues.jobData.paragraphColor,
+      heroAsset: data.homeData.heroAsset,
+      heroHeading: {
+        id: data.homeData.heroHeadingId,
+        en: data.homeData.heroHeadingEn,
+      },
+      aSectionAsset: data.homeData.sectionAAsset,
+      aSectionHeading: {
+        id: data.homeData.sectionAHeadingId,
+        en: data.homeData.sectionAHeadingEn,
+      },
+      aSectionParagraph: {
+        id: data.homeData.sectionAParagraphId,
+        en: data.homeData.sectionAParagraphEn,
+      },
+      bSectionAsset: data.homeData.sectionBAsset,
+      bSectionHeading: {
+        id: data.homeData.sectionBHeadingId,
+        en: data.homeData.sectionBHeadingEn,
+      },
+      bSectionParagraph: {
+        id: data.homeData.sectionBParagraphId,
+        en: data.homeData.sectionBParagraphEn,
+      },
+      bannerAsset: data.homeData.bannerAsset,
+      bannerHeading: {
+        id: data.homeData.bannerHeadingId,
+        en: data.homeData.bannerHeadingEn,
+      },
+      bannerCallToAction: data.homeData.bannerCallToAction,
+      findJobAsset: data.jobData.findJobAsset,
+      findJobHeading: {
+        id: data.jobData.findJobHeadingId,
+        en: data.jobData.findJobHeadingEn,
+      },
+      registerAsset: data.jobData.registerAsset,
+      registerHeading: {
+        id: data.jobData.registerHeadingId,
+        en: data.jobData.registerHeadingEn,
+      },
+      registerSubheading: {
+        id: data.jobData.registerSubheadingId,
+        en: data.jobData.registerSubheadingEn,
+      },
+      loginAsset: data.jobData.loginAsset,
+      loginHeading: {
+        id: data.jobData.loginHeadingId,
+        en: data.jobData.loginHeadingEn,
+      },
+      loginSubheading: {
+        id: data.jobData.loginSubheadingId,
+        en: data.jobData.loginSubheadingEn,
+      },
+      settingFont: '-',
+      settingBackgroundColor: data.jobData.backgroundColor,
+      settingCallToActionColor: data.jobData.callToActionColor,
+      settingHeadingColor: data.jobData.headingColor,
+      settingSubheadingColor: data.jobData.subheadingColor,
+      settingParagraphColor: data.jobData.paragraphColor,
     }
 
     if (flag) {
