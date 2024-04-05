@@ -91,94 +91,155 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
       },
       { children: item.records?.[0]?.employee?.employment?.branch?.name },
       {
-        children: item.records?.map((record, index) => {
-          const modifiedAttendanceType = record?.attendanceType
-            ?.replace(/_/g, ' ')
-            .toLowerCase()
-            .replace(/(?:^|\s)\S/g, function (a) {
-              return a.toUpperCase()
-            })
-          return (
-            <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
-              <span className="block font-semibold">{modifiedAttendanceType}</span>
-            </div>
-          )
-        }),
+        children: (item.records ?? [])
+          .map((record: any, index: number) => {
+            const modifiedAttendanceType = record?.attendanceType
+              ?.replace(/_/g, ' ')
+              .toLowerCase()
+              .replace(/(?:^|\s)\S/g, function (a: string) {
+                return a.toUpperCase()
+              })
+
+            return (
+              <div key={index}>
+                <span className="font-semibold">{modifiedAttendanceType}</span>
+              </div>
+            )
+          })
+          .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div key={index} className="flex h-16 flex-col items-center justify-center">
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, []),
       },
       {
-        children: item.records?.map((record, index) => (
-          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
-            <div>
-              <span className="block font-semibold">
-                {record?.timezoneTime?.split(' ')[1]} {record?.employee?.employment?.schedule?.timezone?.title}
-              </span>
-            </div>
-          </div>
-        )),
+        children: (item.records ?? [])
+          .map((record, index) => {
+            const modifiedAttendanceType = `${record?.timezoneTime?.split(' ')[1]} ${record?.employee?.employment?.schedule?.timezone?.title}`
+
+            return (
+              <div key={index}>
+                <span className="font-semibold">{modifiedAttendanceType}</span>
+              </div>
+            )
+          })
+          .reduce((acc, cur, index, array) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, [] as JSX.Element[]),
       },
       {
-        children: item.records?.map((record, index) => (
-          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
-            <span className="flex items-center justify-center gap-2">
-              <button
-                title="Maps"
-                className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                onClick={() => handlePinClick(record.lng || 0, record.lat || 0)}
-              >
-                <MapPinIcon size={18} />
-              </button>
-            </span>
-          </div>
-        )),
+        children: (item.records ?? [])
+          .map((record, index) => {
+            return (
+              <div key={index}>
+                <button
+                  title="Maps"
+                  className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                  onClick={() => handlePinClick(record.lng || 0, record.lat || 0)}
+                >
+                  <MapPinIcon size={15} />
+                </button>
+              </div>
+            )
+          })
+          .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, []),
         className: 'text-center',
       },
       {
-        children: item.records?.map((record, index) => (
-          <div key={index} className={index > 0 && index % 2 === 0 ? 'mb-4' : 'mb-1'}>
-            <span className="flex items-center justify-center gap-2">
-              <button
-                title="Image"
-                className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                onClick={() => previewImage(record.photo)}
-              >
-                <ImageIcon size={18} />
-              </button>
-            </span>
-          </div>
-        )),
+        children: (item.records ?? [])
+          .map((record, index) => {
+            return (
+              <div key={index}>
+                <button
+                  title="Image"
+                  className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                  onClick={() => previewImage(record.photo)}
+                >
+                  <ImageIcon size={15} />
+                </button>
+              </div>
+            )
+          })
+          .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, []),
         className: 'text-center',
       },
       {
-        children: !isClientVisit && item?.records && item.records.length > 0 && (
-          <div className="mb-2 flex gap-2">
-            <Button
-              disabled={
-                item.records[0].status === 'approved' ||
-                (item.records[0].attendanceType != 'clock_in' && item.records[0].attendanceType != 'overtime_in')
-              }
-              color="success"
-              style={{ opacity: item.records[0].status === 'approved' ? 0.5 : 1 }}
-              size="small"
-              onClick={() =>
-                openConfirmation(
-                  'approved',
-                  item?.records?.map((record) => record.oid),
-                )
-              }
-            >
-              <CheckIcon size={16} />
-            </Button>
-            <Button
-              disabled={item.records[0].status === 'rejected'}
-              color="error"
-              style={{ opacity: item.records[0].status === 'rejected' ? 0.5 : 1 }}
-              size="small"
-              onClick={() => handleViewDetails(item?.records?.map((record) => record.oid))}
-            >
-              <XIcon size={16} />
-            </Button>
-          </div>
-        ),
+        children:
+          !isClientVisit &&
+          item?.records &&
+          item.records.length > 0 &&
+          item.records?.map(
+            (record, index) =>
+              index % 2 === 0 && (
+                <>
+                  <div className="flex h-16 flex-col items-center justify-center">
+                    <div key={index} className={'mb-1 flex gap-2'}>
+                      <Button
+                        disabled={
+                          record.status === 'approved' ||
+                          record.status === 'rejected' ||
+                          (record.attendanceType != 'clock_in' && record.attendanceType != 'overtime_in')
+                        }
+                        color="success"
+                        style={{ opacity: record.status === 'approved' || record.status === 'rejected' ? 0.5 : 1 }}
+                        size="small"
+                        onClick={() =>
+                          openConfirmation(
+                            'approved',
+                            item?.records?.slice(index, index + 2).map((record) => record.oid),
+                          )
+                        }
+                      >
+                        <CheckIcon size={16} />
+                      </Button>
+                      <Button
+                        disabled={record.status === 'rejected' || record.status === 'approved'}
+                        color="error"
+                        style={{ opacity: record.status === 'rejected' || record.status === 'approved' ? 0.5 : 1 }}
+                        size="small"
+                        onClick={() => handleViewDetails(item?.records?.slice(index, index + 2).map((record) => record.oid))}
+                      >
+                        <XIcon size={16} />
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              ),
+          ),
       },
     ],
   }))
