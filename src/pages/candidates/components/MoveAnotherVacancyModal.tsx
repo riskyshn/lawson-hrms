@@ -22,7 +22,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
 
   const fetchVacancies = async () => {
     try {
-      const data = await vacancyService.fetchVacancies()
+      const data = await candidateService.fetchVacanciesCandidate(candidate.candidateId)
       setVacancies(data.content)
     } catch (error) {
       console.error('Error fetching vacancies:', error)

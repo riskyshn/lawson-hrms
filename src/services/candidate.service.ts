@@ -113,3 +113,7 @@ export const fetchCandidate = (id: string) => {
 export const downloadCandidate = (payload: Record<string, any>) => {
   return axiosCandidate.post(`/candidate/export`, payload).then((response) => response.data)
 }
+
+export const fetchVacanciesCandidate = (id: string) => {
+  return axios.get<{ data: IPaginationResponse<IVacancy> }>(`/vacancy/${id}`).then((response) => response.data.data)
+}
