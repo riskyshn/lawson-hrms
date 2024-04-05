@@ -5,17 +5,18 @@ import MainModal from '@/components/Elements/MainModal'
 interface ConfirmationModalProps {
   show: boolean
   onClose: () => void
-  isLoading: boolean
+  isLoading?: boolean
   modalType?: string
   handleAction: (reason: string) => void
+  type?: string
 }
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ show, onClose, isLoading, handleAction, modalType }) => {
+const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ show, onClose, isLoading, handleAction, type }) => {
   const [reason, setReason] = useState('')
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = () => {
-    if (!reason.trim() && modalType === 'rejected') {
+    if (!reason.trim() && type === 'Reject') {
       setError('Reason is required.')
     } else {
       handleAction(reason)
@@ -31,8 +32,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ show, onClose, is
     <MainModal className="max-w-xl" show={show} onClose={onClose}>
       <div className="flex flex-col gap-3">
         <h2 className="mt-4 text-center text-2xl font-semibold">{`Are you sure?`}</h2>
-        <span className="text-center">{`Are you sure you want to reject this request?`}</span>
-        {modalType === 'rejected' && (
+        <span className="text-center">{`Are you sure you want to ${type?.toLowerCase} this request?`}</span>
+        {type === 'Reject' && (
           <>
             <Textarea rows={4} value={reason} onChange={handleChange} aria-invalid={!!error} />
             {error && <span className="mb-2 text-xs text-red-500">{error}</span>}

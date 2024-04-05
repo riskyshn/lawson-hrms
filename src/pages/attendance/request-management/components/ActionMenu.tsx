@@ -5,6 +5,7 @@ import { CheckCircleIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { attendanceService } from '@/services'
 import ViewModal from './ViewModal'
+// import ConfirmationModal from './ConfirmationModal'
 
 interface ActionMenuProps {
   options: string[]
@@ -17,6 +18,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
   const [modalType, setModalType] = useState('')
   const confirm = useConfirm()
   const toast = useToast()
+  // const [isLoading, setIsLoading] = useState(false)
 
   const handleViewDetails = async (modalType: string) => {
     setModalType(modalType)
@@ -28,13 +30,18 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
     }
   }
 
+  // const handleViewDetails = (type: string) => {
+  //   setShowOptionModal(true)
+  //   setModalType(type)
+  // }
+
   const handleConfirmation = async (modalType: string) => {
     let confirmed = false
     switch (modalType) {
       case 'Approve':
       case 'Reject':
         confirmed = await confirm({
-          text: `Are you sure you want to ${modalType.toLowerCase()} this request?`,
+          text: `Are you sure you want to reject this request?`,
           confirmBtnColor: 'primary',
           cancelBtnColor: 'error',
         })
@@ -67,6 +74,33 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
     setShowOptionModal(false)
   }
 
+  // const openConfirmation = async (type: string, reason: string) => {
+  //   try {
+  //     setIsLoading(true)
+  //     const payload = {
+  //       oid: items.oid,
+  //       status: type,
+  //       rejectedReason: reason || '',
+  //     }
+
+  //     if (type === 'Approve') {
+  //       // await attendanceService.approvedRequestManagement(payload)
+  //       toast('Attendance approved successfully', { color: 'success' })
+  //       const newData = new Date().toISOString()
+  //       onApplyVacancy(newData)
+  //     } else if (type === 'Reject') {
+  //       // await attendanceService.approvedRequestManagement(payload)
+  //       toast('Attendance rejected successfully', { color: 'success' })
+  //       const newData = new Date().toISOString()
+  //       onApplyVacancy(newData)
+  //     }
+  //     setShowOptionModal(false)
+  //     setIsLoading(false)
+  //   } catch (e: any) {
+  //     toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+  //   }
+  // }
+
   return (
     <div className="text-center">
       <Menu as="div" className="relative">
@@ -96,6 +130,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
       {showOptionModal && modalType === 'View Details' && (
         <ViewModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
       )}
+      {/* {showOptionModal && (
+        <ConfirmationModal
+          show={showOptionModal}
+          onClose={() => setShowOptionModal(false)}
+          isLoading={isLoading}
+          handleAction={(reason) => {
+            openConfirmation(modalType, reason)
+          }}
+          type={modalType}
+        />
+      )} */}
     </div>
   )
 }
