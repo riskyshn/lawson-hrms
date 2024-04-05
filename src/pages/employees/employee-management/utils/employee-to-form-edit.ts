@@ -43,8 +43,8 @@ export async function employeeToFormEdit(employee: IEmployee) {
       accountNumber: employee.payroll?.bank?.accountNumber || '',
       bankName: employee.payroll?.bank?.bankName || '',
       allowOvertime: employee.payroll?.allowOvertime ? 1 : 0,
-      baseSalaryType: employee.payroll?.baseSalaryType || 0,
-      baseSalary: employee.payroll?.baseSalary,
+      baseSalaryType: employee.payroll?.baseSalaryType || '0',
+      baseSalary: employee.payroll?.baseSalary || 0,
       taxMethod: employee.payroll?.taxMethod || '',
     },
     components: {

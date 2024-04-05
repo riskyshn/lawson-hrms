@@ -9,11 +9,7 @@ import getCategory from '../utils/get-category'
 const schema = yup.object({
   taxMethod: yup.string().required().label('Tax Method'),
   baseSalary: yup.string().required().label('Base Salary'),
-  baseSalaryType: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .required()
-    .label('Base Salary Type'),
+  baseSalaryType: yup.string().required().label('Base Salary Type'),
   allowOvertime: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -48,8 +44,8 @@ const options = {
     { label: 'Pegawai Tidak Tetap', value: 2 },
   ],
   baseSalaryType: [
-    { label: 'Based on Working Days', value: 1 },
-    { label: 'Lump Sum', value: 2 },
+    { label: 'Working Days', value: '0' },
+    { label: 'Lump Sum', value: '1' },
   ],
   ptkpStatus: ['TK/0', 'TK/1', 'K/0', 'TK/2', 'TK/3', 'K/1', 'K/2', 'K/3'].map((el) => ({ label: el, value: el })),
   jkk: [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el })),
@@ -116,7 +112,7 @@ const PayrollDataForm: React.FC<{
           error={errors.baseSalaryType?.message}
           value={getValues('baseSalaryType')}
           onChange={(v) => {
-            setValue('baseSalaryType', Number(v))
+            setValue('baseSalaryType', v.toString())
             trigger('baseSalaryType')
           }}
         />
