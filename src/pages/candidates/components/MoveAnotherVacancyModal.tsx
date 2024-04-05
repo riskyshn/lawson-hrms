@@ -1,5 +1,5 @@
 import MainModal from '@/components/Elements/MainModal'
-import { candidateService, vacancyService } from '@/services'
+import { candidateService } from '@/services'
 import { Button, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
@@ -18,6 +18,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
 
   useEffect(() => {
     fetchVacancies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchVacancies = async () => {
