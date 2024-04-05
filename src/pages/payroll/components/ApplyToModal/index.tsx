@@ -7,6 +7,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import EmployeeItem from './EmployeeItem'
 import SideModal from './SideModal'
 import SubmitModal from './SubmitModal'
+import ClearToggle from './ClearToggle'
 
 type PropTypes = {
   type: 'BENEFIT' | 'DEDUCTION'
@@ -167,13 +168,9 @@ const ApplyToModal: React.FC<PropTypes> = ({ type, item, onClose, onSubmited }) 
             <div ref={searchRWrapperRef}>
               <div className="flex items-center justify-between p-3">
                 <span className="block text-sm font-semibold">{selected.length} employee(s) selected</span>
-                <button
-                  className="block text-sm text-error-600 disabled:text-gray-400"
-                  disabled={!data.selected.length}
-                  onClick={() => setSelected([])}
-                >
+                <ClearToggle disabled={!data.selected.length} onClear={() => setSelected([])}>
                   Clear Selected
-                </button>
+                </ClearToggle>
               </div>
               <div className="px-3 pb-2">
                 <Input
