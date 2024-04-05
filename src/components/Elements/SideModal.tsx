@@ -5,8 +5,8 @@ import { twMerge } from 'tailwind-merge'
 type PropTypes = {
   show?: boolean
   onClose?: () => void
-  children?: React.ReactNode
   className?: string
+  children?: React.ReactNode
 }
 
 const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ show, onClose, children, className }, ref) => {
