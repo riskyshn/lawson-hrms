@@ -114,7 +114,7 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
           <UploadCloudIcon className="hidden h-10 w-10 text-gray-500 sm:block" />
           <div className="flex flex-col">
             <span className="block text-sm font-semibold text-gray-500">Click to upload or drag your file here</span>
-            <span className="mb-2 block text-xs text-gray-500">Supported formats: JPG, JPEG, or PNG</span>
+            <span className="mb-2 block text-xs text-gray-500">Supported formats: JPG, JPEG or PNG</span>
           </div>
         </div>
         <div className="text-center">

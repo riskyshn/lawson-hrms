@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-const ClearToggle: React.FC<{ onClear: () => void }> = ({ onClear }) => {
+type PropTypes = {
+  disabled?: boolean
+  children?: React.ReactNode
+  onClear?: () => void
+}
+
+const ClearToggle: React.FC<PropTypes> = ({ children, disabled, onClear }) => {
   const [confirming, setConfirming] = useState(false)
   const timerRef = useRef<number | null>(null)
 
@@ -10,7 +16,7 @@ const ClearToggle: React.FC<{ onClear: () => void }> = ({ onClear }) => {
       timerRef.current = null
     }
     if (confirming) {
-      onClear()
+      onClear?.()
       setConfirming(false)
     } else {
       setConfirming(true)
@@ -37,14 +43,13 @@ const ClearToggle: React.FC<{ onClear: () => void }> = ({ onClear }) => {
   }, [])
 
   return (
-    <span className="font-semibold">
+    <span className="block text-sm">
       {!confirming ? (
-        <button type="button" onClick={handleClear} className="ml-3 text-error-600">
-          Clear Selection
+        <button type="button" disabled={disabled} onClick={handleClear} className="text-error-600 disabled:text-gray-400">
+          {children}
         </button>
       ) : (
         <>
-          {' '}
           Are you sure?
           <button type="button" onClick={handleClear} className="mx-2 text-error-600">
             Yes
