@@ -103,6 +103,11 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
           labelRequired
           error={errors[type]?.[index]?.amount?.message}
           {...register(`${type}.${index}.amount`)}
+          rightChild={<span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">%</span>}
+          onChange={(v) => {
+            setValue(`${type}.${index}.amount`, v.currentTarget.value)
+            trigger(`${type}.${index}.amount`)
+          }}
           type="number"
         />
       )}
