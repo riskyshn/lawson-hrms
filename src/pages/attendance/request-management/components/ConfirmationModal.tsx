@@ -5,7 +5,7 @@ import MainModal from '@/components/Elements/MainModal'
 interface ConfirmationModalProps {
   show: boolean
   onClose: () => void
-  isLoading: boolean
+  isLoading?: boolean
   modalType?: string
   handleAction: (reason: string) => void
 }

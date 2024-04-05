@@ -41,11 +41,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
 
   const bodyItems = items.map((item) => {
     const filteredOptions =
-      item.status?.toLowerCase() === 'approved'
-        ? options.filter((option) => option !== 'Approve')
-        : item.status?.toLowerCase() === 'rejected'
-          ? options.filter((option) => option !== 'Approve' && option !== 'Reject')
-          : options
+      item.status?.toLowerCase() === 'approved' || item.status?.toLowerCase() === 'rejected' ? ['View Details'] : options
 
     return {
       items: [

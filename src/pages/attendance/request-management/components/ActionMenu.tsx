@@ -34,7 +34,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
       case 'Approve':
       case 'Reject':
         confirmed = await confirm({
-          text: `Are you sure you want to ${modalType.toLowerCase()} this request?`,
+          text: `Are you sure you want to reject this request?`,
           confirmBtnColor: 'primary',
           cancelBtnColor: 'error',
         })
