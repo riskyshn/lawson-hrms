@@ -230,7 +230,7 @@ const RequirementsForm: React.FC<{
             <Input
               className="mb-2"
               label="Minimum Experience"
-              placeholder="Example : 3.25"
+              placeholder="Example : 3 Year(s)"
               error={errors.minimumExperienceRequirement?.message}
               {...register('minimumExperienceRequirement')}
               type="number"
