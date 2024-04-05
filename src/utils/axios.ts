@@ -13,7 +13,13 @@ export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
   if (!withoutSource) {
     axiosDefault.headers = {
       ...(axiosDefault.headers || {}),
-      'X-Source-App': SOURCE_APP,
+      'x-source-app': SOURCE_APP,
+      'x-lang': 'en',
+    }
+  } else {
+    axiosDefault.headers = {
+      ...(axiosDefault.headers || {}),
+      'x-lang': 'en',
     }
   }
 
