@@ -1,11 +1,13 @@
+import { BASE_SALARY_TYPE_OPTIONS, EMPLOYEE_TAX_STATUS_OPTIONS, TAX_METHOD_OPTIONS } from '@/constants/options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, Select } from 'jobseeker-ui'
 import { HelpCircleIcon } from 'lucide-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import getCategory from '../utils/get-category'
-import { BASE_SALARY_TYPE_OPTIONS, EMPLOYEE_TAX_STATUS_OPTIONS, TAX_METHOD_OPTIONS } from '@/constants/options'
+import { usePayrollStore } from '@/store'
+import numberToCurrency from '@/utils/number-to-currency'
 
 const schema = yup.object({
   taxMethod: yup.string().required().label('Tax Method'),
@@ -20,7 +22,7 @@ const schema = yup.object({
   accountNumber: yup.string().required().label('Account Number'),
   accountHolderName: yup.string().required().label('Account Holder Name'),
   employmentTaxStatus: yup.string().required().label('Employment Tax Status'),
-  npwpNumber: yup.string().length(16).required().label('NPWP Number'),
+  npwpNumber: yup.string().length(15).required().label('NPWP Number'),
   ptkpStatus: yup.string().required().label('PTKP Status'),
   category: yup.string().required().label('Category'),
   notParticipateBpjs: yup.boolean(),
@@ -57,6 +59,15 @@ const PayrollDataForm: React.FC<{
     resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
+
+  const {
+    master: { bpjsComponent },
+  } = usePayrollStore()
+
+  useEffect(() => {
+    if (!props.defaultValue?.ptkpStatus) return
+    setValue('category', getCategory(props.defaultValue.ptkpStatus))
+  }, [props.defaultValue?.ptkpStatus, setValue])
 
   const onSubmit = handleSubmit(props.handleSubmit)
 
@@ -127,7 +138,7 @@ const PayrollDataForm: React.FC<{
         </div>
         <Input label="Bank Name" labelRequired error={errors.bankName?.message} {...register('bankName')} />
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Account Number" labelRequired error={errors.accountNumber?.message} {...register('accountNumber')} />
+          <Input label="Account Number" labelRequired error={errors.accountNumber?.message} {...register('accountNumber')} type="number" />
           <Input label="Account Holder Name" labelRequired error={errors.accountHolderName?.message} {...register('accountHolderName')} />
         </div>
       </CardBody>
@@ -151,7 +162,7 @@ const PayrollDataForm: React.FC<{
           }}
         />
         <div className="grid grid-cols-2 gap-4">
-          <Input label="NPWP Number" labelRequired error={errors.npwpNumber?.message} {...register('npwpNumber')} />
+          <Input label="NPWP Number" labelRequired error={errors.npwpNumber?.message} {...register('npwpNumber')} type="number" />
           <Select
             label="PTKP Status"
             labelRequired
@@ -180,7 +191,7 @@ const PayrollDataForm: React.FC<{
         <div className="pb-2">
           <h3 className="text-sm font-semibold">Paid by Employer</h3>
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Jaminan Hari Tua (JHT)" disabled value="3.7%" />
+            <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
             <Select
               label="Jaminan Kecelakaan Kerja (JKK)"
               options={options.jkk}
@@ -195,16 +206,22 @@ const PayrollDataForm: React.FC<{
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Jaminan Kematian (JKM)" disabled value="0.3%" />
-            <Input label="Jaminan Pensiun (JP)" disabled required value="2%" help="JP Maximum Cap Rp. 191.192,00*" />
+            <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
+            <Input
+              label="Jaminan Pensiun (JP)"
+              disabled
+              required
+              value={`${bpjsComponent?.paidByEmployer?.jp?.rate}%`}
+              help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}`}
+            />
           </div>
           <div className="mb-3">
             <Input
               label="Jaminan Kesehatan (KS)"
               disabled
               required
-              value={watch('notParticipateBpjs') ? '0%' : '4%'}
-              help="KS Maximum Cap Rp. 480.000,00*"
+              value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
+              help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}`}
             />
           </div>
           <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('notParticipateBpjs')}>
@@ -219,14 +236,19 @@ const PayrollDataForm: React.FC<{
           <h3 className="text-sm font-semibold">Paid by Employee</h3>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Jaminan Hari Tua (JHT)" disabled value="2%" />
-          <Input label="Jaminan Pensiun (JP)" disabled value="1%" help="JP Maximum Cap Rp. 95.596,00*" />
+          <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
+          <Input
+            label="Jaminan Pensiun (JP)"
+            disabled
+            value={`${bpjsComponent?.paidByEmployee?.jp?.rate}%`}
+            help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}`}
+          />
         </div>
         <Input
           label="Jaminan Kesehatan (KS)"
           disabled
-          value={watch('notParticipateBpjs') ? '0%' : '1%'}
-          help="KS Maximum Cap Rp. 120.000,00*"
+          value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
+          help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}`}
         />
       </CardBody>
 

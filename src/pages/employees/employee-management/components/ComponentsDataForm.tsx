@@ -1,4 +1,6 @@
 import { payrollService } from '@/services'
+import { usePayrollStore } from '@/store'
+import numberToCurrency from '@/utils/number-to-currency'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, Spinner } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
@@ -8,6 +10,7 @@ import { componentDataSchema, defaultComponentValue } from './shared'
 
 const ComponentsDataForm: React.FC<{
   defaultValue: any
+  allFormData?: any
   handlePrev: () => void
   handleSubmit: (data: any) => void
   isLoading?: boolean
@@ -15,6 +18,9 @@ const ComponentsDataForm: React.FC<{
 }> = (props) => {
   const form = useForm({ resolver: yupResolver(componentDataSchema) })
 
+  const {
+    master: { bpjsComponent },
+  } = usePayrollStore()
   const [pageError, setPageError] = useState<any>()
   const [componentData, setComponentData] = useState<{ benefits: IBenefitComponent[]; deductions: IDeductionComponent[] }>()
   if (pageError) throw pageError
@@ -85,28 +91,43 @@ const ComponentsDataForm: React.FC<{
             </div>
             <h3 className="text-sm font-semibold">Benefits</h3>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="3.70%" />
-              <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled defaultValue="0.24%" />
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
+              <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled value={props.allFormData?.payroll?.jkk + '%'} />
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
-              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" help="JP Maximum Cap Rp. 191.980,00*" />
+              <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
+              <Input
+                label="Jaminan Pensiun (JP)"
+                disabled
+                value={`${bpjsComponent?.paidByEmployer?.jp?.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}*`}
+              />
             </div>
-            <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
+            <Input
+              label="Jaminan Kesehatan (KS)"
+              disabled
+              value={props.allFormData?.payroll?.jkk ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
+              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}*`}
+            />
           </CardBody>
 
           <CardBody className="grid grid-cols-1 gap-3">
-            {watchBenefits?.map((el, i) => (
-              <ComponentItem
-                key={i}
-                index={i}
-                item={el}
-                type="benefits"
-                components={componentData}
-                form={form}
-                onRemove={handleRemoveBenefit}
-              />
-            ))}
+            {watchBenefits?.map((el, i) => {
+              const selectedIds = watchBenefits.map((wb) => wb.componentId).filter((oid) => oid !== el.componentId)
+              const remainingComponents = componentData.benefits.filter((el) => !selectedIds.includes(el.oid))
+
+              return (
+                <ComponentItem
+                  key={i}
+                  index={i}
+                  item={el}
+                  type="benefits"
+                  components={remainingComponents}
+                  form={form}
+                  onRemove={() => handleRemoveBenefit(i)}
+                />
+              )
+            })}
             <Button type="button" block color="primary" variant="light" onClick={handleAddBenefit}>
               Add Component
             </Button>
@@ -114,37 +135,42 @@ const ComponentsDataForm: React.FC<{
 
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-sm font-semibold">Deduction</h3>
-
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="3.70%" />
-              <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled defaultValue="0.24%" />
-            </div>
-            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Kematian (JKM)" disabled defaultValue="0.30%" />
-              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="2%" help="JP Maximum Cap Rp. 191.980,00*" />
-            </div>
-            <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="4%" help="KS Maximum Cap Rp. 480.000,00*" />
-
-            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Hari Tua (JHT)" disabled defaultValue="2%" />
-              <Input label="Jaminan Pensiun (JP)" disabled defaultValue="1%" />
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
+              <Input
+                label="Jaminan Pensiun (JP)"
+                disabled
+                value={`${bpjsComponent?.paidByEmployee?.jp?.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}*`}
+              />
             </div>
 
-            <Input label="Jaminan Kesehatan (KS)" disabled defaultValue="1%" help="KS Maximum Cap Rp. 480.000,00*" />
+            <Input
+              label="Jaminan Kesehatan (KS)"
+              disabled
+              required
+              value={props.allFormData?.payroll?.jkk ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
+              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}*`}
+            />
           </CardBody>
 
           <CardBody className="grid grid-cols-1 gap-3">
-            {watchDeductions?.map((el, i) => (
-              <ComponentItem
-                key={i}
-                index={i}
-                item={el}
-                type="deductions"
-                components={componentData}
-                form={form}
-                onRemove={handleRemoveDeduction}
-              />
-            ))}
+            {watchDeductions?.map((el, i) => {
+              const selectedIds = watchDeductions.map((wb) => wb.componentId).filter((oid) => oid !== el.componentId)
+              const remainingComponents = componentData.deductions.filter((el) => !selectedIds.includes(el.oid))
+
+              return (
+                <ComponentItem
+                  key={i}
+                  index={i}
+                  item={el}
+                  type="deductions"
+                  components={remainingComponents}
+                  form={form}
+                  onRemove={() => handleRemoveDeduction(i)}
+                />
+              )
+            })}
             <Button type="button" block color="primary" variant="light" onClick={handleAddDeduction}>
               Add Component
             </Button>

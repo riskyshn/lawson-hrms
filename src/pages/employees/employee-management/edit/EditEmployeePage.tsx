@@ -37,7 +37,9 @@ const EditEmployeePage = () => {
     if (!employee) return
 
     const load = async () => {
-      setFormValues(await employeeToFormEdit(employee))
+      const values = await employeeToFormEdit(employee)
+      console.log(values)
+      setFormValues(values)
       setIsLoaded(true)
     }
     load()
@@ -116,6 +118,7 @@ const EditEmployeePage = () => {
           <ComponentsDataForm
             isEdit
             defaultValue={formValues.components}
+            allFormData={formValues}
             handlePrev={handlePrev}
             handleSubmit={(components) => handleStepSubmit({ ...formValues, components })}
             isLoading={isSubmitLoading}

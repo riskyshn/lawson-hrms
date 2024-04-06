@@ -1,13 +1,14 @@
+import { usePayrollStore } from '@/store'
+
 export default function getCategory(input?: string): string {
-  const mapping = {
-    'TK/0': 'A',
-    'TK/1': 'A',
-    'K/0': 'A',
-    'TK/2': 'B',
-    'TK/3': 'B',
-    'K/1': 'B',
-    'K/2': 'B',
-    'K/3': 'C',
+  const {
+    master: { pph21 },
+  } = usePayrollStore.getState()
+
+  const mapping: Record<string, string> = {}
+
+  for (const i of pph21) {
+    mapping[i.name] = i.category
   }
 
   // @ts-expect-error

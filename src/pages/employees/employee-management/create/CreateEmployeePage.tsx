@@ -110,6 +110,7 @@ const CreateEmployeePage = () => {
         {activeStep === 3 && (
           <ComponentsDataForm
             defaultValue={formValues.components}
+            allFormData={formValues}
             handlePrev={handlePrev}
             handleSubmit={(components) => handleStepSubmit({ ...formValues, components })}
             isLoading={isSubmitLoading}

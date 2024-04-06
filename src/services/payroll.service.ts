@@ -8,6 +8,13 @@ const axios = createAxiosInstance({
 })
 
 /**
+ * Master Data
+ */
+export const fetchPPH21 = () => {
+  return axios.get<{ data: { content: { name: string; category: string }[] } }>(`/pph21-category`).then((response) => response.data.data)
+}
+
+/**
  * BPJS Component
  *
  */
