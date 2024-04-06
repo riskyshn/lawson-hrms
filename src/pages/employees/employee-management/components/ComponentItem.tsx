@@ -44,7 +44,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
     setValue(`${type}.${index}.amountType`, String(component.amountType || ''))
     setValue(`${type}.${index}.applicationType`, String(component.applicationType || ''))
     setValue(`${type}.${index}.taxType`, String(component.taxType || ''))
-    setValue(`${type}.${index}.maxCap`, String(component.maxCap || ''))
+    setValue(`${type}.${index}.maxCap`, String(component.maxCap || 0))
 
     trigger(`${type}.${index}.amount`)
     trigger(`${type}.${index}.amountType`)

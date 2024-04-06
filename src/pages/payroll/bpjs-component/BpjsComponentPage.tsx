@@ -63,7 +63,7 @@ const BpjsComponentPage: React.FC = () => {
             <CardBody className="grid grid-cols-1 gap-2">
               <div className="pb-2">
                 <h3 className="text-lg font-semibold">BPJS Paid by Employer</h3>
-                <p className="text-xs text-gray-500">Percentage from based salary paid by company as allowance</p>
+                <p className="text-xs text-gray-500">Percentage from based salary Paid by Employer as allowance</p>
               </div>
               <Input label="Jaminan Hari Tua (JHT)" disabled value={`${pageData.paidByEmployer?.jht?.rate}%`} />
               <Select

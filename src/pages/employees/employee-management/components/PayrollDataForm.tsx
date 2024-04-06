@@ -19,13 +19,10 @@ const schema = yup.object({
   bankName: yup.string().required().label('Bank Name'),
   accountNumber: yup.string().required().label('Account Number'),
   accountHolderName: yup.string().required().label('Account Holder Name'),
-  employmentTaxStatus: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .required()
-    .label('Employment Tax Status'),
-  npwpNumber: yup.string().required().label('NPWP Number'),
+  employmentTaxStatus: yup.string().required().label('Employment Tax Status'),
+  npwpNumber: yup.string().length(16).required().label('NPWP Number'),
   ptkpStatus: yup.string().required().label('PTKP Status'),
+  category: yup.string().required().label('Category'),
   notParticipateBpjs: yup.boolean(),
   jkk: yup
     .number()
@@ -149,7 +146,7 @@ const PayrollDataForm: React.FC<{
           error={errors.employmentTaxStatus?.message}
           value={getValues('employmentTaxStatus')}
           onChange={(v) => {
-            setValue('employmentTaxStatus', Number(v))
+            setValue('employmentTaxStatus', v.toString())
             trigger('employmentTaxStatus')
           }}
         />
@@ -165,12 +162,14 @@ const PayrollDataForm: React.FC<{
             value={getValues('ptkpStatus')}
             onChange={(v) => {
               setValue('ptkpStatus', v.toString())
+              setValue('category', getCategory(v.toString()) || '')
               trigger('ptkpStatus')
+              trigger('category')
             }}
           />
         </div>
 
-        <Input label="Category" name="category" value={getCategory(watch('ptkpStatus'))} disabled />
+        <Input label="Category" name="category" defaultValue={watch('category')} disabled />
       </CardBody>
 
       <CardBody className="grid grid-cols-1 gap-2">
@@ -179,7 +178,7 @@ const PayrollDataForm: React.FC<{
           <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
         </div>
         <div className="pb-2">
-          <h3 className="text-sm font-semibold">Paid by Company</h3>
+          <h3 className="text-sm font-semibold">Paid by Employer</h3>
           <div className="grid grid-cols-2 gap-4">
             <Input label="Jaminan Hari Tua (JHT)" disabled value="3.7%" />
             <Select
