@@ -1,4 +1,3 @@
-import genOptions from '@/utils/gen-options'
 import * as yup from 'yup'
 
 export const schema = yup.object().shape({
@@ -16,9 +15,3 @@ export const schema = yup.object().shape({
   applicationType: yup.string().required().label('Application Type'),
   taxType: yup.string().required().label('Tax Type'),
 })
-
-export const options = {
-  amountType: genOptions(['percentage', 'fixed']),
-  applicationType: genOptions(['lump-sum', 'working-days']),
-  taxType: genOptions(['taxable', 'non-taxable']),
-}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import BgImage from '@/assets/hero.jpg'
-// import Logo from '@/components/Logo/Logo'
+import Logo from '@/components/Logo/Logo'
 
 const AuthLayout: React.FC = () => {
   return (
@@ -12,9 +12,9 @@ const AuthLayout: React.FC = () => {
       }}
     >
       <main className="flex flex-1 flex-col items-center bg-white/80 p-3 pt-6 md:pt-10 lg:pt-14">
-        {/* <header className="flex px-3 py-6 md:pt-10 lg:pt-14">
+        <header className="flex px-3 py-6 md:pt-10 lg:pt-14">
           <Logo height={50} />
-        </header> */}
+        </header>
 
         <div className="w-full max-w-sm rounded-lg border border-gray-100 bg-white shadow">
           <Outlet />

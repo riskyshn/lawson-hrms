@@ -1,4 +1,3 @@
-import genOptions from '@/utils/gen-options'
 import * as yup from 'yup'
 
 export const componentDataSchema = yup.object().shape({
@@ -25,9 +24,3 @@ export const componentDataSchema = yup.object().shape({
 })
 
 export const defaultComponentValue = { componentId: '', amount: '', applicationType: '', maxCap: '', taxType: '', amountType: '' }
-
-export const options = {
-  amountType: genOptions(['percentage', 'fixed']),
-  applicationType: genOptions(['lump-sum', 'working-days']),
-  taxType: genOptions(['taxable', 'non-taxable']),
-}

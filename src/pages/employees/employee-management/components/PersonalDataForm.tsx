@@ -40,8 +40,8 @@ const schema = yup.object({
     .url()
     .label('National ID'),
 
-  nationalIdNumber: yup.string().required().label('National ID Number'),
-  postalCode: yup.string().label('Postal Code'),
+  nationalIdNumber: yup.string().required().length(16).label('National ID Number'),
+  postalCode: yup.string().length(5).label('Postal Code'),
   nationIdAddress: yup.string().label('Nation ID Address'),
   residentalAddress: yup.string().label('Residental Address'),
 })
@@ -222,8 +222,14 @@ const PersonalDataForm: React.FC<{
         </InputWrapper>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="National ID Number" labelRequired error={errors.nationalIdNumber?.message} {...register('nationalIdNumber')} />
-          <Input label="Postal Code" error={errors.postalCode?.message} {...register('postalCode')} />
+          <Input
+            label="National ID Number"
+            labelRequired
+            error={errors.nationalIdNumber?.message}
+            {...register('nationalIdNumber')}
+            type="number"
+          />
+          <Input label="Postal Code" error={errors.postalCode?.message} {...register('postalCode')} type="number" />
         </div>
         <Textarea label="Nation ID Address" rows={6} error={errors.nationIdAddress?.message} {...register('nationIdAddress')} />
         <Textarea

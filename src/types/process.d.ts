@@ -1,7 +1,7 @@
 interface IDataTableApplicant {
   oid: string
   recruitmentStage?: string
-  actionAt?: string | null
+  actionAt?: string
   createdAt?: string
   documentLink?: string
 
@@ -10,17 +10,8 @@ interface IDataTableApplicant {
     name?: string
   }
 
-  candidate?: {
-    oid: string
-    name?: string
-    email?: string
-  }
-
-  vacancy?: {
-    oid: string
-    rrNumber?: string
-    name?: string
-  }
+  candidate?: IGeneralDataEmmbed & { email?: string }
+  vacancy?: IGeneralDataEmmbed & { rrNumber?: string }
 }
 
 interface IApplicant extends IDataTableApplicant {
@@ -29,9 +20,9 @@ interface IApplicant extends IDataTableApplicant {
     applyProcess?: string
     status?: string
     from?: string
-    notes?: string | null
-    file?: string | null
-    actionAt?: string | null
+    notes?: string
+    file?: string
+    actionAt?: string
     processAt?: string
   }>
 }
@@ -44,13 +35,10 @@ interface IApplicantStage {
 }
 
 interface IUploadedProcessDocument {
-  document: {
-    name: string
-    oid: string
-  }
+  document: IGeneralDataEmmbed
   file: {
     link: string
-    type?: string | null
+    type?: string
   }
   uploadedAt: string
 }

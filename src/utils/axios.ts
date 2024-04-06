@@ -55,5 +55,5 @@ export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
 }
 
 export function axiosErrorMessage(e: any) {
-  return e.response?.data?.meta?.message || e.response?.message || e.message
+  return e.response?.data?.meta?.message || e.response?.data?.message || e.response?.message || e.message
 }

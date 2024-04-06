@@ -51,18 +51,9 @@ interface ICompany {
     name?: Record<string, string>
     img?: string
   }
-  city?: {
-    oid?: string
-    name?: string
-  }
-  district?: {
-    oid?: string
-    name?: string
-  }
-  subDistrict?: {
-    oid?: string
-    name?: string
-  }
+  city?: IGeneralDataEmmbed
+  district?: IGeneralDataEmmbed
+  subDistrict?: IGeneralDataEmmbed
   legacyData?: Array<{
     registeredFrom?: string
     flag?: number
@@ -93,36 +84,21 @@ interface ICompany {
     description?: string
     date?: string // date
   }>
-  branch?: Array<{
-    oid: string
-    name?: string
-    address?: string
-  }>
+  branch?: Array<IGeneralDataEmmbed & { address?: string }>
 }
 
 interface IBranch {
   oid: string
   name?: string
   address?: string
-  company?: {
-    oid: string
-    name?: string
-    code?: string
-  }
-  pic?: {
-    oid: string
-    name?: string
-    email?: string
-  }
+  company?: IGeneralDataEmmbed & { code?: string }
+  pic?: IGeneralDataEmmbed & { email?: string }
   status?: boolean
   coordinate?: ICoordinate
   range?: number
   totalEmployee?: number
   totalVacancy?: number
-  city?: {
-    oid: string
-    name?: string
-  }
+  city?: IGeneralDataEmmbed
   createdAt?: string // date
   updatedAt?: string // date
 }
@@ -131,11 +107,7 @@ interface IDepartment {
   oid: string
   name?: string
   code?: string
-  company?: {
-    oid: string
-    name?: string
-    code?: string
-  }
+  company?: IGeneralDataEmmbed & { code?: string }
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
@@ -146,11 +118,7 @@ interface IDepartment {
 interface IJobLevel {
   oid: string
   name?: string
-  company?: {
-    oid: string
-    name?: string
-    code?: string
-  }
+  company?: IGeneralDataEmmbed & { code?: string }
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
@@ -161,15 +129,8 @@ interface IJobLevel {
 interface IPosition {
   oid: string
   name?: string
-  company?: {
-    oid: string
-    name?: string
-    code?: string
-  }
-  department?: {
-    oid: string
-    name?: string
-  }
+  company?: IGeneralDataEmmbed & { code?: string }
+  department?: IGeneralDataEmmbed
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
@@ -180,11 +141,7 @@ interface IPosition {
 interface IBenefit {
   oid: string
   name?: string
-  company?: {
-    oid: string
-    name?: string
-    code?: string
-  }
+  company?: IGeneralDataEmmbed & { code?: string }
   status?: boolean
   totalVacancy?: number
   createdAt?: string
@@ -212,10 +169,7 @@ interface IRecruitmentStage {
 interface IApproval {
   oid: string
   status: number
-  employee: {
-    oid: string
-    name?: string
-  }
+  employee: IGeneralDataEmmbed
   position?: stirng | null
   department?: stirng | null
   branch?: stirng | null

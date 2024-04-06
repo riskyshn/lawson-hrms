@@ -35,7 +35,7 @@ const CreateEmployeePage = () => {
     const load = async () => {
       try {
         const data = await payrollService.fetchBpjsComponent()
-        setFormValues({ ...formValues, payroll: { ...formValues.payroll, jkk: data.paidByEmployer.jkk.rate } })
+        setFormValues({ ...formValues, payroll: { ...formValues.payroll, jkk: data.paidByEmployer?.jkk?.rate } })
       } catch (e) {
         setPageError(e)
       }

@@ -1,17 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate, useToast } from 'jobseeker-ui'
-import SelectEmployeeModal from './components/SelectEmployeeModal'
-import PageHeader from '@/components/Elements/PageHeader'
 import Container from '@/components/Elements/Container'
+import PageHeader from '@/components/Elements/PageHeader'
+import LoadingScreen from '@/components/UI/LoadingScreen'
 import { employeeService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
+import { Button, Card, CardBody, CardFooter, Input, InputDate, InputWrapper } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
+import EmployeeSelectorModal from '../components/EmployeeSelectorModal'
 
 const RunPage = () => {
-  const [showModal, setShowModal] = useState(false)
-
-  // const [loading, setLoading] = useState(false)
+  const [showSelectEmployeeModal, setShowSelectEmployeeModal] = useState(false)
   const [employees, setEmployees] = useState<IDataTableEmployee[]>()
-  const toast = useToast()
+  const [selectedEmployees, setSelectedEmployees] = useState<string[]>([])
+  const [pageError, setPageError] = useState<any>()
 
   useEffect(() => {
     const loadEmployees = async () => {
@@ -19,50 +18,71 @@ const RunPage = () => {
         const response = await employeeService.fetchEmployees({ limit: 99999999 })
         setEmployees(response.content)
       } catch (e) {
-        toast(axiosErrorMessage(e), { color: 'error' })
+        setPageError(e)
       }
     }
 
     loadEmployees()
-  }, [toast])
+  }, [])
+
+  if (pageError) throw pageError
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Payroll' }, { text: 'Run' }]} title="Payroll" />
+      <PageHeader
+        breadcrumb={[{ text: 'Payroll' }, { text: 'Run Payroll' }]}
+        title="Run Payroll"
+        subtitle={
+          <>
+            You can check payroll <span className="text-primary-600">Requests here</span>
+          </>
+        }
+      />
+
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <Card>
-          <CardBody className="grid grid-cols-1 gap-2">
-            <div className="pb-2">
-              <h3 className="text-lg font-semibold">Run Payroll Request</h3>
-              <p className="text-xs text-gray-500">You can check payroll Requests here</p>
-            </div>
-            <Input labelRequired label="Title" />
-            <InputDate label="Period" displayFormat="DD-MM-YYYY" />
-            <InputDate label="Schedule" asSingle useRange={false} displayFormat="DD-MM-YYYY" />
-            <div className="flex flex-col">
-              <span className="text-xs">Who will be processed in this run payroll?</span>
-              <div className="mt-2 flex items-center">
-                <Button color="primary" variant="outline" onClick={() => setShowModal(true)}>
-                  Select Employee
+          <LoadingScreen show={!employees} className="py-32" />
+
+          {employees && (
+            <CardBody className="grid grid-cols-1 gap-2">
+              <Input labelRequired label="Title" />
+              <InputDate label="Period" displayFormat="DD-MM-YYYY" />
+              <InputDate label="Schedule" asSingle useRange={false} displayFormat="DD-MM-YYYY" />
+              <InputWrapper
+                label="Who will be processed in this run payroll?"
+                labelRequired
+                wrapperClassName="flex py-1 gap-3 items-center"
+              >
+                <Button color="primary" variant="outline" onClick={() => setShowSelectEmployeeModal(true)}>
+                  Select Employees
                 </Button>
-                <div className="ml-4 flex items-center">
-                  <InputCheckbox id="employees" size={16} />
-                  <span className="ml-2 text-xs">Select All Employees ({employees?.length})</span>
-                </div>
-              </div>
-            </div>
-          </CardBody>
-          <CardFooter className="mt-8 flex justify-end gap-3">
+                <span className="block">
+                  {selectedEmployees.length} Selected of {employees.length} Employees
+                </span>
+              </InputWrapper>
+            </CardBody>
+          )}
+
+          <CardFooter className="gap-3">
             <Button type="button" color="error" variant="light" className="w-24">
               Cancel
             </Button>
-            <Button type="button" color="primary">
+            <Button type="button" color="primary" className="w-24">
               Create
             </Button>
           </CardFooter>
         </Card>
       </Container>
-      {showModal && <SelectEmployeeModal show onClose={() => setShowModal(false)} employees={employees} />}
+
+      {employees && (
+        <EmployeeSelectorModal
+          show={showSelectEmployeeModal}
+          employees={employees}
+          selected={selectedEmployees}
+          setSelected={setSelectedEmployees}
+          onClose={() => setShowSelectEmployeeModal(false)}
+        />
+      )}
     </>
   )
 }

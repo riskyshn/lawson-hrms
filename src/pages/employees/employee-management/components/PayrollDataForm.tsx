@@ -5,6 +5,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import getCategory from '../utils/get-category'
+import { BASE_SALARY_TYPE_OPTIONS, EMPLOYEE_TAX_STATUS_OPTIONS, TAX_METHOD_OPTIONS } from '@/constants/options'
 
 const schema = yup.object({
   taxMethod: yup.string().required().label('Tax Method'),
@@ -18,13 +19,10 @@ const schema = yup.object({
   bankName: yup.string().required().label('Bank Name'),
   accountNumber: yup.string().required().label('Account Number'),
   accountHolderName: yup.string().required().label('Account Holder Name'),
-  employmentTaxStatus: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .required()
-    .label('Employment Tax Status'),
-  npwpNumber: yup.string().required().label('NPWP Number'),
+  employmentTaxStatus: yup.string().required().label('Employment Tax Status'),
+  npwpNumber: yup.string().length(16).required().label('NPWP Number'),
   ptkpStatus: yup.string().required().label('PTKP Status'),
+  category: yup.string().required().label('Category'),
   notParticipateBpjs: yup.boolean(),
   jkk: yup
     .number()
@@ -34,18 +32,9 @@ const schema = yup.object({
 })
 
 const options = {
-  taxMethod: ['Gross', 'Gross Up', 'Net'].map((el) => ({ label: el, value: el })),
   allowOvertime: [
     { label: 'Yes', value: 1 },
     { label: 'No', value: 0 },
-  ],
-  employeeTaxStatus: [
-    { label: 'Pegawai Tetap', value: 1 },
-    { label: 'Pegawai Tidak Tetap', value: 2 },
-  ],
-  baseSalaryType: [
-    { label: 'Working Days', value: '0' },
-    { label: 'Lump Sum', value: '1' },
   ],
   ptkpStatus: ['TK/0', 'TK/1', 'K/0', 'TK/2', 'TK/3', 'K/1', 'K/2', 'K/3'].map((el) => ({ label: el, value: el })),
   jkk: [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el })),
@@ -81,7 +70,7 @@ const PayrollDataForm: React.FC<{
         <Select
           label="Tax Method"
           labelRequired
-          options={options.taxMethod}
+          options={TAX_METHOD_OPTIONS}
           hideSearch
           name="taxMethod"
           error={errors.taxMethod?.message}
@@ -106,7 +95,7 @@ const PayrollDataForm: React.FC<{
         <Select
           label="Base Salary Type"
           labelRequired
-          options={options.baseSalaryType}
+          options={BASE_SALARY_TYPE_OPTIONS}
           hideSearch
           name="baseSalaryType"
           error={errors.baseSalaryType?.message}
@@ -151,13 +140,13 @@ const PayrollDataForm: React.FC<{
         <Select
           label="Employment Tax Status"
           labelRequired
-          options={options.employeeTaxStatus}
+          options={EMPLOYEE_TAX_STATUS_OPTIONS}
           hideSearch
           name="employmentTaxStatus"
           error={errors.employmentTaxStatus?.message}
           value={getValues('employmentTaxStatus')}
           onChange={(v) => {
-            setValue('employmentTaxStatus', Number(v))
+            setValue('employmentTaxStatus', v.toString())
             trigger('employmentTaxStatus')
           }}
         />
@@ -173,12 +162,14 @@ const PayrollDataForm: React.FC<{
             value={getValues('ptkpStatus')}
             onChange={(v) => {
               setValue('ptkpStatus', v.toString())
+              setValue('category', getCategory(v.toString()) || '')
               trigger('ptkpStatus')
+              trigger('category')
             }}
           />
         </div>
 
-        <Input label="Category" name="category" value={getCategory(watch('ptkpStatus'))} disabled />
+        <Input label="Category" name="category" defaultValue={watch('category')} disabled />
       </CardBody>
 
       <CardBody className="grid grid-cols-1 gap-2">
@@ -187,7 +178,7 @@ const PayrollDataForm: React.FC<{
           <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
         </div>
         <div className="pb-2">
-          <h3 className="text-sm font-semibold">Paid by Company</h3>
+          <h3 className="text-sm font-semibold">Paid by Employer</h3>
           <div className="grid grid-cols-2 gap-4">
             <Input label="Jaminan Hari Tua (JHT)" disabled value="3.7%" />
             <Select
