@@ -34,7 +34,7 @@ export async function employeeToFormEdit(employee: IEmployee) {
       scheduleId: employee.employment?.schedule?.oid || '',
     },
     payroll: {
-      jkk: employee.payroll?.bpjs?.paidByCompany?.jkk || 0,
+      jkk: employee.payroll?.bpjs?.paidByEmployer?.jkk || 0,
       notParticipateBpjs: !employee.payroll?.participateBpjs,
       ptkpStatus: employee.payroll?.taxConfig?.ptkpStatus || '',
       npwpNumber: employee.payroll?.taxConfig?.npwpNumber || '',

@@ -34,11 +34,11 @@ const Table: React.FC<PropTypes> = ({ type, items, loading, onRefresh }) => {
   const bodyItems = items.map((item, index) => ({
     items: [
       { children: item.name, className: 'font-semibold' },
-      { children: item.amountType },
-      { children: item.amountType === 'fixed' ? numberToCurrency(item.amount) : `${item.amount}%` },
+      { children: item.amountType?.name },
+      { children: item.amountType?.oid === 'FIXED' ? numberToCurrency(item.amount) : `${item.amount}%` },
       { children: numberToCurrency(item.maxCap) },
-      { children: item.applicationType },
-      { children: item.taxType },
+      { children: item.applicationType?.name },
+      { children: item.taxType?.name },
       {
         children: (
           <span className="flex items-center justify-center gap-2">

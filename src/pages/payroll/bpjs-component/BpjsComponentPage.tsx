@@ -21,7 +21,7 @@ const BpjsComponentPage: React.FC = () => {
       try {
         const data = await payrollService.fetchBpjsComponent()
         setPageData(data)
-        setJkk(data.paidByEmployer.jkk.rate)
+        setJkk(data.paidByEmployer?.jkk?.rate || 0)
       } catch (e) {
         setPageError(e)
       }
@@ -65,7 +65,7 @@ const BpjsComponentPage: React.FC = () => {
                 <h3 className="text-lg font-semibold">BPJS Paid by Employer</h3>
                 <p className="text-xs text-gray-500">Percentage from based salary paid by company as allowance</p>
               </div>
-              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${pageData.paidByEmployer.jht.rate}%`} />
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${pageData.paidByEmployer?.jht?.rate}%`} />
               <Select
                 label="Jaminan Kecelakaan Kerja (JKK)"
                 options={jkkOptions}
@@ -74,20 +74,20 @@ const BpjsComponentPage: React.FC = () => {
                 value={jkk}
                 onChange={(v) => setJkk(Number(v))}
               />
-              <Input label="Jaminan Kematian (JKM)" disabled value={`${pageData.paidByEmployer.jkm.rate}%`} />
+              <Input label="Jaminan Kematian (JKM)" disabled value={`${pageData.paidByEmployer?.jkm?.rate}%`} />
               <Input
                 label="Jaminan Pensiun (JP)"
                 disabled
                 required
-                value={`${pageData.paidByEmployer.jp.rate}%`}
-                help={`JP Maximum Cap ${numberToCurrency(pageData.paidByEmployer.jp.maxCap)}*`}
+                value={`${pageData.paidByEmployer?.jp?.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(pageData.paidByEmployer?.jp?.maxCap)}*`}
               />
               <Input
                 label="Jaminan Kesehatan (KS)"
                 disabled
                 required
-                value={`${pageData.paidByEmployer.jks.rate}%`}
-                help={`JKS Maximum Cap ${numberToCurrency(pageData.paidByEmployer.jks.maxCap)}*`}
+                value={`${pageData.paidByEmployer?.jks?.rate}%`}
+                help={`JKS Maximum Cap ${numberToCurrency(pageData.paidByEmployer?.jks?.maxCap)}*`}
               />
             </CardBody>
             <CardBody className="grid grid-cols-1 gap-2">
@@ -95,20 +95,20 @@ const BpjsComponentPage: React.FC = () => {
                 <h3 className="text-lg font-semibold">BPJS Paid by Employee</h3>
                 <p className="text-xs text-gray-500">Percentage from based salary paid by the employee</p>
               </div>
-              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${pageData.paidByEmployee.jht.rate}%`} />
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${pageData.paidByEmployee?.jht?.rate}%`} />
               <Input
                 label="Jaminan Pensiun (JP)"
                 disabled
                 required
-                value={`${pageData.paidByEmployee.jp.rate}%`}
-                help={`JP Maximum Cap ${numberToCurrency(pageData.paidByEmployee.jp.maxCap)}*`}
+                value={`${pageData.paidByEmployee?.jp?.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(pageData.paidByEmployee?.jp?.maxCap)}*`}
               />
               <Input
                 label="Jaminan Kesehatan (KS)"
                 disabled
                 required
-                value={`${pageData.paidByEmployee.jks.rate}%`}
-                help={`JKS Maximum Cap ${numberToCurrency(pageData.paidByEmployee.jks.maxCap)}*`}
+                value={`${pageData.paidByEmployee?.jks?.rate}%`}
+                help={`JKS Maximum Cap ${numberToCurrency(pageData.paidByEmployee?.jks?.maxCap)}*`}
               />
             </CardBody>
 

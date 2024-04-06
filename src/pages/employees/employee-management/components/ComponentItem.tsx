@@ -2,7 +2,8 @@ import { Button, Input, InputCurrency, Select } from 'jobseeker-ui'
 import React, { useEffect } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { InferType } from 'yup'
-import { componentDataSchema, options } from './shared'
+import { componentDataSchema } from './shared'
+import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
 
 type Schema = InferType<typeof componentDataSchema>
 
@@ -71,7 +72,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
         label="Amount Type"
         placeholder="Fixed/Percentage"
         labelRequired
-        options={options.amountType}
+        options={AMOUNT_TYPE_OPTIONS}
         name={`${type}.${index}.amountType`}
         error={errors[type]?.[index]?.amountType?.message}
         value={getValues(`${type}.${index}.amountType`)}
@@ -129,7 +130,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
         label="Application Type"
         placeholder="Application Type"
         labelRequired
-        options={options.applicationType}
+        options={APPLICATION_TYPE_OPTIONS}
         name="applicationType"
         error={errors[type]?.[index]?.applicationType?.message}
         value={getValues(`${type}.${index}.applicationType`)}
@@ -143,7 +144,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
         label="Tax Type"
         placeholder="Taxable/Non-Taxable"
         labelRequired
-        options={options.taxType}
+        options={TAX_TYPE_OPTIONS}
         name={`${type}.${index}.taxType`}
         error={errors[type]?.[index]?.taxType?.message}
         value={getValues(`${type}.${index}.taxType`)}
