@@ -1,6 +1,7 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
 import { payrollService } from '@/services'
+import { usePayrollStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Button, Card, CardBody, CardFooter, Input, Select, Spinner, useToast } from 'jobseeker-ui'
@@ -9,39 +10,32 @@ import React, { useEffect, useState } from 'react'
 const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el }))
 const BpjsComponentPage: React.FC = () => {
   const [pageData, setPageData] = useState<IBPJSComponent>()
-  const [pageError, setPageError] = useState<any>()
 
   const [jkk, setJkk] = useState(0)
   const [loading, setLoading] = useState(false)
 
+  const {
+    master: { bpjsComponent },
+    refresh,
+  } = usePayrollStore()
   const toast = useToast()
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await payrollService.fetchBpjsComponent()
-        setPageData(data)
-        setJkk(data.paidByEmployer?.jkk?.rate || 0)
-      } catch (e) {
-        setPageError(e)
-      }
-    }
-    load()
-  }, [])
+    if (bpjsComponent) setJkk(bpjsComponent.paidByEmployer?.jkk?.rate || 0)
+  }, [bpjsComponent])
 
   const submit = async () => {
     setLoading(true)
     try {
       const data = await payrollService.updateBpjsComponent({ bpjsComponentId: pageData?.bpjsComponentId, jkk: { rate: jkk } })
       setPageData(data)
+      await refresh()
       toast('BPJS component updated successfully.', { color: 'success' })
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
     }
     setLoading(false)
   }
-
-  if (pageError) throw pageError
 
   return (
     <>

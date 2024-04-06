@@ -10,10 +10,7 @@ type Schema = InferType<typeof componentDataSchema>
 type PropTypes = {
   type: 'benefits' | 'deductions'
   index: number
-  components: {
-    benefits: IBenefitComponent[]
-    deductions: IDeductionComponent[]
-  }
+  components: (IBenefitComponent | IDeductionComponent)[]
   item: {
     componentId: string
     amountType: string
@@ -37,7 +34,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
   } = form
 
   useEffect(() => {
-    const component = components[type].find((el) => el.oid === item.componentId)
+    const component = components.find((el) => el.oid === item.componentId)
     if (!component) return
 
     setValue(`${type}.${index}.amount`, String(component.amount || ''))
@@ -65,7 +62,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
         name={`${type}.${index}.componentId`}
         error={errors[type]?.[index]?.componentId?.message}
         onChange={(v) => setValue(`${type}.${index}.componentId`, v.toString())}
-        options={components[type].map((el) => ({ label: `${el.name}`, value: el.oid }))}
+        options={components.map((el) => ({ label: `${el.name}`, value: el.oid }))}
       />
       <Select
         hideSearch
