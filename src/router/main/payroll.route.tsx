@@ -3,8 +3,9 @@ import type { RouteObject } from 'react-router-dom'
 import BenefitComponentsPage from '@/pages/payroll/benefit-components/BenefitComponentsPage'
 import BpjsComponentPage from '@/pages/payroll/bpjs-component/BpjsComponentPage'
 import DeductionComponentsPage from '@/pages/payroll/deduction-components/DeductionComponentsPage'
-import RunPage from '@/pages/payroll/run/RunPage'
-import RequestPage from '@/pages/payroll/run/RequestPage'
+import DetailRunRequestPage from '@/pages/payroll/run-payroll-request/detail/DetailRunRequestPage'
+import RunRequestPage from '@/pages/payroll/run-payroll-request/index/RunRequestPage'
+import GeneratedPayrollRequestPage from '@/pages/payroll/generated-payroll-request/GeneratedPayrollRequestPage'
 
 const payrollRoute: RouteObject = {
   path: 'payroll',
@@ -26,14 +27,24 @@ const payrollRoute: RouteObject = {
       element: <DeductionComponentsPage />,
     },
     {
-      path: 'run',
-      name: 'Run Payroll',
-      element: <RunPage />,
+      path: 'run-payroll-request',
+      children: [
+        {
+          path: '',
+          name: 'Run Payroll',
+          element: <RunRequestPage />,
+        },
+        {
+          path: ':payrollRequestId',
+          name: 'Detail Payroll',
+          element: <DetailRunRequestPage />,
+        },
+      ],
     },
     {
-      path: 'detail',
-      name: 'Detail Payroll',
-      element: <RequestPage />,
+      path: 'generated-payroll-request',
+      name: 'Generated Payroll Request',
+      element: <GeneratedPayrollRequestPage />,
     },
   ],
 }

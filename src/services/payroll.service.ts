@@ -95,6 +95,14 @@ export const removeDeductionFromEmployees = (payload: { employeeIds: string[]; c
 /**
  * Payroll
  */
-export const createPayroll = (payload: Record<string, any>) => {
-  return axios.post('/payroll', payload).then(({ data }) => data.data)
+export const fetchPayrollRequests = (params?: IPaginationParam) => {
+  return axios.get<{ data: IPaginationResponse<IPayrollRequest> }>('/payroll', { params }).then(({ data }) => data.data)
+}
+
+export const fetchPayrollRequest = (oid: string) => {
+  return axios.get<{ data: IPayrollRequest }>(`/payroll/${oid}`).then(({ data }) => data.data)
+}
+
+export const createPayrollRequest = (payload: Record<string, any>) => {
+  return axios.post<{ data: IPayrollRequest }>('/payroll', payload).then(({ data }) => data.data)
 }

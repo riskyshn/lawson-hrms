@@ -2,15 +2,15 @@ import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
 import LoadingScreen from '@/components/UI/LoadingScreen'
 import { employeeService, payrollService } from '@/services'
-import { Button, Card, CardBody, CardFooter, Input, InputDate, InputWrapper, Select, useConfirm, useToast } from 'jobseeker-ui'
-import { useEffect, useMemo, useState } from 'react'
-import * as yup from 'yup'
-import EmployeeSelectorModal from '../components/EmployeeSelectorModal'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { axiosErrorMessage } from '@/utils/axios'
-import { useNavigate } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, Card, CardBody, CardFooter, Input, InputDate, InputWrapper, Select, useConfirm, useToast } from 'jobseeker-ui'
 import moment from 'moment'
+import { useEffect, useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import EmployeeSelectorModal from '../../components/EmployeeSelectorModal'
 
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
@@ -21,7 +21,7 @@ const schema = yup.object().shape({
   employeeIds: yup.array().of(yup.string().required()).required().label('Employees'),
 })
 
-const RunPage: React.FC = () => {
+const RunRequestPage: React.FC = () => {
   const [showSelectEmployeeModal, setShowSelectEmployeeModal] = useState(false)
   const [employees, setEmployees] = useState<IDataTableEmployee[]>()
   const [pageError, setPageError] = useState<any>()
@@ -80,9 +80,9 @@ const RunPage: React.FC = () => {
         endPeriod: moment(data.endPeriod).format('YYYY-MM-DD'),
         paymentedAt: moment(data.paymentedAt).format('YYYY-MM-DD'),
       }
-      const resp = await payrollService.createPayroll(payload)
+      const resp = await payrollService.createPayrollRequest(payload)
       toast('Success fully generate payroll', { color: 'success' })
-      navigate(`/payroll/requests/${resp.oid}`)
+      navigate(`/payroll/run-payroll-request/${resp.oid}`)
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
       setLoading(false)
@@ -92,8 +92,8 @@ const RunPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Payroll' }, { text: 'Run Payroll' }]}
-        title="Run Payroll"
+        breadcrumb={[{ text: 'Payroll' }, { text: 'Run Payroll Request' }]}
+        title="Run Payroll Request"
         subtitle={
           <>
             You can check payroll <span className="text-primary-600">Requests here</span>
@@ -184,4 +184,4 @@ const RunPage: React.FC = () => {
   )
 }
 
-export default RunPage
+export default RunRequestPage
