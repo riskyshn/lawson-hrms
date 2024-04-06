@@ -4,7 +4,7 @@ import { payrollService } from '@/services'
 import { usePayrollStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import numberToCurrency from '@/utils/number-to-currency'
-import { Button, Card, CardBody, CardFooter, Input, Select, Spinner, useToast } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, Input, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el }))
@@ -43,10 +43,6 @@ const BpjsComponentPage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
-        </div>
-
         <Card as="form">
           <CardBody className="grid grid-cols-1 gap-2">
             <div className="pb-2">
