@@ -83,7 +83,7 @@ const EditModal: React.FC<PropType> = ({ type, item, onClose, onUpdated }) => {
             trigger('amountType')
           }}
         />
-        {watch(`amountType`) === 'fixed' ? (
+        {watch(`amountType`) === 'FIXED' ? (
           <InputCurrency
             label="Amount"
             placeholder="Amount"

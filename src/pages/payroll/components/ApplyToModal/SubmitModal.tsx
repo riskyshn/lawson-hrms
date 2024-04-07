@@ -100,7 +100,7 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, show, item, onClose, o
             setUpdated(true)
           }}
         />
-        {watch(`amountType`) === 'fixed' ? (
+        {watch(`amountType`) === 'FIXED' ? (
           <InputCurrency
             label="Amount"
             placeholder="Amount"

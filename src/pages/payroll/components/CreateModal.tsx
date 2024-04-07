@@ -70,7 +70,7 @@ const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => 
             trigger('amountType')
           }}
         />
-        {watch(`amountType`) === 'fixed' ? (
+        {watch(`amountType`) === 'FIXED' ? (
           <InputCurrency
             label="Amount"
             placeholder="Amount"

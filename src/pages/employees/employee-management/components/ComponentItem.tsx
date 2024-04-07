@@ -80,7 +80,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
           trigger(`${type}.${index}.amount`)
         }}
       />
-      {watch(`${type}.${index}.amountType`) === 'fixed' ? (
+      {watch(`${type}.${index}.amountType`) === 'FIXED' ? (
         <InputCurrency
           label="Amount"
           placeholder="Amount"
