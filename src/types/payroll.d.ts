@@ -35,3 +35,22 @@ interface IDeductionComponent {
   applicationType?: IGeneralDataEmmbed
   taxType?: IGeneralDataEmmbed
 }
+
+interface IPayrollRequest {
+  oid: string
+  name?: string
+  startPeriod?: string
+  endPeriod?: string
+  paymentedAt?: string
+  status?: IGeneralDataEmmbed
+  statusRunner?: string
+  createdAt?: string
+  requestor?: IGeneralDataEmmbed & {
+    email?: string
+    employeeCode?: string
+  }
+  approver?: IGeneralDataEmmbed & {
+    email?: string
+    employeeCode?: string
+  }
+}

@@ -44,8 +44,12 @@ const hrisLinks = genSidebarLinks({
           to: '/payroll/deduction-components',
         },
         {
-          text: 'Run Payroll',
-          to: '/payroll/run',
+          text: 'Run Payroll Request',
+          to: '/payroll/run-payroll-request',
+        },
+        {
+          text: 'Generated Payroll Request',
+          to: '/payroll/generated-payroll-request',
         },
       ],
     },

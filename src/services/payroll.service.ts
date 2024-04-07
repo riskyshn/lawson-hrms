@@ -91,3 +91,18 @@ export const applyDeductionToEmployees = (payload: { employeeIds: string[]; comp
 export const removeDeductionFromEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
   return axios.post('/deduction-component/remove-from-employees', payload, { signal }).then(({ data }) => data.data)
 }
+
+/**
+ * Payroll
+ */
+export const fetchPayrollRequests = (params?: IPaginationParam) => {
+  return axios.get<{ data: IPaginationResponse<IPayrollRequest> }>('/payroll', { params }).then(({ data }) => data.data)
+}
+
+export const fetchPayrollRequest = (oid: string) => {
+  return axios.get<{ data: IPayrollRequest }>(`/payroll/${oid}`).then(({ data }) => data.data)
+}
+
+export const createPayrollRequest = (payload: Record<string, any>) => {
+  return axios.post<{ data: IPayrollRequest }>('/payroll', payload).then(({ data }) => data.data)
+}
