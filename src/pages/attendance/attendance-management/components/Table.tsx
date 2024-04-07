@@ -204,24 +204,40 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
           !isClientVisit &&
           item?.records &&
           item.records.length > 0 &&
-          item.records?.map(
-            (record, index) =>
-              index % 2 === 0 && (
+          item.records?.map((record, index) => {
+            if (index % 2 === 0) {
+              let latestAttendanceType = null
+              item.records?.slice(index, index + 2).forEach((record, recordIndex, array) => {
+                if (recordIndex === array.length - 1) {
+                  latestAttendanceType = record.attendanceType
+                }
+              })
+
+              return (
                 <>
-                  <div className="flex h-16 flex-col items-center justify-center">
-                    <div key={index} className={'mb-1 flex gap-2'}>
+                  <div className="flex h-16 flex-col items-center justify-center" key={index}>
+                    <div className={'mb-1 flex gap-2'}>
                       <Button
                         disabled={
                           record.status === 'approved' ||
                           record.status === 'rejected' ||
-                          (record.attendanceType != 'clock_in' && record.attendanceType != 'overtime_in')
+                          latestAttendanceType === 'clock_in' ||
+                          latestAttendanceType === 'overtime_in'
                         }
                         color="success"
-                        style={{ opacity: record.status === 'approved' || record.status === 'rejected' ? 0.5 : 1 }}
+                        style={{
+                          opacity:
+                            record.status === 'approved' ||
+                            record.status === 'rejected' ||
+                            latestAttendanceType === 'clock_in' ||
+                            latestAttendanceType === 'overtime_in'
+                              ? 0.5
+                              : 1,
+                        }}
                         size="small"
                         onClick={() =>
                           handleViewDetails(
-                            item?.records?.slice(index, index + 2).map((record) => record.oid),
+                            item.records?.slice(index, index + 2).map((record) => record.oid),
                             'approved',
                           )
                         }
@@ -235,7 +251,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
                         size="small"
                         onClick={() =>
                           handleViewDetails(
-                            item?.records?.slice(index, index + 2).map((record) => record.oid),
+                            item.records?.slice(index, index + 2).map((record) => record.oid),
                             'rejected',
                           )
                         }
@@ -245,8 +261,10 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
                     </div>
                   </div>
                 </>
-              ),
-          ),
+              )
+            }
+            return null
+          }),
       },
     ],
   }))

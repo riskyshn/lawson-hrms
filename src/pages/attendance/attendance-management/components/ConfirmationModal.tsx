@@ -31,7 +31,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ show, onClose, is
     <MainModal className="max-w-xl" show={show} onClose={onClose}>
       <div className="flex flex-col gap-3">
         <h2 className="mt-4 text-center text-2xl font-semibold">{`Are you sure?`}</h2>
-        <span className="text-center">{`Are you sure you want to reject this request?`}</span>
+        <span className="text-center">{`Are you sure you want to ${modalType} this request?`}</span>
         {modalType === 'rejected' && (
           <>
             <Textarea rows={4} value={reason} onChange={handleChange} aria-invalid={!!error} />
