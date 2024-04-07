@@ -106,7 +106,7 @@ const ComponentsDataForm: React.FC<{
             <Input
               label="Jaminan Kesehatan (KS)"
               disabled
-              value={props.allFormData?.payroll?.jkk ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
+              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
               help={`KS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}*`}
             />
           </CardBody>
@@ -149,7 +149,7 @@ const ComponentsDataForm: React.FC<{
               label="Jaminan Kesehatan (KS)"
               disabled
               required
-              value={props.allFormData?.payroll?.jkk ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
+              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
               help={`KS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}*`}
             />
           </CardBody>
