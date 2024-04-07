@@ -11,11 +11,12 @@ type PropTypes = {
     setValue: (value: string) => void
   }
   filter?: React.ReactNode
+  actions?: React.ReactNode
   filterToogle?: () => void
   onRefresh?: () => void
 }
 
-const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading, search, filter, filterToogle, onRefresh }) => {
+const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading, search, filter, actions, filterToogle, onRefresh }) => {
   return (
     <>
       <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
@@ -25,6 +26,7 @@ const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading,
           {subtitle && !subtitleLoading && <span className="block text-sm">{subtitle}</span>}
         </div>
         <div className="flex items-center gap-2">
+          {actions}
           {onRefresh && (
             <Button iconOnly title="Refresh Data Table" type="button" variant="outline" className="border-gray-300" onClick={onRefresh}>
               <RefreshCcwIcon size={16} />

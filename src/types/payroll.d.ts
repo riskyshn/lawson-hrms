@@ -54,3 +54,14 @@ interface IPayrollRequest {
     employeeCode?: string
   }
 }
+
+interface IEmployeePayrollResult {
+  oid: string
+  name?: string
+  taxMethod?: string
+  ptkpStatus?: string
+  baseSalary?: string
+  totalBenefit?: string
+  totalDeduction?: string
+  totalAll?: string
+}

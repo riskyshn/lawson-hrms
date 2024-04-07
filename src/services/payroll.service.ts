@@ -106,3 +106,9 @@ export const fetchPayrollRequest = (oid: string) => {
 export const createPayrollRequest = (payload: Record<string, any>) => {
   return axios.post<{ data: IPayrollRequest }>('/payroll', payload).then(({ data }) => data.data)
 }
+
+export const fetchPayrollRequestResults = (oid: string, params?: IPaginationParam) => {
+  return axios
+    .get<{ data: IPaginationResponse<IEmployeePayrollResult> }>(`/employee-payroll?payrollRequestId=${oid}`, { params })
+    .then(({ data }) => data.data)
+}
