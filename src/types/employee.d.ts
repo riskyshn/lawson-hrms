@@ -88,7 +88,7 @@ interface IEmployee {
       maxCap?: number
       amountType?: IGeneralDataEmmbed
       amount?: number
-      applicationType?: string
+      applicationType?: IGeneralDataEmmbed
     }>
     deductions?: Array<{
       component?: IGeneralDataEmmbed
@@ -96,7 +96,7 @@ interface IEmployee {
       maxCap?: number
       amountType?: IGeneralDataEmmbed
       amount?: number
-      applicationType?: string
+      applicationType?: IGeneralDataEmmbed
     }>
   }
 }

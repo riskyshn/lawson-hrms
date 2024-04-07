@@ -54,7 +54,7 @@ export async function employeeToFormEdit(employee: IEmployee) {
         amountType: benefit.amountType?.oid || '',
         amount: benefit.amount,
         maxCap: benefit.maxCap,
-        applicationType: benefit.applicationType || '',
+        applicationType: benefit.applicationType?.oid || '',
       })),
       deductions: (employee.components?.deductions || []).map((deduction) => ({
         componentId: deduction.component?.oid || '',
@@ -62,7 +62,7 @@ export async function employeeToFormEdit(employee: IEmployee) {
         amountType: deduction.amountType?.oid || '',
         amount: deduction.amount,
         maxCap: deduction.maxCap,
-        applicationType: deduction.applicationType || '',
+        applicationType: deduction.applicationType?.oid || '',
       })),
     },
   }

@@ -1,5 +1,5 @@
 import { Button, Input, InputCurrency, Select } from 'jobseeker-ui'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { InferType } from 'yup'
 import { componentDataSchema } from './shared'
@@ -33,15 +33,19 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
     formState: { errors },
   } = form
 
-  useEffect(() => {
-    const component = components.find((el) => el.oid === item.componentId)
-    if (!component) return
+  const [initial, setInitial] = useState(true)
 
-    setValue(`${type}.${index}.amount`, String(component.amount || ''))
-    setValue(`${type}.${index}.amountType`, String(component.amountType || ''))
-    setValue(`${type}.${index}.applicationType`, String(component.applicationType || ''))
-    setValue(`${type}.${index}.taxType`, String(component.taxType || ''))
-    setValue(`${type}.${index}.maxCap`, String(component.maxCap || 0))
+  useEffect(() => {
+    if (!initial) {
+      const component = components.find((el) => el.oid === item.componentId)
+      if (!component) return
+
+      setValue(`${type}.${index}.amount`, String(component.amount || ''))
+      setValue(`${type}.${index}.amountType`, String(component.amountType || ''))
+      setValue(`${type}.${index}.applicationType`, String(component.applicationType || ''))
+      setValue(`${type}.${index}.taxType`, String(component.taxType || ''))
+      setValue(`${type}.${index}.maxCap`, String(component.maxCap || 0))
+    }
 
     trigger(`${type}.${index}.amount`)
     trigger(`${type}.${index}.amountType`)
@@ -49,6 +53,7 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
     trigger(`${type}.${index}.taxType`)
     trigger(`${type}.${index}.maxCap`)
 
+    setInitial(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.componentId])
 
