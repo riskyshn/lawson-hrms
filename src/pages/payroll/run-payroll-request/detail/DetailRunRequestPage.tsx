@@ -5,6 +5,8 @@ import { payrollService } from '@/services'
 import { Card, CardHeader } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import RenderDetail from './components/RenderDetail'
+import { AlertOctagonIcon } from 'lucide-react'
 
 const DetailRunRequestPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPayrollRequest>()
@@ -35,23 +37,44 @@ const DetailRunRequestPage: React.FC = () => {
         subtitle="You can review or manage employee payroll components."
       />
 
-      <LoadingScreen show={!pageData} />
+      <Container className="py-3 xl:pb-8">
+        <LoadingScreen show={!pageData} />
 
-      {pageData && pageData.status?.oid == '0' && (
-        <Container className="py-3 xl:pb-8">
+        {pageData && pageData.statusRunner == 'WAITING' && (
           <Card>
             <CardHeader>
               <LoadingScreen show>
-                <p className="mt-3 block text-center">
-                  This payroll request is currently waiting for all data to be generated.
-                  <br />
-                  Once all data is available, you can review or manage employee payroll components.
-                </p>
+                <p className="mt-3 block text-center">Please wait while the payroll request is being processed...</p>
               </LoadingScreen>
             </CardHeader>
           </Card>
-        </Container>
-      )}
+        )}
+
+        {pageData && pageData.statusRunner == 'ON_PROCESS' && (
+          <Card>
+            <CardHeader>
+              <LoadingScreen show>
+                <p className="mt-3 block text-center">The payroll request is currently being processed. Please wait...</p>
+              </LoadingScreen>
+            </CardHeader>
+          </Card>
+        )}
+
+        {pageData && pageData.statusRunner == 'FAILED' && (
+          <Card>
+            <CardHeader>
+              <div className="flex flex-col items-center justify-center py-40">
+                <AlertOctagonIcon size={84} className="mb-3 block text-error-600" strokeWidth={1} />
+                <p className="mt-3 block text-center">
+                  Oops! Something went wrong while processing the payroll request. Please try again later.
+                </p>
+              </div>
+            </CardHeader>
+          </Card>
+        )}
+
+        {pageData && pageData.statusRunner == 'COMPLETED' && <RenderDetail item={pageData} />}
+      </Container>
     </>
   )
 }

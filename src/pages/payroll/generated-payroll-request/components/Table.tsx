@@ -1,15 +1,10 @@
 import MainTable from '@/components/Elements/MainTable'
-import { Badge, Button } from 'jobseeker-ui'
+import { Badge, Button, Color } from 'jobseeker-ui'
 import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { twJoin } from 'tailwind-merge'
 
-const Table: React.FC<{
-  items: IPayrollRequest[]
-  loading?: boolean
-  onRefresh?: () => void
-}> = ({ items, loading }) => {
+const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading }) => {
   const headerItems = [
     { children: 'Name', className: 'text-left' },
     { children: 'Period' },
@@ -34,7 +29,11 @@ const Table: React.FC<{
         { children: item.requestor?.name || '', className: 'text-center' },
         { children: item.approver?.name || '', className: 'text-center' },
         {
-          children: <Badge className={twJoin(status.color, 'font-semibold')}>{status.text}</Badge>,
+          children: (
+            <Badge color={status.color} className="font-semibold">
+              {status.text}
+            </Badge>
+          ),
           className: 'text-center',
         },
         { children: moment(item.createdAt).format('DD-MM-YYYY HH:mm'), className: 'text-center' },
@@ -52,11 +51,14 @@ const Table: React.FC<{
   return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
 }
 
-const getStatus = (status: string): { text: string; color: string } => {
-  const statusMap: Record<string, { text: string; color: string }> = {
-    WAITING: { text: 'Waiting', color: 'bg-yellow-50 text-yellow-700' },
+const getStatus = (status: string): { text: string; color: Color } => {
+  const statusMap: Record<string, { text: string; color: Color }> = {
+    WAITING: { text: 'Waiting', color: 'warning' },
+    ON_PROCESS: { text: 'On Process', color: 'primary' },
+    COMPLETED: { text: 'Completed', color: 'success' },
+    FAILED: { text: 'Failed', color: 'error' },
   }
-  return statusMap[status] || { text: status || 'Unknown', color: 'bg-gray-400 text-white' }
+  return statusMap[status] || { text: status || 'Unknown', color: 'default' }
 }
 
 export default Table
