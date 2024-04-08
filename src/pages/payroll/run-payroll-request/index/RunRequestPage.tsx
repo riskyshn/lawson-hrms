@@ -26,6 +26,7 @@ const RunRequestPage: React.FC = () => {
   const [employees, setEmployees] = useState<IDataTableEmployee[]>()
   const [pageError, setPageError] = useState<any>()
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const confirm = useConfirm()
   const toast = useToast()
@@ -68,6 +69,14 @@ const RunRequestPage: React.FC = () => {
   const paymentedAt = getValues('paymentedAt') ? { startDate: getValues('paymentedAt'), endDate: getValues('paymentedAt') } : undefined
 
   const onSubmit = handleSubmit(async (data) => {
+    setErrorMessage('')
+
+    if (!data || !data.employeeIds || data.employeeIds.length === 0) {
+      setErrorMessage('Employees is a required field')
+      setLoading(false)
+      return
+    }
+
     const confirmed = await confirm('Are you sure?')
 
     if (!confirmed) return
@@ -160,6 +169,7 @@ const RunRequestPage: React.FC = () => {
                   {(watch('employeeIds') || []).length} Selected of {employees.length} Employees
                 </span>
               </InputWrapper>
+              {errorMessage && <span className="text-xs text-red-600">{errorMessage}</span>}
             </CardBody>
           )}
 
