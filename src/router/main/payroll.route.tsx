@@ -1,13 +1,13 @@
 import type { RouteObject } from 'react-router-dom'
 
-import BenefitComponentsPage from '@/pages/payroll/benefit-components/BenefitComponentsPage'
-import BpjsComponentPage from '@/pages/payroll/bpjs-component/BpjsComponentPage'
-import DeductionComponentsPage from '@/pages/payroll/deduction-components/DeductionComponentsPage'
+import BenefitComponentsPage from '@/pages/payroll/(components)/benefit-components/BenefitComponentsPage'
+import BpjsComponentPage from '@/pages/payroll/(components)/bpjs-component/BpjsComponentPage'
+import DeductionComponentsPage from '@/pages/payroll/(components)/deduction-components/DeductionComponentsPage'
 import DetailRunRequestPage from '@/pages/payroll/run-payroll-request/detail/DetailRunRequestPage'
 import RunRequestPage from '@/pages/payroll/run-payroll-request/index/RunRequestPage'
 import GeneratedPayrollRequestPage from '@/pages/payroll/generated-payroll-request/GeneratedPayrollRequestPage'
-import DetailAppliedBenefitEmployeesPage from '@/pages/payroll/benefit-components/detail-employees/DetailAppliedBenefitEmployeesPage'
-import DetailAppliedDeductionEmployeesPage from '@/pages/payroll/deduction-components/detail-employees/DetailAppliedDeductionEmployeesPage'
+import DetailAppliedBenefitEmployeesPage from '@/pages/payroll/(components)/benefit-components/detail-employees/DetailAppliedBenefitEmployeesPage'
+import DetailAppliedDeductionEmployeesPage from '@/pages/payroll/(components)/deduction-components/detail-employees/DetailAppliedDeductionEmployeesPage'
 
 const payrollRoute: RouteObject = {
   path: 'payroll',
