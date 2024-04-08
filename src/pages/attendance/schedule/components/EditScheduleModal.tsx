@@ -39,6 +39,14 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
       setIsLoading(true)
       setErrorMessage('')
 
+      const hasActiveSchedule = daySchedules.some((schedule) => schedule.isActive)
+
+      if (!hasActiveSchedule) {
+        setErrorMessage('No active schedule found!')
+        setIsLoading(false)
+        return
+      }
+
       const payload = {
         name: data.name,
         timezoneId: selectTimezoneId || items?.timezone?.oid || null,
