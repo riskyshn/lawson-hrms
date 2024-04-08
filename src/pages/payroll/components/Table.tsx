@@ -5,6 +5,7 @@ import ActionMenu from './ActionMenu'
 import EditModal from './EditModal'
 import numberToCurrency from '@/utils/number-to-currency'
 import ApplyToModal from './ApplyToModal'
+import { Link } from 'react-router-dom'
 
 type PropTypes = {
   type: 'BENEFIT' | 'DEDUCTION'
@@ -47,9 +48,9 @@ const Table: React.FC<PropTypes> = ({ type, items, loading, onRefresh }) => {
               <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-primary-100 text-primary-700" />
               <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-error-100 text-error-700" />
             </span>
-            <a href="#" className="text-primary-600">
+            <Link to={`/payroll/${type.toLowerCase()}-components/${item.oid}/employees`} className="text-primary-600">
               {(index + 1) * 3}+
-            </a>
+            </Link>
           </span>
         ),
         className: 'text-center',
