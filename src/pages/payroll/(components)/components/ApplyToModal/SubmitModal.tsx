@@ -7,20 +7,21 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { schema } from '../shared'
 import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
+import { useNavigate } from 'react-router-dom'
 
 type PropType = {
   type: 'BENEFIT' | 'DEDUCTION'
   item?: IBenefitComponent | IDeductionComponent | null
   show?: boolean
   onClose?: () => void
-  onSubmited?: () => void
   payload: string[]
 }
 
-const SubmitModal: React.FC<PropType> = ({ payload, type, show, item, onClose, onSubmited }) => {
+const SubmitModal: React.FC<PropType> = ({ payload, type, show, item, onClose }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
   const [updated, setUpdated] = useState(false)
+  const navigate = useNavigate()
 
   const {
     handleSubmit,
@@ -59,8 +60,7 @@ const SubmitModal: React.FC<PropType> = ({ payload, type, show, item, onClose, o
       const applyFn = type === 'BENEFIT' ? payrollService.applyBenefitToEmployees : payrollService.applyDeductionToEmployees
       await applyFn({ employeeIds: payload, componentId: item.oid })
       toast('Apply component to employees successfully.', { color: 'success' })
-      onSubmited?.()
-      onClose?.()
+      navigate(`/payroll/${type.toLowerCase()}-components/${item.oid}/employees`)
       setTimeout(() => {
         reset()
         setUpdated(false)

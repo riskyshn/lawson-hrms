@@ -154,7 +154,6 @@ const RequirementsForm: React.FC<{
               options={[
                 { label: 'Male', value: 'MALE' },
                 { label: 'Female', value: 'FEMALE' },
-                { label: 'All', value: 'ALL' },
               ]}
               name="genderRequirement"
               error={errors.genderRequirement?.message}

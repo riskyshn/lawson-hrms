@@ -9,10 +9,9 @@ type PropTypes = {
   type: 'BENEFIT' | 'DEDUCTION'
   item?: IBenefitComponent | IDeductionComponent | null
   onClose?: () => void
-  onSubmited?: () => void
 }
 
-const ApplyToModal: React.FC<PropTypes> = ({ type, item, onClose, onSubmited }) => {
+const ApplyToModal: React.FC<PropTypes> = ({ type, item, onClose }) => {
   const [selected, setSelected] = useState<string[]>([])
   const [submit, setSubmit] = useState(false)
 
@@ -26,17 +25,7 @@ const ApplyToModal: React.FC<PropTypes> = ({ type, item, onClose, onSubmited }) 
 
   return (
     <>
-      <SubmitModal
-        type={type}
-        item={item}
-        show={submit}
-        payload={selected}
-        onClose={() => setSubmit(false)}
-        onSubmited={() => {
-          handleClose()
-          onSubmited?.()
-        }}
-      />
+      <SubmitModal type={type} item={item} show={submit} payload={selected} onClose={() => setSubmit(false)} />
 
       <SideModal show={!!item && !submit} className="flex h-full flex-col">
         <div className="flex items-center justify-between border-b bg-white p-3">
