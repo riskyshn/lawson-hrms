@@ -3,7 +3,6 @@ import type { Map } from 'leaflet'
 import React, { useEffect, useRef, useState } from 'react'
 import { Modal } from 'jobseeker-ui'
 import { Circle, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
 
 type MapsPreviewerModalProps = {
   coordinates?: [number, number] | null
