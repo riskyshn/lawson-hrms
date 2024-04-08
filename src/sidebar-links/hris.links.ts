@@ -55,6 +55,10 @@ const hrisLinks = genSidebarLinks({
           text: 'Generated Payroll Request',
           to: '/payroll/generated-payroll-request',
         },
+        {
+          text: 'Payroll Request',
+          to: '/payroll/payroll-request',
+        },
       ],
     },
   ],

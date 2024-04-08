@@ -8,6 +8,8 @@ import RunRequestPage from '@/pages/payroll/run-payroll-request/index/RunRequest
 import GeneratedPayrollRequestPage from '@/pages/payroll/generated-payroll-request/GeneratedPayrollRequestPage'
 import DetailAppliedBenefitEmployeesPage from '@/pages/payroll/(components)/benefit-components/detail-employees/DetailAppliedBenefitEmployeesPage'
 import DetailAppliedDeductionEmployeesPage from '@/pages/payroll/(components)/deduction-components/detail-employees/DetailAppliedDeductionEmployeesPage'
+import PayrollRequestPage from '@/pages/payroll/payroll-request/index/PayrollRequestPage'
+import DetailPayrollRequestPage from '@/pages/payroll/payroll-request/detail/DetailPayrollRequestPage'
 
 const payrollRoute: RouteObject = {
   path: 'payroll',
@@ -59,6 +61,19 @@ const payrollRoute: RouteObject = {
     {
       path: 'generated-payroll-request',
       element: <GeneratedPayrollRequestPage />,
+    },
+    {
+      path: 'payroll-request',
+      children: [
+        {
+          path: '',
+          element: <PayrollRequestPage />,
+        },
+        {
+          path: ':payrollRequestId',
+          element: <DetailPayrollRequestPage />,
+        },
+      ],
     },
   ],
 }
