@@ -6,6 +6,8 @@ import DeductionComponentsPage from '@/pages/payroll/deduction-components/Deduct
 import DetailRunRequestPage from '@/pages/payroll/run-payroll-request/detail/DetailRunRequestPage'
 import RunRequestPage from '@/pages/payroll/run-payroll-request/index/RunRequestPage'
 import GeneratedPayrollRequestPage from '@/pages/payroll/generated-payroll-request/GeneratedPayrollRequestPage'
+import DetailAppliedBenefitEmployeesPage from '@/pages/payroll/benefit-components/detail-employees/DetailAppliedBenefitEmployeesPage'
+import DetailAppliedDeductionEmployeesPage from '@/pages/payroll/deduction-components/detail-employees/DetailAppliedDeductionEmployeesPage'
 
 const payrollRoute: RouteObject = {
   path: 'payroll',
@@ -13,37 +15,49 @@ const payrollRoute: RouteObject = {
   children: [
     {
       path: 'bpjs-component',
-      name: 'BPJS Component',
       element: <BpjsComponentPage />,
     },
     {
       path: 'benefit-components',
-      name: 'Benefit Component',
-      element: <BenefitComponentsPage />,
+      children: [
+        {
+          path: '',
+          element: <BenefitComponentsPage />,
+        },
+        {
+          path: ':componentId/employees',
+          element: <DetailAppliedBenefitEmployeesPage />,
+        },
+      ],
     },
     {
       path: 'deduction-components',
-      name: 'Deduction Component',
-      element: <DeductionComponentsPage />,
+      children: [
+        {
+          path: '',
+          element: <DeductionComponentsPage />,
+        },
+        {
+          path: ':componentId/employees',
+          element: <DetailAppliedDeductionEmployeesPage />,
+        },
+      ],
     },
     {
       path: 'run-payroll-request',
       children: [
         {
           path: '',
-          name: 'Run Payroll',
           element: <RunRequestPage />,
         },
         {
           path: ':payrollRequestId',
-          name: 'Detail Payroll',
           element: <DetailRunRequestPage />,
         },
       ],
     },
     {
       path: 'generated-payroll-request',
-      name: 'Generated Payroll Request',
       element: <GeneratedPayrollRequestPage />,
     },
   ],
