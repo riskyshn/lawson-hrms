@@ -36,6 +36,11 @@ interface IDeductionComponent {
   taxType?: IGeneralDataEmmbed
 }
 
+interface IComponentInEmployee {
+  component: IDeductionComponent | IBenefitComponent
+  employee: IDataTableEmployee
+}
+
 interface IPayrollRequest {
   oid: string
   name?: string
