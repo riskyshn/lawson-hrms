@@ -41,9 +41,9 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
       if (!component) return
 
       setValue(`${type}.${index}.amount`, String(component.amount || ''))
-      setValue(`${type}.${index}.amountType`, String(component.amountType || ''))
-      setValue(`${type}.${index}.applicationType`, String(component.applicationType || ''))
-      setValue(`${type}.${index}.taxType`, String(component.taxType || ''))
+      setValue(`${type}.${index}.amountType`, String(component.amountType?.oid || ''))
+      setValue(`${type}.${index}.applicationType`, String(component.applicationType?.oid || ''))
+      setValue(`${type}.${index}.taxType`, String(component.taxType?.oid || ''))
       setValue(`${type}.${index}.maxCap`, String(component.maxCap || 0))
     }
 
