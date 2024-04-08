@@ -65,6 +65,14 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
       return
     }
 
+    const hasActiveSchedule = daySchedules.some((schedule) => schedule.isActive)
+
+    if (!hasActiveSchedule) {
+      setErrorMessage('No active schedule found!')
+      setIsLoading(false)
+      return
+    }
+
     try {
       const payload = {
         name: data.name,

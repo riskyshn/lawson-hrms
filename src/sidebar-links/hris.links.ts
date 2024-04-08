@@ -26,6 +26,10 @@ const hrisLinks = genSidebarLinks({
           text: 'Request Management',
           to: '/attendance/request-management',
         },
+        {
+          text: 'Report',
+          to: '/attendance/report',
+        },
       ],
     },
     {
