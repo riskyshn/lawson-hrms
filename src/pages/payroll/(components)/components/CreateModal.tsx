@@ -52,7 +52,14 @@ const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => 
 
   return (
     <Modal as="form" onSubmit={onSubmit} show={!!show} className="p-0">
-      <ModalHeader subTitle="Add Your Company Payroll Component" className="capitalize" onClose={onClose}>
+      <ModalHeader
+        subTitle="Add Your Company Payroll Component"
+        className="capitalize"
+        onClose={() => {
+          onClose?.()
+          setTimeout(() => reset(), 200)
+        }}
+      >
         Create {type.toLowerCase()} component
       </ModalHeader>
       <div className="grid grid-cols-1 gap-2 p-3">
@@ -140,11 +147,21 @@ const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => 
         />
       </div>
       <ModalFooter className="gap-3">
-        <Button type="button" color="error" variant="light" className="w-24" disabled={loading} onClick={onClose}>
+        <Button
+          type="button"
+          color="error"
+          variant="light"
+          className="w-24"
+          disabled={loading}
+          onClick={() => {
+            onClose?.()
+            setTimeout(() => reset(), 200)
+          }}
+        >
           Cancel
         </Button>
         <Button type="submit" color="primary" disabled={loading} loading={loading}>
-          Save Changes
+          Add Component
         </Button>
       </ModalFooter>
     </Modal>
