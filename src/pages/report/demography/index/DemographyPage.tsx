@@ -67,7 +67,7 @@ const dataLine = {
 const DemographyPage: React.FC = () => {
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Report' }, { text: 'Summary & Analitycs' }]} title="Summary & Analytics" />
+      <PageHeader breadcrumb={[{ text: 'Report' }, { text: 'Candidate Demography' }]} title="Candidate Demography" />
 
       <Container className="py-3 xl:pb-8">
         <StatisticCards />
