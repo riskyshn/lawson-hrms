@@ -103,7 +103,6 @@ const JobForm: React.FC<{
           case 'subheadingColor':
           case 'paragraphColor':
             setValue(key, props.defaultValue[key])
-            trigger(key)
             break
           default:
             setValue(key, props.defaultValue[key])
@@ -138,8 +137,8 @@ const JobForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired {...register('findJobHeadingId')} />
-        <Input label="Heading En" labelRequired {...register('findJobHeadingEn')} />
+        <Input label="Heading Id" labelRequired error={errors.findJobHeadingId?.message} {...register('findJobHeadingId')} />
+        <Input label="Heading En" labelRequired error={errors.findJobHeadingEn?.message} {...register('findJobHeadingEn')} />
 
         <span className="text-lg font-semibold">Register</span>
         <InputWrapper label="Asset" labelRequired error={errors?.registerAsset?.message}>
@@ -161,11 +160,11 @@ const JobForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired {...register('registerHeadingId')} />
-        <Input label="Heading En" labelRequired {...register('registerHeadingEn')} />
+        <Input label="Heading Id" labelRequired error={errors.registerHeadingId?.message} {...register('registerHeadingId')} />
+        <Input label="Heading En" labelRequired error={errors.registerHeadingEn?.message} {...register('registerHeadingEn')} />
 
-        <Input label="Subheading Id" labelRequired {...register('registerSubheadingId')} />
-        <Input label="Subheading En" labelRequired {...register('registerSubheadingEn')} />
+        <Input label="Subheading Id" labelRequired error={errors.registerSubheadingId?.message} {...register('registerSubheadingId')} />
+        <Input label="Subheading En" labelRequired error={errors.registerSubheadingEn?.message} {...register('registerSubheadingEn')} />
 
         <span className="text-lg font-semibold">Login</span>
         <InputWrapper label="Asset" labelRequired error={errors?.loginAsset?.message}>
@@ -187,17 +186,23 @@ const JobForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired {...register('loginHeadingId')} />
-        <Input label="Heading En" labelRequired {...register('loginHeadingEn')} />
+        <Input label="Heading Id" labelRequired error={errors.loginHeadingId?.message} {...register('loginHeadingId')} />
+        <Input label="Heading En" labelRequired error={errors.loginHeadingEn?.message} {...register('loginHeadingEn')} />
 
-        <Input label="Subheading Id" labelRequired {...register('loginSubheadingId')} />
-        <Input label="Subheading En" labelRequired {...register('loginSubheadingEn')} />
+        <Input label="Subheading Id" labelRequired error={errors.loginSubheadingId?.message} {...register('loginSubheadingId')} />
+        <Input label="Subheading En" labelRequired error={errors.loginSubheadingEn?.message} {...register('loginSubheadingEn')} />
 
-        <Input type="color" label="Background" labelRequired {...register('backgroundColor')} />
-        <Input type="color" label="Call to Action" labelRequired {...register('callToActionColor')} />
-        <Input type="color" label="Heading" labelRequired {...register('headingColor')} />
-        <Input type="color" label="Subheading" labelRequired {...register('subheadingColor')} />
-        <Input type="color" label="Paragraph" labelRequired {...register('paragraphColor')} />
+        <Input type="color" label="Background" labelRequired error={errors.backgroundColor?.message} {...register('backgroundColor')} />
+        <Input
+          type="color"
+          label="Call to Action"
+          labelRequired
+          error={errors.callToActionColor?.message}
+          {...register('callToActionColor')}
+        />
+        <Input type="color" label="Heading" labelRequired error={errors.headingColor?.message} {...register('headingColor')} />
+        <Input type="color" label="Subheading" labelRequired error={errors.subheadingColor?.message} {...register('subheadingColor')} />
+        <Input type="color" label="Paragraph" labelRequired error={errors.paragraphColor?.message} {...register('paragraphColor')} />
       </CardBody>
 
       <CardFooter className="gap-3">
