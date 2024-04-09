@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement } from 'chart.js'
-import { BaseInputDate, Button, Card, CardBody, Select } from 'jobseeker-ui'
+import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
 import { Bar, Line } from 'react-chartjs-2'
 import StatisticCards from '../../components/StatisticCards'
 import MainCardHeader from '@/components/Elements/MainCardHeader'
@@ -65,22 +65,6 @@ const dataLine = {
 }
 
 const DemographyPage: React.FC = () => {
-  const [selectedYear, setSelectedYear] = useState('2022')
-  const [selectedTab, setSelectedTab] = useState('month')
-  const [selectedComparison, setSelectedComparison] = useState('previous')
-
-  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedYear(e.target.value)
-  }
-
-  const handleTabChange = (tab: string) => {
-    setSelectedTab(tab)
-  }
-
-  const handleComparisonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedComparison(e.target.value)
-  }
-
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Report' }, { text: 'Summary & Analitycs' }]} title="Summary & Analytics" />

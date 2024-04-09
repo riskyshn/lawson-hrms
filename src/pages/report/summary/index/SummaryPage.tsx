@@ -1,7 +1,7 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { BaseInputDate, Card, CardBody, Input, Select } from 'jobseeker-ui'
+import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
 import { Pie } from 'react-chartjs-2'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
