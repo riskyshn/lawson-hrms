@@ -44,7 +44,19 @@ const recruitmentLinks = genSidebarLinks({
         },
       ],
     },
-    { parent: { icon: FileIcon, text: 'Report', to: '/report' } },
+    {
+      parent: { icon: FileIcon, text: 'Report', to: '/report' },
+      child: [
+        {
+          text: 'Summary & Analytics',
+          to: '/report/summary',
+        },
+        {
+          text: 'Candidate Demography',
+          to: '/report/demography',
+        },
+      ],
+    },
   ],
 })
 

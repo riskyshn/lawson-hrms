@@ -10,6 +10,7 @@ import processRoute from './process.route'
 import attendanceRoute from './attendance.route'
 import payrollRoute from './payroll.route'
 import cmsRoute from './cms.route'
+import reportRoute from './report.route'
 
 export const mainRoute: RouteObject = {
   element: <MainLayout />,
@@ -23,5 +24,6 @@ export const mainRoute: RouteObject = {
     attendanceRoute,
     payrollRoute,
     cmsRoute,
+    reportRoute,
   ],
 }
