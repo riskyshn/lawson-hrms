@@ -3,10 +3,10 @@ import PageHeader from '@/components/Elements/PageHeader'
 import LoadingScreen from '@/components/UI/LoadingScreen'
 import { payrollService } from '@/services'
 import { Card, CardHeader } from 'jobseeker-ui'
+import { AlertOctagonIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import RenderDetail from './components/RenderDetail'
-import { AlertOctagonIcon } from 'lucide-react'
 
 const DetailRunRequestPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPayrollRequest>()
@@ -16,15 +16,28 @@ const DetailRunRequestPage: React.FC = () => {
 
   useEffect(() => {
     if (!payrollRequestId) return
-    const load = async () => {
+
+    const load = async (oid: string) => {
       try {
-        const data = await payrollService.fetchPayrollRequest(payrollRequestId)
+        const data = await payrollService.fetchPayrollRequest(oid)
         setPageData(data)
+        return data
       } catch (e) {
         setPageError(e)
       }
     }
-    load()
+
+    load(payrollRequestId)
+    const timer = setInterval(async () => {
+      const data = await load(payrollRequestId)
+      if (data?.statusRunner !== 'WAITING' && data?.statusRunner !== 'ON_PROGRESS') {
+        clearInterval(timer)
+      }
+    }, 3000)
+
+    return () => {
+      clearInterval(timer)
+    }
   }, [payrollRequestId])
 
   if (pageError) throw pageError
