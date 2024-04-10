@@ -110,14 +110,13 @@ const HomeForm: React.FC<{
         case 'bannerHeadingId':
         case 'bannerHeadingEn':
           setValue(key, props.defaultValue[key])
-          trigger(key)
           break
         default:
           setValue(key, props.defaultValue[key])
           break
       }
     })
-  }, [props.defaultValue, setValue, trigger])
+  }, [props.defaultValue, setValue])
 
   const onSubmit = handleSubmit(props.handleSubmit)
 
@@ -168,11 +167,23 @@ const HomeForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired {...register('sectionAHeadingId')} />
-        <Input label="Heading En" labelRequired {...register('sectionAHeadingEn')} />
+        <Input label="Heading Id" labelRequired error={errors.sectionAHeadingId?.message} {...register('sectionAHeadingId')} />
+        <Input label="Heading En" labelRequired error={errors.sectionAHeadingEn?.message} {...register('sectionAHeadingEn')} />
 
-        <Textarea rows={5} label="Paragraph Id" labelRequired {...register('sectionAParagraphId')} />
-        <Textarea rows={5} label="Paragraph En" labelRequired {...register('sectionAParagraphEn')} />
+        <Textarea
+          rows={5}
+          label="Paragraph Id"
+          labelRequired
+          error={errors.sectionAParagraphId?.message}
+          {...register('sectionAParagraphId')}
+        />
+        <Textarea
+          rows={5}
+          label="Paragraph En"
+          labelRequired
+          error={errors.sectionAParagraphEn?.message}
+          {...register('sectionAParagraphEn')}
+        />
 
         <span className="text-lg font-semibold">Section B</span>
         <InputWrapper label="Asset" labelRequired error={errors?.sectionBAsset?.message}>
@@ -194,11 +205,23 @@ const HomeForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired {...register('sectionBHeadingId')} />
-        <Input label="Heading En" labelRequired {...register('sectionBHeadingEn')} />
+        <Input label="Heading Id" labelRequired error={errors.sectionBHeadingId?.message} {...register('sectionBHeadingId')} />
+        <Input label="Heading En" labelRequired error={errors.sectionBHeadingEn?.message} {...register('sectionBHeadingEn')} />
 
-        <Textarea rows={5} label="Paragraph Id" labelRequired {...register('sectionBParagraphId')} />
-        <Textarea rows={5} label="Paragraph En" labelRequired {...register('sectionBParagraphEn')} />
+        <Textarea
+          rows={5}
+          label="Paragraph Id"
+          labelRequired
+          error={errors.sectionBParagraphId?.message}
+          {...register('sectionBParagraphId')}
+        />
+        <Textarea
+          rows={5}
+          label="Paragraph En"
+          labelRequired
+          error={errors.sectionBParagraphEn?.message}
+          {...register('sectionBParagraphEn')}
+        />
 
         <span className="text-lg font-semibold">Banner</span>
         <InputWrapper label="Asset" labelRequired error={errors?.bannerAsset?.message}>
@@ -220,9 +243,9 @@ const HomeForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Call to Action" labelRequired {...register('bannerCallToAction')} />
-        <Input label="Heading Id" labelRequired {...register('bannerHeadingId')} />
-        <Input label="Heading En" labelRequired {...register('bannerHeadingEn')} />
+        <Input label="Call to Action" labelRequired error={errors.bannerCallToAction?.message} {...register('bannerCallToAction')} />
+        <Input label="Heading Id" labelRequired error={errors.bannerHeadingId?.message} {...register('bannerHeadingId')} />
+        <Input label="Heading En" labelRequired error={errors.bannerHeadingEn?.message} {...register('bannerHeadingEn')} />
       </CardBody>
 
       <CardFooter className="gap-3">
