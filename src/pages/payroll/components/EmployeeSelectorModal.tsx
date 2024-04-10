@@ -1,8 +1,8 @@
 import SideModal from '@/components/Elements/SideModal'
-import EmployeeSelector from '@/components/Modules/Payroll/EmployeeSelector'
 import { Button } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import EmployeeSelector from './EmployeeSelector'
 
 type PropTypes = {
   show?: boolean

@@ -1,5 +1,5 @@
-import HistoryItem from '@/components/UI/HistoryItem'
-import { Timeline, TimelineItem } from '@/components/UI/Timeline'
+import HistoryItem from '@/components/Elements/HistoryItem'
+import { Timeline, TimelineItem } from '@/components/Elements/Timeline'
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import { CheckCircle2Icon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
 import moment from 'moment'

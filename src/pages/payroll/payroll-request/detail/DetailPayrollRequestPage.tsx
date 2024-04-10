@@ -1,6 +1,6 @@
 import Container from '@/components/Elements/Container'
 import PageHeader from '@/components/Elements/PageHeader'
-import LoadingScreen from '@/components/UI/LoadingScreen'
+import LoadingScreen from '@/components/Elements/LoadingScreen'
 import { payrollService } from '@/services'
 import { Button, Card, CardHeader } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
