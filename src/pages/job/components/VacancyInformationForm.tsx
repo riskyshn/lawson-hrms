@@ -1,4 +1,4 @@
-import AsyncSelect from '@/components/Elements/AsyncSelect'
+import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import { masterService, vacancyService } from '@/services'
 import { useMasterStore, useOrganizationStore } from '@/store'
 import currencyToNumber from '@/utils/currency-to-number'

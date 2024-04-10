@@ -1,5 +1,5 @@
-import AsyncSelect from '@/components/Elements/AsyncSelect'
-import MainModal from '@/components/Elements/MainModal'
+import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { masterService, organizationService } from '@/services'
 import { useMasterStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'

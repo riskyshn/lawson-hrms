@@ -14,9 +14,9 @@ import {
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
-import HistoryItem from '../../Elements/HistoryItem'
-import LoadingScreen from '../../Elements/LoadingScreen'
-import { Timeline, TimelineItem } from '../../Elements/Timeline'
+import HistoryItem from '../../Elements/UI/HistoryItem'
+import LoadingScreen from '../../Elements/Layout/LoadingScreen'
+import { Timeline, TimelineItem } from '../../Elements/UI/Timeline'
 
 type OptionModalProps = {
   show?: boolean

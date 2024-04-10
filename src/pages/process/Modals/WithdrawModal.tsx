@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { candidateService, masterService } from '@/services'
 
 type WithdrawModalProps = {

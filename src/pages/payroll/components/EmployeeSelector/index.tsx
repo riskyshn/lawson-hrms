@@ -6,7 +6,7 @@ import { SearchIcon } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import ClearToggle from './ClearToggle'
 import EmployeeItem from './EmployeeItem'
-import LoadingScreen from '@/components/Elements/LoadingScreen'
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 
 type PropTypes = {
   selected: string[]

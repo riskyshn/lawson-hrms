@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Avatar, BaseInput, Button } from 'jobseeker-ui'
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { SearchIcon } from 'lucide-react'
 
 type Candidate = {

@@ -1,4 +1,4 @@
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { Input, Select } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { attendanceService } from '@/services'

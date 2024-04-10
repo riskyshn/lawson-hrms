@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Input, Avatar, InputCheckbox, Select } from 'jobseeker-ui'
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { ClockIcon, MapPinIcon, PencilIcon, TextIcon, Users2Icon } from 'lucide-react'
 import { LogoGoogleMeet } from '@/components/Logo/LogoGoogleMeet'
 

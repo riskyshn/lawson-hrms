@@ -1,4 +1,4 @@
-import * as Table from '@/components/Elements/MainTable'
+import * as Table from '@/components/Elements/Tables/MainTable'
 import { vacancyService } from '@/services'
 import { useAuthStore } from '@/store'
 import { useConfirm, useToast } from 'jobseeker-ui'

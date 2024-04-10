@@ -1,4 +1,4 @@
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Card } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'

@@ -1,4 +1,4 @@
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import moment from 'moment'
 import React from 'react'
 import { twJoin } from 'tailwind-merge'

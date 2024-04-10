@@ -1,4 +1,4 @@
-import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
+import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 import { organizationService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'

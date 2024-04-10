@@ -1,4 +1,4 @@
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { useOrganizationStore } from '@/store'
 import { Button, Card, CardBody, CardFooter, InputCheckbox } from 'jobseeker-ui'
 import { EditIcon } from 'lucide-react'

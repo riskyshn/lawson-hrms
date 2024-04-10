@@ -1,4 +1,4 @@
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Avatar, Button } from 'jobseeker-ui'
 import React from 'react'

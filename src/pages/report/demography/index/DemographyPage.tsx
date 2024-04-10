@@ -1,5 +1,5 @@
-import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
 import { Pie } from 'react-chartjs-2'

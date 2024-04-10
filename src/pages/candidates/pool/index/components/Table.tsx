@@ -1,4 +1,4 @@
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
 import MenuList from '../../../components/MenuList'

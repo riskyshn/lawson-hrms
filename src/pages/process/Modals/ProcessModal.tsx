@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, BaseInput, InputRadio } from 'jobseeker-ui'
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { SearchIcon } from 'lucide-react'
 
 type ProcessModalProps = {

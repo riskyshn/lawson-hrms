@@ -1,5 +1,5 @@
-import AsyncSelect from '@/components/Elements/AsyncSelect'
-import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
+import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
+import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 import { PHONE_REG_EXP } from '@/constants/globals'
 import { masterService } from '@/services'
 import { useMasterStore } from '@/store'

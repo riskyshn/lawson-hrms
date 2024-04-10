@@ -1,4 +1,4 @@
-import MainCardHeader from '@/components/Elements/MainCardHeader'
+import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import React from 'react'
 
 type PropType = {

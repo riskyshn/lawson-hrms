@@ -1,6 +1,6 @@
 import BgImage from '@/assets/hero.jpg'
-import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import Logo from '@/components/Logo/Logo'
 import { useAuthStore, useOrganizationStore } from '@/store'
 import AnnouncementCard from './components/AnnouncementCard'

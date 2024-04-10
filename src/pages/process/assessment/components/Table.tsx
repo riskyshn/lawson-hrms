@@ -1,6 +1,6 @@
 import React from 'react'
 import { Avatar } from 'jobseeker-ui'
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 const total = 20

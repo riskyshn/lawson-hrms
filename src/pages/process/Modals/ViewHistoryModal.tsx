@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Card, CardBody } from 'jobseeker-ui'
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { CalendarIcon, CheckCircle2Icon, FileInputIcon, UserIcon, XCircleIcon } from 'lucide-react'
 
 type OptionModalProps = {

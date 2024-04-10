@@ -1,5 +1,5 @@
 import React from 'react'
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar } from 'jobseeker-ui'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'

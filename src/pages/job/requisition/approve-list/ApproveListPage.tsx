@@ -1,5 +1,5 @@
-import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { employeeService, organizationService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
