@@ -1,4 +1,4 @@
-import { SettingsIcon } from 'lucide-react'
+import { PackageIcon, SettingsIcon } from 'lucide-react'
 import genSidebarLinks from '@/utils/gen-sidebar-links'
 
 const settingsLinks = genSidebarLinks({
@@ -19,6 +19,7 @@ const settingsLinks = genSidebarLinks({
         { text: 'Work Placement', to: '/settings/work-placements' },
       ],
     },
+    { parent: { icon: PackageIcon, text: 'CMS', to: '/cms' } },
   ],
 })
 
