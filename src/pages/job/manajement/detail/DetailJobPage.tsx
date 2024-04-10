@@ -1,5 +1,5 @@
-import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { Button } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
 import PreviewVacancy from '../../components/PreviewVacancy'

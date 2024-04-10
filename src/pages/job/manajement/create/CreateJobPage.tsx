@@ -1,5 +1,5 @@
-import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'

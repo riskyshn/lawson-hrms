@@ -1,5 +1,5 @@
-import Container from '@/components/Elements/Container'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 import { Spinner } from 'jobseeker-ui'

@@ -1,5 +1,5 @@
 import React from 'react'
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 import { Badge } from 'jobseeker-ui'
 // import { Avatar } from 'jobseeker-ui'

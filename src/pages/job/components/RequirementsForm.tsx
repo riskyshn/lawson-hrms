@@ -1,4 +1,4 @@
-import AsyncSelect from '@/components/Elements/AsyncSelect'
+import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import { masterService } from '@/services'
 import { useMasterStore } from '@/store'
 import { yupResolver } from '@hookform/resolvers/yup'

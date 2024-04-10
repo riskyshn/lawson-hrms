@@ -1,4 +1,4 @@
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { candidateService, masterService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Button, Select, Spinner, useToast } from 'jobseeker-ui'

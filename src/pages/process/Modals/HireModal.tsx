@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, InputDate } from 'jobseeker-ui'
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { Link } from 'react-router-dom'
 
 type HireModalProps = {

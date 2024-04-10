@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Button, Select, useToast } from 'jobseeker-ui'
 import { FileSpreadsheetIcon } from 'lucide-react'
-import Container from '@/components/Elements/Container'
-import MainCard from '@/components/Elements/MainCard'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import MainCard from '@/components/Elements/Layout/MainCard'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import Table from './components/Table'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import { candidateService, masterService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
-import MainCardHeader from '@/components/Elements/MainCardHeader'
+import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import { useMasterStore } from '@/store'
-import AsyncSelect from '@/components/Elements/AsyncSelect'
+import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 
 const CandidatePoolPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)

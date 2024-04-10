@@ -1,4 +1,4 @@
-import * as Table from '@/components/Elements/MainTable'
+import * as Table from '@/components/Elements/Tables/MainTable'
 import { authorityService } from '@/services'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'

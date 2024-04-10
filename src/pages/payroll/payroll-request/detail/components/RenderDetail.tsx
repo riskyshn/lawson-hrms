@@ -1,5 +1,5 @@
-import MainCard from '@/components/Elements/MainCard'
-import MainCardHeader from '@/components/Elements/MainCardHeader'
+import MainCard from '@/components/Elements/Layout/MainCard'
+import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { payrollService } from '@/services'

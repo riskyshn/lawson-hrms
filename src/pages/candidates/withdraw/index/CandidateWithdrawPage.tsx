@@ -1,6 +1,6 @@
-import Container from '@/components/Elements/Container'
-import MainCard from '@/components/Elements/MainCard'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import MainCard from '@/components/Elements/Layout/MainCard'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { Select } from 'jobseeker-ui'
 import Table from './components/Table'
 import { useEffect, useState } from 'react'
@@ -9,9 +9,9 @@ import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import usePagination from '@/hooks/use-pagination'
 import { candidateService, masterService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
-import MainCardHeader from '@/components/Elements/MainCardHeader'
+import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import { useMasterStore } from '@/store'
-import AsyncSelect from '@/components/Elements/AsyncSelect'
+import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 
 const CandidateWithdrawPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)

@@ -1,4 +1,4 @@
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import React from 'react'
 import ActionMenu from './ActionMenu'
 import { Avatar } from 'jobseeker-ui'

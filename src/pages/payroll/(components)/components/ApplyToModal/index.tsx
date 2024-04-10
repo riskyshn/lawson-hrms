@@ -1,8 +1,8 @@
-import SideModal from '@/components/Elements/SideModal'
-import EmployeeSelector from '@/components/Modules/Payroll/EmployeeSelector'
+import SideModal from '@/components/Elements/Modals/SideModal'
 import { Button } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
 import { useState } from 'react'
+import EmployeeSelector from '../../../components/EmployeeSelector'
 import SubmitModal from './SubmitModal'
 
 type PropTypes = {

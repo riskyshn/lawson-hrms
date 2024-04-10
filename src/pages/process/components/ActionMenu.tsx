@@ -1,5 +1,5 @@
 import React from 'react'
-import * as Table from '@/components/Elements/MainTable'
+import * as Table from '@/components/Elements/Tables/MainTable'
 import {
   EditIcon,
   FileEditIcon,

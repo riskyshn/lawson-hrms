@@ -1,4 +1,4 @@
-import * as Table from '@/components/Elements/MainTable'
+import * as Table from '@/components/Elements/Tables/MainTable'
 import { axiosErrorMessage } from '@/utils/axios'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenIcon, TrashIcon } from 'lucide-react'

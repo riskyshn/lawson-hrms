@@ -1,6 +1,6 @@
-import Container from '@/components/Elements/Container'
-import MainCard from '@/components/Elements/MainCard'
-import PageHeader from '@/components/Elements/PageHeader'
+import Container from '@/components/Elements/Layout/Container'
+import MainCard from '@/components/Elements/Layout/MainCard'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import Table from './components/Table'
 import { candidateService, vacancyService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
-import MainCardHeader from '@/components/Elements/MainCardHeader'
+import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 
 const CandidateManagementPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()

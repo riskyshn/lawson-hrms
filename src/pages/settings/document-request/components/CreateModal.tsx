@@ -1,4 +1,4 @@
-import MainModal from '@/components/Elements/MainModal'
+import MainModal from '@/components/Elements/Modals/MainModal'
 import { organizationService } from '@/services'
 import { useMasterStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'

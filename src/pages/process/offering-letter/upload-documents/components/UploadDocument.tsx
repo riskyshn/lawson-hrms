@@ -1,5 +1,5 @@
-import DocumentFileUpload from '@/components/FileUploads/DocumentFileUpload'
-import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
+import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
+import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, InputWrapper } from 'jobseeker-ui'
 import React from 'react'

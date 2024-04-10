@@ -1,6 +1,6 @@
 import type { ModalType, TableType } from '../types'
 
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import ProcessModal from '@/components/Modules/Process/ProcessModal'
 import ViewProcessHistoryModal from '@/components/Modules/Process/ViewProcessHistoryModal'
 import WithdrawModal from '@/components/Modules/Process/WithdrawModal'

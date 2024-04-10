@@ -1,4 +1,4 @@
-import MainTable from '@/components/Elements/MainTable'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar, Badge } from 'jobseeker-ui'
 import moment from 'moment'
 import React from 'react'
