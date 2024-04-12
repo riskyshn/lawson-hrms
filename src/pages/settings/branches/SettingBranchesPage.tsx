@@ -51,7 +51,7 @@ const SettingBranchesPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Branch" total={pageData?.totalElements} />}
+          header={<CardHeader name="Branch" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
