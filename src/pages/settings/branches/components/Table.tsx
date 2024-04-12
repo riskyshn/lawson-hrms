@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
+import { MapPinIcon } from 'lucide-react'
+import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
@@ -11,10 +13,12 @@ type TableProps = {
 }
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
+  const [showCoordinate, setShowCoordinate] = useState<{ latLong?: [number, number]; range?: number }>()
+
   const headerItems = [
     { children: 'Name', className: 'text-left' },
     { children: 'Address', className: 'text-left' },
-    { children: 'Longitude-Latitude' },
+    { children: 'Location' },
     // { children: 'Employees' },
     { children: 'Range' },
     { children: 'Action', className: 'w-24' },
@@ -26,7 +30,19 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
         children: <span className="block font-semibold">{item.name}</span>,
       },
       { children: item.address },
-      { children: item?.coordinate ? `${item.coordinate.y}, ${item.coordinate.x}` : '-', className: 'text-center' },
+      {
+        children: (
+          <button
+            title="View Coordinate"
+            className="text-primary-600 disabled:text-gray-600"
+            disabled={!item.coordinate}
+            onClick={() => setShowCoordinate({ latLong: item.coordinate?.coordinates, range: item.range })}
+          >
+            <MapPinIcon size={16} />
+          </button>
+        ),
+        className: 'text-center',
+      },
       // {
       //   children: (
       //     <span className="flex items-center justify-center gap-2">
@@ -49,7 +65,16 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return (
+    <>
+      <MapsPreviewerModal
+        coordinates={showCoordinate?.latLong}
+        radius={showCoordinate?.range}
+        onClose={() => setShowCoordinate(undefined)}
+      />
+      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+    </>
+  )
 }
 
 export default Table
