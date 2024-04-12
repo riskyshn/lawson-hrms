@@ -1,9 +1,12 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
+import DetailEmployeePayrollModal from '@/pages/payroll/components/DetailEmployeePayrollModal'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Avatar, Button } from 'jobseeker-ui'
-import React from 'react'
+import React, { useState } from 'react'
 
 const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading }) => {
+  const [selectedToUpdate, setSelectedToUpdate] = useState<IEmployeePayrollResult | null>(null)
+
   const headerItems = [
     { children: 'Employee Name', className: 'text-left' },
     { children: 'Tax Method' },
@@ -35,7 +38,7 @@ const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRe
         {
           children: (
             <span className="flex items-center justify-center gap-1">
-              <Button type="button" color="primary" variant="light" size="small">
+              <Button type="button" color="primary" variant="light" size="small" onClick={() => setSelectedToUpdate(item)}>
                 Detail
               </Button>
               <Button type="button" color="error" size="small">
@@ -48,7 +51,12 @@ const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRe
     }
   })
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return (
+    <>
+      <DetailEmployeePayrollModal item={selectedToUpdate} onClose={() => setSelectedToUpdate(null)} />
+      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+    </>
+  )
 }
 
 export default Table
