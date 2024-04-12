@@ -3,10 +3,10 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { payrollService } from '@/services'
-import { useSearchParams } from 'react-router-dom'
-import Table from './Table'
-import StatisticCards from './StatisticCards'
 import { Button } from 'jobseeker-ui'
+import { useSearchParams } from 'react-router-dom'
+import StatisticCards from './StatisticCards'
+import Table from './Table'
 
 const RenderDetail: React.FC<{ item: IPayrollRequest }> = ({ item }) => {
   const [searchParams, setSearchParam] = useSearchParams()

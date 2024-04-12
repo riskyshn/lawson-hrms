@@ -9,8 +9,8 @@ export type MainTableProps = Omit<JSX.IntrinsicElements['table'], 'children'> & 
   loadingLength?: number
   headerItems: Array<JSX.IntrinsicElements['th']>
   bodyItems: Array<
-    Omit<JSX.IntrinsicElements['tr'], 'children'> & {
-      items: Array<JSX.IntrinsicElements['td']>
+    JSX.IntrinsicElements['tr'] & {
+      items?: Array<JSX.IntrinsicElements['td']>
     }
   >
 }
@@ -41,11 +41,10 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
       }
       <tbody>
         {!loading &&
-          bodyItems.map(({ className, items, ...props }, i) => (
+          bodyItems.map(({ className, items, children, ...props }, i) => (
             <tr key={i} className={twMerge(className, 'odd:bg-gray-50')} {...props}>
-              {items.map(({ className, ...props }, i) => (
-                <td key={i} className={twMerge('p-3 text-sm', className)} {...props} />
-              ))}
+              {items?.map(({ className, ...props }, i) => <td key={i} className={twMerge('p-3 text-sm', className)} {...props} />)}
+              {children}
             </tr>
           ))}
 
