@@ -1,12 +1,17 @@
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 type PropType = {
   name: string
   total?: number
+  onRefresh?: () => void
 }
 
-const CardHeader: React.FC<PropType> = ({ name, total }) => {
+const CardHeader: React.FC<PropType> = ({ name, total, onRefresh }) => {
+  const [searchParams, setSearchParam] = useSearchParams()
+
+  const search = searchParams.get('search') || undefined
   const loading = typeof total !== 'number'
 
   return (
@@ -21,6 +26,15 @@ const CardHeader: React.FC<PropType> = ({ name, total }) => {
           in this list
         </>
       }
+      onRefresh={onRefresh}
+      search={{
+        value: search || '',
+        setValue: (e) => {
+          searchParams.set('search', e)
+          searchParams.delete('page')
+          setSearchParam(searchParams)
+        },
+      }}
     />
   )
 }

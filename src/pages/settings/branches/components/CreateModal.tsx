@@ -1,12 +1,14 @@
 import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
-import MainModal from '@/components/Elements/Modals/MainModal'
 import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import GeoPicker from './GeoPicker'
+import { useMasterStore } from '@/store'
+import useRemember from '@/hooks/use-remember'
 
 type CreateModalProps = {
   show: boolean
@@ -17,7 +19,7 @@ type CreateModalProps = {
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
   address: yup.string().required().label('Address'),
-  longlat: yup.string().required().label('Longitude-Latitude'),
+  longlat: yup.string().required().label('Longlat'),
   range: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -31,6 +33,8 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
 
+  const { cities } = useMasterStore().area
+
   const {
     register,
     handleSubmit,
@@ -42,6 +46,8 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   } = useForm({
     resolver: yupResolver(schema),
   })
+
+  const city = useRemember(cities.find((el) => el.oid === getValues('cityId')))
 
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -64,16 +70,22 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   })
 
   return (
-    <MainModal className="max-w-xl" show={show}>
-      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <h4 className="mb-4 text-2xl font-semibold">Create Branch</h4>
+    <Modal as="form" show={show} onSubmit={onSubmit}>
+      <ModalHeader subTitle="Set up a new branch for your company" onClose={onClose}>
+        Create Branch
+      </ModalHeader>
 
+      <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-
-        <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
-        <Textarea rows={3} label="Address" labelRequired {...register('address')} />
-        <Input label="Longitude-Latitude" labelRequired {...register('longlat')} />
-        <Input label="Range" labelRequired {...register('range')} type="number" />
+        <Input label="Name" placeholder="Branch name" labelRequired error={errors.name?.message} {...register('name')} />
+        <Textarea
+          label="Address"
+          placeholder="Branch address here..."
+          labelRequired
+          error={errors.address?.message}
+          rows={3}
+          {...register('address')}
+        />
         <AsyncSelect
           label="City"
           labelRequired
@@ -88,17 +100,29 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
             trigger('cityId')
           }}
         />
+        <InputWrapper label="Longlat" labelRequired error={errors.longlat?.message} help={!city && 'Pleace select a city before.'}>
+          <GeoPicker
+            error={errors.longlat?.message}
+            value={getValues('longlat')}
+            city={city?.name}
+            onValueChange={(v) => {
+              setValue('longlat', v)
+              trigger('longlat')
+            }}
+          />
+        </InputWrapper>
+        <Input label="Range" placeholder="Map location range" labelRequired {...register('range')} type="number" />
+      </div>
 
-        <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Save
-          </Button>
-        </div>
-      </form>
-    </MainModal>
+      <ModalFooter>
+        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+          Save
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 
