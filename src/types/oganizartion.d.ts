@@ -179,6 +179,8 @@ interface IDocumentRequest {
   oid: string
   allowedFileTypes: string[]
   name: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface IOfferingLetterSetting {
