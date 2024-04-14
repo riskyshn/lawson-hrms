@@ -49,9 +49,8 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
 const getStatusColor = (status: string): Color => {
   const statusMap: Record<string, Color> = {
     '0': 'warning',
-    '1': 'primary',
-    '2': 'success',
-    '3': 'error',
+    '1': 'success',
+    '2': 'error',
   }
   return statusMap[status] || 'default'
 }
