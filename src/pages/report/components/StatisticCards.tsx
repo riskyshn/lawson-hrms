@@ -1,4 +1,4 @@
-import { attendanceService } from '@/services'
+import { reportService } from '@/services'
 import { Skeleton } from 'jobseeker-ui'
 import React, { memo, useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
@@ -14,7 +14,7 @@ const Card: React.FC<{
   </div>
 )
 
-const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ switchData, light }) => {
+const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ switchData }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<any>(null)
   const [error, setError] = useState<any>(null)
@@ -23,7 +23,7 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
     const fetchData = async () => {
       setLoading(true)
       try {
-        const data = await attendanceService.fetchStatistic()
+        const data = await reportService.fetchRecruitmentFunnel()
         setData(data)
       } catch (error) {
         setError(error)
@@ -35,24 +35,29 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
 
   const renderCards = () => {
     if (error) {
-      return Array.from(Array(6)).map((_, i: number) => <Card key={i} label="Failed to load Data" value="Error" />)
+      return Array.from(Array(5)).map((_, i: number) => <Card key={i} label="Failed to load Data" value="Error" />)
     }
     if (!data) return null
 
-    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple']
+    const stages = [
+      { label: 'Interview', dataKey: 'interview' },
+      { label: 'Applicant', dataKey: 'applicant' },
+      { label: 'Assessment', dataKey: 'assessment' },
+      { label: 'Offering', dataKey: 'offering' },
+      { label: 'Onboarding', dataKey: 'onboarding' },
+    ]
 
-    const cardData = data.map((item: { title: string; count: number }, index: number) => ({
-      label: item.title,
-      value: item.count,
-      className: `text-white bg-${light ? colors[index] : colors[index]}-600`,
-    }))
+    const colors = ['green', 'amber', 'rose', 'red', 'gray']
 
-    return cardData.map((rest: any, index: number) => <Card key={index} {...rest} />)
+    return stages.map((stage, index) => {
+      const stageData = data[stage.dataKey]
+      return <Card key={index} label={`${stage.label}`} value={stageData.total} className={`text-white bg-${colors[index]}-600`} />
+    })
   }
 
   return (
-    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-7`)}>
-      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={7} />}
+    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-5`)}>
+      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={5} />}
     </div>
   )
 }

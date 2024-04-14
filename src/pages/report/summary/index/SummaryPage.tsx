@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement } from 'chart.js'
@@ -9,62 +9,120 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import Table from '../../components/Table'
 import PageCard from '../../components/PageCard'
+import { reportService } from '@/services'
+import usePagination from '@/hooks/use-pagination'
+
+interface RecruitmentFunnelData {
+  interview?: { percentage?: number }
+  applicant?: { percentage?: number }
+  assessment?: { percentage?: number }
+  offering?: { percentage?: number }
+  onboarding?: { percentage?: number }
+}
+
+interface NumberHiredData {
+  month: string
+  total: number
+}
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement)
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Bar Chart',
-    },
-  },
-}
+const SummaryPage = () => {
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState<RecruitmentFunnelData>({})
+  const [dataLine, setDataLine] = useState<NumberHiredData[]>([])
+  const [dataNumberHired, setDataNumberHired] = useState<any>()
+  const [pageError, setPageError] = useState<any>()
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  const optionsBar = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Recruitment Funnel',
+      },
     },
-  ],
-}
+  }
 
-export const optionsLine = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart',
-    },
-  },
-}
+  const labelsBar = ['Interview', 'Applicant', 'Assessment', 'Offering', 'Onboarding']
 
-const dataLine = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      borderColor: 'rgba(255, 99, 132, 1)',
-      fill: false,
-    },
-  ],
-}
+  const dataBar = {
+    labels: labelsBar,
+    datasets: [
+      {
+        label: 'Recruitment Funnel Percentage',
+        data: [
+          data?.interview?.percentage || 0,
+          data?.applicant?.percentage || 0,
+          data?.assessment?.percentage || 0,
+          data?.offering?.percentage || 0,
+          data?.onboarding?.percentage || 0,
+        ],
+        backgroundColor: 'rgba(105, 82, 224, 1)',
+      },
+    ],
+  }
 
-const SummaryPage: React.FC = () => {
+  const optionsLine = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Number of Hired',
+      },
+    },
+  }
+
+  const dataLineChart = {
+    labels: dataLine.map((item) => item.month),
+    datasets: [
+      {
+        label: 'Number of Hired',
+        data: dataLine.map((item) => item.total),
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        fill: false,
+      },
+    ],
+  }
+
+  const pagination = usePagination({
+    pathname: '/summary/number-of-hired/datatable',
+    totalPage: dataNumberHired?.totalPages || 0,
+  })
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+
+        const [recruitmentFunnelData, numberHiredData, numberHiredDataTable] = await Promise.all([
+          reportService.fetchRecruitmentFunnel(),
+          reportService.fetchNumberHiredChart(),
+          reportService.fetchNumberHired(),
+        ])
+
+        setData(recruitmentFunnelData)
+        setDataLine(numberHiredData)
+        setDataNumberHired(numberHiredDataTable)
+      } catch (e: any) {
+        if (e.message !== 'canceled') setPageError(e)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  if (pageError) throw pageError
+
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Report' }, { text: 'Summary & Analytics' }]} title="Summary & Analytics" />
@@ -76,7 +134,7 @@ const SummaryPage: React.FC = () => {
             <div className="flex justify-end">
               <BaseInputDate className="w-56" placeholder="Start - End Date" />
             </div>
-            <Bar options={options} data={data} />
+            <Bar options={optionsBar} data={dataBar} />
           </CardBody>
         </Card>
         <MainCard header={() => <MainCardHeader title="User Activity" />} body={<Table items={[]} />} footer={[]} />
@@ -85,7 +143,6 @@ const SummaryPage: React.FC = () => {
             <div className="flex flex-col">
               <div className="flex items-center justify-end">
                 <Select className="w-40" options={[]} placeholder="2024" />
-
                 <div className="mb-2">
                   <CardBody className="p-0">
                     <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
@@ -100,10 +157,14 @@ const SummaryPage: React.FC = () => {
                 <Select className="w-64" options={[]} placeholder="All" />
               </div>
             </div>
-            <Line options={optionsLine} data={dataLine} />
+            <Line options={optionsLine} data={dataLineChart} />
           </CardBody>
         </Card>
-        <MainCard header={() => <MainCardHeader title="Number of Hired" />} body={<Table items={[]} />} footer={[]} />
+        <MainCard
+          header={() => <MainCardHeader title="Number of Hired" />}
+          body={<Table items={dataNumberHired?.content || []} loading={loading} />}
+          footer={pagination.render()}
+        />
       </Container>
     </>
   )

@@ -10,3 +10,4 @@ export const API_PROCESS_BASE_URL = import.meta.env.VITE_API_PROCESS_BASE_URL ||
 export const API_S3_BASE_URL = import.meta.env.VITE_API_S3_BASE_URL || 'https://basic-s3.api-jobseeker.site'
 export const API_PAYROLL_BASE_URL = import.meta.env.VITE_API_PAYROLL_BASE_URL || 'https://basic-payroll.api-jobseeker.site'
 export const API_CMS_BASE_URL = import.meta.env.VITE_API_CMS_BASE_URL || 'https://basic-cms.api-jobseeker.site'
+export const API_REPORT_BASE_URL = import.meta.env.VITE_API_REPORT_BASE_URL || 'https://basic-report.api-jobseeker.site/'

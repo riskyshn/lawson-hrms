@@ -2,18 +2,17 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 
 type PropTypes = {
   items: any
+  loading?: boolean
 }
 
-const Table: React.FC<PropTypes> = ({ items }) => {
-  const bodyItems = items.map(() => ({
+const Table: React.FC<PropTypes> = ({ items, loading }) => {
+  const bodyItems = items.map((item: any) => ({
     items: [
-      { children: 'John Doe', className: 'text-center' },
-      { children: 3, className: 'text-center' },
-      { children: 4, className: 'text-center' },
-      { children: 1, className: 'text-center' },
-      { children: 2, className: 'text-center' },
-      { children: 8, className: 'text-center' },
-      { children: 0, className: 'text-center' },
+      { children: item.vacancy.name, className: 'text-center' },
+      { children: item.q1, className: 'text-center' },
+      { children: item.q2, className: 'text-center' },
+      { children: item.q3, className: 'text-center' },
+      { children: item.q4, className: 'text-center' },
     ],
   }))
 
@@ -21,15 +20,14 @@ const Table: React.FC<PropTypes> = ({ items }) => {
     <>
       <MainTable
         headerItems={[
-          { children: 'Name' },
-          { children: 'Post Job' },
-          { children: 'hired' },
-          { children: 'Rejected' },
-          { children: 'Interviewed' },
-          { children: 'Locked' },
-          { children: 'Blacklisted' },
+          { children: 'Job', className: 'text-center' },
+          { children: 'Q1', className: 'text-center' },
+          { children: 'Q2', className: 'text-center' },
+          { children: 'Q3', className: 'text-center' },
+          { children: 'Q4', className: 'text-center' },
         ]}
         bodyItems={bodyItems}
+        loading={loading}
       />
     </>
   )
