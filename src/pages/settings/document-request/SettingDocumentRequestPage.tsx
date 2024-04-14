@@ -39,11 +39,9 @@ const SettingDocumentRequestPage: React.FC = () => {
         title="Document Request"
         subtitle="Manage Your Company Document Request"
         actions={
-          <>
-            <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-              Add New Document Request
-            </Button>
-          </>
+          <Button onClick={() => setShowCreateModal(true)} color="primary">
+            Add New Document Request
+          </Button>
         }
       />
 

@@ -40,7 +40,7 @@ const SettingBranchesPage: React.FC = () => {
         title="Branch"
         subtitle="Manage Your Company Branch"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+          <Button onClick={() => setShowCreateModal(true)} color="primary">
             Add New Branch
           </Button>
         }
