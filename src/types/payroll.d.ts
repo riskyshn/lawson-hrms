@@ -50,13 +50,19 @@ interface IPayrollRequest {
   status?: IGeneralDataEmmbed
   statusRunner?: string
   createdAt?: string
-  requestor?: IGeneralDataEmmbed & {
-    email?: string
+  totalAmount?: string
+  totalEmployee?: string
+  requestor?: {
+    oid: string
     employeeCode?: string
+    name?: string
+    email?: string
   }
-  approver?: IGeneralDataEmmbed & {
-    email?: string
+  approver?: {
+    oid: string
     employeeCode?: string
+    name?: string
+    email?: string
   }
 }
 

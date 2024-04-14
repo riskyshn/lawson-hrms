@@ -20,8 +20,8 @@ const StatisticCards: React.FC<{ item: IPayrollRequest }> = ({ item }) => {
         value: `${moment(item.startPeriod).format('DD MMM')} - ${moment(item.endPeriod).format('DD MMM YYYY')}`,
         className: 'text-white bg-amber-600',
       },
-      { label: 'Employee', value: '99 Employees', className: 'text-white bg-rose-600' },
-      { label: 'Total Amount', value: `${numberToCurrency(50000000)}`, className: 'text-white bg-red-600' },
+      { label: 'Employee', value: `${item.totalEmployee} Employees`, className: 'text-white bg-rose-600' },
+      { label: 'Total Amount', value: `${numberToCurrency(parseFloat(item.totalAmount || ''))}`, className: 'text-white bg-red-600' },
     ]
 
     return cardData.map((rest, index) => <Card key={index} {...rest} />)
