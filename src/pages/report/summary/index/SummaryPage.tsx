@@ -181,6 +181,34 @@ const SummaryPage = () => {
     },
   ]
 
+  const [activeLabel, setActiveLabel] = useState('Month') // Default to 'Month'
+
+  const handlePageCardClick = (selectedLabel: any) => {
+    setActiveLabel(selectedLabel)
+  }
+
+  const startYear = 2020
+  const endYear = 2030
+  const yearOptions = []
+
+  for (let year = endYear; year >= startYear; year--) {
+    yearOptions.push({
+      value: year.toString(),
+      label: year.toString(),
+    })
+  }
+
+  const [selectedYear, setSelectedYear] = useState('')
+  const [selectedCompareYear, setSelectedCompareYear] = useState('')
+
+  const handleYearChange = (selectedOption: any) => {
+    setSelectedYear(selectedOption)
+  }
+
+  const handleCompareYearChange = (selectedOption: any) => {
+    setSelectedCompareYear(selectedOption)
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -209,12 +237,18 @@ const SummaryPage = () => {
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-semibold">Number of Hired</h2>
                 <div className="flex items-center">
-                  <Select className="w-40" options={[]} placeholder="2024" />
+                  <Select
+                    className="w-40"
+                    options={yearOptions}
+                    placeholder="Select a year"
+                    onChange={handleYearChange}
+                    value={selectedYear}
+                  />
                   <div className="mb-2">
                     <CardBody className="p-0">
                       <div className="flex gap-3 overflow-x-scroll p-3 pb-2">
                         {['Month', 'Quarter', 'Year'].map((label, index) => (
-                          <PageCard key={index} label={label} activeLabel={'Month'} />
+                          <PageCard key={index} label={label} activeLabel={activeLabel} onClick={handlePageCardClick} />
                         ))}
                       </div>
                     </CardBody>
@@ -222,7 +256,13 @@ const SummaryPage = () => {
                 </div>
               </div>
               <div className="flex items-center justify-end p-3">
-                <Select className="w-64" options={[]} placeholder="All" />
+                <Select
+                  className="w-64"
+                  options={yearOptions}
+                  placeholder="All"
+                  onChange={handleCompareYearChange}
+                  value={selectedCompareYear}
+                />
               </div>
             </div>
             <Line options={optionsLine} data={dataLineChart} />

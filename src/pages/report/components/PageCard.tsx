@@ -1,26 +1,20 @@
-import React from 'react'
 import { Card } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
-// import { useNavigate } from 'react-router-dom'
 
-const PageCard: React.FC<{
-  label: string
-  activeLabel: string
-}> = ({ label, activeLabel }) => {
-  // const navigate = useNavigate()
+const PageCard = (props: any) => {
+  const { label, activeLabel, onClick } = props
 
-  // const handleClick = () => {
-  //   navigate(`/report/demography/${label.toLowerCase().replace(' ', '-')}`)
-  // }
+  // Check if the current label matches the activeLabel
+  const isActive = label === activeLabel
 
   return (
     <Card
       as="button"
-      // onClick={handleClick}
       className={twJoin(
         'flex items-center justify-center gap-2 divide-y-0 rounded-lg border p-3',
-        label === activeLabel ? 'border-primary-600 bg-primary-600 text-white' : 'hover:border-gray-300 hover:bg-gray-100',
+        isActive ? 'border-primary-600 bg-primary-600 text-white' : 'hover:border-gray-300 hover:bg-gray-100',
       )}
+      onClick={() => onClick(label)}
     >
       <span className="block w-full whitespace-nowrap text-center text-sm font-semibold">{label}</span>
     </Card>
