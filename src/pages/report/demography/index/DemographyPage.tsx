@@ -18,81 +18,72 @@ const backgroundColors = [
   'rgba(178, 178, 178, 1)',
 ]
 
-const getData = async (fetchFunction: any, setStateFunction: any) => {
+const fetchData = async (fetchFunction: any) => {
   try {
     const response = await fetchFunction()
-    const labels = response.map((item: any) => item.label)
-    const data = response.map((item: any) => item.total)
-    const dataLength = data.length
-    const datasetBackgroundColors = backgroundColors.slice(0, dataLength)
-
-    setStateFunction({
-      labels,
-      datasets: [
-        {
-          data,
-          backgroundColor: datasetBackgroundColors,
-        },
-      ],
-    })
+    return {
+      labels: response.map((item: any) => item.label),
+      data: response.map((item: any) => item.total),
+    }
   } catch (error) {
     console.error('Error fetching data:', error)
+    return {
+      labels: [],
+      data: [],
+    }
   }
 }
 
 const DemographyPage = () => {
-  const [dataProvince, setDataProvince] = useState({
-    labels: [],
-    datasets: [
-      {
-        data: [],
-      },
-    ],
-  })
-
-  const [dataAge, setDataAge] = useState({
-    labels: [],
-    datasets: [
-      {
-        data: [],
-      },
-    ],
-  })
-
-  const [dataEducation, setDataEducation] = useState({
-    labels: [],
-    datasets: [
-      {
-        data: [],
-      },
-    ],
-  })
-
-  const [dataGender, setDataGender] = useState({
-    labels: [],
-    datasets: [
-      {
-        data: [],
-      },
-    ],
-  })
-
-  const [dataExperience, setDataExperience] = useState({
-    labels: [],
-    datasets: [
-      {
-        data: [],
-      },
-    ],
+  const [chartData, setChartData] = useState({
+    province: { labels: [], datasets: [] },
+    age: { labels: [], datasets: [] },
+    education: { labels: [], datasets: [] },
+    gender: { labels: [], datasets: [] },
+    experience: { labels: [], datasets: [] },
   })
 
   useEffect(() => {
-    getData(reportService.fetchProvince, setDataProvince)
-    getData(reportService.fetchAge, setDataAge)
-    getData(reportService.fetchEducation, setDataEducation)
-    getData(reportService.fetchGender, setDataGender)
-    getData(reportService.fetchExperience, setDataExperience)
+    const fetchAllData = async () => {
+      const [province, age, education, gender, experience] = await Promise.all([
+        fetchData(reportService.fetchProvince),
+        fetchData(reportService.fetchAge),
+        fetchData(reportService.fetchEducation),
+        fetchData(reportService.fetchGender),
+        fetchData(reportService.fetchExperience),
+      ])
+
+      const chartKeys = ['province', 'age', 'education', 'gender', 'experience']
+      const chartResults = [province, age, education, gender, experience]
+
+      const newChartData = chartKeys.reduce((acc: any, key, index) => {
+        const { labels, data } = chartResults[index]
+        acc[key] = {
+          labels,
+          datasets: [
+            {
+              data,
+              backgroundColor: backgroundColors.slice(0, data.length),
+            },
+          ],
+        }
+        return acc
+      }, {})
+
+      setChartData(newChartData)
+    }
+
+    fetchAllData()
   }, [])
+
+  const renderPieChart = (title: any, data: any, placeholderOptions: any) => (
+    <div className="w-full rounded-lg border p-4 text-center">
+      <h2 className="mb-2 text-lg font-semibold">{title}</h2>
+      <BaseInputDate className="mb-2" placeholder="Start - End Date" />
+      <Select placeholder={`All ${title}`} options={placeholderOptions} className="mb-2" />
+      <Pie data={data} />
+    </div>
+  )
 
   return (
     <>
@@ -103,46 +94,11 @@ const DemographyPage = () => {
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="relative z-10 rounded-t-lg border-b bg-white/80 p-4 backdrop-blur">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                <div>
-                  <div className="w-full rounded-lg border p-4 text-center">
-                    <h2 className="mb-2 text-lg font-semibold">Province</h2>
-                    <BaseInputDate className="mb-2" placeholder="Start - End Date" />
-                    <Select placeholder="All Province" options={[]} className="mb-2" />
-                    <Pie data={dataProvince} />
-                  </div>
-                </div>
-                <div>
-                  <div className="w-full rounded-lg border p-4 text-center">
-                    <h2 className="mb-2 text-lg font-semibold">Age</h2>
-                    <BaseInputDate className="mb-2" placeholder="Start - End Date" />
-                    <Select placeholder="All Age" options={[]} className="mb-2" />
-                    <Pie data={dataAge} />
-                  </div>
-                </div>
-                <div>
-                  <div className="w-full rounded-lg border p-4 text-center">
-                    <h2 className="mb-2 text-lg font-semibold">Education</h2>
-                    <BaseInputDate className="mb-2" placeholder="Start - End Date" />
-                    <Select placeholder="All Education" options={[]} className="mb-2" />
-                    <Pie data={dataEducation} />
-                  </div>
-                </div>
-                <div>
-                  <div className="w-full rounded-lg border p-4 text-center">
-                    <h2 className="mb-2 text-lg font-semibold">Gender</h2>
-                    <BaseInputDate className="mb-2" placeholder="Start - End Date" />
-                    <Select placeholder="All Gender" options={[]} className="mb-2" />
-                    <Pie data={dataGender} />
-                  </div>
-                </div>
-                <div>
-                  <div className="w-full rounded-lg border p-4 text-center">
-                    <h2 className="mb-2 text-lg font-semibold">Experience</h2>
-                    <BaseInputDate className="mb-2" placeholder="Start - End Date" />
-                    <Select placeholder="All Experience" options={[]} className="mb-2" />
-                    <Pie data={dataExperience} />
-                  </div>
-                </div>
+                {renderPieChart('Province', chartData.province, [])}
+                {renderPieChart('Age', chartData.age, [])}
+                {renderPieChart('Education', chartData.education, [])}
+                {renderPieChart('Gender', chartData.gender, [])}
+                {renderPieChart('Experience', chartData.experience, [])}
               </div>
             </div>
           </CardBody>
