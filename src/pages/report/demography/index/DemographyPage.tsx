@@ -1,39 +1,99 @@
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import { reportService } from '@/services'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
-export const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
+const backgroundColors = [
+  'rgba(80, 45, 145, 1)',
+  'rgba(10, 132, 255, 1)',
+  'rgba(100, 209, 254, 1)',
+  'rgba(105, 82, 224, 1)',
+  'rgba(138, 127, 232, 1)',
+  'rgba(180, 215, 251, 1)',
+  'rgba(178, 178, 178, 1)',
+]
+
+const getData = async (fetchFunction: any, setStateFunction: any) => {
+  try {
+    const response = await fetchFunction()
+    const labels = response.map((item: any) => item.label)
+    const data = response.map((item: any) => item.total)
+    const dataLength = data.length
+    const datasetBackgroundColors = backgroundColors.slice(0, dataLength)
+
+    setStateFunction({
+      labels,
+      datasets: [
+        {
+          data,
+          backgroundColor: datasetBackgroundColors,
+        },
       ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
+    })
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
 }
 
-const DemographyPage: React.FC = () => {
+const DemographyPage = () => {
+  const [dataProvince, setDataProvince] = useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  })
+
+  const [dataAge, setDataAge] = useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  })
+
+  const [dataEducation, setDataEducation] = useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  })
+
+  const [dataGender, setDataGender] = useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  })
+
+  const [dataExperience, setDataExperience] = useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+      },
+    ],
+  })
+
+  useEffect(() => {
+    getData(reportService.fetchProvince, setDataProvince)
+    getData(reportService.fetchAge, setDataAge)
+    getData(reportService.fetchEducation, setDataEducation)
+    getData(reportService.fetchGender, setDataGender)
+    getData(reportService.fetchExperience, setDataExperience)
+  }, [])
+
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Report' }, { text: 'Candidate Demography' }]} title="Candidate Demography" />
@@ -48,7 +108,7 @@ const DemographyPage: React.FC = () => {
                     <h2 className="mb-2 text-lg font-semibold">Province</h2>
                     <BaseInputDate className="mb-2" placeholder="Start - End Date" />
                     <Select placeholder="All Province" options={[]} className="mb-2" />
-                    <Pie data={data} />
+                    <Pie data={dataProvince} />
                   </div>
                 </div>
                 <div>
@@ -56,7 +116,7 @@ const DemographyPage: React.FC = () => {
                     <h2 className="mb-2 text-lg font-semibold">Age</h2>
                     <BaseInputDate className="mb-2" placeholder="Start - End Date" />
                     <Select placeholder="All Age" options={[]} className="mb-2" />
-                    <Pie data={data} />
+                    <Pie data={dataAge} />
                   </div>
                 </div>
                 <div>
@@ -64,7 +124,7 @@ const DemographyPage: React.FC = () => {
                     <h2 className="mb-2 text-lg font-semibold">Education</h2>
                     <BaseInputDate className="mb-2" placeholder="Start - End Date" />
                     <Select placeholder="All Education" options={[]} className="mb-2" />
-                    <Pie data={data} />
+                    <Pie data={dataEducation} />
                   </div>
                 </div>
                 <div>
@@ -72,15 +132,7 @@ const DemographyPage: React.FC = () => {
                     <h2 className="mb-2 text-lg font-semibold">Gender</h2>
                     <BaseInputDate className="mb-2" placeholder="Start - End Date" />
                     <Select placeholder="All Gender" options={[]} className="mb-2" />
-                    <Pie data={data} />
-                  </div>
-                </div>
-                <div>
-                  <div className="w-full rounded-lg border p-4 text-center">
-                    <h2 className="mb-2 text-lg font-semibold">Department</h2>
-                    <BaseInputDate className="mb-2" placeholder="Start - End Date" />
-                    <Select placeholder="All Department" options={[]} className="mb-2" />
-                    <Pie data={data} />
+                    <Pie data={dataGender} />
                   </div>
                 </div>
                 <div>
@@ -88,7 +140,7 @@ const DemographyPage: React.FC = () => {
                     <h2 className="mb-2 text-lg font-semibold">Experience</h2>
                     <BaseInputDate className="mb-2" placeholder="Start - End Date" />
                     <Select placeholder="All Experience" options={[]} className="mb-2" />
-                    <Pie data={data} />
+                    <Pie data={dataExperience} />
                   </div>
                 </div>
               </div>
