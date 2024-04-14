@@ -14,18 +14,20 @@ type FetchReportParams = IPaginationParam & {
   education?: any
   gender?: any
   range?: any
+  year?: any
+  type?: any
 }
 
 export const fetchRecruitmentFunnel = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
   return axios.get(`/summary/recruitment-funnel`, { params, signal }).then((response) => response.data.data)
 }
 
-export const fetchNumberHired = (signal?: GenericAbortSignal) => {
-  return axios.get(`/summary/number-of-hired/datatable`, { signal }).then((response) => response.data.data)
+export const fetchNumberHired = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
+  return axios.get(`/summary/number-of-hired/datatable`, { params, signal }).then((response) => response.data.data)
 }
 
-export const fetchNumberHiredChart = (signal?: GenericAbortSignal) => {
-  return axios.get(`/summary/number-of-hired/chart`, { signal }).then((response) => response.data.data)
+export const fetchNumberHiredChart = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
+  return axios.get(`/summary/number-of-hired/chart`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchAge = (params?: FetchReportParams, signal?: GenericAbortSignal) => {

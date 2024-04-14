@@ -23,7 +23,7 @@ interface RecruitmentFunnelData {
 }
 
 interface NumberHiredData {
-  month: string
+  label: string
   total: number
 }
 
@@ -40,6 +40,35 @@ const SummaryPage = () => {
     startDate: todayFormatted,
     endDate: todayFormatted,
   })
+
+  const [activeLabel, setActiveLabel] = useState('Year')
+
+  const handlePageCardClick = (selectedLabel: any) => {
+    setActiveLabel(selectedLabel)
+  }
+
+  const startYear = 2020
+  const endYear = 2030
+  const yearOptions = []
+
+  for (let year = endYear; year >= startYear; year--) {
+    yearOptions.push({
+      value: year.toString(),
+      label: year.toString(),
+    })
+  }
+
+  const currentYear = new Date().getFullYear()
+  const [selectedYear, setSelectedYear] = useState(currentYear)
+  const [selectedCompareYear, setSelectedCompareYear] = useState('')
+
+  const handleYearChange = (selectedOption: any) => {
+    setSelectedYear(selectedOption)
+  }
+
+  const handleCompareYearChange = (selectedOption: any) => {
+    setSelectedCompareYear(selectedOption)
+  }
 
   const backgroundColors = [
     'rgba(80, 45, 145, 1)',
@@ -89,7 +118,7 @@ const SummaryPage = () => {
   }
 
   const dataLineChart = {
-    labels: dataLine.map((item) => item.month),
+    labels: dataLine.map((item) => item.label),
     datasets: [
       {
         label: 'Data',
@@ -105,30 +134,35 @@ const SummaryPage = () => {
     totalPage: dataNumberHired?.totalPages || 0,
   })
 
-  const fetchData = async () => {
-    try {
-      setLoading(true)
-      const [recruitmentFunnelData, numberHiredData, numberHiredDataTable] = await Promise.all([
-        reportService.fetchRecruitmentFunnel({
-          start_date: filterDate?.startDate,
-          end_date: filterDate?.endDate,
-        }),
-        reportService.fetchNumberHiredChart(),
-        reportService.fetchNumberHired(),
-      ])
-      setData(recruitmentFunnelData)
-      setDataLine(numberHiredData)
-      setDataNumberHired(numberHiredDataTable)
-    } catch (e: any) {
-      if (e.message !== 'canceled') setPageError(e)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const [recruitmentFunnelData, numberHiredData, numberHiredDataTable] = await Promise.all([
+          reportService.fetchRecruitmentFunnel({
+            start_date: filterDate.startDate,
+            end_date: filterDate.endDate,
+          }),
+          reportService.fetchNumberHiredChart({
+            year: selectedYear,
+            type: activeLabel.toLowerCase(),
+          }),
+          reportService.fetchNumberHired({
+            year: selectedYear,
+          }),
+        ])
+        setData(recruitmentFunnelData)
+        setDataLine(numberHiredData)
+        setDataNumberHired(numberHiredDataTable)
+      } catch (e: any) {
+        if (e.message !== 'canceled') setPageError(e)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     fetchData()
-  }, [filterDate])
+  }, [filterDate, selectedYear, activeLabel])
 
   const handleDateChange = (selectedDate: DateValueType) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -181,34 +215,6 @@ const SummaryPage = () => {
     },
   ]
 
-  const [activeLabel, setActiveLabel] = useState('Month') // Default to 'Month'
-
-  const handlePageCardClick = (selectedLabel: any) => {
-    setActiveLabel(selectedLabel)
-  }
-
-  const startYear = 2020
-  const endYear = 2030
-  const yearOptions = []
-
-  for (let year = endYear; year >= startYear; year--) {
-    yearOptions.push({
-      value: year.toString(),
-      label: year.toString(),
-    })
-  }
-
-  const [selectedYear, setSelectedYear] = useState('')
-  const [selectedCompareYear, setSelectedCompareYear] = useState('')
-
-  const handleYearChange = (selectedOption: any) => {
-    setSelectedYear(selectedOption)
-  }
-
-  const handleCompareYearChange = (selectedOption: any) => {
-    setSelectedCompareYear(selectedOption)
-  }
-
   if (pageError) throw pageError
 
   return (
@@ -242,7 +248,7 @@ const SummaryPage = () => {
                     options={yearOptions}
                     placeholder="Select a year"
                     onChange={handleYearChange}
-                    value={selectedYear}
+                    value={selectedYear.toString()}
                   />
                   <div className="mb-2">
                     <CardBody className="p-0">
