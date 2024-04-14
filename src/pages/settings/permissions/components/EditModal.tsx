@@ -1,8 +1,7 @@
-import MainModal from '@/components/Elements/Modals/MainModal'
 import { authorityService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, Select, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -26,6 +25,7 @@ const schema = yup.object().shape({
 const EditModal: React.FC<EditModalProps> = ({ permission, onClose, onUpdated }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+
   const toast = useToast()
 
   const {
@@ -84,9 +84,10 @@ const EditModal: React.FC<EditModalProps> = ({ permission, onClose, onUpdated })
   })
 
   return (
-    <MainModal className="max-w-xl" show={!!permission}>
-      <h4 className="mb-4 text-2xl font-semibold">Update Permission</h4>
-      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
+    <Modal as="form" show={!!permission} onSubmit={onSubmit}>
+      <ModalHeader onClose={onClose}>Update Permission</ModalHeader>
+
+      <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
         <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
@@ -110,17 +111,17 @@ const EditModal: React.FC<EditModalProps> = ({ permission, onClose, onUpdated })
         <Input label="Api ID" labelRequired error={errors.apiId?.message} {...register('apiId')} />
         <Input label="Region" labelRequired error={errors.region?.message} {...register('region')} />
         <Input label="Stage" labelRequired error={errors.stage?.message} {...register('stage')} />
+      </div>
 
-        <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Update
-          </Button>
-        </div>
-      </form>
-    </MainModal>
+      <ModalFooter>
+        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+          Update
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

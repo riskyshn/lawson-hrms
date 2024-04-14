@@ -3,16 +3,20 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { payrollService } from '@/services'
+import { useAuthStore } from '@/store'
 import { Button } from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
+import Approver from './Approver'
 import StatisticCards from './StatisticCards'
 import Table from './Table'
 
-const RenderDetail: React.FC<{ item: IPayrollRequest }> = ({ item }) => {
+const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boolean }> = ({ item, showApprover }) => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
   const page = searchParams.get('page') || undefined
+
+  const { user } = useAuthStore()
 
   const { pageData, isLoading, onRefresh } = useAsyncSearch<IEmployeePayrollResult>({
     action: (params: IPaginationParam) => payrollService.fetchPayrollRequestResults(item.oid, params),
@@ -63,16 +67,10 @@ const RenderDetail: React.FC<{ item: IPayrollRequest }> = ({ item }) => {
         body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
         footer={pagination.render()}
       />
-      <div className="flex justify-end gap-3">
-        <Button color="error" className="w-24">
-          Reject
-        </Button>
-        <Button color="primary" className="w-24">
-          Approve
-        </Button>
-      </div>
+
+      {showApprover && item.approver?.oid === user?.employee?.oid && <Approver oid={item.oid} />}
     </div>
   )
 }
 
-export default RenderDetail
+export default PayrollRequestDetail

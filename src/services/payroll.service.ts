@@ -95,12 +95,16 @@ export const removeDeductionFromEmployees = (payload: { employeeIds: string[]; c
 /**
  * Payroll
  */
-export const fetchPayrollRequests = (params?: IPaginationParam) => {
+export const fetchPayrollRequests = (params?: IPaginationParam & { statusRunner?: 'WAITING' | 'ON_PROCESS' | 'COMPLETED' | 'FAILED' }) => {
   return axios.get<{ data: IPaginationResponse<IPayrollRequest> }>('/payroll', { params }).then(({ data }) => data.data)
 }
 
 export const fetchPayrollRequest = (oid: string) => {
   return axios.get<{ data: IPayrollRequest }>(`/payroll/${oid}`).then(({ data }) => data.data)
+}
+
+export const updatePayrollRequestStatus = (oid: string, payload: Record<string, any>) => {
+  return axios.patch<{ data: IPayrollRequest }>(`/payroll/status/${oid}`, payload).then(({ data }) => data.data)
 }
 
 export const createPayrollRequest = (payload: Record<string, any>) => {
@@ -111,4 +115,16 @@ export const fetchPayrollRequestResults = (oid: string, params?: IPaginationPara
   return axios
     .get<{ data: IPaginationResponse<IEmployeePayrollResult> }>(`/employee-payroll?payrollRequestId=${oid}`, { params })
     .then(({ data }) => data.data)
+}
+
+export const fetchPayrollRequestDetail = (oid: string) => {
+  return axios.get<{ data: IEmployeePayrollDetail }>(`/employee-payroll/${oid}`).then(({ data }) => data.data)
+}
+
+export const deletePayrollRequestDetail = (oid: string) => {
+  return axios.delete(`/employee-payroll/${oid}`)
+}
+
+export const updatePayrollComponentDetail = (oid: string, payload: Record<string, any>) => {
+  return axios.put(`/employee-payroll/${oid}/component`, payload)
 }

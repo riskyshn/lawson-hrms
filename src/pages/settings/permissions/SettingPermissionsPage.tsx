@@ -1,10 +1,12 @@
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { authorityService } from '@/services'
 import { Button } from 'jobseeker-ui'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import CardHeader from '../components/CardHeader'
 import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
@@ -12,48 +14,23 @@ import Table from './components/Table'
 
 const SettingPermissionsPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [pageData, setPageData] = useState<IPaginationResponse<IPermission>>()
-  const [pageError, setPageError] = useState<any>()
   const [toUpdateSelected, setToUpdateSelected] = useState<IPermission | null>(null)
-  const [loadData, setLoadData] = useState(false)
+  const [searchParams] = useSearchParams()
+
+  const search = searchParams.get('search')
+  const page = searchParams.get('page')
+
+  const { pageData, isLoading, onRefresh } = useAsyncSearch<IPermission>({
+    action: authorityService.fetchPermissions,
+    params: { limit: 20, page },
+    input: search || '',
+  })
 
   const pagination = usePagination({
     pathname: '/settings/permissions',
     totalPage: pageData?.totalPages || 0,
+    params: { search },
   })
-
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const load = async (signal: AbortSignal) => {
-      setIsLoading(true)
-      try {
-        const data = await authorityService.fetchPermissions({ page: pagination.currentPage, limit: 20 }, signal)
-        setPageData(data)
-        setIsLoading(false)
-      } catch (e: any) {
-        if (e.message !== 'canceled') setPageError(e)
-      }
-    }
-
-    load(signal)
-    return () => controller.abort()
-  }, [loadData, pagination.currentPage])
-
-  const handleUpdate = useCallback(
-    (permission: IPermission) => {
-      if (!pageData) return
-      setPageData({ ...pageData, content: pageData.content.map((el) => (el.oid === permission.oid ? permission : el)) })
-    },
-    [pageData],
-  )
-
-  const refreshPageData = useCallback(() => setLoadData((value) => !value), [])
-
-  if (pageError) throw pageError
-
   return (
     <>
       <PageHeader
@@ -67,19 +44,14 @@ const SettingPermissionsPage: React.FC = () => {
         }
       />
 
-      <CreateModal show={showCreateModal} onCreated={refreshPageData} onClose={() => setShowCreateModal(false)} />
-      <EditModal permission={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={handleUpdate} />
+      <CreateModal show={showCreateModal} onCreated={onRefresh} onClose={() => setShowCreateModal(false)} />
+      <EditModal permission={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Permission" total={pageData?.totalElements} />}
+          header={<CardHeader name="Permission" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
-            <Table
-              items={pageData?.content || []}
-              loading={isLoading}
-              setSelectedToUpdate={setToUpdateSelected}
-              onDeleted={refreshPageData}
-            />
+            <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
           footer={pagination.render()}
         />

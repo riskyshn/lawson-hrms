@@ -151,6 +151,8 @@ interface IBenefit {
 interface IWorkplacement {
   oid: string
   name?: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface IJobType {
@@ -158,6 +160,8 @@ interface IJobType {
   name?: string
   status?: number
   totalEmployee?: number
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface IRecruitmentStage {
@@ -179,6 +183,8 @@ interface IDocumentRequest {
   oid: string
   allowedFileTypes: string[]
   name: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface IOfferingLetterSetting {

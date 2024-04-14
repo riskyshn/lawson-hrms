@@ -3,8 +3,9 @@ import DetailEmployeePayrollModal from '@/pages/payroll/components/DetailEmploye
 import numberToCurrency from '@/utils/number-to-currency'
 import { Avatar, Button } from 'jobseeker-ui'
 import React, { useState } from 'react'
+import DeleteItemButton from './DeleteItemButton'
 
-const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading }) => {
+const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading, onRefresh }) => {
   const [selectedToUpdate, setSelectedToUpdate] = useState<IEmployeePayrollResult | null>(null)
 
   const headerItems = [
@@ -41,9 +42,9 @@ const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRe
               <Button type="button" color="primary" variant="light" size="small" onClick={() => setSelectedToUpdate(item)}>
                 Detail
               </Button>
-              <Button type="button" color="error" size="small">
+              <DeleteItemButton oid={item.oid} color="error" size="small" onRefresh={onRefresh}>
                 Delete
-              </Button>
+              </DeleteItemButton>
             </span>
           ),
         },

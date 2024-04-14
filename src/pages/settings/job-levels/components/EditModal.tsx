@@ -1,11 +1,12 @@
-import MainModal from '@/components/Elements/Modals/MainModal'
+import useRemember from '@/hooks/use-remember'
 import { organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import getEditModalSubtitle from '../../utils/get-edit-modal-subtitle'
 
 type EditModalProps = {
   item?: IJobLevel | null
@@ -20,6 +21,8 @@ const schema = yup.object().shape({
 const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+
+  const rItem = useRemember(item)
   const toast = useToast()
 
   const {
@@ -58,23 +61,25 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   })
 
   return (
-    <MainModal className="max-w-xl" show={!!item}>
-      <h4 className="mb-4 text-2xl font-semibold">Update Job Level</h4>
-      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
+    <Modal as="form" show={!!item} onSubmit={onSubmit}>
+      <ModalHeader subTitle={getEditModalSubtitle(rItem)} onClose={onClose}>
+        Update Job Level
+      </ModalHeader>
+
+      <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-
         <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
+      </div>
 
-        <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Update
-          </Button>
-        </div>
-      </form>
-    </MainModal>
+      <ModalFooter>
+        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+          Update
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

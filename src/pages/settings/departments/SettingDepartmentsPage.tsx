@@ -39,11 +39,9 @@ const SettingDepartmentsPage: React.FC = () => {
         title="Department"
         subtitle="Manage Your Company Department"
         actions={
-          <>
-            <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-              Add New Department
-            </Button>
-          </>
+          <Button onClick={() => setShowCreateModal(true)} color="primary">
+            Add New Department
+          </Button>
         }
       />
 

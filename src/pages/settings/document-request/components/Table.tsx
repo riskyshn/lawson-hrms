@@ -18,15 +18,9 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
 
   const bodyItems = items.map((item, index) => ({
     items: [
-      {
-        children: <span className="block font-semibold">{item.name}</span>,
-      },
-      {
-        children: item.allowedFileTypes.join(', '),
-      },
-      {
-        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
-      },
+      { children: <span className="block font-semibold">{item.name}</span> },
+      { children: item.allowedFileTypes.join(', ') },
+      { children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} /> },
     ],
   }))
 
