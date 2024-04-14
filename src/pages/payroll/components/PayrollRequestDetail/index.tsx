@@ -49,7 +49,7 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
               </>
             }
             actions={
-              <ExportButton variant="light" oid={item.oid}>
+              <ExportButton variant="light" oid={item.oid} title={item.name || ''}>
                 Export
               </ExportButton>
             }

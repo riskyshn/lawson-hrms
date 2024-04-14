@@ -4,7 +4,7 @@ import { Button, ButtonProps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import React, { useState } from 'react'
 
-const ExportButton: React.FC<ButtonProps & { oid: string }> = ({ oid, ...props }) => {
+const ExportButton: React.FC<ButtonProps & { oid: string; title: string }> = ({ oid, title, ...props }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -25,7 +25,7 @@ const ExportButton: React.FC<ButtonProps & { oid: string }> = ({ oid, ...props }
       const downloadLink = document.createElement('a')
       const url = window.URL.createObjectURL(blob)
       downloadLink.href = url
-      downloadLink.download = `payroll-request-[${moment().format('DD-MMMM-Y')}]-[${moment().format('HH-mm-SS')}].xlsx`
+      downloadLink.download = `${title.trim().replace(/ /g, '-').toLowerCase()}-[${moment().format('DD-MMMM-Y')}]-[${moment().format('HH-mm-SS')}].xlsx`
       document.body.appendChild(downloadLink)
       downloadLink.click()
 
