@@ -1,16 +1,16 @@
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { authorityService } from '@/services'
 import { Button } from 'jobseeker-ui'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import CardHeader from '../components/CardHeader'
 import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
-import useAsyncSearch from '@/hooks/use-async-search'
-import { useSearchParams } from 'react-router-dom'
 
 const SettingPermissionsPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
