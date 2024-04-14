@@ -1,20 +1,18 @@
 import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { payrollService } from '@/services'
 import { Card, CardHeader } from 'jobseeker-ui'
 import { AlertOctagonIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PayrollRequestDetail from '../../components/PayrollRequestDetail'
-import { useAuthStore } from '@/store'
 
 const DetailRunRequestPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPayrollRequest>()
   const [pageError, setPageError] = useState<any>()
 
   const { payrollRequestId } = useParams()
-  const { user } = useAuthStore()
 
   useEffect(() => {
     if (!payrollRequestId) return
@@ -88,9 +86,7 @@ const DetailRunRequestPage: React.FC = () => {
           </Card>
         )}
 
-        {pageData && pageData.statusRunner == 'COMPLETED' && pageData.approver?.oid === user?.employee?.oid && (
-          <PayrollRequestDetail item={pageData} />
-        )}
+        {pageData && pageData.statusRunner == 'COMPLETED' && <PayrollRequestDetail item={pageData} />}
       </Container>
     </>
   )

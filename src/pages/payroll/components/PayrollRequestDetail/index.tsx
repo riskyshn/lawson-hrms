@@ -3,6 +3,7 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { payrollService } from '@/services'
+import { useAuthStore } from '@/store'
 import { Button } from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
 import Approver from './Approver'
@@ -14,6 +15,8 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
 
   const search = searchParams.get('search') || undefined
   const page = searchParams.get('page') || undefined
+
+  const { user } = useAuthStore()
 
   const { pageData, isLoading, onRefresh } = useAsyncSearch<IEmployeePayrollResult>({
     action: (params: IPaginationParam) => payrollService.fetchPayrollRequestResults(item.oid, params),
@@ -65,7 +68,7 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
         footer={pagination.render()}
       />
 
-      {showApprover && <Approver oid={item.oid} />}
+      {showApprover && item.approver?.oid === user?.employee?.oid && <Approver oid={item.oid} />}
     </div>
   )
 }
