@@ -14,7 +14,7 @@ const Card: React.FC<{
   </div>
 )
 
-const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ switchData }) => {
+const StatisticCards: React.FC<{ filterDate: { startDate: string; endDate: string } }> = ({ filterDate }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<any>(null)
   const [error, setError] = useState<any>(null)
@@ -23,7 +23,10 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
     const fetchData = async () => {
       setLoading(true)
       try {
-        const data = await reportService.fetchRecruitmentFunnel()
+        const data = await reportService.fetchRecruitmentFunnel({
+          start_date: filterDate.startDate,
+          end_date: filterDate.endDate,
+        })
         setData(data)
       } catch (error) {
         setError(error)
@@ -31,7 +34,7 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
       setLoading(false)
     }
     fetchData()
-  }, [switchData])
+  }, [filterDate])
 
   const renderCards = () => {
     if (error) {
