@@ -78,7 +78,7 @@ const DemographyPage = () => {
         reportService.fetchAge({
           start_date: filterDates.age.startDate,
           end_date: filterDates.age.endDate,
-          age: filterAge,
+          range: filterAge,
         }),
       ),
       fetchData(() =>
@@ -99,7 +99,7 @@ const DemographyPage = () => {
         reportService.fetchExperience({
           start_date: filterDates.experience.startDate,
           end_date: filterDates.experience.endDate,
-          experience: filterExperience,
+          range: filterExperience,
         }),
       ),
     ])

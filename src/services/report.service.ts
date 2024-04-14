@@ -13,8 +13,7 @@ type FetchReportParams = IPaginationParam & {
   province?: any
   education?: any
   gender?: any
-  age?: any
-  experience?: any
+  range?: any
 }
 
 export const fetchRecruitmentFunnel = (params?: FetchReportParams, signal?: GenericAbortSignal) => {

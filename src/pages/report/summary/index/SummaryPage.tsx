@@ -12,6 +12,7 @@ import PageCard from '../../components/PageCard'
 import { reportService } from '@/services'
 import usePagination from '@/hooks/use-pagination'
 import { DateValueType } from 'react-tailwindcss-datepicker'
+import TableUserActivity from '../../components/TableUserActivity'
 
 interface RecruitmentFunnelData {
   interview?: { percentage?: number }
@@ -141,6 +142,45 @@ const SummaryPage = () => {
     }
   }
 
+  const dummyDataUserActivity = [
+    {
+      name: 'Alice Johnson',
+      postJob: 5,
+      hired: 12,
+      rejected: 30,
+      interviewed: 20,
+      locked: 3,
+      blacklisted: 1,
+    },
+    {
+      name: 'Bob Smith',
+      postJob: 8,
+      hired: 20,
+      rejected: 50,
+      interviewed: 35,
+      locked: 5,
+      blacklisted: 2,
+    },
+    {
+      name: 'Carlos Ramirez',
+      postJob: 3,
+      hired: 8,
+      rejected: 15,
+      interviewed: 10,
+      locked: 2,
+      blacklisted: 0,
+    },
+    {
+      name: 'Diana Lewis',
+      postJob: 6,
+      hired: 15,
+      rejected: 40,
+      interviewed: 25,
+      locked: 4,
+      blacklisted: 1,
+    },
+  ]
+
   if (pageError) throw pageError
 
   return (
@@ -158,7 +198,11 @@ const SummaryPage = () => {
             <Bar options={optionsBar} data={dataBar} />
           </CardBody>
         </Card>
-        <MainCard header={() => <MainCardHeader title="User Activity" />} body={<Table items={[]} />} footer={[]} />
+        <MainCard
+          header={() => <MainCardHeader title="User Activity" />}
+          body={<TableUserActivity items={dummyDataUserActivity} loading={loading} />}
+          footer={[]}
+        />
         <Card className="my-4 p-8">
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="flex flex-col">
