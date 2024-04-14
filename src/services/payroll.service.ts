@@ -103,6 +103,10 @@ export const fetchPayrollRequest = (oid: string) => {
   return axios.get<{ data: IPayrollRequest }>(`/payroll/${oid}`).then(({ data }) => data.data)
 }
 
+export const exportPayrollRequest = (oid: string) => {
+  return axios.post(`/payroll/export/${oid}`)
+}
+
 export const updatePayrollRequestStatus = (oid: string, payload: Record<string, any>) => {
   return axios.patch<{ data: IPayrollRequest }>(`/payroll/status/${oid}`, payload).then(({ data }) => data.data)
 }

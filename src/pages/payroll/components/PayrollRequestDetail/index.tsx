@@ -4,9 +4,9 @@ import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { payrollService } from '@/services'
 import { useAuthStore } from '@/store'
-import { Button } from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
 import Approver from './Approver'
+import ExportButton from './ExportButton'
 import StatisticCards from './StatisticCards'
 import Table from './Table'
 
@@ -49,9 +49,9 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
               </>
             }
             actions={
-              <Button type="button" variant="light">
+              <ExportButton variant="light" oid={item.oid}>
                 Export
-              </Button>
+              </ExportButton>
             }
             search={{
               value: search || '',
