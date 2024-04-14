@@ -95,12 +95,16 @@ export const removeDeductionFromEmployees = (payload: { employeeIds: string[]; c
 /**
  * Payroll
  */
-export const fetchPayrollRequests = (params?: IPaginationParam) => {
+export const fetchPayrollRequests = (params?: IPaginationParam & { statusRunner?: 'WAITING' | 'ON_PROCESS' | 'COMPLETED' | 'FAILED' }) => {
   return axios.get<{ data: IPaginationResponse<IPayrollRequest> }>('/payroll', { params }).then(({ data }) => data.data)
 }
 
 export const fetchPayrollRequest = (oid: string) => {
   return axios.get<{ data: IPayrollRequest }>(`/payroll/${oid}`).then(({ data }) => data.data)
+}
+
+export const updatePayrollRequestStatus = (oid: string, payload: Record<string, any>) => {
+  return axios.patch<{ data: IPayrollRequest }>(`/payroll/${oid}`, payload).then(({ data }) => data.data)
 }
 
 export const createPayrollRequest = (payload: Record<string, any>) => {
