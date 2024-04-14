@@ -16,7 +16,7 @@ const PayrollRequestPage: React.FC = () => {
 
   const { pageData, isLoading, onRefresh } = useAsyncSearch<IPayrollRequest>({
     action: payrollService.fetchPayrollRequests,
-    params: { limit: 20, page },
+    params: { limit: 20, page, statusRunner: 'COMPLETED' },
     input: search || '',
   })
 
