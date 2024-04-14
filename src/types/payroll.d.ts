@@ -76,3 +76,15 @@ interface IEmployeePayrollResult {
   totalDeduction?: string
   totalAll?: string
 }
+
+interface IEmployeePayrollDetail {
+  oid: string
+  name?: string
+  employeeCode?: string
+  components?: {
+    name: string
+    type: { oid: 'DEDUCTION' | 'BENEFIT' | 'BASE_SALARY'; name: string }
+    amount: string
+  }[]
+  totalAll?: string
+}

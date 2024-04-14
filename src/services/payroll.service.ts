@@ -112,3 +112,11 @@ export const fetchPayrollRequestResults = (oid: string, params?: IPaginationPara
     .get<{ data: IPaginationResponse<IEmployeePayrollResult> }>(`/employee-payroll?payrollRequestId=${oid}`, { params })
     .then(({ data }) => data.data)
 }
+
+export const fetchPayrollRequestDetail = (oid: string) => {
+  return axios.get<{ data: IEmployeePayrollDetail }>(`/employee-payroll/${oid}`).then(({ data }) => data.data)
+}
+
+export const updatePayrollComponentDetail = (oid: string, payload: Record<string, any>) => {
+  return axios.put(`/employee-payroll/${oid}/component`, payload)
+}
