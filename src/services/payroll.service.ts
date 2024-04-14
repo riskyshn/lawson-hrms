@@ -121,6 +121,10 @@ export const fetchPayrollRequestDetail = (oid: string) => {
   return axios.get<{ data: IEmployeePayrollDetail }>(`/employee-payroll/${oid}`).then(({ data }) => data.data)
 }
 
+export const deletePayrollRequestDetail = (oid: string) => {
+  return axios.delete(`/employee-payroll/${oid}`)
+}
+
 export const updatePayrollComponentDetail = (oid: string, payload: Record<string, any>) => {
   return axios.put(`/employee-payroll/${oid}/component`, payload)
 }
