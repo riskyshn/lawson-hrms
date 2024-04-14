@@ -104,7 +104,7 @@ export const fetchPayrollRequest = (oid: string) => {
 }
 
 export const updatePayrollRequestStatus = (oid: string, payload: Record<string, any>) => {
-  return axios.patch<{ data: IPayrollRequest }>(`/payroll/${oid}`, payload).then(({ data }) => data.data)
+  return axios.patch<{ data: IPayrollRequest }>(`/payroll/status/${oid}`, payload).then(({ data }) => data.data)
 }
 
 export const createPayrollRequest = (payload: Record<string, any>) => {
