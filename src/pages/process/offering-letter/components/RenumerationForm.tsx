@@ -20,6 +20,7 @@ const schema = yup.object({
 })
 
 const RenumerationForm: React.FC<{
+  isRevise?: boolean
   isLoading: boolean
   defaultValue: yup.InferType<typeof schema>
   handlePrev: () => void
@@ -121,7 +122,7 @@ const RenumerationForm: React.FC<{
           Prev
         </Button>
         <Button type="submit" color="primary" disabled={props.isLoading} loading={props.isLoading}>
-          Send Offering Letter
+          {props.isRevise ? 'Revise' : 'Send'} Offering Letter
         </Button>
       </CardFooter>
     </Card>
