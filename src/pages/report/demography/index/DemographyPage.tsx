@@ -2,7 +2,7 @@ import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { masterService, reportService } from '@/services'
-import { useMasterStore } from '@/store'
+import { useMasterStore, useOrganizationStore } from '@/store'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
@@ -46,6 +46,7 @@ const DemographyPage = () => {
     education: { startDate: todayFormatted, endDate: todayFormatted },
     gender: { startDate: todayFormatted, endDate: todayFormatted },
     experience: { startDate: todayFormatted, endDate: todayFormatted },
+    department: { startDate: todayFormatted, endDate: todayFormatted },
   })
 
   const [searchParams, setSearchParam] = useSearchParams()
@@ -54,8 +55,10 @@ const DemographyPage = () => {
   const filterGender = searchParams.get('gender') || undefined
   const filterAge = searchParams.get('age') || undefined
   const filterExperience = searchParams.get('experience') || undefined
+  const filterDepartment = searchParams.get('department') || undefined
 
   const { educatioLevels, genders } = useMasterStore()
+  const { master } = useOrganizationStore()
 
   const [chartData, setChartData] = useState({
     province: { labels: [], datasets: [] },
@@ -63,10 +66,11 @@ const DemographyPage = () => {
     education: { labels: [], datasets: [] },
     gender: { labels: [], datasets: [] },
     experience: { labels: [], datasets: [] },
+    department: { labels: [], datasets: [] },
   })
 
   const fetchAllData = async () => {
-    const [province, age, education, gender, experience] = await Promise.all([
+    const [province, age, education, gender, experience, department] = await Promise.all([
       fetchData(() =>
         reportService.fetchProvince({
           start_date: filterDates.province.startDate,
@@ -102,10 +106,17 @@ const DemographyPage = () => {
           range: filterExperience,
         }),
       ),
+      fetchData(() =>
+        reportService.fetchDepartment({
+          start_date: filterDates.department.startDate,
+          end_date: filterDates.department.endDate,
+          department: filterDepartment,
+        }),
+      ),
     ])
 
-    const chartKeys = ['province', 'age', 'education', 'gender', 'experience']
-    const chartResults = [province, age, education, gender, experience]
+    const chartKeys = ['province', 'age', 'education', 'gender', 'experience', 'department']
+    const chartResults = [province, age, education, gender, experience, department]
 
     const newChartData = chartKeys.reduce((acc: any, key, index) => {
       const { labels, data } = chartResults[index]
@@ -126,7 +137,7 @@ const DemographyPage = () => {
 
   useEffect(() => {
     fetchAllData()
-  }, [filterDates, filterProvince, filterEducation, filterGender, filterAge, filterExperience])
+  }, [filterDates, filterProvince, filterEducation, filterGender, filterAge, filterExperience, filterDepartment])
 
   const handleDateChange = (selectedDate: DateValueType, chartType: string) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -237,6 +248,18 @@ const DemographyPage = () => {
               setSearchParam(searchParams)
             }}
           />
+        ) : title === 'Department' ? (
+          <Select
+            className="text-left"
+            placeholder="All Department"
+            withReset
+            value={filterDepartment}
+            onChange={(e: any) => {
+              searchParams.set('department', e)
+              setSearchParam(searchParams)
+            }}
+            options={master.departments.map((el: any) => ({ label: el.name, value: el.oid }))}
+          />
         ) : (
           <Select placeholder={`All ${title}`} options={placeholderOptions} className="mb-2" />
         )}
@@ -259,6 +282,7 @@ const DemographyPage = () => {
                 {renderPieChart('Education', chartData.education, [], 'education')}
                 {renderPieChart('Gender', chartData.gender, [], 'gender')}
                 {renderPieChart('Experience', chartData.experience, [], 'experience')}
+                {renderPieChart('Department', chartData.department, [], 'department')}
               </div>
             </div>
           </CardBody>
