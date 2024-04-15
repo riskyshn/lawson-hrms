@@ -12,6 +12,7 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       numberOfEmployeeNeeded: vacancy.numberOfEmployeeNeeded || 0,
       minimumSalary: vacancy.minimumSalary,
       maximumSalary: vacancy.maximumSalary,
+      expiredDate: vacancy.expiredDate ? new Date(vacancy.expiredDate) : undefined,
       hideRangeSalary: !!vacancy.hideRangeSalary,
       negotiableSalary: !!vacancy.negotiableSalary,
       other: vacancy.other || '',
