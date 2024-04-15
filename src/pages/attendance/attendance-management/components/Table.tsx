@@ -62,8 +62,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
   const headerItems = [
     { children: 'Employee', className: 'text-left' },
     { children: 'Branch', className: 'text-left' },
-    { children: 'Type', className: 'text-left' },
-    { children: 'Time', className: 'text-left' },
+    { children: 'Type', className: 'text-center' },
+    { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'In Office', className: 'text-center' },
   ]

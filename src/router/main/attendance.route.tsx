@@ -72,7 +72,7 @@ const attendanceRoute: RouteObject = {
       ],
     },
     {
-      path: 'report/:id',
+      path: 'report/:employeeId',
       name: 'Report Details',
       children: [
         {

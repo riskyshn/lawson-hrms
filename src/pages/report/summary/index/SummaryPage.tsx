@@ -253,7 +253,8 @@ const SummaryPage = () => {
                   <div className="mb-2">
                     <CardBody className="p-0">
                       <div className="flex gap-3 overflow-x-scroll p-3 pb-2">
-                        {['Month', 'Quarter', 'Year'].map((label, index) => (
+                        {/* {['Month', 'Quarter', 'Year'].map((label, index) => ( */}
+                        {['Quarter', 'Year'].map((label, index) => (
                           <PageCard key={index} label={label} activeLabel={activeLabel} onClick={handlePageCardClick} />
                         ))}
                       </div>
