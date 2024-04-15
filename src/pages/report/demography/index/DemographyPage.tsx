@@ -40,13 +40,16 @@ const fetchData = async (fetchFunction: any) => {
 
 const DemographyPage = () => {
   const todayFormatted = new Date().toISOString().split('T')[0]
+  const defaultStartDate = new Date('1990-01-01').toISOString().split('T')[0]
+  const [isLoading, setIsLoading] = useState(true)
+
   const [filterDates, setFilterDates] = useState<any>({
-    province: { startDate: todayFormatted, endDate: todayFormatted },
-    age: { startDate: todayFormatted, endDate: todayFormatted },
-    education: { startDate: todayFormatted, endDate: todayFormatted },
-    gender: { startDate: todayFormatted, endDate: todayFormatted },
-    experience: { startDate: todayFormatted, endDate: todayFormatted },
-    department: { startDate: todayFormatted, endDate: todayFormatted },
+    province: { startDate: defaultStartDate, endDate: todayFormatted },
+    age: { startDate: defaultStartDate, endDate: todayFormatted },
+    education: { startDate: defaultStartDate, endDate: todayFormatted },
+    gender: { startDate: defaultStartDate, endDate: todayFormatted },
+    experience: { startDate: defaultStartDate, endDate: todayFormatted },
+    department: { startDate: defaultStartDate, endDate: todayFormatted },
   })
 
   const [searchParams, setSearchParam] = useSearchParams()
@@ -70,6 +73,8 @@ const DemographyPage = () => {
   })
 
   const fetchAllData = async () => {
+    setIsLoading(true)
+
     const [province, age, education, gender, experience, department] = await Promise.all([
       fetchData(() =>
         reportService.fetchProvince({
@@ -133,6 +138,7 @@ const DemographyPage = () => {
     }, {})
 
     setChartData(newChartData)
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -276,14 +282,26 @@ const DemographyPage = () => {
         <Card>
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="relative z-10 rounded-t-lg border-b bg-white/80 p-4 backdrop-blur">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                {renderPieChart('Province', chartData.province, [], 'province')}
-                {renderPieChart('Age', chartData.age, [], 'age')}
-                {renderPieChart('Education', chartData.education, [], 'education')}
-                {renderPieChart('Gender', chartData.gender, [], 'gender')}
-                {renderPieChart('Experience', chartData.experience, [], 'experience')}
-                {renderPieChart('Department', chartData.department, [], 'department')}
-              </div>
+              {isLoading ? (
+                <div className="flex h-full items-center justify-center">
+                  <div
+                    className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
+                    role="status"
+                    aria-label="Loading..."
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                  {renderPieChart('Province', chartData.province, [], 'province')}
+                  {renderPieChart('Age', chartData.age, [], 'age')}
+                  {renderPieChart('Education', chartData.education, [], 'education')}
+                  {renderPieChart('Gender', chartData.gender, [], 'gender')}
+                  {renderPieChart('Experience', chartData.experience, [], 'experience')}
+                  {renderPieChart('Department', chartData.department, [], 'department')}
+                </div>
+              )}
             </div>
           </CardBody>
         </Card>
