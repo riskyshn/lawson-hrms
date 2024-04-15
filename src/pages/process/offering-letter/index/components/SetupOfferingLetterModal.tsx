@@ -1,5 +1,5 @@
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
-import { organizationService } from '@/services'
+import { offeringLetterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Spinner, Textarea, useToast } from 'jobseeker-ui'
@@ -51,6 +51,7 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
   const [offeringLetterSetting, setOfferingLetterSetting] = useState<IOfferingLetterSetting>()
   const [previewLoading, setPreviewLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
+  const [preview, setPreview] = useState('')
 
   const toast = useToast()
 
@@ -121,7 +122,10 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
 
     setPreviewLoading(true)
     try {
-      throw new Error('Endpoint api belum ada! segerah hubungi mas akbar.')
+      const response = await offeringLetterService.preview()
+      const blob = new Blob([response.data], { type: 'application/pdf' })
+      const url = URL.createObjectURL(blob)
+      setPreview(url)
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
     }
@@ -129,112 +133,117 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
   }
 
   return (
-    <Modal as="form" show={!!show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Adjust your offering letter template" onClose={onClose}>
-        Setup Offering Letter
-      </ModalHeader>
+    <>
+      <Modal show={!!preview} className="flex h-full max-w-[1280px]" wrapperClassName="h-full" onClose={() => setPreview('')}>
+        <iframe src={preview} className="block flex-1 rounded-lg" />
+      </Modal>
+      <Modal as="form" show={!!show} onSubmit={onSubmit}>
+        <ModalHeader subTitle="Adjust your offering letter template" onClose={onClose}>
+          Setup Offering Letter
+        </ModalHeader>
 
-      {!offeringLetterSetting && (
-        <div className="flex h-[600px] items-center justify-center">
-          <Spinner height={40} className="text-primary-600" />
-        </div>
-      )}
-
-      {offeringLetterSetting && (
-        <div className="grid grid-cols-1 gap-3 p-3">
-          <InputWrapper label="Letter Head" labelRequired error={errors.letterHead?.message}>
-            <ImageFileUpload
-              hidePreview
-              type="employee-national-id"
-              value={getValues('letterHead')}
-              error={errors.letterHead?.message}
-              onStart={() => {
-                setValue('letterHead', PROGRESS_KEY)
-              }}
-              onChange={(value) => {
-                setValue('letterHead', value)
-                trigger('letterHead')
-              }}
-              onError={(message) => {
-                setValue('letterHead', ERROR_PREFIX_KEY + message)
-                trigger('letterHead')
-              }}
-            />
-          </InputWrapper>
-
-          <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-            <Input label="Greetings" error={errors.greetings?.message} {...register('greetings')} />
-            <Input label="Candidate Name" defaultValue="[CANDIDATE NAME]" disabled />
+        {!offeringLetterSetting && (
+          <div className="flex h-[600px] items-center justify-center">
+            <Spinner height={40} className="text-primary-600" />
           </div>
-          <Textarea label="Body" labelRequired rows={3} error={errors.body?.message} {...register('body')} />
-          <Input label="Salary & Benefits" disabled />
-          <Textarea
-            label="Additional Information"
-            labelRequired
-            rows={3}
-            error={errors.additionalInformation?.message}
-            {...register('additionalInformation')}
-          />
-          <Input label="Signee Role" labelRequired error={errors.signeeRole?.message} {...register('signeeRole')} />
-          <Input label="Signee Full Name" labelRequired error={errors.signeeName?.message} {...register('signeeName')} />
+        )}
 
-          <InputWrapper label="Signature" error={errors.signature?.message}>
-            <ImageFileUpload
-              hidePreview
-              type="employee-national-id"
-              value={getValues('signature')}
-              error={errors.signature?.message}
-              onStart={() => {
-                setValue('signature', PROGRESS_KEY)
-              }}
-              onChange={(value) => {
-                setValue('signature', value)
-                trigger('signature')
-              }}
-              onError={(message) => {
-                setValue('signature', ERROR_PREFIX_KEY + message)
-                trigger('signature')
-              }}
+        {offeringLetterSetting && (
+          <div className="grid grid-cols-1 gap-3 p-3">
+            <InputWrapper label="Letter Head" labelRequired error={errors.letterHead?.message}>
+              <ImageFileUpload
+                hidePreview
+                type="employee-national-id"
+                value={getValues('letterHead')}
+                error={errors.letterHead?.message}
+                onStart={() => {
+                  setValue('letterHead', PROGRESS_KEY)
+                }}
+                onChange={(value) => {
+                  setValue('letterHead', value)
+                  trigger('letterHead')
+                }}
+                onError={(message) => {
+                  setValue('letterHead', ERROR_PREFIX_KEY + message)
+                  trigger('letterHead')
+                }}
+              />
+            </InputWrapper>
+
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+              <Input label="Greetings" error={errors.greetings?.message} {...register('greetings')} />
+              <Input label="Candidate Name" defaultValue="[CANDIDATE NAME]" disabled />
+            </div>
+            <Textarea label="Body" labelRequired rows={3} error={errors.body?.message} {...register('body')} />
+            <Input label="Salary & Benefits" disabled />
+            <Textarea
+              label="Additional Information"
+              labelRequired
+              rows={3}
+              error={errors.additionalInformation?.message}
+              {...register('additionalInformation')}
             />
-          </InputWrapper>
-        </div>
-      )}
+            <Input label="Signee Role" labelRequired error={errors.signeeRole?.message} {...register('signeeRole')} />
+            <Input label="Signee Full Name" labelRequired error={errors.signeeName?.message} {...register('signeeName')} />
 
-      <ModalFooter className="justify-between gap-3">
-        <Button
-          type="button"
-          color="error"
-          variant="light"
-          disabled={submitLoading || previewLoading}
-          className="min-w-24"
-          onClick={onClose}
-        >
-          Cancel
-        </Button>
-        <div className="flex gap-3">
+            <InputWrapper label="Signature" error={errors.signature?.message}>
+              <ImageFileUpload
+                hidePreview
+                type="employee-national-id"
+                value={getValues('signature')}
+                error={errors.signature?.message}
+                onStart={() => {
+                  setValue('signature', PROGRESS_KEY)
+                }}
+                onChange={(value) => {
+                  setValue('signature', value)
+                  trigger('signature')
+                }}
+                onError={(message) => {
+                  setValue('signature', ERROR_PREFIX_KEY + message)
+                  trigger('signature')
+                }}
+              />
+            </InputWrapper>
+          </div>
+        )}
+
+        <ModalFooter className="justify-between gap-3">
           <Button
             type="button"
-            color="primary"
+            color="error"
             variant="light"
-            disabled={submitLoading || previewLoading || !offeringLetterSetting}
-            loading={previewLoading}
+            disabled={submitLoading || previewLoading}
             className="min-w-24"
-            onClick={onPreview}
+            onClick={onClose}
           >
-            Preview
+            Cancel
           </Button>
-          <Button
-            type="submit"
-            color="primary"
-            className="min-w-24"
-            disabled={submitLoading || previewLoading || !offeringLetterSetting}
-            loading={submitLoading}
-          >
-            Save Changes
-          </Button>
-        </div>
-      </ModalFooter>
-    </Modal>
+          <div className="flex gap-3">
+            <Button
+              type="button"
+              color="primary"
+              variant="light"
+              disabled={submitLoading || previewLoading || !offeringLetterSetting}
+              loading={previewLoading}
+              className="min-w-24"
+              onClick={onPreview}
+            >
+              Preview
+            </Button>
+            <Button
+              type="submit"
+              color="primary"
+              className="min-w-24"
+              disabled={submitLoading || previewLoading || !offeringLetterSetting}
+              loading={submitLoading}
+            >
+              Save Changes
+            </Button>
+          </div>
+        </ModalFooter>
+      </Modal>
+    </>
   )
 }
 
