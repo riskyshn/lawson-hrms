@@ -25,7 +25,12 @@ export const fetchDetailProcess = (oid: string, signal?: GenericAbortSignal) => 
 }
 
 export const updateProcess = async (payload: Record<string, any>, signal?: GenericAbortSignal) => {
-  await geventService.createCalendarEvent(payload.schedule)
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let interviewId = ''
+  for (let i = 0; i < 9; i++) {
+    interviewId += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+  await geventService.createCalendarEvent({ ...payload.schedule, interviewId })
   return axios.put<{ data: IApplicant }>('/process', payload, { signal }).then(({ data }) => data.data)
 }
 
