@@ -5,9 +5,9 @@ import ViewModal from './ViewModal'
 import { useNavigate } from 'react-router-dom'
 
 type PropTypes = {
-  items: ILeave[]
+  items: any
   loading?: boolean
-  onDataChange: (data: string) => void
+  onDataChange?: (data: string) => void
 }
 
 const Table: React.FC<PropTypes> = ({ items, loading }) => {
@@ -25,7 +25,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
     { children: 'Action', className: 'text-center' },
   ]
 
-  const bodyItems = items.map((item) => ({
+  const bodyItems = items.map((item: any) => ({
     items: [
       {
         children: (
@@ -47,7 +47,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
         children: (
           <button
             className={`group flex items-center gap-3 rounded-lg bg-primary-600 px-4 py-2 text-sm text-white`}
-            onClick={() => handleViewDetails('1')}
+            onClick={() => handleViewDetails(item.employeeId)}
           >
             View Report
           </button>
