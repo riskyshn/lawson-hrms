@@ -31,6 +31,8 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const SummaryPage = () => {
   const [loading, setLoading] = useState(true)
+  const [loadingBarChart, setLoadingBarChart] = useState(true)
+  const [loadingLineChart, setLoadingLineChart] = useState(true)
   const [data, setData] = useState<RecruitmentFunnelData>({})
   const [dataLine, setDataLine] = useState<NumberHiredData[]>([])
   const [dataNumberHired, setDataNumberHired] = useState<any>()
@@ -138,6 +140,8 @@ const SummaryPage = () => {
     const fetchData = async () => {
       try {
         setLoading(true)
+        setLoadingBarChart(true)
+        setLoadingLineChart(true)
         const [recruitmentFunnelData, numberHiredData, numberHiredDataTable] = await Promise.all([
           reportService.fetchRecruitmentFunnel({
             start_date: filterDate.startDate,
@@ -158,6 +162,8 @@ const SummaryPage = () => {
         if (e.message !== 'canceled') setPageError(e)
       } finally {
         setLoading(false)
+        setLoadingBarChart(false)
+        setLoadingLineChart(false)
       }
     }
 
@@ -229,7 +235,19 @@ const SummaryPage = () => {
               <h2 className="text-2xl font-semibold">Recruitment Funnel</h2>
               <BaseInputDate className="w-64" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
             </div>
-            <Bar options={optionsBar} data={dataBar} />
+            {loadingBarChart ? (
+              <div className="flex h-full items-center justify-center">
+                <div
+                  className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
+                  role="status"
+                  aria-label="Loading..."
+                >
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              <Bar options={optionsBar} data={dataBar} />
+            )}
           </CardBody>
         </Card>
         <MainCard
@@ -272,7 +290,19 @@ const SummaryPage = () => {
                 />
               </div>
             </div>
-            <Line options={optionsLine} data={dataLineChart} />
+            {loadingLineChart ? (
+              <div className="flex h-full items-center justify-center">
+                <div
+                  className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
+                  role="status"
+                  aria-label="Loading..."
+                >
+                  <span className="sr-only">Loading...</span>
+                </div>
+              </div>
+            ) : (
+              <Line options={optionsLine} data={dataLineChart} />
+            )}
           </CardBody>
         </Card>
         <MainCard
