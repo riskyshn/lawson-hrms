@@ -1,6 +1,7 @@
 import { API_PROCESS_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 import { GenericAbortSignal } from 'axios'
+import { geventService } from '.'
 
 const axios = createAxiosInstance({
   baseURL: API_PROCESS_BASE_URL,
@@ -23,7 +24,8 @@ export const fetchDetailProcess = (oid: string, signal?: GenericAbortSignal) => 
   return axios.get<{ data: IApplicant }>(`/process/${oid}`, { signal }).then((response) => response.data.data)
 }
 
-export const updateProcess = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+export const updateProcess = async (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+  await geventService.createCalendarEvent(payload.schedule)
   return axios.put<{ data: IApplicant }>('/process', payload, { signal }).then(({ data }) => data.data)
 }
 

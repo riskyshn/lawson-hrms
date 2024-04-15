@@ -105,7 +105,9 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
                   Age{vacancy.ageRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy.ageRequirement?.maximumAgeRequirement}</td>
+                <td className="border-y px-3 py-2">
+                  {vacancy.ageRequirement?.minimumAgeRequirement} - {vacancy.ageRequirement?.maximumAgeRequirement}
+                </td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
