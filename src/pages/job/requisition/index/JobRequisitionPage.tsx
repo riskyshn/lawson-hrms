@@ -105,7 +105,7 @@ const JobRequisitionPage: React.FC = () => {
                         searchParams.set('status', e.toString())
                         setSearchParam(searchParams)
                       }}
-                      options={['Approvall', 'Approved', 'Published', 'Draft', 'Canceled'].map((el) => ({
+                      options={['Progress', 'Approved', 'Published', 'Draft', 'Canceled'].map((el) => ({
                         label: el,
                         value: el.toLowerCase(),
                       }))}
