@@ -1,5 +1,5 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
-import { Avatar } from 'jobseeker-ui'
+import { Avatar, Button } from 'jobseeker-ui'
 import { useState } from 'react'
 import ViewModal from './ViewModal'
 import { useNavigate } from 'react-router-dom'
@@ -15,7 +15,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
   const navigate = useNavigate()
 
   const handleViewDetails = (id: string) => {
-    navigate(`/attendance/report/${id}`)
+    navigate(`/attendance/report/${id}/attendance`)
   }
 
   const headerItems = [
@@ -31,26 +31,30 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar name={item.employee?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar name={item?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
             </div>
             <div>
-              <span className="block font-semibold">{item.employee?.name}</span>
-              <span className="text-xs text-gray-500">{item.employee?.employeeCode}</span>
+              <span className="block font-semibold">{item?.name}</span>
+              <span className="text-xs text-gray-500">{item?.employeeCode}</span>
             </div>
           </div>
         ),
       },
-      { children: item.employee?.employment?.department?.name, className: 'text-center' },
-      { children: item.employee?.employment?.branch?.name, className: 'text-center' },
+      { children: item?.department?.name, className: 'text-center' },
+      { children: item?.branch?.name, className: 'text-center' },
       {
         className: 'flex item-center justify-center',
         children: (
-          <button
-            className={`group flex items-center gap-3 rounded-lg bg-primary-600 px-4 py-2 text-sm text-white`}
-            onClick={() => handleViewDetails(item.employeeId)}
+          <Button
+            type="button"
+            size="small"
+            color="primary"
+            variant="light"
+            className="text-xs"
+            onClick={() => handleViewDetails(item.oid)}
           >
             View Report
-          </button>
+          </Button>
         ),
       },
     ],

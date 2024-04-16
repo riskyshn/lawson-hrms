@@ -76,3 +76,9 @@ export const fetchStatistic = (params?: FetchAttendanceParams, signal?: GenericA
 export const updateAttendance = (payload: Record<string, any>) => {
   return axios.post(`/employer/update-status`, payload).then((response) => response.data.data)
 }
+
+export const fetchEmployee = (oid: string, payload: Record<string, any>) => {
+  const queryString = new URLSearchParams(payload).toString()
+  const url = `/employer/history/${oid}?${queryString}`
+  return axios.get(url).then((response) => response.data.data)
+}

@@ -1,47 +1,53 @@
 import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { useEffect, useState } from 'react'
-import { CardBody } from 'jobseeker-ui'
-import DetailsTable from '../components/DetailsTable'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
-import { useParams } from 'react-router-dom'
-import { attendanceService, employeeService } from '@/services'
-import PageCard from '../components/PageCard'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/hooks/use-pagination'
+import { attendanceService, employeeService } from '@/services'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { CardBody } from 'jobseeker-ui'
+import PageCard from '../components/PageCard'
+import DetailsTable from '../components/DetailsTable'
 import ProfileCard from '../components/ProfileCard'
 
-const ViewPage: React.FC = () => {
+const OvertimePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const { employeeId } = useParams<{ employeeId: string }>()
   const [pageData, setPageData] = useState<IPaginationResponse<IEmployee>>()
-  const [pageDataEmployee, setPageDataEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
+  const { employeeId } = useParams<{ employeeId: string }>()
+  const [pageDataEmployee, setPageDataEmployee] = useState<IEmployee>()
 
   const pagination = usePagination({
-    pathname: `/attendance/report/${employeeId}`,
+    pathname: `/attendance/report/${employeeId}/overtime`,
     totalPage: pageData?.totalPages || 0,
   })
 
   useEffect(() => {
-    setIsLoading(true)
-    const loadEmployeeData = async () => {
+    const controller = new AbortController()
+
+    const payload = {
+      attendance_group: 'overtime',
+    }
+
+    const load = async () => {
+      setIsLoading(true)
       try {
-        if (employeeId) {
-          const response = await attendanceService.fetchEmployee('6611a1732162e5494228534b', {
-            attendance_group: 'clock',
-          })
-          setPageData(response)
-        }
+        const response = await attendanceService.fetchEmployee('6611a1732162e5494228534b', payload)
+
+        setPageData(response)
         setIsLoading(false)
-      } catch (e) {
-        setIsLoading(false)
-        setPageError(e)
+      } catch (e: any) {
+        if (e.message !== 'canceled') setPageError(e)
       }
     }
 
-    loadEmployeeData()
-  }, [employeeId])
+    load()
+
+    return () => {
+      controller.abort()
+    }
+  }, [pagination.currentPage])
 
   useEffect(() => {
     setIsLoading(true)
@@ -73,7 +79,7 @@ const ViewPage: React.FC = () => {
           <CardBody className="p-0">
             <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
               {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
-                <PageCard key={index} label={label} activeLabel={'Attendance'} />
+                <PageCard key={index} label={label} activeLabel={'Overtime'} />
               ))}
             </div>
           </CardBody>
@@ -102,4 +108,4 @@ const ViewPage: React.FC = () => {
   )
 }
 
-export default ViewPage
+export default OvertimePage
