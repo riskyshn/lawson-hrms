@@ -32,6 +32,7 @@ interface Dataset {
   data: any
   borderColor: string
   backgroundColor: string
+  tension: number
 }
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement)
@@ -56,8 +57,8 @@ const SummaryPage = () => {
     setActiveLabel(selectedLabel)
   }
 
-  const startYear = 2020
-  const endYear = 2030
+  const startYear = 2010
+  const endYear = 2024
   const yearOptions = []
 
   for (let year = endYear; year >= startYear; year--) {
@@ -131,6 +132,7 @@ const SummaryPage = () => {
     data: dataLine[0]?.map((item) => item.total) || [],
     borderColor: 'rgb(255, 99, 132)',
     backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    tension: 0.4,
   })
 
   if (dataLine.length > 1) {
@@ -139,6 +141,7 @@ const SummaryPage = () => {
       data: dataLine[1]?.map((item) => item.total) || [],
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      tension: 0.4,
     })
   }
 
