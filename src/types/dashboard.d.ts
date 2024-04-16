@@ -46,3 +46,16 @@ interface IDashboardRecentlyApplied {
   }>
   matchPercentage?: number
 }
+
+interface IDashboardAnnouncement {
+  oid: string
+  title?: string
+  poster?: string
+  content?: string
+  company?: {
+    oid: string
+    name?: string
+  }
+  isPinned?: boolean
+  createdAt?: string
+}

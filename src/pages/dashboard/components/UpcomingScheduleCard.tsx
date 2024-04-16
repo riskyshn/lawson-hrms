@@ -9,7 +9,6 @@ const UpcomingScheduleCard: React.FC = () => {
   const { pageData } = useAsyncSearch<IDashboardSchedule>({
     action: dashboardService.upcomingSchedule,
     params: { limit: 20 },
-    input: '',
   })
 
   return (

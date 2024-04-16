@@ -9,7 +9,6 @@ const RecentlyAppliedCandidatesCard: React.FC = () => {
   const { pageData } = useAsyncSearch<IDashboardRecentlyApplied>({
     action: dashboardService.recentlyApplied,
     params: { limit: 20 },
-    input: '',
   })
 
   return (
