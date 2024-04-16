@@ -24,7 +24,7 @@ const ViewPage: React.FC = () => {
 
   // const pagination = usePagination({
   //   pathname: '/attendance/report',
-  //   totalPage: pageData?.totalPages || 0,
+  //   totalPage: pageData?.totalPages,
   // })
 
   const handleDateChange = (selectedDate: DateValueType) => {

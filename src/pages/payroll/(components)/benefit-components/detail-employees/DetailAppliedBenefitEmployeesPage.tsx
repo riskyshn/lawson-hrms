@@ -18,7 +18,7 @@ const DetailAppliedBenefitEmployeesPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: `/payroll/benefit-components/${componentId}/employees`,
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

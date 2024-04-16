@@ -23,7 +23,7 @@ const SettingJobLevelsPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/job-levels',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

@@ -17,7 +17,7 @@ const GeneratedPayrollRequestPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/payroll/generated-payroll-request',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

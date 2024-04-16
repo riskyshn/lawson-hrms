@@ -23,7 +23,7 @@ const SettingEmploymentStatusPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/employment-status',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
   return (

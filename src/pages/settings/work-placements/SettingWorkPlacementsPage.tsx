@@ -20,7 +20,7 @@ const SettingWorkPlacementsPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/work-placements',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
   })
 
   useEffect(() => {

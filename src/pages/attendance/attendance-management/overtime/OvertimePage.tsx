@@ -32,7 +32,7 @@ const OvertimePage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/attendance/attendance-management/overtime',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

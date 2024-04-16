@@ -23,7 +23,7 @@ const SettingPermissionsPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/permissions',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
   return (

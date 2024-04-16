@@ -23,7 +23,7 @@ const SettingBranchesPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/branches',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

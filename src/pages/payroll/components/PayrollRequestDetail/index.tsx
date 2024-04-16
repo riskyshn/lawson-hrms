@@ -25,7 +25,7 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
 
   const pagination = usePagination({
     pathname: `/payroll/payroll-request/${item.oid}`,
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

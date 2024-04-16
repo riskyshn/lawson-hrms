@@ -22,7 +22,7 @@ const SettingDepartmentsPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/departments',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

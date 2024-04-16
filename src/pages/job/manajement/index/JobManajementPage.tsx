@@ -29,7 +29,7 @@ const JobManajementPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/job/management',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, department, status },
   })
 

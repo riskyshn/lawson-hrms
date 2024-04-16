@@ -17,7 +17,7 @@ const PreviousEmployeePage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/employees/previous-employee',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

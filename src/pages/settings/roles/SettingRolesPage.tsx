@@ -22,7 +22,7 @@ const SettingRolesPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/roles',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
   })
 
   useEffect(() => {

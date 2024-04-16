@@ -22,7 +22,7 @@ const SettingDocumentRequestPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/document-request',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 
