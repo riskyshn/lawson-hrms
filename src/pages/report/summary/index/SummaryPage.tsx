@@ -27,6 +27,13 @@ interface NumberHiredData {
   total: number
 }
 
+interface Dataset {
+  label: string
+  data: any
+  borderColor: string
+  backgroundColor: string
+}
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement)
 
 const SummaryPage = () => {
@@ -34,7 +41,7 @@ const SummaryPage = () => {
   const [loadingBarChart, setLoadingBarChart] = useState(true)
   const [loadingLineChart, setLoadingLineChart] = useState(true)
   const [data, setData] = useState<RecruitmentFunnelData>({})
-  const [dataLine, setDataLine] = useState<NumberHiredData[]>([])
+  const [dataLine, setDataLine] = useState<NumberHiredData[][]>([])
   const [dataNumberHired, setDataNumberHired] = useState<any>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
@@ -62,14 +69,9 @@ const SummaryPage = () => {
 
   const currentYear = new Date().getFullYear()
   const [selectedYear, setSelectedYear] = useState(currentYear)
-  const [selectedCompareYear, setSelectedCompareYear] = useState('')
 
   const handleYearChange = (selectedOption: any) => {
     setSelectedYear(selectedOption)
-  }
-
-  const handleCompareYearChange = (selectedOption: any) => {
-    setSelectedCompareYear(selectedOption)
   }
 
   const backgroundColors = [
@@ -120,15 +122,24 @@ const SummaryPage = () => {
   }
 
   const dataLineChart = {
-    labels: dataLine.map((item) => item.label),
-    datasets: [
-      {
-        label: 'Data',
-        data: dataLine.map((item) => item.total),
-        borderColor: 'rgba(37, 140, 244, 1)',
-        backgroundColor: 'rgba(37, 140, 244, 1)',
-      },
-    ],
+    labels: dataLine[0]?.map((item) => item.label) || [],
+    datasets: [] as Dataset[],
+  }
+
+  dataLineChart.datasets.push({
+    label: currentYear.toString(),
+    data: dataLine[0]?.map((item) => item.total) || [],
+    borderColor: 'rgb(255, 99, 132)',
+    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+  })
+
+  if (dataLine.length > 1) {
+    dataLineChart.datasets.push({
+      label: selectedYear.toString(),
+      data: dataLine[1]?.map((item) => item.total) || [],
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    })
   }
 
   const pagination = usePagination({
@@ -261,33 +272,26 @@ const SummaryPage = () => {
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-semibold">Number of Hired</h2>
                 <div className="flex items-center">
-                  <Select
-                    className="w-40"
-                    options={yearOptions}
-                    placeholder="Select a year"
-                    onChange={handleYearChange}
-                    value={selectedYear.toString()}
-                  />
-                  <div className="mb-2">
+                  <div>
                     <CardBody className="p-0">
-                      <div className="flex gap-3 overflow-x-scroll p-3 pb-2">
+                      <div className="flex items-center justify-end gap-3 overflow-x-scroll px-3">
                         {/* {['Month', 'Quarter', 'Year'].map((label, index) => ( */}
                         {['Quarter', 'Year'].map((label, index) => (
                           <PageCard key={index} label={label} activeLabel={activeLabel} onClick={handlePageCardClick} />
                         ))}
                       </div>
+                      <div className="flex items-center justify-end p-3">
+                        <Select
+                          className="w-64"
+                          options={yearOptions}
+                          placeholder="Select a year"
+                          onChange={handleYearChange}
+                          value={selectedYear.toString()}
+                        />
+                      </div>
                     </CardBody>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-end p-3">
-                <Select
-                  className="w-64"
-                  options={yearOptions}
-                  placeholder="All"
-                  onChange={handleCompareYearChange}
-                  value={selectedCompareYear}
-                />
               </div>
             </div>
             {loadingLineChart ? (
