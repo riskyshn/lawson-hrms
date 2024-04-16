@@ -92,13 +92,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const createOfferingLetter = createMenuItem('Create Offering Letter', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/create`),
   )
-  const reviseOfferingLetter = createMenuItem(
-    'Revise Offering Letter',
-    FileEditIcon,
-    undefined,
-    undefined,
-    () => toast('Endpoint api belum ada! segera hubungi mas akbar.'),
-    // navigate(`/process/offering-letter/${item.oid}/revise`),
+  const reviseOfferingLetter = createMenuItem('Revise Offering Letter', FileEditIcon, undefined, undefined, () =>
+    navigate(`/process/offering-letter/${item.oid}/revise`),
   )
   const uploadSignedOfferingLetter = createMenuItem('Upload Signed Of... Le...', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-signed`),

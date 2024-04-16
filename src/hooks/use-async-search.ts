@@ -3,7 +3,7 @@ import useDeepCompareEffect from './use-deep-compare-effect'
 
 type PropType<T, Params extends object, A extends (params: Params) => Promise<IPaginationResponse<T>>> = {
   action: A
-  input: string
+  input?: string
   params: Params
   paginationKey?: string
 }
@@ -14,7 +14,7 @@ const useAsyncSearch = <
   A extends (params: Params) => Promise<IPaginationResponse<T>> = (params: Params) => Promise<IPaginationResponse<T>>,
 >({
   action,
-  input,
+  input = '',
   params,
 }: PropType<T, Params, A>) => {
   const [results, setResults] = useState<{ response: IPaginationResponse<T>; query: string }>()
