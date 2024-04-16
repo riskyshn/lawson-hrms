@@ -7,9 +7,11 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import AnnouncementItem from './AnnouncmentItem'
 import CreateModal from './CreateModal'
+import PreviewModal from './PreviewModal'
 
 const AnnouncementCard: React.FC = () => {
   const [show, setShow] = useState(false)
+  const [selectedToPreview, setSelectedToPreview] = useState<IDashboardAnnouncement | null>(null)
   const [filterDate, setFilterDate] = useState<{ startDate: Date; endDate: Date }>()
 
   const { pageData, isLoading, onRefresh } = useAsyncSearch<IDashboardAnnouncement>({
@@ -24,6 +26,7 @@ const AnnouncementCard: React.FC = () => {
   return (
     <Card>
       <CreateModal show={show} onClose={() => setShow(false)} onRefresh={onRefresh} />
+      <PreviewModal item={selectedToPreview} onClose={() => setSelectedToPreview(null)} />
       <LoadingScreen show={!pageData} />
       {pageData && (
         <>
@@ -49,7 +52,7 @@ const AnnouncementCard: React.FC = () => {
             {!isLoading && (
               <ul className="chrome-scrollbar max-h-80 overflow-y-auto p-3">
                 {pageData.content.map((el, i) => (
-                  <AnnouncementItem key={i} item={el} onRefresh={onRefresh} />
+                  <AnnouncementItem key={i} item={el} onClick={setSelectedToPreview} onRefresh={onRefresh} />
                 ))}
               </ul>
             )}

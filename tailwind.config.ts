@@ -1,7 +1,8 @@
 import type { Config } from 'tailwindcss/types/config'
 
-import defaultTheme from 'tailwindcss/defaultTheme'
+import typography from '@tailwindcss/typography'
 import colors from 'tailwindcss/colors'
+import defaultTheme from 'tailwindcss/defaultTheme'
 
 const tailwindConfig: Config = {
   content: [
@@ -49,7 +50,7 @@ const tailwindConfig: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [typography],
 }
 
 export default tailwindConfig
