@@ -1,25 +1,15 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import useAsyncSearch from '@/hooks/use-async-search'
+import { attendanceService } from '@/services'
 import { Card } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import React from 'react'
 
-const dummyLeave = [
-  {
-    requestDate: '18/03/2024',
-    startDate: '20/03/2024',
-    endDate: '21/03/2024',
-    requestType: 'Annual Leave',
-    department: 'IT',
-    branch: 'Kantor Jobseeker Bali',
-    attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-    notes: 'Cuti Lebaran',
-    status: 'Waiting',
-  },
-]
-
 const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
   const previewImage = usePreviewImage()
+
+  const { pageData } = useAsyncSearch(attendanceService.fetchEmployeeLeave)
 
   const headerItems = [
     { children: 'Request Date', className: 'text-left' },
@@ -33,25 +23,25 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
     { children: 'Status', className: 'text-left' },
   ]
 
-  const bodyItems = dummyLeave.map((item) => ({
+  const bodyItems = pageData?.map((item) => ({
     items: [
       {
-        children: item.requestDate,
+        children: item.createdAt || '',
       },
       {
-        children: item.startDate,
+        children: item.startDate || '',
       },
       {
-        children: item.endDate,
+        children: item.endDate || '',
       },
       {
-        children: item.requestType,
+        children: item.leaveType?.title || '',
       },
       {
-        children: item.department,
+        children: item.employee?.employment?.department?.name || '',
       },
       {
-        children: item.branch,
+        children: item.employee?.employment?.branch?.name || '',
       },
       {
         children: (
@@ -67,17 +57,17 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
         ),
       },
       {
-        children: item.notes,
+        children: item.note || '',
       },
       {
-        children: item.status,
+        children: item.status || '',
       },
     ],
   }))
 
   return (
     <Card>
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} />
+      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={!pageData} />
     </Card>
   )
 }

@@ -137,3 +137,50 @@ interface IEmployeeHistoryAttendance {
     }
   }>
 }
+
+interface IEmployeeLeave {
+  oid: string
+  createdAt?: string
+  updatedAt?: string
+  leaveType?: {
+    oid: string
+    title?: string
+    isBalance?: boolean
+    isRequiredAttachment?: boolean
+    isSalaryDeduction?: boolean
+  }
+  employee?: {
+    name?: string
+    employeeCode?: string
+    employment?: {
+      schedule?: {
+        oid: string
+        name?: string
+        timezone?: {
+          oid: string
+          title?: string
+          code?: string
+        }
+      }
+      branch?: {
+        oid: string
+        name?: string
+      }
+      position?: {
+        oid: string
+        name?: string
+      }
+      department?: {
+        oid: string
+        name?: string
+      }
+    }
+  }
+  startDate?: string
+  endDate?: string
+  attachment?: string
+  note?: string
+  status?: string
+  duration?: number
+  rejectedReason?: string
+}
