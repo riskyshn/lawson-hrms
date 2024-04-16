@@ -6,10 +6,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const UpcomingScheduleCard: React.FC = () => {
-  const { pageData } = useAsyncSearch<IDashboardSchedule>({
-    action: dashboardService.upcomingSchedule,
-    params: { limit: 20 },
-  })
+  const { pageData } = useAsyncSearch(dashboardService.upcomingSchedule, { limit: 20 })
 
   return (
     <Card>

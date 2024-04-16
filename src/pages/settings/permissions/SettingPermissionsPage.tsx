@@ -18,13 +18,8 @@ const SettingPermissionsPage: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const page = searchParams.get('page')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IPermission>({
-    action: authorityService.fetchPermissions,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(authorityService.fetchPermissions, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/settings/permissions',

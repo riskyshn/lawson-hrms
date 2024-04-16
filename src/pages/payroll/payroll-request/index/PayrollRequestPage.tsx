@@ -11,14 +11,13 @@ import Table from './components/Table'
 const PayrollRequestPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
-  const page = searchParams.get('page') || undefined
+  const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IPayrollRequest>({
-    action: payrollService.fetchPayrollRequests,
-    params: { limit: 20, page, statusRunner: 'COMPLETED' },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(
+    payrollService.fetchPayrollRequests,
+    { limit: 20, statusRunner: 'COMPLETED' },
+    search,
+  )
 
   const pagination = usePagination({
     pathname: '/payroll/payroll-request',

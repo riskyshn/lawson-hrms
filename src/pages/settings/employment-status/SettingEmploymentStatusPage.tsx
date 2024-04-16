@@ -18,13 +18,8 @@ const SettingEmploymentStatusPage: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const page = searchParams.get('page')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IJobType>({
-    action: organizationService.fetchJobTypes,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchJobTypes, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/settings/employment-status',

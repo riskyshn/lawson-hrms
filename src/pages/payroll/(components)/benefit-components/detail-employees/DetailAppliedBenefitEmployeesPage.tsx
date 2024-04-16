@@ -12,14 +12,9 @@ const DetailAppliedBenefitEmployeesPage: React.FC = () => {
   const { componentId } = useParams()
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
-  const page = searchParams.get('page') || undefined
+  const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<any>({
-    action: employeeService.fetchPreviousEmployees,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(employeeService.fetchPreviousEmployees, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: `/payroll/benefit-components/${componentId}/employees`,
@@ -56,7 +51,7 @@ const DetailAppliedBenefitEmployeesPage: React.FC = () => {
               }}
             />
           }
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
+          body={<Table items={(pageData?.content as any) || []} loading={isLoading} onRefresh={onRefresh} />}
           footer={pagination.render()}
         />
       </Container>

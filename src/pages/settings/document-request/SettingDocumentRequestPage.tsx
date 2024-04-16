@@ -18,13 +18,7 @@ const SettingDocumentRequestPage: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const page = searchParams.get('page')
-
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IDocumentRequest>({
-    action: organizationService.fetchDocumentRequests,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchDocumentRequests, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/settings/document-request',

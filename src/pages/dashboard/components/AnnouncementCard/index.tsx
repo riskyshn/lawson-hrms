@@ -14,13 +14,10 @@ const AnnouncementCard: React.FC = () => {
   const [selectedToPreview, setSelectedToPreview] = useState<IDashboardAnnouncement | null>(null)
   const [filterDate, setFilterDate] = useState<{ startDate: Date; endDate: Date }>()
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IDashboardAnnouncement>({
-    action: dashboardService.fetchAnnouncements,
-    params: {
-      limit: 20,
-      start_date: filterDate?.startDate ? moment(filterDate?.startDate).format('Y-MM-DD') : undefined,
-      end_date: filterDate?.endDate ? moment(filterDate?.endDate).format('Y-MM-DD') : undefined,
-    },
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(dashboardService.fetchAnnouncements, {
+    limit: 20,
+    start_date: filterDate?.startDate ? moment(filterDate?.startDate).format('Y-MM-DD') : undefined,
+    end_date: filterDate?.endDate ? moment(filterDate?.endDate).format('Y-MM-DD') : undefined,
   })
 
   return (

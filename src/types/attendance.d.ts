@@ -95,3 +95,45 @@ interface ILeave {
   oid?: string
   updatedAt?: string
 }
+
+interface IEmployeeHistoryAttendance {
+  date?: string
+  records?: Array<{
+    oid: string
+    attendanceType?: string
+    earlyClockoutMinutes?: number
+    lateMinutes?: number
+    workHours?: number
+    inOffice?: boolean
+    lat?: number
+    lng?: number
+    photo?: string
+    status?: string
+    timezoneTime?: string
+    employee?: {
+      name?: string
+      employeeCode?: string
+      employment?: {
+        schedule?: {
+          name?: string
+          timezone?: {
+            title?: string
+            code?: string
+          }
+        }
+        branch?: {
+          oid: string
+          name?: string
+        }
+        position?: {
+          oid: string
+          name?: string
+        }
+        department?: {
+          oid: string
+          name?: string
+        }
+      }
+    }
+  }>
+}

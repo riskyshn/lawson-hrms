@@ -18,13 +18,7 @@ const SettingDepartmentsPage: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const page = searchParams.get('page')
-
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IDepartment>({
-    action: organizationService.fetchDepartments,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchDepartments, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/settings/departments',
