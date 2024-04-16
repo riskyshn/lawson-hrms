@@ -19,6 +19,7 @@ const CandidatePoolPage: React.FC = () => {
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
   const [searchParams, setSearchParam] = useSearchParams()
   const [isLoading, setIsLoading] = useState(true)
+  const [isExporting, setIsExporting] = useState(false)
   const search = searchParams.get('search') || undefined
   const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
   const [pageError, setPageError] = useState<any>()
@@ -72,6 +73,7 @@ const CandidatePoolPage: React.FC = () => {
 
   const handleExportToExcel = async () => {
     try {
+      setIsExporting(true)
       const excelData = await candidateService.downloadCandidate({
         q: search,
         page: pagination.currentPage,
@@ -103,9 +105,11 @@ const CandidatePoolPage: React.FC = () => {
 
       document.body.removeChild(a)
       toast('Download successfully.', { color: 'success' })
+      setIsExporting(false)
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
       toast(errorMessage, { color: 'error', position: 'top-right' })
+      setIsExporting(false)
     }
   }
 
@@ -130,7 +134,14 @@ const CandidatePoolPage: React.FC = () => {
         title="Candidate Pool"
         breadcrumb={[{ text: 'Candidates' }, { text: 'Cadiadate Pool' }]}
         actions={
-          <Button onClick={handleExportToExcel} color="success" className="gap-2" rightChild={<FileSpreadsheetIcon size={18} />}>
+          <Button
+            onClick={handleExportToExcel}
+            color="success"
+            className="gap-2"
+            rightChild={<FileSpreadsheetIcon size={18} />}
+            disabled={isExporting}
+            loading={isExporting}
+          >
             Export To Excel
           </Button>
         }

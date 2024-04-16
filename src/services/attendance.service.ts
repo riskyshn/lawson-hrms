@@ -82,3 +82,9 @@ export const fetchEmployee = (oid: string, payload: Record<string, any>) => {
   const url = `/employer/history/${oid}?${queryString}`
   return axios.get(url).then((response) => response.data.data)
 }
+
+export const downloadAttendance = (oid: string, payload: Record<string, any>) => {
+  const queryString = new URLSearchParams(payload).toString()
+  const url = `employer/export-report/${oid}?${queryString}`
+  return axios.get(url).then((response) => response.data)
+}

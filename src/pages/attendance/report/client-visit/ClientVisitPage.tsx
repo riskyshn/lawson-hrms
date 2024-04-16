@@ -6,10 +6,11 @@ import usePagination from '@/hooks/use-pagination'
 import { attendanceService, employeeService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { CardBody } from 'jobseeker-ui'
+import { BaseInputDate, CardBody } from 'jobseeker-ui'
 import PageCard from '../components/PageCard'
 import DetailsTable from '../components/DetailsTable'
 import ProfileCard from '../components/ProfileCard'
+import { DateValueType } from 'react-tailwindcss-datepicker'
 
 const ClientVisitPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -17,6 +18,11 @@ const ClientVisitPage: React.FC = () => {
   const [pageDataEmployee, setPageDataEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
   const { employeeId } = useParams<{ employeeId: string }>()
+  const todayFormatted = new Date().toISOString().split('T')[0]
+  const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
+    startDate: todayFormatted,
+    endDate: todayFormatted,
+  })
 
   const pagination = usePagination({
     pathname: `/attendance/report/${employeeId}/client-visit`,
@@ -28,14 +34,17 @@ const ClientVisitPage: React.FC = () => {
 
     const payload = {
       attendance_group: 'client_visit',
+      start_date: filterDate?.startDate,
+      end_date: filterDate?.endDate,
     }
 
     const load = async () => {
       setIsLoading(true)
       try {
-        const response = await attendanceService.fetchEmployee('6611a1732162e5494228534b', payload)
-
-        setPageData(response)
+        if (employeeId) {
+          const response = await attendanceService.fetchEmployee(employeeId, payload)
+          setPageData(response)
+        }
         setIsLoading(false)
       } catch (e: any) {
         if (e.message !== 'canceled') setPageError(e)
@@ -47,14 +56,14 @@ const ClientVisitPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [pagination.currentPage])
+  }, [pagination.currentPage, employeeId, filterDate])
 
   useEffect(() => {
     setIsLoading(true)
     const loadEmployeeData = async () => {
       try {
         if (employeeId) {
-          const response = await employeeService.fetchEmployee('6611a1732162e5494228534b')
+          const response = await employeeService.fetchEmployee(employeeId)
           setPageDataEmployee(response)
         }
         setIsLoading(false)
@@ -66,6 +75,18 @@ const ClientVisitPage: React.FC = () => {
 
     loadEmployeeData()
   }, [employeeId])
+
+  const handleDateChange = (selectedDate: DateValueType) => {
+    if (selectedDate?.startDate && selectedDate.endDate) {
+      const startDate = selectedDate?.startDate ? new Date(selectedDate.startDate) : null
+      const endDate = selectedDate?.endDate ? new Date(selectedDate.endDate) : startDate
+
+      const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
+      const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
+
+      setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+    }
+  }
 
   if (pageError) throw pageError
 
@@ -89,7 +110,7 @@ const ClientVisitPage: React.FC = () => {
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <ProfileCard items={pageDataEmployee} />
         <MainCard
-          header={() => (
+          header={(open, toggleOpen) => (
             <MainCardHeader
               title="Report List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
@@ -97,6 +118,14 @@ const ClientVisitPage: React.FC = () => {
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
                 </>
+              }
+              filterToogle={toggleOpen}
+              filter={
+                open && (
+                  <div className="grid grid-cols-1 gap-3 p-3">
+                    <BaseInputDate placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+                  </div>
+                )
               }
             />
           )}
