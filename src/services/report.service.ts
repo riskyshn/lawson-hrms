@@ -16,6 +16,7 @@ type FetchReportParams = IPaginationParam & {
   range?: any
   year?: any
   type?: any
+  department?: any
 }
 
 export const fetchRecruitmentFunnel = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
@@ -48,4 +49,8 @@ export const fetchExperience = (params?: FetchReportParams, signal?: GenericAbor
 
 export const fetchGender = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
   return axios.get(`/demography/gender`, { params, signal }).then((response) => response.data.data)
+}
+
+export const fetchDepartment = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
+  return axios.get(`/demography/department`, { params, signal }).then((response) => response.data.data)
 }

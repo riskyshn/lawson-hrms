@@ -155,7 +155,7 @@ const CmsPage: React.FC = () => {
       settingParagraphColor: data.jobData.paragraphColor,
     }
 
-    if (flag) {
+    if (flag?.company?.oid) {
       try {
         await cmsService.updateCms(flag?.company?.oid, payload)
 

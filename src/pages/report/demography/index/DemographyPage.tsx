@@ -2,7 +2,7 @@ import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { masterService, reportService } from '@/services'
-import { useMasterStore } from '@/store'
+import { useMasterStore, useOrganizationStore } from '@/store'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
@@ -40,12 +40,16 @@ const fetchData = async (fetchFunction: any) => {
 
 const DemographyPage = () => {
   const todayFormatted = new Date().toISOString().split('T')[0]
+  const defaultStartDate = new Date('1990-01-01').toISOString().split('T')[0]
+  const [isLoading, setIsLoading] = useState(true)
+
   const [filterDates, setFilterDates] = useState<any>({
-    province: { startDate: todayFormatted, endDate: todayFormatted },
-    age: { startDate: todayFormatted, endDate: todayFormatted },
-    education: { startDate: todayFormatted, endDate: todayFormatted },
-    gender: { startDate: todayFormatted, endDate: todayFormatted },
-    experience: { startDate: todayFormatted, endDate: todayFormatted },
+    province: { startDate: defaultStartDate, endDate: todayFormatted },
+    age: { startDate: defaultStartDate, endDate: todayFormatted },
+    education: { startDate: defaultStartDate, endDate: todayFormatted },
+    gender: { startDate: defaultStartDate, endDate: todayFormatted },
+    experience: { startDate: defaultStartDate, endDate: todayFormatted },
+    department: { startDate: defaultStartDate, endDate: todayFormatted },
   })
 
   const [searchParams, setSearchParam] = useSearchParams()
@@ -54,8 +58,10 @@ const DemographyPage = () => {
   const filterGender = searchParams.get('gender') || undefined
   const filterAge = searchParams.get('age') || undefined
   const filterExperience = searchParams.get('experience') || undefined
+  const filterDepartment = searchParams.get('department') || undefined
 
   const { educatioLevels, genders } = useMasterStore()
+  const { master } = useOrganizationStore()
 
   const [chartData, setChartData] = useState({
     province: { labels: [], datasets: [] },
@@ -63,10 +69,13 @@ const DemographyPage = () => {
     education: { labels: [], datasets: [] },
     gender: { labels: [], datasets: [] },
     experience: { labels: [], datasets: [] },
+    department: { labels: [], datasets: [] },
   })
 
   const fetchAllData = async () => {
-    const [province, age, education, gender, experience] = await Promise.all([
+    setIsLoading(true)
+
+    const [province, age, education, gender, experience, department] = await Promise.all([
       fetchData(() =>
         reportService.fetchProvince({
           start_date: filterDates.province.startDate,
@@ -102,10 +111,17 @@ const DemographyPage = () => {
           range: filterExperience,
         }),
       ),
+      fetchData(() =>
+        reportService.fetchDepartment({
+          start_date: filterDates.department.startDate,
+          end_date: filterDates.department.endDate,
+          department: filterDepartment,
+        }),
+      ),
     ])
 
-    const chartKeys = ['province', 'age', 'education', 'gender', 'experience']
-    const chartResults = [province, age, education, gender, experience]
+    const chartKeys = ['province', 'age', 'education', 'gender', 'experience', 'department']
+    const chartResults = [province, age, education, gender, experience, department]
 
     const newChartData = chartKeys.reduce((acc: any, key, index) => {
       const { labels, data } = chartResults[index]
@@ -122,11 +138,12 @@ const DemographyPage = () => {
     }, {})
 
     setChartData(newChartData)
+    setIsLoading(false)
   }
 
   useEffect(() => {
     fetchAllData()
-  }, [filterDates, filterProvince, filterEducation, filterGender, filterAge, filterExperience])
+  }, [filterDates, filterProvince, filterEducation, filterGender, filterAge, filterExperience, filterDepartment])
 
   const handleDateChange = (selectedDate: DateValueType, chartType: string) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -237,6 +254,18 @@ const DemographyPage = () => {
               setSearchParam(searchParams)
             }}
           />
+        ) : title === 'Department' ? (
+          <Select
+            className="text-left"
+            placeholder="All Department"
+            withReset
+            value={filterDepartment}
+            onChange={(e: any) => {
+              searchParams.set('department', e)
+              setSearchParam(searchParams)
+            }}
+            options={master.departments.map((el: any) => ({ label: el.name, value: el.oid }))}
+          />
         ) : (
           <Select placeholder={`All ${title}`} options={placeholderOptions} className="mb-2" />
         )}
@@ -253,13 +282,26 @@ const DemographyPage = () => {
         <Card>
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="relative z-10 rounded-t-lg border-b bg-white/80 p-4 backdrop-blur">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                {renderPieChart('Province', chartData.province, [], 'province')}
-                {renderPieChart('Age', chartData.age, [], 'age')}
-                {renderPieChart('Education', chartData.education, [], 'education')}
-                {renderPieChart('Gender', chartData.gender, [], 'gender')}
-                {renderPieChart('Experience', chartData.experience, [], 'experience')}
-              </div>
+              {isLoading ? (
+                <div className="flex h-full items-center justify-center">
+                  <div
+                    className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
+                    role="status"
+                    aria-label="Loading..."
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                  {renderPieChart('Province', chartData.province, [], 'province')}
+                  {renderPieChart('Age', chartData.age, [], 'age')}
+                  {renderPieChart('Education', chartData.education, [], 'education')}
+                  {renderPieChart('Gender', chartData.gender, [], 'gender')}
+                  {renderPieChart('Experience', chartData.experience, [], 'experience')}
+                  {renderPieChart('Department', chartData.department, [], 'department')}
+                </div>
+              )}
             </div>
           </CardBody>
         </Card>
