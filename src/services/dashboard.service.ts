@@ -19,3 +19,21 @@ export const recentlyPostedJobs = (params?: IPaginationParam & { department_id?:
 export const upcomingSchedule = (params?: IPaginationParam & { date?: string }) => {
   return axios.get<{ data: IPaginationResponse<IDashboardSchedule> }>(`/upcoming-schedule`, { params }).then(({ data }) => data.data)
 }
+
+export const fetchAnnouncements = (params?: IPaginationParam & { start_date?: string; end_date?: string }) => {
+  return axios
+    .get<{ data: IPaginationResponse<IDashboardAnnouncement> }>(`/announcements`, { params })
+    .then((response) => response.data.data)
+}
+
+export const createAnnouncement = (payload: Record<string, any>) => {
+  return axios.post(`/announcements/create`, payload).then((response) => response.data.data)
+}
+
+export const pinToggleAnnouncement = (oid: string) => {
+  return axios.patch<{ data: IDashboardAnnouncement }>(`/announcements/pin/${oid}`).then((response) => response.data.data)
+}
+
+export const deleteAnnouncement = (oid: string) => {
+  return axios.delete<{ data: IDashboardAnnouncement }>(`/announcements/delete/${oid}`).then((response) => response.data.data)
+}
