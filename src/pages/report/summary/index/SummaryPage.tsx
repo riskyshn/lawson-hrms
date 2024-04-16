@@ -165,9 +165,7 @@ const SummaryPage = () => {
             year: selectedYear,
             type: activeLabel.toLowerCase(),
           }),
-          reportService.fetchNumberHired({
-            year: selectedYear,
-          }),
+          reportService.fetchNumberHired(),
         ])
         setData(recruitmentFunnelData)
         setDataLine(numberHiredData)
