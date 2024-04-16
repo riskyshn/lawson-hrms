@@ -13,3 +13,4 @@ export const API_CMS_BASE_URL = import.meta.env.VITE_API_CMS_BASE_URL || 'https:
 export const API_REPORT_BASE_URL = import.meta.env.VITE_API_REPORT_BASE_URL || 'https://basic-report.api-jobseeker.site'
 export const API_GEVENT_BASE_URL = import.meta.env.VITE_API_GEVENT_BASE_URL || 'https://gevent.api-jobseeker.site'
 export const API_OFFERING_LETTER_BASE_URL = import.meta.env.VITE_API_OFFERING_LETTER_BASE_URL || 'http://localhost:3000'
+export const API_DASHBOARD_BASE_URL = import.meta.env.VITE_API_DASHBOARD_BASE_URL || 'https://basic-dashboard.api-jobseeker.site'
