@@ -3,16 +3,17 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 
 type PaginationOptions = {
-  totalPage: number
+  totalPage?: number | null
   pathname: string
   totalRender?: number
   queryKey?: string
   params?: Record<string, any>
 }
 
-export default function usePagination({ totalPage, pathname, params, totalRender = 5, queryKey = 'page' }: PaginationOptions) {
+export default function usePagination({ totalPage: _totalPage, pathname, params, totalRender = 5, queryKey = 'page' }: PaginationOptions) {
   const [searchParams] = useSearchParams()
   const currentPage = Number(searchParams.get(queryKey) || 1)
+  const totalPage = _totalPage || 0
 
   const calculateStartAndEndPages = () => {
     let startPage = 1

@@ -36,10 +36,10 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-1">
           <div className="flex flex-col gap-3">
-            <RecentlyAppliedCandidatesCard />
             <UpcomingScheduleCard />
+            <RecentlyAppliedCandidatesCard />
           </div>
           <div className="flex flex-col gap-3">
             <AnnouncementCard />

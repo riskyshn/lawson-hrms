@@ -20,7 +20,7 @@ const SettingPositionsPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/settings/positions',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
   })
 
   useEffect(() => {

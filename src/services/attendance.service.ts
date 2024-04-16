@@ -76,3 +76,15 @@ export const fetchStatistic = (params?: FetchAttendanceParams, signal?: GenericA
 export const updateAttendance = (payload: Record<string, any>) => {
   return axios.post(`/employer/update-status`, payload).then((response) => response.data.data)
 }
+
+/**
+ * Request Management
+ *
+ */
+export const fetchEmployeeAttendanceHistories = (params?: { attendance_group?: string }) => {
+  return axios.get<{ data: Array<IEmployeeHistoryAttendance> }>(`/employee/history`, { params }).then((response) => response.data.data)
+}
+
+export const fetchEmployeeLeave = () => {
+  return axios.get<{ data: Array<IEmployeeLeave> }>(`/employee/leave`).then((response) => response.data.data)
+}

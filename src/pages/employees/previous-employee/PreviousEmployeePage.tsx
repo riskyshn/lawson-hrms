@@ -11,18 +11,13 @@ import Table from './components/Table'
 const PreviousEmployeePage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
-  const page = searchParams.get('page') || undefined
+  const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IPreviousEmployee>({
-    action: employeeService.fetchPreviousEmployees,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(employeeService.fetchPreviousEmployees, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/employees/previous-employee',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

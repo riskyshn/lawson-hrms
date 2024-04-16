@@ -9,11 +9,7 @@ import { twJoin } from 'tailwind-merge'
 
 const RecentlyPostedJobsCard: React.FC = () => {
   const [department_id, setDepartmentId] = useState<string>()
-
-  const { pageData, isLoading } = useAsyncSearch<IDashboardRecentlyPostedJob>({
-    action: dashboardService.recentlyPostedJobs,
-    params: { limit: 20, department_id },
-  })
+  const { pageData, isLoading } = useAsyncSearch(dashboardService.recentlyPostedJobs, { limit: 20, department_id })
 
   const { departments } = useOrganizationStore().master
 

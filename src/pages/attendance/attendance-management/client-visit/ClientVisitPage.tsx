@@ -32,7 +32,7 @@ const ClientVisitPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/attendance/attendance-management/client-visit',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

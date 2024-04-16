@@ -25,7 +25,7 @@ const DeductionComponentsPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/payroll/deduction-components',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

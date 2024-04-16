@@ -27,7 +27,7 @@ const CandidateManagementPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/candidates/management',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, vacancy },
   })
 

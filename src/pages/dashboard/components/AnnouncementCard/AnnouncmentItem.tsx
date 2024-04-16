@@ -4,7 +4,11 @@ import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { PinIcon, Trash2Icon } from 'lucide-react'
 import { useState } from 'react'
 
-const AnnouncementItem: React.FC<{ item: IDashboardAnnouncement; onRefresh?: () => void }> = ({ item, onRefresh }) => {
+const AnnouncementItem: React.FC<{
+  item: IDashboardAnnouncement
+  onClick?: (item: IDashboardAnnouncement) => void
+  onRefresh?: () => void
+}> = ({ item, onClick, onRefresh }) => {
   const [loading, setLoading] = useState(false)
 
   const toast = useToast()
@@ -37,7 +41,7 @@ const AnnouncementItem: React.FC<{ item: IDashboardAnnouncement; onRefresh?: () 
 
   return (
     <li className="mb-3 flex overflow-hidden rounded-lg last:mb-0">
-      <button className="hoverable-default flex flex-1 flex-col gap-2 p-2">
+      <button type="button" className="hoverable-default flex flex-1 flex-col gap-2 p-2" onClick={() => onClick?.(item)}>
         <h4 className="text-sm">{item.title}</h4>
         <span className="block text-xs text-gray-500">{item.createdAt}</span>
       </button>

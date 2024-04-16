@@ -19,22 +19,21 @@ const JobRequisitionPage: React.FC = () => {
 
   const search = searchParams.get('search') || undefined
   const department = searchParams.get('department') || undefined
-  const page = searchParams.get('page') || undefined
   const status = searchParams.get('status') || undefined
 
   const { master } = useOrganizationStore()
 
   const [selectedToShowHistoryModal, setSelectedToShowHistoryModal] = useState<IVacancy | null>(null)
 
-  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch<IVacancy>({
-    action: vacancyService.fetchVacancies,
-    params: { limit: 20, status, departmentId: department, isRequisition: 1, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch(
+    vacancyService.fetchVacancies,
+    { limit: 20, status, departmentId: department, isRequisition: 1 },
+    search,
+  )
 
   const pagination = usePagination({
     pathname: '/job/requisition',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, department, status },
   })
 

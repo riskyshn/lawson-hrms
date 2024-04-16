@@ -95,3 +95,92 @@ interface ILeave {
   oid?: string
   updatedAt?: string
 }
+
+interface IEmployeeHistoryAttendance {
+  date?: string
+  records?: Array<{
+    oid: string
+    attendanceType?: string
+    earlyClockoutMinutes?: number
+    lateMinutes?: number
+    workHours?: number
+    inOffice?: boolean
+    lat?: number
+    lng?: number
+    photo?: string
+    status?: string
+    timezoneTime?: string
+    employee?: {
+      name?: string
+      employeeCode?: string
+      employment?: {
+        schedule?: {
+          name?: string
+          timezone?: {
+            title?: string
+            code?: string
+          }
+        }
+        branch?: {
+          oid: string
+          name?: string
+        }
+        position?: {
+          oid: string
+          name?: string
+        }
+        department?: {
+          oid: string
+          name?: string
+        }
+      }
+    }
+  }>
+}
+
+interface IEmployeeLeave {
+  oid: string
+  createdAt?: string
+  updatedAt?: string
+  leaveType?: {
+    oid: string
+    title?: string
+    isBalance?: boolean
+    isRequiredAttachment?: boolean
+    isSalaryDeduction?: boolean
+  }
+  employee?: {
+    name?: string
+    employeeCode?: string
+    employment?: {
+      schedule?: {
+        oid: string
+        name?: string
+        timezone?: {
+          oid: string
+          title?: string
+          code?: string
+        }
+      }
+      branch?: {
+        oid: string
+        name?: string
+      }
+      position?: {
+        oid: string
+        name?: string
+      }
+      department?: {
+        oid: string
+        name?: string
+      }
+    }
+  }
+  startDate?: string
+  endDate?: string
+  attachment?: string
+  note?: string
+  status?: string
+  duration?: number
+  rejectedReason?: string
+}

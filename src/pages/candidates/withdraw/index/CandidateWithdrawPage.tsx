@@ -33,7 +33,7 @@ const CandidateWithdrawPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/candidates/withdraw',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, vacancy, province, education },
   })
 

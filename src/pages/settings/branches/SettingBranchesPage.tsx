@@ -19,17 +19,11 @@ const SettingBranchesPage: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const page = searchParams.get('page')
-
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IPreviousEmployee>({
-    action: organizationService.fetchBranches,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchBranches, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/settings/branches',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 
