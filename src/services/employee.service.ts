@@ -23,9 +23,9 @@ export const fetchEmployees = (params: FetchEmployeesParams = {}, signal?: Gener
     .then((response) => response.data.data)
 }
 
-export const fetchPreviousEmployees = (params: FetchEmployeesParams = {}, signal?: GenericAbortSignal) => {
+export const fetchPreviousEmployees = (params: FetchEmployeesParams = {}) => {
   return axios
-    .get<{ data: IPaginationResponse<IPreviousEmployee> }>(`/employee`, { params: { ...params, status: 2 }, signal })
+    .get<{ data: IPaginationResponse<IPreviousEmployee> }>(`/employee`, { params: { ...params, status: 2 } })
     .then((response) => response.data.data)
 }
 

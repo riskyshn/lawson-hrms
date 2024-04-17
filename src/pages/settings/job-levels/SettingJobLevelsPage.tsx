@@ -18,17 +18,12 @@ const SettingJobLevelsPage: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const page = searchParams.get('page')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IJobLevel>({
-    action: organizationService.fetchJobLevels,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchJobLevels, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/settings/job-levels',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

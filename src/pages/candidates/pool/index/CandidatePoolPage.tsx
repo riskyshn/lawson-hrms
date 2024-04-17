@@ -35,7 +35,7 @@ const CandidatePoolPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/candidates/pool',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, vacancy, province, education },
   })
 

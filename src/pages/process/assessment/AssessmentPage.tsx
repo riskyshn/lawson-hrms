@@ -28,7 +28,7 @@ const AssessmentPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/process/assessment',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, vacancy, stage },
   })
 

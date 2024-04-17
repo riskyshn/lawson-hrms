@@ -15,22 +15,21 @@ import Table from './components/Table'
 const JobManajementPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
+  const search = searchParams.get('search')
   const department = searchParams.get('department') || undefined
-  const page = searchParams.get('page') || undefined
   const status = searchParams.get('status') || undefined
 
   const { master } = useOrganizationStore()
 
-  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch<IVacancy>({
-    action: vacancyService.fetchVacancies,
-    params: { limit: 20, status, departmentId: department, isRequisition: 0, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch(
+    vacancyService.fetchVacancies,
+    { limit: 20, status, departmentId: department, isRequisition: 0 },
+    search,
+  )
 
   const pagination = usePagination({
     pathname: '/job/management',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, department, status },
   })
 

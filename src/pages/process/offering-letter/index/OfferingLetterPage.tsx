@@ -31,7 +31,7 @@ const OfferingLetterPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/process/offering-letter',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, vacancy, stage },
   })
 

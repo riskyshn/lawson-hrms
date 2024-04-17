@@ -1,76 +1,96 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import useAsyncSearch from '@/hooks/use-async-search'
+import { attendanceService } from '@/services'
 import { Card } from 'jobseeker-ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
+import moment from 'moment'
 import React, { useState } from 'react'
 
 const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
 
+  const { pageData } = useAsyncSearch(attendanceService.fetchEmployeeAttendanceHistories, { attendance_group: 'clock' })
+
   const headerItems = [
     { children: 'Date', className: 'text-left' },
     { children: 'Type', className: 'text-left' },
     { children: 'Time', className: 'text-left' },
     { children: 'Status', className: 'text-left' },
-    { children: 'Location', className: 'text-left' },
-    { children: 'Attachment', className: 'text-left' },
+    { children: 'Location' },
+    { children: 'Attachment' },
   ]
 
-  const bodyItems = dummyAttendance.map((item) => ({
+  const bodyItems = pageData?.map((item) => ({
     items: [
       {
-        children: item.date,
+        children: <>{item.date}</>,
       },
       {
         children: (
           <>
-            <span className="block">{item.type[0].name}</span>
-            <span>{item.type[1].name}</span>
+            {item.records?.map((el, i) => (
+              <span key={i} className="block capitalize">
+                {el.attendanceType?.replace('_', ' ')}
+              </span>
+            ))}
           </>
         ),
       },
       {
         children: (
           <>
-            <span className="block">{item.type[0].time}</span>
-            <span>{item.type[1].time}</span>
+            {item.records?.map((el, i) => (
+              <span key={i} className="block">
+                {moment(el.timezoneTime).format('HH:mm')}
+              </span>
+            ))}
           </>
         ),
       },
       {
         children: (
           <>
-            <span className="block">{item.type[0].status}</span>
-            <span>{item.type[1].status}</span>
+            {item.records?.map((el, i) => (
+              <span key={i} className="block capitalize">
+                {el.status}
+              </span>
+            ))}
           </>
         ),
       },
       {
         children: (
-          <span className="flex gap-2">
-            <button
-              title="Maps"
-              className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => setSelectedLocation([-8.7931195, 115.1501316])}
-            >
-              <MapPinIcon size={18} />
-            </button>
-          </span>
+          <>
+            {item.records?.map((el, i) => (
+              <span
+                key={i}
+                className="flex cursor-pointer items-center justify-center text-primary-600 hover:text-primary-700"
+                onClick={() => {
+                  if (el.lat && el.lng) setSelectedLocation([el.lat, el.lng])
+                }}
+              >
+                <MapPinIcon size={14} />
+              </span>
+            ))}
+          </>
         ),
       },
       {
         children: (
-          <span className="flex gap-2">
-            <button
-              title="Maps"
-              className="text-primary-600 hover:text-primary-700 focus:outline-none"
-              onClick={() => previewImage(item.type[0].attachment)}
-            >
-              <ImageIcon size={18} />
-            </button>
-          </span>
+          <>
+            {item.records?.map((el, i) => (
+              <span
+                key={i}
+                className="flex cursor-pointer items-center justify-center text-primary-600 hover:text-primary-700"
+                onClick={() => previewImage(el.photo)}
+              >
+                <ImageIcon size={14} />
+              </span>
+            ))}
+          </>
         ),
       },
     ],
@@ -79,31 +99,9 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = () => {
   return (
     <Card>
       <MapsPreviewerModal coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} />
+      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={!pageData} />
     </Card>
   )
 }
 
 export default AttendanceTable
-
-const dummyAttendance = [
-  {
-    date: '18/03/2024',
-    type: [
-      {
-        name: 'Clock In',
-        time: '08:40:35',
-        status: 'Pending',
-        location: [-8.7931195, 115.1501316],
-        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      },
-      {
-        name: 'Clock Out',
-        time: '17:30:00',
-        status: 'Completed',
-        location: [-8.7931195, 115.1501316],
-        attachment: 'https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
-      },
-    ],
-  },
-]

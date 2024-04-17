@@ -15,24 +15,23 @@ import Table from './components/Table'
 const EmployeeManagementPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
+  const search = searchParams.get('search')
   const department = searchParams.get('department') || undefined
-  const page = searchParams.get('page') || undefined
   const branch = searchParams.get('branch') || undefined
 
   const { master } = useOrganizationStore()
 
   const [selectedToTerminate, setSelectedToTerminate] = useState<IDataTableEmployee | null>(null)
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IDataTableEmployee>({
-    action: employeeService.fetchEmployees,
-    params: { limit: 20, branchId: branch, departmentId: department, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(
+    employeeService.fetchEmployees,
+    { limit: 20, branchId: branch, departmentId: department },
+    search,
+  )
 
   const pagination = usePagination({
     pathname: '/employees/employee-management',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, department, branch },
   })
 

@@ -12,18 +12,12 @@ import Table from './components/Table'
 const GeneratedPayrollRequestPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
-  const page = searchParams.get('page') || undefined
-
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IPayrollRequest>({
-    action: payrollService.fetchPayrollRequests,
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const search = searchParams.get('search')
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(payrollService.fetchPayrollRequests, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/payroll/generated-payroll-request',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

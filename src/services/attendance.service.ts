@@ -88,3 +88,15 @@ export const downloadAttendance = (oid: string, payload: Record<string, any>) =>
   const url = `employer/export-report/${oid}?${queryString}`
   return axios.get(url).then((response) => response.data)
 }
+
+/**
+ * Request Management
+ *
+ */
+export const fetchEmployeeAttendanceHistories = (params?: { attendance_group?: string }) => {
+  return axios.get<{ data: Array<IEmployeeHistoryAttendance> }>(`/employee/history`, { params }).then((response) => response.data.data)
+}
+
+export const fetchEmployeeLeave = () => {
+  return axios.get<{ data: Array<IEmployeeLeave> }>(`/employee/leave`).then((response) => response.data.data)
+}

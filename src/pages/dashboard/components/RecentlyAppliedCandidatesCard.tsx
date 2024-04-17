@@ -6,10 +6,7 @@ import { Link } from 'react-router-dom'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 
 const RecentlyAppliedCandidatesCard: React.FC = () => {
-  const { pageData } = useAsyncSearch<IDashboardRecentlyApplied>({
-    action: dashboardService.recentlyApplied,
-    params: { limit: 20 },
-  })
+  const { pageData } = useAsyncSearch(dashboardService.recentlyApplied, { limit: 20 })
 
   return (
     <Card>

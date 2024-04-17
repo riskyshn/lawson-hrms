@@ -33,7 +33,7 @@ const CandidateOfferedPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/candidates/offered',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, vacancy, province, education },
   })
 

@@ -13,20 +13,19 @@ import Table from './Table'
 const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boolean }> = ({ item, showApprover }) => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
-  const page = searchParams.get('page') || undefined
+  const search = searchParams.get('search')
 
   const { user } = useAuthStore()
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch<IEmployeePayrollResult>({
-    action: (params: IPaginationParam) => payrollService.fetchPayrollRequestResults(item.oid, params),
-    params: { limit: 20, page },
-    input: search || '',
-  })
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(
+    (params: IPaginationParam) => payrollService.fetchPayrollRequestResults(item.oid, params),
+    { limit: 20 },
+    search,
+  )
 
   const pagination = usePagination({
     pathname: `/payroll/payroll-request/${item.oid}`,
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search },
   })
 

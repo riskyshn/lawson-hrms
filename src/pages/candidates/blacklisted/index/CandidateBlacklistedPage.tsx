@@ -28,7 +28,7 @@ const CandidateBlacklistedPage: React.FC = () => {
 
   const pagination = usePagination({
     pathname: '/candidates/blacklisted',
-    totalPage: pageData?.totalPages || 0,
+    totalPage: pageData?.totalPages,
     params: { search, vacancy, province, education },
   })
 
