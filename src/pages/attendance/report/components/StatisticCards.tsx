@@ -1,4 +1,6 @@
-import React, { memo } from 'react'
+import { attendanceService } from '@/services'
+import { Skeleton } from 'jobseeker-ui'
+import React, { memo, useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 const Card: React.FC<{
@@ -12,47 +14,54 @@ const Card: React.FC<{
   </div>
 )
 
-const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = () => {
-  const attendanceStatistics = [
-    {
-      title: 'Total Attend',
-      count: 200,
-    },
-    {
-      title: 'Total Late',
-      count: 15,
-    },
-    {
-      title: 'Total Client Visit',
-      count: 30,
-    },
-    {
-      title: 'Total Overtime',
-      count: 50,
-    },
-    {
-      title: 'Total Absent',
-      count: 10,
-    },
-    {
-      title: 'Total Leave',
-      count: 25,
-    },
-  ]
+const StatisticCards: React.FC<{ items?: IEmployee; filterDate?: any }> = ({ items, filterDate }) => {
+  const [pageData, setPageData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<any>(null)
+
+  useEffect(() => {
+    setIsLoading(true)
+    const load = async () => {
+      try {
+        if (items?.oid) {
+          const response = await attendanceService.fetchReportStatistic(items?.oid, {
+            start_date: filterDate?.startDate,
+            end_date: filterDate?.endDate,
+          })
+          setPageData(response)
+        }
+        setIsLoading(false)
+      } catch (error) {
+        setIsLoading(false)
+        setError(error)
+      }
+    }
+
+    load()
+  }, [items?.oid, filterDate])
 
   const renderCards = () => {
-    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple']
+    if (error) {
+      return Array.from(Array(5)).map((_, i) => <Card key={i} label="Failed to load Data" value="Error" />)
+    }
 
-    const cardData = attendanceStatistics.map((item: { title: string; count: number }, index: number) => ({
+    if (!pageData) return null
+
+    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple']
+    const cardData = pageData?.map((item: { title: string; count: number }, index: number) => ({
       label: item.title,
       value: item.count,
       className: `text-white bg-${colors[index]}-600`,
     }))
 
-    return cardData.map((rest: any, index: number) => <Card key={index} {...rest} />)
+    return cardData?.map((rest: any, index: number) => <Card key={index} {...rest} />)
   }
 
-  return <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-6`)}>{renderCards()}</div>
+  return (
+    <div className={twJoin('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5')}>
+      {!isLoading ? renderCards() : <Skeleton className="h-[88px]" count={5} />}
+    </div>
+  )
 }
 
 export default memo(StatisticCards)

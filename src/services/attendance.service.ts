@@ -100,3 +100,9 @@ export const fetchEmployeeAttendanceHistories = (params?: { attendance_group?: s
 export const fetchEmployeeLeave = () => {
   return axios.get<{ data: Array<IEmployeeLeave> }>(`/employee/leave`).then((response) => response.data.data)
 }
+
+export const fetchReportStatistic = (oid: string, payload: Record<string, any>) => {
+  const queryString = new URLSearchParams(payload).toString()
+  const url = `/employer/report-statistics/${oid}?${queryString}`
+  return axios.get(url).then((response) => response.data.data)
+}

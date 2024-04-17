@@ -136,7 +136,7 @@ const ViewPage: React.FC = () => {
           <>
             <div className="flex flex-col">
               <CardBody className="p-0">
-                <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
+                <div className="chrome-scrollbar flex gap-3 overflow-x-scroll pb-2">
                   {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
                     <PageCard key={index} label={label} activeLabel={'Attendance'} />
                   ))}
@@ -160,7 +160,7 @@ const ViewPage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <ProfileCard items={pageDataEmployee} />
+        <ProfileCard items={pageDataEmployee} filterDate={filterDate} />
         <MainCard
           header={(open, toggleOpen) => (
             <MainCardHeader

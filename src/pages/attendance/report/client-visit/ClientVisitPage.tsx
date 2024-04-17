@@ -98,7 +98,7 @@ const ClientVisitPage: React.FC = () => {
         subtitle="Manage Your Team Report"
         actions={
           <CardBody className="p-0">
-            <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
+            <div className="chrome-scrollbar flex gap-3 overflow-x-scroll pb-2">
               {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
                 <PageCard key={index} label={label} activeLabel={'Client Visit'} />
               ))}

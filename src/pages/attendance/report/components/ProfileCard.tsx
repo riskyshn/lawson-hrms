@@ -7,9 +7,10 @@ import StatisticCards from './StatisticCards'
 type PropType = {
   items?: IEmployee
   children?: React.ReactNode
+  filterDate?: any
 }
 
-const ProfileCard: React.FC<PropType> = ({ items, children }) => {
+const ProfileCard: React.FC<PropType> = ({ items, children, filterDate }) => {
   const md = useBreakpoint('md')
 
   return (
@@ -52,7 +53,7 @@ const ProfileCard: React.FC<PropType> = ({ items, children }) => {
               </div>
             </div>
 
-            <StatisticCards />
+            <StatisticCards items={items} filterDate={filterDate} />
           </div>
         </div>
       </CardBody>
