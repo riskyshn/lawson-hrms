@@ -1,8 +1,7 @@
-import MainModal from '@/components/Elements/Modals/MainModal'
 import { authorityService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -54,26 +53,25 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   })
 
   return (
-    <MainModal className="max-w-xl" show={show}>
-      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <h4 className="mb-4 text-2xl font-semibold">Create Role</h4>
-
+    <Modal as="form" show={show} onSubmit={onSubmit}>
+      <ModalHeader subTitle="Set up a new role for your company" onClose={onClose}>
+        Create Role
+      </ModalHeader>
+      <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-
         <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
         <Input label="Code" labelRequired error={errors.code?.message} {...register('code')} />
         <Textarea label="Description" labelRequired rows={6} error={errors.description?.message} {...register('description')} />
-
-        <div className="mt-8 flex justify-end gap-3">
-          <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
-            Next
-          </Button>
-        </div>
-      </form>
-    </MainModal>
+      </div>
+      <ModalFooter>
+        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+          Next
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

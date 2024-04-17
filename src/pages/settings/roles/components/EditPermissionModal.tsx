@@ -1,9 +1,8 @@
-import MainModal from '@/components/Elements/Modals/MainModal'
 import { authorityService } from '@/services'
-import { Button, useToast } from 'jobseeker-ui'
+import { axiosErrorMessage } from '@/utils/axios'
+import { Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import React, { useEffect, useMemo, useState } from 'react'
 import PermissionItem, { PermissionItemSkeleton } from './PermissionItem'
-import { axiosErrorMessage } from '@/utils/axios'
 
 type EditPermissionModalProps = {
   role?: IRole | null
@@ -78,13 +77,18 @@ const EditPermissionModal: React.FC<EditPermissionModalProps> = ({ role: newRole
   if (modalError) throw modalError
 
   return (
-    <MainModal className="max-w-xl" show={!!newRole}>
-      <h3 className="text-xl font-semibold">Access Managemet</h3>
-      <p className="mb-3 text-xs">
-        Edit Access Managemet For Role <span className="text-primary-600">{role?.name}</span>
-      </p>
-
-      <div className="flex flex-col gap-3">
+    <Modal show={!!newRole}>
+      <ModalHeader
+        subTitle={
+          <>
+            Edit Access Managemet For Role <span className="text-primary-600">{role?.name}</span>
+          </>
+        }
+        onClose={onClose}
+      >
+        Access Managemet
+      </ModalHeader>
+      <div className="flex flex-col gap-3 p-3">
         {isLoadPermissionsLoading && Array.from(Array(3)).map((_, i) => <PermissionItemSkeleton key={i} />)}
 
         {!isLoadPermissionsLoading &&
@@ -99,15 +103,15 @@ const EditPermissionModal: React.FC<EditPermissionModalProps> = ({ role: newRole
           ))}
       </div>
 
-      <div className="flex justify-end gap-3 pt-3">
+      <ModalFooter>
         <Button type="button" color="error" variant="light" className="w-24" disabled={isSubmitLoading} onClick={onClose}>
           Cancel
         </Button>
         <Button type="button" color="primary" className="w-24" disabled={isSubmitLoading} loading={isSubmitLoading} onClick={handleSubmit}>
           Save
         </Button>
-      </div>
-    </MainModal>
+      </ModalFooter>
+    </Modal>
   )
 }
 
