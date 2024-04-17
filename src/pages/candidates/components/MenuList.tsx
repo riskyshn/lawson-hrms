@@ -8,6 +8,8 @@ import {
   CalendarDaysIcon,
   CopyPlusIcon,
   HistoryIcon,
+  LaptopIcon,
+  NewspaperIcon,
   RefreshCwIcon,
   SendIcon,
   SendToBackIcon,
@@ -43,6 +45,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
     setShowOptionModal(true)
 
     let payload: any
+    const formattedName = encodeURIComponent(candidate.name || '').replace(/%20/g, '+')
 
     switch (option) {
       case 'Move to Another Vacancy':
@@ -92,6 +95,12 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
 
       case 'View Profile':
         navigate(`/candidates/profile/${candidate.candidateId || candidate.id}`)
+        break
+      case 'Go to Interview':
+        navigate(`/process/interview?search=${formattedName}`)
+        break
+      case 'Go to Assessment':
+        navigate(`/process/assessment?search=${formattedName}`)
         break
       default:
         break
@@ -171,7 +180,15 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
   return (
     <div className="text-center">
       <Menu as="div" className="relative">
-        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
+        <Menu.Button
+          as={Button}
+          color="primary"
+          variant="light"
+          size="small"
+          block
+          className="text-xs"
+          disabled={candidate.status === 'Locked'}
+        >
           Action
         </Menu.Button>
         <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
@@ -206,6 +223,12 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
                     <ShoppingBagIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
                   {option === 'View Profile' && <UserIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
+                  {option == 'Go to Interview' && (
+                    <LaptopIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+                  {option == 'Go to Assessment' && (
+                    <NewspaperIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
                   {option}
                 </button>
               )}
