@@ -108,7 +108,7 @@ const ClientVisitPage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <ProfileCard items={pageDataEmployee} />
+        <ProfileCard items={pageDataEmployee} filterDate={filterDate} />
         <MainCard
           header={(open, toggleOpen) => (
             <MainCardHeader
