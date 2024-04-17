@@ -4,7 +4,6 @@ import { dashboardService } from '@/services'
 import { BaseInputDate, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
 import moment from 'moment'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import AnnouncementItem from './AnnouncmentItem'
 import CreateModal from './CreateModal'
 import PreviewModal from './PreviewModal'
@@ -55,15 +54,10 @@ const AnnouncementCard: React.FC = () => {
             )}
 
             <LoadingScreen show={isLoading} />
-            <div className="p-3">
-              <Button variant="light" block onClick={() => setShow(true)}>
-                Quick publish an announcement
-              </Button>
-            </div>
           </CardBody>
           <CardFooter>
-            <Button as={Link} to="/attendance/announcement" block color="primary" variant="light">
-              See All Announcement
+            <Button type="button" block color="primary" variant="light" onClick={() => setShow(true)}>
+              Quick publish an announcement
             </Button>
           </CardFooter>
         </>

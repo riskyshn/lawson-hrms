@@ -36,7 +36,7 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-1">
+        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <div className="flex flex-col gap-3">
             <UpcomingScheduleCard />
             <RecentlyAppliedCandidatesCard />
