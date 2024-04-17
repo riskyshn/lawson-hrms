@@ -61,12 +61,8 @@ export const fetchRequestManagement = (params?: FetchAttendanceParams, signal?: 
   return axios.get<{ data: IPaginationResponse<ILeave> }>(`/employer/leave`, { params, signal }).then((response) => response.data.data)
 }
 
-export const approvedRequestManagement = (oid: string) => {
-  return axios.patch(`/employer/leave/${oid}/approved`).then((response) => response.data.data)
-}
-
-export const rejectedRequestManagement = (oid: string) => {
-  return axios.patch(`/employer/leave/${oid}/rejected`).then((response) => response.data.data)
+export const updateRequest = (payload: Record<string, any>) => {
+  return axios.post(`/employer/leave/update-status`, payload).then((response) => response.data.data)
 }
 
 export const fetchStatistic = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
