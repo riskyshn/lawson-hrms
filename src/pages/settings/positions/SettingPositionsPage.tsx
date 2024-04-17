@@ -1,58 +1,32 @@
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { organizationService } from '@/services'
 import { Button } from 'jobseeker-ui'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import CardHeader from '../components/CardHeader'
-import Table from './components/Table'
 import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
+import Table from './components/Table'
 
 const SettingPositionsPage: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
-  const [pageData, setPageData] = useState<IPaginationResponse<IPosition>>()
-  const [pageError, setPageError] = useState<any>()
   const [toUpdateSelected, setToUpdateSelected] = useState<IPosition | null>(null)
-  const [loadData, setLoadData] = useState(false)
+  const [searchParams] = useSearchParams()
+
+  const search = searchParams.get('search')
+
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchPositions, { limit: 20 }, search)
 
   const pagination = usePagination({
     pathname: '/settings/positions',
     totalPage: pageData?.totalPages,
+    params: { search },
   })
 
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const load = async (signal: AbortSignal) => {
-      setIsLoading(true)
-      try {
-        const data = await organizationService.fetchPositions({ page: pagination.currentPage, limit: 20 }, signal)
-        setPageData(data)
-        setIsLoading(false)
-      } catch (e: any) {
-        if (e.message !== 'canceled') setPageError(e)
-      }
-    }
-
-    load(signal)
-    return () => controller.abort()
-  }, [loadData, pagination.currentPage])
-
-  const handleUpdate = useCallback(
-    (data: IPosition) => {
-      if (!pageData) return
-      setPageData({ ...pageData, content: pageData.content.map((el) => (el.oid === data.oid ? data : el)) })
-    },
-    [pageData],
-  )
-
-  const refreshPageData = useCallback(() => setLoadData((value) => !value), [])
-
-  if (pageError) throw pageError
   return (
     <>
       <PageHeader
@@ -60,27 +34,20 @@ const SettingPositionsPage: React.FC = () => {
         title="Position"
         subtitle="Manage Your Company Position"
         actions={
-          <>
-            <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-              Add New Position
-            </Button>
-          </>
+          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+            Add New Position
+          </Button>
         }
       />
 
-      <CreateModal show={showCreateModal} onCreated={refreshPageData} onClose={() => setShowCreateModal(false)} />
-      <EditModal item={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={handleUpdate} />
+      <CreateModal show={showCreateModal} onCreated={onRefresh} onClose={() => setShowCreateModal(false)} />
+      <EditModal item={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Position" total={pageData?.totalElements} />}
+          header={<CardHeader name="Position" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
-            <Table
-              items={pageData?.content || []}
-              loading={isLoading}
-              setSelectedToUpdate={setToUpdateSelected}
-              onDeleted={refreshPageData}
-            />
+            <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
           footer={pagination.render()}
         />
