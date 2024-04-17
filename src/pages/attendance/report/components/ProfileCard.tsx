@@ -4,88 +4,60 @@ import { MailIcon, MapPinnedIcon, PhoneIcon } from 'lucide-react'
 import React from 'react'
 import StatisticCards from './StatisticCards'
 
-type ProfileData = {
-  name?: string
-  title?: string
-  phone?: string
-  email?: string
-  location?: string
-  avatarUrl?: string
-}
-
 type PropType = {
-  items?: ProfileData
+  items?: IEmployee
   children?: React.ReactNode
+  filterDate?: any
 }
 
-const ProfileCard: React.FC<PropType> = ({ items = {}, children }) => {
+const ProfileCard: React.FC<PropType> = ({ items, children, filterDate }) => {
   const md = useBreakpoint('md')
-
-  // Destructure the items prop for easier access
-  const {
-    name = 'Name not available',
-    title = 'Title not available',
-    phone = 'Phone not available',
-    email = 'Email not available',
-    location = 'Location not available',
-    avatarUrl,
-  } = items
 
   return (
     <Card>
       <CardBody className="flex items-center gap-3">
-        {/* Display Avatar */}
         <div className="flex">
-          <Avatar name={name} size={md ? 128 : 64} src={avatarUrl} className="flex bg-primary-100 text-2xl text-primary-700" />
+          <Avatar name={items?.name || ''} size={md ? 128 : 64} className="flex bg-primary-100 text-2xl text-primary-700" />
         </div>
 
-        {/* Display Profile Details */}
         <div className="flex flex-1 flex-col gap-3 lg:flex-row">
           <div className="flex-1">
-            {/* Display Name */}
-            <span className="mb-2 block text-lg font-semibold lg:text-2xl">{name}</span>
+            <span className="mb-2 block text-lg font-semibold lg:text-2xl">{items?.name}</span>
 
-            {/* Display Title */}
             <div className="mb-4 flex flex-col lg:gap-3">
               <div className="flex items-center gap-2">
-                <span className="block text-sm">{title}</span>
+                <span className="block text-sm">{items?.employment?.position?.name}</span>
               </div>
 
-              {/* Display Contact Details */}
               <div className="flex flex-1 items-center gap-2">
-                {/* Display Phone */}
-                {phone && (
+                {items?.personalData?.phoneNumber && (
                   <div className="mr-4 flex items-center gap-2">
                     <PhoneIcon className="text-gray-400" size={14} />
-                    <span className="block text-sm">{phone}</span>
+                    <span className="block text-sm">{items?.personalData?.phoneNumber}</span>
                   </div>
                 )}
 
-                {/* Display Email */}
-                {email && (
+                {items?.email && (
                   <div className="mr-4 flex items-center gap-2">
                     <MailIcon className="text-gray-400" size={14} />
-                    <span className="block text-sm">{email}</span>
+                    <span className="block text-sm">{items?.email}</span>
                   </div>
                 )}
 
-                {/* Display Location */}
-                {location && (
+                {items?.employment?.branch?.name && (
                   <div className="mr-4 flex items-center gap-2">
                     <MapPinnedIcon className="text-gray-400" size={14} />
-                    <span className="block text-sm">{location}</span>
+                    <span className="block text-sm">{items?.employment?.branch?.name}</span>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Display Statistics */}
-            <StatisticCards />
+            <StatisticCards items={items} filterDate={filterDate} />
           </div>
         </div>
       </CardBody>
 
-      {/* Display children components */}
       {children}
     </Card>
   )
