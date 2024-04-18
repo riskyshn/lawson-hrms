@@ -24,6 +24,10 @@ const Navbar: React.FC = () => {
     navigate('/calendar')
   }
 
+  const handleChat = () => {
+    navigate('/chat')
+  }
+
   return (
     <BaseNavbar className="bg-white/80 backdrop-blur">
       <NavbarBrand>
@@ -60,7 +64,7 @@ const Navbar: React.FC = () => {
           <div className="relative flex flex-1 items-center justify-end gap-3">
             <NavbarInfo />
 
-            <Button iconOnly variant="light">
+            <Button iconOnly variant="light" onClick={handleChat}>
               <MessageCircle size={16} />
             </Button>
 
