@@ -5,8 +5,8 @@ import { Modal } from 'jobseeker-ui'
 import { Circle, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 type MapsPreviewerModalProps = {
-  coordinates?: [number, number]
-  radiusCoordinates?: [number, number]
+  coordinates?: [number, number] | null
+  radiusCoordinates?: [number, number] | null
   radius?: number
   zoom?: number
   onClose: () => void
@@ -15,7 +15,7 @@ type MapsPreviewerModalProps = {
 const MapsPreviewerModal: React.FC<MapsPreviewerModalProps> = ({ coordinates, radiusCoordinates, radius, zoom, onClose }) => {
   const [data, setData] = useState<{
     coordinates: [number, number]
-    radiusCoordinates?: [number, number]
+    radiusCoordinates?: [number, number] | null
     radius?: number
     zoom?: number
   }>()
