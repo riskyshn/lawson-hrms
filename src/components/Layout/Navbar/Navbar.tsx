@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import NavbarProfile from './NavbarProfile'
-import { Calendar, Menu, MessageCircle, Search } from 'lucide-react'
-import NavbarInfo from './NavbarInfo'
-import { twJoin } from 'tailwind-merge'
-import { useLayout, Navbar as BaseNavbar, NavbarBrand, NavbarNav, Button, usePubSub } from 'jobseeker-ui'
-import NavbarNotification from './NavbarNotification'
 import LogoFull from '@/components/Logo/LogoFull'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
 import { useOrganizationStore } from '@/store'
+import { Navbar as BaseNavbar, Button, NavbarBrand, NavbarNav, useLayout, usePubSub } from 'jobseeker-ui'
+import { Calendar, Menu, MessageCircle, Search } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { twJoin } from 'tailwind-merge'
+import NavbarInfo from './NavbarInfo'
+import NavbarNotification from './NavbarNotification'
+import NavbarProfile from './NavbarProfile'
 
 const Navbar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
@@ -24,12 +24,21 @@ const Navbar: React.FC = () => {
       pubSub.publish(ON_NAVBAR_SEARCH_CLICKED, null)
     }
   }
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onResize = () => setOpen(false)
     addEventListener('resize', onResize)
     return () => removeEventListener('resize', onResize)
   }, [])
+
+  const handleCalendar = () => {
+    navigate('/calendar')
+  }
+
+  const handleChat = () => {
+    navigate('/chat')
+  }
 
   return (
     <BaseNavbar className="bg-white/80 backdrop-blur">
@@ -70,13 +79,13 @@ const Navbar: React.FC = () => {
           <div className="relative flex flex-1 items-center justify-end gap-3">
             <NavbarInfo />
 
-            <Button iconOnly variant="light">
+            <Button iconOnly variant="light" onClick={handleChat}>
               <MessageCircle size={16} />
             </Button>
 
             <NavbarNotification />
 
-            <Button iconOnly variant="light">
+            <Button iconOnly variant="light" onClick={handleCalendar}>
               <Calendar size={16} />
             </Button>
 

@@ -11,6 +11,8 @@ import attendanceRoute from './attendance.route'
 import payrollRoute from './payroll.route'
 import cmsRoute from './cms.route'
 import reportRoute from './report.route'
+import calendarRoute from './calendar.route'
+import chatRoute from './chat.route'
 
 export const mainRoute: RouteObject = {
   element: <MainLayout />,
@@ -25,5 +27,7 @@ export const mainRoute: RouteObject = {
     payrollRoute,
     cmsRoute,
     reportRoute,
+    calendarRoute,
+    chatRoute,
   ],
 }

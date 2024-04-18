@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import {
   EditIcon,
@@ -37,6 +37,22 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const confirm = useConfirm()
   const toast = useToast()
   const navigate = useNavigate()
+  const [stageComplete, setStageComplete] = useState(false)
+
+  useEffect(() => {
+    const load = async (applicantId: string) => {
+      try {
+        const response = await processService.fetchDetailStages(applicantId)
+        const stages = response.content
+        const allStagesUnavailable = stages.every((stage) => stage.isAvailable === false)
+        setStageComplete(allStagesUnavailable)
+      } catch (error) {
+        console.error('Error fetching stages data:', error)
+      }
+    }
+
+    load(item.oid)
+  }, [item.oid])
 
   const createMenuItem = (
     text: string,
@@ -83,7 +99,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
 
     try {
       await processService.moveToOfferingLetter({ applicantId: item.oid })
-      toast('Success fully move item to offering letter.', { color: 'success' })
+      toast('Successfully moved item to offering letter.', { color: 'success' })
       navigate('/process/offering-letter')
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
@@ -111,26 +127,48 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     navigate(`/employees/employee-management/create?applicantId=${item.oid}`),
   )
 
-  const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
+  const generateMenuItems = (status: string): Table.ActionMenuItemProps[] => {
+    const menu = []
+
     // Action menu items for applications in the "Process" status (0).
-    '0': [updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    if (status === '0') {
+      if (!stageComplete) {
+        menu.push(process)
+      }
+      menu.push(updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw)
+    }
+
     // Action menu items for applications in the "Passed" status (1).
-    '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Failed" status (2).
-    '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    if (status === '1' || status === '2') {
+      if (!stageComplete) {
+        menu.push(process)
+      }
+      menu.push(offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw)
+    }
+
     // Action menu items for applications in the "Waiting for Documents" status (3).
-    '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject, withdraw],
-    // Action menu items for applications in the "Ready to Offer" status (4).
-    '4': [createOfferingLetter, editDocuments, viewHistory, blacklist, reject, withdraw],
-    // Action menu items for applications in the "Offering Letter Sent" status (5).
-    '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw],
-    // Action menu items for applications in the "Offering Signed" status (6).
-    '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
-    // Action menu items for applications in the "Waiting to Join" status (7).
-    '7': [addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw],
+    if (status === '3') {
+      menu.push(createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject, withdraw)
+    } else if (status === '4') {
+      // Action menu items for applications in the "Ready to Offer" status (4).
+      menu.push(createOfferingLetter, editDocuments, viewHistory, blacklist, reject, withdraw)
+    } else if (status === '5') {
+      // Action menu items for applications in the "Offering Letter Sent" status (5).
+      menu.push(reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw)
+    } else if (status === '6') {
+      // Action menu items for applications in the "Offering Signed" status (6).
+      menu.push(viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw)
+    } else if (status === '7') {
+      // Action menu items for applications in the "Waiting to Join" status (7).
+      menu.push(addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw)
+    }
+
+    return menu
   }
 
-  const menu = menuItems[item.status?.oid || '0']
+  // Use the function to get menu items based on status and stageComplete
+  const menu = generateMenuItems(item.status?.oid || '0')
 
   if (!menu) return null
 

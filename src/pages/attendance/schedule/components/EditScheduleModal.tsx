@@ -39,6 +39,20 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
       setIsLoading(true)
       setErrorMessage('')
 
+      let isFormValid = true
+      daySchedules.forEach((schedule) => {
+        if (!schedule.start || !schedule.end) {
+          schedule.isActive = false
+          isFormValid = false
+        }
+      })
+
+      if (!isFormValid) {
+        setErrorMessage('Start and end times must not be empty.')
+        setIsLoading(false)
+        return
+      }
+
       const hasActiveSchedule = daySchedules.some((schedule) => schedule.isActive)
 
       if (!hasActiveSchedule) {
@@ -74,6 +88,16 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
     setDaySchedules((prevState) => {
       const updatedSchedules = [...prevState]
       updatedSchedules[index] = { ...updatedSchedules[index], [field]: value }
+
+      if (field === 'isActive') {
+        const startTime = updatedSchedules[index].start
+        const endTime = updatedSchedules[index].end
+
+        if (!startTime || startTime === '00:00' || !endTime || endTime === '00:00') {
+          updatedSchedules[index].isActive = false
+        }
+      }
+
       return updatedSchedules
     })
   }
@@ -98,6 +122,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
         <Input label="Schedule Name" defaultValue={items.name} labelRequired required {...register('name')} />
+
         <Select
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
@@ -117,20 +142,20 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
                 className="w-full"
                 value={schedule.start}
                 onChange={(e) => handleInputChange(index, 'start', e.target.value)}
-                defaultValue={schedule.start || '00:00'}
               />
+
               <Input
                 type="time"
                 className="w-full"
                 value={schedule.end}
                 onChange={(e) => handleInputChange(index, 'end', e.target.value)}
-                defaultValue={schedule.end || '00:00'}
               />
+
               <label className="inline-flex cursor-pointer items-center">
                 <input
                   type="checkbox"
                   className="peer sr-only"
-                  checked={schedule.isActive && schedule.start !== '' && schedule.end !== ''}
+                  checked={schedule.isActive}
                   onChange={(e) => handleInputChange(index, 'isActive', e.target.checked)}
                 />
                 <div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800 rtl:peer-checked:after:-translate-x-full"></div>
