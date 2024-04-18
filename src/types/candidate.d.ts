@@ -19,6 +19,7 @@ interface ICandidate {
   applyDate?: string
   source?: string
   status?: string
+  module?: string
   candidateMatches?: {
     requirementType: string
     vacancyData: string
