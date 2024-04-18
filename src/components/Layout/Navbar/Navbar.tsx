@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import NavbarProfile from './NavbarProfile'
 import { Calendar, Menu, MessageCircle, Search } from 'lucide-react'
 import NavbarInfo from './NavbarInfo'
@@ -16,6 +16,8 @@ const Navbar: React.FC = () => {
   const pubSub = usePubSub()
   const { company } = useOrganizationStore()
 
+  
+  const navigate = useNavigate()
   const router = useLocation()
 
   const handleSearchClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
@@ -30,6 +32,14 @@ const Navbar: React.FC = () => {
     addEventListener('resize', onResize)
     return () => removeEventListener('resize', onResize)
   }, [])
+
+  const handleCalendar = () => {
+    navigate('/calendar')
+  }
+
+  const handleChat = () => {
+    navigate('/chat')
+  }
 
   return (
     <BaseNavbar className="bg-white/80 backdrop-blur">
@@ -70,13 +80,13 @@ const Navbar: React.FC = () => {
           <div className="relative flex flex-1 items-center justify-end gap-3">
             <NavbarInfo />
 
-            <Button iconOnly variant="light">
+            <Button iconOnly variant="light" onClick={handleChat}>
               <MessageCircle size={16} />
             </Button>
 
             <NavbarNotification />
 
-            <Button iconOnly variant="light">
+            <Button iconOnly variant="light" onClick={handleCalendar}>
               <Calendar size={16} />
             </Button>
 
