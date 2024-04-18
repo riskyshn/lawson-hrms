@@ -1,14 +1,14 @@
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import NavbarProfile from './NavbarProfile'
+import { Calendar, Menu, MessageCircle, Search } from 'lucide-react'
+import NavbarInfo from './NavbarInfo'
+import { twJoin } from 'tailwind-merge'
+import { useLayout, Navbar as BaseNavbar, NavbarBrand, NavbarNav, Button, usePubSub } from 'jobseeker-ui'
+import NavbarNotification from './NavbarNotification'
 import LogoFull from '@/components/Logo/LogoFull'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
 import { useOrganizationStore } from '@/store'
-import { Navbar as BaseNavbar, Button, NavbarBrand, NavbarNav, useLayout, usePubSub } from 'jobseeker-ui'
-import { Calendar, Menu, MessageCircle, Search } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { twJoin } from 'tailwind-merge'
-import NavbarInfo from './NavbarInfo'
-import NavbarNotification from './NavbarNotification'
-import NavbarProfile from './NavbarProfile'
 
 const Navbar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
@@ -16,6 +16,7 @@ const Navbar: React.FC = () => {
   const pubSub = usePubSub()
   const { company } = useOrganizationStore()
 
+  const navigate = useNavigate()
   const router = useLocation()
 
   const handleSearchClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
@@ -24,7 +25,6 @@ const Navbar: React.FC = () => {
       pubSub.publish(ON_NAVBAR_SEARCH_CLICKED, null)
     }
   }
-  const navigate = useNavigate()
 
   useEffect(() => {
     const onResize = () => setOpen(false)
