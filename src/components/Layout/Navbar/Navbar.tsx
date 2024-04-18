@@ -1,18 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import NavbarProfile from './NavbarProfile'
 import { Calendar, Menu, MessageCircle, Search } from 'lucide-react'
 import NavbarInfo from './NavbarInfo'
 import { twJoin } from 'tailwind-merge'
-import { useLayout, Navbar as BaseNavbar, NavbarBrand, NavbarNav, Button } from 'jobseeker-ui'
+import { useLayout, Navbar as BaseNavbar, NavbarBrand, NavbarNav, Button, usePubSub } from 'jobseeker-ui'
 import NavbarNotification from './NavbarNotification'
 import LogoFull from '@/components/Logo/LogoFull'
-import { useNavigate } from 'react-router-dom'
+import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
+import { useOrganizationStore } from '@/store'
 
 const Navbar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
   const [open, setOpen] = useState(false)
+  const pubSub = usePubSub()
+  const { company } = useOrganizationStore()
+
   const navigate = useNavigate()
+  const router = useLocation()
+
+  const handleSearchClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    if (router.pathname === '/explore') {
+      e.preventDefault()
+      pubSub.publish(ON_NAVBAR_SEARCH_CLICKED, null)
+    }
+  }
 
   useEffect(() => {
     const onResize = () => setOpen(false)
@@ -32,12 +44,13 @@ const Navbar: React.FC = () => {
     <BaseNavbar className="bg-white/80 backdrop-blur">
       <NavbarBrand>
         <Link to="/">
-          <LogoFull height={40} />
+          {!company?.logo?.file && <LogoFull height={40} />}
+          {!!company?.logo?.file && <img src={company.logo.file} alt={company.name} height={40} />}
         </Link>
       </NavbarBrand>
 
       <NavbarNav className="justify-end gap-3 xl:px-8">
-        <Button className="lg:hidden" variant="light">
+        <Button as={Link} to="/explore" className="lg:hidden" variant="light" onClick={handleSearchClick}>
           <Search size={16} />
         </Button>
 
@@ -46,13 +59,15 @@ const Navbar: React.FC = () => {
         </Button>
 
         <Button
+          as={Link}
+          to="/explore"
           variant="light"
           block
-          leftChild={<Search size={16} className="h-4 w-4" />}
-          rightChild={<Menu size={16} className="ml-auto h-4 w-4" />}
-          className="mr-auto hidden w-1/3 lg:flex"
+          rightChild={<Search size={16} className="ml-auto h-4 w-4" />}
+          className="mr-auto hidden w-1/4 lg:flex"
+          onClick={handleSearchClick}
         >
-          Search by Location / Position
+          Explore Candidates
         </Button>
 
         <div
