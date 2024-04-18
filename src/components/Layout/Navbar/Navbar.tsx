@@ -7,16 +7,22 @@ import { twJoin } from 'tailwind-merge'
 import { useLayout, Navbar as BaseNavbar, NavbarBrand, NavbarNav, Button } from 'jobseeker-ui'
 import NavbarNotification from './NavbarNotification'
 import LogoFull from '@/components/Logo/LogoFull'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const onResize = () => setOpen(false)
     addEventListener('resize', onResize)
     return () => removeEventListener('resize', onResize)
   }, [])
+
+  const handleCalendar = () => {
+    navigate('/calendar')
+  }
 
   return (
     <BaseNavbar className="bg-white/80 backdrop-blur">
@@ -60,7 +66,7 @@ const Navbar: React.FC = () => {
 
             <NavbarNotification />
 
-            <Button iconOnly variant="light">
+            <Button iconOnly variant="light" onClick={handleCalendar}>
               <Calendar size={16} />
             </Button>
 

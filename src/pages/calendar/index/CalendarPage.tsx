@@ -17,7 +17,20 @@ const CalendarPage: React.FC = () => {
   }
 
   const handleEventClick = (info: any) => {
-    setSelectedEvent(info.event)
+    // Accessing extended properties
+    const event = info.event
+    const extendedProps = event.extendedProps || {}
+
+    setSelectedEvent({
+      title: event.title,
+      start: event.start ? event.start.toISOString() : '',
+      end: event.end ? event.end.toISOString() : '',
+      guest: extendedProps.guest || [],
+      description: extendedProps.description || '',
+      location: extendedProps.location || '',
+      timezone: extendedProps.timezone || '',
+    })
+
     setIsModalOpen(true)
   }
 
@@ -39,36 +52,41 @@ const CalendarPage: React.FC = () => {
               title: 'Morning Meeting',
               start: '2024-04-17T09:00:00',
               end: '2024-04-17T10:00:00',
+              extendedProps: {
+                guest: ['abc@gmail.com'],
+                description:
+                  'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam itaque non delectus ex a exercitationem suscipit tempore vitae dolorem vero labore aliquid dicta officiis repellendus fuga, cum incidunt quas dignissimos.',
+                location: 'JH Office',
+                timezone: 'GMT+7',
+              },
             },
             {
               title: 'Lunch Break',
               start: '2024-04-17T12:00:00',
               end: '2024-04-17T13:00:00',
+              extendedProps: {
+                guest: ['abc@gmail.com'],
+                description: 'Lorem ipsum dolor sit amet consectetur...',
+                location: 'JH Office',
+                timezone: 'GMT+7',
+              },
             },
             {
               title: 'Afternoon Meeting',
               start: '2024-04-17T14:00:00',
               end: '2024-04-17T15:00:00',
+              extendedProps: {
+                guest: ['abc@gmail.com'],
+                description: 'Lorem ipsum dolor sit amet consectetur...',
+                location: 'JH Office',
+                timezone: 'GMT+7',
+              },
             },
           ]}
           eventClick={handleEventClick}
         />
 
-        <Modal
-          show={isModalOpen}
-          onClose={closeModal}
-          items={
-            selectedEvent
-              ? {
-                  title: selectedEvent.title,
-                  start: selectedEvent.start
-                    ? `${selectedEvent.start.toLocaleDateString()} ${selectedEvent.start.toLocaleTimeString()}`
-                    : '',
-                  end: selectedEvent.end ? `${selectedEvent.end.toLocaleDateString()} ${selectedEvent.end.toLocaleTimeString()}` : '',
-                }
-              : null
-          }
-        />
+        <Modal show={isModalOpen} onClose={closeModal} items={selectedEvent} />
       </Container>
     </>
   )
