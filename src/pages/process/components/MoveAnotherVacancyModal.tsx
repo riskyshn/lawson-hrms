@@ -35,8 +35,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
     try {
       await candidateService.moveToAnotherVacancy({
         applicantId: applicant.oid,
-        vacancyId: applicant.vacancy?.oid,
-        newVacancyId: selectedVacancyId,
+        vacancyId: selectedVacancyId,
       })
 
       toast('Apply to another vacancy successfully created.', { color: 'success' })

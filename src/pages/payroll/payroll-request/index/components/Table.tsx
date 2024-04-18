@@ -3,6 +3,7 @@ import { Badge, Button, Color } from 'jobseeker-ui'
 import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import ActionMenu from './ActionMenu'
 
 const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading }) => {
   const headerItems = [
@@ -15,7 +16,7 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
     { children: 'Action', className: 'w-24' },
   ]
 
-  const bodyItems = items.map((item) => ({
+  const bodyItems = items.map((item, index) => ({
     items: [
       { children: <span className="block font-semibold">{item.name}</span> },
       {
@@ -34,11 +35,14 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
         className: 'text-center',
       },
       {
-        children: (
-          <Button as={Link} block color="primary" size="small" to={`/payroll/payroll-request/${item.oid}`}>
-            Detail
-          </Button>
-        ),
+        children:
+          item.status?.oid === '1' ? (
+            <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} />
+          ) : (
+            <Button as={Link} block color="primary" className="text-xs" size="small" to={`/payroll/payroll-request/${item.oid}`}>
+              Detail
+            </Button>
+          ),
       },
     ],
   }))
