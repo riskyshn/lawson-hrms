@@ -6,23 +6,29 @@ import { Circle, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 type MapsPreviewerModalProps = {
   coordinates?: [number, number] | null
+  radiusCoordinates?: [number, number] | null
   radius?: number
   zoom?: number
   onClose: () => void
 }
 
-const MapsPreviewerModal: React.FC<MapsPreviewerModalProps> = ({ coordinates, radius, zoom, onClose }) => {
-  const [data, setData] = useState<{ coordinates: [number, number]; radius?: number; zoom?: number }>()
+const MapsPreviewerModal: React.FC<MapsPreviewerModalProps> = ({ coordinates, radiusCoordinates, radius, zoom, onClose }) => {
+  const [data, setData] = useState<{
+    coordinates: [number, number]
+    radiusCoordinates?: [number, number] | null
+    radius?: number
+    zoom?: number
+  }>()
   const ref = useRef<Map>(null)
 
   useEffect(() => {
     if (coordinates) {
-      setData({ coordinates, radius, zoom })
+      setData({ coordinates, radiusCoordinates, radius, zoom })
       setTimeout(() => {
         ref.current?.invalidateSize()
       }, 100)
     }
-  }, [coordinates, radius, zoom])
+  }, [coordinates, radiusCoordinates, radius, zoom])
 
   if (!data) return null
 
@@ -45,8 +51,8 @@ const MapsPreviewerModal: React.FC<MapsPreviewerModalProps> = ({ coordinates, ra
             </div>
           </Popup>
         </Marker>
-        {radius && (
-          <Circle center={data.coordinates} className="fill-primary-600 stroke-primary-600" radius={radius}>
+        {radius && radiusCoordinates && (
+          <Circle center={radiusCoordinates} className="fill-primary-600 stroke-primary-600" radius={radius}>
             <Popup>
               <div>
                 <h3 className="text-lg font-semibold">Area Details</h3>

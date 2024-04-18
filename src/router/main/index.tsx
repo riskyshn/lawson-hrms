@@ -13,6 +13,7 @@ import cmsRoute from './cms.route'
 import reportRoute from './report.route'
 import calendarRoute from './calendar.route'
 import chatRoute from './chat.route'
+import exploreRoute from './explore.route'
 
 export const mainRoute: RouteObject = {
   element: <MainLayout />,
@@ -29,5 +30,6 @@ export const mainRoute: RouteObject = {
     reportRoute,
     calendarRoute,
     chatRoute,
+    exploreRoute,
   ],
 }
