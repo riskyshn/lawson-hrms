@@ -17,7 +17,7 @@ const DashboardPage: React.FC = () => {
       <PageHeader breadcrumb={[{ text: 'Dashboard' }]} />
 
       <Container className="py-3 xl:pb-8">
-        <div className="relative mb-3 overflow-hidden rounded-lg bg-primary-600 px-3 py-14 text-white">
+        <div className="background-animate relative mb-3 overflow-hidden rounded-lg bg-gradient-to-r from-primary-400 to-primary-900 px-3 py-14 text-white">
           <span
             className="absolute inset-0 block bg-cover bg-center bg-no-repeat opacity-10"
             style={{

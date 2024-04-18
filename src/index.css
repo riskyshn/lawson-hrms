@@ -61,4 +61,9 @@
   .chrome-scrollbar::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
+
+  /* Background animation */
+  .background-animate {
+    @apply animate-[position_20s_infinite] bg-[length:400%];
+  }
 }
