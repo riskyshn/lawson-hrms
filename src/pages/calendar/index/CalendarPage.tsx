@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
@@ -10,6 +11,11 @@ import Modal from '../components/Modal'
 const CalendarPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
+  const calendarRef = useRef<FullCalendar | null>(null)
+
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const dateParam = queryParams.get('date')
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -17,7 +23,6 @@ const CalendarPage: React.FC = () => {
   }
 
   const handleEventClick = (info: any) => {
-    // Accessing extended properties
     const event = info.event
     const extendedProps = event.extendedProps || {}
 
@@ -34,12 +39,20 @@ const CalendarPage: React.FC = () => {
     setIsModalOpen(true)
   }
 
+  useEffect(() => {
+    if (calendarRef.current && dateParam) {
+      const calendarApi = calendarRef.current.getApi()
+      calendarApi.gotoDate(dateParam)
+    }
+  }, [dateParam])
+
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Calendar' }]} />
 
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <FullCalendar
+          ref={calendarRef}
           plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
