@@ -6,12 +6,13 @@ import { Spinner } from 'jobseeker-ui'
 import ProfileCard from '../components/ProfileCard'
 import CandidateDetailCard from '../components/CandidateDetailCard'
 import { useEffect, useState } from 'react'
-import { candidateService } from '@/services'
+import { candidateService, processService } from '@/services'
 
 const CandidateProfilePage: React.FC = () => {
   const { candidateId } = useParams<{ candidateId?: string }>()
   const [isLoading, setIsLoading] = useState(true)
   const [pageData, setPageData] = useState<ICandidate>()
+  const [documentsData, setDocuments] = useState<IUploadedProcessDocument[]>()
   const [searchParams] = useSearchParams()
   const tab = searchParams.get('tab') || 'candidate-information'
   const [pageError, setPageError] = useState<any>()
@@ -32,6 +33,29 @@ const CandidateProfilePage: React.FC = () => {
     }
 
     load()
+
+    return () => {
+      controller.abort()
+    }
+  }, [candidateId])
+
+  useEffect(() => {
+    if (!candidateId) return
+    const controller = new AbortController()
+
+    const loadDocument = async () => {
+      setIsLoading(true)
+      try {
+        const documents = await processService.getDocumentRequest(candidateId)
+
+        setDocuments(documents)
+        setIsLoading(false)
+      } catch (e: any) {
+        console.error('Error fetching documents:', e)
+      }
+    }
+
+    loadDocument()
 
     return () => {
       controller.abort()
@@ -112,7 +136,7 @@ const CandidateProfilePage: React.FC = () => {
             {tab === 'resume' && <CandidateDetailCard items={pageData} title={'Resume/CV'} flag={'resume'} />}
             {tab === 'education' && <CandidateDetailCard items={pageData} title={'Education'} flag={'education'} />}
             {tab === 'experience' && <CandidateDetailCard items={pageData} title={'Working Experience'} flag={'experience'} />}
-            {tab === 'document' && <CandidateDetailCard items={pageData} title={'Documents'} flag={'document'} />}
+            {tab === 'document' && <CandidateDetailCard items={pageData} documents={documentsData} title={'Documents'} flag={'document'} />}
           </>
         )}
       </Container>

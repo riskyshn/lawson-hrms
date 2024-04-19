@@ -6,11 +6,15 @@ import { useNavigate } from 'react-router-dom'
 const PageCard: React.FC<{
   label: string
   activeLabel: string
-}> = ({ label, activeLabel }) => {
+  startDate?: string
+  endDate?: string
+}> = ({ label, activeLabel, startDate, endDate }) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate(`/attendance/attendance-management/${label.toLowerCase().replace(' ', '-')}`)
+    navigate(
+      `/attendance/attendance-management/${label.toLowerCase().replace(' ', '-')}?startDate=${startDate || ''}&endDate=${endDate || ''}`,
+    )
   }
 
   return (
