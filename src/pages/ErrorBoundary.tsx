@@ -9,11 +9,23 @@ const ErrorBoundary: React.FC = () => {
   const auth = useAuthStore()
   const error: any = useRouteError()
 
-  const code = error.response?.status || 500
-
-  const errorStatus = code === 404 ? 'Page Not Found' : 'Something Went Wrong'
-  // const errorMessage = code === 404 ? 'The page you requested was not found.' : 'An error occurred.'
+  const code = error.response?.status || error.status || 500
   const errorMessage = axiosErrorMessage(error) || 'An error occurred.'
+
+  let errorStatus
+  switch (code) {
+    case 400:
+      errorStatus = 'Bad Request'
+      break
+    case 404:
+      errorStatus = 'Page Not Found'
+      break
+    case 410:
+      errorStatus = 'Gone'
+      break
+    default:
+      errorStatus = 'Something Went Wrong'
+  }
 
   console.log('Error Boundary :', error)
 
@@ -25,19 +37,7 @@ const ErrorBoundary: React.FC = () => {
         <div className="container flex items-center justify-center">
           <div className="text-center">
             <h1 className="mb-2 text-[100px] font-bold leading-none tracking-wide md:text-[150px]">
-              {code === 404 ? (
-                <>
-                  <span className="text-primary-600">4</span>
-                  <span>0</span>
-                  <span className="text-primary-600">4</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-primary-600">5</span>
-                  <span>0</span>
-                  <span className="text-primary-600">0</span>
-                </>
-              )}
+              <HttpStatusCode code={code} />
             </h1>
             <h2 className="text-2xl font-light tracking-wide text-gray-800 md:text-4xl">Oops! {errorStatus}</h2>
             <p className="mb-5 text-sm md:text-base">{errorMessage}</p>
@@ -56,6 +56,20 @@ const ErrorBoundary: React.FC = () => {
         </div>
       </section>
     </Component>
+  )
+}
+
+const HttpStatusCode: React.FC<{ code: number }> = ({ code }) => {
+  const firstDigit = Math.floor(code / 100)
+  const secondDigit = Math.floor((code % 100) / 10)
+  const thirdDigit = code % 10
+
+  return (
+    <>
+      <span className="text-primary-600">{firstDigit}</span>
+      <span>{secondDigit}</span>
+      <span className="text-primary-600">{thirdDigit}</span>
+    </>
   )
 }
 
