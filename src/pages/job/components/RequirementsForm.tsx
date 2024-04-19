@@ -114,6 +114,7 @@ const RequirementsForm: React.FC<{
     setValue,
     trigger,
     register,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -148,8 +149,8 @@ const RequirementsForm: React.FC<{
             <Select
               className="mb-2"
               label="Gender"
-              labelRequired={getValues('isRequiredGenderRequirement')}
-              placeholder="Male, Female Or All"
+              labelRequired={watch('isRequiredGenderRequirement')}
+              placeholder="Male or Female"
               hideSearch
               options={[
                 { label: 'Male', value: 'MALE' },
@@ -171,6 +172,7 @@ const RequirementsForm: React.FC<{
             <Select
               className="mb-2"
               label="Minimal Education"
+              labelRequired={watch('isRequiredMinimalEducationRequirement')}
               placeholder="Choose Education"
               options={masterData.educatioLevels.map((el: any) => ({ label: el.name, value: el.oid }))}
               name="minimalEducationRequirementId"
@@ -188,7 +190,7 @@ const RequirementsForm: React.FC<{
         </div>
 
         <div className="pb-2">
-          <InputWrapper label="Age" className="mb-2">
+          <InputWrapper label="Age" labelRequired={watch('isRequiredAge')} className="mb-2">
             <div className="grid grid-cols-2 gap-3">
               <Input
                 className="m-0"
@@ -216,6 +218,7 @@ const RequirementsForm: React.FC<{
             <Input
               className="mb-2"
               label="Minimum GPA"
+              labelRequired={watch('isRequiredGpaRequirement')}
               placeholder="Example : 3.25"
               error={errors.gpaRequirement?.message}
               {...register('gpaRequirement')}
@@ -229,6 +232,7 @@ const RequirementsForm: React.FC<{
             <Input
               className="mb-2"
               label="Minimum Experience"
+              labelRequired={watch('isRequiredMinimumExperienceRequirement')}
               placeholder="Example : 3 Year(s)"
               error={errors.minimumExperienceRequirement?.message}
               {...register('minimumExperienceRequirement')}
@@ -245,6 +249,7 @@ const RequirementsForm: React.FC<{
             <AsyncSelect
               className="mb-2"
               label="Province"
+              labelRequired={watch('isRequiredProvinceRequirement')}
               placeholder="Province"
               withReset
               fetcher={masterService.fetchProvinces}
@@ -271,6 +276,7 @@ const RequirementsForm: React.FC<{
             <AsyncSelect
               className={twJoin(!provinceName && 'opacity-65', 'mb-2')}
               label="City"
+              labelRequired={watch('isRequiredCityRequirement')}
               placeholder="City"
               withReset
               disabled={!provinceName}
@@ -295,6 +301,7 @@ const RequirementsForm: React.FC<{
         <div className="pb-2">
           <InputCurrency
             label="Maximum Salary Expectation"
+            labelRequired={watch('isRequiredMaximumSalaryRequirement')}
             prefix="Rp "
             className="mb-2"
             error={errors.maximumSalaryRequirement?.message}
