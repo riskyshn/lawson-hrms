@@ -34,7 +34,13 @@ export const updateProcess = async (payload: Record<string, any>, signal?: Gener
   return axios.put<{ data: IApplicant }>('/process', payload, { signal }).then(({ data }) => data.data)
 }
 
-export const rescheduleProcess = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+export const rescheduleProcess = async (payload: Record<string, any>, signal?: GenericAbortSignal) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let interviewId = ''
+  for (let i = 0; i < 9; i++) {
+    interviewId += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+  await geventService.createCalendarEvent({ ...payload.schedule, interviewId })
   return axios.put('/process/reschedule', payload, { signal }).then(({ data }) => data.data)
 }
 

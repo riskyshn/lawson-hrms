@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import {
   EditIcon,
@@ -8,6 +8,7 @@ import {
   LogOutIcon,
   LucideIcon,
   PenIcon,
+  RefreshCcwIcon,
   RepeatIcon,
   SendIcon,
   SendToBackIcon,
@@ -37,22 +38,6 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const confirm = useConfirm()
   const toast = useToast()
   const navigate = useNavigate()
-  const [stageComplete, setStageComplete] = useState(false)
-
-  useEffect(() => {
-    const load = async (applicantId: string) => {
-      try {
-        const response = await processService.fetchDetailStages(applicantId)
-        const stages = response.content
-        const allStagesUnavailable = stages.every((stage) => stage.isAvailable === false)
-        setStageComplete(allStagesUnavailable)
-      } catch (error) {
-        console.error('Error fetching stages data:', error)
-      }
-    }
-
-    load(item.oid)
-  }, [item.oid])
 
   const createMenuItem = (
     text: string,
@@ -76,6 +61,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const editJoinDate = createMenuItem('Edit Join Date', PenIcon, 'EDIT JOIN DATE')
   const reject = createMenuItem('Reject', XCircleIcon, 'REJECT', 'text-error-600')
   const withdraw = createMenuItem('Withdraw', LogOutIcon, 'WITHDRAW')
+  const reschedule = createMenuItem('Reschedule', RefreshCcwIcon, 'RESCHEDULE')
 
   const sendReminder: Table.ActionMenuItemProps = {
     text: 'Send Reminder',
@@ -99,7 +85,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
 
     try {
       await processService.moveToOfferingLetter({ applicantId: item.oid })
-      toast('Successfully moved item to offering letter.', { color: 'success' })
+      toast('Success fully move item to offering letter.', { color: 'success' })
       navigate('/process/offering-letter')
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
@@ -127,48 +113,26 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     navigate(`/employees/employee-management/create?applicantId=${item.oid}`),
   )
 
-  const generateMenuItems = (status: string): Table.ActionMenuItemProps[] => {
-    const menu = []
-
+  const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     // Action menu items for applications in the "Process" status (0).
-    if (status === '0') {
-      if (!stageComplete) {
-        menu.push(process)
-      }
-      menu.push(updateResult, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw)
-    }
-
+    '0': [updateResult, reschedule, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Passed" status (1).
+    '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Failed" status (2).
-    if (status === '1' || status === '2') {
-      if (!stageComplete) {
-        menu.push(process)
-      }
-      menu.push(offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw)
-    }
-
+    '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Waiting for Documents" status (3).
-    if (status === '3') {
-      menu.push(createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject, withdraw)
-    } else if (status === '4') {
-      // Action menu items for applications in the "Ready to Offer" status (4).
-      menu.push(createOfferingLetter, editDocuments, viewHistory, blacklist, reject, withdraw)
-    } else if (status === '5') {
-      // Action menu items for applications in the "Offering Letter Sent" status (5).
-      menu.push(reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw)
-    } else if (status === '6') {
-      // Action menu items for applications in the "Offering Signed" status (6).
-      menu.push(viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw)
-    } else if (status === '7') {
-      // Action menu items for applications in the "Waiting to Join" status (7).
-      menu.push(addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw)
-    }
-
-    return menu
+    '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Ready to Offer" status (4).
+    '4': [createOfferingLetter, editDocuments, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Offering Letter Sent" status (5).
+    '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Offering Signed" status (6).
+    '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
+    // Action menu items for applications in the "Waiting to Join" status (7).
+    '7': [addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw],
   }
 
-  // Use the function to get menu items based on status and stageComplete
-  const menu = generateMenuItems(item.status?.oid || '0')
+  const menu = menuItems[item.status?.oid || '0']
 
   if (!menu) return null
 

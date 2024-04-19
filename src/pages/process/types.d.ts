@@ -8,5 +8,6 @@ export type ModalType =
   | 'BLACKLIST'
   | 'REJECT'
   | 'WITHDRAW'
+  | 'RESCHEDULE'
 
 export type TableType = 'INTERVIEW' | 'ASSESSMENT' | 'OFFERING' | 'ONBOARDING'
