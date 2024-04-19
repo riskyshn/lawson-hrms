@@ -86,7 +86,7 @@ const DetailJobRequisitionPage: React.FC = () => {
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
 
-        {queuedEmployee && (isAdmin || queuedEmployee.oid === user?.employee?.oid) && (
+        {vacancy?.status !== 'canceled' && queuedEmployee && (isAdmin || queuedEmployee.oid === user?.employee?.oid) && (
           <Card>
             <CardBody>
               {queuedEmployee.oid !== user?.employee?.oid && (
