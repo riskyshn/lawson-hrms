@@ -18,7 +18,7 @@ type PropTypes = {
   onUpdated?: () => void
 }
 
-const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose }) => {
+const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose, onUpdated }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -49,6 +49,7 @@ const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose }) =>
       })
       toast(`Join date for ${applicant.candidate?.name} updated successfully.`, { color: 'success' })
       onClose?.()
+      onUpdated?.()
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
     }
