@@ -48,6 +48,10 @@ interface IAttendance {
         }
         branch?: {
           name?: string
+          coordinate?: {
+            type?: string
+            coordinates?: [number, number]
+          }
         }
         position?: string | null
       }
