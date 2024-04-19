@@ -2,7 +2,12 @@ import React from 'react'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import numberToCurrency from '@/utils/number-to-currency'
 
-const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?: string }> = ({ items, title, flag }) => {
+const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?: string; documents?: IUploadedProcessDocument[] }> = ({
+  items,
+  title,
+  flag,
+  documents,
+}) => {
   return (
     <Card className="h-full overflow-hidden">
       {flag !== 'resume' && flag !== 'document' ? (
@@ -175,14 +180,14 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
         </>
       ) : flag === 'document' ? (
         <>
-          {items?.documents?.map((doc, index) => (
+          {documents?.map((doc, index) => (
             <div key={index} className="document-card">
               <CardHeader>
-                <h3 className="text-lg font-semibold">{doc.label}</h3>
+                <h3 className="text-lg font-semibold">{doc.document.name}</h3>
               </CardHeader>
               <CardBody className="relative flex h-96 items-center justify-center p-5">
-                {doc.value ? (
-                  <iframe src={doc.value} className="block h-full w-full rounded-lg bg-white" />
+                {doc.file.link ? (
+                  <iframe src={doc.file.link} className="block h-full w-full rounded-lg bg-white" />
                 ) : (
                   <div className="flex h-full items-center justify-center">
                     <p className="text-gray-500">No data found</p>

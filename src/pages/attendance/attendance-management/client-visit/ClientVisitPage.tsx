@@ -21,9 +21,9 @@ const ClientVisitPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPaginationResponse<IAttendance>>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
-  const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
-    startDate: todayFormatted,
-    endDate: todayFormatted,
+  const [filterDate, setFilterDate] = useState({
+    startDate: searchParams.get('startDate') || todayFormatted,
+    endDate: searchParams.get('endDate') || todayFormatted,
   })
 
   const branch = searchParams.get('branch') || undefined
@@ -79,6 +79,11 @@ const ClientVisitPage: React.FC = () => {
       const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
 
       setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+      setSearchParam((prev) => {
+        prev.set('startDate', formattedStartDate)
+        prev.set('endDate', formattedEndDate)
+        return prev
+      })
     }
   }
 
@@ -87,14 +92,22 @@ const ClientVisitPage: React.FC = () => {
   return (
     <>
       <PageHeader
+        className="flex items-center"
         breadcrumb={[{ text: 'Attendance' }, { text: 'Attendance Management' }]}
         title="Attendance Management"
         subtitle="Manage Your Team Attendance"
         actions={
           <CardBody className="p-0">
-            <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
+            <BaseInputDate className="z-50 mb-3" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+            <div className="chrome-scrollbar flex gap-3 overflow-x-scroll">
               {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
-                <PageCard key={index} label={label} activeLabel={'Client Visit'} />
+                <PageCard
+                  key={index}
+                  label={label}
+                  activeLabel={'Client Visit'}
+                  startDate={filterDate.startDate}
+                  endDate={filterDate.endDate}
+                />
               ))}
             </div>
           </CardBody>
@@ -104,7 +117,7 @@ const ClientVisitPage: React.FC = () => {
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <StatisticCards />
         <MainCard
-          header={(open, toggleOpen) => (
+          header={() => (
             <MainCardHeader
               title="Client Visit List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
@@ -117,23 +130,19 @@ const ClientVisitPage: React.FC = () => {
                 value: search || '',
                 setValue: (v) => setSearchParam({ search: v }),
               }}
-              filterToogle={toggleOpen}
               filter={
-                open && (
-                  <div className="grid grid-cols-2 gap-3 p-3">
-                    <Select
-                      placeholder="All Branch"
-                      withReset
-                      value={branch}
-                      onChange={(e) => {
-                        searchParams.set('branch', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-                    />
-                    <BaseInputDate placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
-                  </div>
-                )
+                <div className="grid grid-cols-1 gap-3 p-3">
+                  <Select
+                    placeholder="All Branch"
+                    withReset
+                    value={branch}
+                    onChange={(e) => {
+                      searchParams.set('branch', e.toString())
+                      setSearchParam(searchParams)
+                    }}
+                    options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                  />
+                </div>
               }
             />
           )}
