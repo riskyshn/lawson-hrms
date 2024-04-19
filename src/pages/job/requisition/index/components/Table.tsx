@@ -21,8 +21,8 @@ const getApprovalCounter = (vacancy: IVacancy) => {
 const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
   const statusMap: Record<string, { text: string; color: string }> = {
     published: { text: 'Posted', color: 'bg-green-100 text-green-600' },
-    draft: { text: 'Draft', color: 'bg-pink-100 text-pink-600' },
-    rejected: { text: 'Inactive', color: 'bg-gray-100 text-gray-600' },
+    draft: { text: 'Draft', color: 'bg-gray-100 text-gray-600' },
+    rejected: { text: 'Rejected', color: 'bg-red-100 text-red-600' },
     approved: { text: 'Approved', color: 'bg-blue-100 text-blue-600' },
     progress: { text: 'Approval ' + getApprovalCounter(vacancy), color: 'bg-purple-100 text-purple-600' },
     canceled: { text: 'Canceled', color: 'bg-red-100 text-red-600' },
