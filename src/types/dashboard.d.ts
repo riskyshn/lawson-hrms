@@ -4,6 +4,7 @@ interface IDashboardSchedule {
   startTime?: string
   endTime?: string
   timezone?: string
+  date?: string
 }
 
 interface IDashboardRecentlyPostedJob {

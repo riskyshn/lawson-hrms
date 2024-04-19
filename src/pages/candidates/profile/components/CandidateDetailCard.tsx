@@ -175,18 +175,22 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
         </>
       ) : flag === 'document' ? (
         <>
-          <CardHeader>
-            <h3 className="text-lg font-semibold">{'KTP'}</h3>
-          </CardHeader>
-          <CardBody className="relative flex h-96 items-center justify-center p-5">
-            {items?.ktp ? (
-              <iframe src={items.ktp} className="block h-full w-full rounded-lg bg-white" />
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <p className="text-gray-500">No data found</p>
-              </div>
-            )}
-          </CardBody>
+          {items?.documents?.map((doc, index) => (
+            <div key={index} className="document-card">
+              <CardHeader>
+                <h3 className="text-lg font-semibold">{doc.label}</h3>
+              </CardHeader>
+              <CardBody className="relative flex h-96 items-center justify-center p-5">
+                {doc.value ? (
+                  <iframe src={doc.value} className="block h-full w-full rounded-lg bg-white" />
+                ) : (
+                  <div className="flex h-full items-center justify-center">
+                    <p className="text-gray-500">No data found</p>
+                  </div>
+                )}
+              </CardBody>
+            </div>
+          ))}
         </>
       ) : null}
     </Card>

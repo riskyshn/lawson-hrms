@@ -7,28 +7,18 @@ import { Link } from 'react-router-dom'
 
 const UpcomingScheduleCard: React.FC = () => {
   const { pageData } = useAsyncSearch(dashboardService.upcomingSchedule, { limit: 20 })
-  // const navigate = useNavigate()
-
-  // const handleGoToCalendar = () => {
-  //   navigate('/calendar?date=2024-01-01')
-  // }
 
   return (
     <Card>
       <LoadingScreen show={!pageData} />
       {pageData && (
         <>
-          <CardHeader className="flex h-16 items-center justify-between font-semibold">
-            Upcoming Schedule
-            {/* <button onClick={handleGoToCalendar} className="rounded bg-blue-500 px-3 py-2 text-white">
-              Go to January 2024
-            </button> */}
-          </CardHeader>
+          <CardHeader className="flex h-16 items-center justify-between font-semibold">Upcoming Schedule</CardHeader>
           <CardBody className="chrome-scrollbar flex max-h-80 flex-col gap-3 overflow-y-auto">
             {pageData.content.map((el, i) => (
               <Link
                 key={i}
-                to={`#`}
+                to={`/calendar?date=${el?.date}`}
                 className="flex cursor-pointer flex-col gap-1 rounded-lg border border-l-4 border-l-success-300 bg-gray-50 p-2 transition-colors hover:border-success-300"
               >
                 <span className="block text-sm">

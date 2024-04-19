@@ -13,9 +13,11 @@ type PropTypes = {
 const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
+  const [branchLocation, setBranchLocation] = useState<[number, number] | null>(null)
 
-  const handlePinClick = (lat: number, lng: number) => {
-    setSelectedLocation([lng, lat])
+  const handlePinClick = (lat: number, lng: number, latLng?: [number, number]) => {
+    setSelectedLocation([lat, lng])
+    setBranchLocation(latLng || null)
   }
 
   const headerItems = [
@@ -106,7 +108,9 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
                 <button
                   title="Maps"
                   className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                  onClick={() => handlePinClick(record.lng || 0, record.lat || 0)}
+                  onClick={() =>
+                    handlePinClick(record.lat || 0, record.lng || 0, record.employee?.employment?.branch?.coordinate?.coordinates)
+                  }
                 >
                   <MapPinIcon size={15} />
                 </button>
@@ -160,7 +164,17 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
   return (
     <>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
-      {selectedLocation && <MapsPreviewerModal coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />}
+      {selectedLocation && (
+        <MapsPreviewerModal
+          coordinates={selectedLocation}
+          radiusCoordinates={branchLocation}
+          radius={100}
+          onClose={() => {
+            setSelectedLocation(null)
+            setBranchLocation(null)
+          }}
+        />
+      )}
     </>
   )
 }

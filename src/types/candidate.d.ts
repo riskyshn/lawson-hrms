@@ -67,4 +67,8 @@ interface ICandidate {
     endDate: string
   }[]
   ktp?: string
+  documents?: {
+    label: string
+    value: string
+  }[]
 }

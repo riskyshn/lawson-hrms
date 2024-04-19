@@ -16,6 +16,7 @@ type PropTypes = {
 
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisit }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
+  const [branchLocation, setBranchLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
   const toast = useToast()
   const [showOptionModal, setShowOptionModal] = useState(false)
@@ -23,8 +24,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
   const [selectedRecordId, setSelectedRecordId] = useState<string | undefined | null>(null)
   const [modalType, setModalType] = useState<string | undefined>()
 
-  const handlePinClick = (lat: number, lng: number) => {
+  const handlePinClick = (lat: number, lng: number, latLng?: [number, number]) => {
     setSelectedLocation([lat, lng])
+    setBranchLocation(latLng || null)
   }
 
   const handleViewDetails = (ids?: any, type?: string) => {
@@ -151,7 +153,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
                 <button
                   title="Maps"
                   className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                  onClick={() => handlePinClick(record.lng || 0, record.lat || 0)}
+                  onClick={() =>
+                    handlePinClick(record?.lat || 0, record.lng || 0, record.employee?.employment?.branch?.coordinate?.coordinates)
+                  }
                 >
                   <MapPinIcon size={15} />
                 </button>
@@ -272,7 +276,17 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
   return (
     <>
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
-      {selectedLocation && <MapsPreviewerModal coordinates={selectedLocation} radius={100} onClose={() => setSelectedLocation(null)} />}
+      {selectedLocation && (
+        <MapsPreviewerModal
+          coordinates={selectedLocation}
+          radiusCoordinates={branchLocation}
+          radius={100}
+          onClose={() => {
+            setSelectedLocation(null)
+            setBranchLocation(null)
+          }}
+        />
+      )}
       {showOptionModal && (
         <ConfirmationModal
           show={showOptionModal}
