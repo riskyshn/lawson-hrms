@@ -16,6 +16,7 @@ import HireModal from './HireModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
+import RescheduleModal from '@/components/Modules/Process/RescheduleModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]
@@ -197,6 +198,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, type, onRefresh }) => {
       />
       <ProcessModal
         show={!!selected && selected.type === 'PROCESS'}
+        applicant={selected?.item}
+        onClose={() => setSelected(null)}
+        onSubmited={onRefresh}
+      />
+      <RescheduleModal
+        show={!!selected && selected.type === 'RESCHEDULE'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onSubmited={onRefresh}

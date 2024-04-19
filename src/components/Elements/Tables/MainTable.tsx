@@ -77,7 +77,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ children, up, text = 'Ac
       </Menu.Button>
       <Menu.Items
         className={twJoin(
-          'absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none',
+          'absolute right-0 z-20 w-64 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none',
           up && 'bottom-full',
         )}
       >
