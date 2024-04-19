@@ -124,6 +124,7 @@ interface IEmployeeHistoryAttendance {
         branch?: {
           oid: string
           name?: string
+          coordinate?: ICoordinate
         }
         position?: {
           oid: string

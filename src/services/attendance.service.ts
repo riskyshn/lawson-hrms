@@ -89,12 +89,17 @@ export const downloadAttendance = (oid: string, payload: Record<string, any>) =>
  * Request Management
  *
  */
-export const fetchEmployeeAttendanceHistories = (params?: { attendance_group?: string }) => {
-  return axios.get<{ data: Array<IEmployeeHistoryAttendance> }>(`/employee/history`, { params }).then((response) => response.data.data)
-}
-
 export const fetchEmployeeLeave = () => {
   return axios.get<{ data: Array<IEmployeeLeave> }>(`/employee/leave`).then((response) => response.data.data)
+}
+
+export const fetchEmployeeAttendanceHistories = (
+  oid: string,
+  params?: IPaginationParam & { attendance_group?: 'overtime' | 'clock' | 'client_visit'; start_date?: string; end_date?: string },
+) => {
+  return axios
+    .get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(`/employer/history/${oid}`, { params })
+    .then((response) => response.data.data)
 }
 
 export const fetchReportStatistic = (oid: string, payload: Record<string, any>) => {
