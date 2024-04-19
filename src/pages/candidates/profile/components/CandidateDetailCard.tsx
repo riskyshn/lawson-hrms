@@ -181,16 +181,26 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
       ) : flag === 'document' ? (
         <>
           {documents?.map((doc, index) => (
-            <div key={index} className="document-card">
+            <div key={index}>
               <CardHeader>
                 <h3 className="text-lg font-semibold">{doc.document.name}</h3>
               </CardHeader>
-              <CardBody className="relative flex h-96 items-center justify-center p-5">
+              <CardBody className="flex h-full items-center justify-center p-5">
                 {doc.file.link ? (
-                  <iframe src={doc.file.link} className="block h-full w-full rounded-lg bg-white" />
+                  doc.file.link.endsWith('.pdf') ? (
+                    <iframe
+                      src={doc.file.link}
+                      className="block h-full w-full rounded-lg bg-white"
+                      style={{ border: 'none', display: 'block', background: '#000', height: '100vh', width: '100vw' }}
+                      title={`Document-${index}`}
+                      allowFullScreen
+                    />
+                  ) : (
+                    <img src={doc.file.link} alt={`Document-${index}`} className="block h-full w-full rounded-lg" />
+                  )
                 ) : (
                   <div className="flex h-full items-center justify-center">
-                    <p className="text-gray-500">No data found</p>
+                    <p className="text-gray-500">No data found.</p>
                   </div>
                 )}
               </CardBody>
