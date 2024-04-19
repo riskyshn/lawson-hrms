@@ -1,10 +1,9 @@
-import React from 'react'
 import MainTable from '@/components/Elements/Tables/MainTable'
-import { Avatar } from 'jobseeker-ui'
+import NumberOfEmployeeLink from '@/components/Elements/UI/NumberOfEmployeeLink'
 import moment from 'moment'
+import React from 'react'
 import { twJoin } from 'tailwind-merge'
 import ActionMenu from './ActionMenu'
-import { Link } from 'react-router-dom'
 
 const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
   const statusMap: Record<string, { text: string; color: string }> = {
@@ -45,18 +44,7 @@ const Table: React.FC<{
       { children: vacancy.department?.name || '-', className: 'text-center' },
       { children: vacancy.createdAt ? moment(vacancy.createdAt).format('D/M/Y') : '-', className: 'text-center' },
       {
-        children: (
-          <span className="flex items-center justify-center gap-2">
-            <span className="flex">
-              <Avatar name="John Doe" size={38} className="rounded-full bg-success-100 text-success-700" />
-              <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-primary-100 text-primary-700" />
-              <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-error-100 text-error-700" />
-            </span>
-            <Link to={`/candidates/management?vacancy=${vacancy.oid}`} className="text-primary-600">
-              {vacancy.applicantCount}+
-            </Link>
-          </span>
-        ),
+        children: <NumberOfEmployeeLink to={`/candidates/management?vacancy=${vacancy.oid}`} count={vacancy.applicantCount} />,
         className: 'text-center',
       },
       {
