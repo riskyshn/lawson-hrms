@@ -3,11 +3,11 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
 import { processService, vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { Select } from 'jobseeker-ui'
-import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 
@@ -20,51 +20,17 @@ const OnboardingPage: React.FC = () => {
 
   const { recruitmentStages } = useOrganizationStore()
 
-  const [pageData, setPageData] = useState<IPaginationResponse<IDataTableApplicant>>()
-  const [pageError, setPageError] = useState<any>()
-  const [isLoading, setIsLoading] = useState(true)
-
-  const [switchData, setSwitchData] = useState(false)
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(
+    processService.fetchProcess,
+    { limit: 20, stage, vacancy, type: 'ONBOARDING' },
+    search,
+  )
 
   const pagination = usePagination({
     pathname: '/process/onboarding',
     totalPage: pageData?.totalPages,
-    params: { search, vacancy, stage },
+    params: { search, vacancy },
   })
-
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const load = async (signal: AbortSignal) => {
-      setIsLoading(true)
-      try {
-        const data = await processService.fetchProcess(
-          {
-            q: search,
-            page: pagination.currentPage,
-            limit: 20,
-            stage,
-            vacancy,
-            type: 'ONBOARDING',
-          },
-          signal,
-        )
-        setPageData(data)
-        setIsLoading(false)
-      } catch (e: any) {
-        if (e.message !== 'canceled') setPageError(e)
-      }
-    }
-
-    load(signal)
-
-    return () => {
-      controller.abort()
-    }
-  }, [search, vacancy, stage, pagination.currentPage, switchData])
-
-  if (pageError) throw pageError
 
   return (
     <>
@@ -81,10 +47,8 @@ const OnboardingPage: React.FC = () => {
                   You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
+              search={{ value: search || '', setValue: (search) => setSearchParam({ search }) }}
+              onRefresh={onRefresh}
               filterToogle={toggleOpen}
               filter={
                 open && (
@@ -117,7 +81,7 @@ const OnboardingPage: React.FC = () => {
               }
             />
           )}
-          body={<Table type="ONBOARDING" items={pageData?.content || []} loading={isLoading} onRefresh={() => setSwitchData((v) => !v)} />}
+          body={<Table type="ONBOARDING" items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
           footer={pagination.render()}
         />
       </Container>

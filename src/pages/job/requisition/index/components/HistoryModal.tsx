@@ -1,7 +1,7 @@
 import HistoryItem from '@/components/Elements/UI/HistoryItem'
 import { Timeline, TimelineItem } from '@/components/Elements/UI/Timeline'
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
-import { CheckCircle2Icon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
+import { CheckCircle2Icon, InfoIcon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 
@@ -11,18 +11,26 @@ type PropTypes = {
 }
 
 const renderStatus = (status?: number) => {
+  if (status === 0) {
+    return (
+      <div className="flex items-center gap-2">
+        <InfoIcon className="text-warning-600" />
+        <span className="text-sm font-semibold text-warning-600">WAITING</span>
+      </div>
+    )
+  }
   if (status === 1) {
     return (
       <div className="flex items-center gap-2">
-        <CheckCircle2Icon className="text-green-600" />
-        <span className="text-sm font-semibold text-green-600">APPROVED</span>
+        <CheckCircle2Icon className="text-success-600" />
+        <span className="text-sm font-semibold text-success-600">APPROVED</span>
       </div>
     )
   }
   return (
     <div className="flex items-center gap-2">
-      <XCircleIcon className="text-red-600" />
-      <span className="text-sm font-semibold text-red-600">FAILED</span>
+      <XCircleIcon className="text-error-600" />
+      <span className="text-sm font-semibold text-error-600">FAILED</span>
     </div>
   )
 }
