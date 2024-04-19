@@ -174,7 +174,7 @@ const ExplorePage: React.FC = () => {
                     <div className="flex flex-1 items-start">
                       <div className="flex flex-1 flex-col gap-1">
                         <span className="block truncate text-base capitalize leading-none">{item.full_name}</span>
-                        <span className="block text-xs">{moment(item.login_date).fromNow()}</span>
+                        <span className="block text-xs">{moment.utc(item.login_date).fromNow()}</span>
                       </div>
                       <button className="flex flex-col items-center justify-center text-sm leading-none outline-none">
                         <HeartIcon size={20} className={item.liked_by_me ? 'fill-red-600 stroke-none' : 'stroke-white text-black/20'} />
