@@ -1,4 +1,5 @@
 import { API_AUTH_BASE_URL } from '@/constants/base-urls'
+import { useTokenStore } from '@/store'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({ baseURL: API_AUTH_BASE_URL })
@@ -19,6 +20,17 @@ export const checkforgotPasswordToken = (params: { token: string }) => {
 
 export const resetPassword = (payload: Record<string, any>) => {
   return axios.post('/auth/reset-password', payload).then(({ data }) => data)
+}
+
+export const changePassword = (payload: Record<string, any>) => {
+  const { access_token } = useTokenStore.getState()
+  return axios
+    .post('/auth/change-password', payload, {
+      headers: {
+        Authorization: 'Bearer ' + access_token,
+      },
+    })
+    .then(({ data }) => data)
 }
 
 export const refreshAccessToken = async (payload: { refresh_token: string; access_token: string }) => {

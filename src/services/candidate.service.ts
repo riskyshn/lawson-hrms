@@ -117,3 +117,7 @@ export const downloadCandidate = (payload: Record<string, any>) => {
 export const fetchVacanciesCandidate = (id: string) => {
   return axios.get<{ data: IPaginationResponse<IVacancy> }>(`/vacancy/${id}`).then((response) => response.data.data)
 }
+
+export const fetchCandidateToCreateEmployeeByApplicanId = (oid: string) => {
+  return axiosCandidate.get<{ data: ICandidateToCreateEmployee }>(`/candidate/${oid}`).then((response) => response.data.data)
+}

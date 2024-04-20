@@ -72,3 +72,43 @@ interface ICandidate {
     value: string
   }[]
 }
+
+interface ICandidateToCreateEmployee {
+  oid: string
+  name?: string
+  email?: string
+  photoProfile?: string
+  cv?: string
+  videoResume?: string
+  videoThumbnail?: string
+  age?: string
+  phone?: string
+  birthdate?: string
+  lastPosition?: string
+  expectedSalary?: string
+  nik?: string
+  ktp?: string
+  position?: IGeneralDataEmmbed
+  province?: IGeneralDataEmmbed
+  city?: IGeneralDataEmmbed
+  gender?: IGeneralDataEmmbed
+  religion?: IGeneralDataEmmbed
+  lastEducation?: IGeneralDataEmmbed
+  maritalStatus?: IGeneralDataEmmbed
+  educations?: Array<{
+    degree?: IGeneralDataEmmbed
+    major?: string
+    institution?: string
+    gpa?: number
+    startDate?: string
+    graduateDate?: string
+    untilNow?: boolean
+    point_education?: number
+  }>
+  experiences?: Array<{
+    companyName?: string
+    position?: string
+    startDate?: string
+    endDate?: string
+  }>
+}

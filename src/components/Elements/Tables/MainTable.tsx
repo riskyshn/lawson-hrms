@@ -1,12 +1,12 @@
-import React from 'react'
 import { Menu } from '@headlessui/react'
-import { Button, Skeleton } from 'jobseeker-ui'
-import { LucideIcon } from 'lucide-react'
+import { Button } from 'jobseeker-ui'
+import { InboxIcon, LucideIcon } from 'lucide-react'
+import React from 'react'
 import { twJoin, twMerge } from 'tailwind-merge'
+import LoadingScreen from '../Layout/LoadingScreen'
 
 export type MainTableProps = Omit<JSX.IntrinsicElements['table'], 'children'> & {
   loading?: boolean
-  loadingLength?: number
   headerItems: Array<JSX.IntrinsicElements['th']>
   bodyItems: Array<
     JSX.IntrinsicElements['tr'] & {
@@ -27,45 +27,43 @@ export type ActionMenuItemProps = {
   action?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, loadingLength = 5, ...props }) => {
+export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, ...props }) => {
   return (
-    <table className={twMerge('table w-full whitespace-nowrap', className)} {...props}>
-      {
-        <thead>
-          <tr>
-            {headerItems.map(({ className, ...props }, i) => (
-              <th key={i} className={twMerge('border-b p-3 text-center text-xs', className)} {...props} />
-            ))}
-          </tr>
-        </thead>
-      }
-      <tbody>
-        {!loading &&
-          bodyItems.map(({ className, items, children, ...props }, i) => (
-            <tr key={i} className={twMerge(className, 'odd:bg-gray-50')} {...props}>
-              {items?.map(({ className, ...props }, i) => <td key={i} className={twMerge('p-3 text-sm', className)} {...props} />)}
-              {children}
+    <div className="flex min-h-[500px] w-full flex-col">
+      {!loading && (
+        <table className={twMerge('table w-full whitespace-nowrap', className)} {...props}>
+          <thead>
+            <tr>
+              {headerItems.map(({ className, ...props }, i) => (
+                <th key={i} className={twMerge('border-b p-3 text-center text-xs', className)} {...props} />
+              ))}
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {!loading &&
+              bodyItems.map(({ className, items, children, ...props }, i) => (
+                <tr key={i} className={twMerge(className, 'odd:bg-gray-50')} {...props}>
+                  {items?.map(({ className, ...props }, i) => <td key={i} className={twMerge('p-3 text-sm', className)} {...props} />)}
+                  {children}
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      )}
 
-        {loading &&
-          Array.from(Array(loadingLength)).map((_, i) => (
-            <tr key={i} className="odd:bg-gray-50">
-              <td colSpan={headerItems.length} className="p-3">
-                <Skeleton className="h-8" />
-              </td>
-            </tr>
-          ))}
+      <LoadingScreen show={loading} className="flex-1 p-0" />
 
-        {!loading && bodyItems.length === 0 && (
-          <tr>
-            <td colSpan={headerItems.length}>
-              <div className="flex items-center justify-center py-40">No data available.</div>
-            </td>
-          </tr>
-        )}
-      </tbody>
-    </table>
+      {!loading && bodyItems.length === 0 && (
+        <div className="flex flex-1 flex-col items-center justify-center">
+          <div className="mb-4 flex animate-pulse justify-center text-gray-900">
+            <InboxIcon className="h-28 w-28 md:h-32 md:w-32" strokeWidth={0.5} />
+          </div>
+          <p className="font-ligh mx-auto max-w-lg text-center">
+            This table is currently empty. You can also try adjusting or removing the filter to view data.
+          </p>
+        </div>
+      )}
+    </div>
   )
 }
 
