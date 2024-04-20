@@ -1,16 +1,27 @@
 import { useAuthStore } from '@/store'
 import { Menu } from '@headlessui/react'
-import { Avatar, Button, useConfirm } from 'jobseeker-ui'
+import { Avatar, Button, useConfirm, usePubSub } from 'jobseeker-ui'
 import { PowerIcon } from 'lucide-react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import ChangePasswordModal from './ChangePasswordModal'
+import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
+import { Link } from 'react-router-dom'
 
 const NavbarProfile: React.FC = () => {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false)
-  const navigate = useNavigate()
   const { user, logout } = useAuthStore()
+  const navigate = useNavigate()
+  const router = useLocation()
+  const pubSub = usePubSub()
   const confirm = useConfirm()
+
+  const handleSearchClick: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
+    if (router.pathname === '/explore') {
+      e.preventDefault()
+      pubSub.publish(ON_NAVBAR_SEARCH_CLICKED, null)
+    }
+  }
 
   const handleLogout = async () => {
     confirm({
@@ -57,7 +68,7 @@ const NavbarProfile: React.FC = () => {
               </Button>
             </Menu.Item>
             <Menu.Item>
-              <Button variant="light" block>
+              <Button as={Link} to="/explore" variant="light" block onClick={handleSearchClick}>
                 Explore Candidate
               </Button>
             </Menu.Item>
