@@ -27,19 +27,19 @@ const GeoPicker: React.FC<PropType> = ({ city, value, error, onValueChange }) =>
 
   useEffect(() => {
     if (!value) return
-    const [long, lat] = value.split(',')
-    const iLong = parseFloat(long)
+    const [lat, lng] = value.split(',')
+    const iLng = parseFloat(lng)
     const iLat = parseFloat(lat)
 
-    if (isNaN(iLat) || isNaN(iLong)) return
-    setLatLng([iLat, iLong])
-    setViewLatLng([iLat, iLong])
+    if (isNaN(iLat) || isNaN(iLng)) return
+    setLatLng([iLat, iLng])
+    setViewLatLng([iLat, iLng])
   }, [value])
 
   const onLatLngChange = (value: LatLng) => {
     setLatLng(value)
     setViewLatLng(value)
-    onValueChange?.(`${value[1]},${value[0]}`)
+    onValueChange?.(value.join(', '))
   }
 
   return (
