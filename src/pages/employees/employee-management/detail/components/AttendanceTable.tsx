@@ -13,7 +13,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const [selectedLocation, setSelectedLocation] = useState<[[number, number] | null, [number, number] | null]>([null, null])
   const previewImage = usePreviewImage()
 
-  const { pageData } = useAsyncSearch(
+  const { pageData, isLoading } = useAsyncSearch(
     (params: Parameters<typeof attendanceService.fetchEmployeeAttendanceHistories>[1]) =>
       attendanceService.fetchEmployeeAttendanceHistories(employee.oid, params),
     {
@@ -23,8 +23,9 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   )
 
   const pagination = usePagination({
-    pathname: '/employees/employee-management',
+    pathname: `/employees/employee-management/${employee.oid}`,
     totalPage: pageData?.totalPages,
+    params: { tab: 'attendance' },
   })
 
   const headerItems = [
@@ -118,7 +119,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
         radius={100}
         onClose={() => setSelectedLocation([null, null])}
       />
-      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={!pageData} />
+      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={isLoading} />
       <CardFooter className="justify-center">{pagination.render()}</CardFooter>
     </Card>
   )

@@ -1,15 +1,25 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import useAsyncSearch from '@/hooks/use-async-search'
+import usePagination from '@/hooks/use-pagination'
 import { attendanceService } from '@/services'
-import { Card } from 'jobseeker-ui'
+import { Card, CardFooter } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import React from 'react'
 
-const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
+const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const previewImage = usePreviewImage()
 
-  const { pageData } = useAsyncSearch(attendanceService.fetchEmployeeLeave)
+  const { pageData, isLoading } = useAsyncSearch(attendanceService.fetchEmployeeLeave, {
+    employee_id: employee.oid,
+    limit: 30,
+  })
+
+  const pagination = usePagination({
+    pathname: `/employees/employee-management/${employee.oid}`,
+    totalPage: pageData?.totalPages,
+    params: { tab: 'leave-request' },
+  })
 
   const headerItems = [
     { children: 'Request Date', className: 'text-left' },
@@ -23,7 +33,7 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
     { children: 'Status', className: 'text-left' },
   ]
 
-  const bodyItems = pageData?.map((item) => ({
+  const bodyItems = pageData?.content.map((item) => ({
     items: [
       {
         children: item.createdAt || '',
@@ -67,7 +77,8 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = () => {
 
   return (
     <Card>
-      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={!pageData} />
+      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={isLoading} />
+      <CardFooter className="justify-center">{pagination.render()}</CardFooter>
     </Card>
   )
 }
