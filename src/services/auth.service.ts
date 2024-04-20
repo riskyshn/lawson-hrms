@@ -9,6 +9,18 @@ export const login = (payload: { email: string; password: string }) => {
     .then(({ data }) => data)
 }
 
+export const forgotPasswordRequest = (payload: { email: string }) => {
+  return axios.post('/auth/forgot-password', payload).then(({ data }) => data)
+}
+
+export const checkforgotPasswordToken = (params: { token: string }) => {
+  return axios.get('/open-auth/check-forgot-password', { params }).then(({ data }) => data)
+}
+
+export const resetPassword = (payload: Record<string, any>) => {
+  return axios.post('/auth/reset-password', payload).then(({ data }) => data)
+}
+
 export const refreshAccessToken = async (payload: { refresh_token: string; access_token: string }) => {
   return axios
     .get('/auth/refresh', {

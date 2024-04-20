@@ -24,7 +24,7 @@ import { axiosErrorMessage } from '@/utils/axios'
 
 const schema = yup.object({
   vacancyName: yup.string().required().label('Position Name'),
-  departmentId: yup.string().required().label('Depantment'),
+  departmentId: yup.string().required().label('Department'),
   branchId: yup.string().required().label('Branch'),
   expiredDate: yup
     .date()

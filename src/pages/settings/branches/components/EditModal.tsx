@@ -3,7 +3,7 @@ import useRemember from '@/hooks/use-remember'
 import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, BaseInput, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -19,7 +19,7 @@ type EditModalProps = {
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
   address: yup.string().required().label('Address'),
-  longlat: yup.string().required().label('Longlat'),
+  latLng: yup.string().required().label('LatLng'),
   range: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -52,8 +52,8 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       setErrorMessage('')
       setValue('name', item.name || '')
       setValue('address', item.address || '')
-      if (item.coordinate) setValue('longlat', `${item.coordinate.coordinates[1]},${item.coordinate.coordinates[0]}`)
-      else setValue('longlat', '')
+      if (item.coordinate) setValue('latLng', `${item.coordinate.coordinates[0]},${item.coordinate.coordinates[1]}`)
+      else setValue('latLng', '')
       if (item.range) setValue('range', item.range)
       else setValue('range', 0)
       setValue('cityId', item.city?.oid || '')
@@ -61,8 +61,12 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
     }
   }, [item, setValue, trigger])
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async ({ latLng, ...data }) => {
     if (!item) return
+
+    const [lat, lng] = latLng.split(',')
+    // @ts-ignore
+    data.longlat = `${lng.trim()}, ${lat.trim()}`
 
     try {
       setIsLoading(true)
@@ -103,13 +107,14 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
             trigger('cityId')
           }}
         />
-        <InputWrapper label="Longlat" labelRequired error={errors.longlat?.message}>
+        <InputWrapper label="LatLng" labelRequired error={errors.latLng?.message}>
+          <BaseInput className="mb-3" error={errors.latLng?.message} {...register('latLng')} />
           <GeoPicker
-            error={errors.longlat?.message}
-            value={getValues('longlat')}
+            error={errors.latLng?.message}
+            value={getValues('latLng')}
             onValueChange={(v) => {
-              setValue('longlat', v)
-              trigger('longlat')
+              setValue('latLng', v)
+              trigger('latLng')
             }}
           />
         </InputWrapper>

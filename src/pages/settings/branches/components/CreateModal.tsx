@@ -2,7 +2,7 @@ import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, BaseInput, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -19,7 +19,7 @@ type CreateModalProps = {
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
   address: yup.string().required().label('Address'),
-  longlat: yup.string().required().label('Longlat'),
+  latLng: yup.string().required().label('LatLng'),
   range: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -42,6 +42,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
     getValues,
     setValue,
     trigger,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -49,7 +50,11 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
 
   const city = useRemember(cities.find((el) => el.oid === getValues('cityId')))
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async ({ latLng, ...data }) => {
+    const [lat, lng] = latLng.split(',')
+    // @ts-ignore
+    data.longlat = `${lng.trim()}, ${lat.trim()}`
+
     try {
       setIsLoading(true)
       setErrorMessage('')
@@ -100,14 +105,15 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
             trigger('cityId')
           }}
         />
-        <InputWrapper label="Longlat" labelRequired error={errors.longlat?.message} help={!city && 'Pleace select a city before.'}>
+        <InputWrapper label="LatLng" labelRequired error={errors.latLng?.message} help={!city && 'Pleace select a city before.'}>
+          <BaseInput className="mb-3" error={errors.latLng?.message} {...register('latLng')} />
           <GeoPicker
-            error={errors.longlat?.message}
-            value={getValues('longlat')}
+            error={errors.latLng?.message}
+            value={watch('latLng')}
             city={city?.name}
             onValueChange={(v) => {
-              setValue('longlat', v)
-              trigger('longlat')
+              setValue('latLng', v)
+              trigger('latLng')
             }}
           />
         </InputWrapper>
