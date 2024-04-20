@@ -75,7 +75,7 @@ const CreateEmployeePage = () => {
       setIsSubmitLoading(false)
     }
   }
-
+  console.log(isLoaded, isLoading)
   return (
     <>
       <PageHeader
@@ -99,34 +99,34 @@ const CreateEmployeePage = () => {
           ]}
         />
 
-        {!(isLoaded || isLoading) && (
+        {!(isLoaded || !isLoading) && (
           <div className="flex items-center justify-center py-48">
             <Spinner height={40} className="text-primary-600" />
           </div>
         )}
 
-        {(isLoaded || isLoading) && activeStep === 0 && (
+        {(isLoaded || !isLoading) && activeStep === 0 && (
           <PersonalDataForm
             defaultValue={formValues.personalData}
             handlePrev={handlePrev}
             handleSubmit={(personalData) => handleStepSubmit({ ...formValues, personalData })}
           />
         )}
-        {(isLoaded || isLoading) && activeStep === 1 && (
+        {(isLoaded || !isLoading) && activeStep === 1 && (
           <EmploymentDataForm
             defaultValue={formValues.employment}
             handlePrev={handlePrev}
             handleSubmit={(employment) => handleStepSubmit({ ...formValues, employment })}
           />
         )}
-        {(isLoaded || isLoading) && activeStep === 2 && (
+        {(isLoaded || !isLoading) && activeStep === 2 && (
           <PayrollDataForm
             defaultValue={formValues.payroll}
             handlePrev={handlePrev}
             handleSubmit={(payroll) => handleStepSubmit({ ...formValues, payroll })}
           />
         )}
-        {(isLoaded || isLoading) && activeStep === 3 && (
+        {(isLoaded || !isLoading) && activeStep === 3 && (
           <ComponentsDataForm
             defaultValue={formValues.components}
             allFormData={formValues}
