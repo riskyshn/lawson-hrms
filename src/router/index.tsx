@@ -22,8 +22,12 @@ const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.private])
 
-  if (props.private && user) return <Outlet />
-  if (props.guest && !user) return <Outlet />
+  if (props.private) {
+    if (user) return <Outlet />
+  } else {
+    return <Outlet />
+  }
+
   return null
 }
 
