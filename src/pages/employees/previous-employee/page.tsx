@@ -8,7 +8,7 @@ import { employeeService } from '@/services'
 import { useSearchParams } from 'react-router-dom'
 import Table from './components/Table'
 
-const PreviousEmployeePage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
@@ -55,4 +55,4 @@ const PreviousEmployeePage: React.FC = () => {
   )
 }
 
-export default PreviousEmployeePage
+Component.displayName = 'PreviousEmployeePage'

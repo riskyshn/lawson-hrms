@@ -1,4 +1,4 @@
-import MainLayout from '@/components/Layout/MainLayout'
+import { Component as MainLayout } from '@/components/Layout/MainLayout'
 import { useAuthStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Button } from 'jobseeker-ui'

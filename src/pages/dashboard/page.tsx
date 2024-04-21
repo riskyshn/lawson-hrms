@@ -9,7 +9,7 @@ import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
 import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 import moment from 'moment'
 
-const DashboardPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { user } = useAuthStore()
   const { company } = useOrganizationStore()
   return (
@@ -51,4 +51,4 @@ const DashboardPage: React.FC = () => {
   )
 }
 
-export default DashboardPage
+Component.displayName = 'DashboardPage'

@@ -9,7 +9,7 @@ import LeaveTable from './components/LeaveTable'
 import ProfileCard from './components/ProfileCard'
 import { Spinner } from 'jobseeker-ui'
 
-const EmployeeDetailPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { employee, isLoading } = useEmployeePage()
 
   const [searchParams] = useSearchParams()
@@ -73,4 +73,4 @@ const EmployeeDetailPage: React.FC = () => {
   )
 }
 
-export default EmployeeDetailPage
+Component.displayName = 'EmployeeDetailPage'
