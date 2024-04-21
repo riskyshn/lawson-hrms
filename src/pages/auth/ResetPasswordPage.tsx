@@ -45,8 +45,8 @@ const ResetPasswordPage: React.FC = () => {
       try {
         await authService.checkforgotPasswordToken({ token })
         setCheckingToken(false)
-      } catch (e) {
-        setPageError({ status: 410, message: 'Expired or invalid token. Please request a new one.' })
+      } catch {
+        setPageError({ status: 419, message: 'The token has expired or is invalid. Please request a new one.' })
       }
     }
 
@@ -57,7 +57,7 @@ const ResetPasswordPage: React.FC = () => {
   const onSubmit = handleSubmit(async ({ password }) => {
     setIsLoading(true)
     try {
-      await authService.resetPassword({ email, token, password })
+      await authService.resetPassword({ email, token, password, passwordConfirmation: password })
       toast('Password reset successfully. You can now log in with your new password.', { color: 'success' })
       navigate('/auth/login')
     } catch (e) {

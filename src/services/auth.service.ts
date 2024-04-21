@@ -18,8 +18,14 @@ export const checkforgotPasswordToken = (params: { token: string }) => {
   return axios.get('/open-auth/check-forgot-password', { params }).then(({ data }) => data)
 }
 
-export const resetPassword = (payload: Record<string, any>) => {
-  return axios.post('/auth/reset-password', payload).then(({ data }) => data)
+export const resetPassword = ({ token, ...payload }: Record<string, any>) => {
+  return axios
+    .post('/auth/reset-password', payload, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+    .then(({ data }) => data)
 }
 
 export const changePassword = (payload: Record<string, any>) => {
