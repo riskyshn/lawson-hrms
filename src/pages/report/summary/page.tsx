@@ -9,10 +9,10 @@ import { BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Bar, Line } from 'react-chartjs-2'
 import { DateValueType } from 'react-tailwindcss-datepicker'
-import PageCard from '../../components/PageCard'
-import StatisticCards from '../../components/StatisticCards'
-import Table from '../../components/Table'
-import TableUserActivity from '../../components/TableUserActivity'
+import PageCard from '../components/PageCard'
+import StatisticCards from '../components/StatisticCards'
+import Table from '../components/Table'
+import TableUserActivity from '../components/TableUserActivity'
 
 interface RecruitmentFunnelData {
   interview?: { percentage?: number }
@@ -37,7 +37,7 @@ interface Dataset {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement)
 
-const SummaryPage = () => {
+export const Component: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [loadingBarChart, setLoadingBarChart] = useState(true)
   const [loadingLineChart, setLoadingLineChart] = useState(true)
@@ -320,4 +320,4 @@ const SummaryPage = () => {
   )
 }
 
-export default SummaryPage
+Component.displayName = 'SummaryPage'

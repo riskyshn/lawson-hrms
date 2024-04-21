@@ -6,9 +6,9 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
-import Modal from '../components/Modal'
+import Modal from './components/Modal'
 
-const CalendarPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
   const calendarRef = useRef<FullCalendar | null>(null)
@@ -105,4 +105,4 @@ const CalendarPage: React.FC = () => {
   )
 }
 
-export default CalendarPage
+Component.displayName = 'CalendarPage'
