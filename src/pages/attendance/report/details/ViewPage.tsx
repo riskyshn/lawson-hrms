@@ -1,17 +1,17 @@
 import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { useEffect, useState } from 'react'
-import { BaseInputDate, Button, CardBody, useToast } from 'jobseeker-ui'
-import DetailsTable from '../components/DetailsTable'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
-import { useParams } from 'react-router-dom'
-import { attendanceService, employeeService } from '@/services'
-import PageCard from '../components/PageCard'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/hooks/use-pagination'
-import ProfileCard from '../components/ProfileCard'
-import { DateValueType } from 'react-tailwindcss-datepicker'
+import { attendanceService, employeeService } from '@/services'
+import { BaseInputDateRange, Button, CardBody, useToast } from 'jobseeker-ui'
 import { FileSpreadsheetIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { DateValueType } from 'react-tailwindcss-datepicker'
+import DetailsTable from '../components/DetailsTable'
+import PageCard from '../components/PageCard'
+import ProfileCard from '../components/ProfileCard'
 
 const ViewPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -175,7 +175,7 @@ const ViewPage: React.FC = () => {
               filter={
                 open && (
                   <div className="grid grid-cols-1 gap-3 p-3">
-                    <BaseInputDate placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+                    <BaseInputDateRange placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
                   </div>
                 )
               }

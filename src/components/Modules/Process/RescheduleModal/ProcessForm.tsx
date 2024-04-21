@@ -117,15 +117,12 @@ const ProcessForm: React.FC<{
         <InputDate
           placeholder="Pick date"
           label="Date"
-          asSingle
-          useRange={false}
           displayFormat="DD-MM-YYYY"
           minDate={moment().toDate()}
           error={errors.date?.message}
-          value={{ startDate: getValues('date'), endDate: getValues('date') }}
-          onChange={(v) => {
-            // @ts-expect-error
-            setValue('date', v?.startDate || v?.endDate)
+          value={getValues('date')}
+          onValueChange={(v) => {
+            setValue('date', v)
             trigger('date')
           }}
         />

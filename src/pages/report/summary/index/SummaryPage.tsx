@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react'
 import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement } from 'chart.js'
-import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
-import { Bar, Line } from 'react-chartjs-2'
-import StatisticCards from '../../components/StatisticCards'
-import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import MainCard from '@/components/Elements/Layout/MainCard'
-import Table from '../../components/Table'
-import PageCard from '../../components/PageCard'
-import { reportService } from '@/services'
+import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/hooks/use-pagination'
+import { reportService } from '@/services'
+import { BarElement, CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from 'chart.js'
+import { BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
+import { Bar, Line } from 'react-chartjs-2'
 import { DateValueType } from 'react-tailwindcss-datepicker'
+import PageCard from '../../components/PageCard'
+import StatisticCards from '../../components/StatisticCards'
+import Table from '../../components/Table'
 import TableUserActivity from '../../components/TableUserActivity'
 
 interface RecruitmentFunnelData {
@@ -245,7 +245,7 @@ const SummaryPage = () => {
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="flex justify-between">
               <h2 className="text-2xl font-semibold">Recruitment Funnel</h2>
-              <BaseInputDate className="w-64" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+              <BaseInputDateRange className="w-64" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
             </div>
             {loadingBarChart ? (
               <div className="flex h-full items-center justify-center">

@@ -3,8 +3,8 @@ import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { masterService, reportService } from '@/services'
 import { useMasterStore, useOrganizationStore } from '@/store'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { BaseInputDate, Card, CardBody, Select } from 'jobseeker-ui'
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
+import { BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { useSearchParams } from 'react-router-dom'
@@ -166,7 +166,7 @@ const DemographyPage = () => {
     return (
       <div className="w-full rounded-lg border p-4 text-center">
         <h2 className="mb-2 text-lg font-semibold">{title}</h2>
-        <BaseInputDate
+        <BaseInputDateRange
           className="mb-2"
           placeholder="Start - End Date"
           onValueChange={(date) => handleDateChange(date, chartType)}

@@ -1,10 +1,22 @@
 import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { employeeService, payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputDate, InputWrapper, Select, useConfirm, useToast } from 'jobseeker-ui'
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Input,
+  InputDate,
+  InputDateRange,
+  InputWrapper,
+  Select,
+  useConfirm,
+  useToast,
+} from 'jobseeker-ui'
 import moment from 'moment'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -14,8 +26,13 @@ import EmployeeSelectorModal from '../../components/EmployeeSelectorModal'
 
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
-  startPeriod: yup.date().required().label('Start Period'),
-  endPeriod: yup.date().required().label('Start Period'),
+  period: yup
+    .object({
+      startDate: yup.date().required().label('Start date'),
+      endDate: yup.date().required().label('End date'),
+    })
+    .required()
+    .label('Start Period'),
   paymentedAt: yup.date().required().label('Paymented At'),
   approver: yup.string().required().label('Name'),
   employeeIds: yup.array().of(yup.string().required()).required().label('Employees'),
@@ -61,14 +78,7 @@ const RunRequestPage: React.FC = () => {
 
   if (pageError) throw pageError
 
-  const periodValue =
-    getValues('startPeriod') && getValues('startPeriod')
-      ? { startDate: getValues('startPeriod'), endDate: getValues('endPeriod') }
-      : undefined
-
-  const paymentedAt = getValues('paymentedAt') ? { startDate: getValues('paymentedAt'), endDate: getValues('paymentedAt') } : undefined
-
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async ({ period, paymentedAt, ...data }) => {
     setErrorMessage('')
 
     if (!data || !data.employeeIds || data.employeeIds.length === 0) {
@@ -81,13 +91,12 @@ const RunRequestPage: React.FC = () => {
 
     if (!confirmed) return
     setLoading(true)
-    data.startPeriod
     try {
       const payload = {
         ...data,
-        startPeriod: moment(data.startPeriod).format('YYYY-MM-DD'),
-        endPeriod: moment(data.endPeriod).format('YYYY-MM-DD'),
-        paymentedAt: moment(data.paymentedAt).format('YYYY-MM-DD'),
+        startPeriod: moment(period.startDate).format('YYYY-MM-DD'),
+        endPeriod: moment(period.endDate).format('YYYY-MM-DD'),
+        paymentedAt: moment(paymentedAt).format('YYYY-MM-DD'),
       }
       const resp = await payrollService.createPayrollRequest(payload)
       toast('Success fully generate payroll', { color: 'success' })
@@ -117,30 +126,26 @@ const RunRequestPage: React.FC = () => {
           {employees && (
             <CardBody className="grid grid-cols-1 gap-2">
               <Input labelRequired label="Payroll Name" placeholder="Payroll March" error={errors.name?.message} {...register('name')} />
-              <InputDate
+              <InputDateRange
                 label="Payroll Period"
                 labelRequired
                 displayFormat="DD-MM-YYYY"
                 name="period"
-                error={errors.startPeriod?.message || errors.endPeriod?.message}
-                value={periodValue}
+                error={errors.period?.message || errors.period?.startDate?.message || errors.period?.endDate?.message}
+                value={getValues('period')}
                 maxDate={new Date()}
                 onValueChange={(v) => {
-                  if (v?.startDate) setValue('startPeriod', new Date(v.startDate))
-                  if (v?.endDate) setValue('endPeriod', new Date(v.endDate))
-                  trigger('startPeriod')
-                  trigger('endPeriod')
+                  setValue('period', v)
+                  trigger('period')
                 }}
               />
               <InputDate
                 label="Payroll Schedule"
                 labelRequired
-                asSingle
-                useRange={false}
                 displayFormat="DD-MM-YYYY"
-                value={paymentedAt}
+                value={getValues('paymentedAt')}
                 onValueChange={(v) => {
-                  if (v?.startDate) setValue('paymentedAt', new Date(v.startDate))
+                  setValue('paymentedAt', v)
                   trigger('paymentedAt')
                 }}
               />

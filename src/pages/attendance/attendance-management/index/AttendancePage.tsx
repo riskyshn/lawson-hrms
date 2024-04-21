@@ -4,14 +4,14 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { attendanceService } from '@/services'
+import { useOrganizationStore } from '@/store'
+import { BaseInputDateRange, CardBody, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Table from '../components/Table'
-import { BaseInputDate, CardBody, Select } from 'jobseeker-ui'
-import { useOrganizationStore } from '@/store'
-import StatisticCards from './components/StatisticCards'
-import PageCard from '../components/PageCard'
 import { DateValueType } from 'react-tailwindcss-datepicker'
+import PageCard from '../components/PageCard'
+import Table from '../components/Table'
+import StatisticCards from './components/StatisticCards'
 
 const AttendancePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -104,7 +104,7 @@ const AttendancePage: React.FC = () => {
         subtitle="Manage Your Team Attendance"
         actions={
           <CardBody className="p-0">
-            <BaseInputDate className="z-50 mb-3" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+            <BaseInputDateRange className="z-50 mb-3" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
             <div className="chrome-scrollbar flex gap-3 overflow-x-scroll">
               {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
                 <PageCard

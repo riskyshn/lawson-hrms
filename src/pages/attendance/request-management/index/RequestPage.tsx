@@ -4,11 +4,11 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/hooks/use-pagination'
 import { attendanceService } from '@/services'
+import { BaseInputDateRange } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Table from '../components/Table'
-import { BaseInputDate } from 'jobseeker-ui'
 import { DateValueType } from 'react-tailwindcss-datepicker'
+import Table from '../components/Table'
 
 const RequestPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -109,7 +109,7 @@ const RequestPage: React.FC = () => {
               filter={
                 open && (
                   <div className="grid grid-cols-1 gap-3 p-3">
-                    <BaseInputDate placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+                    <BaseInputDateRange placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
                   </div>
                 )
               }

@@ -66,13 +66,10 @@ const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose, onUp
           label="Join Date"
           labelRequired
           error={errors.joinDate?.message}
-          asSingle
-          useRange={false}
           displayFormat="DD/MM/YYYY"
-          value={{ startDate: getValues('joinDate'), endDate: getValues('joinDate') }}
-          onChange={(v) => {
-            // @ts-expect-error
-            setValue('joinDate', v?.startDate || v?.endDate)
+          value={getValues('joinDate')}
+          onValueChange={(v) => {
+            setValue('joinDate', v)
             trigger('joinDate')
           }}
         />
