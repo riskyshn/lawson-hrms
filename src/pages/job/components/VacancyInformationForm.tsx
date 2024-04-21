@@ -1,6 +1,7 @@
 import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import { masterService, vacancyService } from '@/services'
 import { useMasterStore, useOrganizationStore } from '@/store'
+import { axiosErrorMessage } from '@/utils/axios'
 import currencyToNumber from '@/utils/currency-to-number'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
@@ -20,7 +21,6 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import InputApprovalProcess from './InputApprovalProcess'
-import { axiosErrorMessage } from '@/utils/axios'
 
 const schema = yup.object({
   vacancyName: yup.string().required().label('Position Name'),
@@ -135,7 +135,6 @@ const VacancyInformationForm: React.FC<{
     if (props.isRequisition && !getValues('rrNumber') && !props.defaultValue.rrNumber) loadRrNumber()
   }, [getValues, props.defaultValue.rrNumber, props.isRequisition, setError, setValue, trigger])
 
-  const expiredDate = getValues('expiredDate')
   return (
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
@@ -185,14 +184,11 @@ const VacancyInformationForm: React.FC<{
             label="Expired at"
             labelRequired
             error={errors.expiredDate?.message}
-            asSingle
-            useRange={false}
             minDate={new Date()}
             displayFormat="DD/MM/YYYY"
-            value={expiredDate ? { startDate: expiredDate, endDate: expiredDate } : undefined}
-            onChange={(v) => {
-              // @ts-expect-error
-              setValue('expiredDate', v?.startDate || v?.endDate)
+            value={getValues('expiredDate')}
+            onValueChange={(v) => {
+              setValue('expiredDate', v)
               trigger('expiredDate')
             }}
           />

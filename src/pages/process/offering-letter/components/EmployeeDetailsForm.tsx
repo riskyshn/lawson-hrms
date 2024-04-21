@@ -44,8 +44,6 @@ const EmployeeDetailsForm: React.FC<{
     masterService.fetchCities({ limit: 1, q: props.defaultValue.cityId })
   }, [props.defaultValue?.cityId, initialCity])
 
-  const expiryDate = getValues('expiryDate')
-
   return (
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
@@ -136,28 +134,22 @@ const EmployeeDetailsForm: React.FC<{
           label="Join Date"
           labelRequired
           error={errors.joinDate?.message}
-          asSingle
-          useRange={false}
           popoverDirection="up"
           displayFormat="DD/MM/YYYY"
-          value={{ startDate: getValues('joinDate'), endDate: getValues('joinDate') }}
-          onChange={(v) => {
-            // @ts-expect-error
-            setValue('joinDate', v?.startDate || v?.endDate)
+          value={getValues('joinDate')}
+          onValueChange={(v) => {
+            setValue('joinDate', v)
             trigger('joinDate')
           }}
         />
         <InputDate
           label="Expiry Date"
           error={errors.expiryDate?.message}
-          asSingle
-          useRange={false}
           popoverDirection="up"
           displayFormat="DD/MM/YYYY"
-          value={expiryDate ? { startDate: expiryDate, endDate: expiryDate } : undefined}
-          onChange={(v) => {
-            // @ts-expect-error
-            setValue('expiryDate', v?.startDate || v?.endDate || undefined)
+          value={getValues('expiryDate')}
+          onValueChange={(v) => {
+            setValue('expiryDate', v)
             trigger('expiryDate')
           }}
         />

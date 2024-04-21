@@ -1,5 +1,5 @@
-import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
+import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
 import { PHONE_REG_EXP } from '@/constants/globals'
 import { masterService } from '@/services'
 import { useMasterStore } from '@/store'
@@ -150,13 +150,10 @@ const PersonalDataForm: React.FC<{
             label="Date of Birth"
             labelRequired
             error={errors.birthDate?.message}
-            asSingle
-            useRange={false}
             displayFormat="DD/MM/YYYY"
-            value={{ startDate: getValues('birthDate'), endDate: getValues('birthDate') }}
-            onChange={(v) => {
-              // @ts-expect-error
-              setValue('birthDate', v?.startDate || v?.endDate)
+            value={getValues('birthDate')}
+            onValueChange={(v) => {
+              setValue('birthDate', v)
               trigger('birthDate')
             }}
           />

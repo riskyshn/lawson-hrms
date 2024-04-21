@@ -1,7 +1,7 @@
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncSearch from '@/hooks/use-async-search'
 import { dashboardService } from '@/services'
-import { BaseInputDate, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
+import { BaseInputDateRange, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
 import moment from 'moment'
 import { useState } from 'react'
 import AnnouncementItem from './AnnouncmentItem'
@@ -15,8 +15,8 @@ const AnnouncementCard: React.FC = () => {
 
   const { pageData, isLoading, onRefresh } = useAsyncSearch(dashboardService.fetchAnnouncements, {
     limit: 20,
-    start_date: filterDate?.startDate ? moment(filterDate?.startDate).format('Y-MM-DD') : undefined,
-    end_date: filterDate?.endDate ? moment(filterDate?.endDate).format('Y-MM-DD') : undefined,
+    start_date: filterDate?.startDate && moment(filterDate.startDate).format('Y-MM-DD'),
+    end_date: filterDate?.endDate && moment(filterDate.endDate).format('Y-MM-DD'),
   })
 
   return (
@@ -28,19 +28,7 @@ const AnnouncementCard: React.FC = () => {
         <>
           <CardHeader
             className="h-16"
-            actions={
-              <BaseInputDate
-                placeholder="Filter by date"
-                value={filterDate}
-                onValueChange={(v) => {
-                  if (v?.startDate && v?.endDate) {
-                    setFilterDate({ startDate: new Date(v.startDate), endDate: new Date(v.endDate) })
-                  } else {
-                    setFilterDate(undefined)
-                  }
-                }}
-              />
-            }
+            actions={<BaseInputDateRange placeholder="Filter by date" value={filterDate} onValueChange={setFilterDate} />}
           >
             <div className="font-semibold">Announcement</div>
           </CardHeader>

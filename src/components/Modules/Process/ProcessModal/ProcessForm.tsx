@@ -6,9 +6,9 @@ import { ClockIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import SelectEmployees from './SelectEmployees'
-import { useNavigate } from 'react-router-dom'
 
 const schema = yup.object({
   name: yup.string().required().label('Title'),
@@ -125,15 +125,12 @@ const ProcessForm: React.FC<{
         <InputDate
           placeholder="Pick date"
           label="Date"
-          asSingle
-          useRange={false}
           displayFormat="DD-MM-YYYY"
           minDate={moment().toDate()}
           error={errors.date?.message}
-          value={{ startDate: getValues('date'), endDate: getValues('date') }}
-          onChange={(v) => {
-            // @ts-expect-error
-            setValue('date', v?.startDate || v?.endDate)
+          value={getValues('date')}
+          onValueChange={(v) => {
+            setValue('date', v)
             trigger('date')
           }}
         />
