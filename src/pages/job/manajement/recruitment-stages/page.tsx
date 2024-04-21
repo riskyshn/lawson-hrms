@@ -4,7 +4,7 @@ import { Button } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
 import RecruitmentStagesEditor from '../../components/RecruitmentStageEditor'
 
-const RecruitmentStagesPage: React.FC = () => {
+export const Component: React.FC = () => {
   return (
     <>
       <PageHeader
@@ -24,4 +24,4 @@ const RecruitmentStagesPage: React.FC = () => {
   )
 }
 
-export default RecruitmentStagesPage
+Component.displayName = 'RecruitmentStagesPage'

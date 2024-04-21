@@ -5,7 +5,7 @@ import { masterService, reportService } from '@/services'
 import { useMasterStore, useOrganizationStore } from '@/store'
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
 import { BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
@@ -38,7 +38,7 @@ const fetchData = async (fetchFunction: any) => {
   }
 }
 
-const DemographyPage = () => {
+export const Component: React.FC = () => {
   const todayFormatted = new Date().toISOString().split('T')[0]
   const defaultStartDate = new Date('1990-01-01').toISOString().split('T')[0]
   const [isLoading, setIsLoading] = useState(true)
@@ -311,4 +311,4 @@ const DemographyPage = () => {
   )
 }
 
-export default DemographyPage
+Component.displayName = 'DemographyPage'

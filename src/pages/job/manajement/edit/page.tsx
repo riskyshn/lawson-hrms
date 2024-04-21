@@ -4,7 +4,7 @@ import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
@@ -12,7 +12,7 @@ import VacancyInformationForm from '../../components/VacancyInformationForm'
 import useVacancyPage from '../../hooks/use-vacancy-page'
 import { vacancyToFormEdit } from '../../utils/vacancy-to-form-edit'
 
-const EditJobPage = () => {
+export const Component: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const toast = useToast()
@@ -131,4 +131,4 @@ const EditJobPage = () => {
   )
 }
 
-export default EditJobPage
+Component.displayName = 'EditJobPage'

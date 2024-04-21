@@ -8,64 +8,58 @@ import { vacancyService } from '@/services'
 import { useOrganizationStore } from '@/store'
 import { Button, Select } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
-import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import StatisticCards from '../../components/StatisticCards'
-import HistoryModal from './components/HistoryModal'
 import Table from './components/Table'
 
-const JobRequisitionPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
+  const search = searchParams.get('search')
   const department = searchParams.get('department') || undefined
   const status = searchParams.get('status') || undefined
 
   const { master } = useOrganizationStore()
 
-  const [selectedToShowHistoryModal, setSelectedToShowHistoryModal] = useState<IVacancy | null>(null)
-
   const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch(
     vacancyService.fetchVacancies,
-    { limit: 20, status, departmentId: department, isRequisition: 1 },
+    { limit: 20, status, departmentId: department, isRequisition: 0 },
     search,
   )
 
   const pagination = usePagination({
-    pathname: '/job/requisition',
+    pathname: '/job/management',
     totalPage: pageData?.totalPages,
     params: { search, department, status },
   })
 
   return (
     <>
-      <HistoryModal item={selectedToShowHistoryModal} onClose={() => setSelectedToShowHistoryModal(null)} />
-
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
-        title="Job Requisition"
-        subtitle="Manage Your Job Requisition Needs"
+        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Job Management' }]}
+        title="Job Management"
+        subtitle="Manage Your Job Vacancy"
         actions={
           <>
             <Button
               as={Link}
-              to="/job/requisition/approve-list"
+              to="/job/management/recruitment-stages"
               variant="light"
               color="primary"
               className="text-gray-600"
               leftChild={<SettingsIcon size={16} />}
             >
-              Approve List
+              Recruitment Stages
             </Button>
-            <Button as={Link} to="/job/requisition/create" color="primary" className="ml-3">
-              Create Requisition
+            <Button as={Link} to="/job/management/create" color="primary" className="ml-3">
+              Create Job Posting
             </Button>
           </>
         }
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards isRequisition refresh={refresh} />
+        <StatisticCards refresh={refresh} />
 
         <MainCard
           header={(open, toggleOpen) => (
@@ -79,10 +73,14 @@ const JobRequisitionPage: React.FC = () => {
               }
               search={{
                 value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
+                setValue: (e) => {
+                  searchParams.set('search', e)
+                  searchParams.delete('page')
+                  setSearchParam(searchParams)
+                },
               }}
-              filterToogle={toggleOpen}
               onRefresh={onRefresh}
+              filterToogle={toggleOpen}
               filter={
                 open && (
                   <div className="grid grid-cols-2 gap-3 p-3">
@@ -92,6 +90,7 @@ const JobRequisitionPage: React.FC = () => {
                       value={department}
                       onChange={(e) => {
                         searchParams.set('department', e.toString())
+                        searchParams.delete('page')
                         setSearchParam(searchParams)
                       }}
                       options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
@@ -102,11 +101,12 @@ const JobRequisitionPage: React.FC = () => {
                       value={status}
                       onChange={(e) => {
                         searchParams.set('status', e.toString())
+                        searchParams.delete('page')
                         setSearchParam(searchParams)
                       }}
-                      options={['Progress', 'Approved', 'Published', 'Draft', 'Canceled', 'Rejected'].map((el) => ({
+                      options={['Active', 'Inactive', 'Draft', 'Expired', 'Fulfilled'].map((el) => ({
                         label: el,
-                        value: el.toLowerCase(),
+                        value: el.toLocaleLowerCase(),
                       }))}
                     />
                   </div>
@@ -114,14 +114,7 @@ const JobRequisitionPage: React.FC = () => {
               }
             />
           )}
-          body={
-            <Table
-              items={pageData?.content || []}
-              loading={isLoading}
-              onRefresh={onRefresh}
-              setSelectedToShowHistoryModal={setSelectedToShowHistoryModal}
-            />
-          }
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
           footer={pagination.render()}
         />
       </Container>
@@ -129,4 +122,4 @@ const JobRequisitionPage: React.FC = () => {
   )
 }
 
-export default JobRequisitionPage
+Component.displayName = 'JobManajementPage'

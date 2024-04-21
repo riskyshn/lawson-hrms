@@ -3,14 +3,14 @@ import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { vacancyService } from '@/services'
 import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import moment from 'moment'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
-import moment from 'moment'
 
-const CreateJobRequisitionPage = () => {
+export const Component: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
@@ -114,4 +114,4 @@ const CreateJobRequisitionPage = () => {
   )
 }
 
-export default CreateJobRequisitionPage
+Component.displayName = 'CreateJobRequisitionPage'
