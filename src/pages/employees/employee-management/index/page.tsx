@@ -12,7 +12,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import ResignTerminateModal from './components/ResignTerminateModal'
 import Table from './components/Table'
 
-const EmployeeManagementPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
@@ -115,4 +115,4 @@ const EmployeeManagementPage: React.FC = () => {
   )
 }
 
-export default EmployeeManagementPage
+Component.displayName = 'EmployeeManagementPage'

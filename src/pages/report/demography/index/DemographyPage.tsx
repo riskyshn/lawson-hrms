@@ -143,6 +143,7 @@ const DemographyPage = () => {
 
   useEffect(() => {
     fetchAllData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterDates, filterProvince, filterEducation, filterGender, filterAge, filterExperience, filterDepartment])
 
   const handleDateChange = (selectedDate: DateValueType, chartType: string) => {
