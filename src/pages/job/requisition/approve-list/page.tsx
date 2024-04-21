@@ -8,7 +8,7 @@ import { MinusCircleIcon, PlusCircleIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-const ApproveListPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [employees, setEmployees] = useState<OptionProps[]>([])
   const [values, setValues] = useState<string[]>([])
   const [initLoading, setInitLoading] = useState<boolean>(true)
@@ -120,4 +120,4 @@ const ApproveListPage: React.FC = () => {
   )
 }
 
-export default ApproveListPage
+Component.displayName = 'ApproveListPage'

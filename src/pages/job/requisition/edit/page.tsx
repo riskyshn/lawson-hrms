@@ -12,7 +12,7 @@ import VacancyInformationForm from '../../components/VacancyInformationForm'
 import useVacancyPage from '../../hooks/use-vacancy-page'
 import { vacancyToFormEdit } from '../../utils/vacancy-to-form-edit'
 
-const EditJobRequisitionPage = () => {
+export const Component: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
   const toast = useToast()
@@ -135,4 +135,4 @@ const EditJobRequisitionPage = () => {
   )
 }
 
-export default EditJobRequisitionPage
+Component.displayName = 'EditJobRequisitionPage'

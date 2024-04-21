@@ -10,7 +10,7 @@ import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
 
-const CreateJobPage = () => {
+export const Component: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
   const toast = useToast()
@@ -112,4 +112,4 @@ const CreateJobPage = () => {
   )
 }
 
-export default CreateJobPage
+Component.displayName = 'CreateJobPage'

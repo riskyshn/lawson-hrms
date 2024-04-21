@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import PreviewVacancy from '../../components/PreviewVacancy'
 import useVacancyPage from '../../hooks/use-vacancy-page'
 
-const DetailJobPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { vacancy, isLoading } = useVacancyPage()
 
   return (
@@ -26,4 +26,4 @@ const DetailJobPage: React.FC = () => {
   )
 }
 
-export default DetailJobPage
+Component.displayName = 'DetailJobPage'

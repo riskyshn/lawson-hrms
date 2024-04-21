@@ -16,7 +16,7 @@ const schema = yup.object().shape({
   notes: yup.string().required().label('Notes'),
 })
 
-const DetailJobRequisitionPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { vacancy, isLoading } = useVacancyPage()
   const [loading, setLoading] = useState(false)
   const [employee, setEmployee] = useState<IEmployee>()
@@ -118,4 +118,4 @@ const DetailJobRequisitionPage: React.FC = () => {
   )
 }
 
-export default DetailJobRequisitionPage
+Component.displayName = 'DetailJobRequisitionPage'
