@@ -58,7 +58,7 @@ const ExplorePage: React.FC = () => {
       <div className="relative z-10 border-b bg-white pb-3">
         <div className="background-animate relative h-20 overflow-hidden bg-gradient-to-r from-primary-400 to-primary-900 px-3 text-white">
           <span
-            className="absolute inset-0 block bg-cover bg-center bg-no-repeat opacity-10"
+            className="absolute inset-0 block bg-cover bg-fixed bg-center bg-no-repeat opacity-10"
             style={{
               backgroundImage: `url(${BgImage})`,
             }}
