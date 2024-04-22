@@ -14,7 +14,7 @@ const Card: React.FC<{
   </div>
 )
 
-const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ switchData, light }) => {
+const StatisticCards: React.FC<{ filterDate?: any }> = ({ filterDate }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<any>(null)
   const [error, setError] = useState<any>(null)
@@ -23,7 +23,10 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
     const fetchData = async () => {
       setLoading(true)
       try {
-        const data = await attendanceService.fetchStatistic()
+        const data = await attendanceService.fetchStatistic({
+          start_date: filterDate.startDate,
+          end_date: filterDate.endDate,
+        })
         setData(data)
       } catch (error) {
         setError(error)
@@ -31,7 +34,7 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
       setLoading(false)
     }
     fetchData()
-  }, [switchData])
+  }, [filterDate])
 
   const renderCards = () => {
     if (error) {
@@ -44,7 +47,7 @@ const StatisticCards: React.FC<{ light?: boolean; switchData?: boolean }> = ({ s
     const cardData = data.map((item: { title: string; count: number }, index: number) => ({
       label: item.title,
       value: item.count,
-      className: `text-white bg-${light ? colors[index] : colors[index]}-600`,
+      className: `text-white bg-${colors[index]}-600`,
     }))
 
     return cardData.map((rest: any, index: number) => <Card key={index} {...rest} />)

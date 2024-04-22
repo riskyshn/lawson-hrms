@@ -1,8 +1,6 @@
 import ClientVisitPage from '@/pages/attendance/attendance-management/client-visit/ClientVisitPage'
 import AttendancePage from '@/pages/attendance/attendance-management/index/AttendancePage'
 import OvertimePage from '@/pages/attendance/attendance-management/overtime/OvertimePage'
-import OvertimeReportPage from '@/pages/attendance/report/overtime/OvertimePage'
-import ClientVisitReportPage from '@/pages/attendance/report/client-visit/ClientVisitPage'
 import ViewPage from '@/pages/attendance/report/details/ViewPage'
 import ReportPage from '@/pages/attendance/report/index/ReportPage'
 import RequestPage from '@/pages/attendance/request-management/index/RequestPage'
@@ -74,32 +72,12 @@ const attendanceRoute: RouteObject = {
       ],
     },
     {
-      path: 'report/:employeeId/attendance',
+      path: 'report/:employeeId',
       name: 'Report Details',
       children: [
         {
           path: '',
           element: <ViewPage />,
-        },
-      ],
-    },
-    {
-      path: 'report/:employeeId/client-visit',
-      name: 'Report Details Client Visit',
-      children: [
-        {
-          path: '',
-          element: <ClientVisitReportPage />,
-        },
-      ],
-    },
-    {
-      path: 'report/:employeeId/overtime',
-      name: 'Report Details Overtime',
-      children: [
-        {
-          path: '',
-          element: <OvertimeReportPage />,
         },
       ],
     },
