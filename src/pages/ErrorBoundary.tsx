@@ -9,6 +9,7 @@ const ErrorBoundary: React.FC = () => {
   const auth = useAuthStore()
   const error: any = useRouteError()
 
+  const hideLayout = !!error.hideLayout
   const code = error.response?.status || error.status || 500
   const errorMessage = axiosErrorMessage(error) || 'An error occurred.'
 
@@ -29,7 +30,7 @@ const ErrorBoundary: React.FC = () => {
 
   console.log('Error Boundary :', error)
 
-  const Component = auth.user ? MainLayout : Fragment
+  const Component = auth.user && !hideLayout ? MainLayout : Fragment
 
   return (
     <Component>

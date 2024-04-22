@@ -27,15 +27,17 @@ export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
 
   if (withAuth) {
     request.interceptors.request.use(async (config) => {
-      try {
-        const { refreshAccessToken } = useTokenStore.getState()
-        const { access_token } = await refreshAccessToken()
+      if (!config.headers?.Authorization) {
+        try {
+          const { refreshAccessToken } = useTokenStore.getState()
+          const { access_token } = await refreshAccessToken()
 
-        if (access_token) {
-          config.headers['Authorization'] = `Bearer ${access_token}`
+          if (access_token) {
+            config.headers['Authorization'] = `Bearer ${access_token}`
+          }
+        } catch {
+          //
         }
-      } catch {
-        //
       }
 
       const isLocal =

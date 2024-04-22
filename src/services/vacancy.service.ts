@@ -1,4 +1,4 @@
-import type { GenericAbortSignal } from 'axios'
+import type { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
@@ -18,8 +18,8 @@ export const fetchVacancies = (params?: FetchVacanciesParams, signal?: GenericAb
   return axios.get<{ data: IPaginationResponse<IVacancy> }>(`/vacancy`, { params, signal }).then((response) => response.data.data)
 }
 
-export const fetchVacancyDetail = (id: string) => {
-  return axios.get<{ data: IVacancy }>(`/vacancy/${id}`).then((response) => response.data.data)
+export const fetchVacancyDetail = (id: string, config?: AxiosRequestConfig) => {
+  return axios.get<{ data: IVacancy }>(`/vacancy/${id}`, config).then((response) => response.data.data)
 }
 
 export const createVacancy = (payload: Record<string, any>) => {
@@ -46,8 +46,8 @@ export const publishRequisition = (id: string) => {
   return axios.patch(`/requisition/${id}/publish`).then((response) => response.data.data)
 }
 
-export const approveRequisition = (id: string, payload: Record<string, any>) => {
-  return axios.patch(`/requisition/${id}/approve`, payload).then((response) => response.data.data)
+export const approveRequisition = (id: string, payload: Record<string, any>, config?: AxiosRequestConfig) => {
+  return axios.patch(`/requisition/${id}/approve`, payload, config).then((response) => response.data.data)
 }
 
 export const sendReminder = (id: string) => {
