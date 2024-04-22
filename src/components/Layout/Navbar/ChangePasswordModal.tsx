@@ -9,7 +9,7 @@ import * as yup from 'yup'
 const schema = yup.object().shape({
   oldPassword: yup.string().required().label('Old Password'),
   newPassword: yup.string().required().label('New Password'),
-  confirmNewPassword: yup.string().oneOf([yup.ref('newPassword')], 'New Password confirmation is not match'),
+  newPasswordConfirmation: yup.string().oneOf([yup.ref('newPassword')], 'New Password confirmation is not match'),
 })
 
 const ChangePasswordModal: React.FC<{ show?: boolean; onClose?: () => void }> = ({ show, onClose }) => {
@@ -72,8 +72,8 @@ const ChangePasswordModal: React.FC<{ show?: boolean; onClose?: () => void }> = 
           labelRequired
           type="password"
           placeholder="••••••••"
-          error={errors.confirmNewPassword?.message}
-          {...register('confirmNewPassword')}
+          error={errors.newPasswordConfirmation?.message}
+          {...register('newPasswordConfirmation')}
         />
       </div>
       <ModalFooter>
