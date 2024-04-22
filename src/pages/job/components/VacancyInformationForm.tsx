@@ -88,7 +88,7 @@ const schema = yup.object({
       then: (s) => s.required(),
       otherwise: (s) => s.optional(),
     })
-    .label('Approval Process'),
+    .label('RR Number'),
   isRequisition: yup.boolean().required(),
 })
 
