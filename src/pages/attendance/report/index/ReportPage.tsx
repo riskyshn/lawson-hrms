@@ -66,7 +66,7 @@ const ReportPage: React.FC = () => {
             />
           )}
           body={<Table items={pageData?.content || []} loading={isLoading} />}
-          footer={[]}
+          footer={pagination.render()}
         />
       </Container>
     </>

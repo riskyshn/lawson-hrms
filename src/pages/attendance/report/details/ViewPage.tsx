@@ -7,11 +7,11 @@ import { attendanceService, employeeService } from '@/services'
 import { BaseInputDateRange, Button, CardBody, useToast } from 'jobseeker-ui'
 import { FileSpreadsheetIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
 import DetailsTable from '../components/DetailsTable'
-import PageCard from '../components/PageCard'
 import ProfileCard from '../components/ProfileCard'
+import { twMerge } from 'tailwind-merge'
 
 const ViewPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -27,9 +27,13 @@ const ViewPage: React.FC = () => {
   })
   const toast = useToast()
 
+  const [searchParams] = useSearchParams()
+  const tab = searchParams.get('tab') || 'clock'
+
   const pagination = usePagination({
     pathname: `/attendance/report/${employeeId}`,
     totalPage: pageData?.totalPages || 0,
+    params: { tab: tab, startDate: filterDate?.startDate, endDate: filterDate.endDate },
   })
 
   useEffect(() => {
@@ -38,9 +42,10 @@ const ViewPage: React.FC = () => {
       try {
         if (employeeId) {
           const response = await attendanceService.fetchEmployee(employeeId, {
-            attendance_group: 'clock',
+            attendance_group: tab,
             start_date: filterDate?.startDate,
             end_date: filterDate?.endDate,
+            page: pagination.currentPage,
           })
           setPageData(response)
         }
@@ -52,7 +57,7 @@ const ViewPage: React.FC = () => {
     }
 
     loadEmployeeData()
-  }, [pagination.currentPage, employeeId, filterDate])
+  }, [pagination.currentPage, employeeId, filterDate, tab])
 
   useEffect(() => {
     setIsLoading(true)
@@ -133,57 +138,115 @@ const ViewPage: React.FC = () => {
         title="Report"
         subtitle="Manage Your Team Report"
         actions={
-          <>
-            <div className="flex flex-col">
-              <CardBody className="p-0">
-                <div className="chrome-scrollbar flex gap-3 overflow-x-scroll pb-2">
-                  {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
-                    <PageCard key={index} label={label} activeLabel={'Attendance'} />
-                  ))}
-                </div>
-              </CardBody>
-              <div className="flex justify-end">
-                <Button
-                  loading={isExporting}
-                  disabled={isExporting}
-                  onClick={handleExportToExcel}
-                  color="success"
-                  rightChild={<FileSpreadsheetIcon size={18} />}
-                  className="w-40 gap-2"
-                >
-                  Export To Excel
-                </Button>
-              </div>
+          <div className="flex flex-col">
+            <CardBody className="p-0">
+              <BaseInputDateRange
+                className="z-50 mb-3 w-64"
+                placeholder="Start - End Date"
+                onValueChange={handleDateChange}
+                value={filterDate}
+              />
+            </CardBody>
+            <div className="flex justify-end">
+              <Button
+                loading={isExporting}
+                disabled={isExporting}
+                onClick={handleExportToExcel}
+                color="success"
+                rightChild={<FileSpreadsheetIcon size={18} />}
+                className="w-40 gap-2"
+              >
+                Export To Excel
+              </Button>
             </div>
-          </>
+          </div>
         }
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <ProfileCard items={pageDataEmployee} filterDate={filterDate} />
-        <MainCard
-          header={(open, toggleOpen) => (
-            <MainCardHeader
-              title="Report List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
-              subtitle={
-                <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
-                </>
-              }
-              filterToogle={toggleOpen}
-              filter={
-                open && (
-                  <div className="grid grid-cols-1 gap-3 p-3">
-                    <BaseInputDateRange placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
-                  </div>
-                )
-              }
-            />
-          )}
-          body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
-          footer={pagination.render()}
-        />
+        <ProfileCard items={pageDataEmployee} filterDate={filterDate}>
+          <div className="flex border-b border-gray-200">
+            <Link
+              to={`/attendance/report/${pageDataEmployee?.oid}`}
+              className={twMerge(
+                'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
+                tab === 'clock' && 'border-primary-600',
+              )}
+            >
+              Attendance
+            </Link>
+            <Link
+              to={`/attendance/report/${pageDataEmployee?.oid}?tab=client_visit`}
+              className={twMerge(
+                'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
+                tab === 'client_visit' && 'border-primary-600',
+              )}
+            >
+              Client Visit
+            </Link>
+            <Link
+              to={`/attendance/report/${pageDataEmployee?.oid}?tab=overtime`}
+              className={twMerge(
+                'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
+                tab === 'overtime' && 'border-primary-600',
+              )}
+            >
+              Overtime
+            </Link>
+          </div>
+        </ProfileCard>
+
+        {tab === 'clock' && (
+          <MainCard
+            header={() => (
+              <MainCardHeader
+                title="Report List"
+                subtitleLoading={typeof pageData?.totalElements !== 'number'}
+                subtitle={
+                  <>
+                    You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
+                  </>
+                }
+              />
+            )}
+            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
+            footer={pagination.render()}
+          />
+        )}
+        {tab === 'client_visit' && (
+          <MainCard
+            header={() => (
+              <MainCardHeader
+                title="Report List"
+                subtitleLoading={typeof pageData?.totalElements !== 'number'}
+                subtitle={
+                  <>
+                    You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
+                  </>
+                }
+              />
+            )}
+            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
+            footer={pagination.render()}
+          />
+        )}
+        {tab === 'overtime' && (
+          <MainCard
+            header={() => (
+              <MainCardHeader
+                title="Report List"
+                subtitleLoading={typeof pageData?.totalElements !== 'number'}
+                subtitle={
+                  <>
+                    You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
+                  </>
+                }
+              />
+            )}
+            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
+            footer={pagination.render()}
+          />
+        )}
       </Container>
     </>
   )

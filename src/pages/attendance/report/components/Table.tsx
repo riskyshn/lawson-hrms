@@ -15,7 +15,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
   const navigate = useNavigate()
 
   const handleViewDetails = (id: string) => {
-    navigate(`/attendance/report/${id}/attendance`)
+    navigate(`/attendance/report/${id}`)
   }
 
   const headerItems = [

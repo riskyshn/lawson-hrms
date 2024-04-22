@@ -20,11 +20,11 @@ const ProfileCard: React.FC<PropType> = ({ items, children, filterDate }) => {
           <Avatar name={items?.name || ''} size={md ? 128 : 64} className="flex bg-primary-100 text-2xl text-primary-700" />
         </div>
 
-        <div className="flex flex-1 flex-col gap-3 lg:flex-row">
+        <div className="ml-2 flex flex-1 flex-col gap-3 lg:flex-row">
           <div className="flex-1">
             <span className="mb-2 block text-lg font-semibold lg:text-2xl">{items?.name}</span>
 
-            <div className="mb-4 flex flex-col lg:gap-3">
+            <div className="flex flex-col lg:gap-3">
               <div className="flex items-center gap-2">
                 <span className="block text-sm">{items?.employment?.position?.name}</span>
               </div>
@@ -52,11 +52,12 @@ const ProfileCard: React.FC<PropType> = ({ items, children, filterDate }) => {
                 )}
               </div>
             </div>
-
-            <StatisticCards items={items} filterDate={filterDate} />
           </div>
         </div>
       </CardBody>
+      <div className="p-4">
+        <StatisticCards items={items} filterDate={filterDate} />
+      </div>
 
       {children}
     </Card>
