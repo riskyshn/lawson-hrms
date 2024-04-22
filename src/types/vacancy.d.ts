@@ -1,4 +1,5 @@
 interface IVacancy {
+  name?: string
   oid: string
   createdAt?: string
   updatedAt?: string

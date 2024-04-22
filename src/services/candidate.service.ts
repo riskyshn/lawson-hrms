@@ -121,3 +121,7 @@ export const fetchVacanciesCandidate = (id: string) => {
 export const fetchCandidateToCreateEmployeeByApplicanId = (oid: string) => {
   return axiosCandidate.get<{ data: ICandidateToCreateEmployee }>(`/candidate/${oid}`).then((response) => response.data.data)
 }
+
+export const fetchDetailCandidate = (oid?: string, signal?: GenericAbortSignal) => {
+  return axiosCandidate.get<{ data: ICandidateHistories }>(`/candidate/history/${oid}`, { signal }).then((response) => response.data.data)
+}

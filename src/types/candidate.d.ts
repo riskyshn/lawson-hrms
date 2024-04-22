@@ -1,3 +1,26 @@
+interface ICandidateHistories {
+  candidate?: ICandidate
+  history?: {
+    vacancy?: IVacancy
+    histories?: {
+      oid?: string
+      applyProcess?: string
+      status?: string
+      type?: string
+      from?: string
+      inReview?: string
+      actionAt?: string
+      notes?: string
+      file?: string
+      schedules?: string
+      offeringLetter?: string
+      offeringLetterSigned?: string
+      createdAt?: string
+      updatedAt?: string
+    }[]
+  }[]
+}
+
 interface ICandidate {
   id: string
   candidateId?: string
