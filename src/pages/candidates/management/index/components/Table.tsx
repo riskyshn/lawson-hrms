@@ -137,6 +137,8 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
             return <MenuList options={['Go to Assessment']} candidate={candidate} onApplyVacancy={onDataChange} />
           } else if (candidate.module === 'INTERVIEW') {
             return <MenuList options={['Go to Interview']} candidate={candidate} onApplyVacancy={onDataChange} />
+          } else if (candidate.module === 'OFFERING') {
+            return <MenuList options={['Go to Offering Letter']} candidate={candidate} onApplyVacancy={onDataChange} />
           } else {
             return <MenuList options={options} candidate={candidate} onApplyVacancy={onDataChange} />
           }
