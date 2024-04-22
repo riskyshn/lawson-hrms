@@ -13,7 +13,7 @@ const schema = yup.object().shape({
   passwordConfirmation: yup.string().oneOf([yup.ref('password')], 'Password confirmation is not match'),
 })
 
-const ResetPasswordPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const [checkingToken, setCheckingToken] = useState(true)
@@ -107,4 +107,4 @@ const ResetPasswordPage: React.FC = () => {
   )
 }
 
-export default ResetPasswordPage
+Component.displayName = 'ResetPasswordPage'

@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 import BgImage from '@/assets/hero.jpg'
 import Logo from '@/components/Logo/Logo'
 
-const AuthLayout: React.FC = () => {
+export const Component: React.FC = () => {
   return (
     <div
       className="flex min-h-screen flex-col bg-cover bg-center bg-no-repeat"
@@ -31,4 +31,4 @@ const AuthLayout: React.FC = () => {
   )
 }
 
-export default AuthLayout
+Component.displayName = 'AuthLayout'

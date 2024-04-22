@@ -1,7 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
 
-import authRoute from './auth'
-
-const guestRoutes: RouteObject[] = [authRoute]
+const guestRoutes: RouteObject[] = []
 
 export default guestRoutes
