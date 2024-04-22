@@ -1,10 +1,12 @@
 interface IDashboardSchedule {
-  oid: string
   name?: string
-  startTime?: string
-  endTime?: string
+  description?: string
+  location?: string
+  guests?: string[]
   timezone?: string
-  date?: string
+  meet?: boolean
+  startedAt?: string
+  endedAt?: string
 }
 
 interface IDashboardRecentlyPostedJob {
