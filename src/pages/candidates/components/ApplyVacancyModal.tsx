@@ -1,5 +1,5 @@
 import MainModal from '@/components/Elements/Modals/MainModal'
-import { candidateService, vacancyService } from '@/services'
+import { candidateService } from '@/services'
 import { Button, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
@@ -18,11 +18,12 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
 
   useEffect(() => {
     fetchVacancies()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const fetchVacancies = async () => {
     try {
-      const data = await vacancyService.fetchVacancies()
+      const data = await candidateService.fetchVacanciesCandidate(candidate.id)
       setVacancies(data.content)
     } catch (error) {
       console.error('Error fetching vacancies:', error)
