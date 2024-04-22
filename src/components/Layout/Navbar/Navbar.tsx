@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
       <NavbarBrand>
         <Link to="/">
           {!company?.logo?.file && <LogoFull height={40} />}
-          {!!company?.logo?.file && <img src={company.logo.file} alt={company.name} height={40} />}
+          {!!company?.logo?.file && <img src={company.logo.file} alt={company.name} className="block h-10" />}
         </Link>
       </NavbarBrand>
 
