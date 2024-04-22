@@ -12,7 +12,7 @@ const schema = yup.object({
   email: yup.string().email().required().label('Email address'),
 })
 
-const ForgotPasswordPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
@@ -78,4 +78,4 @@ const ForgotPasswordPage: React.FC = () => {
   )
 }
 
-export default ForgotPasswordPage
+Component.displayName = 'ForgotPasswordPage'

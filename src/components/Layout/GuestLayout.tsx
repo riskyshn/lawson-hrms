@@ -31,4 +31,4 @@ export const Component: React.FC = () => {
   )
 }
 
-Component.displayName = 'AuthLayout'
+Component.displayName = 'GuestLayout'

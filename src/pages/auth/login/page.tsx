@@ -12,7 +12,7 @@ const schema = yup.object({
   password: yup.string().required().label('Password'),
 })
 
-const LoginPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const form = useForm({ resolver: yupResolver(schema) })
@@ -80,4 +80,4 @@ const LoginPage: React.FC = () => {
   )
 }
 
-export default LoginPage
+Component.displayName = 'LoginPage'

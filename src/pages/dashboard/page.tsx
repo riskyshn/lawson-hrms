@@ -1,4 +1,4 @@
-import BgImage from '@/assets/hero.jpg'
+import BgImage from '@/assets/hero.webp'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import Logo from '@/components/Logo/Logo'

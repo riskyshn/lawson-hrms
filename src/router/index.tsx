@@ -1,11 +1,12 @@
-import { useEffect } from 'react' // Import useEffect hook
-import { Outlet, useNavigate, createBrowserRouter } from 'react-router-dom'
-import { useToast } from 'jobseeker-ui'
-import { useAuthStore } from '@/store'
-import NotFoundPage from '@/pages/NotFoundPage'
-import privateRoutes from './private.route'
-import guestRoutes from './guest.route'
 import ErrorBoundary from '@/pages/ErrorBoundary'
+import NotFoundPage from '@/pages/NotFoundPage'
+import { useAuthStore } from '@/store'
+import { useToast } from 'jobseeker-ui'
+import { useEffect } from 'react'
+import { Outlet, createBrowserRouter, useNavigate } from 'react-router-dom'
+import authRoutes from './auth.routes'
+import guestRoutes from './guest.routes'
+import mainRoutes from './main.routes'
 
 const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) => {
   const { user } = useAuthStore()
@@ -34,11 +35,15 @@ const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) =>
 const router = createBrowserRouter([
   {
     element: <AuthChecker private />,
-    children: privateRoutes,
+    children: mainRoutes,
     errorElement: <ErrorBoundary />,
   },
   {
     element: <AuthChecker guest />,
+    children: authRoutes,
+    errorElement: <ErrorBoundary />,
+  },
+  {
     children: guestRoutes,
     errorElement: <ErrorBoundary />,
   },

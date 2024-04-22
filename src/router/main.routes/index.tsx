@@ -14,21 +14,25 @@ import calendarRoute from './calendar.route'
 import chatRoute from './chat.route'
 import exploreRoute from './explore.route'
 
-export const mainRoute: RouteObject = {
-  lazy: () => import('@/components/Layout/MainLayout'),
-  children: [
-    dashboardRoute,
-    jobRoute,
-    candidatesRoute,
-    settingsRoute,
-    employeesRoute,
-    processRoute,
-    attendanceRoute,
-    payrollRoute,
-    cmsRoute,
-    reportRoute,
-    calendarRoute,
-    chatRoute,
-    exploreRoute,
-  ],
-}
+const mainRoutes: RouteObject[] = [
+  {
+    lazy: () => import('@/components/Layout/MainLayout'),
+    children: [
+      dashboardRoute,
+      jobRoute,
+      candidatesRoute,
+      settingsRoute,
+      employeesRoute,
+      processRoute,
+      attendanceRoute,
+      payrollRoute,
+      cmsRoute,
+      reportRoute,
+      calendarRoute,
+      chatRoute,
+      exploreRoute,
+    ],
+  },
+]
+
+export default mainRoutes
