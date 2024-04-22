@@ -10,6 +10,7 @@ import {
   HistoryIcon,
   LaptopIcon,
   NewspaperIcon,
+  PartyPopperIcon,
   RefreshCwIcon,
   SendIcon,
   SendToBackIcon,
@@ -101,6 +102,9 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         break
       case 'Go to Assessment':
         navigate(`/process/assessment?search=${formattedName}`)
+        break
+      case 'Go to Offering Letter':
+        navigate(`/process/offering-letter?search=${formattedName}`)
         break
       default:
         break
@@ -228,6 +232,10 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
                   )}
                   {option == 'Go to Assessment' && (
                     <NewspaperIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+
+                  {option == 'Go to Offering Letter' && (
+                    <PartyPopperIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
                   {option}
                 </button>
