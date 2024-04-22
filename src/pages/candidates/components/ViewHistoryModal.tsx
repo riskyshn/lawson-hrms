@@ -50,11 +50,11 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose
   useEffect(() => {
     const controller = new AbortController()
     const load = async (candidate: ICandidate, signal: AbortSignal) => {
-      const data = await candidateService.fetchDetailCandidate(candidate?.id, signal)
+      const data = await candidateService.fetchDetailCandidate(candidate?.candidateId, signal)
       setCandidateDetail(data)
     }
 
-    if (candidate?.id) {
+    if (candidate?.candidateId) {
       setCandidateDataTable(candidate)
       setCandidateDetail(null)
       load(candidate, controller.signal)
