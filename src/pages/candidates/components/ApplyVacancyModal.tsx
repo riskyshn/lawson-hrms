@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react'
 type ApplyVacancyModalProps = {
   show: boolean
   onClose: () => void
-  candidate: any
+  candidate: ICandidate
   onApplyVacancy: (data: string) => void
 }
 
@@ -23,7 +23,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
 
   const fetchVacancies = async () => {
     try {
-      const data = await candidateService.fetchVacanciesCandidate(candidate.id)
+      const data = await candidateService.fetchVacanciesCandidate(candidate?.candidateId || '')
       setVacancies(data.content)
     } catch (error) {
       console.error('Error fetching vacancies:', error)
@@ -41,7 +41,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
 
     const payload = {
       vacancyId: selectedVacancyId,
-      candidateId: candidate.id,
+      candidateId: candidate?.candidateId,
     }
 
     setLoading(true)
