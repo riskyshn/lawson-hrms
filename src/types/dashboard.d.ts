@@ -47,6 +47,7 @@ interface IDashboardRecentlyApplied {
     candidateData?: string
     isMatch?: boolean
   }>
+  message: string
   matchPercentage?: number
 }
 

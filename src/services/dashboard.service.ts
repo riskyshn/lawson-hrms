@@ -37,3 +37,7 @@ export const pinToggleAnnouncement = (oid: string) => {
 export const deleteAnnouncement = (oid: string) => {
   return axios.delete<{ data: IDashboardAnnouncement }>(`/announcements/delete/${oid}`).then((response) => response.data.data)
 }
+
+export const fetchCalendar = (params?: IPaginationParam & { start_date?: string; end_date?: string }) => {
+  return axios.get<{ data: IPaginationResponse<IDashboardSchedule> }>(`/calendar`, { params }).then((response) => response.data.data)
+}
