@@ -13,7 +13,7 @@ import useLoadApplicant from './hooks/use-load-applicant'
 import { applicantToFormCreate } from './utils/applicant-to-form-create'
 
 export const Component: React.FC = () => {
-  const { applicantId, applicant, isLoading } = useLoadApplicant()
+  const { applicantId, applicant } = useLoadApplicant()
 
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
