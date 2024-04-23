@@ -62,7 +62,7 @@ const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ 
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">Range Salary</th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2">
-                  {numberToCurrency(vacancy.maximumSalary)} - {numberToCurrency(vacancy.maximumSalary)}
+                  {numberToCurrency(vacancy.minimumSalary)} - {numberToCurrency(vacancy.maximumSalary)}
                 </td>
               </tr>
               <tr className="odd:bg-gray-50">
