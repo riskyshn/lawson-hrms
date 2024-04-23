@@ -137,8 +137,11 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Le...', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/view-signed`),
   )
-  const addAsEmployee = createMenuItem('Add As Employee', UserIcon, undefined, undefined, () =>
+  const addAsEmployee = createMenuItem('Add As Employee', UserPlusIcon, undefined, undefined, () =>
     navigate(`/employees/employee-management/create?applicantId=${item.oid}`),
+  )
+  const viewProfile = createMenuItem('View Profile', UserIcon, undefined, undefined, () =>
+    navigate(`/candidates/profile/${item.candidate?.oid}`),
   )
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
@@ -161,7 +164,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     // Action menu items for applications in the "Offering Signed" status (6).
     '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Waiting to Join" status (7).
-    '7': [addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw],
+    '7': [addAsEmployee, viewProfile, editJoinDate, viewHistory, blacklist, withdraw],
   }
 
   const menu = menuItems[item.status?.oid || '0']
