@@ -12,7 +12,7 @@ type PropTypes = React.PropsWithChildren<{
 const ScrollVisibilityContainer: React.FC<PropTypes> = ({ children, distance, containerClassName }) => {
   const { sidebarMini } = useLayout()
   const [isShow, setIsShow] = useState(false)
-  const scrollTimeout = useRef<number | null>(null)
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null)
   const { scrollDirection: direction, setScrollDirection } = useScrollDirection()
 
   const containerProps = {
