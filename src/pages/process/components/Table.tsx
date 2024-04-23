@@ -110,7 +110,7 @@ const generateBodyItems = (
           getVacancyInfo(),
           { children: item.recruitmentStage || '-', className: 'whitespace-normal' },
           getStatusContent(),
-          { children: item.actionAt ? moment(item.actionAt).format('DD-MM-YYYY HH:MM') : '-' },
+          { children: item.actionAt ? moment.utc(item.actionAt).format('DD-MM-YYYY HH:MM') : '-' },
           getActionMenu(),
         ],
       }
@@ -146,7 +146,7 @@ const generateBodyItems = (
           getCandidateInfo(),
           getVacancyInfo(),
           getStatusContent(),
-          { children: item.actionAt ? moment(item.actionAt).format('DD-MM-YYYY') : '-' },
+          { children: item.actionAt ? moment.utc(item.actionAt).format('DD-MM-YYYY') : '-' },
           getActionMenu(),
         ],
       }
