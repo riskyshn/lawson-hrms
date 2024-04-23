@@ -23,10 +23,14 @@ const UploadDocumentsPage = () => {
 
     const load = async () => {
       try {
-        const [documentRequestsData, oldDocumentsData] = await Promise.all([
-          organizationService.fetchDocumentRequests({ limit: 9999 }),
-          isEdit ? processService.getDocumentRequest(applicantId) : Promise.resolve(undefined),
-        ])
+        const documentRequestsData = await organizationService.fetchDocumentRequests({ limit: 9999 })
+        let oldDocumentsData = undefined
+
+        if (isEdit) {
+          oldDocumentsData = await processService
+            .getDocumentRequest(applicantId)
+            .catch((e) => console.error('Failed to get document request', e))
+        }
 
         setDocumentRequests(documentRequestsData.content)
 
