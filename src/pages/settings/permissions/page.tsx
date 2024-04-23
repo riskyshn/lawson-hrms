@@ -3,7 +3,7 @@ import MainCard from '@/components/Elements/Layout/MainCard'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import useAsyncSearch from '@/hooks/use-async-search'
 import usePagination from '@/hooks/use-pagination'
-import { organizationService } from '@/services'
+import { authorityService } from '@/services'
 import { Button } from 'jobseeker-ui'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -12,39 +12,39 @@ import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
 
-const SettingEmploymentStatusPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [toUpdateSelected, setToUpdateSelected] = useState<IJobType | null>(null)
+  const [toUpdateSelected, setToUpdateSelected] = useState<IPermission | null>(null)
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchJobTypes, { limit: 20 }, search)
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(authorityService.fetchPermissions, { limit: 20 }, search)
 
   const pagination = usePagination({
-    pathname: '/settings/employment-status',
+    pathname: '/settings/permissions',
     totalPage: pageData?.totalPages,
     params: { search },
   })
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Employment Status' }]}
-        title="Employment Status"
-        subtitle="Manage Your Company Employment Status"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Permissions' }]}
+        title="Permission"
+        subtitle="Manage Your Company Permission"
         actions={
           <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-            Add New Employment Status
+            Add New Permission
           </Button>
         }
       />
 
       <CreateModal show={showCreateModal} onCreated={onRefresh} onClose={() => setShowCreateModal(false)} />
-      <EditModal item={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} />
+      <EditModal permission={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Employment Status" total={pageData?.totalElements} onRefresh={onRefresh} />}
+          header={<CardHeader name="Permission" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
@@ -55,4 +55,4 @@ const SettingEmploymentStatusPage: React.FC = () => {
   )
 }
 
-export default SettingEmploymentStatusPage
+Component.displayName = 'SettingPermissionsPage'

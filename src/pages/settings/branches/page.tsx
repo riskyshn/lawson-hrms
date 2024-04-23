@@ -12,17 +12,17 @@ import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
 
-const SettingJobLevelsPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [toUpdateSelected, setToUpdateSelected] = useState<IJobLevel | null>(null)
+  const [toUpdateSelected, setToUpdateSelected] = useState<IBranch | null>(null)
+
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchJobLevels, { limit: 20 }, search)
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchBranches, { limit: 20 }, search)
 
   const pagination = usePagination({
-    pathname: '/settings/job-levels',
+    pathname: '/settings/branches',
     totalPage: pageData?.totalPages,
     params: { search },
   })
@@ -30,12 +30,12 @@ const SettingJobLevelsPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Job Levels' }]}
-        title="Job Level"
-        subtitle="Manage Your Company Job Level"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Branches' }]}
+        title="Branch"
+        subtitle="Manage Your Company Branch"
         actions={
           <Button onClick={() => setShowCreateModal(true)} color="primary">
-            Add New Job Level
+            Add New Branch
           </Button>
         }
       />
@@ -45,7 +45,7 @@ const SettingJobLevelsPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Job Level" total={pageData?.totalElements} onRefresh={onRefresh} />}
+          header={<CardHeader name="Branch" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
@@ -56,4 +56,4 @@ const SettingJobLevelsPage: React.FC = () => {
   )
 }
 
-export default SettingJobLevelsPage
+Component.displayName = 'SettingBranchesPage'

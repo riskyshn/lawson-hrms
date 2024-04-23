@@ -12,31 +12,32 @@ import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
 
-const SettingBranchesPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [toUpdateSelected, setToUpdateSelected] = useState<IBranch | null>(null)
-
+  const [toUpdateSelected, setToUpdateSelected] = useState<IWorkplacement | null>(null)
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchBranches, { limit: 20 }, search)
+
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchWorkplacements, { limit: 20 }, search)
 
   const pagination = usePagination({
-    pathname: '/settings/branches',
+    pathname: '/settings/work-placements',
     totalPage: pageData?.totalPages,
     params: { search },
   })
-
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Branches' }]}
-        title="Branch"
-        subtitle="Manage Your Company Branch"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Work Placements' }]}
+        title="Work Placement"
+        subtitle="Manage Your Company Work Placement"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary">
-            Add New Branch
-          </Button>
+          <>
+            <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+              Add New Work Placement
+            </Button>
+          </>
         }
       />
 
@@ -45,7 +46,7 @@ const SettingBranchesPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Branch" total={pageData?.totalElements} onRefresh={onRefresh} />}
+          header={<CardHeader name="Work Placement" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
@@ -56,4 +57,4 @@ const SettingBranchesPage: React.FC = () => {
   )
 }
 
-export default SettingBranchesPage
+Component.displayName = 'SettingWorkPlacementsPage'

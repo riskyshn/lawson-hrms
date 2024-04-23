@@ -12,32 +12,31 @@ import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
 
-const SettingWorkPlacementsPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [toUpdateSelected, setToUpdateSelected] = useState<IWorkplacement | null>(null)
+  const [toUpdateSelected, setToUpdateSelected] = useState<IPosition | null>(null)
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchWorkplacements, { limit: 20 }, search)
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchPositions, { limit: 20 }, search)
 
   const pagination = usePagination({
-    pathname: '/settings/work-placements',
+    pathname: '/settings/positions',
     totalPage: pageData?.totalPages,
     params: { search },
   })
+
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Work Placements' }]}
-        title="Work Placement"
-        subtitle="Manage Your Company Work Placement"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Positions' }]}
+        title="Position"
+        subtitle="Manage Your Company Position"
         actions={
-          <>
-            <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-              Add New Work Placement
-            </Button>
-          </>
+          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+            Add New Position
+          </Button>
         }
       />
 
@@ -46,7 +45,7 @@ const SettingWorkPlacementsPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Work Placement" total={pageData?.totalElements} onRefresh={onRefresh} />}
+          header={<CardHeader name="Position" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
@@ -57,4 +56,4 @@ const SettingWorkPlacementsPage: React.FC = () => {
   )
 }
 
-export default SettingWorkPlacementsPage
+Component.displayName = 'SettingPositionsPage'

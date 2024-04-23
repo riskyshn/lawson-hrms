@@ -13,7 +13,7 @@ import EditModal from './components/EditModal'
 import EditPermissionModal from './components/EditPermissionModal'
 import Table from './components/Table'
 
-const SettingRolesPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [toUpdateSelected, setToUpdateSelected] = useState<IRole | null>(null)
   const [toUpdateSelectedPermission, setToUpdateSelectedPermission] = useState<IRole | null>(null)
@@ -72,4 +72,4 @@ const SettingRolesPage: React.FC = () => {
   )
 }
 
-export default SettingRolesPage
+Component.displayName = 'SettingRolesPage'

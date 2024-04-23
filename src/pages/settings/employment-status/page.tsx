@@ -12,29 +12,29 @@ import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
 
-const SettingDepartmentsPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [toUpdateSelected, setToUpdateSelected] = useState<IDepartment | null>(null)
+  const [toUpdateSelected, setToUpdateSelected] = useState<IJobType | null>(null)
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchDepartments, { limit: 20 }, search)
+
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchJobTypes, { limit: 20 }, search)
 
   const pagination = usePagination({
-    pathname: '/settings/departments',
+    pathname: '/settings/employment-status',
     totalPage: pageData?.totalPages,
     params: { search },
   })
-
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Departments' }]}
-        title="Department"
-        subtitle="Manage Your Company Department"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Employment Status' }]}
+        title="Employment Status"
+        subtitle="Manage Your Company Employment Status"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary">
-            Add New Department
+          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+            Add New Employment Status
           </Button>
         }
       />
@@ -44,7 +44,7 @@ const SettingDepartmentsPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Department" total={pageData?.totalElements} onRefresh={onRefresh} />}
+          header={<CardHeader name="Employment Status" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
@@ -55,4 +55,4 @@ const SettingDepartmentsPage: React.FC = () => {
   )
 }
 
-export default SettingDepartmentsPage
+Component.displayName = 'SettingEmploymentStatusPage'

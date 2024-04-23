@@ -12,16 +12,16 @@ import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
 
-const SettingDocumentRequestPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [toUpdateSelected, setToUpdateSelected] = useState<IDocumentRequest | null>(null)
+  const [toUpdateSelected, setToUpdateSelected] = useState<IDepartment | null>(null)
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchDocumentRequests, { limit: 20 }, search)
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchDepartments, { limit: 20 }, search)
 
   const pagination = usePagination({
-    pathname: '/settings/document-request',
+    pathname: '/settings/departments',
     totalPage: pageData?.totalPages,
     params: { search },
   })
@@ -29,12 +29,12 @@ const SettingDocumentRequestPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Document Request' }]}
-        title="Document Request"
-        subtitle="Manage Your Company Document Request"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Departments' }]}
+        title="Department"
+        subtitle="Manage Your Company Department"
         actions={
           <Button onClick={() => setShowCreateModal(true)} color="primary">
-            Add New Document Request
+            Add New Department
           </Button>
         }
       />
@@ -44,7 +44,7 @@ const SettingDocumentRequestPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Document Request" total={pageData?.totalElements} onRefresh={onRefresh} />}
+          header={<CardHeader name="Department" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
@@ -55,4 +55,4 @@ const SettingDocumentRequestPage: React.FC = () => {
   )
 }
 
-export default SettingDocumentRequestPage
+Component.displayName = 'SettingDepartmentsPage'
