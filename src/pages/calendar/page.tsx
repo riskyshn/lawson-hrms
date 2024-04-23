@@ -7,10 +7,12 @@ import listPlugin from '@fullcalendar/list'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import Modal from './components/Modal'
+import { fetchCalendar } from '@/services/dashboard.service'
 
 export const Component: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState<any>(null)
+  const [calendarEvents, setCalendarEvents] = useState<any[]>([])
   const calendarRef = useRef<FullCalendar | null>(null)
 
   const location = useLocation()
@@ -39,6 +41,36 @@ export const Component: React.FC = () => {
     setIsModalOpen(true)
   }
 
+  const handleDatesSet = (dateInfo: any) => {
+    const { startStr, endStr } = dateInfo
+
+    const load = async (startStr: string, endStr: string) => {
+      try {
+        const data = await fetchCalendar({
+          start_date: startStr.substring(0, 10),
+          end_date: endStr.substring(0, 10),
+        })
+
+        const mappedEvents = data.content.map((event: IDashboardSchedule) => ({
+          title: event.name,
+          start: event.startedAt,
+          end: event.endedAt,
+          extendedProps: {
+            guest: event.guests || [],
+            description: event.description || '',
+            location: event.location || '',
+            timezone: event.timezone || '',
+          },
+        }))
+        setCalendarEvents(mappedEvents)
+      } catch (e) {
+        console.error('Error fetching calendar events:', e)
+      }
+    }
+
+    load(startStr, endStr)
+  }
+
   useEffect(() => {
     if (calendarRef.current && dateParam) {
       const calendarApi = calendarRef.current.getApi()
@@ -60,43 +92,9 @@ export const Component: React.FC = () => {
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
           }}
-          events={[
-            {
-              title: 'Morning Meeting',
-              start: '2024-04-17T09:00:00',
-              end: '2024-04-17T10:00:00',
-              extendedProps: {
-                guest: ['abc@gmail.com'],
-                description:
-                  'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquam itaque non delectus ex a exercitationem suscipit tempore vitae dolorem vero labore aliquid dicta officiis repellendus fuga, cum incidunt quas dignissimos.',
-                location: 'JH Office',
-                timezone: 'GMT+7',
-              },
-            },
-            {
-              title: 'Lunch Break',
-              start: '2024-04-17T12:00:00',
-              end: '2024-04-17T13:00:00',
-              extendedProps: {
-                guest: ['abc@gmail.com'],
-                description: 'Lorem ipsum dolor sit amet consectetur...',
-                location: 'JH Office',
-                timezone: 'GMT+7',
-              },
-            },
-            {
-              title: 'Afternoon Meeting',
-              start: '2024-04-17T14:00:00',
-              end: '2024-04-17T15:00:00',
-              extendedProps: {
-                guest: ['abc@gmail.com'],
-                description: 'Lorem ipsum dolor sit amet consectetur...',
-                location: 'JH Office',
-                timezone: 'GMT+7',
-              },
-            },
-          ]}
+          events={calendarEvents}
           eventClick={handleEventClick}
+          datesSet={handleDatesSet}
         />
 
         <Modal show={isModalOpen} onClose={closeModal} items={selectedEvent} />
@@ -106,3 +104,5 @@ export const Component: React.FC = () => {
 }
 
 Component.displayName = 'CalendarPage'
+
+export default Component
