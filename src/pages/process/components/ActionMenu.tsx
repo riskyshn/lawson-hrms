@@ -1,5 +1,7 @@
-import React from 'react'
 import * as Table from '@/components/Elements/Tables/MainTable'
+import { processService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import {
   EditIcon,
   FileEditIcon,
@@ -18,11 +20,9 @@ import {
   UserXIcon,
   XCircleIcon,
 } from 'lucide-react'
-import { ModalType } from '../types'
-import { useConfirm, useToast } from 'jobseeker-ui'
-import { processService } from '@/services'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { axiosErrorMessage } from '@/utils/axios'
+import { ModalType } from '../types'
 
 type ActionMenuProps = {
   item: IDataTableApplicant
@@ -35,9 +35,37 @@ type ActionMenuProps = {
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelected }) => {
+  const [loading, setLoading] = useState(item.status?.oid === '1' || item.status?.oid === '2')
+  const [triggered, setTriggered] = useState(false)
+  const [haveProcess, setHaveProcess] = useState(true)
   const confirm = useConfirm()
   const toast = useToast()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!triggered) return
+
+    if (item.status?.oid === '1' || item.status?.oid === '2') {
+      setLoading(true)
+    } else {
+      setLoading(false)
+      return
+    }
+
+    const load = async () => {
+      try {
+        const stages = await processService.fetchDetailStages(item.oid)
+        const haveProcess = stages.content.map((el) => el.isAvailable).includes(true)
+        setHaveProcess(haveProcess)
+      } catch (e) {
+        toast(axiosErrorMessage(e))
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    load()
+  }, [item.status?.oid, item.oid, triggered, toast])
 
   const createMenuItem = (
     text: string,
@@ -109,17 +137,24 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Le...', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/view-signed`),
   )
-  const addAsEmployee = createMenuItem('Add As Employee', UserIcon, undefined, undefined, () =>
+  const addAsEmployee = createMenuItem('Add As Employee', UserPlusIcon, undefined, undefined, () =>
     navigate(`/employees/employee-management/create?applicantId=${item.oid}`),
+  )
+  const viewProfile = createMenuItem('View Profile', UserIcon, undefined, undefined, () =>
+    navigate(`/candidates/profile/${item.candidate?.oid}`),
   )
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     // Action menu items for applications in the "Process" status (0).
     '0': [updateResult, reschedule, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Passed" status (1).
-    '1': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    '1': [haveProcess ? process : null, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw].filter(
+      (el) => !!el,
+    ) as Table.ActionMenuItemProps[],
     // Action menu items for applications in the "Failed" status (2).
-    '2': [process, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw],
+    '2': [haveProcess ? process : null, offeringLetter, moveToAnotherVacancy, viewHistory, blacklist, reject, withdraw].filter(
+      (el) => !!el,
+    ) as Table.ActionMenuItemProps[],
     // Action menu items for applications in the "Waiting for Documents" status (3).
     '3': [createOfferingLetter, sendReminder, uploadDocuments, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Ready to Offer" status (4).
@@ -129,7 +164,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     // Action menu items for applications in the "Offering Signed" status (6).
     '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Waiting to Join" status (7).
-    '7': [addAsEmployee, editJoinDate, viewHistory, blacklist, withdraw],
+    '7': [addAsEmployee, viewProfile, editJoinDate, viewHistory, blacklist, withdraw],
   }
 
   const menu = menuItems[item.status?.oid || '0']
@@ -137,7 +172,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   if (!menu) return null
 
   return (
-    <Table.ActionMenu up={index >= total - upSpace}>
+    <Table.ActionMenu loading={loading} up={index >= total - upSpace} onClick={() => setTriggered(true)}>
       {menu.map((menuItem, i) => (
         <Table.ActionMenuItem key={i} {...menuItem} />
       ))}
