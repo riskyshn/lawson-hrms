@@ -32,14 +32,15 @@ const statusConfig: Record<string, { Icon: LucideIcon; className: string }> = {
 }
 
 const Status: React.FC<{ status?: string }> = ({ status }) => {
-  status = status?.toUpperCase() || 'UNKNOWN'
-  const { Icon = AlertCircleIcon, className = 'text-warning-600' } = statusConfig[status] || {}
-  return (
+  status = status?.toUpperCase() || ''
+  const { Icon, className = 'text-warning-600' } = statusConfig[status] || { Icon: AlertCircleIcon }
+
+  return status ? (
     <div className={twJoin(className, 'flex justify-center gap-2')}>
       <Icon size={18} />
       <span className="text-sm font-semibold capitalize">{status.toLowerCase().replace(/_/g, ' ')}</span>
     </div>
-  )
+  ) : null
 }
 
 const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose }) => {
