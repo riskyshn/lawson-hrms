@@ -12,17 +12,16 @@ import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
 import Table from './components/Table'
 
-const SettingPositionsPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [toUpdateSelected, setToUpdateSelected] = useState<IPosition | null>(null)
+  const [toUpdateSelected, setToUpdateSelected] = useState<IDocumentRequest | null>(null)
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchPositions, { limit: 20 }, search)
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchDocumentRequests, { limit: 20 }, search)
 
   const pagination = usePagination({
-    pathname: '/settings/positions',
+    pathname: '/settings/document-request',
     totalPage: pageData?.totalPages,
     params: { search },
   })
@@ -30,12 +29,12 @@ const SettingPositionsPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Positions' }]}
-        title="Position"
-        subtitle="Manage Your Company Position"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Document Request' }]}
+        title="Document Request"
+        subtitle="Manage Your Company Document Request"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
-            Add New Position
+          <Button onClick={() => setShowCreateModal(true)} color="primary">
+            Add New Document Request
           </Button>
         }
       />
@@ -45,7 +44,7 @@ const SettingPositionsPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Position" total={pageData?.totalElements} onRefresh={onRefresh} />}
+          header={<CardHeader name="Document Request" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
           }
@@ -56,4 +55,4 @@ const SettingPositionsPage: React.FC = () => {
   )
 }
 
-export default SettingPositionsPage
+Component.displayName = 'SettingDocumentRequestPage'

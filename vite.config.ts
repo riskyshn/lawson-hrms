@@ -18,6 +18,10 @@ export default defineConfig({
       output: {
         manualChunks: {
           'core-packages': [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'tailwind-merge',
             'js-cookie',
             'dequal',
             '@headlessui/react',
