@@ -18,6 +18,8 @@ export type MainTableProps = Omit<JSX.IntrinsicElements['table'], 'children'> & 
 export type ActionMenuProps = React.PropsWithChildren<{
   up?: boolean
   text?: string
+  loading?: boolean
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
 }>
 
 export type ActionMenuItemProps = {
@@ -67,10 +69,10 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
   )
 }
 
-export const ActionMenu: React.FC<ActionMenuProps> = ({ children, up, text = 'Action' }) => {
+export const ActionMenu: React.FC<ActionMenuProps> = ({ loading, onClick, children, up, text = 'Action' }) => {
   return (
     <Menu as="div" className="relative">
-      <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
+      <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs" onClick={onClick}>
         {text}
       </Menu.Button>
       <Menu.Items
@@ -79,7 +81,8 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ children, up, text = 'Ac
           up && 'bottom-full',
         )}
       >
-        {children}
+        {loading && <LoadingScreen show className="h-64 py-0" />}
+        {!loading && children}
       </Menu.Items>
     </Menu>
   )
