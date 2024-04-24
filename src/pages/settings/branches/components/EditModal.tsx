@@ -52,7 +52,7 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       setErrorMessage('')
       setValue('name', item.name || '')
       setValue('address', item.address || '')
-      if (item.coordinate) setValue('latLng', `${item.coordinate.coordinates[0]},${item.coordinate.coordinates[1]}`)
+      if (item.coordinate) setValue('latLng', `${item?.coordinate?.coordinates?.[0]},${item?.coordinate?.coordinates?.[1]}`)
       else setValue('latLng', '')
       if (item.range) setValue('range', item.range)
       else setValue('range', 0)

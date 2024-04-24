@@ -6,7 +6,7 @@ import { ImageIcon, MapPinIcon } from 'lucide-react'
 import { useState } from 'react'
 
 type PropTypes = {
-  items: any
+  items: IAttendance[]
   loading?: boolean
 }
 
@@ -27,9 +27,11 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'In Office', className: 'text-center' },
+    { children: 'Status', className: 'text-center' },
+    { children: 'Reason', className: 'text-center' },
   ]
 
-  const bodyItems = items.map((item: any) => ({
+  const bodyItems = items?.map((item) => ({
     items: [
       {
         children: (
@@ -51,7 +53,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
       { children: item.records?.[0]?.employee?.employment?.branch?.name },
       {
         children: (item.records ?? [])
-          .map((record: any, index: number) => {
+          .map((record, index) => {
             const modifiedAttendanceType = record?.attendanceType
               ?.replace(/_/g, ' ')
               .toLowerCase()
@@ -79,7 +81,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
       },
       {
         children: (item.records ?? [])
-          .map((record: any, index: any) => {
+          .map((record, index) => {
             const modifiedAttendanceType = `${record?.timezoneTime?.split(' ')[1]} ${record?.employee?.employment?.schedule?.timezone?.title}`
 
             return (
@@ -88,7 +90,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
               </div>
             )
           })
-          .reduce((acc: any, cur: any, index: any, array: any) => {
+          .reduce((acc: any, cur: any, index: number, array: any) => {
             if (index % 2 === 0) {
               acc.push(
                 <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
@@ -102,7 +104,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
       },
       {
         children: (item.records ?? [])
-          .map((record: any, index: any) => {
+          .map((record, index) => {
             return (
               <div key={index}>
                 <button
@@ -132,7 +134,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
       },
       {
         children: (item.records ?? [])
-          .map((record: any, index: any) => {
+          .map((record, index) => {
             return (
               <div key={index}>
                 <button
@@ -157,6 +159,62 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
             return acc
           }, []),
         className: 'text-center',
+      },
+      {
+        children: (item.records ?? [])
+          .map((record, index) => {
+            const modifiedAttendanceType = record?.status
+              ?.replace(/_/g, ' ')
+              .toLowerCase()
+              .replace(/(?:^|\s)\S/g, function (a: string) {
+                return a.toUpperCase()
+              })
+
+            return (
+              <div key={index}>
+                <span>{modifiedAttendanceType}</span>
+              </div>
+            )
+          })
+          .reduce((acc: any, cur: any, index: number, array: any) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, [] as JSX.Element[]),
+      },
+      {
+        children: (item.records ?? [])
+          .map((record, index) => {
+            const modifiedAttendanceType = record?.rejectedReason
+              ?.replace(/_/g, ' ')
+              .toLowerCase()
+              .replace(/(?:^|\s)\S/g, function (a: string) {
+                return a.toUpperCase()
+              })
+
+            return (
+              <div key={index}>
+                <span>{modifiedAttendanceType}</span>
+              </div>
+            )
+          })
+          .reduce((acc: any, cur: any, index: number, array: any) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, [] as JSX.Element[]),
       },
     ],
   }))

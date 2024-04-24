@@ -4,8 +4,8 @@ import React, { memo, useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 const Card: React.FC<{
-  label: string
-  value: number | string
+  label?: string
+  value?: number | string
   className?: string
 }> = ({ value, label, className = 'bg-white' }) => (
   <div className={twJoin('flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center', className)}>
@@ -14,8 +14,8 @@ const Card: React.FC<{
   </div>
 )
 
-const StatisticCards: React.FC<{ items?: IEmployee; filterDate?: any }> = ({ items, filterDate }) => {
-  const [pageData, setPageData] = useState([])
+const StatisticCards: React.FC<{ items?: IEmployee; filterDate?: IFilterDate }> = ({ items, filterDate }) => {
+  const [pageData, setPageData] = useState<IStatistic[]>()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<any>(null)
 
@@ -48,13 +48,13 @@ const StatisticCards: React.FC<{ items?: IEmployee; filterDate?: any }> = ({ ite
     if (!pageData) return null
 
     const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple']
-    const cardData = pageData?.map((item: { title: string; count: number }, index: number) => ({
+    const cardData = pageData?.map((item, index) => ({
       label: item.title,
       value: item.count,
       className: `text-white bg-${colors[index]}-600`,
     }))
 
-    return cardData?.map((rest: any, index: number) => <Card key={index} {...rest} />)
+    return cardData?.map((rest, index) => <Card key={index} {...rest} />)
   }
 
   return (

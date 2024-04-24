@@ -7,7 +7,7 @@ import StatisticCards from './StatisticCards'
 type PropType = {
   items?: IEmployee
   children?: React.ReactNode
-  filterDate?: any
+  filterDate?: IFilterDate
 }
 
 const ProfileCard: React.FC<PropType> = ({ items, children, filterDate }) => {

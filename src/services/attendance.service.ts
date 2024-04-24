@@ -27,11 +27,11 @@ export const createSchedule = (payload: Record<string, any>) => {
   return axios.post<{ data: ISchedule }>(`/schedule`, payload).then((response) => response.data.data)
 }
 
-export const updateSchedule = (id: string, payload: Record<string, any>) => {
+export const updateSchedule = (id?: string, payload?: Record<string, any>) => {
   return axios.put<{ data: ISchedule }>(`/schedule/${id}`, payload).then((response) => response.data.data)
 }
 
-export const deleteSchedule = (id: string) => {
+export const deleteSchedule = (id?: string) => {
   return axios.delete(`/schedule/${id}`).then((response) => response.data.data)
 }
 
@@ -66,7 +66,7 @@ export const updateRequest = (payload: Record<string, any>) => {
 }
 
 export const fetchStatistic = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
-  return axios.get(`/employer/statistics`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: IStatistic[] }>(`/employer/statistics`, { params, signal }).then((response) => response.data.data)
 }
 
 export const updateAttendance = (payload: Record<string, any>) => {
@@ -76,7 +76,7 @@ export const updateAttendance = (payload: Record<string, any>) => {
 export const fetchEmployee = (oid: string, payload: Record<string, any>) => {
   const queryString = new URLSearchParams(payload).toString()
   const url = `/employer/history/${oid}?${queryString}`
-  return axios.get(url).then((response) => response.data.data)
+  return axios.get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(url).then((response) => response.data.data)
 }
 
 export const downloadAttendance = (oid: string, payload: Record<string, any>) => {
@@ -107,5 +107,5 @@ export const fetchEmployeeAttendanceHistories = (
 export const fetchReportStatistic = (oid: string, payload: Record<string, any>) => {
   const queryString = new URLSearchParams(payload).toString()
   const url = `/employer/report-statistics/${oid}?${queryString}`
-  return axios.get(url).then((response) => response.data.data)
+  return axios.get<{ data: IStatistic[] }>(url).then((response) => response.data.data)
 }

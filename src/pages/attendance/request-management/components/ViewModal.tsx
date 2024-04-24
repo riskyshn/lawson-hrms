@@ -6,7 +6,7 @@ import React from 'react'
 type PropTypes = {
   show: boolean
   onClose: () => void
-  items: any
+  items?: ILeave
 }
 
 const ViewModal: React.FC<PropTypes> = ({ show, onClose, items }) => {
@@ -65,7 +65,7 @@ const ViewModal: React.FC<PropTypes> = ({ show, onClose, items }) => {
                       {items.leaveType?.title
                         ?.replace(/_/g, ' ')
                         .toLowerCase()
-                        .replace(/(?:^|\s)\S/g, function (a: any) {
+                        .replace(/(?:^|\s)\S/g, function (a) {
                           return a.toUpperCase()
                         }) || '-'}
                     </td>

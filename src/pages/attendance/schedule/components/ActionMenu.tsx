@@ -9,7 +9,7 @@ import { attendanceService } from '@/services'
 
 interface ActionMenuProps {
   options: string[]
-  items?: any
+  items?: ISchedule
   onApplyVacancy: (data: string) => void
 }
 
