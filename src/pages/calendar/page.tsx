@@ -19,6 +19,28 @@ export const Component: React.FC = () => {
   const queryParams = new URLSearchParams(location.search)
   const dateParam = queryParams.get('date')
 
+  const [tooltipInstance, setTooltipInstance] = useState<any>('')
+
+  const handleMouseEnter = (info: any) => {
+    if (info.event.extendedProps.description) {
+      setTooltipInstance(
+        <div
+          className="absolute z-10 rounded-lg border border-gray-900 bg-gray-700 px-2 py-1 text-xs leading-tight text-white"
+          style={{
+            left: info.el.getBoundingClientRect().left + window.scrollX,
+            top: info.el.getBoundingClientRect().top + window.scrollY - 30,
+          }}
+        >
+          {info.event.title}
+        </div>,
+      )
+    }
+  }
+
+  const handleMouseLeave = () => {
+    setTooltipInstance(null)
+  }
+
   const closeModal = () => {
     setIsModalOpen(false)
     setSelectedEvent(null)
@@ -88,17 +110,91 @@ export const Component: React.FC = () => {
           plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            left: 'prev,next today',
+            left: 'prevButton,nextButton todayButton',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
           }}
           events={calendarEvents}
+          eventTimeFormat={{
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: 'short',
+          }}
           eventClick={handleEventClick}
           datesSet={handleDatesSet}
+          eventMouseEnter={handleMouseEnter}
+          eventMouseLeave={handleMouseLeave}
+          customButtons={{
+            prevButton: {
+              text: '<',
+              click: function () {
+                calendarRef.current?.getApi().prev()
+              },
+            },
+            nextButton: {
+              text: '>',
+              click: function () {
+                calendarRef.current?.getApi().next()
+              },
+            },
+            todayButton: {
+              text: 'Today',
+              click: function () {
+                calendarRef.current?.getApi().today()
+              },
+            },
+            dayGridMonth: {
+              text: 'Month',
+              click: function () {
+                calendarRef.current?.getApi().changeView('dayGridMonth')
+              },
+            },
+            timeGridWeek: {
+              text: 'Week',
+              click: function () {
+                calendarRef.current?.getApi().changeView('timeGridWeek')
+              },
+            },
+            timeGridDay: {
+              text: 'Day',
+              click: function () {
+                calendarRef.current?.getApi().changeView('timeGridDay')
+              },
+            },
+            listMonth: {
+              text: 'List',
+              click: function () {
+                calendarRef.current?.getApi().changeView('listMonth')
+              },
+            },
+          }}
         />
+        {tooltipInstance}
 
         <Modal show={isModalOpen} onClose={closeModal} items={selectedEvent} />
       </Container>
+
+      <style>
+        {`
+        .fc .fc-button-primary {
+          --tw-bg-opacity: 1;
+          background-color: rgb(37 99 235 / var(--tw-bg-opacity)) !important;
+          color: white !important;
+          border-color: rgb(37 99 235 / var(--tw-bg-opacity)) !important;
+        }
+        .fc .fc-daygrid-day.fc-day-today {
+          --tw-bg-opacity: 1;
+          background-color: rgb(219 234 254 / var(--tw-bg-opacity));
+        }
+        .fc .fc-timegrid-col.fc-day-today {
+          --tw-bg-opacity: 1;
+          background-color: rgb(219 234 254 / var(--tw-bg-opacity));
+        }
+        .fc .fc-daygrid-event-harness {
+          cursor: pointer;
+        }
+      `}
+      </style>
     </>
   )
 }
