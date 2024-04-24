@@ -59,8 +59,8 @@ export const createShortlist = (payload: Record<string, any>) => {
   return axios.post<{ data: ICandidate }>(`/applicant/shortlist`, payload).then((response) => response.data.data)
 }
 
-export const deleteShortlist = (id: string) => {
-  return axios.delete(`/applicant/shortlist/${id}`).then((response) => response.data.data)
+export const deleteShortlist = (payload: Record<string, any>) => {
+  return axios.delete('/applicant/shortlist', { data: payload }).then((response) => response.data.data)
 }
 
 export const fetchShortlist = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {

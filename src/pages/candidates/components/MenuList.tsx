@@ -3,6 +3,7 @@ import { candidateService } from '@/services'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'
 import {
+  ArrowLeftIcon,
   BookUserIcon,
   CalendarDaysIcon,
   CopyPlusIcon,
@@ -65,7 +66,26 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         candidateService
           .unblacklist(candidate.candidateId)
           .then(() => {
-            toast('unblacklist successfully.', { color: 'success' })
+            toast('Unblacklist successfully.', { color: 'success' })
+            const newData = new Date().toISOString()
+            onApplyVacancy(newData)
+          })
+          .catch((error: any) => {
+            const errorMessage = error.response?.data?.meta?.message || error.message
+            toast(errorMessage, { color: 'error', position: 'top-right' })
+          })
+        break
+
+      case 'Unshortlist':
+        setModalType('')
+        payload = {
+          candidateId: candidate.candidateId,
+          vacancyId: candidate.vacancyId,
+        }
+        candidateService
+          .deleteShortlist(payload)
+          .then(() => {
+            toast('Unshortlist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
             onApplyVacancy(newData)
           })
@@ -84,7 +104,7 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
         candidateService
           .createShortlist(payload)
           .then(() => {
-            toast('shortlist successfully.', { color: 'success' })
+            toast('Shortlist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
             onApplyVacancy(newData)
           })
@@ -205,6 +225,9 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
                     <CopyPlusIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
                   {option === 'Shortlist' && <BookUserIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />}
+                  {option === 'Unshortlist' && (
+                    <ArrowLeftIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
                   {option === 'View History' && (
                     <HistoryIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
