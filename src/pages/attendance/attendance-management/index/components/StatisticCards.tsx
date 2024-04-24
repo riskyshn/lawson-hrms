@@ -4,8 +4,8 @@ import React, { memo, useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 const Card: React.FC<{
-  label: string
-  value: number | string
+  label?: string
+  value?: number | string
   className?: string
 }> = ({ value, label, className = 'bg-white' }) => (
   <div className={twJoin('flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center', className)}>
@@ -14,9 +14,9 @@ const Card: React.FC<{
   </div>
 )
 
-const StatisticCards: React.FC<{ filterDate?: any }> = ({ filterDate }) => {
+const StatisticCards: React.FC<{ filterDate?: IFilterDate }> = ({ filterDate }) => {
   const [loading, setLoading] = useState(true)
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<IStatistic[]>()
   const [error, setError] = useState<any>(null)
 
   useEffect(() => {
@@ -24,8 +24,8 @@ const StatisticCards: React.FC<{ filterDate?: any }> = ({ filterDate }) => {
       setLoading(true)
       try {
         const data = await attendanceService.fetchStatistic({
-          start_date: filterDate.startDate,
-          end_date: filterDate.endDate,
+          start_date: filterDate?.startDate,
+          end_date: filterDate?.endDate,
         })
         setData(data)
       } catch (error) {
@@ -42,20 +42,20 @@ const StatisticCards: React.FC<{ filterDate?: any }> = ({ filterDate }) => {
     }
     if (!data) return null
 
-    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple']
+    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple', 'teal']
 
-    const cardData = data.map((item: { title: string; count: number }, index: number) => ({
+    const cardData = data.map((item, index) => ({
       label: item.title,
       value: item.count,
       className: `text-white bg-${colors[index]}-600`,
     }))
 
-    return cardData.map((rest: any, index: number) => <Card key={index} {...rest} />)
+    return cardData.map((rest, index) => <Card key={index} {...rest} />)
   }
 
   return (
-    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-7`)}>
-      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={7} />}
+    <div className={twJoin(`grid grid-cols-2 gap-3 md:grid-cols-8`)}>
+      {!loading ? renderCards() : <Skeleton className="h-[88px]" count={8} />}
     </div>
   )
 }

@@ -9,7 +9,7 @@ type EditScheduleModalProps = {
   show: boolean
   onClose?: () => void
   onApplyVacancy: (data: string) => void
-  items: any
+  items?: ISchedule
 }
 
 const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, onApplyVacancy, items }) => {
@@ -17,9 +17,9 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
   const [timezones, setTimezones] = useState<any[]>([])
-  const [selectTimezoneId, setSelectTimezoneId] = useState<string | number>(items.timezoneId)
+  const [selectTimezoneId, setSelectTimezoneId] = useState<string | number | undefined>(items?.timezone?.oid)
   const { register, handleSubmit } = useForm()
-  const [daySchedules, setDaySchedules] = useState<any[]>(items.details || [])
+  const [daySchedules, setDaySchedules] = useState<ScheduleDetail[]>(items?.details || [])
 
   useEffect(() => {
     fetchTimezone()
@@ -72,7 +72,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
         })),
       }
 
-      await attendanceService.updateSchedule(items.oid, payload)
+      await attendanceService.updateSchedule(items?.oid, payload)
       toast('Schedule updated successfully', { color: 'success' })
       const newData = new Date().toISOString()
       onApplyVacancy(newData)
@@ -106,9 +106,9 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
     setSelectTimezoneId(selectedValue)
   }
 
-  const getDayFullName = (dayIndex: number) => {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    return days[dayIndex]
+  const getDayFullName = (dayIndex: number | undefined) => {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    return dayIndex !== undefined ? days[dayIndex] : ''
   }
 
   return (
@@ -121,7 +121,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input label="Schedule Name" defaultValue={items.name} labelRequired required {...register('name')} />
+        <Input label="Schedule Name" defaultValue={items?.name} labelRequired required {...register('name')} />
 
         <Select
           label="Select Timezone"
@@ -134,7 +134,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
 
         {daySchedules.map((schedule, index) => (
           <div key={index} className="mb-2">
-            <span className="text-xs">{getDayFullName(schedule.day)}</span>
+            <span className="text-xs">{getDayFullName(schedule?.day)}</span>
 
             <div className="flex flex-1 justify-between gap-4">
               <Input

@@ -1,17 +1,14 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar, Button } from 'jobseeker-ui'
-import { useState } from 'react'
-import ViewModal from './ViewModal'
 import { useNavigate } from 'react-router-dom'
 
 type PropTypes = {
-  items: any
+  items: IDataTableEmployee[]
   loading?: boolean
   onDataChange?: (data: string) => void
 }
 
 const Table: React.FC<PropTypes> = ({ items, loading }) => {
-  const [showOptionModal, setShowOptionModal] = useState(false)
   const navigate = useNavigate()
 
   const handleViewDetails = (id: string) => {
@@ -25,7 +22,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
     { children: 'Action', className: 'text-center' },
   ]
 
-  const bodyItems = items.map((item: any) => ({
+  const bodyItems = items.map((item) => ({
     items: [
       {
         children: (
@@ -62,7 +59,6 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
 
   return (
     <>
-      {showOptionModal && <ViewModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />}
       <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
     </>
   )

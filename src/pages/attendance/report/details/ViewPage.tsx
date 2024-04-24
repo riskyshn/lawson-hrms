@@ -17,7 +17,7 @@ const ViewPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isExporting, setIsExporting] = useState(false)
   const { employeeId } = useParams<{ employeeId: string }>()
-  const [pageData, setPageData] = useState<IPaginationResponse<IEmployee>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IAttendance>>()
   const [pageDataEmployee, setPageDataEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]

@@ -9,7 +9,7 @@ import { attendanceService } from '@/services'
 
 interface ActionMenuProps {
   options: string[]
-  items?: any
+  items?: ILeave
   onApplyVacancy: (data: string) => void
 }
 
@@ -28,7 +28,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
     try {
       setIsLoading(true)
       const payload = {
-        oid: items.oid,
+        oid: items?.oid,
         status: type === 'Approve' ? 'approved' : 'rejected',
         rejectedReason: reason || '',
       }
@@ -80,7 +80,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
       {showOptionModal && modalType === 'View Details' && (
         <ViewModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
       )}
-      {showOptionModal && (
+      {showOptionModal && (modalType === 'approve' || modalType === 'reject') && (
         <ConfirmationModal
           show={showOptionModal}
           onClose={() => setShowOptionModal(false)}

@@ -8,7 +8,7 @@ import { useState } from 'react'
 import ConfirmationModal from './ConfirmationModal'
 
 type PropTypes = {
-  items: IAttendance[]
+  items: IEmployeeHistoryAttendance[]
   loading?: boolean
   onDataChange: (data: string) => void
   isClientVisit?: boolean
@@ -96,7 +96,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
       { children: item.records?.[0]?.employee?.employment?.branch?.name },
       {
         children: (item.records ?? [])
-          .map((record: any, index: number) => {
+          .map((record, index) => {
             const modifiedAttendanceType = record?.attendanceType
               ?.replace(/_/g, ' ')
               .toLowerCase()
