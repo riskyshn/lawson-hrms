@@ -75,14 +75,14 @@ const HistoryModal: React.FC<PropTypes> = ({ item, onClose }) => {
                     <h3 className="text-sm font-semibold">Request Sent:</h3>
                     <span className="flex items-center gap-1 text-xs">
                       <TimerIcon size={16} />
-                      {item.createdAt ? moment.utc(item.createdAt).fromNow() : '-'}
+                      {item.createdAt ? moment.utc(item.createdAt).local().fromNow() : '-'}
                     </span>
                   </div>
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold">Action Date:</h3>
                     <span className="flex items-center gap-1 text-xs">
                       <TimerIcon size={16} />
-                      {item.updatedAt ? moment.utc(item.updatedAt).fromNow() : '-'}
+                      {item.updatedAt ? moment.utc(item.updatedAt).local().fromNow() : '-'}
                     </span>
                   </div>
                 </div>

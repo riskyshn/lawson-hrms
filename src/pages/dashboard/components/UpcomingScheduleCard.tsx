@@ -23,7 +23,7 @@ const UpcomingScheduleCard: React.FC = () => {
                 className="flex cursor-pointer flex-col gap-1 rounded-lg border border-l-4 border-l-success-300 bg-gray-50 p-2 transition-colors hover:border-success-300"
               >
                 <span className="block text-sm">
-                  {moment.utc(el.startedAt).fromNow()} - {moment.utc(el.endedAt).fromNow()}
+                  {moment.utc(el.startedAt).local().fromNow()} - {moment.utc(el.endedAt).local().fromNow()}
                 </span>
                 <span className="block text-sm font-semibold">{el.name}</span>
                 <span className="block text-xs text-gray-500">Lead by {el.name}</span>
