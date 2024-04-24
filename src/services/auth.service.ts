@@ -1,5 +1,5 @@
 import { API_AUTH_BASE_URL } from '@/constants/base-urls'
-import { useTokenStore } from '@/store'
+import { useAuthStore, useTokenStore } from '@/store'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({ baseURL: API_AUTH_BASE_URL })
@@ -46,6 +46,14 @@ export const refreshAccessToken = async (payload: { refresh_token: string; acces
         Authorization: 'Bearer ' + payload.access_token,
         'x-refresh-token': payload.refresh_token,
       },
+    })
+    .then(({ data }) => data)
+}
+
+export const signUpCandidate = async (payload: Record<string, any>) => {
+  return axios
+    .post<{ data: { user: IUser } }>('/auth/sign-up', payload, {
+      headers: { company_id: useAuthStore.getState().user?.company?.oid },
     })
     .then(({ data }) => data)
 }

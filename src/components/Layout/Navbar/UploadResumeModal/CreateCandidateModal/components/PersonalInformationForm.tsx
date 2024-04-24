@@ -43,9 +43,7 @@ const schema = yup.object({
   fullName: yup.string().required().label('Full Name'),
   nik: yup.string().required().label('National ID Number'),
   email: yup.string().email().required().label('Email'),
-  emailConfirmation: yup.string().email().required().label('Email Confirmation'),
   password: yup.string().required().label('Password'),
-  passwordConfirmation: yup.string().required().label('Password Confirmation'),
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
   birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
   genderId: yup.string().required().label('Gender'),
@@ -131,7 +129,14 @@ const PersonalInformationForm: React.FC<{
             {...register('nik')}
           />
           <Input label="Email" placeholder="email@example.com" labelRequired error={errors.email?.message} {...register('email')} />
-          <Input label="Password" type="password" placeholder="******" labelRequired error={errors.email?.message} {...register('email')} />
+          <Input
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            labelRequired
+            error={errors.password?.message}
+            {...register('password')}
+          />
 
           <AsyncSelect
             label="Province"
