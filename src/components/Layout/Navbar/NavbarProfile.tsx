@@ -7,9 +7,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import ChangePasswordModal from './ChangePasswordModal'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
 import { Link } from 'react-router-dom'
+import UploadResumeModal from './UploadResumeModal'
 
 const NavbarProfile: React.FC = () => {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false)
+  const [showUploadResumeModal, setShowUploadResumeModal] = useState(false)
   const { user, logout } = useAuthStore()
   const navigate = useNavigate()
   const router = useLocation()
@@ -46,6 +48,7 @@ const NavbarProfile: React.FC = () => {
   return (
     <>
       <ChangePasswordModal show={showChangePasswordModal} onClose={() => setShowChangePasswordModal(false)} />
+      <UploadResumeModal show={showUploadResumeModal} onClose={() => setShowUploadResumeModal(false)} />
       <Menu>
         <Menu.Button as={Button} variant="light" color="primary" iconOnly className="overflow-hidden">
           <Avatar name={fullName} className="h-full w-full" />
@@ -63,7 +66,7 @@ const NavbarProfile: React.FC = () => {
 
           <div className="flex flex-col gap-1 p-3">
             <Menu.Item>
-              <Button variant="light" block>
+              <Button type="button" variant="light" block onClick={() => setShowUploadResumeModal(true)}>
                 Upload Resume
               </Button>
             </Menu.Item>
