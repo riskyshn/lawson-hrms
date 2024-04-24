@@ -25,7 +25,7 @@ const RecentlyPostedJobsCard: React.FC = () => {
                 as="button"
                 type="button"
                 className={twJoin(
-                  'flex items-center justify-center gap-2 divide-y-0 rounded-lg border p-3',
+                  'flex items-center justify-center gap-2 divide-y-0 rounded-lg border px-3 py-2',
                   !department_id && 'border-primary-600 bg-primary-600 text-white',
                   !!department_id && 'hover:border-gray-300 hover:bg-gray-100',
                 )}
@@ -39,7 +39,7 @@ const RecentlyPostedJobsCard: React.FC = () => {
                   as="button"
                   type="button"
                   className={twJoin(
-                    'flex items-center justify-center gap-2 divide-y-0 rounded-lg border p-3',
+                    'flex items-center justify-center gap-2 divide-y-0 rounded-lg border px-3 py-2',
                     el.oid === department_id && 'border-primary-600 bg-primary-600 text-white',
                     el.oid !== department_id && 'hover:border-gray-300 hover:bg-gray-100',
                   )}
