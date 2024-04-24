@@ -34,8 +34,7 @@ interface AttendanceRecord {
   lateMinutes?: number
   workHours?: number
   inOffice?: boolean
-  lat?: number
-  lng?: number
+  coordinate?: ICoordinate
   photo?: string
   status?: string
   rejectedReason?: string

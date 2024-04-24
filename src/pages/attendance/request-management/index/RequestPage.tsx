@@ -18,9 +18,9 @@ const RequestPage: React.FC = () => {
   const [pageData, setPageData] = useState<IPaginationResponse<ILeave>>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
-  const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
-    startDate: todayFormatted,
-    endDate: todayFormatted,
+  const [filterDate, setFilterDate] = useState({
+    startDate: searchParams.get('startDate') || todayFormatted,
+    endDate: searchParams.get('endDate') || todayFormatted,
   })
 
   const pagination = usePagination({
@@ -92,7 +92,7 @@ const RequestPage: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={(open, toggleOpen) => (
+          header={() => (
             <MainCardHeader
               title="Request List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
@@ -105,13 +105,10 @@ const RequestPage: React.FC = () => {
                 value: search || '',
                 setValue: (v) => setSearchParam({ search: v }),
               }}
-              filterToogle={toggleOpen}
               filter={
-                open && (
-                  <div className="grid grid-cols-1 gap-3 p-3">
-                    <BaseInputDateRange placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
-                  </div>
-                )
+                <div className="grid grid-cols-1 gap-3 p-3">
+                  <BaseInputDateRange placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+                </div>
               }
             />
           )}
