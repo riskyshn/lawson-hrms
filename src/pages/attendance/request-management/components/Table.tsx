@@ -75,8 +75,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
             </div>
           ),
         },
-        { children: item.employee?.employment?.department?.name },
-        { children: item.employee?.employment?.branch?.name },
+        { children: item.employee?.employment?.department?.name, className: 'text-center' },
+        { children: item.employee?.employment?.branch?.name, className: 'text-center' },
         { children: item.note, className: 'whitespace-normal' },
         {
           children: item.status ? (

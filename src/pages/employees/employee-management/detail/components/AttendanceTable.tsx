@@ -83,8 +83,11 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
                 key={i}
                 className="flex cursor-pointer items-center justify-center text-primary-600 hover:text-primary-700"
                 onClick={() => {
-                  if (el.lat && el.lng)
-                    setSelectedLocation([[el.lat, el.lng], el.employee?.employment?.branch?.coordinate?.coordinates || null])
+                  if (el.coordinate?.coordinates?.[0] && el.coordinate?.coordinates?.[1])
+                    setSelectedLocation([
+                      [el.coordinate?.coordinates?.[0], el.coordinate?.coordinates?.[1]],
+                      el.employee?.employment?.branch?.coordinate?.coordinates || null,
+                    ])
                 }}
               >
                 <MapPinIcon size={14} />

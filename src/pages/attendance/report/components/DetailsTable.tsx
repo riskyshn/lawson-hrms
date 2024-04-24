@@ -111,7 +111,11 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
                   title="Maps"
                   className="text-primary-600 hover:text-primary-700 focus:outline-none"
                   onClick={() =>
-                    handlePinClick(record.lat || 0, record.lng || 0, record.employee?.employment?.branch?.coordinate?.coordinates)
+                    handlePinClick(
+                      record?.coordinate?.coordinates?.[0] || 0,
+                      record?.coordinate?.coordinates?.[1] || 0,
+                      record.employee?.employment?.branch?.coordinate?.coordinates,
+                    )
                   }
                 >
                   <MapPinIcon size={15} />
@@ -191,18 +195,26 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
       {
         children: (item.records ?? [])
           .map((record, index) => {
-            const modifiedAttendanceType = record?.rejectedReason
-              ?.replace(/_/g, ' ')
-              .toLowerCase()
-              .replace(/(?:^|\s)\S/g, function (a: string) {
-                return a.toUpperCase()
-              })
+            if (!record.rejectedReason) {
+              return (
+                <div key={index}>
+                  <span>-</span>
+                </div>
+              )
+            } else {
+              const modifiedAttendanceType = record?.rejectedReason
+                ?.replace(/_/g, ' ')
+                .toLowerCase()
+                .replace(/(?:^|\s)\S/g, function (a: string) {
+                  return a.toUpperCase()
+                })
 
-            return (
-              <div key={index}>
-                <span>{modifiedAttendanceType}</span>
-              </div>
-            )
+              return (
+                <div key={index}>
+                  <span>{modifiedAttendanceType}</span>
+                </div>
+              )
+            }
           })
           .reduce((acc: any, cur: any, index: number, array: any) => {
             if (index % 2 === 0) {

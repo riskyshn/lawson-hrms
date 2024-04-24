@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import NavbarProfile from './NavbarProfile'
-import { Calendar, Menu, MessageCircle, Search } from 'lucide-react'
+import { Calendar, Menu, Search } from 'lucide-react'
 import NavbarInfo from './NavbarInfo'
 import { twJoin } from 'tailwind-merge'
 import { useLayout, Navbar as BaseNavbar, NavbarBrand, NavbarNav, Button, usePubSub } from 'jobseeker-ui'
-import NavbarNotification from './NavbarNotification'
+// import NavbarNotification from './NavbarNotification'
 import LogoFull from '@/components/Logo/LogoFull'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
 import { useOrganizationStore } from '@/store'
@@ -36,9 +36,9 @@ const Navbar: React.FC = () => {
     navigate('/calendar')
   }
 
-  const handleChat = () => {
-    navigate('/chat')
-  }
+  // const handleChat = () => {
+  //   navigate('/chat')
+  // }
 
   return (
     <BaseNavbar className="bg-white/80 backdrop-blur">
@@ -79,11 +79,11 @@ const Navbar: React.FC = () => {
           <div className="relative flex flex-1 items-center justify-end gap-3">
             <NavbarInfo />
 
-            <Button iconOnly variant="light" onClick={handleChat}>
+            {/* <Button iconOnly variant="light" onClick={handleChat}>
               <MessageCircle size={16} />
             </Button>
 
-            <NavbarNotification />
+            <NavbarNotification /> */}
 
             <Button iconOnly variant="light" onClick={handleCalendar}>
               <Calendar size={16} />

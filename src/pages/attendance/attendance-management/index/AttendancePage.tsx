@@ -27,6 +27,7 @@ const AttendancePage: React.FC = () => {
   })
 
   const branch = searchParams.get('branch') || undefined
+  const isLate = searchParams.get('is_late') || undefined
 
   const { master } = useOrganizationStore()
 
@@ -52,6 +53,7 @@ const AttendancePage: React.FC = () => {
             start_date: filterDate?.startDate,
             end_date: filterDate?.endDate,
             branch_id: branch,
+            is_late: isLate,
           },
           signal,
         )
@@ -68,7 +70,7 @@ const AttendancePage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage, branch, filterDate, onChangeData])
+  }, [search, pagination.currentPage, branch, filterDate, onChangeData, isLate])
 
   const handleDateChange = (selectedDate: DateValueType) => {
     if (selectedDate?.startDate && selectedDate.endDate) {

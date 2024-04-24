@@ -154,7 +154,11 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, isClientVisi
                   title="Maps"
                   className="text-primary-600 hover:text-primary-700 focus:outline-none"
                   onClick={() =>
-                    handlePinClick(record?.lat || 0, record.lng || 0, record.employee?.employment?.branch?.coordinate?.coordinates)
+                    handlePinClick(
+                      record?.coordinate?.coordinates?.[0] || 0,
+                      record?.coordinate?.coordinates?.[1] || 0,
+                      record.employee?.employment?.branch?.coordinate?.coordinates,
+                    )
                   }
                 >
                   <MapPinIcon size={15} />
