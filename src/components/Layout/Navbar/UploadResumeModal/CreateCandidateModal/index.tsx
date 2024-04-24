@@ -3,8 +3,15 @@ import React, { useState } from 'react'
 import PersonalInformationForm from './components/PersonalInformationForm'
 import EducationForm from './components/EducationForm'
 import ExperiencesForm from './components/ExperiencesForm'
+import formCreateToPayload from './utils/form-create-to-payload'
+import { authService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
 
-const CreateCandidateModal: React.FC<{ show?: boolean; onClose?: () => void; onSubmited?: () => void }> = ({ show, onClose }) => {
+const CreateCandidateModal: React.FC<{ show?: boolean; onClose?: () => void; onSubmited?: () => void }> = ({
+  show,
+  onClose,
+  onSubmited,
+}) => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 
   const toast = useToast()
@@ -26,10 +33,12 @@ const CreateCandidateModal: React.FC<{ show?: boolean; onClose?: () => void; onS
 
     try {
       setIsSubmitLoading(true)
-
-      toast('Job vacancy successfully created.', { color: 'success', position: 'top-right' })
+      await authService.signUpCandidate(formCreateToPayload(data))
+      onClose?.()
+      onSubmited?.()
+      toast('Candidate successfully created.', { color: 'success' })
     } catch (error) {
-      toast('An error occurred while creating the job vacancy.', { color: 'error', position: 'top-right' })
+      toast(axiosErrorMessage(error), { color: 'error' })
       setIsSubmitLoading(false)
     }
   }

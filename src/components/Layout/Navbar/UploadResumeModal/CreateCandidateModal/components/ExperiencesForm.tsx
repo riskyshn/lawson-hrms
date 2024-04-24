@@ -75,17 +75,10 @@ const ExperiencesForm: React.FC<{
         </CardBody>
 
         <CardFooter>
-          <Button type="button" variant="light" color="primary" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
+          <Button type="button" variant="light" color="primary" className="w-32" onClick={props.handlePrev}>
             Prev
           </Button>
-          <Button
-            type="submit"
-            color="primary"
-            className="w-32"
-            disabled={props.isLoading}
-            loading={props.isLoading}
-            onClick={props.handleSubmit}
-          >
+          <Button type="submit" color="primary" className="w-32" loading={props.isLoading}>
             Submit
           </Button>
         </CardFooter>
