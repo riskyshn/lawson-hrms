@@ -2,6 +2,7 @@ import { dashboardService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { PinIcon, Trash2Icon } from 'lucide-react'
+import moment from 'moment'
 import { useState } from 'react'
 
 const AnnouncementItem: React.FC<{
@@ -43,7 +44,7 @@ const AnnouncementItem: React.FC<{
     <li className="mb-3 flex overflow-hidden rounded-lg last:mb-0">
       <button type="button" className="hoverable-default flex flex-1 flex-col gap-2 p-2" onClick={() => onClick?.(item)}>
         <h4 className="text-sm">{item.title}</h4>
-        <span className="block text-xs text-gray-500">{item.createdAt}</span>
+        <span className="block text-xs text-gray-500">{moment.utc(item.createdAt).local().fromNow()}</span>
       </button>
       <div className="flex flex-col">
         <Button

@@ -13,7 +13,7 @@ const AnnouncementCard: React.FC = () => {
   const [selectedToPreview, setSelectedToPreview] = useState<IDashboardAnnouncement | null>(null)
   const [filterDate, setFilterDate] = useState<{ startDate: Date; endDate: Date }>()
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(dashboardService.fetchAnnouncements, {
+  const { pageData, onRefresh } = useAsyncSearch(dashboardService.fetchAnnouncements, {
     limit: 20,
     start_date: filterDate?.startDate && moment(filterDate.startDate).format('Y-MM-DD'),
     end_date: filterDate?.endDate && moment(filterDate.endDate).format('Y-MM-DD'),
@@ -33,7 +33,7 @@ const AnnouncementCard: React.FC = () => {
             <div className="font-semibold">Announcement</div>
           </CardHeader>
           <CardBody className="p-0">
-            {!isLoading && (
+            {!!pageData && (
               <ul className="chrome-scrollbar max-h-80 overflow-y-auto p-3">
                 {pageData.content.map((el, i) => (
                   <AnnouncementItem key={i} item={el} onClick={setSelectedToPreview} onRefresh={onRefresh} />
@@ -41,7 +41,7 @@ const AnnouncementCard: React.FC = () => {
               </ul>
             )}
 
-            <LoadingScreen show={isLoading} />
+            <LoadingScreen show={!pageData} />
           </CardBody>
           <CardFooter>
             <Button type="button" block color="primary" variant="light" onClick={() => setShow(true)}>

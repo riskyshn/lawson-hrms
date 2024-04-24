@@ -1,8 +1,9 @@
 import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
+import { TINYMCE_API_KEY } from '@/constants/globals'
 import { dashboardService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, Button, Editor, Input, InputWrapper, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -72,7 +73,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onRefresh }) =
   })
 
   return (
-    <Modal as="form" show={show} onSubmit={onSubmit}>
+    <Modal as="form" className="max-w-3xl" show={show} onSubmit={onSubmit}>
       <ModalHeader subTitle="Create a new Announcement" onClose={onClose}>
         Create Announcement
       </ModalHeader>
@@ -99,7 +100,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onRefresh }) =
           />
         </InputWrapper>
 
-        <Textarea label="Content" labelRequired rows={4} error={errors.content?.message} {...register('content')} />
+        <Editor label="Content" error={errors.content?.message} labelRequired apiKey={TINYMCE_API_KEY} {...register('content')} />
       </div>
       <ModalFooter>
         <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
