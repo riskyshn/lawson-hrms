@@ -39,13 +39,16 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
       setIsLoading(true)
       setErrorMessage('')
 
-      let isFormValid = true
+      let isFormValid = false
+      let hasData = false
+
       daySchedules.forEach((schedule) => {
-        if (!schedule.start || !schedule.end) {
-          schedule.isActive = false
-          isFormValid = false
+        if (schedule.start && schedule.end) {
+          hasData = true
         }
       })
+
+      isFormValid = hasData
 
       if (!isFormValid) {
         setErrorMessage('Start and end times must not be empty.')
@@ -107,7 +110,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
   }
 
   const getDayFullName = (dayIndex: number | undefined) => {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     return dayIndex !== undefined ? days[dayIndex] : ''
   }
 

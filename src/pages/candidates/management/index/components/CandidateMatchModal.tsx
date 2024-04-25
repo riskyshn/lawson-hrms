@@ -7,9 +7,9 @@ const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candid
   const bodyItems = candidate.candidateMatches
     ? candidate.candidateMatches.map((item, i) => ({
         items: [
-          { children: item.requirementType },
-          { children: item.vacancyData },
-          { children: item.candidateData },
+          { children: item.requirementType || '-' },
+          { children: item.vacancyData || '-' },
+          { children: item.candidateData || '-' },
           {
             children: (
               <div
@@ -29,9 +29,9 @@ const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candid
   const mandatoryBodyItems = candidate.candidateMatchesMandatory
     ? candidate.candidateMatchesMandatory.map((item, i) => ({
         items: [
-          { children: item.requirementType },
-          { children: item.vacancyData },
-          { children: item.candidateData },
+          { children: item.requirementType || '-' },
+          { children: item.vacancyData || '-' },
+          { children: item.candidateData || '-' },
           {
             children: (
               <div
