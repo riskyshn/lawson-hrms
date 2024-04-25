@@ -32,7 +32,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
-  const [timezones, setTimezones] = useState<any[]>([])
+  const [timezones, setTimezones] = useState<ITimezone[]>()
   const [selectTimezoneId, setSelectTimezoneId] = useState<string | number>('')
   const {
     register,
@@ -131,7 +131,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
           labelRequired
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
-          options={timezones.map(({ oid, title }) => ({ value: oid, label: title }))}
+          options={timezones?.map(({ oid, title }) => ({ value: oid, label: title })) || []}
           className="mb-3"
           value={selectTimezoneId}
           {...register('timezone')}

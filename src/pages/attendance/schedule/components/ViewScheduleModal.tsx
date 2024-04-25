@@ -10,7 +10,7 @@ type ViewScheduleModalProps = {
 }
 
 const ViewScheduleModal: React.FC<ViewScheduleModalProps> = ({ show, onClose, items }) => {
-  const [timezones, setTimezones] = useState<any[]>([])
+  const [timezones, setTimezones] = useState<ITimezone[]>()
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const ViewScheduleModal: React.FC<ViewScheduleModalProps> = ({ show, onClose, it
         disabled
         label="Select Timezone"
         placeholder="WIB, WITA, WIT"
-        options={timezones.map((timezone) => ({ value: timezone.oid, label: timezone.title }))}
+        options={timezones?.map((timezone) => ({ value: timezone.oid, label: timezone.title })) || []}
         className="mb-3"
         value={items?.timezone?.oid}
       />
