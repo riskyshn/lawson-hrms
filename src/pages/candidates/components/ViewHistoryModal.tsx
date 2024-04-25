@@ -85,7 +85,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose
                     <TimelineItem key={i}>
                       <HistoryItem
                         title={history.applyProcess}
-                        subTitle={moment(history.actionAt).local().format('D/M/Y HH:mm')}
+                        subTitle={moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
                         status={<Status status={history.status} />}
                         showDetail={showDetailIndex === i}
                         onDetailToggleClick={() => setShowDetailIndex((v) => (v === i ? null : i))}
@@ -102,7 +102,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose
                             <h3 className="text-sm font-semibold">Action Scheduled</h3>
                             <span className="flex items-center gap-1 text-xs">
                               <CalendarIcon size={16} />
-                              {moment(history.actionAt).local().format('D/M/Y HH:mm')}
+                              {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
                             </span>
                           </div>
                         )}
@@ -111,7 +111,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose
                             <h3 className="text-sm font-semibold">Process Date</h3>
                             <span className="flex items-center gap-1 text-xs">
                               <CalendarIcon size={16} />
-                              {moment(history.actionAt).local().format('D/M/Y HH:mm')}
+                              {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
                             </span>
                           </div>
                         )}

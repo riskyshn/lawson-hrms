@@ -16,7 +16,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
-  const [timezones, setTimezones] = useState<any[]>([])
+  const [timezones, setTimezones] = useState<ITimezone[]>()
   const [selectTimezoneId, setSelectTimezoneId] = useState<string | number | undefined>(items?.timezone?.oid)
   const { register, handleSubmit } = useForm()
   const [daySchedules, setDaySchedules] = useState<ScheduleDetail[]>(items?.details || [])
@@ -129,7 +129,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
         <Select
           label="Select Timezone"
           placeholder="WIB, WITA, WIT"
-          options={timezones.map((timezone) => ({ value: timezone.oid, label: timezone.title }))}
+          options={timezones?.map((timezone) => ({ value: timezone.oid, label: timezone.title })) || []}
           className="mb-3"
           value={items?.timezone?.oid}
           onChange={handleChange}
