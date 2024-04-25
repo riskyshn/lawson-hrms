@@ -82,10 +82,11 @@ const StatisticCards: React.FC<{ filterDate?: IFilterDate }> = ({ filterDate }) 
     const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'yellow', 'teal']
 
     const cardData = data.map((item, index) => {
+      const colorIndex = index % colors.length
       return {
         label: item.title,
         value: item.count,
-        className: `text-white bg-${colors[index]}-600`,
+        className: `text-white bg-${colors[colorIndex]}-600`,
       }
     })
 
