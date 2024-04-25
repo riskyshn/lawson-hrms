@@ -58,8 +58,8 @@ const StatisticCards: React.FC<{ items?: IEmployee; filterDate?: IFilterDate }> 
   }
 
   return (
-    <div className={twJoin('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5')}>
-      {!isLoading ? renderCards() : <Skeleton className="h-[88px]" count={5} />}
+    <div className={twJoin('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6')}>
+      {!isLoading ? renderCards() : <Skeleton className="h-[88px]" count={6} />}
     </div>
   )
 }
