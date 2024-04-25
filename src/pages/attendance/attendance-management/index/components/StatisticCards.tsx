@@ -10,7 +10,7 @@ const Card: React.FC<{
   className?: string
   onClick?: () => void
 }> = ({ value, label, className = 'bg-white', onClick }) => {
-  const isClickable = label !== 'Check In'
+  const isClickable = label !== 'Check In' && label !== 'Absence'
 
   return (
     <div
@@ -75,17 +75,19 @@ const StatisticCards: React.FC<{ filterDate?: IFilterDate }> = ({ filterDate }) 
 
   const renderCards = () => {
     if (error) {
-      return Array.from(Array(6)).map((_, i: number) => <Card key={i} label="Failed to load Data" value="Error" />)
+      return Array.from(Array(8)).map((_, i: number) => <Card key={i} label="Failed to load Data" value="Error" />)
     }
     if (!data) return null
 
-    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'purple', 'teal']
+    const colors = ['green', 'amber', 'rose', 'red', 'gray', 'red', 'yellow', 'teal']
 
-    const cardData = data.map((item, index) => ({
-      label: item.title,
-      value: item.count,
-      className: `text-white bg-${colors[index]}-600`,
-    }))
+    const cardData = data.map((item, index) => {
+      return {
+        label: item.title,
+        value: item.count,
+        className: `text-white bg-${colors[index]}-600`,
+      }
+    })
 
     return cardData.map((rest, index) => <Card key={index} {...rest} onClick={() => handleCardClick(rest.label || '')} />)
   }
