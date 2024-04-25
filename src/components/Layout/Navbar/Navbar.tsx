@@ -9,6 +9,7 @@ import { useLayout, Navbar as BaseNavbar, NavbarBrand, NavbarNav, Button, usePub
 import LogoFull from '@/components/Logo/LogoFull'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
 import { useOrganizationStore } from '@/store'
+import NavbarNotification from './NavbarNotification'
 
 const Navbar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
@@ -81,9 +82,9 @@ const Navbar: React.FC = () => {
 
             {/* <Button iconOnly variant="light" onClick={handleChat}>
               <MessageCircle size={16} />
-            </Button>
+            </Button> */}
 
-            <NavbarNotification /> */}
+            <NavbarNotification />
 
             <Button iconOnly variant="light" onClick={handleCalendar}>
               <Calendar size={16} />
