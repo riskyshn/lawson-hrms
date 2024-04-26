@@ -13,36 +13,15 @@ import StatisticCards from '../components/StatisticCards'
 import Table from '../components/Table'
 import TableUserActivity from '../components/TableUserActivity'
 
-interface RecruitmentFunnelData {
-  interview?: { percentage?: number }
-  applicant?: { percentage?: number }
-  assessment?: { percentage?: number }
-  offering?: { percentage?: number }
-  onboarding?: { percentage?: number }
-}
-
-interface NumberHiredData {
-  label: string
-  total: number
-}
-
-interface Dataset {
-  label: string
-  data: any
-  borderColor: string
-  backgroundColor: string
-  tension: number
-}
-
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement)
 
 export const Component: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [loadingBarChart, setLoadingBarChart] = useState(true)
   const [loadingLineChart, setLoadingLineChart] = useState(true)
-  const [data, setData] = useState<RecruitmentFunnelData>({})
-  const [dataLine, setDataLine] = useState<NumberHiredData[][]>([])
-  const [dataNumberHired, setDataNumberHired] = useState<any>()
+  const [data, setData] = useState<IRecruitmentFunnel>()
+  const [dataLine, setDataLine] = useState<INumberOfHired>()
+  const [dataNumberHired, setDataNumberHired] = useState<IPaginationResponse<INumberOfHiredDataTable>>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
   const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
@@ -99,14 +78,8 @@ export const Component: React.FC = () => {
     labels: labelsBar,
     datasets: [
       {
-        label: 'Data',
-        data: [
-          data?.interview?.percentage || 0,
-          data?.applicant?.percentage || 0,
-          data?.assessment?.percentage || 0,
-          data?.offering?.percentage || 0,
-          data?.onboarding?.percentage || 0,
-        ],
+        label: '',
+        data: data?.total ? data.total.map((item) => item.total) : [],
         backgroundColor: backgroundColors.slice(0, 5),
       },
     ],
@@ -122,22 +95,22 @@ export const Component: React.FC = () => {
   }
 
   const dataLineChart = {
-    labels: dataLine[0]?.map((item) => item.label) || [],
+    labels: (dataLine?.[0] || []).map((item) => item.label),
     datasets: [] as Dataset[],
   }
 
   dataLineChart.datasets.push({
     label: currentYear.toString(),
-    data: dataLine[0]?.map((item) => item.total) || [],
+    data: (dataLine?.[0] || []).map((item) => item.total) || [],
     borderColor: 'rgb(255, 99, 132)',
     backgroundColor: 'rgba(255, 99, 132, 0.5)',
     tension: 0.4,
   })
 
-  if (dataLine.length > 1) {
+  if (dataLine && dataLine.length > 1) {
     dataLineChart.datasets.push({
       label: selectedYear.toString(),
-      data: dataLine[1]?.map((item) => item.total) || [],
+      data: (dataLine[1] || []).map((item) => item.total),
       borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
       tension: 0.4,
@@ -152,34 +125,56 @@ export const Component: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
         setLoadingBarChart(true)
-        setLoadingLineChart(true)
-        const [recruitmentFunnelData, numberHiredData, numberHiredDataTable] = await Promise.all([
-          reportService.fetchRecruitmentFunnel({
-            start_date: filterDate.startDate,
-            end_date: filterDate.endDate,
-          }),
-          reportService.fetchNumberHiredChart({
-            year: selectedYear,
-            type: activeLabel.toLowerCase(),
-          }),
-          reportService.fetchNumberHired(),
-        ])
+        const recruitmentFunnelData = await reportService.fetchRecruitmentFunnel({
+          start_date: filterDate.startDate,
+          end_date: filterDate.endDate,
+        })
         setData(recruitmentFunnelData)
-        setDataLine(numberHiredData)
-        setDataNumberHired(numberHiredDataTable)
       } catch (e: any) {
         if (e.message !== 'canceled') setPageError(e)
       } finally {
-        setLoading(false)
         setLoadingBarChart(false)
+      }
+    }
+
+    fetchData()
+  }, [filterDate])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoadingLineChart(true)
+        const numberHiredData = await reportService.fetchNumberHiredChart({
+          year: selectedYear,
+          type: activeLabel.toLowerCase(),
+        })
+        setDataLine(numberHiredData)
+      } catch (e: any) {
+        if (e.message !== 'canceled') setPageError(e)
+      } finally {
         setLoadingLineChart(false)
       }
     }
 
     fetchData()
-  }, [filterDate, selectedYear, activeLabel])
+  }, [selectedYear, activeLabel])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const numberHiredDataTable = await reportService.fetchNumberHired()
+        setDataNumberHired(numberHiredDataTable)
+      } catch (e: any) {
+        if (e.message !== 'canceled') setPageError(e)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
 
   const handleDateChange = (selectedDate: DateValueType) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -240,6 +235,20 @@ export const Component: React.FC = () => {
 
       <Container className="py-3 xl:pb-8">
         <StatisticCards filterDate={filterDate} />
+        <Card className="mt-4 p-8">
+          <div className="grid grid-cols-4 gap-4">
+            {data?.percentage ? (
+              data?.percentage.map((stage) => (
+                <div className="border-r-4 border-blue-500 p-4">
+                  <p className="text-md">{stage.label}</p>
+                  <p className="text-2xl font-semibold">{stage.total}%</p>
+                </div>
+              ))
+            ) : (
+              <div></div>
+            )}
+          </div>
+        </Card>
         <Card className="my-4 p-8">
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="flex justify-between">

@@ -1,12 +1,12 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 
 type PropTypes = {
-  items: any
+  items: INumberOfHiredDataTable[]
   loading?: boolean
 }
 
 const Table: React.FC<PropTypes> = ({ items, loading }) => {
-  const bodyItems = items.map((item: any) => ({
+  const bodyItems = items.map((item) => ({
     items: [
       { children: item.vacancy.name, className: 'text-center' },
       { children: item.q1, className: 'text-center' },

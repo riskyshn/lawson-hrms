@@ -3,7 +3,7 @@ import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { masterService, reportService } from '@/services'
 import { useMasterStore, useOrganizationStore } from '@/store'
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
-import { AsyncSelect, BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
+import { AsyncSelect, BaseInputDateRange, Card, CardBody, Select, Spinner } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { useSearchParams } from 'react-router-dom'
@@ -25,7 +25,7 @@ const fetchData = async (fetchFunction: any) => {
   try {
     const response = await fetchFunction()
     return {
-      labels: response.map((item: any) => item.label),
+      labels: response?.map((item: any) => item.label) || [],
       data: response.map((item: any) => item.total),
     }
   } catch (error: any) {
@@ -40,7 +40,13 @@ const fetchData = async (fetchFunction: any) => {
 export const Component: React.FC = () => {
   const todayFormatted = new Date().toISOString().split('T')[0]
   const defaultStartDate = new Date('1990-01-01').toISOString().split('T')[0]
-  const [isLoading, setIsLoading] = useState(true)
+
+  const [isProvinceLoading, setIsProvinceLoading] = useState(true)
+  const [isAgeLoading, setIsAgeLoading] = useState(true)
+  const [isEducationLoading, setIsEducationLoading] = useState(true)
+  const [isGenderLoading, setIsGenderLoading] = useState(true)
+  const [isExperienceLoading, setIsExperienceLoading] = useState(true)
+  const [isDepartmentLoading, setIsDepartmentLoading] = useState(true)
 
   const [filterDates, setFilterDates] = useState<any>({
     province: { startDate: defaultStartDate, endDate: todayFormatted },
@@ -62,7 +68,16 @@ export const Component: React.FC = () => {
   const { educatioLevels, genders } = useMasterStore()
   const { master } = useOrganizationStore()
 
-  const [chartData, setChartData] = useState({
+  type ChartData = {
+    province: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
+    age: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
+    education: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
+    gender: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
+    experience: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
+    department: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
+  }
+
+  const [chartData, setChartData] = useState<ChartData>({
     province: { labels: [], datasets: [] },
     age: { labels: [], datasets: [] },
     education: { labels: [], datasets: [] },
@@ -71,79 +86,185 @@ export const Component: React.FC = () => {
     department: { labels: [], datasets: [] },
   })
 
-  const fetchAllData = async () => {
-    setIsLoading(true)
+  const fetchProvinceData = async () => {
+    setIsProvinceLoading(true)
+    const provinceData = await fetchData(() =>
+      reportService.fetchProvince({
+        start_date: filterDates.province.startDate,
+        end_date: filterDates.province.endDate,
+        province: filterProvince,
+      }),
+    )
 
-    const [province, age, education, gender, experience, department] = await Promise.all([
-      fetchData(() =>
-        reportService.fetchProvince({
-          start_date: filterDates.province.startDate,
-          end_date: filterDates.province.endDate,
-          province: filterProvince,
-        }),
-      ),
-      fetchData(() =>
-        reportService.fetchAge({
-          start_date: filterDates.age.startDate,
-          end_date: filterDates.age.endDate,
-          range: filterAge,
-        }),
-      ),
-      fetchData(() =>
-        reportService.fetchEducation({
-          start_date: filterDates.education.startDate,
-          end_date: filterDates.education.endDate,
-          education: filterEducation,
-        }),
-      ),
-      fetchData(() =>
-        reportService.fetchGender({
-          start_date: filterDates.gender.startDate,
-          end_date: filterDates.gender.endDate,
-          gender: filterGender,
-        }),
-      ),
-      fetchData(() =>
-        reportService.fetchExperience({
-          start_date: filterDates.experience.startDate,
-          end_date: filterDates.experience.endDate,
-          range: filterExperience,
-        }),
-      ),
-      fetchData(() =>
-        reportService.fetchDepartment({
-          start_date: filterDates.department.startDate,
-          end_date: filterDates.department.endDate,
-          department: filterDepartment,
-        }),
-      ),
-    ])
-
-    const chartKeys = ['province', 'age', 'education', 'gender', 'experience', 'department']
-    const chartResults = [province, age, education, gender, experience, department]
-
-    const newChartData = chartKeys.reduce((acc: any, key, index) => {
-      const { labels, data } = chartResults[index]
-      acc[key] = {
-        labels,
+    setChartData((prevChartData) => ({
+      ...prevChartData,
+      province: {
+        labels: provinceData.labels,
         datasets: [
           {
-            data,
-            backgroundColor: backgroundColors.slice(0, data.length),
+            data: provinceData.data,
+            backgroundColor: backgroundColors.slice(0, provinceData.data.length),
           },
         ],
-      }
-      return acc
-    }, {})
+      },
+    }))
 
-    setChartData(newChartData)
-    setIsLoading(false)
+    setIsProvinceLoading(false)
+  }
+
+  const fetchAgeData = async () => {
+    setIsAgeLoading(true)
+    const ageData = await fetchData(() =>
+      reportService.fetchAge({
+        start_date: filterDates.age.startDate,
+        end_date: filterDates.age.endDate,
+        range: filterAge,
+      }),
+    )
+
+    setChartData((prevChartData) => ({
+      ...prevChartData,
+      age: {
+        labels: ageData.labels,
+        datasets: [
+          {
+            data: ageData.data,
+            backgroundColor: backgroundColors.slice(0, ageData.data.length),
+          },
+        ],
+      },
+    }))
+
+    setIsAgeLoading(false)
+  }
+
+  const fetchEducationData = async () => {
+    setIsEducationLoading(true)
+    const educationData = await fetchData(() =>
+      reportService.fetchEducation({
+        start_date: filterDates.education.startDate,
+        end_date: filterDates.education.endDate,
+        education: filterEducation,
+      }),
+    )
+
+    setChartData((prevChartData) => ({
+      ...prevChartData,
+      education: {
+        labels: educationData.labels,
+        datasets: [
+          {
+            data: educationData.data,
+            backgroundColor: backgroundColors.slice(0, educationData.data.length),
+          },
+        ],
+      },
+    }))
+
+    setIsEducationLoading(false)
+  }
+
+  const fetchGenderData = async () => {
+    setIsGenderLoading(true)
+    const genderData = await fetchData(() =>
+      reportService.fetchGender({
+        start_date: filterDates.gender.startDate,
+        end_date: filterDates.gender.endDate,
+        gender: filterGender,
+      }),
+    )
+
+    setChartData((prevChartData) => ({
+      ...prevChartData,
+      gender: {
+        labels: genderData.labels,
+        datasets: [
+          {
+            data: genderData.data,
+            backgroundColor: backgroundColors.slice(0, genderData.data.length),
+          },
+        ],
+      },
+    }))
+
+    setIsGenderLoading(false)
+  }
+
+  const fetchExperienceData = async () => {
+    setIsExperienceLoading(true)
+    const experienceData = await fetchData(() =>
+      reportService.fetchExperience({
+        start_date: filterDates.experience.startDate,
+        end_date: filterDates.experience.endDate,
+        range: filterExperience,
+      }),
+    )
+
+    setChartData((prevChartData) => ({
+      ...prevChartData,
+      experience: {
+        labels: experienceData.labels,
+        datasets: [
+          {
+            data: experienceData.data,
+            backgroundColor: backgroundColors.slice(0, experienceData.data.length),
+          },
+        ],
+      },
+    }))
+
+    setIsExperienceLoading(false)
+  }
+
+  const fetchDepartmentData = async () => {
+    setIsDepartmentLoading(true)
+    const departmentData = await fetchData(() =>
+      reportService.fetchDepartment({
+        start_date: filterDates.department.startDate,
+        end_date: filterDates.department.endDate,
+        department: filterDepartment,
+      }),
+    )
+
+    setChartData((prevChartData) => ({
+      ...prevChartData,
+      department: {
+        labels: departmentData.labels,
+        datasets: [
+          {
+            data: departmentData.data,
+            backgroundColor: backgroundColors.slice(0, departmentData.data.length),
+          },
+        ],
+      },
+    }))
+
+    setIsDepartmentLoading(false)
   }
 
   useEffect(() => {
-    fetchAllData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterDates, filterProvince, filterEducation, filterGender, filterAge, filterExperience, filterDepartment])
+    fetchProvinceData()
+  }, [filterDates.province, filterProvince])
+
+  useEffect(() => {
+    fetchAgeData()
+  }, [filterDates.age, filterAge])
+
+  useEffect(() => {
+    fetchEducationData()
+  }, [filterDates.education, filterEducation])
+
+  useEffect(() => {
+    fetchGenderData()
+  }, [filterDates.gender, filterGender])
+
+  useEffect(() => {
+    fetchExperienceData()
+  }, [filterDates.experience, filterExperience])
+
+  useEffect(() => {
+    fetchDepartmentData()
+  }, [filterDates.department, filterDepartment])
 
   const handleDateChange = (selectedDate: DateValueType, chartType: string) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -161,8 +282,7 @@ export const Component: React.FC = () => {
   }
 
   const renderPieChart = (title: any, data: any, placeholderOptions: any, chartType: string) => {
-    const isNoData = data.labels.length === 0 || data.datasets[0].data.every((d: any) => d === 0)
-
+    const isNoData = data?.labels?.length === 0 || data?.datasets[0]?.data.every((d: any) => d === 0)
     return (
       <div className="w-full rounded-lg border p-4 text-center">
         <h2 className="mb-2 text-lg font-semibold">{title}</h2>
@@ -172,7 +292,7 @@ export const Component: React.FC = () => {
           onValueChange={(date) => handleDateChange(date, chartType)}
           value={filterDates[chartType]}
         />
-        {title === 'Province' ? (
+        {chartType === 'province' ? (
           <AsyncSelect
             className="mb-2 text-left"
             placeholder="Province"
@@ -188,7 +308,7 @@ export const Component: React.FC = () => {
               setSearchParam(searchParams)
             }}
           />
-        ) : title === 'Education' ? (
+        ) : chartType === 'education' ? (
           <Select
             className="text-left"
             placeholder="All Education"
@@ -200,7 +320,7 @@ export const Component: React.FC = () => {
             }}
             options={educatioLevels.map((el) => ({ label: el.name, value: el.oid }))}
           />
-        ) : title === 'Gender' ? (
+        ) : chartType === 'gender' ? (
           <Select
             className="text-left"
             placeholder="Select Gender"
@@ -213,7 +333,7 @@ export const Component: React.FC = () => {
               setSearchParam(searchParams)
             }}
           />
-        ) : title === 'Age' ? (
+        ) : chartType === 'age' ? (
           <Select
             className="text-left"
             placeholder="Select Age"
@@ -234,7 +354,7 @@ export const Component: React.FC = () => {
               setSearchParam(searchParams)
             }}
           />
-        ) : title === 'Experience' ? (
+        ) : chartType === 'experience' ? (
           <Select
             className="text-left"
             placeholder="Select Experience"
@@ -254,7 +374,7 @@ export const Component: React.FC = () => {
               setSearchParam(searchParams)
             }}
           />
-        ) : title === 'Department' ? (
+        ) : chartType === 'department' ? (
           <Select
             className="text-left"
             placeholder="All Department"
@@ -269,7 +389,102 @@ export const Component: React.FC = () => {
         ) : (
           <Select placeholder={`All ${title}`} options={placeholderOptions} className="mb-2" />
         )}
-        {isNoData ? <p className="my-8 text-center text-sm">No data found.</p> : <Pie data={data} />}
+
+        {chartType === 'province' && (
+          <>
+            {isProvinceLoading ? (
+              <div className="flex h-64 items-center justify-center">
+                <Spinner height={20} className="text-white-600" />
+              </div>
+            ) : isNoData ? (
+              <div className="flex h-64 items-center justify-center">
+                <p className="text-center text-sm">No data found.</p>
+              </div>
+            ) : (
+              <Pie data={data} />
+            )}
+          </>
+        )}
+
+        {chartType === 'education' && (
+          <>
+            {isEducationLoading ? (
+              <div className="flex h-64 items-center justify-center">
+                <Spinner height={20} className="text-white-600" />
+              </div>
+            ) : isNoData ? (
+              <div className="flex h-64 items-center justify-center">
+                <p className="text-center text-sm">No data found.</p>
+              </div>
+            ) : (
+              <Pie data={data} />
+            )}
+          </>
+        )}
+
+        {chartType === 'gender' && (
+          <>
+            {isGenderLoading ? (
+              <div className="flex h-64 items-center justify-center">
+                <Spinner height={20} className="text-white-600" />
+              </div>
+            ) : isNoData ? (
+              <div className="flex h-64 items-center justify-center">
+                <p className="text-center text-sm">No data found.</p>
+              </div>
+            ) : (
+              <Pie data={data} />
+            )}
+          </>
+        )}
+
+        {chartType === 'age' && (
+          <>
+            {isAgeLoading ? (
+              <div className="flex h-64 items-center justify-center">
+                <Spinner height={20} className="text-white-600" />
+              </div>
+            ) : isNoData ? (
+              <div className="flex h-64 items-center justify-center">
+                <p className="text-center text-sm">No data found.</p>
+              </div>
+            ) : (
+              <Pie data={data} />
+            )}
+          </>
+        )}
+
+        {chartType === 'experience' && (
+          <>
+            {isExperienceLoading ? (
+              <div className="flex h-64 items-center justify-center">
+                <Spinner height={20} className="text-white-600" />
+              </div>
+            ) : isNoData ? (
+              <div className="flex h-64 items-center justify-center">
+                <p className="text-center text-sm">No data found.</p>
+              </div>
+            ) : (
+              <Pie data={data} />
+            )}
+          </>
+        )}
+
+        {chartType === 'department' && (
+          <>
+            {isDepartmentLoading ? (
+              <div className="flex h-64 items-center justify-center">
+                <Spinner height={20} className="text-white-600" />
+              </div>
+            ) : isNoData ? (
+              <div className="flex h-64 items-center justify-center">
+                <p className="text-center text-sm">No data found.</p>
+              </div>
+            ) : (
+              <Pie data={data} />
+            )}
+          </>
+        )}
       </div>
     )
   }
@@ -277,31 +492,18 @@ export const Component: React.FC = () => {
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Report' }, { text: 'Candidate Demography' }]} title="Candidate Demography" />
-
       <Container className="py-3 xl:pb-8">
         <Card>
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="relative z-10 rounded-t-lg border-b bg-white/80 p-4 backdrop-blur">
-              {isLoading ? (
-                <div className="flex h-full items-center justify-center">
-                  <div
-                    className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
-                    role="status"
-                    aria-label="Loading..."
-                  >
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                  {renderPieChart('Province', chartData.province, [], 'province')}
-                  {renderPieChart('Age', chartData.age, [], 'age')}
-                  {renderPieChart('Education', chartData.education, [], 'education')}
-                  {renderPieChart('Gender', chartData.gender, [], 'gender')}
-                  {renderPieChart('Experience', chartData.experience, [], 'experience')}
-                  {renderPieChart('Department', chartData.department, [], 'department')}
-                </div>
-              )}
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                {renderPieChart('Province', chartData.province, [], 'province')}
+                {renderPieChart('Age', chartData.age, [], 'age')}
+                {renderPieChart('Education', chartData.education, [], 'education')}
+                {renderPieChart('Gender', chartData.gender, [], 'gender')}
+                {renderPieChart('Experience', chartData.experience, [], 'experience')}
+                {renderPieChart('Department', chartData.department, [], 'department')}
+              </div>
             </div>
           </CardBody>
         </Card>
