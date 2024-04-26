@@ -1,7 +1,7 @@
-import React from 'react'
 import { Card } from 'jobseeker-ui'
-import { twJoin } from 'tailwind-merge'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { twJoin } from 'tailwind-merge'
 
 const PageCard: React.FC<{
   label: string

@@ -1,7 +1,7 @@
-import React from 'react'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
-import MainTable from '@/components/Elements/Tables/MainTable'
+import React from 'react'
 import MenuList from '../../../components/MenuList'
 
 type PropTypes = {

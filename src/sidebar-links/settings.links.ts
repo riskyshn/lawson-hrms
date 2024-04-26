@@ -1,5 +1,5 @@
-import { PackageIcon, SettingsIcon } from 'lucide-react'
 import genSidebarLinks from '@/utils/gen-sidebar-links'
+import { PackageIcon, SettingsIcon } from 'lucide-react'
 
 const settingsLinks = genSidebarLinks({
   title: 'Settings',

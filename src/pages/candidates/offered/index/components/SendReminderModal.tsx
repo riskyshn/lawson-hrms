@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { Button, Input, Avatar, InputCheckbox, Select } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
-import { ClockIcon, MapPinIcon, PencilIcon, TextIcon, Users2Icon } from 'lucide-react'
 import { LogoGoogleMeet } from '@/components/Logo/LogoGoogleMeet'
+import { Avatar, Button, Input, InputCheckbox, Select } from 'jobseeker-ui'
+import { ClockIcon, MapPinIcon, PencilIcon, TextIcon, Users2Icon } from 'lucide-react'
+import React, { useState } from 'react'
 
 type SendReminderModalProps = {
   show: boolean
@@ -42,7 +42,7 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
   const [scheduledDate, setScheduledDate] = useState<string>(getCurrentDate())
   const [startTime, setStartTime] = useState<string>(getCurrentTime())
   const [endTime, setEndTime] = useState<string>(getCurrentTime())
-  const [timeZone, setTimeZone] = useState<string | number>(getCurrentTimeZone())
+  const [timeZone, setTimeZone] = useState<string>(getCurrentTimeZone())
 
   const handleGuestSelect = (value: any) => {
     if (!selectedGuests.includes(value)) {

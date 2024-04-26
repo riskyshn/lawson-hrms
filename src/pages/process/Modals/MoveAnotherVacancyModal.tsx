@@ -1,6 +1,6 @@
-import React from 'react'
-import { Select, Button } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { Button, Select } from 'jobseeker-ui'
+import React from 'react'
 
 type MoveAnotherVacancyModalProps = {
   show: boolean

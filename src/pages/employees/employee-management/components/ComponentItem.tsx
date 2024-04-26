@@ -1,9 +1,9 @@
+import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
 import { Button, Input, InputCurrency, Select } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { InferType } from 'yup'
 import { componentDataSchema } from './shared'
-import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
 
 type Schema = InferType<typeof componentDataSchema>
 

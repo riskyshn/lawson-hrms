@@ -1,7 +1,7 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
+import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
-import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {

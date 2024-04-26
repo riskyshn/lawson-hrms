@@ -1,5 +1,5 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Avatar } from 'jobseeker-ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'

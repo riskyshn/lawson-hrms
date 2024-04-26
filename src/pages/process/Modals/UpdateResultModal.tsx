@@ -1,6 +1,6 @@
-import React from 'react'
-import { Button, InputRadio, Dropzone, Textarea } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { Button, Dropzone, InputRadio, Textarea } from 'jobseeker-ui'
+import React from 'react'
 
 type UpdateResultModalProps = {
   show: boolean

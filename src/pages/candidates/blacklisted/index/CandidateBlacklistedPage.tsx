@@ -1,15 +1,14 @@
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { Select } from 'jobseeker-ui'
-import Table from './components/Table'
-import { useEffect, useState } from 'react'
-import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
-import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
-import usePagination from '@/hooks/use-pagination'
-import { candidateService, vacancyService } from '@/services'
-import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
+import { candidateService, vacancyService } from '@/services'
+import { Select, usePagination } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
+import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
+import Table from './components/Table'
 
 const CandidateBlacklistedPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()

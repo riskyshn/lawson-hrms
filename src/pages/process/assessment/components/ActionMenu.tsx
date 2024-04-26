@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
 import {
@@ -11,14 +10,15 @@ import {
   UserXIcon,
   XCircleIcon,
 } from 'lucide-react'
-import { twJoin } from 'tailwind-merge'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ViewHistoryModal from '../../Modals/ViewHistoryModal'
-import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
-import UpdateResultModal from '../../Modals/UpdateResultModal'
-import RejectModal from '../../Modals/RejectModal'
+import { twJoin } from 'tailwind-merge'
 import BlacklistModal from '../../Modals/BlacklistModal'
+import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
 import ProcessModal from '../../Modals/ProcessModal'
+import RejectModal from '../../Modals/RejectModal'
+import UpdateResultModal from '../../Modals/UpdateResultModal'
+import ViewHistoryModal from '../../Modals/ViewHistoryModal'
 
 interface MenuListProps {
   options: string[]

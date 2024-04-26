@@ -1,9 +1,9 @@
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { attendanceService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
 import { Alert, Button, Input, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { attendanceService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 type DaySchedule = {
   day: string
@@ -33,7 +33,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
   const [timezones, setTimezones] = useState<ITimezone[]>()
-  const [selectTimezoneId, setSelectTimezoneId] = useState<string | number>('')
+  const [selectTimezoneId, setSelectTimezoneId] = useState<string>('')
   const {
     register,
     handleSubmit,
@@ -104,7 +104,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
     })
   }
 
-  const handleChange = (value: string | number) => {
+  const handleChange = (value: string) => {
     setSelectTimezoneId(value)
   }
 

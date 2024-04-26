@@ -2,11 +2,11 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import { employeeService } from '@/services'
+import { usePagination } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
-import { useEffect, useState } from 'react'
-import { employeeService } from '@/services'
-import usePagination from '@/hooks/use-pagination'
 
 const ReportPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)

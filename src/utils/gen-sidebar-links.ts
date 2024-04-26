@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import { Color } from 'jobseeker-ui'
+import { Link } from 'react-router-dom'
 
 export type SidebarChildLinkParams = {
   text: string

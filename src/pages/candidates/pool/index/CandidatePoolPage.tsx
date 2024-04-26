@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Button, Select, useToast } from 'jobseeker-ui'
-import { FileSpreadsheetIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import usePagination from '@/hooks/use-pagination'
-import Table from './components/Table'
-import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
-import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
-import { candidateService, masterService, vacancyService } from '@/services'
-import { useSearchParams } from 'react-router-dom'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
-import { useMasterStore } from '@/store'
-import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
+import { candidateService, masterService, vacancyService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
+import { AsyncSelect, Button, useOptionSearchParam, usePagination, useToast } from 'jobseeker-ui'
+import { FileSpreadsheetIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
+import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
+import Table from './components/Table'
 
 const CandidatePoolPage: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
@@ -25,18 +23,15 @@ const CandidatePoolPage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
   const [onChangeData, setOnChangeData] = useState<string>()
   const toast = useToast()
-  const [vacancies, setVacancies] = useState<any[]>([])
 
-  const vacancy = searchParams.get('vacancy') || undefined
-  const province = searchParams.get('province') || undefined
-  const education = searchParams.get('education') || undefined
-
-  const { educatioLevels } = useMasterStore()
+  const [vacancy, setVacancy, rawVacancy] = useOptionSearchParam('vacancy')
+  const [province, setProvince, rawProvince] = useOptionSearchParam('province')
+  const [education, setEducation, rawEducation] = useOptionSearchParam('education')
 
   const pagination = usePagination({
     pathname: '/candidates/pool',
     totalPage: pageData?.totalPages,
-    params: { search, vacancy, province, education },
+    params: { search, vacancy: rawVacancy, province: rawProvince, education: rawEducation },
   })
 
   useEffect(() => {
@@ -51,9 +46,9 @@ const CandidatePoolPage: React.FC = () => {
             q: search,
             page: pagination.currentPage,
             limit: 20,
-            education: education,
-            vacancyId: vacancy,
-            province: province,
+            education: education?.value,
+            vacancyId: vacancy?.value,
+            province: province?.value,
           },
           signal,
         )
@@ -69,7 +64,7 @@ const CandidatePoolPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, vacancy, education, province, pagination.currentPage, onChangeData])
+  }, [search, vacancy?.value, education?.value, province?.value, pagination.currentPage, onChangeData])
 
   const handleExportToExcel = async () => {
     try {
@@ -78,9 +73,9 @@ const CandidatePoolPage: React.FC = () => {
         q: search,
         page: pagination.currentPage,
         limit: 20,
-        education: education,
-        vacancyId: vacancy,
-        province: province,
+        education: education?.value,
+        vacancyId: vacancy?.value,
+        province: province?.value,
       })
 
       if (!excelData) {
@@ -110,19 +105,6 @@ const CandidatePoolPage: React.FC = () => {
       const errorMessage = error.response?.data?.meta?.message || error.message
       toast(errorMessage, { color: 'error', position: 'top-right' })
       setIsExporting(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchVacancies()
-  }, [])
-
-  const fetchVacancies = async () => {
-    try {
-      const data = await vacancyService.fetchVacancies()
-      setVacancies(data.content)
-    } catch (error) {
-      console.error('Error fetching vacancies:', error)
     }
   }
 
@@ -169,41 +151,35 @@ const CandidatePoolPage: React.FC = () => {
               filter={
                 open && (
                   <div className="grid grid-cols-3 gap-3 p-3">
-                    <Select
+                    <AsyncSelect
                       placeholder="Select Vacancy"
+                      className="mb-2"
                       withReset
-                      options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
-                      className="mb-3"
+                      action={vacancyService.fetchVacancies}
+                      converter={(data) => data.content.map((el) => ({ label: el.vacancyName, value: el.oid }))}
                       value={vacancy}
-                      onChange={(e) => {
-                        searchParams.set('vacancy', e.toString())
-                        setSearchParam(searchParams)
-                      }}
+                      onValueChange={setVacancy}
                     />
                     <AsyncSelect
-                      className="mb-2"
                       placeholder="Province"
+                      className="mb-2"
                       withReset
-                      fetcher={masterService.fetchProvinces}
-                      fetcherParams={{ country: 'Indonesia' }}
-                      searchMinCharacter={0}
-                      converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
-                      name="province"
+                      action={masterService.fetchProvinces}
+                      disableInfiniteScroll
+                      params={{ country: 'Indonesia' }}
+                      converter={emmbedToOptions}
                       value={province}
-                      onChange={(v) => {
-                        searchParams.set('province', v.toString())
-                        setSearchParam(searchParams)
-                      }}
+                      onValueChange={setProvince}
                     />
-                    <Select
+                    <AsyncSelect
                       placeholder="All Education"
+                      className="mb-2"
                       withReset
+                      action={masterService.fetchEducationLevel}
+                      disableInfiniteScroll
+                      converter={emmbedToOptions}
                       value={education}
-                      onChange={(e) => {
-                        searchParams.set('education', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={educatioLevels.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                      onValueChange={setEducation}
                     />
                   </div>
                 )

@@ -1,8 +1,8 @@
 import type { GenericAbortSignal } from 'axios'
 
 import { API_MASTER_BASE_URL } from '@/constants/base-urls'
-import { createAxiosInstance } from '@/utils/axios'
 import { useMasterStore } from '@/store'
+import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({
   baseURL: API_MASTER_BASE_URL,

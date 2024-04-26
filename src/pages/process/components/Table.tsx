@@ -2,6 +2,7 @@ import type { ModalType, TableType } from '../types'
 
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ProcessModal from '@/components/Modules/Process/ProcessModal'
+import RescheduleModal from '@/components/Modules/Process/RescheduleModal'
 import ViewProcessHistoryModal from '@/components/Modules/Process/ViewProcessHistoryModal'
 import WithdrawModal from '@/components/Modules/Process/WithdrawModal'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
@@ -16,7 +17,6 @@ import HireModal from './HireModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
-import RescheduleModal from '@/components/Modules/Process/RescheduleModal'
 
 type PropTypes = {
   items: IDataTableApplicant[]

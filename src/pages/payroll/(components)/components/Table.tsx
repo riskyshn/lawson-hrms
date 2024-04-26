@@ -1,11 +1,11 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
+import numberToCurrency from '@/utils/number-to-currency'
 import { Avatar } from 'jobseeker-ui'
 import React, { useState } from 'react'
-import ActionMenu from './ActionMenu'
-import EditModal from './EditModal'
-import numberToCurrency from '@/utils/number-to-currency'
-import ApplyToModal from './ApplyToModal'
 import { Link } from 'react-router-dom'
+import ActionMenu from './ActionMenu'
+import ApplyToModal from './ApplyToModal'
+import EditModal from './EditModal'
 
 type PropTypes = {
   type: 'BENEFIT' | 'DEDUCTION'

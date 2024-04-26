@@ -1,7 +1,6 @@
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import useAsyncSearch from '@/hooks/use-async-search'
 import { dashboardService } from '@/services'
-import { BaseInputDateRange, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
+import { BaseInputDateRange, Button, Card, CardBody, CardFooter, CardHeader, useAsyncSearch } from 'jobseeker-ui'
 import moment from 'moment'
 import { useState } from 'react'
 import AnnouncementItem from './AnnouncmentItem'

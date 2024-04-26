@@ -6,8 +6,8 @@ type TableRowDropdownProps = {
 }
 
 const TableRowDropdown: React.FC<TableRowDropdownProps> = ({ onChange, count }) => {
-  const handleChange = (selectedValue: string | number) => {
-    const parsedValue = parseInt(selectedValue.toString())
+  const handleChange = (selectedValue: string) => {
+    const parsedValue = parseInt(selectedValue)
     onChange(parsedValue)
   }
 
@@ -16,13 +16,13 @@ const TableRowDropdown: React.FC<TableRowDropdownProps> = ({ onChange, count }) 
       <Select
         className="w-20"
         options={[
-          { label: '8', value: 8 },
-          { label: '16', value: 16 },
-          { label: '32', value: 32 },
-          { label: '64', value: 64 },
+          { label: '8', value: '8' },
+          { label: '16', value: '16' },
+          { label: '32', value: '32' },
+          { label: '64', value: '64' },
         ]}
         hideSearch={true}
-        value={count}
+        value={String(count)}
         onChange={handleChange}
       />
     </div>

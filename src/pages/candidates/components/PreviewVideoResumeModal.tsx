@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XCircleIcon } from 'lucide-react'
+import { Fragment, useEffect, useState } from 'react'
 
 type PropTypes = {
   url?: string | null

@@ -1,8 +1,8 @@
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import { FileInputIcon, Link2Icon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import SendLinkModal from './SendLinkModal'
 import CreateCandidateModal from './CreateCandidateModal'
+import SendLinkModal from './SendLinkModal'
 
 const UploadResumeModal: React.FC<{ show?: boolean; onClose?: () => void }> = ({ show, onClose }) => {
   const [showModal, setShowModal] = useState<'SEND_LINK' | 'CREATE_CANDIDATE'>()

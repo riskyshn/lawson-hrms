@@ -1,12 +1,12 @@
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import { candidateService, processService } from '@/services'
+import { Spinner } from 'jobseeker-ui'
+import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
-import { Spinner } from 'jobseeker-ui'
-import ProfileCard from '../components/ProfileCard'
 import CandidateDetailCard from '../components/CandidateDetailCard'
-import { useEffect, useState } from 'react'
-import { candidateService, processService } from '@/services'
+import ProfileCard from '../components/ProfileCard'
 
 const CandidateProfilePage: React.FC = () => {
   const { candidateId } = useParams<{ candidateId?: string }>()

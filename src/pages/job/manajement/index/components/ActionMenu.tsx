@@ -1,9 +1,9 @@
-import React from 'react'
-import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { vacancyService } from '@/services'
 import { useConfirm, useToast } from 'jobseeker-ui'
+import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 type ActionMenuProps = {
   vacancy: IVacancy

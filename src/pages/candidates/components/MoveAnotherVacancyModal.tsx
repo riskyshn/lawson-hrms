@@ -11,7 +11,7 @@ type MoveAnotherVacancyModalProps = {
 }
 
 const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
-  const [selectedVacancyId, setSelectedVacancyId] = useState<string | number>('')
+  const [selectedVacancyId, setSelectedVacancyId] = useState<string>('')
   const [vacancies, setVacancies] = useState<any[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const toast = useToast()
@@ -30,7 +30,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
     }
   }
 
-  const handleChange = (selectedValue: string | number) => {
+  const handleChange = (selectedValue: string) => {
     setSelectedVacancyId(selectedValue)
   }
 

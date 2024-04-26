@@ -1,12 +1,11 @@
-import useSearchItem from '@/hooks/use-search-item'
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import { employeeService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { Alert, Input } from 'jobseeker-ui'
+import { Alert, Input, useSearchItem } from 'jobseeker-ui'
 import { SearchIcon } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import ClearToggle from './ClearToggle'
 import EmployeeItem from './EmployeeItem'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 
 type PropTypes = {
   selected: string[]
