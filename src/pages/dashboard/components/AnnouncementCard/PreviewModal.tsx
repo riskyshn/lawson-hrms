@@ -1,5 +1,4 @@
-import useRemember from '@/hooks/use-remember'
-import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
+import { Button, Modal, ModalFooter, ModalHeader, useRemember } from 'jobseeker-ui'
 import moment from 'moment'
 import React from 'react'
 

@@ -1,5 +1,5 @@
-import { BriefcaseIcon, FileIcon, RepeatIcon, UsersIcon } from 'lucide-react'
 import genSidebarLinks from '@/utils/gen-sidebar-links'
+import { BriefcaseIcon, FileIcon, RepeatIcon, UsersIcon } from 'lucide-react'
 
 const recruitmentLinks = genSidebarLinks({
   title: 'Recruitment',

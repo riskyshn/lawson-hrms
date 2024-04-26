@@ -1,5 +1,5 @@
-import React from 'react'
 import MainTable from '@/components/Elements/Tables/MainTable'
+import React from 'react'
 import ActionMenu from './ActionMenu'
 
 type TableProps = {

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Button, Card, CardBody } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { Button, Card, CardBody } from 'jobseeker-ui'
 import { CalendarIcon, CheckCircle2Icon, FileInputIcon, UserIcon, XCircleIcon } from 'lucide-react'
+import React, { useState } from 'react'
 
 type OptionModalProps = {
   show: boolean

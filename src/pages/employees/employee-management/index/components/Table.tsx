@@ -1,7 +1,7 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
+import { Avatar } from 'jobseeker-ui'
 import React from 'react'
 import ActionMenu from './ActionMenu'
-import { Avatar } from 'jobseeker-ui'
 
 type PropTypes = {
   items: IDataTableEmployee[]

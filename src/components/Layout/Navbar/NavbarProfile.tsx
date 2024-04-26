@@ -1,12 +1,11 @@
+import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
 import { useAuthStore } from '@/store'
 import { Menu } from '@headlessui/react'
 import { Avatar, Button, useConfirm, usePubSub } from 'jobseeker-ui'
 import { PowerIcon } from 'lucide-react'
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import ChangePasswordModal from './ChangePasswordModal'
-import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
-import { Link } from 'react-router-dom'
 import UploadResumeModal from './UploadResumeModal'
 
 const NavbarProfile: React.FC = () => {

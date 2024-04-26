@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { Select, Button, useToast, Spinner } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
 import { candidateService, masterService } from '@/services'
+import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
 
 type BlacklistModalProps = {
   show: boolean
@@ -11,7 +11,7 @@ type BlacklistModalProps = {
 }
 
 const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
-  const [selectReasonId, setSelectReasonId] = useState<string | number>('')
+  const [selectReasonId, setSelectReasonId] = useState<string>('')
   const [reasonBlacklist, setReasonBlacklist] = useState<any[]>([])
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
@@ -29,7 +29,7 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidat
     }
   }
 
-  const handleChange = (selectedValue: string | number) => {
+  const handleChange = (selectedValue: string) => {
     setSelectReasonId(selectedValue)
   }
 

@@ -1,7 +1,6 @@
+import { useLayout, useScrollDirection } from 'jobseeker-ui'
 import { useEffect, useRef, useState } from 'react'
-import { useLayout } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
-import useScrollDirection from '@/hooks/use-scroll-direction'
 import Container from './Container'
 
 type PropTypes = React.PropsWithChildren<{

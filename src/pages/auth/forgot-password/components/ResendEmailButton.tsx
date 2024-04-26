@@ -1,7 +1,6 @@
-import useTimeout from '@/hooks/use-timeout'
 import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { useToast } from 'jobseeker-ui'
+import { useTimeout, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 

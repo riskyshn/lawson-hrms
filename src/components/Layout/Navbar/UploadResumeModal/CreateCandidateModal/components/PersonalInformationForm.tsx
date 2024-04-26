@@ -1,11 +1,10 @@
 import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
-import AsyncSelect from '@/components/Elements/Forms/AsyncSelect'
-import { PHONE_REG_EXP } from '@/constants/globals'
+import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService } from '@/services'
-import { useMasterStore } from '@/store'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputDate, InputWrapper, Select } from 'jobseeker-ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputDate, InputWrapper } from 'jobseeker-ui'
 import moment from 'moment'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -46,9 +45,9 @@ const schema = yup.object({
   password: yup.string().required().label('Password'),
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
   birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
-  genderId: yup.string().required().label('Gender'),
-  provinceId: yup.string().required().label('Province'),
-  cityId: yup.string().required().label('City'),
+  gender: YUP_OPTION_OBJECT.required().label('Gender'),
+  province: YUP_OPTION_OBJECT.required().label('Province'),
+  city: YUP_OPTION_OBJECT.required().label('City'),
 })
 
 const PersonalInformationForm: React.FC<{
@@ -56,8 +55,6 @@ const PersonalInformationForm: React.FC<{
   handleCancel: () => void
   handleSubmit: (data: any) => void
 }> = (props) => {
-  const { genders, area } = useMasterStore()
-
   const {
     register,
     handleSubmit,
@@ -65,13 +62,14 @@ const PersonalInformationForm: React.FC<{
     getValues,
     formState: { errors },
     trigger,
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
-  const provinceName = area.provinces.find((el) => el.oid == getValues('provinceId'))?.name
+  const provinceName = watch('province.label')
 
   return (
     <div>
@@ -143,19 +141,19 @@ const PersonalInformationForm: React.FC<{
             labelRequired
             placeholder="Province"
             withReset
-            fetcher={masterService.fetchProvinces}
-            fetcherParams={{ country: 'Indonesia' }}
-            searchMinCharacter={0}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+            action={masterService.fetchProvinces}
+            params={{ country: 'Indonesia' }}
+            converter={emmbedToOptions}
             name="provinceId"
-            error={errors.provinceId?.message}
-            value={getValues('provinceId')}
+            error={errors.province?.message}
+            value={getValues('province')}
             onChange={(v) => {
-              setValue('provinceId', v.toString())
-              trigger('provinceId')
+              setValue('province', v)
+              trigger('province')
               if (!v) {
-                setValue('cityId', '')
-                trigger('cityId')
+                // @ts-expect-error
+                setValue('city', null)
+                trigger('city')
               }
             }}
           />
@@ -167,16 +165,15 @@ const PersonalInformationForm: React.FC<{
             placeholder="City"
             withReset
             disabled={!provinceName}
-            fetcher={masterService.fetchCities}
-            fetcherParams={provinceName ? { province: provinceName } : {}}
-            searchMinCharacter={0}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+            action={masterService.fetchCities}
+            params={provinceName ? { province: provinceName } : {}}
+            converter={emmbedToOptions}
             name="cityId"
-            error={errors.cityId?.message}
-            value={getValues('cityId')}
+            error={errors.city?.message}
+            value={getValues('city')}
             onChange={(v) => {
-              setValue('cityId', v.toString())
-              trigger('cityId')
+              setValue('city', v)
+              trigger('city')
             }}
           />
 
@@ -202,19 +199,20 @@ const PersonalInformationForm: React.FC<{
               trigger('birthDate')
             }}
           />
-
-          <Select
+          <AsyncSelect
             label="Gender"
             placeholder="Gender"
             labelRequired
             hideSearch
-            options={genders.map((el) => ({ label: el.name, value: el.oid }))}
-            name="genderId"
-            error={errors.genderId?.message}
-            value={getValues('genderId')}
+            action={masterService.fetchGenders}
+            disableInfiniteScroll
+            converter={emmbedToOptions}
+            name="gender"
+            error={errors.gender?.message}
+            value={getValues('gender')}
             onChange={(v) => {
-              setValue('genderId', v.toString())
-              trigger('genderId')
+              setValue('gender', v)
+              trigger('gender')
             }}
           />
         </CardBody>

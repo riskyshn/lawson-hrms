@@ -1,4 +1,6 @@
 import { BASE_SALARY_TYPE_OPTIONS, EMPLOYEE_TAX_STATUS_OPTIONS, TAX_METHOD_OPTIONS } from '@/constants/options'
+import { usePayrollStore } from '@/store'
+import numberToCurrency from '@/utils/number-to-currency'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, Select } from 'jobseeker-ui'
 import { HelpCircleIcon } from 'lucide-react'
@@ -6,8 +8,6 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import getCategory from '../utils/get-category'
-import { usePayrollStore } from '@/store'
-import numberToCurrency from '@/utils/number-to-currency'
 
 const schema = yup.object({
   taxMethod: yup.string().required().label('Tax Method'),

@@ -28,8 +28,8 @@ import ApplyVacancyModal from './ApplyVacancyModal'
 import BlacklistModal from './BlacklistModal'
 import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
-import WithdrawModal from './WithdrawModal'
 import ViewHistoryModal from './ViewHistoryModal'
+import WithdrawModal from './WithdrawModal'
 
 interface MenuListProps {
   options: string[]

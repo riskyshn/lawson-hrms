@@ -1,7 +1,7 @@
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { attendanceService } from '@/services'
 import { Input, Select } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
-import { attendanceService } from '@/services'
 
 type ViewScheduleModalProps = {
   show: boolean

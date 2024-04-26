@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { Button, Textarea } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { Button, Textarea } from 'jobseeker-ui'
+import React, { useState } from 'react'
 
 interface ConfirmationModalProps {
   show: boolean

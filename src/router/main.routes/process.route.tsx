@@ -4,11 +4,11 @@ import AssessmentPage from '@/pages/process/assessment/AssessmentPage'
 import InterviewPage from '@/pages/process/interview/InterviewPage'
 import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
+import ReviseOfferingLetterPage from '@/pages/process/offering-letter/revise/ReviseOfferingLetterPage'
 import UploadDocumentsPage from '@/pages/process/offering-letter/upload-documents/UploadDocumentsPage'
+import UploadSignedOfferingLetterPage from '@/pages/process/offering-letter/upload-signed/UploadSignedOfferingLetterPage'
 import ViewSignedPage from '@/pages/process/offering-letter/view-signed/ViewSignedPage'
 import OnboardingPage from '@/pages/process/onboarding/OnboardingPage'
-import UploadSignedOfferingLetterPage from '@/pages/process/offering-letter/upload-signed/UploadSignedOfferingLetterPage'
-import ReviseOfferingLetterPage from '@/pages/process/offering-letter/revise/ReviseOfferingLetterPage'
 
 const candidatesRoute: RouteObject = {
   path: 'process',

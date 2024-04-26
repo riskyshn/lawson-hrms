@@ -1,11 +1,11 @@
-import { Modal, ModalHeader, Stepper, useConfirm, useSteps, useToast } from 'jobseeker-ui'
-import React, { useState } from 'react'
-import PersonalInformationForm from './components/PersonalInformationForm'
-import EducationForm from './components/EducationForm'
-import ExperiencesForm from './components/ExperiencesForm'
-import formCreateToPayload from './utils/form-create-to-payload'
 import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
+import { Modal, ModalHeader, Stepper, useConfirm, useSteps, useToast } from 'jobseeker-ui'
+import React, { useState } from 'react'
+import EducationForm from './components/EducationForm'
+import ExperiencesForm from './components/ExperiencesForm'
+import PersonalInformationForm from './components/PersonalInformationForm'
+import formCreateToPayload from './utils/form-create-to-payload'
 
 const CreateCandidateModal: React.FC<{ show?: boolean; onClose?: () => void; onSubmited?: () => void }> = ({
   show,

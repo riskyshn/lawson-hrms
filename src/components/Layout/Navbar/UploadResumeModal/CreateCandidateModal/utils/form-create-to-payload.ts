@@ -20,9 +20,9 @@ export default function formCreateToPayload(data: any) {
     phoneNumber: data.personalInformation.phoneNumber,
     photoURL: data.personalInformation.photoURL,
     birthDate: moment(data.personalInformation.birthDate).format('YYYY-MM-DD'),
-    genderId: data.personalInformation.genderId,
-    provinceId: data.personalInformation.provinceId,
-    cityId: data.personalInformation.cityId,
+    genderId: data.personalInformation.gender?.oid,
+    provinceId: data.personalInformation.province?.oid,
+    cityId: data.personalInformation.city?.oid,
     cvURL: data.personalInformation.cvURL,
     educations: [
       {

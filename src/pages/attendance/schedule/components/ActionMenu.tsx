@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { attendanceService } from '@/services'
 import { Menu } from '@headlessui/react'
 import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
+import { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
-import ViewScheduleModal from './ViewScheduleModal'
 import EditScheduleModal from './EditScheduleModal'
-import { attendanceService } from '@/services'
+import ViewScheduleModal from './ViewScheduleModal'
 
 interface ActionMenuProps {
   options: string[]

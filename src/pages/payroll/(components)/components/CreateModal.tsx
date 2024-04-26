@@ -1,3 +1,4 @@
+import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
 import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import currencyToNumber from '@/utils/currency-to-number'
@@ -6,7 +7,6 @@ import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, 
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { schema } from './shared'
-import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
 
 type PropType = {
   type: 'BENEFIT' | 'DEDUCTION'

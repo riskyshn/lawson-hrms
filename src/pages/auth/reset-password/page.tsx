@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Input, useToast } from 'jobseeker-ui'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { yupResolver } from '@hookform/resolvers/yup'
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, Input, useToast } from 'jobseeker-ui'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import * as yup from 'yup'
 
 const schema = yup.object().shape({
   password: yup.string().required().label('New Password'),

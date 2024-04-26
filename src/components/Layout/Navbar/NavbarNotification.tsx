@@ -1,7 +1,6 @@
-import usePagination from '@/hooks/use-pagination'
 import { dashboardService, notificationService } from '@/services'
 import { Menu } from '@headlessui/react'
-import { Avatar, Badge, Button, CardBody } from 'jobseeker-ui'
+import { Avatar, Badge, Button, CardBody, usePagination } from 'jobseeker-ui'
 import { Bell } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'

@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button, BaseInput, InputRadio } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { BaseInput, Button, InputRadio } from 'jobseeker-ui'
 import { SearchIcon } from 'lucide-react'
+import React from 'react'
 
 type ProcessModalProps = {
   show: boolean

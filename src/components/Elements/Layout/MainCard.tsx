@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
 import { Card, CardBody, CardFooter } from 'jobseeker-ui'
+import React, { useEffect, useRef, useState } from 'react'
 import ScrollVisibilityContainer from './ScrollVisibilityContainer'
 
 type PropTypes = {

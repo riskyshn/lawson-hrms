@@ -1,5 +1,4 @@
-import useRemember from '@/hooks/use-remember'
-import { Modal, ModalHeader } from 'jobseeker-ui'
+import { Modal, ModalHeader, useRemember } from 'jobseeker-ui'
 import React from 'react'
 import ProcessForm from './ProcessForm'
 
