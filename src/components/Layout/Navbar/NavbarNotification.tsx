@@ -12,6 +12,12 @@ const NavbarNotification: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
   const [hasMoreItemsVacancies, setHasMoreItemsVacancies] = useState<boolean>(false)
   const [hasMoreItemsApplicants, setHasMoreItemsApplicants] = useState<boolean>(false)
+  const [currentPageApplicants, setCurrentPageApplicants] = useState({
+    currentPage: 1,
+  })
+  const [currentPageVacancies, setCurrentPageVacancies] = useState({
+    currentPage: 1,
+  })
 
   const paginationVacancies = usePagination({
     pathname: '',
@@ -36,7 +42,7 @@ const NavbarNotification: React.FC = () => {
     const loadEmployeeData = async () => {
       try {
         const responseVacancies = await notificationService.fetchVacanciesNotification({
-          limit: 20,
+          limit: 10,
           page: paginationVacancies.currentPage,
         })
         setPageDataVacancies(responseVacancies)
@@ -53,7 +59,7 @@ const NavbarNotification: React.FC = () => {
     const loadApplicantsData = async () => {
       try {
         const responseApplicants = await dashboardService.recentlyApplied({
-          // limit: 10,
+          limit: 10,
           page: paginationApplicants.currentPage,
         })
         setPageDataApplicants(responseApplicants)
@@ -71,14 +77,20 @@ const NavbarNotification: React.FC = () => {
   const loadMoreDataVacancies = async () => {
     try {
       const response = await notificationService.fetchVacanciesNotification({
-        limit: 20,
-        page: paginationVacancies.currentPage + 1,
+        limit: 10,
+        page: currentPageVacancies.currentPage + 1,
       })
       setPageDataVacancies((prevData) => ({
         ...response,
         content: prevData ? [...prevData.content, ...response.content] : response.content,
       }))
-      setHasMoreItemsVacancies(response?.content?.length < response?.totalElements)
+
+      setCurrentPageVacancies((prevState) => ({
+        ...prevState,
+        currentPage: prevState.currentPage + 1,
+      }))
+
+      setHasMoreItemsVacancies(response?.totalPages > currentPageVacancies.currentPage + 1)
     } catch (e) {
       setPageError(e)
     }
@@ -88,13 +100,19 @@ const NavbarNotification: React.FC = () => {
     try {
       const response = await dashboardService.recentlyApplied({
         limit: 10,
-        page: paginationApplicants.currentPage + 1,
+        page: currentPageApplicants.currentPage + 1,
       })
       setPageDataApplicants((prevData) => ({
         ...response,
         content: prevData ? [...prevData.content, ...response.content] : response.content,
       }))
-      setHasMoreItemsApplicants(response?.content?.length < response?.totalElements)
+
+      setCurrentPageApplicants((prevState) => ({
+        ...prevState,
+        currentPage: prevState.currentPage + 1,
+      }))
+
+      setHasMoreItemsApplicants(response.totalPages > currentPageApplicants.currentPage + 1)
     } catch (e) {
       setPageError(e)
     }

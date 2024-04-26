@@ -8,7 +8,7 @@ import { useState } from 'react'
 import ConfirmationModal from './ConfirmationModal'
 
 type PropTypes = {
-  items: IEmployeeHistoryAttendance[]
+  items: IEmployeeHistory[]
   loading?: boolean
   onDataChange: (data: string) => void
   isClientVisit?: boolean

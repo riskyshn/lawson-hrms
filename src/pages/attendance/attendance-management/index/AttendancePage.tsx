@@ -9,8 +9,8 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
 import PageCard from '../components/PageCard'
-import Table from '../components/Table'
 import StatisticCards from './components/StatisticCards'
+import Table from './components/Table'
 
 const AttendancePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -56,6 +56,8 @@ const AttendancePage: React.FC = () => {
           },
           signal,
         )
+
+        console.log(data)
 
         setPageData(data)
         setIsLoading(false)
@@ -153,7 +155,7 @@ const AttendancePage: React.FC = () => {
               }
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} filterDate={filterDate} />}
           footer={pagination.render()}
         />
       </Container>
