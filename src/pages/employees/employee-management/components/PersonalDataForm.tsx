@@ -1,7 +1,7 @@
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
-import { PHONE_REG_EXP } from '@/constants/globals'
+import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService } from '@/services'
-import { useMasterStore } from '@/store'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   AsyncSelect,
@@ -27,16 +27,16 @@ const schema = yup.object({
   name: yup.string().required().label('Name'),
   email: yup.string().email().required().label('Email Address'),
 
-  genderId: yup.string().required().label('Gender'),
-  religionId: yup.string().required().label('Religion'),
+  gender: YUP_OPTION_OBJECT.required().label('Gender'),
+  religion: YUP_OPTION_OBJECT.required().label('Religion'),
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
-  cityOfBirth: yup.string().required().label('Place of Birth'),
+  cityOfBirth: YUP_OPTION_OBJECT.required().label('Place of Birth'),
   birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
 
-  maritalStatusId: yup.string().required().label('Marital Status'),
+  maritalStatus: YUP_OPTION_OBJECT.required().label('Marital Status'),
   numberOfChildren: yup
-    .number()
-    .transform((value) => (isNaN(value) ? 0 : value))
+    .string()
+    .transform((value) => (isNaN(Number(value)) ? undefined : Number(value)))
     .label('Number of Children'),
 
   linkNationalId: yup
@@ -62,7 +62,6 @@ const PersonalDataForm: React.FC<{
   handlePrev: () => void
   handleSubmit: (data: any) => void
 }> = (props) => {
-  const { religions, genders, maritalStatus } = useMasterStore()
   const [sameAsNationalId, setSameAsNationalId] = useState(false)
 
   const {
@@ -79,8 +78,6 @@ const PersonalDataForm: React.FC<{
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
-
-  const initialCityOfBirth = watch('cityOfBirth') ? [{ label: watch('cityOfBirth'), value: watch('cityOfBirth') }] : []
 
   const nationIdAddress = watch('nationIdAddress')
   useEffect(() => {
@@ -100,32 +97,36 @@ const PersonalDataForm: React.FC<{
         <Input label="Name" placeholder="Employee Name" labelRequired error={errors.name?.message} {...register('name')} />
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Select
+          <AsyncSelect
             label="Gender"
             placeholder="Gender"
             labelRequired
             hideSearch
-            options={genders.map((el) => ({ label: el.name, value: el.oid }))}
-            name="genderId"
-            error={errors.genderId?.message}
-            value={getValues('genderId')}
-            onChange={(v) => {
-              setValue('genderId', v.toString())
-              trigger('genderId')
+            disableInfiniteScroll
+            action={masterService.fetchGenders}
+            converter={emmbedToOptions}
+            name="gender"
+            error={errors.gender?.message}
+            value={getValues('gender')}
+            onValueChange={(v) => {
+              setValue('gender', v)
+              trigger('gender')
             }}
           />
-          <Select
+          <AsyncSelect
             label="Religion"
             placeholder="Religion"
             labelRequired
             hideSearch
-            options={religions.map((el) => ({ label: el.name, value: el.oid }))}
-            name="religionId"
-            error={errors.religionId?.message}
-            value={getValues('religionId')}
-            onChange={(v) => {
-              setValue('religionId', v.toString())
-              trigger('religionId')
+            disableInfiniteScroll
+            action={masterService.fetchReligions}
+            converter={emmbedToOptions}
+            name="religion"
+            error={errors.religion?.message}
+            value={getValues('religion')}
+            onValueChange={(v) => {
+              setValue('religion', v)
+              trigger('religion')
             }}
           />
         </div>
@@ -146,14 +147,14 @@ const PersonalDataForm: React.FC<{
             label="City of Birth"
             labelRequired
             placeholder="Choose City"
-            fetcher={masterService.fetchCities}
-            converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.name }))}
-            name="cityId"
+            action={masterService.fetchCities}
+            converter={emmbedToOptions}
+            searchMinCharacter={3}
+            name="cityOfBirth"
             error={errors.cityOfBirth?.message}
             value={getValues('cityOfBirth')}
-            initialOptions={initialCityOfBirth}
             onChange={(v) => {
-              setValue('cityOfBirth', v.toString())
+              setValue('cityOfBirth', v)
               trigger('cityOfBirth')
             }}
           />
@@ -171,18 +172,20 @@ const PersonalDataForm: React.FC<{
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Select
+          <AsyncSelect
             label="Marital Status"
             labelRequired
             placeholder="Married, Single"
             hideSearch
-            options={maritalStatus.map((el) => ({ label: el.name, value: el.oid }))}
-            name="maritalStatusId"
-            error={errors.maritalStatusId?.message}
-            value={getValues('maritalStatusId')}
-            onChange={(v) => {
-              setValue('maritalStatusId', v.toString())
-              trigger('maritalStatusId')
+            disableInfiniteScroll
+            action={masterService.fetchMaritalStatus}
+            converter={emmbedToOptions}
+            name="maritalStatus"
+            error={errors.maritalStatus?.message}
+            value={getValues('maritalStatus')}
+            onValueChange={(v) => {
+              setValue('maritalStatus', v)
+              trigger('maritalStatus')
             }}
           />
           <Select
@@ -191,13 +194,13 @@ const PersonalDataForm: React.FC<{
             hideSearch
             options={Array.from(Array(9)).map((_, i) => ({
               label: String(i + 1),
-              value: i + 1,
+              value: String(i + 1),
             }))}
             name="numberOfChildren"
             error={errors.numberOfChildren?.message}
             value={getValues('numberOfChildren')}
             onChange={(v) => {
-              setValue('numberOfChildren', Number(v))
+              setValue('numberOfChildren', v)
               trigger('numberOfChildren')
             }}
           />

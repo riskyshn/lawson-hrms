@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom'
 
 const rangeAge = Array.from({ length: 64 }, (_, i) => i + 17)
 
-const ageOptions = rangeAge.map((el) => ({ label: el.toString(), value: el }))
+const ageOptions = rangeAge.map((el) => ({ label: el.toString(), value: el.toString() }))
 
 const FilterForm: React.FC<{ show?: boolean }> = ({ show }) => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -13,7 +13,7 @@ const FilterForm: React.FC<{ show?: boolean }> = ({ show }) => {
   const minAge = Number(searchParams.get('min-age'))
   const maxAge = Number(searchParams.get('max-age'))
 
-  const handleMinAgeChange = (value: string | number) => {
+  const handleMinAgeChange = (value: string) => {
     const v = Number(value)
     if (v < 17) {
       searchParams.delete('min-age')
@@ -43,8 +43,8 @@ const FilterForm: React.FC<{ show?: boolean }> = ({ show }) => {
           <Select label="City" options={[]} />
           <Select label="Education" options={[]} />
           <div className="grid grid-cols-2 gap-3">
-            <Select label="Min Age" value={minAge} onChange={(value) => handleMinAgeChange(value)} options={ageOptions} />
-            <Select label="Max Age" value={maxAge} onChange={(value) => handleMaxAgeChange(value)} options={ageOptions} />
+            <Select label="Min Age" value={minAge.toString()} onValueChange={handleMinAgeChange} options={ageOptions} />
+            <Select label="Max Age" value={maxAge.toString()} onValueChange={handleMaxAgeChange} options={ageOptions} />
           </div>
         </div>
       </Container>

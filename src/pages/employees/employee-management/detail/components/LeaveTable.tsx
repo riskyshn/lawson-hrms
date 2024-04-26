@@ -1,7 +1,9 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import useAsyncSearch from '@/core/hooks/use-async-search'
+import usePagination from '@/core/hooks/use-pagination'
 import { attendanceService } from '@/services'
-import { Card, CardFooter, useAsyncSearch, usePagination } from 'jobseeker-ui'
+import { Card, CardFooter } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import React from 'react'
 

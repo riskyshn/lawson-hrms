@@ -1,6 +1,7 @@
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService, organizationService } from '@/services'
-import { useMasterStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Alert,
@@ -13,7 +14,6 @@ import {
   ModalFooter,
   ModalHeader,
   Textarea,
-  useRemember,
   useToast,
 } from 'jobseeker-ui'
 import React, { useState } from 'react'
@@ -36,15 +36,13 @@ const schema = yup.object().shape({
     .transform((value) => (isNaN(value) ? undefined : value))
     .required()
     .label('Range'),
-  cityId: yup.string().label('City'),
+  city: YUP_OPTION_OBJECT.label('City'),
 })
 
 const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
-
-  const { cities } = useMasterStore().area
 
   const {
     register,
@@ -59,18 +57,17 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
     resolver: yupResolver(schema),
   })
 
-  const city = useRemember(cities.find((el) => el.oid === getValues('cityId')))
-
-  const onSubmit = handleSubmit(async ({ latLng, ...data }) => {
-    const [lat, lng] = latLng.split(',')
-    // @ts-ignore
-    data.longlat = `${lng.trim()}, ${lat.trim()}`
-
+  const onSubmit = handleSubmit(async ({ latLng, city, ...data }) => {
     try {
       setIsLoading(true)
       setErrorMessage('')
 
-      const createdItem = await organizationService.createBranch(data)
+      const [lat, lng] = latLng.split(',')
+      const createdItem = await organizationService.createBranch({
+        ...data,
+        longlat: `${lng.trim()}, ${lat.trim()}`,
+        cityId: city.value,
+      })
       onCreated?.(createdItem)
       toast('Branch created successfully', { color: 'success' })
 
@@ -84,6 +81,8 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
       setIsLoading(false)
     }
   })
+
+  const city = watch('city.label')
 
   return (
     <Modal as="form" show={show} onSubmit={onSubmit}>
@@ -106,14 +105,14 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
           label="City"
           labelRequired
           placeholder="Choose City"
-          fetcher={masterService.fetchCities}
-          converter={(data: any) => data.map((el: any) => ({ label: `${el.name}, ${el.province}`, value: el.oid }))}
-          name="cityId"
-          error={errors.cityId?.message}
-          value={getValues('cityId')}
+          action={masterService.fetchCities}
+          converter={emmbedToOptions}
+          name="city"
+          error={errors.city?.message}
+          value={getValues('city')}
           onChange={(v) => {
-            setValue('cityId', v.toString())
-            trigger('cityId')
+            setValue('city', v)
+            trigger('city')
           }}
         />
         <InputWrapper label="LatLng" labelRequired error={errors.latLng?.message} help={!city && 'Pleace select a city before.'}>
@@ -121,7 +120,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
           <GeoPicker
             error={errors.latLng?.message}
             value={watch('latLng')}
-            city={city?.name}
+            city={city}
             onValueChange={(v) => {
               setValue('latLng', v)
               trigger('latLng')

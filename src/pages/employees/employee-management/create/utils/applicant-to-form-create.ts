@@ -1,3 +1,5 @@
+import emmbedToOption from '@/utils/emmbed-to-option'
+
 export function applicantToFormCreate(applicant: ICandidateToCreateEmployee) {
   return {
     personalData: {
@@ -9,22 +11,22 @@ export function applicantToFormCreate(applicant: ICandidateToCreateEmployee) {
       nationalIdNumber: '',
       linkNationalId: '',
       numberOfChildren: 0,
-      maritalStatusId: applicant.maritalStatus?.oid || '',
+      maritalStatus: emmbedToOption(applicant.maritalStatus),
       birthDate: applicant.birthdate ? new Date(applicant.birthdate) : undefined,
-      cityOfBirth: '',
+      cityOfBirth: emmbedToOption(),
       phoneNumber: applicant.phone || '',
-      religionId: applicant?.religion?.oid || '',
-      genderId: applicant.gender?.oid || '',
+      religion: emmbedToOption(applicant.religion),
+      gender: emmbedToOption(applicant.gender),
     },
     employment: {
       employeeCode: '',
-      roleId: '',
-      jobTypeId: '',
-      branchId: '',
-      departmentId: '',
-      positionId: '',
-      jobLevelId: '',
-      scheduleId: '',
+      role: emmbedToOption(),
+      jobType: emmbedToOption(),
+      branch: emmbedToOption(),
+      department: emmbedToOption(),
+      position: emmbedToOption(),
+      jobLevel: emmbedToOption(),
+      schedule: emmbedToOption(),
     },
     payroll: {},
     components: {},

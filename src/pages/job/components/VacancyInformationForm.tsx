@@ -1,7 +1,8 @@
-import { masterService, vacancyService } from '@/services'
-import { useMasterStore, useOrganizationStore } from '@/store'
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
+import { masterService, organizationService, vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import currencyToNumber from '@/utils/currency-to-number'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   AsyncSelect,
@@ -14,7 +15,6 @@ import {
   InputCurrency,
   InputDate,
   InputWrapper,
-  Select,
   Textarea,
 } from 'jobseeker-ui'
 import React, { useEffect } from 'react'
@@ -24,8 +24,8 @@ import InputApprovalProcess from './InputApprovalProcess'
 
 const schema = yup.object({
   vacancyName: yup.string().required().label('Position Name'),
-  departmentId: yup.string().required().label('Department'),
-  branchId: yup.string().required().label('Branch'),
+  department: YUP_OPTION_OBJECT.required().label('Department'),
+  branch: YUP_OPTION_OBJECT.required().label('Branch'),
   expiredDate: yup
     .date()
     .min(new Date())
@@ -35,10 +35,10 @@ const schema = yup.object({
       otherwise: (s) => s.required(),
     })
     .label('Expired Date'),
-  jobLevelId: yup.string().required().label('Job Level'),
-  jobTypeId: yup.string().required().label('Job Type'),
-  workplacementTypeId: yup.string().optional().label('Workplacement Type'),
-  cityId: yup.string().required().label('City'),
+  jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
+  jobType: YUP_OPTION_OBJECT.required().label('Job Type'),
+  workplacementType: YUP_OPTION_OBJECT.optional().label('Workplacement Type'),
+  city: YUP_OPTION_OBJECT.required().label('City'),
   numberOfEmployeeNeeded: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -113,14 +113,6 @@ const VacancyInformationForm: React.FC<{
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
-  const masterStore = useMasterStore()
-  const organizationoStore = useOrganizationStore()
-  const initialCity = masterStore.area.cities.find((el) => el.oid === getValues('cityId'))
-
-  useEffect(() => {
-    if (initialCity || !props.defaultValue?.cityId) return
-    masterService.fetchCities({ limit: 1, q: props.defaultValue.cityId })
-  }, [props.defaultValue?.cityId, initialCity])
 
   useEffect(() => {
     const loadRrNumber = async () => {
@@ -150,32 +142,32 @@ const VacancyInformationForm: React.FC<{
         )}
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Select
+          <AsyncSelect
             label="Department"
+            placeholder="Department"
             labelRequired
-            placeholder="Select Department"
-            hideSearch
-            options={organizationoStore.master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            name="departmentId"
-            error={errors.departmentId?.message}
-            value={getValues('departmentId')}
-            onChange={(v) => {
-              setValue('departmentId', v.toString())
-              trigger('departmentId')
+            action={organizationService.fetchDepartments}
+            converter={emmbedToOptions}
+            name="department"
+            error={errors.department?.message}
+            value={getValues('department')}
+            onValueChange={(v) => {
+              setValue('department', v)
+              trigger('department')
             }}
           />
-          <Select
+          <AsyncSelect
             label="Branch"
+            placeholder="Branch"
             labelRequired
-            placeholder="Select Branch"
-            hideSearch
-            options={organizationoStore.master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            name="branchId"
-            error={errors.branchId?.message}
-            value={getValues('branchId')}
-            onChange={(v) => {
-              setValue('branchId', v.toString())
-              trigger('branchId')
+            action={organizationService.fetchBranches}
+            converter={emmbedToOptions}
+            name="branch"
+            error={errors.branch?.message}
+            value={getValues('branch')}
+            onValueChange={(v) => {
+              setValue('branch', v)
+              trigger('branch')
             }}
           />
         </div>
@@ -217,64 +209,65 @@ const VacancyInformationForm: React.FC<{
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Select
+          <AsyncSelect
             label="Job Level"
+            placeholder="Job Level"
             labelRequired
-            placeholder="Choose Job Level"
-            hideSearch
-            options={organizationoStore.master.jobLevels.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            name="jobLevelId"
-            error={errors.jobLevelId?.message}
-            value={getValues('jobLevelId')}
-            onChange={(v) => {
-              setValue('jobLevelId', v.toString())
-              trigger('jobLevelId')
+            action={organizationService.fetchJobLevels}
+            converter={emmbedToOptions}
+            name="jobLevel"
+            error={errors.jobLevel?.message}
+            value={getValues('jobLevel')}
+            onValueChange={(v) => {
+              setValue('jobLevel', v)
+              trigger('jobLevel')
             }}
           />
-          <Select
+
+          <AsyncSelect
             label="Job Type"
+            placeholder="Job Type"
             labelRequired
-            placeholder="Full-time, Part-time, Internship"
-            hideSearch
-            options={organizationoStore.master.jobTypes.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            name="jobTypeId"
-            error={errors.jobTypeId?.message}
-            value={getValues('jobTypeId')}
-            onChange={(v) => {
-              setValue('jobTypeId', v.toString())
-              trigger('jobTypeId')
+            action={organizationService.fetchJobTypes}
+            converter={emmbedToOptions}
+            name="jobType"
+            error={errors.jobType?.message}
+            value={getValues('jobType')}
+            onValueChange={(v) => {
+              setValue('jobType', v)
+              trigger('jobType')
             }}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Select
+          <AsyncSelect
             label="Work Placement Type"
-            withReset
-            placeholder="WFO, WFH, Hybrid"
-            hideSearch
-            name="workplacementTypeId"
-            options={organizationoStore.master.workplacements.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            error={errors.workplacementTypeId?.message}
-            value={getValues('workplacementTypeId')}
-            onChange={(v) => {
-              setValue('workplacementTypeId', v.toString())
-              trigger('workplacementTypeId')
+            placeholder="Work Placement Type"
+            labelRequired
+            action={organizationService.fetchWorkplacements}
+            converter={emmbedToOptions}
+            name="workplacementType"
+            error={errors.workplacementType?.message}
+            value={getValues('workplacementType')}
+            onValueChange={(v) => {
+              setValue('workplacementType', v)
+              trigger('workplacementType')
             }}
           />
           <AsyncSelect
             label="City"
             labelRequired
             placeholder="Choose City"
-            fetcher={masterService.fetchCities}
-            converter={(data: any) => data.map((el: any) => ({ label: `${el.name}, ${el.province}`, value: el.oid }))}
-            name="cityId"
-            error={errors.cityId?.message}
-            value={getValues('cityId')}
-            initialOptions={initialCity ? [{ label: `${initialCity.name}, ${initialCity.province}`, value: initialCity.oid }] : []}
+            action={masterService.fetchCities}
+            converter={emmbedToOptions}
+            searchMinCharacter={3}
+            name="city"
+            error={errors.city?.message}
+            value={getValues('city')}
             onChange={(v) => {
-              setValue('cityId', v.toString())
-              trigger('cityId')
+              setValue('city', v)
+              trigger('city')
             }}
           />
         </div>

@@ -7,7 +7,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 import { Button, Card, CardBody, CardFooter, Input, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
-const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el }))
+const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: String(el) }))
 const BpjsComponentPage: React.FC = () => {
   const [jkk, setJkk] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -55,7 +55,7 @@ const BpjsComponentPage: React.FC = () => {
               options={jkkOptions}
               hideSearch
               name="jkk"
-              value={jkk}
+              value={String(jkk)}
               onChange={(v) => setJkk(Number(v))}
             />
             <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />

@@ -14,8 +14,8 @@ const schema = yup.object({
   baseSalary: yup.string().required().label('Base Salary'),
   baseSalaryType: yup.string().required().label('Base Salary Type'),
   allowOvertime: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
+    .string()
+    .transform((value) => (isNaN(Number(value)) ? undefined : Number(value)))
     .required()
     .label('Allow Overtime'),
   bankName: yup.string().required().label('Bank Name'),
@@ -27,19 +27,19 @@ const schema = yup.object({
   category: yup.string().required().label('Category'),
   notParticipateBpjs: yup.boolean(),
   jkk: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
+    .string()
+    .transform((value) => (isNaN(Number(value)) ? undefined : Number(value)))
     .required()
     .label('JKK'),
 })
 
 const options = {
   allowOvertime: [
-    { label: 'Yes', value: 1 },
-    { label: 'No', value: 0 },
+    { label: 'Yes', value: '1' },
+    { label: 'No', value: '0' },
   ],
   ptkpStatus: ['TK/0', 'TK/1', 'K/0', 'TK/2', 'TK/3', 'K/1', 'K/2', 'K/3'].map((el) => ({ label: el, value: el })),
-  jkk: [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el })),
+  jkk: [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: String(el) })),
 }
 
 const PayrollDataForm: React.FC<{
@@ -112,7 +112,7 @@ const PayrollDataForm: React.FC<{
           error={errors.baseSalaryType?.message}
           value={getValues('baseSalaryType')}
           onChange={(v) => {
-            setValue('baseSalaryType', v.toString())
+            setValue('baseSalaryType', v)
             trigger('baseSalaryType')
           }}
         />
@@ -125,7 +125,7 @@ const PayrollDataForm: React.FC<{
           error={errors.allowOvertime?.message}
           value={getValues('allowOvertime')}
           onChange={(v) => {
-            setValue('allowOvertime', Number(v))
+            setValue('allowOvertime', v)
             trigger('allowOvertime')
           }}
         />
@@ -157,7 +157,7 @@ const PayrollDataForm: React.FC<{
           error={errors.employmentTaxStatus?.message}
           value={getValues('employmentTaxStatus')}
           onChange={(v) => {
-            setValue('employmentTaxStatus', v.toString())
+            setValue('employmentTaxStatus', v)
             trigger('employmentTaxStatus')
           }}
         />
@@ -172,8 +172,8 @@ const PayrollDataForm: React.FC<{
             error={errors.ptkpStatus?.message}
             value={getValues('ptkpStatus')}
             onChange={(v) => {
-              setValue('ptkpStatus', v.toString())
-              setValue('category', getCategory(v.toString()) || '')
+              setValue('ptkpStatus', v)
+              setValue('category', getCategory(v) || '')
               trigger('ptkpStatus')
               trigger('category')
             }}
@@ -200,7 +200,7 @@ const PayrollDataForm: React.FC<{
               error={errors.jkk?.message}
               value={getValues('jkk')}
               onChange={(v) => {
-                setValue('jkk', Number(v))
+                setValue('jkk', v)
                 trigger('jkk')
               }}
             />

@@ -1,5 +1,6 @@
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService } from '@/services'
-import { useMasterStore } from '@/store'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper, Select } from 'jobseeker-ui'
 import React, { useState } from 'react'
@@ -41,14 +42,11 @@ const schema = yup.object({
     })
     .label('Maximum Age'),
   isRequiredAge: yup.boolean(),
-  minimalEducationRequirementId: yup
-    .string()
-    .when('isRequiredMinimalEducationRequirement', {
-      is: true,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
-    })
-    .label('Minimal Education'),
+  minimalEducationRequirement: YUP_OPTION_OBJECT.when('isRequiredMinimalEducationRequirement', {
+    is: true,
+    then: (s) => s.required(),
+    otherwise: (s) => s.optional(),
+  }).label('Minimal Education'),
   isRequiredMinimalEducationRequirement: yup.boolean(),
   minimumExperienceRequirement: yup
     .number()
@@ -70,23 +68,17 @@ const schema = yup.object({
     })
     .label('GPA'),
   isRequiredGpaRequirement: yup.boolean(),
-  cityRequirementId: yup
-    .string()
-    .when('isRequiredCityRequirement', {
-      is: true,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
-    })
-    .label('City'),
+  cityRequirement: YUP_OPTION_OBJECT.when('isRequiredCityRequirement', {
+    is: true,
+    then: (s) => s.required(),
+    otherwise: (s) => s.optional(),
+  }).label('City'),
   isRequiredCityRequirement: yup.boolean(),
-  provinceRequirementId: yup
-    .string()
-    .when('isRequiredProvinceRequirement', {
-      is: true,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
-    })
-    .label('Province'),
+  provinceRequirement: YUP_OPTION_OBJECT.when('isRequiredProvinceRequirement', {
+    is: true,
+    then: (s) => s.required(),
+    otherwise: (s) => s.optional(),
+  }).label('Province'),
   isRequiredProvinceRequirement: yup.boolean(),
   maximumSalaryRequirement: yup
     .string()
@@ -121,8 +113,7 @@ const RequirementsForm: React.FC<{
   })
 
   const [flag, setFlag] = useState<number>(1)
-  const masterData = useMasterStore()
-  const provinceName = masterData.area.provinces.find((el) => el.oid == getValues('provinceRequirementId'))?.name
+  const provinceName = watch('provinceRequirement')?.label
 
   const onSubmit = (flag: number) => {
     setFlag(flag)
@@ -168,18 +159,19 @@ const RequirementsForm: React.FC<{
             </InputCheckbox>
           </div>
           <div className="pb-2">
-            <Select
+            <AsyncSelect
               className="mb-2"
               label="Minimal Education"
               labelRequired={watch('isRequiredMinimalEducationRequirement')}
               placeholder="Choose Education"
-              options={masterData.educatioLevels.map((el: any) => ({ label: el.name, value: el.oid }))}
-              name="minimalEducationRequirementId"
-              error={errors.minimalEducationRequirementId?.message}
-              value={getValues('minimalEducationRequirementId')}
-              onChange={(v) => {
-                setValue('minimalEducationRequirementId', v.toString())
-                trigger('minimalEducationRequirementId')
+              action={masterService.fetchEducationLevel}
+              converter={emmbedToOptions}
+              name="minimalEducationRequirement"
+              error={errors.minimalEducationRequirement?.message}
+              value={getValues('minimalEducationRequirement')}
+              onValueChange={(v) => {
+                setValue('minimalEducationRequirement', v)
+                trigger('minimalEducationRequirement')
               }}
             />
             <InputCheckbox id="minimal-education-required" {...register('isRequiredMinimalEducationRequirement')}>
@@ -251,19 +243,19 @@ const RequirementsForm: React.FC<{
               labelRequired={watch('isRequiredProvinceRequirement')}
               placeholder="Province"
               withReset
-              fetcher={masterService.fetchProvinces}
-              fetcherParams={{ country: 'Indonesia' }}
-              searchMinCharacter={0}
-              converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
-              name="provinceRequirementId"
-              error={errors.provinceRequirementId?.message}
-              value={getValues('provinceRequirementId')}
+              action={masterService.fetchProvinces}
+              params={{ country: 'Indonesia' }}
+              converter={emmbedToOptions}
+              name="provinceRequirement"
+              error={errors.provinceRequirement?.message}
+              value={getValues('provinceRequirement')}
               onChange={(v) => {
-                setValue('provinceRequirementId', v.toString())
-                trigger('provinceRequirementId')
+                setValue('provinceRequirement', v)
+                trigger('provinceRequirement')
                 if (!v) {
-                  setValue('cityRequirementId', '')
-                  trigger('cityRequirementId')
+                  // @ts-expect-error
+                  setValue('cityRequirement', undefined)
+                  trigger('cityRequirement')
                 }
               }}
             />
@@ -279,16 +271,15 @@ const RequirementsForm: React.FC<{
               placeholder="City"
               withReset
               disabled={!provinceName}
-              fetcher={masterService.fetchCities}
-              fetcherParams={provinceName ? { province: provinceName } : {}}
-              searchMinCharacter={0}
-              converter={(data: any) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
-              name="cityRequirementId"
-              error={errors.cityRequirementId?.message}
-              value={getValues('cityRequirementId')}
+              action={masterService.fetchCities}
+              params={{ province: provinceName }}
+              converter={emmbedToOptions}
+              name="cityRequirement"
+              error={errors.cityRequirement?.message}
+              value={getValues('cityRequirement')}
               onChange={(v) => {
-                setValue('cityRequirementId', v.toString())
-                trigger('cityRequirementId')
+                setValue('cityRequirement', v)
+                trigger('cityRequirement')
               }}
             />
             <InputCheckbox id="city-required" {...register('isRequiredCityRequirement')}>
@@ -330,7 +321,7 @@ const RequirementsForm: React.FC<{
               onSubmit(9)
             }}
           >
-            Save as Draf
+            Save as Draft
           </Button>
         )}
         <Button type="button" color="primary" variant="light" className="w-32" onClick={props.handlePrev}>

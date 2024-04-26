@@ -1,5 +1,7 @@
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   Alert,
@@ -36,7 +38,7 @@ const schema = yup.object().shape({
     .transform((value) => (isNaN(value) ? undefined : value))
     .required()
     .label('Range'),
-  cityId: yup.string().label('City'),
+  city: YUP_OPTION_OBJECT.label('City'),
 })
 
 const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
@@ -52,6 +54,7 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
     setValue,
     getValues,
     trigger,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -67,23 +70,23 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       else setValue('latLng', '')
       if (item.range) setValue('range', item.range)
       else setValue('range', 0)
-      setValue('cityId', item.city?.oid || '')
+      // @ts-expect-error
+      setValue('city', item.city)
       trigger()
     }
   }, [item, setValue, trigger])
 
-  const onSubmit = handleSubmit(async ({ latLng, ...data }) => {
-    if (!item) return
-
-    const [lat, lng] = latLng.split(',')
-    // @ts-ignore
-    data.longlat = `${lng.trim()}, ${lat.trim()}`
-
+  const onSubmit = handleSubmit(async ({ latLng, city, ...data }) => {
     try {
       setIsLoading(true)
       setErrorMessage('')
 
-      const updatedItem = await organizationService.updateBranch(item.oid, data)
+      const [lat, lng] = latLng.split(',')
+      const updatedItem = await organizationService.createBranch({
+        ...data,
+        longlat: `${lng.trim()}, ${lat.trim()}`,
+        cityId: city.value,
+      })
       onUpdated?.(updatedItem)
       toast('Branch updated successfully', { color: 'success' })
 
@@ -93,6 +96,8 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       setIsLoading(false)
     }
   })
+
+  const city = watch('city.label')
 
   return (
     <Modal as="form" show={!!item} onSubmit={onSubmit}>
@@ -107,22 +112,22 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
           label="City"
           labelRequired
           placeholder="Choose City"
-          fetcher={masterService.fetchCities}
-          converter={(data: any) => data.map((el: any) => ({ label: `${el.name}`, value: el.oid }))}
-          name="cityId"
-          error={errors.cityId?.message}
-          initialOptions={item?.city ? [{ label: `${item.city.name}`, value: item.city.oid }] : []}
-          value={getValues('cityId')}
+          action={masterService.fetchCities}
+          converter={emmbedToOptions}
+          name="city"
+          error={errors.city?.message}
+          value={getValues('city')}
           onChange={(v) => {
-            setValue('cityId', v.toString())
-            trigger('cityId')
+            setValue('city', v)
+            trigger('city')
           }}
         />
-        <InputWrapper label="LatLng" labelRequired error={errors.latLng?.message}>
+        <InputWrapper label="LatLng" labelRequired error={errors.latLng?.message} help={!city && 'Pleace select a city before.'}>
           <BaseInput className="mb-3" error={errors.latLng?.message} {...register('latLng')} />
           <GeoPicker
             error={errors.latLng?.message}
-            value={getValues('latLng')}
+            value={watch('latLng')}
+            city={city}
             onValueChange={(v) => {
               setValue('latLng', v)
               trigger('latLng')

@@ -76,13 +76,13 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
           label="Status for employment"
           labelRequired
           options={[
-            { label: 'Active', value: 1 },
-            { label: 'Inactive', value: 2 },
+            { label: 'Active', value: '1' },
+            { label: 'Inactive', value: '2' },
           ]}
           hideSearch
           name="status"
           error={errors.status?.message}
-          value={getValues('status')}
+          value={String(getValues('status'))}
           onChange={(v) => {
             setValue('status', Number(v))
             trigger('status')

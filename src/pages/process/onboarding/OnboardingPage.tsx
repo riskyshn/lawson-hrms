@@ -2,31 +2,32 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { processService, vacancyService } from '@/services'
-import { useOrganizationStore } from '@/store'
-import { AsyncSelect, Select, useAsyncSearch, usePagination } from 'jobseeker-ui'
+import useAsyncSearch from '@/core/hooks/use-async-search'
+import useOptionSearchParam from '@/core/hooks/use-option-search-params'
+import usePagination from '@/core/hooks/use-pagination'
+import { organizationService, processService, vacancyService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
+import { AsyncSelect } from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
 import Table from '../components/Table'
 
 const OnboardingPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
-  const vacancy = searchParams.get('vacancy') || undefined
-  const stage = searchParams.get('stage') || undefined
-
-  const { recruitmentStages } = useOrganizationStore()
+  const search = searchParams.get('search')
+  const [vacancy, setVacancy, rawVacancy] = useOptionSearchParam('vacancy')
+  const [stage, setStage, rawStage] = useOptionSearchParam('stage')
 
   const { pageData, isLoading, onRefresh } = useAsyncSearch(
     processService.fetchProcess,
-    { limit: 20, stage, vacancy, type: 'ONBOARDING' },
+    { limit: 20, stage: stage?.value, vacancy: vacancy?.value, type: 'ONBOARDING' },
     search,
   )
 
   const pagination = usePagination({
     pathname: '/process/onboarding',
     totalPage: pageData?.totalPages,
-    params: { search, vacancy },
+    params: { search, vacancy: rawVacancy, state: rawStage },
   })
 
   return (
@@ -52,26 +53,21 @@ const OnboardingPage: React.FC = () => {
                   <div className="grid grid-cols-2 gap-3 p-3">
                     <AsyncSelect
                       placeholder="All Vacancy"
+                      className="mb-2"
                       withReset
-                      fetcher={vacancyService.fetchVacancies}
-                      fetcherParams={{ limit: '99999' }}
-                      searchMinCharacter={0}
-                      converter={(data: IVacancy[]) => data.map((el) => ({ label: el.vacancyName || '', value: el.oid }))}
+                      action={vacancyService.fetchVacancies}
+                      converter={(data) => data.content.map((el) => ({ label: el.vacancyName, value: el.oid }))}
                       value={vacancy}
-                      onChange={(e) => {
-                        searchParams.set('vacancy', e.toString())
-                        setSearchParam(searchParams)
-                      }}
+                      onValueChange={setVacancy}
                     />
-                    <Select
+                    <AsyncSelect
                       placeholder="All Stage"
+                      className="mb-2"
                       withReset
+                      action={organizationService.fetchRecruitmentStages}
+                      converter={emmbedToOptions}
                       value={stage}
-                      onChange={(e) => {
-                        searchParams.set('stage', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={recruitmentStages.map((el) => ({ label: el.name, value: el.oid }))}
+                      onValueChange={setStage}
                     />
                   </div>
                 )

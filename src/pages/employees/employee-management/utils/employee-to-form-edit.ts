@@ -1,4 +1,5 @@
 import { employeeService } from '@/services'
+import emmbedToOption from '@/utils/emmbed-to-option'
 
 export async function employeeToFormEdit(employee: IEmployee) {
   const isPicActive = employee.employment?.picApproval?.oid
@@ -14,24 +15,24 @@ export async function employeeToFormEdit(employee: IEmployee) {
       nationalIdNumber: employee.personalData?.nationalIdNumber || '',
       linkNationalId: employee.personalData?.linkNationalId || '',
       numberOfChildren: employee.personalData?.numberOfChildren || 0,
-      maritalStatusId: employee.personalData?.maritalStatus?.oid || '',
+      maritalStatus: emmbedToOption(employee.personalData?.maritalStatus),
       birthDate: new Date(employee.personalData?.birthDate || new Date()),
-      cityOfBirth: employee.personalData?.cityOfBirth?.name || '',
+      cityOfBirth: emmbedToOption(employee.personalData?.cityOfBirth),
       phoneNumber: employee.personalData?.phoneNumber || '',
-      religionId: employee.personalData?.religion?.oid || '',
-      genderId: employee.personalData?.gender?.oid || '',
+      religion: emmbedToOption(employee.personalData?.religion),
+      gender: emmbedToOption(employee.personalData?.gender),
       email: employee.email || '',
     },
     employment: {
       employeeCode: employee.employeeCode || '',
-      roleId: employee.employment?.role?.oid || '',
-      jobTypeId: employee.employment?.jobType?.oid || '',
-      branchId: employee.employment?.branch?.oid || '',
-      departmentId: employee.employment?.department?.oid || '',
-      positionId: employee.employment?.position?.oid || '',
-      jobLevelId: employee.employment?.jobLevel?.oid || '',
-      picApprovalId: isPicActive ? employee.employment?.picApproval?.oid || '' : '',
-      scheduleId: employee.employment?.schedule?.oid || '',
+      role: emmbedToOption(employee.employment?.role),
+      jobType: emmbedToOption(employee.employment?.jobType),
+      branch: emmbedToOption(employee.employment?.branch),
+      department: emmbedToOption(employee.employment?.department),
+      position: emmbedToOption(employee.employment?.position),
+      jobLevel: emmbedToOption(employee.employment?.jobLevel),
+      picApproval: isPicActive ? emmbedToOption(employee.employment?.picApproval) : undefined,
+      schedule: emmbedToOption(employee.employment?.schedule),
     },
     payroll: {
       jkk: employee.payroll?.bpjs?.paidByEmployer?.jkk?.rate || 0,

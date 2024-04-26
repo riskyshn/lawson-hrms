@@ -17,37 +17,13 @@ interface IVacancy {
   hideRangeSalary?: boolean
   negotiableSalary?: boolean
   other?: string
-  company?: {
-    oid: string
-    name?: string
-  }
-  jobLevel?: {
-    oid: string
-    name?: string
-  }
-  jobType?: {
-    oid: string
-    name?: { en?: string; oid: string }
-  }
-  workplacementType?: {
-    oid: string
-    name?: {
-      en?: string
-      oid: string
-    }
-  }
-  department?: {
-    oid: string
-    name?: string
-  }
-  branch?: {
-    oid: string
-    name?: string
-  }
-  city?: {
-    oid: string
-    name?: string
-  }
+  company?: IGeneralDataEmmbed
+  jobLevel?: IGeneralDataEmmbed
+  jobType?: IGeneralDataEmmbed
+  workplacementType?: IGeneralDataEmmbed
+  department?: IGeneralDataEmmbed
+  branch?: IGeneralDataEmmbed
+  city?: IGeneralDataEmmbed
   genderRequirement?: {
     type?: string
     name?: {
@@ -107,22 +83,13 @@ interface IVacancy {
       email?: string
       notes?: string
 
-      department?: {
-        oid: string
-        name?: string
-      }
-      position?: {
-        oid: string
-        name?: string
-      }
+      department?: IGeneralDataEmmbed
+      position?: IGeneralDataEmmbed
 
       createdAt?: string | null
       updatedAt?: string | null
     }>
   }
-  district?: {
-    oid: string
-    name?: string
-  }
+  district?: IGeneralDataEmmbed
   status?: string
 }
