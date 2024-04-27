@@ -20,10 +20,10 @@ const ButtonDeleteEmployee: React.FC<ButtonProps & { oid: string }> = ({ oid, ..
     if (confirmed) {
       try {
         await employeeService.deleteEmployee(oid)
-        toast('Employee deleted successfully.', { color: 'success', position: 'top-right' })
+        toast('Employee deleted successfully.', { color: 'success' })
         navigate('/employees/employee-management')
       } catch (e: any) {
-        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
       }
     }
 

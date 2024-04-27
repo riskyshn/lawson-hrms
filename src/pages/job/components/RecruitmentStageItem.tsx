@@ -21,11 +21,11 @@ const RecruitmentStageItem: React.FC<{
     setLoading(true)
     try {
       await createRecruitmentStage({ type, name: value.trim() })
-      toast('Recruitment Stage created successfully', { color: 'success', position: 'top-right' })
+      toast('Recruitment Stage created successfully', { color: 'success' })
       onRemove?.()
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
-      toast(errorMessage, { color: 'error', position: 'top-right' })
+      toast(errorMessage, { color: 'error' })
       setLoading(false)
     }
   }
@@ -35,10 +35,10 @@ const RecruitmentStageItem: React.FC<{
     setLoading(true)
     try {
       await updateRecruitmentStage(item.oid, { type: item.type, name: value.trim() })
-      toast('Recruitment Stage updated successfully', { color: 'success', position: 'top-right' })
+      toast('Recruitment Stage updated successfully', { color: 'success' })
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
-      toast(errorMessage, { color: 'error', position: 'top-right' })
+      toast(errorMessage, { color: 'error' })
     }
     setLoading(false)
   }

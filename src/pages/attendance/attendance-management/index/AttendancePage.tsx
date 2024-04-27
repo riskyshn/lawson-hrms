@@ -2,10 +2,11 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import usePagination from '@/core/hooks/use-pagination'
-import { attendanceService } from '@/services'
-import { useOrganizationStore } from '@/store'
-import { BaseInputDateRange, CardBody, Select } from 'jobseeker-ui'
+import { attendanceService, organizationService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
+import { AsyncSelect, BaseInputDateRange, CardBody } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
@@ -26,15 +27,13 @@ const AttendancePage: React.FC = () => {
     endDate: searchParams.get('endDate') || todayFormatted,
   })
 
-  const branch = searchParams.get('branch') || undefined
   const isLate = searchParams.get('is_late') || undefined
-
-  const { master } = useOrganizationStore()
+  const [branch, setBranch, rawBranch] = useOptionSearchParam('branch')
 
   const pagination = usePagination({
     pathname: '/attendance/attendance-management',
     totalPage: pageData?.totalPages,
-    params: { search },
+    params: { search, branch: rawBranch },
   })
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const AttendancePage: React.FC = () => {
             attendance_group: 'clock',
             start_date: filterDate?.startDate,
             end_date: filterDate?.endDate,
-            branch_id: branch,
+            branch_id: branch?.value,
             is_late: isLate,
           },
           signal,
@@ -70,7 +69,7 @@ const AttendancePage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage, branch, filterDate, onChangeData, isLate])
+  }, [search, pagination.currentPage, branch?.value, filterDate, onChangeData, isLate])
 
   const handleDateChange = (selectedDate: DateValueType) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -140,15 +139,13 @@ const AttendancePage: React.FC = () => {
               }}
               filter={
                 <div className="grid grid-cols-1 gap-3 p-3">
-                  <Select
+                  <AsyncSelect
                     placeholder="All Branch"
                     withReset
+                    action={organizationService.fetchBranches}
+                    converter={emmbedToOptions}
                     value={branch}
-                    onChange={(e) => {
-                      searchParams.set('branch', e.toString())
-                      setSearchParam(searchParams)
-                    }}
-                    options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    onChange={setBranch}
                   />
                 </div>
               }

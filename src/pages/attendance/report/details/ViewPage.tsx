@@ -124,7 +124,7 @@ const ViewPage: React.FC = () => {
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
-      toast(errorMessage, { color: 'error', position: 'top-right' })
+      toast(errorMessage, { color: 'error' })
       setIsExporting(false)
     }
   }

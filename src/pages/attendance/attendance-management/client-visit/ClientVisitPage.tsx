@@ -2,10 +2,11 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import usePagination from '@/core/hooks/use-pagination'
-import { attendanceService } from '@/services'
-import { useOrganizationStore } from '@/store'
-import { BaseInputDateRange, CardBody, Select } from 'jobseeker-ui'
+import { attendanceService, organizationService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
+import { AsyncSelect, BaseInputDateRange, CardBody } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
@@ -26,14 +27,12 @@ const ClientVisitPage: React.FC = () => {
     endDate: searchParams.get('endDate') || todayFormatted,
   })
 
-  const branch = searchParams.get('branch') || undefined
-
-  const { master } = useOrganizationStore()
+  const [branch, setBranch, rawBranch] = useOptionSearchParam('branch')
 
   const pagination = usePagination({
     pathname: '/attendance/attendance-management/client-visit',
     totalPage: pageData?.totalPages,
-    params: { search },
+    params: { search, branch: rawBranch },
   })
 
   useEffect(() => {
@@ -51,7 +50,7 @@ const ClientVisitPage: React.FC = () => {
             attendance_group: 'client_visit',
             start_date: filterDate?.startDate,
             end_date: filterDate?.endDate,
-            branch_id: branch,
+            branch_id: branch?.value,
           },
           signal,
         )
@@ -68,7 +67,7 @@ const ClientVisitPage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage, branch, filterDate, onChangeData])
+  }, [search, pagination.currentPage, branch?.value, filterDate, onChangeData])
 
   const handleDateChange = (selectedDate: DateValueType) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -132,15 +131,13 @@ const ClientVisitPage: React.FC = () => {
               }}
               filter={
                 <div className="grid grid-cols-1 gap-3 p-3">
-                  <Select
+                  <AsyncSelect
                     placeholder="All Branch"
                     withReset
+                    action={organizationService.fetchBranches}
+                    converter={emmbedToOptions}
                     value={branch}
-                    onChange={(e) => {
-                      searchParams.set('branch', e.toString())
-                      setSearchParam(searchParams)
-                    }}
-                    options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                    onChange={setBranch}
                   />
                 </div>
               }

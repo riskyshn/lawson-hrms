@@ -28,10 +28,11 @@ export default function useOptionSearchParam(key: string) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const setValue = (value?: OptionProps) => {
-    if (value?.value) {
-      const newValue = value.label ? `${value.value}|${value.label}` : value.value
-      searchParams.set(key, newValue)
+  const setValue = (value?: OptionProps | string) => {
+    if (typeof value === 'string') {
+      searchParams.set(key, value)
+    } else if (value?.value) {
+      searchParams.set(key, value.label ? `${value.value}|${value.label}` : value.value)
     } else {
       searchParams.delete(key)
     }

@@ -49,10 +49,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     action: async () => {
       try {
         await vacancyService.updateVacancyStatus(vacancy.oid, 'inactive')
-        toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
+        toast('Success fully reactive vacancy.', { color: 'success' })
         onRefresh?.()
       } catch (e: any) {
-        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
       }
     },
   }
@@ -63,10 +63,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     action: async () => {
       try {
         await vacancyService.updateVacancyStatus(vacancy.oid, 'active')
-        toast('Success fully reactive vacancy.', { color: 'success', position: 'top-right' })
+        toast('Success fully reactive vacancy.', { color: 'success' })
         onRefresh?.()
       } catch (e: any) {
-        toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+        toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
       }
     },
   }
@@ -84,10 +84,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
       if (confirmed) {
         try {
           await vacancyService.deleteDraftVacancy(vacancy.oid)
-          toast('Draft vacancy deleted successfully.', { color: 'success', position: 'top-right' })
+          toast('Draft vacancy deleted successfully.', { color: 'success' })
           onRefresh?.()
         } catch (e: any) {
-          toast(e.response?.data?.meta?.message || e.message, { color: 'error', position: 'top-right' })
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
         }
       }
     },

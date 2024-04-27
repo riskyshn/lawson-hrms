@@ -1,7 +1,7 @@
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import useAsyncAction from '@/core/hooks/use-async-action'
 import useAsyncSearch from '@/core/hooks/use-async-search'
-import { dashboardService } from '@/services'
-import { useOrganizationStore } from '@/store'
+import { dashboardService, organizationService } from '@/services'
 import { Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -10,8 +10,7 @@ import { twJoin } from 'tailwind-merge'
 const RecentlyPostedJobsCard: React.FC = () => {
   const [department_id, setDepartmentId] = useState<string>()
   const { pageData, isLoading } = useAsyncSearch(dashboardService.recentlyPostedJobs, { limit: 20, department_id })
-
-  const { departments } = useOrganizationStore().master
+  const [departments] = useAsyncAction(organizationService.fetchDepartments, { limit: 100 * 100 })
 
   return (
     <Card>
@@ -33,7 +32,7 @@ const RecentlyPostedJobsCard: React.FC = () => {
               >
                 <span className="block w-full whitespace-nowrap text-center text-sm font-semibold">All</span>
               </Card>
-              {departments.map((el, i) => (
+              {departments?.content.map((el, i) => (
                 <Card
                   key={i}
                   as="button"

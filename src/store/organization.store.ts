@@ -5,21 +5,10 @@ import { create } from 'zustand'
 interface OrganizationStore {
   company: ICompany | null
   recruitmentStages: IRecruitmentStage[]
-  master: {
-    departments: IDepartment[]
-    branches: IBranch[]
-    benefits: IBenefit[]
-    jobLevels: IJobLevel[]
-    jobTypes: IJobType[]
-    positions: IPosition[]
-    workplacements: IWorkplacement[]
-    approvals: IApproval[]
-  }
   init: () => Promise<void>
   refresh: () => Promise<void>
   clean: () => void
   refreshCompany: () => Promise<void>
-  setApprovals: (approvals: IApproval[]) => Promise<void>
   createRecruitmentStage: (payload: Record<string, any>) => Promise<void>
   updateRecruitmentStage: (oid: string, payload: Record<string, any>) => Promise<void>
   deleteRecruitmentStage: (oid: string) => Promise<void>
@@ -28,78 +17,31 @@ interface OrganizationStore {
 export const useOrganizationStore = create<OrganizationStore>((set, get) => ({
   company: null,
   recruitmentStages: [],
-  master: {
-    approvals: [],
-    departments: [],
-    branches: [],
-    benefits: [],
-    jobLevels: [],
-    jobTypes: [],
-    positions: [],
-    workplacements: [],
-  },
 
   init: async () => {
     await get().refresh()
   },
 
   refresh: async () => {
-    const [company, recruitmentStages, departments, branches, benefits, jobLevels, jobTypes, positions, workplacements, approvals] =
-      await Promise.all([
-        organizationService.fetchCompany(),
-        organizationService.fetchRecruitmentStages({ limit: 99999, sortedField: 'createdAt', sortDirection: 'ASC' }),
-        organizationService.fetchDepartments({ limit: 99999 }),
-        organizationService.fetchBranches({ limit: 99999 }),
-        organizationService.fetchBenefits({ limit: 99999 }),
-        organizationService.fetchJobLevels({ limit: 99999 }),
-        organizationService.fetchJobTypes({ limit: 99999 }),
-        organizationService.fetchPositions({ limit: 99999 }),
-        organizationService.fetchWorkplacements({ limit: 99999 }),
-        organizationService.fetchApprovals({ limit: 99999 }),
-      ])
+    const [company, recruitmentStages] = await Promise.all([
+      organizationService.fetchCompany(),
+      organizationService.fetchRecruitmentStages({ limit: 99999, sortedField: 'createdAt', sortDirection: 'ASC' }),
+    ])
 
     set({
       company,
       recruitmentStages: recruitmentStages.content,
-      master: {
-        approvals: approvals.content,
-        departments: departments.content,
-        branches: branches.content,
-        benefits: benefits.content,
-        jobLevels: jobLevels.content,
-        jobTypes: jobTypes.content,
-        positions: positions.content,
-        workplacements: workplacements.content,
-      },
     })
   },
 
   clean: () => {
     set({
       company: null,
-      master: {
-        approvals: [],
-        departments: [],
-        branches: [],
-        benefits: [],
-        jobLevels: [],
-        jobTypes: [],
-        positions: [],
-        workplacements: [],
-      },
+      recruitmentStages: [],
     })
   },
 
   refreshCompany: async () => set({ company: await organizationService.fetchCompany() }),
-
-  setApprovals: async (approvals) => {
-    set((state) => ({
-      master: {
-        ...state.master,
-        approvals,
-      },
-    }))
-  },
 
   createRecruitmentStage: async (payload) => {
     const data = await organizationService.createRecruitmentStage(payload)

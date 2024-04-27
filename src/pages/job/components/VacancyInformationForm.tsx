@@ -1,10 +1,11 @@
 import { YUP_OPTION_OBJECT } from '@/constants/globals'
-import { masterService, organizationService, vacancyService } from '@/services'
+import { employeeService, masterService, organizationService, vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import currencyToNumber from '@/utils/currency-to-number'
 import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
+  AsyncMultiSelect,
   AsyncSelect,
   Button,
   Card,
@@ -20,7 +21,6 @@ import {
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import InputApprovalProcess from './InputApprovalProcess'
 
 const schema = yup.object({
   vacancyName: yup.string().required().label('Position Name'),
@@ -73,7 +73,7 @@ const schema = yup.object({
     .required(),
   other: yup.string().required().label('Task, Responsibility & Others'),
   approvals: yup
-    .array(yup.string().required().label('Approval'))
+    .array(YUP_OPTION_OBJECT.required().label('Approval'))
     .min(1)
     .when('isRequisition', {
       is: true,
@@ -185,23 +185,23 @@ const VacancyInformationForm: React.FC<{
             }}
           />
         )}
-      </CardBody>
-
-      {props.isRequisition && (
-        <CardBody className="grid grid-cols-1 gap-2">
-          <div className="pb-2">
-            <h3 className="text-lg font-semibold">Approval Process</h3>
-          </div>
-          <InputApprovalProcess
-            error={errors.approvals?.message || errors.approvals?.map?.((el) => el?.message)}
+        {props.isRequisition && (
+          <AsyncMultiSelect
+            label="Approvals"
+            labelRequired
+            placeholder="Approvals"
+            action={employeeService.fetchEmployees}
+            converter={emmbedToOptions}
+            name="approvals"
+            error={errors.approvals?.message}
             value={getValues('approvals')}
-            onChange={(value) => {
-              setValue('approvals', value)
+            onValueChange={(v) => {
+              setValue('approvals', v)
               trigger('approvals')
             }}
           />
-        </CardBody>
-      )}
+        )}
+      </CardBody>
 
       <CardBody className="grid grid-cols-1 gap-2">
         <div className="pb-2">
