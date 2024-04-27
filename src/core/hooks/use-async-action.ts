@@ -15,7 +15,7 @@ export default function useAsyncAction<T extends (...args: any[]) => Promise<any
     const load = async () => {
       setLoading(true)
       try {
-        const data = await action(params)
+        const data = await action(...params)
         setResponse(data)
       } catch (e) {
         setError(e)

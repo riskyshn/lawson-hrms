@@ -10,7 +10,7 @@ import { twJoin } from 'tailwind-merge'
 const RecentlyPostedJobsCard: React.FC = () => {
   const [department_id, setDepartmentId] = useState<string>()
   const { pageData, isLoading } = useAsyncSearch(dashboardService.recentlyPostedJobs, { limit: 20, department_id })
-  const [departments] = useAsyncAction(organizationService.fetchDepartments, { limit: 100 * 100 })
+  const [departments] = useAsyncAction(organizationService.fetchDepartments, { limit: 99999 })
 
   return (
     <Card>
