@@ -48,9 +48,15 @@ export const fetchTimezones = (params?: IPaginationParam, signal?: GenericAbortS
  * Attendance Management
  *
  */
-export const fetchAttendanceManagement = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
+export const fetchClientVisitAndOvertime = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: IPaginationResponse<IAttendance> }>(`/employer/history`, { params, signal })
+    .then((response) => response.data.data)
+}
+
+export const fetchAttendanceManagement = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(`/logs`, { params, signal })
     .then((response) => response.data.data)
 }
 

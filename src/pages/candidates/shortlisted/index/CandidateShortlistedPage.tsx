@@ -66,6 +66,27 @@ const CandidateShortlistedPage: React.FC = () => {
     }
   }, [search, vacancy?.value, education?.value, province?.value, pagination.currentPage, onChangeData])
 
+  const handleRefresh = async () => {
+    setIsLoading(true)
+
+    try {
+      const data = await candidateService.fetchShortlist({
+        q: search,
+        page: pagination.currentPage,
+        limit: 20,
+        education: education?.value,
+        vacancyId: vacancy?.value,
+        province: province?.value,
+      })
+
+      setPageData(data)
+      setIsLoading(false)
+    } catch (error) {
+      setPageError(error)
+      setIsLoading(false)
+    }
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -86,6 +107,7 @@ const CandidateShortlistedPage: React.FC = () => {
                   You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total
                 </>
               }
+              onRefresh={handleRefresh}
               search={{
                 value: search || '',
                 setValue: (v) => setSearchParam({ search: v }),
