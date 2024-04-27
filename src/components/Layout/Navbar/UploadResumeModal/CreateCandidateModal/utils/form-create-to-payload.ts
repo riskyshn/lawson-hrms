@@ -29,7 +29,7 @@ export default function formCreateToPayload(data: any) {
         institutionId: data.educations.institutionId,
         majorId: data.educations.majorId,
         gpa: Number(data.educations.gpa).toFixed(2),
-        educationId: data.educations.educationId,
+        educationId: data.educations.education?.value,
         startDate: moment(data.educations.startDate).format('YYYY-MM-DD'),
         endDate: moment(data.educations.endDate).format('YYYY-MM-DD'),
       },

@@ -1,5 +1,6 @@
-import { organizationService } from '@/services'
-import { useMasterStore } from '@/store'
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import useAsyncAction from '@/core/hooks/use-async-action'
+import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, MultiSelect, useToast } from 'jobseeker-ui'
@@ -21,9 +22,8 @@ const schema = yup.object().shape({
 const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [fileTypes] = useAsyncAction(masterService.fetchFileTypes)
   const toast = useToast()
-
-  const { fileTypes } = useMasterStore()
 
   const {
     register,
@@ -63,25 +63,28 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
         Create Document Request
       </ModalHeader>
 
-      <div className="flex flex-col gap-3 p-3">
-        {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Input label="Document Name" labelRequired error={errors.name?.message} {...register('name')} />
-        <MultiSelect
-          label="Allowed File Types"
-          labelRequired
-          options={fileTypes.map((el) => ({ label: el.name, value: el.extension }))}
-          name="allowedFileTypes"
-          error={errors.allowedFileTypes?.message}
-          value={getValues('allowedFileTypes')}
-          onChange={(v) => {
-            setValue(
-              'allowedFileTypes',
-              v.map((el) => el.toString()),
-            )
-            trigger('allowedFileTypes')
-          }}
-        />
-      </div>
+      <LoadingScreen show={!fileTypes} />
+
+      {!!fileTypes && (
+        <div className="flex flex-col gap-3 p-3">
+          {errorMessage && <Alert color="error">{errorMessage}</Alert>}
+
+          <Input label="Document Name" labelRequired error={errors.name?.message} {...register('name')} />
+
+          <MultiSelect
+            label="Allowed File Types"
+            labelRequired
+            options={fileTypes?.content.map((el) => ({ label: el.name, value: el.extension }))}
+            name="allowedFileTypes"
+            error={errors.allowedFileTypes?.message}
+            value={getValues('allowedFileTypes')}
+            onValueChange={(v) => {
+              setValue('allowedFileTypes', v)
+              trigger('allowedFileTypes')
+            }}
+          />
+        </div>
+      )}
 
       <ModalFooter>
         <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>

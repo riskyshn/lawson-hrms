@@ -1,7 +1,6 @@
 import type { GenericAbortSignal } from 'axios'
 
 import { API_MASTER_BASE_URL } from '@/constants/base-urls'
-import { useMasterStore } from '@/store'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({
@@ -14,38 +13,25 @@ const axios = createAxiosInstance({
  *
  */
 export const fetchCountries = (params: IPaginationParam, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<IMasterCountry> }>(`/area/country`, { params, signal }).then((response) => {
-    useMasterStore.getState().addArea('countries', response.data.data.content as any[])
-    return response.data.data
-  })
+  return axios.get<{ data: IPaginationResponse<IMasterCountry> }>(`/area/country`, { params, signal }).then(({ data }) => data.data)
 }
 
 export const fetchProvinces = (params: IPaginationParam & { country: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<IMasterProvince> }>(`/area/province`, { params, signal }).then((response) => {
-    useMasterStore.getState().addArea('provinces', response.data.data.content as any[])
-    return response.data.data
-  })
+  return axios.get<{ data: IPaginationResponse<IMasterProvince> }>(`/area/province`, { params, signal }).then(({ data }) => data.data)
 }
 
 export const fetchCities = (params: IPaginationParam & { province?: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<IMasterCity> }>(`/area/city`, { params, signal }).then((response) => {
-    useMasterStore.getState().addArea('cities', response.data.data.content as any[])
-    return response.data.data
-  })
+  return axios.get<{ data: IPaginationResponse<IMasterCity> }>(`/area/city`, { params, signal }).then(({ data }) => data.data)
 }
 
 export const fetchDistricts = (params: IPaginationParam & { city: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<IMasterDistrict> }>(`/area/district`, { params, signal }).then((response) => {
-    useMasterStore.getState().addArea('districts', response.data.data.content as any[])
-    return response.data.data
-  })
+  return axios.get<{ data: IPaginationResponse<IMasterDistrict> }>(`/area/district`, { params, signal }).then(({ data }) => data.data)
 }
 
 export const fetchSubDistrict = (params: IPaginationParam & { district: string }, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<IMasterSubDistrict> }>(`/area/sub-district`, { params, signal }).then((response) => {
-    useMasterStore.getState().addArea('subDistricts', response.data.data.content as any[])
-    return response.data.data
-  })
+  return axios
+    .get<{ data: IPaginationResponse<IMasterSubDistrict> }>(`/area/sub-district`, { params, signal })
+    .then(({ data }) => data.data)
 }
 
 /**
