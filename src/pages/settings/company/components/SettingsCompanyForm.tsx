@@ -1,6 +1,6 @@
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 import { organizationService } from '@/services'
-import { useOrganizationStore } from '@/store'
+import { useAuthStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea, useToast } from 'jobseeker-ui'
@@ -31,7 +31,7 @@ const schema = yup.object().shape({
 const SettingsCompanyForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const { company, refreshCompany } = useOrganizationStore()
+  const { company, refreshAuth } = useAuthStore()
   const toast = useToast()
 
   const {
@@ -59,7 +59,7 @@ const SettingsCompanyForm: React.FC = () => {
     setIsLoading(true)
     try {
       await organizationService.updateCompany(data)
-      await refreshCompany()
+      await refreshAuth()
       toast('Company information successfully updated!', { color: 'success' })
     } catch (e) {
       setErrorMessage(axiosErrorMessage(e))
