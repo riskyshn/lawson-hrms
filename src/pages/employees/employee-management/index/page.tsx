@@ -2,9 +2,11 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { employeeService } from '@/services'
-import { useOrganizationStore } from '@/store'
-import { Button, Select, useAsyncSearch, usePagination } from 'jobseeker-ui'
+import useAsyncSearch from '@/core/hooks/use-async-search'
+import usePagination from '@/core/hooks/use-pagination'
+import { employeeService, organizationService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
+import { AsyncSelect, Button, useOptionSearchParam } from 'jobseeker-ui'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import ResignTerminateModal from './components/ResignTerminateModal'
@@ -14,23 +16,21 @@ export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
-  const department = searchParams.get('department') || undefined
-  const branch = searchParams.get('branch') || undefined
-
-  const { master } = useOrganizationStore()
+  const [department, setDepartment, rawDepartment] = useOptionSearchParam('department')
+  const [branch, setBranch, rawBranch] = useOptionSearchParam('branch')
 
   const [selectedToTerminate, setSelectedToTerminate] = useState<IDataTableEmployee | null>(null)
 
   const { pageData, isLoading, onRefresh } = useAsyncSearch(
     employeeService.fetchEmployees,
-    { limit: 20, branchId: branch, departmentId: department },
+    { limit: 20, branchId: branch?.value, departmentId: department?.value },
     search,
   )
 
   const pagination = usePagination({
     pathname: '/employees/employee-management',
     totalPage: pageData?.totalPages,
-    params: { search, department, branch },
+    params: { search, department: rawDepartment, branch: rawBranch },
   })
 
   return (
@@ -78,27 +78,22 @@ export const Component: React.FC = () => {
               filter={
                 open && (
                   <div className="grid grid-cols-2 gap-3 p-3">
-                    <Select
+                    <AsyncSelect
                       placeholder="All Departement"
                       withReset
+                      action={organizationService.fetchDepartments}
+                      converter={emmbedToOptions}
                       value={department}
-                      onChange={(e) => {
-                        searchParams.set('department', e.toString())
-                        searchParams.delete('page')
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                      onChange={setDepartment}
                     />
-                    <Select
+
+                    <AsyncSelect
                       placeholder="All Branch"
                       withReset
+                      action={organizationService.fetchBranches}
+                      converter={emmbedToOptions}
                       value={branch}
-                      onChange={(e) => {
-                        searchParams.set('branch', e.toString())
-                        searchParams.delete('page')
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                      onChange={setBranch}
                     />
                   </div>
                 )

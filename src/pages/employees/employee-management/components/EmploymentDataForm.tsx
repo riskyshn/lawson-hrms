@@ -1,21 +1,22 @@
-import { attendanceService, authorityService, employeeService } from '@/services'
-import { useOrganizationStore } from '@/store'
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
+import { attendanceService, authorityService, employeeService, organizationService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, Select } from 'jobseeker-ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input } from 'jobseeker-ui'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object({
   employeeCode: yup.string().required().label('Employee ID'),
-  roleId: yup.string().required().label('Role'),
-  jobTypeId: yup.string().required().label('Employment Status'),
-  branchId: yup.string().required().label('Branch Placement'),
-  departmentId: yup.string().required().label('Department'),
-  positionId: yup.string().required().label('Position'),
-  jobLevelId: yup.string().required().label('Job Level'),
-  picApprovalId: yup.string().required().label('PIC for Approval'),
-  scheduleId: yup.string().required().label('Schedule'),
+  role: YUP_OPTION_OBJECT.required().label('Role'),
+  jobType: YUP_OPTION_OBJECT.required().label('Employment Status'),
+  branch: YUP_OPTION_OBJECT.required().label('Branch Placement'),
+  department: YUP_OPTION_OBJECT.required().label('Department'),
+  position: YUP_OPTION_OBJECT.required().label('Position'),
+  jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
+  picApproval: YUP_OPTION_OBJECT.required().label('PIC for Approval'),
+  schedule: YUP_OPTION_OBJECT.required().label('Schedule'),
 })
 
 const EmploymentDataForm: React.FC<{
@@ -23,10 +24,6 @@ const EmploymentDataForm: React.FC<{
   handlePrev: () => void
   handleSubmit: (data: any) => void
 }> = (props) => {
-  const {
-    master: { jobTypes, jobLevels, branches, departments, positions },
-  } = useOrganizationStore()
-  console.log(props.defaultValue)
   const {
     register,
     handleSubmit,
@@ -51,93 +48,91 @@ const EmploymentDataForm: React.FC<{
         <Input label="Employee ID" labelRequired placeholder="JSC-001" error={errors.employeeCode?.message} {...register('employeeCode')} />
         <AsyncSelect
           label="Role"
-          labelRequired
           placeholder="Role"
-          fetcher={authorityService.fetchRoles}
-          fetcherParams={{ limit: '99999' }}
-          searchMinCharacter={0}
-          converter={(data: any) => data.map((el: IRole) => ({ label: el.name, value: el.oid }))}
-          name="roleId"
-          error={errors.roleId?.message}
-          value={getValues('roleId')}
-          onChange={(v) => {
-            setValue('roleId', v.toString())
-            trigger('roleId')
+          labelRequired
+          action={authorityService.fetchRoles}
+          converter={emmbedToOptions}
+          name="role"
+          error={errors.role?.message}
+          value={getValues('role')}
+          onValueChange={(v) => {
+            setValue('role', v)
+            trigger('role')
           }}
         />
-        <Select
+        <AsyncSelect
           label="Employment Status"
           placeholder="Employment Status"
           labelRequired
-          options={jobTypes.filter((el) => el.status === 1).map((el) => ({ label: `${el.name}`, value: el.oid }))}
-          hideSearch
-          name="jobTypeId"
-          error={errors.jobTypeId?.message}
-          value={getValues('jobTypeId')}
-          onChange={(v) => {
-            setValue('jobTypeId', v.toString())
-            trigger('jobTypeId')
+          action={organizationService.fetchJobTypes}
+          converter={emmbedToOptions}
+          name="jobType"
+          error={errors.jobType?.message}
+          value={getValues('jobType')}
+          onValueChange={(v) => {
+            setValue('jobType', v)
+            trigger('jobType')
           }}
         />
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Select
+          <AsyncSelect
             label="Branch Placement"
             placeholder="Branch Placement"
             labelRequired
-            options={branches.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            hideSearch
-            name="branchId"
-            error={errors.branchId?.message}
-            value={getValues('branchId')}
-            onChange={(v) => {
-              setValue('branchId', v.toString())
-              trigger('branchId')
+            action={organizationService.fetchBranches}
+            converter={emmbedToOptions}
+            name="branch"
+            error={errors.branch?.message}
+            value={getValues('branch')}
+            onValueChange={(v) => {
+              setValue('branch', v)
+              trigger('branch')
             }}
           />
-          <Select
+          <AsyncSelect
             label="Department"
             placeholder="Department"
             labelRequired
-            options={departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            hideSearch
-            name="departmentId"
-            error={errors.departmentId?.message}
-            value={getValues('departmentId')}
-            onChange={(v) => {
-              setValue('departmentId', v.toString())
-              trigger('departmentId')
+            action={organizationService.fetchDepartments}
+            converter={emmbedToOptions}
+            name="department"
+            error={errors.department?.message}
+            value={getValues('department')}
+            onValueChange={(v) => {
+              setValue('department', v)
+              trigger('department')
             }}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Select
+          <AsyncSelect
             label="Position"
             placeholder="Position"
             labelRequired
-            options={positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            hideSearch
-            name="positionId"
-            error={errors.positionId?.message}
-            value={getValues('positionId')}
-            onChange={(v) => {
-              setValue('positionId', v.toString())
-              trigger('positionId')
+            action={organizationService.fetchPositions}
+            converter={emmbedToOptions}
+            name="position"
+            error={errors.position?.message}
+            value={getValues('position')}
+            onValueChange={(v) => {
+              setValue('position', v)
+              trigger('position')
             }}
           />
-          <Select
+          <AsyncSelect
             label="Job Level"
             placeholder="Job Level"
             labelRequired
-            options={jobLevels.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-            hideSearch
-            name="jobLevelId"
-            error={errors.jobLevelId?.message}
-            value={getValues('jobLevelId')}
-            onChange={(v) => {
-              setValue('jobLevelId', v.toString())
-              trigger('jobLevelId')
+            action={organizationService.fetchJobLevels}
+            converter={emmbedToOptions}
+            name="jobLevel"
+            error={errors.jobLevel?.message}
+            value={getValues('jobLevel')}
+            onValueChange={(v) => {
+              setValue('jobLevel', v)
+              trigger('jobLevel')
             }}
           />
         </div>
@@ -146,32 +141,28 @@ const EmploymentDataForm: React.FC<{
             label="PIC for Approval"
             labelRequired
             placeholder="PIC for Approval"
-            fetcher={employeeService.fetchEmployees}
-            fetcherParams={{ limit: '99999' }}
-            searchMinCharacter={0}
-            converter={(data: any) => data.map((el: IEmployee) => ({ label: el.name, value: el.oid }))}
-            name="picApprovalId"
-            error={errors.picApprovalId?.message}
-            value={getValues('picApprovalId')}
-            onChange={(v) => {
-              setValue('picApprovalId', v.toString())
-              trigger('picApprovalId')
+            action={employeeService.fetchEmployees}
+            converter={emmbedToOptions}
+            name="picApproval"
+            error={errors.picApproval?.message}
+            value={getValues('picApproval')}
+            onValueChange={(v) => {
+              setValue('picApproval', v)
+              trigger('picApproval')
             }}
           />
           <AsyncSelect
             label="Schedule"
             placeholder="Schedule"
             labelRequired
-            fetcher={attendanceService.fetchSchedules}
-            fetcherParams={{ limit: '99999' }}
-            searchMinCharacter={0}
-            converter={(data: any) => data.map((el: ISchedule) => ({ label: el.name, value: el.oid }))}
-            name="scheduleId"
-            error={errors.scheduleId?.message}
-            value={getValues('scheduleId')}
-            onChange={(v) => {
-              setValue('scheduleId', v.toString())
-              trigger('scheduleId')
+            action={attendanceService.fetchSchedules}
+            converter={emmbedToOptions}
+            name="schedule"
+            error={errors.schedule?.message}
+            value={getValues('schedule')}
+            onValueChange={(v) => {
+              setValue('schedule', v)
+              trigger('schedule')
             }}
           />
         </div>

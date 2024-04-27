@@ -1,7 +1,8 @@
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { masterService, reportService } from '@/services'
-import { useMasterStore, useOrganizationStore } from '@/store'
+import useOptionSearchParam from '@/core/hooks/use-option-search-params'
+import { masterService, organizationService, reportService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
 import { AsyncSelect, BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
@@ -52,15 +53,14 @@ export const Component: React.FC = () => {
   })
 
   const [searchParams, setSearchParam] = useSearchParams()
-  const filterProvince = searchParams.get('province') || undefined
-  const filterEducation = searchParams.get('education') || undefined
-  const filterGender = searchParams.get('gender') || undefined
-  const filterAge = searchParams.get('age') || undefined
-  const filterExperience = searchParams.get('experience') || undefined
-  const filterDepartment = searchParams.get('department') || undefined
-
-  const { educatioLevels, genders } = useMasterStore()
-  const { master } = useOrganizationStore()
+  const [province, setProvince, rawProvince] = useOptionSearchParam('province')
+  const [education, setEducation, rawEducation] = useOptionSearchParam('education')
+  const [gender, setGender, rawGender] = useOptionSearchParam('gender')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [age, _setAge, rawAge] = useOptionSearchParam('age')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [experience, _setExperience, rawExperience] = useOptionSearchParam('experience')
+  const [department, setDepartment, rawDepartment] = useOptionSearchParam('department')
 
   const [chartData, setChartData] = useState({
     province: { labels: [], datasets: [] },
@@ -74,53 +74,52 @@ export const Component: React.FC = () => {
   const fetchAllData = async () => {
     setIsLoading(true)
 
-    const [province, age, education, gender, experience, department] = await Promise.all([
+    const chartKeys = ['province', 'age', 'education', 'gender', 'experience', 'department']
+    // const [province, age, education, gender, experience, department] = await Promise.all([
+    const chartResults = await Promise.all([
       fetchData(() =>
         reportService.fetchProvince({
           start_date: filterDates.province.startDate,
           end_date: filterDates.province.endDate,
-          province: filterProvince,
+          province: province?.value,
         }),
       ),
       fetchData(() =>
         reportService.fetchAge({
           start_date: filterDates.age.startDate,
           end_date: filterDates.age.endDate,
-          range: filterAge,
+          range: age?.value,
         }),
       ),
       fetchData(() =>
         reportService.fetchEducation({
           start_date: filterDates.education.startDate,
           end_date: filterDates.education.endDate,
-          education: filterEducation,
+          education: education?.value,
         }),
       ),
       fetchData(() =>
         reportService.fetchGender({
           start_date: filterDates.gender.startDate,
           end_date: filterDates.gender.endDate,
-          gender: filterGender,
+          gender: gender?.value,
         }),
       ),
       fetchData(() =>
         reportService.fetchExperience({
           start_date: filterDates.experience.startDate,
           end_date: filterDates.experience.endDate,
-          range: filterExperience,
+          range: experience?.value,
         }),
       ),
       fetchData(() =>
         reportService.fetchDepartment({
           start_date: filterDates.department.startDate,
           end_date: filterDates.department.endDate,
-          department: filterDepartment,
+          department: department?.value,
         }),
       ),
     ])
-
-    const chartKeys = ['province', 'age', 'education', 'gender', 'experience', 'department']
-    const chartResults = [province, age, education, gender, experience, department]
 
     const newChartData = chartKeys.reduce((acc: any, key, index) => {
       const { labels, data } = chartResults[index]
@@ -143,7 +142,7 @@ export const Component: React.FC = () => {
   useEffect(() => {
     fetchAllData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterDates, filterProvince, filterEducation, filterGender, filterAge, filterExperience, filterDepartment])
+  }, [filterDates, rawProvince, rawEducation, rawGender, rawAge, rawExperience, rawDepartment])
 
   const handleDateChange = (selectedDate: DateValueType, chartType: string) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -177,41 +176,36 @@ export const Component: React.FC = () => {
             className="mb-2 text-left"
             placeholder="Province"
             withReset
-            fetcher={masterService.fetchProvinces}
-            fetcherParams={{ country: 'Indonesia' }}
-            searchMinCharacter={0}
-            converter={(data) => data.map((el: any) => ({ label: el.name, value: el.oid }))}
+            action={masterService.fetchProvinces}
+            params={{ country: 'Indonesia' }}
+            converter={emmbedToOptions}
             name="province"
-            value={filterProvince}
-            onChange={(v: any) => {
-              searchParams.set('province', v)
-              setSearchParam(searchParams)
-            }}
+            value={province}
+            onValueChange={setProvince}
           />
         ) : title === 'Education' ? (
-          <Select
+          <AsyncSelect
             className="text-left"
             placeholder="All Education"
             withReset
-            value={filterEducation}
-            onChange={(e: any) => {
-              searchParams.set('education', e)
-              setSearchParam(searchParams)
-            }}
-            options={educatioLevels.map((el) => ({ label: el.name, value: el.oid }))}
+            action={masterService.fetchEducationLevel}
+            converter={emmbedToOptions}
+            name="education"
+            value={education}
+            onValueChange={setEducation}
           />
         ) : title === 'Gender' ? (
-          <Select
+          <AsyncSelect
             className="text-left"
             placeholder="Select Gender"
             withReset
-            options={genders.map((el) => ({ label: el.name, value: el.oid }))}
-            name="genderId"
-            value={filterGender}
-            onChange={(e: any) => {
-              searchParams.set('gender', e)
-              setSearchParam(searchParams)
-            }}
+            hideSearch
+            disableInfiniteScroll
+            action={masterService.fetchGenders}
+            converter={emmbedToOptions}
+            name="gender"
+            value={gender}
+            onValueChange={setGender}
           />
         ) : title === 'Age' ? (
           <Select
@@ -228,8 +222,8 @@ export const Component: React.FC = () => {
               { label: '>=58', value: '>=58' },
             ]}
             name="age"
-            value={filterAge}
-            onChange={(e: any) => {
+            value={age?.value}
+            onChange={(e) => {
               searchParams.set('age', e)
               setSearchParam(searchParams)
             }}
@@ -248,23 +242,22 @@ export const Component: React.FC = () => {
               { label: '16-19', value: '16-19' },
             ]}
             name="experience"
-            value={filterExperience}
+            value={experience?.value}
             onChange={(e: any) => {
               searchParams.set('experience', e)
               setSearchParam(searchParams)
             }}
           />
         ) : title === 'Department' ? (
-          <Select
+          <AsyncSelect
             className="text-left"
             placeholder="All Department"
             withReset
-            value={filterDepartment}
-            onChange={(e: any) => {
-              searchParams.set('department', e)
-              setSearchParam(searchParams)
-            }}
-            options={master.departments.map((el: any) => ({ label: el.name, value: el.oid }))}
+            action={organizationService.fetchDepartments}
+            converter={emmbedToOptions}
+            name="department"
+            value={department}
+            onValueChange={setDepartment}
           />
         ) : (
           <Select placeholder={`All ${title}`} options={placeholderOptions} className="mb-2" />

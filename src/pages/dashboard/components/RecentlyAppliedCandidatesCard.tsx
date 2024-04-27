@@ -1,6 +1,7 @@
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import useAsyncSearch from '@/core/hooks/use-async-search'
 import { dashboardService } from '@/services'
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, useAsyncSearch } from 'jobseeker-ui'
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
 import React from 'react'
 import { Link } from 'react-router-dom'
 

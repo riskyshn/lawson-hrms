@@ -12,6 +12,6 @@ export default function genOptions(items: (string | [string | number, string])[]
     }
     const [value, label] = item
 
-    return { label, value }
+    return { label, value: String(value) }
   })
 }

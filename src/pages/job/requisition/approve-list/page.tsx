@@ -1,7 +1,6 @@
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { employeeService, organizationService } from '@/services'
-import { useOrganizationStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { BaseSelect, Button, Card, CardBody, CardFooter, OptionProps, Spinner, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon, PlusCircleIcon } from 'lucide-react'
@@ -14,14 +13,18 @@ export const Component: React.FC = () => {
   const [initLoading, setInitLoading] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(false)
   const [pageError, setPageError] = useState<any>()
-  const organizationStore = useOrganizationStore()
   const toast = useToast()
 
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const data = await employeeService.fetchEmployees({ limit: 100000 })
-        const employeeOptions = data.content.map((el) => ({ label: el.name || el.oid, value: el.oid }))
+        const [employees, approvals] = await Promise.all([
+          employeeService.fetchEmployees({ limit: 999999 }),
+          organizationService.fetchApprovals({ limit: 999999 }),
+        ])
+
+        const employeeOptions = employees.content.map((el) => ({ label: el.name || el.oid, value: el.oid }))
+        setValues(approvals.content.map((el) => el.employee.oid))
         setEmployees(employeeOptions)
         setInitLoading(false)
       } catch (error) {
@@ -29,9 +32,7 @@ export const Component: React.FC = () => {
       }
     }
 
-    setValues(organizationStore.master.approvals.map((el) => el.employee.oid))
     fetchEmployees()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -40,11 +41,10 @@ export const Component: React.FC = () => {
     setLoading(true)
 
     try {
-      const { content } = await organizationService.createApproval(values.filter((el) => !!el))
-      organizationStore.setApprovals(content)
-      toast('Approval process setup successfully', { color: 'success', position: 'top-right' })
+      await organizationService.createApproval(values.filter((el) => !!el))
+      toast('Approval process setup successfully', { color: 'success' })
     } catch (error: any) {
-      toast(axiosErrorMessage(error), { color: 'error', position: 'top-right' })
+      toast(axiosErrorMessage(error), { color: 'error' })
     }
 
     setLoading(false)

@@ -1,5 +1,6 @@
-import { organizationService } from '@/services'
-import { useMasterStore } from '@/store'
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import useAsyncAction from '@/core/hooks/use-async-action'
+import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, MultiSelect, useRemember, useToast } from 'jobseeker-ui'
@@ -22,11 +23,10 @@ const schema = yup.object().shape({
 const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [fileTypes] = useAsyncAction(masterService.fetchFileTypes)
 
   const rItem = useRemember(item)
   const toast = useToast()
-
-  const { fileTypes } = useMasterStore()
 
   const {
     register,
@@ -40,14 +40,18 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   })
 
   useEffect(() => {
-    if (item) {
+    if (item && fileTypes?.content) {
       setIsLoading(false)
       setErrorMessage('')
       setValue('name', item.name || '')
-      setValue('allowedFileTypes', item.allowedFileTypes || [])
+      setValue(
+        'allowedFileTypes',
+        fileTypes.content.filter((el) => item.allowedFileTypes.includes(el.extension)).map((el) => el.extension),
+      )
+
       trigger(['allowedFileTypes', 'name'])
     }
-  }, [item, setValue, trigger])
+  }, [fileTypes?.content, item, setValue, trigger])
 
   const onSubmit = handleSubmit(async (data) => {
     if (!item) return
@@ -72,27 +76,29 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       <ModalHeader subTitle={getEditModalSubtitle(rItem)} onClose={onClose}>
         Update Document Request
       </ModalHeader>
-      <div className="flex flex-col gap-3 p-3">
-        {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input label="Document Name" labelRequired error={errors.name?.message} {...register('name')} />
+      <LoadingScreen show={!fileTypes} />
 
-        <MultiSelect
-          label="Allowed File Types"
-          labelRequired
-          options={fileTypes.map((el) => ({ label: el.name, value: el.extension }))}
-          name="allowedFileTypes"
-          error={errors.allowedFileTypes?.message}
-          value={getValues('allowedFileTypes')}
-          onChange={(v) => {
-            setValue(
-              'allowedFileTypes',
-              v.map((el) => el.toString()),
-            )
-            trigger('allowedFileTypes')
-          }}
-        />
-      </div>
+      {!!fileTypes && (
+        <div className="flex flex-col gap-3 p-3">
+          {errorMessage && <Alert color="error">{errorMessage}</Alert>}
+
+          <Input label="Document Name" labelRequired error={errors.name?.message} {...register('name')} />
+
+          <MultiSelect
+            label="Allowed File Types"
+            labelRequired
+            options={fileTypes?.content.map((el) => ({ label: el.name, value: el.extension }))}
+            name="allowedFileTypes"
+            error={errors.allowedFileTypes?.message}
+            value={getValues('allowedFileTypes')}
+            onValueChange={(v) => {
+              setValue('allowedFileTypes', v)
+              trigger('allowedFileTypes')
+            }}
+          />
+        </div>
+      )}
 
       <ModalFooter>
         <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>

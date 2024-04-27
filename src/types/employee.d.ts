@@ -62,6 +62,7 @@ interface IEmployee {
       taxStatus?: IGeneralDataEmmbed
       npwpNumber?: string
       ptkpStatus?: string
+      category?: string
     }
     participateBpjs?: boolean
     bpjs?: {

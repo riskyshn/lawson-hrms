@@ -2,7 +2,7 @@ import BgImage from '@/assets/hero.webp'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import Logo from '@/components/Logo/Logo'
-import { useAuthStore, useOrganizationStore } from '@/store'
+import { useAuthStore } from '@/store'
 import moment from 'moment'
 import AnnouncementCard from './components/AnnouncementCard'
 import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidatesCard'
@@ -10,8 +10,7 @@ import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
 import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 
 export const Component: React.FC = () => {
-  const { user } = useAuthStore()
-  const { company } = useOrganizationStore()
+  const { user, company } = useAuthStore()
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Dashboard' }]} />

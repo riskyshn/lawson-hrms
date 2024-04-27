@@ -1,5 +1,5 @@
+import useAsyncAction from '@/core/hooks/use-async-action'
 import { payrollService } from '@/services'
-import { usePayrollStore } from '@/store'
 import numberToCurrency from '@/utils/number-to-currency'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, Spinner } from 'jobseeker-ui'
@@ -18,9 +18,8 @@ const ComponentsDataForm: React.FC<{
 }> = (props) => {
   const form = useForm({ resolver: yupResolver(componentDataSchema) })
 
-  const {
-    master: { bpjsComponent },
-  } = usePayrollStore()
+  const [bpjsComponent] = useAsyncAction(payrollService.fetchBpjsComponent)
+
   const [pageError, setPageError] = useState<any>()
   const [componentData, setComponentData] = useState<{ benefits: IBenefitComponent[]; deductions: IDeductionComponent[] }>()
   if (pageError) throw pageError
@@ -77,12 +76,12 @@ const ComponentsDataForm: React.FC<{
 
   return (
     <Card as="form" onSubmit={onSubmit}>
-      {!componentData && (
+      {(!componentData || !bpjsComponent) && (
         <div className="flex items-center justify-center py-48">
           <Spinner height={40} className="text-primary-600" />
         </div>
       )}
-      {componentData && (
+      {componentData && bpjsComponent && (
         <>
           <CardBody className="grid grid-cols-1 gap-2">
             <div className="pb-2">
@@ -91,23 +90,23 @@ const ComponentsDataForm: React.FC<{
             </div>
             <h3 className="text-sm font-semibold">Benefits</h3>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent.paidByEmployer?.jht?.rate}%`} />
               <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled value={props.allFormData?.payroll?.jkk + '%'} />
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
+              <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent.paidByEmployer?.jkm?.rate}%`} />
               <Input
                 label="Jaminan Pensiun (JP)"
                 disabled
-                value={`${bpjsComponent?.paidByEmployer?.jp?.rate}%`}
-                help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}*`}
+                value={`${bpjsComponent.paidByEmployer?.jp?.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployer?.jp?.maxCap)}*`}
               />
             </div>
             <Input
               label="Jaminan Kesehatan (KS)"
               disabled
-              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
-              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}*`}
+              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent.paidByEmployer?.jks?.rate + '%'}
+              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployer?.jks?.maxCap)}*`}
             />
           </CardBody>
 
@@ -136,12 +135,12 @@ const ComponentsDataForm: React.FC<{
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-sm font-semibold">Deduction</h3>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent.paidByEmployee?.jht?.rate}%`} />
               <Input
                 label="Jaminan Pensiun (JP)"
                 disabled
-                value={`${bpjsComponent?.paidByEmployee?.jp?.rate}%`}
-                help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}*`}
+                value={`${bpjsComponent.paidByEmployee?.jp?.rate}%`}
+                help={`JP Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployee?.jp?.maxCap)}*`}
               />
             </div>
 
@@ -149,8 +148,8 @@ const ComponentsDataForm: React.FC<{
               label="Jaminan Kesehatan (KS)"
               disabled
               required
-              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
-              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}*`}
+              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent.paidByEmployee?.jks?.rate + '%'}
+              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployee?.jks?.maxCap)}*`}
             />
           </CardBody>
 

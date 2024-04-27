@@ -1,12 +1,14 @@
-import { useMasterStore } from '@/store'
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
+import { masterService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate, Select } from 'jobseeker-ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate } from 'jobseeker-ui'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object({
-  educationId: yup.string().required().label('Last Education'),
+  education: YUP_OPTION_OBJECT.required().label('Last Education'),
   institutionId: yup.string().required().label('Institution'),
   majorId: yup.string().required().label('Major'),
   gpa: yup.string().required().label('GPA'),
@@ -27,8 +29,6 @@ const EducationForm: React.FC<{
   handlePrev: () => void
   handleSubmit: (data: any) => void
 }> = (props) => {
-  const { educatioLevels } = useMasterStore()
-
   const {
     register,
     handleSubmit,
@@ -55,17 +55,18 @@ const EducationForm: React.FC<{
             <p className="text-xs text-gray-500">Fill all employee personal basic information data</p>
           </div>
 
-          <Select
+          <AsyncSelect
             label="Education"
             labelRequired
             placeholder="Choose Education"
-            options={educatioLevels.map((el: any) => ({ label: el.name, value: el.oid }))}
-            name="educationId"
-            error={errors.educationId?.message}
-            value={getValues('educationId')}
-            onChange={(v) => {
-              setValue('educationId', v.toString())
-              trigger('educationId')
+            action={masterService.fetchEducationLevel}
+            converter={emmbedToOptions}
+            name="education"
+            error={errors.education?.message}
+            value={getValues('education')}
+            onValueChange={(v) => {
+              setValue('education', v)
+              trigger('education')
             }}
           />
           <Input

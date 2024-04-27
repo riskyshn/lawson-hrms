@@ -2,7 +2,6 @@ import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Alert, Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React from 'react'
-import getCategory from '../../utils/get-category'
 
 const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const previewImage = usePreviewImage()
@@ -256,7 +255,7 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap p-3 text-left">Category</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{getCategory(employee.payroll?.taxConfig?.ptkpStatus)}</td>
+                <td className="w-full p-3">{employee.payroll?.taxConfig?.category}</td>
               </tr>
             </tbody>
           </table>

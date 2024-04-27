@@ -10,7 +10,7 @@ type WithdrawModalProps = {
 }
 
 const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, items }) => {
-  const [selectReasonId, setSelectReasonId] = useState<string | number>('')
+  const [selectReasonId, setSelectReasonId] = useState('')
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
   const [reasonWithdraw, setReasonWithdraw] = useState<any[]>([])
@@ -27,7 +27,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, items }) =
       console.error('Error fetching reason:', error)
     }
   }
-  const handleChange = (selectedValue: string | number) => {
+  const handleChange = (selectedValue: string) => {
     setSelectReasonId(selectedValue)
   }
 
@@ -54,7 +54,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, items }) =
       })
       .catch((error: any) => {
         const errorMessage = error.response?.data?.meta?.message || error.message
-        toast(errorMessage, { color: 'error', position: 'top-right' })
+        toast(errorMessage, { color: 'error' })
       })
       .finally(() => {
         setLoading(false)

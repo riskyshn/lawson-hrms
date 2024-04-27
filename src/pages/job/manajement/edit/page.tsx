@@ -49,10 +49,10 @@ export const Component: React.FC = () => {
       setIsSubmitLoading(true)
       console.log(vacancy.oid, processedData)
       await vacancyService.udpateVacancy(vacancy.oid, processedData)
-      toast('Job vacancy successfully updated.', { color: 'success', position: 'top-right' })
+      toast('Job vacancy successfully updated.', { color: 'success' })
       navigate('/job/management')
     } catch (error) {
-      toast('An error occurred while updating the job vacancy.', { color: 'error', position: 'top-right' })
+      toast('An error occurred while updating the job vacancy.', { color: 'error' })
     } finally {
       setIsSubmitLoading(false)
     }

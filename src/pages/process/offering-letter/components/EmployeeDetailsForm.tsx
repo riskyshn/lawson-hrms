@@ -1,18 +1,19 @@
-import { masterService } from '@/services'
-import { useMasterStore, useOrganizationStore } from '@/store'
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
+import { masterService, organizationService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputDate, Select } from 'jobseeker-ui'
-import React, { useEffect } from 'react'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputDate } from 'jobseeker-ui'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object({
   letterNumber: yup.string().required().label('Letter Number'),
-  positionId: yup.string().required().label('Position'),
-  departmentId: yup.string().required().label('Depantment'),
-  jobLevelId: yup.string().required().label('Job Level'),
-  jobTypeId: yup.string().required().label('Job Type'),
-  cityId: yup.string().required().label('City'),
+  position: YUP_OPTION_OBJECT.required().label('Position'),
+  department: YUP_OPTION_OBJECT.required().label('Depantment'),
+  jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
+  jobType: YUP_OPTION_OBJECT.required().label('Job Type'),
+  city: YUP_OPTION_OBJECT.required().label('City'),
   joinDate: yup.date().required().label('Join Date'),
   expiryDate: yup.date().label('Expiry Date'),
 })
@@ -34,14 +35,6 @@ const EmployeeDetailsForm: React.FC<{
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
   const onSubmit = handleSubmit(props.handleSubmit)
-  const masterStore = useMasterStore()
-  const organizationoStore = useOrganizationStore()
-  const initialCity = masterStore.area.cities.find((el) => el.oid === getValues('cityId'))
-
-  useEffect(() => {
-    if (initialCity || !props.defaultValue?.cityId) return
-    masterService.fetchCities({ limit: 1, q: props.defaultValue.cityId })
-  }, [props.defaultValue?.cityId, initialCity])
 
   return (
     <Card as="form" onSubmit={onSubmit}>
@@ -58,79 +51,80 @@ const EmployeeDetailsForm: React.FC<{
           error={errors.letterNumber?.message}
           {...register('letterNumber')}
         />
-        <Select
+        <AsyncSelect
           label="Position"
-          labelRequired
           placeholder="Select Position"
-          hideSearch
-          options={organizationoStore.master.positions.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-          name="positionId"
-          error={errors.positionId?.message}
-          value={getValues('positionId')}
-          onChange={(v) => {
-            setValue('positionId', v.toString())
-            trigger('positionId')
-          }}
-        />
-        <Select
-          label="Department"
           labelRequired
-          placeholder="Select Department"
-          hideSearch
-          options={organizationoStore.master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-          name="departmentId"
-          error={errors.departmentId?.message}
-          value={getValues('departmentId')}
-          onChange={(v) => {
-            setValue('departmentId', v.toString())
-            trigger('departmentId')
+          action={organizationService.fetchPositions}
+          converter={emmbedToOptions}
+          name="position"
+          error={errors.position?.message}
+          value={getValues('position')}
+          onValueChange={(v) => {
+            setValue('position', v)
+            trigger('position')
           }}
         />
-        <Select
+        <AsyncSelect
+          label="Deparment"
+          placeholder="Select Deparment"
+          labelRequired
+          action={organizationService.fetchDepartments}
+          converter={emmbedToOptions}
+          name="department"
+          error={errors.department?.message}
+          value={getValues('department')}
+          onValueChange={(v) => {
+            setValue('department', v)
+            trigger('department')
+          }}
+        />
+        <AsyncSelect
           label="Job Level"
-          labelRequired
           placeholder="Select Job Level"
-          hideSearch
-          options={organizationoStore.master.jobLevels.map((el) => ({ label: `${el.name}`, value: el.oid }))}
-          name="jobLevelId"
-          error={errors.jobLevelId?.message}
-          value={getValues('jobLevelId')}
-          onChange={(v) => {
-            setValue('jobLevelId', v.toString())
-            trigger('jobLevelId')
+          labelRequired
+          action={organizationService.fetchJobLevels}
+          converter={emmbedToOptions}
+          name="jobLevel"
+          error={errors.jobLevel?.message}
+          value={getValues('jobLevel')}
+          onValueChange={(v) => {
+            setValue('jobLevel', v)
+            trigger('jobLevel')
           }}
         />
-        <Select
+        <AsyncSelect
           label="Employment Type"
-          labelRequired
           placeholder="Select Employment Type"
-          hideSearch
-          options={organizationoStore.master.jobTypes.filter((el) => el.status === 1).map((el) => ({ label: `${el.name}`, value: el.oid }))}
-          name="jobTypeId"
-          error={errors.jobTypeId?.message}
-          value={getValues('jobTypeId')}
-          onChange={(v) => {
-            setValue('jobTypeId', v.toString())
-            trigger('jobTypeId')
+          labelRequired
+          action={organizationService.fetchJobLevels}
+          converter={emmbedToOptions}
+          name="jobType"
+          error={errors.jobType?.message}
+          value={getValues('jobType')}
+          onValueChange={(v) => {
+            setValue('jobType', v)
+            trigger('jobType')
           }}
         />
         <AsyncSelect
           label="City"
-          labelRequired
           placeholder="Select City"
-          fetcher={masterService.fetchCities}
-          converter={(data: any) => data.map((el: any) => ({ label: `${el.name}, ${el.province}`, value: el.oid }))}
+          labelRequired
+          searchMinCharacter={3}
+          action={masterService.fetchCities}
+          converter={emmbedToOptions}
           name="cityId"
-          error={errors.cityId?.message}
-          value={getValues('cityId')}
-          initialOptions={initialCity ? [{ label: `${initialCity.name}, ${initialCity.province}`, value: initialCity.oid }] : []}
+          error={errors.city?.message}
+          value={getValues('city')}
           onChange={(v) => {
-            setValue('cityId', v.toString())
-            trigger('cityId')
+            setValue('city', v)
+            trigger('city')
           }}
         />
         <InputDate
           label="Join Date"
+          placeholder="Join Date"
           labelRequired
           error={errors.joinDate?.message}
           popoverDirection="up"
@@ -143,6 +137,7 @@ const EmployeeDetailsForm: React.FC<{
         />
         <InputDate
           label="Expiry Date"
+          placeholder="Expiry Date"
           error={errors.expiryDate?.message}
           popoverDirection="up"
           displayFormat="DD/MM/YYYY"

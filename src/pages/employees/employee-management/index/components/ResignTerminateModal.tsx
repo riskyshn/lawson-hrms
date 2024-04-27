@@ -1,8 +1,9 @@
-import { employeeService } from '@/services'
-import { useOrganizationStore } from '@/store'
+import { YUP_OPTION_OBJECT } from '@/constants/globals'
+import { employeeService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Modal, ModalFooter, ModalHeader, Select, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, AsyncSelect, Button, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -14,7 +15,7 @@ type ModalProps = {
 }
 
 const schema = yup.object().shape({
-  jobTypeId: yup.string().required().label('Employment status'),
+  jobType: YUP_OPTION_OBJECT.required().label('Employment status'),
   reason: yup.string().required(),
 })
 
@@ -22,10 +23,6 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
-
-  const {
-    master: { jobTypes },
-  } = useOrganizationStore()
 
   const {
     register,
@@ -68,24 +65,21 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
 
       <div className="grid grid-cols-1 gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Select
+        <AsyncSelect
           label="Select Status"
           labelRequired
           placeholder="Status"
           hideSearch
-          name="jobTypeId"
-          error={errors.jobTypeId?.message}
-          value={getValues('jobTypeId')}
-          onChange={(v) => {
-            setValue('jobTypeId', v.toString())
-            trigger('jobTypeId')
+          action={organizationService.fetchJobTypes}
+          converter={emmbedToOptions}
+          params={{ status: 2 }}
+          name="jobType"
+          error={errors.jobType?.message}
+          value={getValues('jobType')}
+          onValueChange={(v) => {
+            setValue('jobType', v)
+            trigger('jobType')
           }}
-          options={jobTypes
-            .filter((el) => el.status === 2)
-            .map((el) => ({
-              label: el.name || '',
-              value: el.oid,
-            }))}
         />
 
         <Textarea

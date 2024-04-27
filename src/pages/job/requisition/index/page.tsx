@@ -2,9 +2,13 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { vacancyService } from '@/services'
-import { useOrganizationStore } from '@/store'
-import { Button, Select, useAsyncSearch, usePagination } from 'jobseeker-ui'
+import useAsyncSearch from '@/core/hooks/use-async-search'
+import useOptionSearchParam from '@/core/hooks/use-option-search-params'
+import usePagination from '@/core/hooks/use-pagination'
+import { organizationService, vacancyService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
+import genOptions from '@/utils/gen-options'
+import { AsyncSelect, Button, Select } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
@@ -15,24 +19,22 @@ import Table from './components/Table'
 export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
-  const search = searchParams.get('search') || undefined
-  const department = searchParams.get('department') || undefined
-  const status = searchParams.get('status') || undefined
-
-  const { master } = useOrganizationStore()
-
   const [selectedToShowHistoryModal, setSelectedToShowHistoryModal] = useState<IVacancy | null>(null)
+
+  const search = searchParams.get('search')
+  const [department, setDepartment, rawDepartment] = useOptionSearchParam('department')
+  const [status, setStatus, rawStatus] = useOptionSearchParam('status')
 
   const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch(
     vacancyService.fetchVacancies,
-    { limit: 20, status, departmentId: department, isRequisition: 1 },
+    { limit: 20, status: status?.value, departmentId: department?.value, isRequisition: 1 },
     search,
   )
 
   const pagination = usePagination({
     pathname: '/job/requisition',
     totalPage: pageData?.totalPages,
-    params: { search, department, status },
+    params: { search, department: rawDepartment, status: rawStatus },
   })
 
   return (
@@ -84,28 +86,20 @@ export const Component: React.FC = () => {
               filter={
                 open && (
                   <div className="grid grid-cols-2 gap-3 p-3">
-                    <Select
+                    <AsyncSelect
                       placeholder="All Departement"
                       withReset
+                      action={organizationService.fetchDepartments}
+                      converter={emmbedToOptions}
                       value={department}
-                      onChange={(e) => {
-                        searchParams.set('department', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={master.departments.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+                      onChange={setDepartment}
                     />
                     <Select
                       placeholder="All Status"
                       withReset
-                      value={status}
-                      onChange={(e) => {
-                        searchParams.set('status', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                      options={['Progress', 'Approved', 'Published', 'Draft', 'Canceled', 'Rejected'].map((el) => ({
-                        label: el,
-                        value: el.toLowerCase(),
-                      }))}
+                      value={status?.value}
+                      onChange={setStatus}
+                      options={genOptions(['Progress', 'Approved', 'Published', 'Draft', 'Canceled', 'Rejected'])}
                     />
                   </div>
                 )

@@ -58,7 +58,7 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidat
       })
       .catch((error: any) => {
         const errorMessage = error.response?.data?.meta?.message || error.message
-        toast(errorMessage, { color: 'error', position: 'top-right' })
+        toast(errorMessage, { color: 'error' })
       })
       .finally(() => {
         setLoading(false)

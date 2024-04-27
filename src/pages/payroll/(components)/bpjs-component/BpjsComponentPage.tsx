@@ -1,21 +1,19 @@
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useAsyncAction from '@/core/hooks/use-async-action'
 import { payrollService } from '@/services'
-import { usePayrollStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Button, Card, CardBody, CardFooter, Input, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
-const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: el }))
+const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: String(el) }))
 const BpjsComponentPage: React.FC = () => {
   const [jkk, setJkk] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  const {
-    master: { bpjsComponent },
-    refresh,
-  } = usePayrollStore()
+  const [bpjsComponent, componentLoading, refresh] = useAsyncAction(payrollService.fetchBpjsComponent)
+
   const toast = useToast()
 
   useEffect(() => {
@@ -26,7 +24,7 @@ const BpjsComponentPage: React.FC = () => {
     setLoading(true)
     try {
       await payrollService.updateBpjsComponent({ bpjsComponentId: bpjsComponent?.bpjsComponentId, jkk: { rate: jkk } })
-      await refresh()
+      refresh()
       toast('BPJS component updated successfully.', { color: 'success' })
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
@@ -55,7 +53,7 @@ const BpjsComponentPage: React.FC = () => {
               options={jkkOptions}
               hideSearch
               name="jkk"
-              value={jkk}
+              value={String(jkk)}
               onChange={(v) => setJkk(Number(v))}
             />
             <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
@@ -97,7 +95,13 @@ const BpjsComponentPage: React.FC = () => {
           </CardBody>
 
           <CardFooter>
-            <Button type="button" color="primary" disabled={loading} loading={loading} onClick={submit}>
+            <Button
+              type="button"
+              color="primary"
+              disabled={loading || componentLoading}
+              loading={loading || componentLoading}
+              onClick={submit}
+            >
               Save Changes
             </Button>
           </CardFooter>

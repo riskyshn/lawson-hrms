@@ -1,4 +1,4 @@
-import { useOrganizationStore } from '@/store'
+import { organizationService } from '@/services'
 import { BaseInput, Button, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -9,7 +9,6 @@ const RecruitmentStageItem: React.FC<{
   isNew?: boolean
   onRemove?: () => void
 }> = ({ type, item, isNew, onRemove }) => {
-  const { createRecruitmentStage, updateRecruitmentStage, deleteRecruitmentStage } = useOrganizationStore()
   const toast = useToast()
 
   const [value, setValue] = useState(item?.name || '')
@@ -20,12 +19,12 @@ const RecruitmentStageItem: React.FC<{
     if (value.trim().length === 0) return
     setLoading(true)
     try {
-      await createRecruitmentStage({ type, name: value.trim() })
-      toast('Recruitment Stage created successfully', { color: 'success', position: 'top-right' })
+      await organizationService.createRecruitmentStage({ type, name: value.trim() })
+      toast('Recruitment Stage created successfully', { color: 'success' })
       onRemove?.()
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
-      toast(errorMessage, { color: 'error', position: 'top-right' })
+      toast(errorMessage, { color: 'error' })
       setLoading(false)
     }
   }
@@ -34,11 +33,11 @@ const RecruitmentStageItem: React.FC<{
     if (value.trim().length === 0 || !item) return
     setLoading(true)
     try {
-      await updateRecruitmentStage(item.oid, { type: item.type, name: value.trim() })
-      toast('Recruitment Stage updated successfully', { color: 'success', position: 'top-right' })
+      await organizationService.updateRecruitmentStage(item.oid, { type: item.type, name: value.trim() })
+      toast('Recruitment Stage updated successfully', { color: 'success' })
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
-      toast(errorMessage, { color: 'error', position: 'top-right' })
+      toast(errorMessage, { color: 'error' })
     }
     setLoading(false)
   }
@@ -50,7 +49,7 @@ const RecruitmentStageItem: React.FC<{
     if (!item) return
 
     setDeleteLoading(true)
-    await deleteRecruitmentStage(item?.oid)
+    await organizationService.deleteRecruitmentStage(item.oid)
     setDeleteLoading(false)
   }
 

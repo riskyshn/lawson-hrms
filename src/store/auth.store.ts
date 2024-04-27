@@ -1,10 +1,11 @@
-import { accountService, authService } from '@/services'
+import { accountService, authService, organizationService } from '@/services'
 import mountStoreDevtool from '@/utils/mount-store-devtool'
 import { create } from 'zustand'
-import { useMasterStore, useOrganizationStore, usePayrollStore, useTokenStore } from '.'
+import { useTokenStore } from '.'
 
 interface AuthStore {
   user: IUser | null
+  company: ICompany | null
   login: (payload: { email: string; password: string }) => Promise<void>
   refreshAuth: () => Promise<void>
   logout: () => void
@@ -12,30 +13,24 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
+  company: null,
 
   login: async (payload) => {
     const { data } = await authService.login(payload)
-    set((state) => ({ ...state, user: data.user }))
+    set({ user: data.user })
     useTokenStore.getState().setTokens(data)
-    await Promise.all([useOrganizationStore.getState().init(), useMasterStore.getState().init(), usePayrollStore.getState().init()])
+    const company = await organizationService.fetchCompany()
+    set({ company })
   },
 
   refreshAuth: async () => {
-    const { data } = await accountService.fetchProfile()
-    set((state) => ({ ...state, user: data }))
-    await Promise.all([
-      useOrganizationStore.getState().refresh(),
-      useMasterStore.getState().refresh(),
-      usePayrollStore.getState().refresh(),
-    ])
+    const [auth, company] = await Promise.all([accountService.fetchProfile(), organizationService.fetchCompany()])
+    set((state) => ({ ...state, user: auth.data, company }))
   },
 
   logout: () => {
     useTokenStore.getState().clearTokens()
-    set((state) => ({ ...state, user: null }))
-    useOrganizationStore.getState().clean()
-    useMasterStore.getState().clean()
-    usePayrollStore.getState().clean()
+    set({ company: null, user: null })
   },
 }))
 

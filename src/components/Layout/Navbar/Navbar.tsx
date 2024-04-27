@@ -8,14 +8,14 @@ import NavbarProfile from './NavbarProfile'
 // import NavbarNotification from './NavbarNotification'
 import LogoFull from '@/components/Logo/LogoFull'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
-import { useOrganizationStore } from '@/store'
+import { useAuthStore } from '@/store'
 import NavbarNotification from './NavbarNotification'
 
 const Navbar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
   const [open, setOpen] = useState(false)
   const pubSub = usePubSub()
-  const { company } = useOrganizationStore()
+  const { company } = useAuthStore()
 
   const navigate = useNavigate()
   const router = useLocation()

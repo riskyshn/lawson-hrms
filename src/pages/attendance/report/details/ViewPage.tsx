@@ -2,8 +2,9 @@ import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import usePagination from '@/core/hooks/use-pagination'
 import { attendanceService, employeeService } from '@/services'
-import { BaseInputDateRange, Button, CardBody, usePagination, useToast } from 'jobseeker-ui'
+import { BaseInputDateRange, Button, CardBody, useToast } from 'jobseeker-ui'
 import { FileSpreadsheetIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
@@ -123,7 +124,7 @@ const ViewPage: React.FC = () => {
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
-      toast(errorMessage, { color: 'error', position: 'top-right' })
+      toast(errorMessage, { color: 'error' })
       setIsExporting(false)
     }
   }
