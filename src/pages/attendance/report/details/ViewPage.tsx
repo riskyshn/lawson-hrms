@@ -47,6 +47,7 @@ const ViewPage: React.FC = () => {
             end_date: filterDate?.endDate,
             page: pagination.currentPage,
           })
+          // @ts-expect-error
           setPageData(response)
         }
         setIsLoading(false)

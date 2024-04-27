@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
+import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import { masterService, organizationService, reportService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
@@ -58,15 +60,12 @@ export const Component: React.FC = () => {
   })
 
   const [searchParams, setSearchParam] = useSearchParams()
-  const filterProvince = searchParams.get('province') || undefined
-  const filterEducation = searchParams.get('education') || undefined
-  const filterGender = searchParams.get('gender') || undefined
-  const filterAge = searchParams.get('age') || undefined
-  const filterExperience = searchParams.get('experience') || undefined
-  const filterDepartment = searchParams.get('department') || undefined
-
-  const { educatioLevels, genders } = useMasterStore()
-  const { master } = useOrganizationStore()
+  const [province, setProvince] = useOptionSearchParam('province')
+  const [education, setEducation] = useOptionSearchParam('education')
+  const [gender, setGender] = useOptionSearchParam('gender')
+  const [age] = useOptionSearchParam('age')
+  const [experience] = useOptionSearchParam('experience')
+  const [department, setDepartment] = useOptionSearchParam('department')
 
   type ChartData = {
     province: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
@@ -92,7 +91,7 @@ export const Component: React.FC = () => {
       reportService.fetchProvince({
         start_date: filterDates.province.startDate,
         end_date: filterDates.province.endDate,
-        province: filterProvince,
+        province: province?.value,
       }),
     )
 
@@ -118,7 +117,7 @@ export const Component: React.FC = () => {
       reportService.fetchAge({
         start_date: filterDates.age.startDate,
         end_date: filterDates.age.endDate,
-        range: filterAge,
+        range: age?.value,
       }),
     )
 
@@ -144,7 +143,7 @@ export const Component: React.FC = () => {
       reportService.fetchEducation({
         start_date: filterDates.education.startDate,
         end_date: filterDates.education.endDate,
-        education: filterEducation,
+        education: education?.value,
       }),
     )
 
@@ -170,7 +169,7 @@ export const Component: React.FC = () => {
       reportService.fetchGender({
         start_date: filterDates.gender.startDate,
         end_date: filterDates.gender.endDate,
-        gender: filterGender,
+        gender: gender?.value,
       }),
     )
 
@@ -196,7 +195,7 @@ export const Component: React.FC = () => {
       reportService.fetchExperience({
         start_date: filterDates.experience.startDate,
         end_date: filterDates.experience.endDate,
-        range: filterExperience,
+        range: experience?.value,
       }),
     )
 
@@ -222,7 +221,7 @@ export const Component: React.FC = () => {
       reportService.fetchDepartment({
         start_date: filterDates.department.startDate,
         end_date: filterDates.department.endDate,
-        department: filterDepartment,
+        department: department?.value,
       }),
     )
 
@@ -244,27 +243,27 @@ export const Component: React.FC = () => {
 
   useEffect(() => {
     fetchProvinceData()
-  }, [filterDates.province, filterProvince])
+  }, [filterDates.province, province?.value])
 
   useEffect(() => {
     fetchAgeData()
-  }, [filterDates.age, filterAge])
+  }, [filterDates.age, age?.value])
 
   useEffect(() => {
     fetchEducationData()
-  }, [filterDates.education, filterEducation])
+  }, [filterDates.education, education?.value])
 
   useEffect(() => {
     fetchGenderData()
-  }, [filterDates.gender, filterGender])
+  }, [filterDates.gender, gender?.value])
 
   useEffect(() => {
     fetchExperienceData()
-  }, [filterDates.experience, filterExperience])
+  }, [filterDates.experience, experience?.value])
 
   useEffect(() => {
     fetchDepartmentData()
-  }, [filterDates.department, filterDepartment])
+  }, [filterDates.department, department?.value])
 
   const handleDateChange = (selectedDate: DateValueType, chartType: string) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -305,7 +304,7 @@ export const Component: React.FC = () => {
             onValueChange={setProvince}
           />
         ) : chartType === 'education' ? (
-          <Select
+          <AsyncSelect
             className="text-left"
             placeholder="All Education"
             withReset
@@ -316,7 +315,7 @@ export const Component: React.FC = () => {
             onValueChange={setEducation}
           />
         ) : chartType === 'gender' ? (
-          <Select
+          <AsyncSelect
             className="text-left"
             placeholder="Select Gender"
             withReset
@@ -370,7 +369,7 @@ export const Component: React.FC = () => {
             }}
           />
         ) : chartType === 'department' ? (
-          <Select
+          <AsyncSelect
             className="text-left"
             placeholder="All Department"
             withReset
