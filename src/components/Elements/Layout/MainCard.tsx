@@ -48,13 +48,13 @@ const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
   return (
     <>
       <ScrollVisibilityContainer distance={distance - 64} containerClassName="border-b">
-        <div className="grid grid-cols-1 rounded-t-lg bg-white/80 backdrop-blur">
+        <div className="grid grid-cols-1 rounded-t-lg bg-white">
           {typeof header === 'function' ? header(isOpenFilter, toggleOpenFilter) : header}
         </div>
       </ScrollVisibilityContainer>
 
       <Card>
-        <div className="relative z-10 grid grid-cols-1 rounded-t-lg border-b bg-white/80 backdrop-blur">
+        <div className="relative z-10 grid grid-cols-1 rounded-t-lg border-b bg-white">
           {typeof header === 'function' ? header(isOpenFilter && scrollY < distance - 64, toggleOpenFilter) : header}
         </div>
 

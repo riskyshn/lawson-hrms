@@ -5,17 +5,23 @@ import { twMerge } from 'tailwind-merge'
 type PropTypes = {
   show?: boolean
   spinnerSize?: number
+  strokeWidth?: number
   className?: string
   spinnerClassName?: string
   children?: React.ReactNode
 }
 
-const LoadingScreen: React.FC<PropTypes> = ({ show, className, spinnerClassName, spinnerSize = 40, children }) => {
+const LoadingScreen: React.FC<PropTypes> = ({ show, className, spinnerClassName, spinnerSize = 40, strokeWidth = 1.5, children }) => {
   if (!show) return null
 
   return (
     <div className={twMerge('flex flex-col items-center justify-center py-48', className)}>
-      <Spinner height={spinnerSize} width={spinnerSize} className={twMerge('text-primary-600', spinnerClassName)} />
+      <Spinner
+        height={spinnerSize}
+        width={spinnerSize}
+        className={twMerge('text-primary-600', spinnerClassName)}
+        strokeWidth={strokeWidth}
+      />
       {children}
     </div>
   )

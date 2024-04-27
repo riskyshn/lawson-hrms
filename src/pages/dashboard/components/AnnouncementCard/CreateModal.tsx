@@ -100,7 +100,17 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onRefresh }) =
           />
         </InputWrapper>
 
-        <Editor label="Content" error={errors.content?.message} labelRequired apiKey={TINYMCE_API_KEY} {...register('content')} />
+        <Editor
+          label="Content"
+          error={errors.content?.message}
+          labelRequired
+          apiKey={TINYMCE_API_KEY}
+          {...register('content')}
+          onValueChange={(value) => {
+            setValue('content', value)
+            trigger('content')
+          }}
+        />
       </div>
       <ModalFooter>
         <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>

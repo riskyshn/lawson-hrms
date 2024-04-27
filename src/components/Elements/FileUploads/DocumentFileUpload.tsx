@@ -127,7 +127,13 @@ const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ type, value, er
       </div>
 
       {!selectedImage && !valueValidUrl && (
-        <input ref={inputRef} aria-hidden="true" type="file" className="absolute inset-0 opacity-0" onChange={handleChange} />
+        <input
+          ref={inputRef}
+          aria-hidden="true"
+          type="file"
+          className="absolute inset-0 z-[3] h-full w-full opacity-0"
+          onChange={handleChange}
+        />
       )}
     </div>
   )

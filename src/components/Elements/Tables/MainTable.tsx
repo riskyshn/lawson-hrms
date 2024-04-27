@@ -53,7 +53,7 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
         </table>
       )}
 
-      <LoadingScreen show={loading} className="flex-1 p-0" />
+      <LoadingScreen show={loading} className="flex-1 p-0" spinnerSize={80} strokeWidth={1} />
 
       {!loading && bodyItems.length === 0 && (
         <div className="flex flex-1 flex-col items-center justify-center">
