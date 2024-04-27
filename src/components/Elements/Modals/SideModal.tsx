@@ -22,7 +22,7 @@ const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ show, onClose, childr
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/25 backdrop-blur" />
+          <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex h-full justify-end">

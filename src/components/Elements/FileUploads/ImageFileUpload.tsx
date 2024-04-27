@@ -150,7 +150,7 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
           ref={inputRef}
           aria-hidden="true"
           type="file"
-          className="absolute inset-0 opacity-0"
+          className="absolute inset-0 z-[3] h-full w-full opacity-0"
           onChange={handleImageChange}
           accept="image/png, image/jpeg, image/jpg"
         />

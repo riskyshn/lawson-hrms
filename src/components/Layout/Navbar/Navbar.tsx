@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
   // }
 
   return (
-    <BaseNavbar className="bg-white/80 backdrop-blur">
+    <BaseNavbar>
       <NavbarBrand>
         <Link to="/">
           {!company?.logo?.file && <LogoFull height={40} />}

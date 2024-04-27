@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
   const navigate = useNavigate()
 
   return (
-    <BaseSidebar className="bg-white/80 backdrop-blur">
+    <BaseSidebar>
       <SidebarHeader wrapperClassName="justify-between">
         <Link to="/" className="block">
           <LogoFull height={40} />
