@@ -16,7 +16,7 @@ const Card: React.FC<{
 
 const StatisticCards: React.FC<{ filterDate: { startDate: string; endDate: string } }> = ({ filterDate }) => {
   const [loading, setLoading] = useState(true)
-  const [data, setData] = useState<any>(null)
+  const [data, setData] = useState<IRecruitmentFunnel>()
   const [error, setError] = useState<any>(null)
 
   useEffect(() => {
@@ -42,20 +42,15 @@ const StatisticCards: React.FC<{ filterDate: { startDate: string; endDate: strin
     }
     if (!data) return null
 
-    const stages = [
-      { label: 'Interview', dataKey: 'interview' },
-      { label: 'Applicant', dataKey: 'applicant' },
-      { label: 'Assessment', dataKey: 'assessment' },
-      { label: 'Offering', dataKey: 'offering' },
-      { label: 'Onboarding', dataKey: 'onboarding' },
-    ]
-
     const colors = ['green', 'amber', 'rose', 'red', 'gray']
 
-    return stages.map((stage, index) => {
-      const stageData = data[stage.dataKey]
-      return <Card key={index} label={`${stage.label}`} value={stageData.total} className={`text-white bg-${colors[index]}-600`} />
-    })
+    return data?.total ? (
+      data.total.map((stage, index) => (
+        <Card key={index} label={`${stage.label.toUpperCase()}`} value={stage.total} className={`text-white bg-${colors[index]}-600`} />
+      ))
+    ) : (
+      <div></div>
+    )
   }
 
   return (

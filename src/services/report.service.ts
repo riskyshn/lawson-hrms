@@ -20,15 +20,17 @@ type FetchReportParams = IPaginationParam & {
 }
 
 export const fetchRecruitmentFunnel = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
-  return axios.get(`/summary/recruitment-funnel`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: IRecruitmentFunnel }>(`/summary/recruitment-funnel`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchNumberHired = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
-  return axios.get(`/summary/number-of-hired/datatable`, { params, signal }).then((response) => response.data.data)
+  return axios
+    .get<{ data: IPaginationResponse<INumberOfHiredDataTable> }>(`/summary/number-of-hired/datatable`, { params, signal })
+    .then((response) => response.data.data)
 }
 
 export const fetchNumberHiredChart = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
-  return axios.get(`/summary/number-of-hired/chart`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: INumberOfHired }>(`/summary/number-of-hired/chart`, { params, signal }).then((response) => response.data.data)
 }
 
 export const fetchAge = (params?: FetchReportParams, signal?: GenericAbortSignal) => {

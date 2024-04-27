@@ -1,8 +1,7 @@
 interface ITimezone {
   oid: string
   title: string
-  createdAt?: string
-  updatedAt?: string
+  code: string
 }
 
 interface ISchedule {
@@ -11,11 +10,11 @@ interface ISchedule {
   createdAt?: string
   updatedAt?: string
   timezone?: ITimezone
-  details?: ScheduleDetail[]
+  details?: IScheduleDetail[]
   count: string
 }
 
-interface ScheduleDetail {
+interface IScheduleDetail {
   day?: number
   start?: string
   end?: string
@@ -24,10 +23,10 @@ interface ScheduleDetail {
 
 interface IAttendance {
   employeeId?: string
-  records?: AttendanceRecord[]
+  records?: IAttendanceRecord[]
 }
 
-interface AttendanceRecord {
+interface IAttendanceRecord {
   oid?: string
   attendanceType?: string
   earlyClockoutMinutes?: number
@@ -39,42 +38,38 @@ interface AttendanceRecord {
   status?: string
   rejectedReason?: string
   timezoneTime?: string
-  employee?: EmployeeInfo
+  employee?: IEmployeeInfo
 }
 
-interface EmployeeInfo {
+interface IEmployeeInfo {
   name?: string
   employeeCode?: string
   employment?: EmploymentInfo
 }
 
 interface EmploymentInfo {
-  schedule?: ScheduleInfo
-  branch?: BranchInfo
-  department?: {
-    oid: string
-    name?: string
-  }
-  position?: string | null
+  schedule?: IScheduleInfo
+  branch?: IBranchInfo
+  department?: IDepartment
+  position?: IPosition
 }
 
-interface ScheduleInfo {
+interface IScheduleInfo {
+  oid?: string
   name?: string
   timezone?: ITimezone
 }
 
-interface BranchInfo {
+interface IBranchInfo {
+  oid?: string
   name?: string
   coordinate?: ICoordinate
-}
-
-interface PositionInfo {
-  name?: string
+  range?: number
 }
 
 interface ILeave {
-  leaveType?: LeaveType
-  employee?: EmployeeInfo
+  leaveType?: ILeaveType
+  employee?: IEmployeeInfo
   startDate?: string
   endDate?: string
   attachment?: string
@@ -86,7 +81,7 @@ interface ILeave {
   updatedAt?: string
 }
 
-interface LeaveType {
+interface ILeaveType {
   oid?: string
   title?: string
   isBalance?: boolean
@@ -94,17 +89,17 @@ interface LeaveType {
   isSalaryDeduction?: boolean
 }
 
-interface IEmployeeHistoryAttendance {
+interface IEmployeeHistory {
   date?: string
-  records?: AttendanceRecord[]
+  records?: IAttendanceRecord[]
 }
 
 interface IEmployeeLeave {
   oid: string
   createdAt?: string
   updatedAt?: string
-  leaveType?: LeaveType
-  employee?: EmployeeInfo
+  leaveType?: ILeaveType
+  employee?: IEmployeeInfo
   startDate?: string
   endDate?: string
   attachment?: string
@@ -127,4 +122,56 @@ interface IFilterDate {
 interface IStatistic {
   title?: string
   count?: number
+}
+
+interface IBranch {
+  oid: string
+  name: string
+  coordinate: ICoordinate
+  range: number
+}
+
+interface IPosition {
+  oid: string
+  name: string
+}
+
+interface IDepartment {
+  oid: string
+  name: string
+}
+
+interface IEmployeeHistoryAttendance {
+  oid: string
+  date: string
+  employee: IEmployeeInfo
+  attendanceData: IAttendanceData[]
+  leaveData: ILeaveData
+  logType: string
+}
+
+interface IAttendanceData {
+  oid: string
+  attendanceType: string
+  earlyClockoutMinutes: number
+  lateMinutes: number
+  workHours: number
+  inOffice: boolean
+  photo: string
+  status: string
+  rejectedReason: string | null
+  timezoneTime: string
+  coordinate: ICoordinate
+}
+
+interface ILeaveData {
+  oid: string
+  leaveType: ILeaveType
+  startDate: string
+  endDate: string
+  attachment: string
+  note: string
+  status: string
+  duration: number
+  rejectedReason: string | null
 }

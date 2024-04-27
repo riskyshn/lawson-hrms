@@ -8,6 +8,14 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
   flag,
   documents,
 }) => {
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString)
+    const day = date.getDate().toString().padStart(2, '0')
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
+    const year = date.getFullYear().toString()
+    return `${day}/${month}/${year}`
+  }
+
   return (
     <Card className="h-full overflow-hidden">
       {flag !== 'resume' && flag !== 'document' ? (
@@ -94,12 +102,12 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
                         <tr className="odd:bg-gray-50">
                           <th className="whitespace-nowrap p-3 text-left">Start Date</th>
                           <td className="p-3">:</td>
-                          <td className="w-full p-3">{education.startDate || '-'}</td>
+                          <td className="w-full p-3">{formatDate(education.startDate) || '-'}</td>
                         </tr>
                         <tr className="odd:bg-gray-50">
                           <th className="whitespace-nowrap p-3 text-left">End Date</th>
                           <td className="p-3">:</td>
-                          <td className="w-full p-3">{education.graduateDate || '-'}</td>
+                          <td className="w-full p-3">{formatDate(education.graduateDate) || '-'}</td>
                         </tr>
                         {items?.educations && items?.educations.length > 1 && index !== items?.educations.length - 1 && (
                           <tr className="h-10 odd:bg-gray-50">
@@ -129,12 +137,12 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
                         <tr className="odd:bg-gray-50">
                           <th className="whitespace-nowrap p-3 text-left">Start Date</th>
                           <td className="p-3">:</td>
-                          <td className="w-full p-3">{experience.startDate || '-'}</td>
+                          <td className="w-full p-3">{formatDate(experience.startDate) || '-'}</td>
                         </tr>
                         <tr className="odd:bg-gray-50">
                           <th className="whitespace-nowrap p-3 text-left">End Date</th>
                           <td className="p-3">:</td>
-                          <td className="w-full p-3">{experience.endDate || '-'}</td>
+                          <td className="w-full p-3">{formatDate(experience.endDate) || '-'}</td>
                         </tr>
                         {items?.experiences && items?.experiences.length > 1 && index !== items?.experiences.length - 1 && (
                           <tr className="h-10 odd:bg-gray-50">

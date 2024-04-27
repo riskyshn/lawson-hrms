@@ -48,9 +48,15 @@ export const fetchTimezones = (params?: IPaginationParam, signal?: GenericAbortS
  * Attendance Management
  *
  */
-export const fetchAttendanceManagement = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
+export const fetchClientVisitAndOvertime = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: IPaginationResponse<IAttendance> }>(`/employer/history`, { params, signal })
+    .then((response) => response.data.data)
+}
+
+export const fetchAttendanceManagement = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
+  return axios
+    .get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(`/logs`, { params, signal })
     .then((response) => response.data.data)
 }
 
@@ -101,7 +107,12 @@ export const fetchEmployeeAttendanceHistories = (
 ) => {
   params = { start_date: '2024-01-01', end_date: '2030-01-01', ...params }
   return axios
-    .get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(`/employer/history/${oid}`, { params })
+    .get<{
+      data: IPaginationResponse<{
+        date?: string
+        records?: IAttendanceRecord[]
+      }>
+    }>(`/employer/history/${oid}`, { params })
     .then((response) => response.data.data)
 }
 

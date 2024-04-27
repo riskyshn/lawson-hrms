@@ -19,7 +19,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
   const [timezones, setTimezones] = useState<ITimezone[]>()
   const [selectTimezoneId, setSelectTimezoneId] = useState<string | number | undefined>(items?.timezone?.oid)
   const { register, handleSubmit } = useForm()
-  const [daySchedules, setDaySchedules] = useState<ScheduleDetail[]>(items?.details || [])
+  const [daySchedules, setDaySchedules] = useState<IScheduleDetail[]>(items?.details || [])
 
   useEffect(() => {
     fetchTimezone()
