@@ -6,10 +6,11 @@ type ActionReturnType<T extends (...args: any[]) => any> = ReturnType<T>
 export default function useAsyncAction<T extends (...args: any[]) => Promise<any>>(
   action: T,
   ...params: Parameters<T>
-): [Awaited<ActionReturnType<T>> | undefined, boolean] {
+): [Awaited<ActionReturnType<T>> | undefined, boolean, () => void] {
   const [response, setResponse] = useState<any>()
   const [error, setError] = useState<any>()
   const [loading, setLoading] = useState(true)
+  const [switchData, setSwitch] = useState(true)
 
   useDeepCompareEffect(() => {
     const load = async () => {
@@ -24,9 +25,9 @@ export default function useAsyncAction<T extends (...args: any[]) => Promise<any
     }
 
     load()
-  }, [params, action])
+  }, [params, action, switchData])
 
   if (error) throw error
 
-  return [response, loading]
+  return [response, loading, () => setSwitch((v) => !v)]
 }

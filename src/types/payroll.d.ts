@@ -16,6 +16,14 @@ interface IBPJSComponent {
   bpjsComponentId: string
 }
 
+interface IPPH21 {
+  oid: string
+  name?: string
+  description?: string
+  category?: string
+  yearValidRegulation?: string
+}
+
 interface IBenefitComponent {
   oid: string
   name?: string

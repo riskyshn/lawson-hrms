@@ -1,5 +1,7 @@
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import { BASE_SALARY_TYPE_OPTIONS, EMPLOYEE_TAX_STATUS_OPTIONS, TAX_METHOD_OPTIONS } from '@/constants/options'
-import { usePayrollStore } from '@/store'
+import useAsyncAction from '@/core/hooks/use-async-action'
+import { payrollService } from '@/services'
 import numberToCurrency from '@/utils/number-to-currency'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, Select } from 'jobseeker-ui'
@@ -7,7 +9,6 @@ import { HelpCircleIcon } from 'lucide-react'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import getCategory from '../utils/get-category'
 
 const schema = yup.object({
   taxMethod: yup.string().required().label('Tax Method'),
@@ -60,14 +61,13 @@ const PayrollDataForm: React.FC<{
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
 
-  const {
-    master: { bpjsComponent },
-  } = usePayrollStore()
+  const [bpjsComponent] = useAsyncAction(payrollService.fetchBpjsComponent)
+  const [pph21] = useAsyncAction(payrollService.fetchPPH21)
 
   useEffect(() => {
-    if (!props.defaultValue?.ptkpStatus) return
-    setValue('category', getCategory(props.defaultValue.ptkpStatus))
-  }, [props.defaultValue?.ptkpStatus, setValue])
+    if (!props.defaultValue?.category) return
+    setValue('category', props.defaultValue.category)
+  }, [props.defaultValue?.category, setValue])
 
   const onSubmit = handleSubmit(props.handleSubmit)
 
@@ -173,7 +173,7 @@ const PayrollDataForm: React.FC<{
             value={getValues('ptkpStatus')}
             onChange={(v) => {
               setValue('ptkpStatus', v)
-              setValue('category', getCategory(v) || '')
+              setValue('category', pph21?.content.find((el) => el.name)?.category || '')
               trigger('ptkpStatus')
               trigger('category')
             }}
@@ -183,74 +183,78 @@ const PayrollDataForm: React.FC<{
         <Input label="Category" name="category" defaultValue={watch('category')} disabled />
       </CardBody>
 
-      <CardBody className="grid grid-cols-1 gap-2">
-        <div className="pb-2">
-          <h3 className="text-lg font-semibold">BPJS Configuration</h3>
-          <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
-        </div>
-        <div className="pb-2">
-          <h3 className="text-sm font-semibold">Paid by Employer</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
-            <Select
-              label="Jaminan Kecelakaan Kerja (JKK)"
-              options={options.jkk}
-              hideSearch
-              name="jkk"
-              error={errors.jkk?.message}
-              value={getValues('jkk')}
-              onChange={(v) => {
-                setValue('jkk', v)
-                trigger('jkk')
-              }}
-            />
+      <LoadingScreen show={!bpjsComponent} />
+
+      {!!bpjsComponent && (
+        <CardBody className="grid grid-cols-1 gap-2">
+          <div className="pb-2">
+            <h3 className="text-lg font-semibold">BPJS Configuration</h3>
+            <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
+          </div>
+          <div className="pb-2">
+            <h3 className="text-sm font-semibold">Paid by Employer</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
+              <Select
+                label="Jaminan Kecelakaan Kerja (JKK)"
+                options={options.jkk}
+                hideSearch
+                name="jkk"
+                error={errors.jkk?.message}
+                value={getValues('jkk')}
+                onChange={(v) => {
+                  setValue('jkk', v)
+                  trigger('jkk')
+                }}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
+              <Input
+                label="Jaminan Pensiun (JP)"
+                disabled
+                required
+                value={`${bpjsComponent?.paidByEmployer?.jp?.rate}%`}
+                help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}`}
+              />
+            </div>
+            <div className="mb-3">
+              <Input
+                label="Jaminan Kesehatan (KS)"
+                disabled
+                required
+                value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
+                help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}`}
+              />
+            </div>
+            <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('notParticipateBpjs')}>
+              Employee will not participate in BPJS KS Program{' '}
+              <span className="text-gray-300">
+                <HelpCircleIcon size={16} />
+              </span>
+            </InputCheckbox>
+          </div>
+
+          <div className="pb-1">
+            <h3 className="text-sm font-semibold">Paid by Employee</h3>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
+            <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
             <Input
               label="Jaminan Pensiun (JP)"
               disabled
-              required
-              value={`${bpjsComponent?.paidByEmployer?.jp?.rate}%`}
-              help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}`}
+              value={`${bpjsComponent?.paidByEmployee?.jp?.rate}%`}
+              help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}`}
             />
           </div>
-          <div className="mb-3">
-            <Input
-              label="Jaminan Kesehatan (KS)"
-              disabled
-              required
-              value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
-              help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}`}
-            />
-          </div>
-          <InputCheckbox className="text-gray-400" id="is-participate-bpjs" {...register('notParticipateBpjs')}>
-            Employee will not participate in BPJS KS Program{' '}
-            <span className="text-gray-300">
-              <HelpCircleIcon size={16} />
-            </span>
-          </InputCheckbox>
-        </div>
-
-        <div className="pb-1">
-          <h3 className="text-sm font-semibold">Paid by Employee</h3>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
           <Input
-            label="Jaminan Pensiun (JP)"
+            label="Jaminan Kesehatan (KS)"
             disabled
-            value={`${bpjsComponent?.paidByEmployee?.jp?.rate}%`}
-            help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}`}
+            value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
+            help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}`}
           />
-        </div>
-        <Input
-          label="Jaminan Kesehatan (KS)"
-          disabled
-          value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
-          help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}`}
-        />
-      </CardBody>
+        </CardBody>
+      )}
 
       <CardFooter className="gap-3">
         <Button type="button" color="primary" variant="light" className="w-32" onClick={props.handlePrev}>

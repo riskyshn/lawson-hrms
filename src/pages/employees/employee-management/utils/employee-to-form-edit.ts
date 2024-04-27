@@ -38,6 +38,7 @@ export async function employeeToFormEdit(employee: IEmployee) {
       jkk: employee.payroll?.bpjs?.paidByEmployer?.jkk?.rate || 0,
       notParticipateBpjs: !employee.payroll?.participateBpjs,
       ptkpStatus: employee.payroll?.taxConfig?.ptkpStatus || '',
+      category: employee.payroll?.taxConfig?.category || '',
       npwpNumber: employee.payroll?.taxConfig?.npwpNumber || '',
       employmentTaxStatus: employee.payroll?.taxConfig?.taxStatus?.oid || '',
       accountHolderName: employee.payroll?.bank?.accountHolderName || '',
