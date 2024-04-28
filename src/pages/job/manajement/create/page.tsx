@@ -1,14 +1,13 @@
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { vacancyService } from '@/services'
-import currencyToNumber from '@/utils/currency-to-number'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import moment from 'moment'
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
+import formDataToPayload from '../../utils/form-data-to-payload'
 
 export const Component: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
@@ -34,7 +33,7 @@ export const Component: React.FC = () => {
     if (!isLastStep) return
 
     try {
-      const processedData = processFormData(data)
+      const processedData = formDataToPayload(data)
       setIsSubmitLoading(true)
 
       const createdVacancy = await vacancyService.createVacancy(processedData)
@@ -44,24 +43,6 @@ export const Component: React.FC = () => {
       toast('An error occurred while creating the job vacancy.', { color: 'error' })
       setIsSubmitLoading(false)
     }
-  }
-
-  const processFormData = (data: Record<string, Record<string, any>>) => {
-    const obj: Record<string, any> = {}
-    Object.values(data).forEach((item) => {
-      for (const key in item) {
-        if (Object.prototype.hasOwnProperty.call(item, key)) {
-          obj[key] = item[key]
-        }
-      }
-    })
-
-    obj.expiredDate = moment(obj.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS')
-    obj.minimumSalary = currencyToNumber(obj.minimumSalary)
-    obj.maximumSalary = currencyToNumber(obj.maximumSalary)
-    obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
-
-    return obj
   }
 
   return (
