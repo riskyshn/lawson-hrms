@@ -1,16 +1,16 @@
 import emmbedToOption from '@/utils/emmbed-to-option'
 
-export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
+export function vacancyToFormEdit(vacancy: IVacancy, isRequisition?: boolean) {
   return {
     vacancyInformation: {
       vacancyName: vacancy.vacancyName || '',
-      rrNumber: vacancy.rrNumber || '',
-      departmentId: emmbedToOption(vacancy.department),
-      branchId: emmbedToOption(vacancy.branch),
-      jobLevelId: emmbedToOption(vacancy.jobLevel),
-      jobTypeId: emmbedToOption(vacancy.jobType),
-      workplacementTypeId: emmbedToOption(vacancy.workplacementType),
-      cityId: emmbedToOption(vacancy.city),
+      rrNumber: isRequisition ? vacancy.rrNumber : undefined,
+      department: emmbedToOption(vacancy.department),
+      branch: emmbedToOption(vacancy.branch),
+      jobLevel: emmbedToOption(vacancy.jobLevel),
+      jobType: emmbedToOption(vacancy.jobType),
+      workplacementType: emmbedToOption(vacancy.workplacementType),
+      city: emmbedToOption(vacancy.city),
       numberOfEmployeeNeeded: vacancy.numberOfEmployeeNeeded || 0,
       minimumSalary: vacancy.minimumSalary,
       maximumSalary: vacancy.maximumSalary,
@@ -18,7 +18,7 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       hideRangeSalary: !!vacancy.hideRangeSalary,
       negotiableSalary: !!vacancy.negotiableSalary,
       other: vacancy.other || '',
-      ...(withApprovals ? { approvals: vacancy.approvals?.users?.map((el) => el.oid) || [] } : {}),
+      ...(isRequisition ? { approvals: vacancy.approvals?.users?.map((el) => ({ label: el.name, value: el.oid })) || [] } : {}),
     },
 
     process: {
@@ -31,15 +31,15 @@ export function vacancyToFormEdit(vacancy: IVacancy, withApprovals?: boolean) {
       minimumAgeRequirement: vacancy.ageRequirement?.minimumAgeRequirement || 0,
       maximumAgeRequirement: vacancy.ageRequirement?.maximumAgeRequirement || 0,
       isRequiredAge: !!vacancy.ageRequirement?.mustMeetCriteria,
-      minimalEducationRequirementId: emmbedToOption(vacancy.minimalEducationRequirement),
+      minimalEducationRequirement: emmbedToOption(vacancy.minimalEducationRequirement),
       isRequiredMinimalEducationRequirement: !!vacancy.minimalEducationRequirement?.mustMeetCriteria,
       minimumExperienceRequirement: vacancy.minimumExperienceRequirement?.minimumExperience || 0,
       isRequiredMinimumExperienceRequirement: !!vacancy.minimumExperienceRequirement?.mustMeetCriteria,
       gpaRequirement: vacancy.gpaRequirement?.minimumGpa || 0,
       isRequiredGpaRequirement: !!vacancy.gpaRequirement?.mustMeetCriteria,
-      cityRequirementId: emmbedToOption(vacancy.cityRequirement),
+      cityRequirement: emmbedToOption(vacancy.cityRequirement),
       isRequiredCityRequirement: !!vacancy.cityRequirement?.mustMeetCriteria,
-      provinceRequirementId: emmbedToOption(vacancy.provinceRequirement),
+      provinceRequirement: emmbedToOption(vacancy.provinceRequirement),
       isRequiredProvinceRequirement: !!vacancy.provinceRequirement?.mustMeetCriteria,
       maximumSalaryRequirement: vacancy.maximumSalaryRequirement?.maximumSalary,
       isRequiredMaximumSalaryRequirement: !!vacancy.maximumSalaryRequirement?.mustMeetCriteria,

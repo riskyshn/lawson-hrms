@@ -96,7 +96,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     active: [viewDetail, viewCandidates, editVacancy, deactivate],
     inactive: [reactivate, viewDetail, viewCandidates, editVacancy],
-    draft: [viewDetail, deleteDraft],
+    draft: [viewDetail, editVacancy, deleteDraft],
     fulfilled: [viewDetail, viewCandidates],
     expired: [reactivate, viewDetail, viewCandidates, editVacancy],
   }

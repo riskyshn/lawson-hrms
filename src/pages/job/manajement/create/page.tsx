@@ -33,10 +33,9 @@ export const Component: React.FC = () => {
     if (!isLastStep) return
 
     try {
-      const processedData = formDataToPayload(data)
       setIsSubmitLoading(true)
 
-      const createdVacancy = await vacancyService.createVacancy(processedData)
+      const createdVacancy = await vacancyService.createVacancy(formDataToPayload(data))
       toast('Job vacancy successfully created.', { color: 'success' })
       navigate(`/job/management/${createdVacancy.oid}`)
     } catch (error) {
