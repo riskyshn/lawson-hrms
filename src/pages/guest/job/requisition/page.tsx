@@ -1,16 +1,17 @@
 import PreviewVacancy from '@/components/Modules/Job/PreviewVacancy'
+import useAsyncAction from '@/core/hooks/use-async-action'
 import { vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Textarea, useToast } from 'jobseeker-ui'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import * as yup from 'yup'
 import PageHeader from '../../components/PageHeader'
 
 const schema = yup.object().shape({
-  notes: yup.string().required().label('Notes'),
+  notes: yup.string().label('Notes'),
 })
 
 export const Component: React.FC = () => {
@@ -19,32 +20,15 @@ export const Component: React.FC = () => {
   const token = searchParams.get('token') || ''
   const vacancyId = searchParams.get('vacancy') || ''
   const approvalId = searchParams.get('approval') || ''
-  const [isLoading, setIsLoading] = useState(true)
   const [isFormLoading, setIsFormLoading] = useState(false)
-  const [pageError, setPageError] = useState<any>()
-  const [vacancy, setVacancy] = useState<IVacancy>()
 
   const toast = useToast()
-  const navigate = useNavigate()
 
   if (!token || !vacancyId || !approvalId) throw { status: 419, hideLayout: true, message: 'This page url is invalid.' }
-  if (pageError) throw pageError
 
-  useEffect(() => {
-    const load = async (vacancyId: string) => {
-      setPageError(undefined)
-      setIsLoading(true)
-      try {
-        const vacancy = await vacancyService.fetchVacancyDetail(vacancyId, { headers: { Authorization: `Bearer ${token}` } })
-        setVacancy(vacancy)
-        setIsLoading(false)
-      } catch (e: any) {
-        setPageError(e)
-      }
-    }
-
-    load(vacancyId)
-  }, [vacancyId, navigate, token])
+  const [vacancy, isLoading, refresh] = useAsyncAction(vacancyService.fetchVacancyDetail, vacancyId, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
 
   const {
     register,
@@ -59,7 +43,7 @@ export const Component: React.FC = () => {
       if (!vacancy) return
       try {
         setIsFormLoading(true)
-        vacancyService.approveRequisition(
+        await vacancyService.approveRequisition(
           vacancyId,
           {
             approvalId: approvalId,
@@ -68,22 +52,25 @@ export const Component: React.FC = () => {
           },
           { headers: { Authorization: `Bearer ${token}` } },
         )
+        refresh()
         toast(`Success fully ${flag === 1 ? 'Approve' : 'Reject'} this requisition.`, { color: 'success' })
-      } catch (error: any) {
-        toast(axiosErrorMessage(error), { color: 'error' })
+      } catch (e) {
+        toast(axiosErrorMessage(e), { color: 'error' })
       } finally {
         setIsFormLoading(false)
       }
     })
 
+  const isNotApproved = vacancy?.approvals?.users?.find((el) => el.oid === approvalId)?.flag === 0
+
   return (
     <>
-      <PageHeader>Preview Job Requisition</PageHeader>
+      <PageHeader subTitle={vacancy?.vacancyName}>Preview Job Requisition</PageHeader>
 
       <div className="container mx-auto flex flex-col gap-3 p-3">
         <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
 
-        {vacancy?.status !== 'canceled' && (
+        {!isLoading && vacancy?.status !== 'canceled' && isNotApproved && (
           <Card>
             <CardBody>
               <Textarea label="Notes" placeholder="Add Your Notes Here" error={errors.notes?.message} {...register('notes')} />
