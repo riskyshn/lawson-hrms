@@ -1,4 +1,3 @@
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -7,6 +6,31 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { twJoin } from 'tailwind-merge'
 import * as yup from 'yup'
+
+const generateOptionOptional = (dependKey: string, label: string) =>
+  yup
+    .object()
+    .when(dependKey, {
+      is: true,
+      then: (s) =>
+        s
+          .shape({ label: yup.string(), value: yup.string().required().label(label) })
+          .default(null)
+          .required(),
+      otherwise: (s) => s.optional().nullable().default(null),
+    })
+    .label(label) as yup.ObjectSchema<
+    {
+      label: string | undefined
+      value: string
+    },
+    yup.AnyObject,
+    {
+      label: undefined
+      value: undefined
+    },
+    ''
+  >
 
 const schema = yup.object({
   genderRequirement: yup
@@ -42,11 +66,7 @@ const schema = yup.object({
     })
     .label('Maximum Age'),
   isRequiredAge: yup.boolean(),
-  minimalEducationRequirement: YUP_OPTION_OBJECT.when('isRequiredMinimalEducationRequirement', {
-    is: true,
-    then: (s) => s.required(),
-    otherwise: (s) => s.optional(),
-  }).label('Minimal Education'),
+  minimalEducationRequirement: generateOptionOptional('isRequiredMinimalEducationRequirement', 'Minimal Education'),
   isRequiredMinimalEducationRequirement: yup.boolean(),
   minimumExperienceRequirement: yup
     .number()
@@ -68,17 +88,9 @@ const schema = yup.object({
     })
     .label('GPA'),
   isRequiredGpaRequirement: yup.boolean(),
-  cityRequirement: YUP_OPTION_OBJECT.when('isRequiredCityRequirement', {
-    is: true,
-    then: (s) => s.required(),
-    otherwise: (s) => s.optional(),
-  }).label('City'),
+  cityRequirement: generateOptionOptional('isRequiredCityRequirement', 'City'),
   isRequiredCityRequirement: yup.boolean(),
-  provinceRequirement: YUP_OPTION_OBJECT.when('isRequiredProvinceRequirement', {
-    is: true,
-    then: (s) => s.required(),
-    otherwise: (s) => s.optional(),
-  }).label('Province'),
+  provinceRequirement: generateOptionOptional('isRequiredProvinceRequirement', 'Province'),
   isRequiredProvinceRequirement: yup.boolean(),
   maximumSalaryRequirement: yup
     .string()
@@ -126,6 +138,8 @@ const RequirementsForm: React.FC<{
     })()
   }
 
+  console.log(errors)
+
   return (
     <Card as="form">
       <CardBody className="grid grid-cols-1 gap-2">
@@ -167,7 +181,7 @@ const RequirementsForm: React.FC<{
               action={masterService.fetchEducationLevel}
               converter={emmbedToOptions}
               name="minimalEducationRequirement"
-              error={errors.minimalEducationRequirement?.message}
+              error={errors.minimalEducationRequirement?.value?.message}
               value={getValues('minimalEducationRequirement')}
               onValueChange={(v) => {
                 setValue('minimalEducationRequirement', v)
