@@ -159,7 +159,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }
                       <div key={index}>
                         <button
                           title="Maps"
-                          className={`${record.inOffice ? 'text-primary-600 hover:text-primary-700' : 'text-red-600 hover:text-red-700'} focus:outline-none`}
+                          className={`${record.isInOffice ? 'text-primary-600 hover:text-primary-700' : 'text-red-600 hover:text-red-700'} focus:outline-none`}
                           onClick={() =>
                             handlePinClick(
                               record?.coordinate?.coordinates?.[0] || 0,
