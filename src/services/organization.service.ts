@@ -1,4 +1,4 @@
-import type { GenericAbortSignal } from 'axios'
+import type { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 
 import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
@@ -204,9 +204,9 @@ export const createApproval = (employeeCodes: string[]) => {
  * Document Request
  *
  */
-export const fetchDocumentRequests = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+export const fetchDocumentRequests = (params?: IPaginationParam, config?: AxiosRequestConfig) => {
   return axios
-    .get<{ data: IPaginationResponse<IDocumentRequest> }>(`/document-request`, { params, signal })
+    .get<{ data: IPaginationResponse<IDocumentRequest> }>(`/document-request`, { ...config, params })
     .then((response) => response.data.data)
 }
 

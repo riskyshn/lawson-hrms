@@ -1,6 +1,6 @@
 import { API_PROCESS_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
-import { GenericAbortSignal } from 'axios'
+import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 import { geventService } from '.'
 
 const axios = createAxiosInstance({
@@ -56,13 +56,13 @@ export const moveToOfferingLetter = (payload: Record<string, any>, signal?: Gene
   return axios.put<{ data: IApplicant }>(`/process/offering-letter`, payload, { signal }).then((response) => response.data.data)
 }
 
-export const uploadDocumentRequest = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
-  return axios.put<{ data: IApplicant }>(`/process/offering-letter/documents`, payload, { signal }).then((response) => response.data.data)
+export const uploadDocumentRequest = (payload: Record<string, any>, config?: AxiosRequestConfig) => {
+  return axios.put<{ data: IApplicant }>(`/process/offering-letter/documents`, payload, config).then((response) => response.data.data)
 }
 
-export const getDocumentRequest = (oid: string, signal?: GenericAbortSignal) => {
+export const getDocumentRequest = (oid: string, config?: AxiosRequestConfig) => {
   return axios
-    .get<{ data: IUploadedProcessDocument[] }>(`/process/offering-letter/documents/${oid}`, { signal })
+    .get<{ data: IUploadedProcessDocument[] }>(`/process/offering-letter/documents/${oid}`, config)
     .then((response) => response.data.data)
 }
 
