@@ -80,7 +80,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
       {showOptionModal && modalType === 'View Details' && (
         <ViewModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
       )}
-      {showOptionModal && (modalType === 'approve' || modalType === 'reject') && (
+      {showOptionModal && (modalType === 'Approve' || modalType === 'Reject') && (
         <ConfirmationModal
           show={showOptionModal}
           onClose={() => setShowOptionModal(false)}
