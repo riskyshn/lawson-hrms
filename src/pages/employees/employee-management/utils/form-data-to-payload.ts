@@ -8,7 +8,7 @@ export default function formDataToPayload(data: any) {
     name: personalData.name,
     email: personalData.email,
     employment: {
-      employeeCode: employment,
+      employeeCode: employment.employeeCode,
       roleId: employment.role.value,
       jobTypeId: employment.jobType.value,
       branchId: employment.branch.value,
@@ -21,7 +21,7 @@ export default function formDataToPayload(data: any) {
     personalData: {
       name: personalData.name,
       email: personalData.email,
-      genderid: personalData.gender.value,
+      genderId: personalData.gender.value,
       religionId: personalData.religion.value,
       cityOfBirth: personalData.cityOfBirth.value,
       maritalStatusId: personalData.maritalStatus.value,

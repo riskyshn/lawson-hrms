@@ -15,8 +15,8 @@ const schema = yup.object({
   baseSalary: yup.string().required().label('Base Salary'),
   baseSalaryType: yup.string().required().label('Base Salary Type'),
   allowOvertime: yup
-    .string()
-    .transform((value) => (isNaN(Number(value)) ? undefined : Number(value)))
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .required()
     .label('Allow Overtime'),
   bankName: yup.string().required().label('Bank Name'),
@@ -28,8 +28,8 @@ const schema = yup.object({
   category: yup.string().required().label('Category'),
   notParticipateBpjs: yup.boolean(),
   jkk: yup
-    .string()
-    .transform((value) => (isNaN(Number(value)) ? undefined : Number(value)))
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .required()
     .label('JKK'),
 })
@@ -123,9 +123,9 @@ const PayrollDataForm: React.FC<{
           hideSearch
           name="allowOvertime"
           error={errors.allowOvertime?.message}
-          value={getValues('allowOvertime')}
+          value={String(getValues('allowOvertime') || '0')}
           onChange={(v) => {
-            setValue('allowOvertime', v)
+            setValue('allowOvertime', Number(v))
             trigger('allowOvertime')
           }}
         />
@@ -201,9 +201,9 @@ const PayrollDataForm: React.FC<{
                 hideSearch
                 name="jkk"
                 error={errors.jkk?.message}
-                value={getValues('jkk')}
+                value={String(getValues('jkk') || '')}
                 onChange={(v) => {
-                  setValue('jkk', v)
+                  setValue('jkk', Number(v))
                   trigger('jkk')
                 }}
               />

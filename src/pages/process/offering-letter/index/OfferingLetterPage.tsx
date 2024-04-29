@@ -94,7 +94,7 @@ const OfferingLetterPage: React.FC = () => {
               }
             />
           )}
-          body={<Table type="ASSESSMENT" items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
+          body={<Table type="OFFERING" items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
           footer={pagination.render()}
         />
       </Container>
