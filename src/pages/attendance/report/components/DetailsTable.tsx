@@ -6,7 +6,7 @@ import { ImageIcon, MapPinIcon } from 'lucide-react'
 import { useState } from 'react'
 
 type PropTypes = {
-  items: IAttendance[]
+  items: IEmployeeHistory[]
   loading?: boolean
 }
 
