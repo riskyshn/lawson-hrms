@@ -1,65 +1,23 @@
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
-import { attendanceService } from '@/services'
-import { Avatar, Button, useToast } from 'jobseeker-ui'
-import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
+import { Avatar } from 'jobseeker-ui'
+import { ImageIcon, MapPinIcon } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import ConfirmationModal from '../../components/ConfirmationModal'
 
 type PropTypes = {
   items: IEmployeeHistoryAttendance[]
   loading?: boolean
-  onDataChange: (data: string) => void
-  filterDate?: IFilterDate
 }
 
-const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }) => {
+const AttendanceTable: React.FC<PropTypes> = ({ items, loading }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const [branchLocation, setBranchLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
-  const toast = useToast()
-  const [showOptionModal, setShowOptionModal] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [selectedRecordId, setSelectedRecordId] = useState<string | undefined | null>(null)
-  const [modalType, setModalType] = useState<string | undefined>()
 
   const handlePinClick = (lat: number, lng: number, latLng?: [number, number]) => {
     setSelectedLocation([lat, lng])
     setBranchLocation(latLng || null)
-  }
-
-  const handleViewDetails = (ids?: any, type?: string) => {
-    setModalType(type)
-    setSelectedRecordId(ids)
-    setShowOptionModal(true)
-  }
-
-  const openConfirmation = async (status?: string, ids?: any, reason?: string) => {
-    try {
-      setIsLoading(true)
-      const payload = {
-        status: status,
-        oids: ids,
-        rejectedReason: reason || '',
-      }
-      if (status === 'approved' && ids) {
-        await attendanceService.updateAttendance(payload)
-        toast('Attendance approved successfully', { color: 'success' })
-        const newData = new Date().toISOString()
-        onDataChange(newData)
-      } else if (status === 'rejected' && ids) {
-        await attendanceService.updateAttendance(payload)
-        toast('Attendance rejected successfully', { color: 'success' })
-        const newData = new Date().toISOString()
-        onDataChange(newData)
-      }
-      setShowOptionModal(false)
-      setIsLoading(false)
-    } catch (e: any) {
-      toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
-    }
   }
 
   const headerItems = [
@@ -70,6 +28,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'In Office', className: 'text-center' },
+    { children: 'Reason', className: 'text-center' },
   ]
 
   const bodyItems = items.map((item) => ({
@@ -220,80 +179,25 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }
       },
       {
         children:
-          item.logType === 'absent' ? (
-            '-'
-          ) : item.leaveData !== null ? (
-            <Link
-              key={item.oid}
-              to={`/attendance/request-management?search=${item.employee?.name?.replace(/\s/g, '+')}&startDate=${filterDate?.startDate}&endDate=${filterDate?.endDate}`}
-            >
-              <Button color="primary" variant="light">
-                View Details
-              </Button>
-            </Link>
-          ) : (
-            (item.attendanceData ?? []).map((record, index) => {
-              if (index % 2 === 0) {
-                let latestAttendanceType = null
-                item.attendanceData?.slice(index, index + 2).forEach((record, recordIndex, array) => {
-                  if (recordIndex === array.length - 1) {
-                    latestAttendanceType = record.attendanceType
-                  }
-                })
-
-                return (
-                  <>
-                    <div className="flex h-16 flex-col items-center justify-center" key={index}>
-                      <div className={'mb-1 flex gap-2'}>
-                        <Button
-                          disabled={
-                            record.status === 'approved' ||
-                            record.status === 'rejected' ||
-                            latestAttendanceType === 'clock_in' ||
-                            latestAttendanceType === 'overtime_in'
-                          }
-                          color="success"
-                          style={{
-                            opacity:
-                              record.status === 'approved' ||
-                              record.status === 'rejected' ||
-                              latestAttendanceType === 'clock_in' ||
-                              latestAttendanceType === 'overtime_in'
-                                ? 0.5
-                                : 1,
-                          }}
-                          size="small"
-                          onClick={() =>
-                            handleViewDetails(
-                              item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
-                              'approved',
-                            )
-                          }
-                        >
-                          <CheckIcon size={16} />
-                        </Button>
-                        <Button
-                          disabled={record.status === 'rejected' || record.status === 'approved'}
-                          color="error"
-                          style={{ opacity: record.status === 'rejected' || record.status === 'approved' ? 0.5 : 1 }}
-                          size="small"
-                          onClick={() =>
-                            handleViewDetails(
-                              item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
-                              'rejected',
-                            )
-                          }
-                        >
-                          <XIcon size={16} />
-                        </Button>
-                      </div>
-                    </div>
-                  </>
-                )
-              }
-              return null
-            })
-          ),
+          item.logType === 'absent'
+            ? '-'
+            : item.leaveData !== null
+              ? item.leaveData.rejectedReason || '-'
+              : (item.attendanceData ?? [])
+                  .map((record, index) => {
+                    return <div key={index}>{record.rejectedReason || '-'}</div>
+                  })
+                  .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+                    if (index % 2 === 0) {
+                      acc.push(
+                        <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                          {cur}
+                          {array[index + 1]}
+                        </div>,
+                      )
+                    }
+                    return acc
+                  }, []),
         className: 'text-center',
       },
     ],
@@ -313,22 +217,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }
           }}
         />
       )}
-      {showOptionModal && (
-        <ConfirmationModal
-          show={showOptionModal}
-          onClose={() => setShowOptionModal(false)}
-          isLoading={isLoading}
-          handleAction={(reason) => {
-            if (selectedRecordId) {
-              openConfirmation(modalType, selectedRecordId, reason)
-              setSelectedRecordId(null)
-            }
-          }}
-          modalType={modalType}
-        />
-      )}
     </>
   )
 }
 
-export default Table
+export default AttendanceTable

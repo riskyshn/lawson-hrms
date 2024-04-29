@@ -73,10 +73,8 @@ export const Component: React.FC = () => {
     },
   }
 
-  const labelsBar = ['Interview', 'Applicant', 'Assessment', 'Offering', 'Onboarding']
-
   const dataBar = {
-    labels: labelsBar,
+    labels: data?.total ? data.total.map((item) => item.label) : [],
     datasets: [
       {
         label: '',

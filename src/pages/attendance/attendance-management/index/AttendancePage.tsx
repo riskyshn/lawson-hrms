@@ -57,8 +57,6 @@ const AttendancePage: React.FC = () => {
           signal,
         )
 
-        console.log(data)
-
         setPageData(data)
         setIsLoading(false)
       } catch (e: any) {

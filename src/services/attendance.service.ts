@@ -10,6 +10,7 @@ type FetchAttendanceParams = IPaginationParam & {
   end_date?: string
   branch_id?: string
   is_late?: string
+  employee_id?: string
 }
 
 /**
@@ -83,7 +84,7 @@ export const updateAttendance = (payload: Record<string, any>) => {
 export const fetchEmployee = (oid: string, payload: Record<string, any>) => {
   const queryString = new URLSearchParams(payload).toString()
   const url = `/employer/history/${oid}?${queryString}`
-  return axios.get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(url).then((response) => response.data.data)
+  return axios.get<{ data: IPaginationResponse<IEmployeeHistory> }>(url).then((response) => response.data.data)
 }
 
 export const downloadAttendance = (oid: string, payload: Record<string, any>) => {

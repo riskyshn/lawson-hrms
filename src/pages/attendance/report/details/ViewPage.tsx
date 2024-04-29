@@ -12,12 +12,14 @@ import { DateValueType } from 'react-tailwindcss-datepicker'
 import { twMerge } from 'tailwind-merge'
 import DetailsTable from '../components/DetailsTable'
 import ProfileCard from '../components/ProfileCard'
+import AttendanceTable from './components/AttendanceTable'
 
 const ViewPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isExporting, setIsExporting] = useState(false)
   const { employeeId } = useParams<{ employeeId: string }>()
-  const [pageData, setPageData] = useState<IPaginationResponse<IAttendance>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IEmployeeHistory>>()
+  const [pageDataAttendance, setPageDataAttendance] = useState<IPaginationResponse<IEmployeeHistoryAttendance>>()
   const [pageDataEmployee, setPageDataEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
@@ -36,19 +38,42 @@ const ViewPage: React.FC = () => {
     params: { tab: tab, startDate: filterDate?.startDate, endDate: filterDate.endDate },
   })
 
+  const paginationAttendance = usePagination({
+    pathname: `/attendance/report/${employeeId}`,
+    totalPage: pageDataAttendance?.totalPages || 0,
+    params: { tab: tab, startDate: filterDate?.startDate, endDate: filterDate.endDate },
+  })
+
   useEffect(() => {
+    const controller = new AbortController()
+    const signal = controller.signal
+
     setIsLoading(true)
-    const loadEmployeeData = async () => {
+    const loadEmployeeData = async (signal: AbortSignal) => {
       try {
         if (employeeId) {
-          const response = await attendanceService.fetchEmployee(employeeId, {
-            attendance_group: tab,
-            start_date: filterDate?.startDate,
-            end_date: filterDate?.endDate,
-            page: pagination.currentPage,
-          })
-          // @ts-expect-error
-          setPageData(response)
+          if (tab === 'clock') {
+            const response = await attendanceService.fetchAttendanceManagement(
+              {
+                page: pagination.currentPage,
+                limit: 20,
+                attendance_group: 'clock',
+                start_date: filterDate?.startDate,
+                end_date: filterDate?.endDate,
+                employee_id: employeeId,
+              },
+              signal,
+            )
+            setPageDataAttendance(response)
+          } else {
+            const response = await attendanceService.fetchEmployee(employeeId, {
+              attendance_group: tab,
+              start_date: filterDate?.startDate,
+              end_date: filterDate?.endDate,
+              page: pagination.currentPage,
+            })
+            setPageData(response)
+          }
         }
         setIsLoading(false)
       } catch (e) {
@@ -57,7 +82,7 @@ const ViewPage: React.FC = () => {
       }
     }
 
-    loadEmployeeData()
+    loadEmployeeData(signal)
   }, [pagination.currentPage, employeeId, filterDate, tab])
 
   useEffect(() => {
@@ -202,16 +227,16 @@ const ViewPage: React.FC = () => {
             header={() => (
               <MainCardHeader
                 title="Report List"
-                subtitleLoading={typeof pageData?.totalElements !== 'number'}
+                subtitleLoading={typeof pageDataAttendance?.totalElements !== 'number'}
                 subtitle={
                   <>
-                    You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
+                    You have <span className="text-primary-600">{pageDataAttendance?.totalElements} Report</span> in total
                   </>
                 }
               />
             )}
-            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
-            footer={pagination.render()}
+            body={<AttendanceTable items={pageDataAttendance?.content || []} loading={isLoading} />}
+            footer={paginationAttendance.render()}
           />
         )}
         {tab === 'client_visit' && (
