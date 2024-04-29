@@ -95,7 +95,6 @@ export const Component: React.FC = () => {
       toast(axiosErrorMessage(e), { color: 'error' })
     }
     setLoading(false)
-    console.log(data)
   })
 
   return (

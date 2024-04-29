@@ -56,6 +56,10 @@ export const moveToOfferingLetter = (payload: Record<string, any>, signal?: Gene
   return axios.put<{ data: IApplicant }>(`/process/offering-letter`, payload, { signal }).then((response) => response.data.data)
 }
 
+export const previewOfferingLetter = (oid: string, config?: AxiosRequestConfig) => {
+  return axios.get(`/process/offering-letter/preview/${oid}`, { ...config, responseType: 'blob' })
+}
+
 export const uploadDocumentRequest = (payload: Record<string, any>, config?: AxiosRequestConfig) => {
   return axios.put<{ data: IApplicant }>(`/process/offering-letter/documents`, payload, config).then((response) => response.data.data)
 }
@@ -67,7 +71,6 @@ export const getDocumentRequest = (oid: string, config?: AxiosRequestConfig) => 
 }
 
 export const sendReminder = (oid: string) => {
-  throw new Error('Endpoint api belum ada! segerah hubungi mas akbar.')
   return axios.post(`/process/${oid}/send-reminder`).then((response) => response.data.data)
 }
 
@@ -75,8 +78,8 @@ export const createOfferingLetter = (payload: Record<string, any>) => {
   return axios.put(`/process/offering-letter/create`, payload).then((response) => response.data.data)
 }
 
-export const uploadSignedOfferingLetter = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
-  return axios.put<{ data: IApplicant }>(`/process/offering-letter/signed`, payload, { signal }).then((response) => response.data.data)
+export const uploadSignedOfferingLetter = (payload: Record<string, any>, config?: AxiosRequestConfig) => {
+  return axios.put<{ data: IApplicant }>(`/process/offering-letter/signed`, payload, config).then((response) => response.data.data)
 }
 
 export const setJoinDate = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
