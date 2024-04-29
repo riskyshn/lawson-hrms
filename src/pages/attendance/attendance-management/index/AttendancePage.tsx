@@ -6,7 +6,7 @@ import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import usePagination from '@/core/hooks/use-pagination'
 import { attendanceService, organizationService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
-import { AsyncSelect, BaseInputDateRange, CardBody } from 'jobseeker-ui'
+import { AsyncSelect, BaseInputDateRange, CardBody, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
@@ -28,6 +28,8 @@ const AttendancePage: React.FC = () => {
   })
 
   const isLate = searchParams.get('is_late') || undefined
+  const [isInOffice, setIsInOffice] = useState<string | undefined>(searchParams.get('in_office') || undefined)
+
   const [branch, setBranch, rawBranch] = useOptionSearchParam('branch')
 
   const pagination = usePagination({
@@ -53,6 +55,7 @@ const AttendancePage: React.FC = () => {
             end_date: filterDate?.endDate,
             branch_id: branch?.value,
             is_late: isLate,
+            is_in_office: isInOffice,
           },
           signal,
         )
@@ -69,7 +72,15 @@ const AttendancePage: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage, branch?.value, filterDate, onChangeData, isLate])
+  }, [search, pagination.currentPage, branch?.value, filterDate, onChangeData, isLate, isInOffice])
+
+  const handleInOfficeChange = (value: string) => {
+    setIsInOffice(value)
+    setSearchParam((prev) => {
+      prev.set('in_office', value)
+      return prev
+    })
+  }
 
   const handleDateChange = (selectedDate: DateValueType) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -124,7 +135,7 @@ const AttendancePage: React.FC = () => {
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <StatisticCards filterDate={filterDate} />
         <MainCard
-          header={() => (
+          header={(open, toggleOpen) => (
             <MainCardHeader
               title="Attendance List"
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
@@ -137,17 +148,30 @@ const AttendancePage: React.FC = () => {
                 value: search || '',
                 setValue: (v) => setSearchParam({ search: v }),
               }}
+              filterToogle={toggleOpen}
               filter={
-                <div className="grid grid-cols-1 gap-3 p-3">
-                  <AsyncSelect
-                    placeholder="All Branch"
-                    withReset
-                    action={organizationService.fetchBranches}
-                    converter={emmbedToOptions}
-                    value={branch}
-                    onChange={setBranch}
-                  />
-                </div>
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <AsyncSelect
+                      placeholder="All Branch"
+                      withReset
+                      action={organizationService.fetchBranches}
+                      converter={emmbedToOptions}
+                      value={branch}
+                      onChange={setBranch}
+                    />
+                    <Select
+                      placeholder="In Office"
+                      withReset
+                      options={[
+                        { value: '1', label: 'Yes' },
+                        { value: '0', label: 'No' },
+                      ]}
+                      value={isInOffice !== null ? isInOffice : undefined}
+                      onChange={(selectedOption: any) => handleInOfficeChange(selectedOption ? selectedOption : '')}
+                    />
+                  </div>
+                )
               }
             />
           )}

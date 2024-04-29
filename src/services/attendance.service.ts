@@ -11,6 +11,7 @@ type FetchAttendanceParams = IPaginationParam & {
   branch_id?: string
   is_late?: string
   employee_id?: string
+  is_in_office?: string
 }
 
 /**
