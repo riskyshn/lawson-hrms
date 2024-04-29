@@ -19,3 +19,5 @@ export const Component: React.FC<{ children?: React.ReactNode }> = ({ children }
 }
 
 Component.displayName = 'MainLayout'
+
+export default Component

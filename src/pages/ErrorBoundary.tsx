@@ -1,9 +1,10 @@
-import { Component as MainLayout } from '@/components/Layout/MainLayout'
 import { useAuthStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Button } from 'jobseeker-ui'
-import { Fragment } from 'react'
+import { Fragment, lazy } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
+
+const MainLayout = lazy(() => import('@/components/Layout/MainLayout'))
 
 const ErrorBoundary: React.FC = () => {
   const auth = useAuthStore()
