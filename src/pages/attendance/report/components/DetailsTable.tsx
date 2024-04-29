@@ -191,6 +191,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
             }
             return acc
           }, [] as JSX.Element[]),
+        className: 'text-center',
       },
       {
         children: (item.records ?? [])

@@ -131,7 +131,7 @@ const NavbarNotification: React.FC = () => {
           <div className="p-3">
             <CardBody as="div" className="chrome-scrollbar flex max-h-80 flex-col divide-y overflow-y-auto py-0">
               {pageDataApplicants.content.map((el, i) => (
-                <Link key={el.oid || i} to={`/candidates/management?search=${el.candidate?.name}`}>
+                <Link key={el.oid || i} to={`/candidates/management?search=${el.candidate?.name?.replace(/\s/g, '+')}`}>
                   <li className="flex items-center gap-3 py-3">
                     <Avatar
                       name={el.candidate?.name || ''}

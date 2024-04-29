@@ -10,7 +10,7 @@ const Card: React.FC<{
   className?: string
   onClick?: () => void
 }> = ({ value, label, className = 'bg-white', onClick }) => {
-  const isClickable = label !== 'Check In' && label !== 'Absence'
+  const isClickable = label !== 'Check In' && label !== 'Absent'
 
   return (
     <div
