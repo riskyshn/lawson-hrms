@@ -35,8 +35,8 @@ const schema = yup.object({
 
   maritalStatus: YUP_OPTION_OBJECT.required().label('Marital Status'),
   numberOfChildren: yup
-    .string()
-    .transform((value) => (isNaN(Number(value)) ? undefined : Number(value)))
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .label('Number of Children'),
 
   linkNationalId: yup
@@ -192,15 +192,16 @@ const PersonalDataForm: React.FC<{
             label="Number of Children"
             placeholder="1-9"
             hideSearch
+            withReset
             options={Array.from(Array(9)).map((_, i) => ({
               label: String(i + 1),
               value: String(i + 1),
             }))}
             name="numberOfChildren"
             error={errors.numberOfChildren?.message}
-            value={getValues('numberOfChildren')}
+            value={String(getValues('numberOfChildren') || '')}
             onChange={(v) => {
-              setValue('numberOfChildren', v)
+              setValue('numberOfChildren', Number(v))
               trigger('numberOfChildren')
             }}
           />
