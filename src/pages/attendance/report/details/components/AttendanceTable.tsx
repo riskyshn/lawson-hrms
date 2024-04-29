@@ -27,7 +27,7 @@ const AttendanceTable: React.FC<PropTypes> = ({ items, loading }) => {
     { children: 'Type', className: 'text-center' },
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
-    { children: 'In Office', className: 'text-center' },
+    { children: 'Attachment', className: 'text-center' },
     { children: 'Reason', className: 'text-center' },
   ]
 
@@ -117,7 +117,7 @@ const AttendanceTable: React.FC<PropTypes> = ({ items, loading }) => {
                       <div key={index}>
                         <button
                           title="Maps"
-                          className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                          className={`${record.inOffice ? 'text-primary-600 hover:text-primary-700' : 'text-red-600 hover:text-red-700'} focus:outline-none`}
                           onClick={() =>
                             handlePinClick(
                               record?.coordinate?.coordinates?.[0] || 0,

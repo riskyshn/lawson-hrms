@@ -86,6 +86,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
           ) : (
             '-'
           ),
+          className: 'text-center',
         },
         {
           children: (

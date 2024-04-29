@@ -1,7 +1,7 @@
 import usePagination from '@/core/hooks/use-pagination'
 import { dashboardService, notificationService } from '@/services'
 import { Menu } from '@headlessui/react'
-import { Avatar, Badge, Button, CardBody } from 'jobseeker-ui'
+import { Avatar, Badge, Button, CardBody, Spinner } from 'jobseeker-ui'
 import { Bell } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -19,6 +19,8 @@ const NavbarNotification: React.FC = () => {
   const [currentPageVacancies, setCurrentPageVacancies] = useState({
     currentPage: 1,
   })
+  const [loadingVacancies, setLoadingVacancies] = useState(false)
+  const [loadingApplicants, setLoadingApplicants] = useState(false)
 
   const paginationVacancies = usePagination({
     pathname: '',
@@ -77,6 +79,7 @@ const NavbarNotification: React.FC = () => {
 
   const loadMoreDataVacancies = async () => {
     try {
+      setLoadingVacancies(true)
       const response = await notificationService.fetchVacanciesNotification({
         limit: 10,
         page: currentPageVacancies.currentPage + 1,
@@ -92,13 +95,16 @@ const NavbarNotification: React.FC = () => {
       }))
 
       setHasMoreItemsVacancies(response?.totalPages > currentPageVacancies.currentPage + 1)
+      setLoadingVacancies(false)
     } catch (e) {
       setPageError(e)
+      setLoadingVacancies(false)
     }
   }
 
   const loadMoreDataApplicants = async () => {
     try {
+      setLoadingApplicants(true)
       const response = await dashboardService.recentlyApplied({
         limit: 10,
         page: currentPageApplicants.currentPage + 1,
@@ -114,8 +120,10 @@ const NavbarNotification: React.FC = () => {
       }))
 
       setHasMoreItemsApplicants(response.totalPages > currentPageApplicants.currentPage + 1)
+      setLoadingApplicants(false)
     } catch (e) {
       setPageError(e)
+      setLoadingApplicants(false)
     }
   }
 
@@ -131,7 +139,7 @@ const NavbarNotification: React.FC = () => {
           <div className="p-3">
             <CardBody as="div" className="chrome-scrollbar flex max-h-80 flex-col divide-y overflow-y-auto py-0">
               {pageDataApplicants.content.map((el, i) => (
-                <Link key={el.oid || i} to={`/candidates/management?search=${el.candidate?.name}`}>
+                <Link key={el.oid || i} to={`/candidates/management?search=${el.candidate?.name?.replace(/\s/g, '+')}`}>
                   <li className="flex items-center gap-3 py-3">
                     <Avatar
                       name={el.candidate?.name || ''}
@@ -141,7 +149,7 @@ const NavbarNotification: React.FC = () => {
                     />
                     <div className="flex-1">
                       <span className="mb-1 block text-sm font-semibold">{el.candidate?.name}</span>
-                      <span className="mb-1 block text-xs text-gray-600">{el.message}</span>
+                      <span className="mb-1 block text-sm text-gray-600">{el.message}</span>
                       <span className="block text-xs text-gray-400">{el.applyDate}</span>
                     </div>
                   </li>
@@ -150,8 +158,8 @@ const NavbarNotification: React.FC = () => {
             </CardBody>
             {hasMoreItemsApplicants && (
               <div className="flex w-full flex-1 pt-3 text-center">
-                <Button className="w-full" variant="default" color="primary" onClick={loadMoreDataApplicants}>
-                  View More
+                <Button className="w-full" variant="default" color="primary" disabled={loadingApplicants} onClick={loadMoreDataApplicants}>
+                  {loadingApplicants ? <Spinner className="text-whte h-4 w-4" /> : 'View More'}
                 </Button>
               </div>
             )}
@@ -184,8 +192,8 @@ const NavbarNotification: React.FC = () => {
             ))}
             {hasMoreItemsVacancies && (
               <div className="flex w-full flex-1 pt-3 text-center">
-                <Button className="w-full" variant="default" color="primary" onClick={loadMoreDataVacancies}>
-                  View More
+                <Button className="w-full" variant="default" color="primary" disabled={loadingVacancies} onClick={loadMoreDataVacancies}>
+                  {loadingVacancies ? <Spinner className="h-4 w-4 text-white" /> : 'View More'}
                 </Button>
               </div>
             )}
