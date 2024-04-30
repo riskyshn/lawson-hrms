@@ -236,7 +236,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }
           ) : item.leaveData !== null ? (
             <Link
               key={item.oid}
-              to={`/attendance/request-management?search=${item.employee?.name?.replace(/\s/g, '+')}&startDate=${filterDate?.startDate}&endDate=${filterDate?.endDate}`}
+              to={`/attendance/request-management?search=${item.employee?.name?.replace(/\s/g, '+')}&startDate=${item.leaveData.createdAt.match(/^\d{4}-\d{2}-\d{2}/)}&endDate=${item.leaveData.createdAt.match(/^\d{4}-\d{2}-\d{2}/)}`}
             >
               <Button color="primary" variant="light">
                 View Details
