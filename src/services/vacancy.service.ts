@@ -34,7 +34,7 @@ export const deleteDraftVacancy = (id: string) => {
   return axios.delete(`/vacancy/${id}`).then((response) => response.data.data)
 }
 
-export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 'draft') => {
+export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 'draft' | 'progress') => {
   return axios.patch(`/vacancy/${id}?status=${status}`).then((response) => response.data.data)
 }
 

@@ -154,7 +154,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
       })
       if (confirmed) {
         try {
-          await vacancyService.updateVacancyStatus(vacancy.oid, 'active')
+          await vacancyService.updateVacancyStatus(vacancy.oid, 'progress')
           toast('Success fully post vacancy.', { color: 'success' })
           onRefresh?.()
         } catch (e: any) {
