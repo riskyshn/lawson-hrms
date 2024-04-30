@@ -4,7 +4,7 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/core/hooks/use-pagination'
 import { attendanceService, employeeService } from '@/services'
-import { BaseInputDateRange, Button, CardBody, useToast } from 'jobseeker-ui'
+import { BaseInputDateRange, Button, CardBody, Select, useToast } from 'jobseeker-ui'
 import { FileSpreadsheetIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
@@ -29,7 +29,8 @@ const ViewPage: React.FC = () => {
   })
   const toast = useToast()
 
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParam] = useSearchParams()
+  const [isInOffice, setIsInOffice] = useState<string | undefined>(searchParams.get('in_office') || undefined)
   const tab = searchParams.get('tab') || 'clock'
 
   const pagination = usePagination({
@@ -61,6 +62,7 @@ const ViewPage: React.FC = () => {
                 start_date: filterDate?.startDate,
                 end_date: filterDate?.endDate,
                 employee_id: employeeId,
+                is_in_office: isInOffice,
               },
               signal,
             )
@@ -83,7 +85,7 @@ const ViewPage: React.FC = () => {
     }
 
     loadEmployeeData(signal)
-  }, [pagination.currentPage, employeeId, filterDate, tab])
+  }, [pagination.currentPage, employeeId, filterDate, tab, isInOffice])
 
   useEffect(() => {
     setIsLoading(true)
@@ -153,6 +155,14 @@ const ViewPage: React.FC = () => {
       toast(errorMessage, { color: 'error' })
       setIsExporting(false)
     }
+  }
+
+  const handleInOfficeChange = (value: string) => {
+    setIsInOffice(value)
+    setSearchParam((prev) => {
+      prev.set('in_office', value)
+      return prev
+    })
   }
 
   if (pageError) throw pageError
@@ -232,6 +242,20 @@ const ViewPage: React.FC = () => {
                   <>
                     You have <span className="text-primary-600">{pageDataAttendance?.totalElements} Report</span> in total
                   </>
+                }
+                filter={
+                  <div className="grid grid-cols-1 gap-3 p-3">
+                    <Select
+                      placeholder="In Office"
+                      withReset
+                      options={[
+                        { value: '1', label: 'Yes' },
+                        { value: '0', label: 'No' },
+                      ]}
+                      value={isInOffice !== null ? isInOffice : undefined}
+                      onChange={(selectedOption: any) => handleInOfficeChange(selectedOption ? selectedOption : '')}
+                    />
+                  </div>
                 }
               />
             )}

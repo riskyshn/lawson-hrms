@@ -31,7 +31,7 @@ interface IAttendanceRecord {
   earlyClockoutMinutes?: number
   lateMinutes?: number
   workHours?: number
-  inOffice?: boolean
+  isInOffice?: boolean
   coordinate?: ICoordinate
   photo?: string
   status?: string
@@ -130,7 +130,7 @@ interface IEmployeeHistory {
     earlyClockoutMinutes?: number
     lateMinutes?: number
     workHours?: number
-    inOffice?: boolean
+    isInOffice?: boolean
     coordinate?: {
       type?: string
       coordinates?: [number, number]
@@ -287,7 +287,7 @@ interface IEmployeeHistoryAttendance {
     earlyClockoutMinutes: number
     lateMinutes: number
     workHours: number
-    inOffice: boolean
+    isInOffice: boolean
     photo: string
     status: string
     rejectedReason: string | null

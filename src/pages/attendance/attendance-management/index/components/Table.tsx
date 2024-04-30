@@ -159,7 +159,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }
                       <div key={index}>
                         <button
                           title="Maps"
-                          className={`${record.inOffice ? 'text-primary-600 hover:text-primary-700' : 'text-red-600 hover:text-red-700'} focus:outline-none`}
+                          className={`${record.isInOffice ? 'text-primary-600 hover:text-primary-700' : 'text-red-600 hover:text-red-700'} focus:outline-none`}
                           onClick={() =>
                             handlePinClick(
                               record?.coordinate?.coordinates?.[0] || 0,
@@ -188,35 +188,45 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }
       },
       {
         children:
-          item.logType === 'absent'
-            ? '-'
-            : item.leaveData !== null
-              ? '-'
-              : (item.attendanceData ?? [])
-                  .map((record, index) => {
-                    return (
-                      <div key={index}>
-                        <button
-                          title="Image"
-                          className="text-primary-600 hover:text-primary-700 focus:outline-none"
-                          onClick={() => previewImage(record.photo)}
-                        >
-                          <ImageIcon size={15} />
-                        </button>
-                      </div>
-                    )
-                  })
-                  .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
-                    if (index % 2 === 0) {
-                      acc.push(
-                        <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
-                          {cur}
-                          {array[index + 1]}
-                        </div>,
-                      )
-                    }
-                    return acc
-                  }, []),
+          item.logType === 'absent' ? (
+            '-'
+          ) : item.leaveData !== null ? (
+            <div>
+              <button
+                title="Image"
+                className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                onClick={() => previewImage(item.leaveData.attachment)}
+              >
+                <ImageIcon size={15} />
+              </button>
+            </div>
+          ) : (
+            (item.attendanceData ?? [])
+              .map((record, index) => {
+                return (
+                  <div key={index}>
+                    <button
+                      title="Image"
+                      className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                      onClick={() => previewImage(record.photo)}
+                    >
+                      <ImageIcon size={15} />
+                    </button>
+                  </div>
+                )
+              })
+              .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+                if (index % 2 === 0) {
+                  acc.push(
+                    <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                      {cur}
+                      {array[index + 1]}
+                    </div>,
+                  )
+                }
+                return acc
+              }, [])
+          ),
         className: 'text-center',
       },
       {

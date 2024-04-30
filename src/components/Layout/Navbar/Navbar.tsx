@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
   // }
 
   return (
-    <BaseNavbar>
+    <BaseNavbar style={{ zIndex: 60 }}>
       <NavbarBrand>
         <Link to="/">
           {!company?.logo?.file && <LogoFull height={40} />}

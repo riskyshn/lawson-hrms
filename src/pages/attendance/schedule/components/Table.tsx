@@ -1,5 +1,5 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
-import { Avatar } from 'jobseeker-ui'
+import NumberOfEmployeeLink from '@/components/Elements/UI/NumberOfEmployeeLink'
 import ActionMenu from './ActionMenu'
 type PropTypes = {
   items: ISchedule[]
@@ -14,18 +14,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
     items: [
       { children: item.name, className: 'whitespace-normal' },
       {
-        children: (
-          <span className="flex items-center justify-center gap-2">
-            <span className="flex">
-              <Avatar name="John Doe" size={38} className="rounded-full bg-success-100 text-success-700" />
-              <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-primary-100 text-primary-700" />
-              <Avatar name="Jane Doe" size={38} className="-ml-3 rounded-full bg-error-100 text-error-700" />
-            </span>
-            <a href="#" className="text-primary-600">
-              {item.count}
-            </a>
-          </span>
-        ),
+        children: <NumberOfEmployeeLink to={`#`} count={Number(item.count)} />,
         className: 'text-center',
       },
       { children: <ActionMenu options={options} items={item} onApplyVacancy={onDataChange} /> },
