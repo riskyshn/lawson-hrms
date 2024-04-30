@@ -1,7 +1,8 @@
 import Container from '@/components/Elements/Layout/Container'
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { employeeService, payrollService } from '@/services'
-import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ComponentsDataForm from '../components/ComponentsDataForm'
@@ -19,6 +20,7 @@ export const Component: React.FC = () => {
   const navigate = useNavigate()
   const toast = useToast()
   const [pageError, setPageError] = useState<any>()
+  const [isDataLoaded, setIsDataLoaded] = useState(!applicantId)
 
   if (pageError) throw pageError
 
@@ -52,6 +54,7 @@ export const Component: React.FC = () => {
     if (!applicant) return
     const { personalData, employment } = applicantToFormCreate(applicant)
     setFormValues((formValues: any) => ({ ...formValues, personalData, employment }))
+    setIsDataLoaded(true)
   }, [applicant])
 
   const handleStepSubmit = async (data: any) => {
@@ -96,13 +99,9 @@ export const Component: React.FC = () => {
           ]}
         />
 
-        {!!applicantId && Object.keys(formValues.personalData).length == 0 && (
-          <div className="flex items-center justify-center py-48">
-            <Spinner height={40} className="text-primary-600" />
-          </div>
-        )}
+        <LoadingScreen spinnerSize={80} strokeWidth={1} show={!isDataLoaded} />
 
-        {((applicantId && Object.keys(formValues.personalData).length > 0) || !applicantId) && (
+        {isDataLoaded && (
           <>
             {activeStep === 0 && (
               <PersonalDataForm
