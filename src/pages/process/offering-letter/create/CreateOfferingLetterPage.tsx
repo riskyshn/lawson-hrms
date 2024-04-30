@@ -58,9 +58,18 @@ const CreateOfferingLetterPage: React.FC = () => {
     obj.joinDate = moment(obj.joinDate).format('YYYY-MM-DD')
     if (obj.expiryDate) obj.expiryDate = moment(obj.expiryDate).format('YYYY-MM-DD')
     obj.baseSalary = currencyToNumber(obj.baseSalary)
-    obj.maximumSalary = currencyToNumber(obj.maximumSalary)
-    obj.maximumSalaryRequirement = currencyToNumber(obj.maximumSalaryRequirement)
     obj.benefits = obj.benefits.map((el: Record<string, any>) => ({ ...el, amount: currencyToNumber(el.amount) }))
+
+    obj.cityId = obj.city?.value
+    delete obj.city
+    obj.departmentId = obj.department?.value
+    delete obj.department
+    obj.jobLevelId = obj.jobLevel?.value
+    delete obj.jobLevel
+    obj.jobTypeId = obj.jobType?.value
+    delete obj.jobType
+    obj.positionId = obj.position?.value
+    delete obj.position
 
     return obj
   }
