@@ -175,7 +175,7 @@ const NavbarNotification: React.FC = () => {
             {pageDataVacancies?.content?.map((el, i) => (
               <Link
                 key={el.oid || i}
-                to={`/process/${el.module === 'offering' ? 'offering-letter' : el.module.toLowerCase()}?search=${el.candidate.name?.replace(/\s/g, '+')}`}
+                to={`/process/${el.module === 'offering' ? 'offering-letter' : el.module?.toLowerCase()}?search=${el.candidate.name?.replace(/\s/g, '+')}`}
               >
                 <li key={i} className="flex items-center gap-3 py-3">
                   <Avatar
