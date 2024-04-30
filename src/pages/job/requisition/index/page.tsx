@@ -99,7 +99,7 @@ export const Component: React.FC = () => {
                       withReset
                       value={status?.value}
                       onChange={setStatus}
-                      options={genOptions(['Progress', 'Approved', 'Published', 'Draft', 'Canceled', 'Rejected'])}
+                      options={genOptions(['progress', 'approved', 'published', 'draft', 'canceled', 'rejected'])}
                     />
                   </div>
                 )

@@ -97,7 +97,7 @@ export const Component: React.FC = () => {
                       withReset
                       value={status?.value}
                       onChange={setStatus}
-                      options={genOptions(['Active', 'Inactive', 'Draft', 'Expired', 'Fulfilled'])}
+                      options={genOptions(['active', 'inactive', 'draft', 'expired', 'fulfilled'])}
                     />
                   </div>
                 )
