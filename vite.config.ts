@@ -20,10 +20,66 @@ export default defineConfig({
         start_url: '.',
         display: 'standalone',
         icons: [
-          { src: 'icons/144.png', sizes: '144x144' },
-          { src: 'icons/256.png', sizes: '256x256' },
+          { src: 'icons/192.png', sizes: '192x192' },
           { src: 'icons/512.png', sizes: '512x512' },
-          { src: 'icons/1024.png', sizes: '1024x1024' },
+        ],
+      },
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'gstatic-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+          {
+            urlPattern: /^https:\/\/unpkg\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'unpkg-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+
+          {
+            urlPattern: /^https:\/\/master\.api-jobseeker\.site\/.*/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'master-data',
+              expiration: {
+                maxEntries: 20,
+                maxAgeSeconds: 60 * 60 * 24 * 30, // <== 30 days
+              },
+            },
+          },
         ],
       },
     }),
