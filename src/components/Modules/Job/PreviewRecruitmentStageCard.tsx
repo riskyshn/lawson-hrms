@@ -1,11 +1,22 @@
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncAction from '@/core/hooks/use-async-action'
 import { organizationService } from '@/services'
+import { AxiosRequestConfig } from 'axios'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruitmentProcess'], undefined> }> = ({ process }) => {
-  const [recruitmentStages, loading] = useAsyncAction(organizationService.fetchRecruitmentStages, { limit: 99999 })
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token') || ''
+
+  let config: AxiosRequestConfig | undefined = undefined
+
+  if (token) {
+    config = { headers: { Authorization: 'Bearer ' + token } }
+  }
+
+  const [recruitmentStages, loading] = useAsyncAction(organizationService.fetchRecruitmentStages, { limit: 99999 }, config)
 
   const stages = process.map((el) => el.oid)
   const interviews = recruitmentStages?.content.filter((el) => el.type == 'INTERVIEW').filter((el) => stages.includes(el.oid))
