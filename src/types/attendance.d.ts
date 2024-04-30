@@ -306,6 +306,7 @@ interface IEmployeeHistoryAttendance {
       isRequiredAttachment?: boolean
       isSalaryDeduction?: boolean
     }
+    createdAt: string
     startDate: string
     endDate: string
     attachment: string
