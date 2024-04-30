@@ -20,37 +20,34 @@ const AnnouncementCard: React.FC = () => {
   })
 
   return (
-    <Card>
+    <>
       <CreateModal show={show} onClose={() => setShow(false)} onRefresh={onRefresh} />
       <PreviewModal item={selectedToPreview} onClose={() => setSelectedToPreview(null)} />
-      <LoadingScreen show={!pageData} />
-      {pageData && (
-        <>
-          <CardHeader
-            className="h-16"
-            actions={<BaseInputDateRange placeholder="Filter by date" value={filterDate} onValueChange={setFilterDate} />}
-          >
-            <div className="font-semibold">Announcement</div>
-          </CardHeader>
-          <CardBody className="p-0">
-            {!!pageData && (
-              <ul className="chrome-scrollbar max-h-80 overflow-y-auto p-3">
-                {pageData.content.map((el, i) => (
-                  <AnnouncementItem key={i} item={el} onClick={setSelectedToPreview} onRefresh={onRefresh} />
-                ))}
-              </ul>
-            )}
 
-            <LoadingScreen show={!pageData} />
-          </CardBody>
-          <CardFooter>
-            <Button type="button" block color="primary" variant="light" onClick={() => setShow(true)}>
-              Quick publish an announcement
-            </Button>
-          </CardFooter>
-        </>
-      )}
-    </Card>
+      <Card className="flex h-[500px] flex-col">
+        <LoadingScreen show={!pageData} className="flex-1" />
+        {pageData && (
+          <>
+            <CardHeader
+              className="h-16"
+              actions={<BaseInputDateRange placeholder="Filter by date" value={filterDate} onValueChange={setFilterDate} />}
+            >
+              <div className="font-semibold">Announcement</div>
+            </CardHeader>
+            <CardBody as="ul" className="chrome-scrollbar flex-1 overflow-y-auto">
+              {pageData.content.map((el, i) => (
+                <AnnouncementItem key={i} item={el} onClick={setSelectedToPreview} onRefresh={onRefresh} />
+              ))}
+            </CardBody>
+            <CardFooter>
+              <Button type="button" block color="primary" variant="light" onClick={() => setShow(true)}>
+                Quick publish an announcement
+              </Button>
+            </CardFooter>
+          </>
+        )}
+      </Card>
+    </>
   )
 }
 

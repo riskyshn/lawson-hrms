@@ -1,23 +1,24 @@
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncAction from '@/core/hooks/use-async-action'
-import useAsyncSearch from '@/core/hooks/use-async-search'
 import { dashboardService, organizationService } from '@/services'
 import { Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
+import { InboxIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 
 const RecentlyPostedJobsCard: React.FC = () => {
   const [department_id, setDepartmentId] = useState<string>()
-  const { pageData, isLoading } = useAsyncSearch(dashboardService.recentlyPostedJobs, { limit: 20, department_id })
+  const [vacancies] = useAsyncAction(dashboardService.recentlyPostedJobs, { limit: 20, department_id })
   const [departments] = useAsyncAction(organizationService.fetchDepartments, { limit: 99999 })
 
   return (
-    <Card>
-      <LoadingScreen show={!pageData} />
-      {pageData && (
+    <Card className="flex h-[500px] flex-col">
+      <LoadingScreen show={!vacancies || !departments} />
+      {vacancies && departments && (
         <>
           <CardHeader className="h-16 font-semibold">Recently Posted Jobs</CardHeader>
+
           <CardBody className="p-0">
             <div className="chrome-scrollbar flex gap-3 overflow-x-scroll p-3 pb-2">
               <Card
@@ -32,7 +33,7 @@ const RecentlyPostedJobsCard: React.FC = () => {
               >
                 <span className="block w-full whitespace-nowrap text-center text-sm font-semibold">All</span>
               </Card>
-              {departments?.content.map((el, i) => (
+              {departments.content.map((el, i) => (
                 <Card
                   key={i}
                   as="button"
@@ -49,26 +50,34 @@ const RecentlyPostedJobsCard: React.FC = () => {
               ))}
             </div>
           </CardBody>
-          <CardBody className="chrome-scrollbar flex max-h-80 flex-col divide-y overflow-y-auto py-0">
-            {!isLoading &&
-              pageData.content.map((el, i) => (
-                <li key={i} className="flex items-center gap-3 py-3">
-                  <div className="flex-1">
-                    <span className="block text-sm font-semibold">{el.name}</span>
-                    <span className="block text-xs text-primary-600">{el.applicantCount} Applicants</span>
-                  </div>
-                  <Button
-                    as={Link}
-                    to={`/job/${el.rrNumber ? 'requisition' : 'management'}?search=${el.name}`}
-                    color="primary"
-                    size="small"
-                    className="px-3"
-                  >
-                    View
-                  </Button>
-                </li>
-              ))}
-            <LoadingScreen show={isLoading} />
+          <CardBody className="chrome-scrollbar flex flex-1 flex-col divide-y overflow-y-auto py-0">
+            {vacancies.content.map((el, i) => (
+              <li key={i} className="flex items-center gap-3 py-3">
+                <div className="flex-1">
+                  <span className="block text-sm font-semibold">{el.name}</span>
+                  <span className="block text-xs text-primary-600">{el.applicantCount} Applicants</span>
+                </div>
+                <Button
+                  as={Link}
+                  to={`/job/${el.rrNumber ? 'requisition' : 'management'}?search=${el.name}`}
+                  color="primary"
+                  size="small"
+                  className="px-3"
+                >
+                  View
+                </Button>
+              </li>
+            ))}
+            {vacancies.content.length == 0 && (
+              <li className="flex flex-1 flex-col items-center justify-center p-3">
+                <div className="mb-4 flex animate-pulse justify-center text-gray-900">
+                  <InboxIcon className="md:h-28 md:w-28" strokeWidth={0.5} />
+                </div>
+                <p className="mx-auto max-w-lg text-center text-sm font-light">
+                  No recently posted jobs found. Check back later for updates or try adjusting filters.
+                </p>
+              </li>
+            )}
           </CardBody>
         </>
       )}
