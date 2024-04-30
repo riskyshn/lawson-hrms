@@ -34,12 +34,16 @@ export const deleteDraftVacancy = (id: string) => {
   return axios.delete(`/vacancy/${id}`).then((response) => response.data.data)
 }
 
-export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 'draft' | 'progress') => {
+export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 'draft') => {
   return axios.patch(`/vacancy/${id}?status=${status}`).then((response) => response.data.data)
 }
 
 export const cancelRequisition = (id: string) => {
   return axios.patch(`/requisition/${id}/cancel`).then((response) => response.data.data)
+}
+
+export const progressRequisition = (id: string) => {
+  return axios.patch(`/requisition/${id}/progress`).then((response) => response.data.data)
 }
 
 export const publishRequisition = (id: string) => {
