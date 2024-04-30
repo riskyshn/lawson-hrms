@@ -96,6 +96,7 @@ const RenumerationForm: React.FC<{
                 label="Amount"
                 labelRequired
                 placeholder="Rp."
+                prefix="Rp "
                 error={errors.benefits?.[i]?.amount?.message}
                 name={`benefits.${i}.amount`}
                 value={el.amount}

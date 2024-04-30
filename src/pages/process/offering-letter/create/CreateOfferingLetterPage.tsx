@@ -10,6 +10,35 @@ import { useNavigate, useParams } from 'react-router-dom'
 import EmployeeDetailsForm from '../components/EmployeeDetailsForm'
 import RenumerationForm from '../components/RenumerationForm'
 
+const processFormData = (data: Record<string, Record<string, any>>) => {
+  const obj: Record<string, any> = {}
+  Object.values(data).forEach((item) => {
+    for (const key in item) {
+      if (Object.prototype.hasOwnProperty.call(item, key)) {
+        obj[key] = item[key]
+      }
+    }
+  })
+
+  obj.joinDate = moment(obj.joinDate).format('YYYY-MM-DD')
+  if (obj.expiryDate) obj.expiryDate = moment(obj.expiryDate).format('YYYY-MM-DD')
+  obj.baseSalary = currencyToNumber(obj.baseSalary)
+  obj.benefits = obj.benefits.map((el: Record<string, any>) => ({ ...el, amount: currencyToNumber(el.amount) }))
+
+  obj.cityId = obj.city?.value
+  delete obj.city
+  obj.departmentId = obj.department?.value
+  delete obj.department
+  obj.jobLevelId = obj.jobLevel?.value
+  delete obj.jobLevel
+  obj.jobTypeId = obj.jobType?.value
+  delete obj.jobType
+  obj.positionId = obj.position?.value
+  delete obj.position
+
+  return obj
+}
+
 const CreateOfferingLetterPage: React.FC = () => {
   const { applicantId } = useParams()
   const navigate = useNavigate()
@@ -35,43 +64,13 @@ const CreateOfferingLetterPage: React.FC = () => {
     if (!isLastStep) return
     setLoading(true)
     try {
-      await processService.createOfferingLetter(processFormData(data))
+      await processService.createOfferingLetter({ applicantId, ...processFormData(data) })
       toast('Offering letter successfully created.', { color: 'success' })
       navigate(`/process/offering-letter`)
     } catch (error) {
       toast(axiosErrorMessage(error), { color: 'error' })
       setLoading(false)
     }
-  }
-
-  const processFormData = (data: Record<string, Record<string, any>>) => {
-    const obj: Record<string, any> = {}
-    Object.values(data).forEach((item) => {
-      for (const key in item) {
-        if (Object.prototype.hasOwnProperty.call(item, key)) {
-          obj[key] = item[key]
-        }
-      }
-    })
-
-    obj.applicantId = applicantId
-    obj.joinDate = moment(obj.joinDate).format('YYYY-MM-DD')
-    if (obj.expiryDate) obj.expiryDate = moment(obj.expiryDate).format('YYYY-MM-DD')
-    obj.baseSalary = currencyToNumber(obj.baseSalary)
-    obj.benefits = obj.benefits.map((el: Record<string, any>) => ({ ...el, amount: currencyToNumber(el.amount) }))
-
-    obj.cityId = obj.city?.value
-    delete obj.city
-    obj.departmentId = obj.department?.value
-    delete obj.department
-    obj.jobLevelId = obj.jobLevel?.value
-    delete obj.jobLevel
-    obj.jobTypeId = obj.jobType?.value
-    delete obj.jobType
-    obj.positionId = obj.position?.value
-    delete obj.position
-
-    return obj
   }
 
   return (

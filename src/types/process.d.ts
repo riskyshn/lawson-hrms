@@ -42,3 +42,16 @@ interface IUploadedProcessDocument {
   }
   uploadedAt: string
 }
+
+interface IOfferingLetter {
+  letterNumber: string
+  position?: IGeneralDataEmmbed
+  department?: IGeneralDataEmmbed
+  jobLevel?: IGeneralDataEmmbed
+  jobType?: IGeneralDataEmmbed
+  city?: IGeneralDataEmmbed
+  joinDate?: string
+  expiryDate?: string
+  baseSalary?: number
+  benefits?: Array<{ name?: string; amount?: number }>
+}
