@@ -52,8 +52,8 @@ export const fetchDetailStages = (oid: string, signal?: GenericAbortSignal) => {
   return axios.get<{ data: { content: IApplicantStage[] } }>(`/process/stages/${oid}`, { signal }).then((response) => response.data.data)
 }
 
-export const moveToOfferingLetter = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
-  return axios.put<{ data: IApplicant }>(`/process/offering-letter`, payload, { signal }).then((response) => response.data.data)
+export const moveToOfferingLetter = (oid: string) => {
+  return axios.patch<{ data: IApplicant }>(`/process/offering-letter/${oid}`).then((response) => response.data.data)
 }
 
 export const previewOfferingLetter = (oid: string, config?: AxiosRequestConfig) => {

@@ -112,7 +112,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     if (!confirmed) return
 
     try {
-      await processService.moveToOfferingLetter({ applicantId: item.oid })
+      await processService.moveToOfferingLetter(item.oid)
       toast('Success fully move item to offering letter.', { color: 'success' })
       navigate('/process/offering-letter')
     } catch (e) {
