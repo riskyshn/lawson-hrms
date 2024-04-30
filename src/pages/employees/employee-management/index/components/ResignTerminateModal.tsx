@@ -47,7 +47,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
     try {
       setIsLoading(true)
       setErrorMessage('')
-      await employeeService.setInactiveEmployee(item.oid, data)
+      await employeeService.setInactiveEmployee(item.oid, { jobTypeId: data.jobType.value, reason: data.reason })
       toast('Employee status updated successfully', { color: 'success' })
       onSuccess()
     } catch (error) {
