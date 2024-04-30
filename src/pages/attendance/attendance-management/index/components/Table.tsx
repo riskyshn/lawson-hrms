@@ -12,10 +12,9 @@ type PropTypes = {
   items: IEmployeeHistoryAttendance[]
   loading?: boolean
   onDataChange: (data: string) => void
-  filterDate?: IFilterDate
 }
 
-const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, filterDate }) => {
+const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const [branchLocation, setBranchLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()

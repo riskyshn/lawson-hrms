@@ -175,7 +175,7 @@ const AttendancePage: React.FC = () => {
               }
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} filterDate={filterDate} />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
           footer={pagination.render()}
         />
       </Container>
