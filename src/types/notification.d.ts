@@ -1,22 +1,14 @@
 interface INotification {
-  company: ICompany
-  candidate: ICandidate
-  vacancy: IVacancy
-  activity: IActivity
+  vacancy: string
+  candidate: {
+    name: string
+    photoProfile: string
+  }
   message: string
-  flag: string
-  oid: string
-}
-
-interface IActivity {
-  applyProcess: string
-  status: string
   type: string
-  from: string
-  actionAt: string
-  notes: string
-  file: null
-  createdAt: string
-  updatedAt: string
+  module: string
   oid: string
+  companyId: string
+  isRead: boolean
+  createdAt: string
 }

@@ -8,6 +8,10 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
-export const fetchVacanciesNotification = (params: IPaginationParam = {}, signal?: GenericAbortSignal) => {
+type FetchNotificationParams = IPaginationParam & {
+  type: string
+}
+
+export const fetchVacanciesNotification = (params: FetchNotificationParams, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<INotification> }>(`/vacancies`, { params, signal }).then((response) => response.data.data)
 }
