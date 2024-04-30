@@ -31,7 +31,7 @@ const Boot: React.FC<React.PropsWithChildren> = ({ children }) => {
           'fixed inset-0 z-[99999] flex items-center justify-center bg-white transition-opacity duration-[1s]',
         )}
       >
-        <Spinner className="h-10 w-10 text-primary-600" />
+        <Spinner className="block text-primary-600" width={80} height={80} strokeWidth={1} />
       </div>
       {!isLoading && children}
     </>
