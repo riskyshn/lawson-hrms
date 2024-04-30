@@ -167,7 +167,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     published: [goToJobManagement, viewCandidates],
     draft: [activateVacancy, editRequisition, deleteDraft],
-    rejected: [reviewRequisition, editRequisition, viewHistory],
+    rejected: [reviewRequisition, viewHistory],
     approved: [postVacancy, reviewRequisition, viewHistory],
     progress: [reviewRequisition, sendReminder, editRequisition, viewHistory, cancelRequisition],
     canceled: [reviewRequisition, viewHistory],
