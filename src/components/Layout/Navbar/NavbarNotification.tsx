@@ -46,7 +46,7 @@ const NavbarNotification: React.FC = () => {
       try {
         const responseVacancies = await notificationService.fetchVacanciesNotification({
           limit: 10,
-          type: 'vacancies',
+          type: 'VACANCIES',
           page: paginationVacancies.currentPage,
         })
         setPageDataVacancies(responseVacancies)
@@ -64,7 +64,7 @@ const NavbarNotification: React.FC = () => {
       try {
         const responseApplicants = await notificationService.fetchVacanciesNotification({
           limit: 10,
-          type: 'applicants',
+          type: 'APPLICANTS',
           page: paginationApplicants.currentPage,
         })
         setPageDataApplicants(responseApplicants)
@@ -82,7 +82,7 @@ const NavbarNotification: React.FC = () => {
       setLoadingVacancies(true)
       const response = await notificationService.fetchVacanciesNotification({
         limit: 10,
-        type: 'vacancies',
+        type: 'VACANCIES',
         page: currentPageVacancies.currentPage + 1,
       })
       setPageDataVacancies((prevData) => ({
@@ -108,7 +108,7 @@ const NavbarNotification: React.FC = () => {
       setLoadingApplicants(true)
       const response = await notificationService.fetchVacanciesNotification({
         limit: 10,
-        type: 'applicants',
+        type: 'APPLICANTS',
         page: currentPageApplicants.currentPage + 1,
       })
       setPageDataApplicants((prevData) => ({
