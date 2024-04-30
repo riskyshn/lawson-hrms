@@ -1,15 +1,14 @@
+import LogoFull from '@/components/Logo/LogoFull'
+import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
+import { useAuthStore } from '@/store'
 import { Navbar as BaseNavbar, Button, NavbarBrand, NavbarNav, useLayout, usePubSub } from 'jobseeker-ui'
 import { Calendar, Menu, Search } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 import NavbarInfo from './NavbarInfo'
-import NavbarProfile from './NavbarProfile'
-// import NavbarNotification from './NavbarNotification'
-import LogoFull from '@/components/Logo/LogoFull'
-import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
-import { useAuthStore } from '@/store'
 import NavbarNotification from './NavbarNotification'
+import NavbarProfile from './NavbarProfile'
 
 const Navbar: React.FC = () => {
   const { toggleSidebarOpen } = useLayout()
