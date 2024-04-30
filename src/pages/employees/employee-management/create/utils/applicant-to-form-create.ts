@@ -8,7 +8,7 @@ export function applicantToFormCreate(applicant: ICandidateToCreateEmployee) {
       residentalAddress: '',
       nationIdAddress: '',
       postalCode: '',
-      nationalIdNumber: '',
+      nationalIdNumber: applicant.nik,
       linkNationalId: '',
       numberOfChildren: 0,
       maritalStatus: emmbedToOption(applicant.maritalStatus),
