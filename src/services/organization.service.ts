@@ -166,9 +166,9 @@ export const deleteJobType = (id: string) => {
  * RecruitmentStage
  *
  */
-export const fetchRecruitmentStages = (params?: IPaginationParam, signal?: GenericAbortSignal) => {
+export const fetchRecruitmentStages = (params?: IPaginationParam, config: AxiosRequestConfig = {}) => {
   return axios
-    .get<{ data: IPaginationResponse<IRecruitmentStage> }>(`/recruitment-stage`, { params, signal })
+    .get<{ data: IPaginationResponse<IRecruitmentStage> }>(`/recruitment-stage`, { params, ...config })
     .then((response) => response.data.data)
 }
 
