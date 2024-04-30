@@ -76,7 +76,7 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   }))
 
   return (
-    <Card>
+    <Card className="overflow-x-auto">
       <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={isLoading} />
       <CardFooter className="justify-center">{pagination.render()}</CardFooter>
     </Card>

@@ -115,7 +115,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   }))
 
   return (
-    <Card>
+    <Card className="overflow-x-auto">
       <MapsPreviewerModal
         coordinates={selectedLocation[0]}
         radiusCoordinates={selectedLocation[1]}

@@ -2,6 +2,7 @@ import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncSearch from '@/core/hooks/use-async-search'
 import { dashboardService } from '@/services'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
+import { InboxIcon } from 'lucide-react'
 import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
@@ -10,12 +11,12 @@ const UpcomingScheduleCard: React.FC = () => {
   const { pageData } = useAsyncSearch(dashboardService.upcomingSchedule, { limit: 20 })
 
   return (
-    <Card>
+    <Card className="flex h-[500px] flex-col">
       <LoadingScreen show={!pageData} />
       {pageData && (
         <>
           <CardHeader className="flex h-16 items-center justify-between font-semibold">Upcoming Schedule</CardHeader>
-          <CardBody className="chrome-scrollbar flex max-h-80 flex-col gap-3 overflow-y-auto">
+          <CardBody className="chrome-scrollbar flex flex-1 flex-col gap-3 overflow-y-auto">
             {pageData.content.map((el, i) => (
               <Link
                 key={i}
@@ -30,6 +31,17 @@ const UpcomingScheduleCard: React.FC = () => {
                 <span className="block text-xs text-gray-500">Lead by {el.name}</span>
               </Link>
             ))}
+
+            {pageData.content.length == 0 && (
+              <div className="flex flex-1 flex-col items-center justify-center p-3">
+                <div className="mb-4 flex animate-pulse justify-center text-gray-900">
+                  <InboxIcon className="md:h-28 md:w-28" strokeWidth={0.5} />
+                </div>
+                <p className="mx-auto max-w-lg text-center text-sm font-light">
+                  No upcoming schedules found. Stay tuned for future updates!
+                </p>
+              </div>
+            )}
           </CardBody>
         </>
       )}
