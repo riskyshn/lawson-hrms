@@ -12,6 +12,14 @@ type FetchNotificationParams = IPaginationParam & {
   type: string
 }
 
-export const fetchVacanciesNotification = (params: FetchNotificationParams, signal?: GenericAbortSignal) => {
+export const fetchNotification = (params: FetchNotificationParams, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<INotification> }>(`/notification`, { params, signal }).then((response) => response.data.data)
+}
+
+export const updateNotification = (oid: string) => {
+  return axios.patch(`/notification/read/${oid}`).then((response) => response.data.data)
+}
+
+export const getTotalNotification = (params: FetchNotificationParams, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: number }>(`/notification/total-not-read`, { params, signal }).then((response) => response.data.data)
 }
