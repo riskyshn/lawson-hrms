@@ -4,7 +4,6 @@ import { defineConfig } from 'vite'
 // import mkcert from 'vite-plugin-mkcert'
 import process from 'node:process'
 import { VitePWA } from 'vite-plugin-pwa'
-import icons from './icons.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,7 +19,12 @@ export default defineConfig({
         theme_color: '#ffffff',
         start_url: '.',
         display: 'standalone',
-        icons,
+        icons: [
+          { src: 'icons/144.png', sizes: '144x144' },
+          { src: 'icons/256.png', sizes: '256x256' },
+          { src: 'icons/512.png', sizes: '512x512' },
+          { src: 'icons/1024.png', sizes: '1024x1024' },
+        ],
       },
     }),
   ],
