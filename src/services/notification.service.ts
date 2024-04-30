@@ -13,5 +13,5 @@ type FetchNotificationParams = IPaginationParam & {
 }
 
 export const fetchVacanciesNotification = (params: FetchNotificationParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<INotification> }>(`/vacancies`, { params, signal }).then((response) => response.data.data)
+  return axios.get<{ data: IPaginationResponse<INotification> }>(`/notification`, { params, signal }).then((response) => response.data.data)
 }
