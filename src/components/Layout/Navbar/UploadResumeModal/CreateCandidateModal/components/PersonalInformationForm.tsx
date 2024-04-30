@@ -40,7 +40,7 @@ const schema = yup.object({
     .url()
     .label('Resume'),
   fullName: yup.string().required().label('Full Name'),
-  nik: yup.string().required().label('National ID Number'),
+  nik: yup.string().min(16).max(16).required().label('National ID Number'),
   email: yup.string().email().required().label('Email'),
   password: yup.string().required().label('Password'),
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
@@ -125,6 +125,7 @@ const PersonalInformationForm: React.FC<{
             labelRequired
             error={errors.nik?.message}
             {...register('nik')}
+            type="number"
           />
           <Input label="Email" placeholder="email@example.com" labelRequired error={errors.email?.message} {...register('email')} />
           <Input
