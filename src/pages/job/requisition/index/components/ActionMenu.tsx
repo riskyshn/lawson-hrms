@@ -2,7 +2,7 @@ import * as Table from '@/components/Elements/Tables/MainTable'
 import { vacancyService } from '@/services'
 import { useAuthStore } from '@/store'
 import { useConfirm, useToast } from 'jobseeker-ui'
-import { EyeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import { EyeIcon, GlobeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -143,9 +143,30 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
     },
   }
 
+  const activateVacancy: Table.ActionMenuItemProps = {
+    text: 'Activate Vacancy',
+    icon: GlobeIcon,
+    action: async () => {
+      const confirmed = await confirm({
+        text: 'Are you sure you want to activate vacancy?',
+        confirmBtnColor: 'error',
+        cancelBtnColor: 'primary',
+      })
+      if (confirmed) {
+        try {
+          await vacancyService.updateVacancyStatus(vacancy.oid, 'active')
+          toast('Success fully post vacancy.', { color: 'success' })
+          onRefresh?.()
+        } catch (e: any) {
+          toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
+        }
+      }
+    },
+  }
+
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     published: [goToJobManagement, viewCandidates],
-    draft: [reviewRequisition, editRequisition, deleteDraft],
+    draft: [activateVacancy, editRequisition, deleteDraft],
     rejected: [reviewRequisition, editRequisition, viewHistory],
     approved: [postVacancy, reviewRequisition, viewHistory],
     progress: [reviewRequisition, sendReminder, editRequisition, viewHistory, cancelRequisition],
