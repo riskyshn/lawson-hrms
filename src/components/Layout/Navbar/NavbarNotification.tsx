@@ -1,5 +1,5 @@
 import usePagination from '@/core/hooks/use-pagination'
-import { dashboardService, notificationService } from '@/services'
+import { notificationService } from '@/services'
 import { Menu } from '@headlessui/react'
 import { Avatar, Badge, Button, CardBody, Spinner } from 'jobseeker-ui'
 import { Bell } from 'lucide-react'
@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 const NavbarNotification: React.FC = () => {
   const [viewMode, setViewMode] = useState<'applicants' | 'vacancies'>('applicants')
   const [pageDataVacancies, setPageDataVacancies] = useState<IPaginationResponse<INotification>>()
-  const [pageDataApplicants, setPageDataApplicants] = useState<IPaginationResponse<IDashboardRecentlyApplied>>()
+  const [pageDataApplicants, setPageDataApplicants] = useState<IPaginationResponse<INotification>>()
   const [pageError, setPageError] = useState<any>()
   const [hasMoreItemsVacancies, setHasMoreItemsVacancies] = useState<boolean>(false)
   const [hasMoreItemsApplicants, setHasMoreItemsApplicants] = useState<boolean>(false)
@@ -46,6 +46,7 @@ const NavbarNotification: React.FC = () => {
       try {
         const responseVacancies = await notificationService.fetchVacanciesNotification({
           limit: 10,
+          type: 'vacancies',
           page: paginationVacancies.currentPage,
         })
         setPageDataVacancies(responseVacancies)
@@ -61,13 +62,12 @@ const NavbarNotification: React.FC = () => {
   useEffect(() => {
     const loadApplicantsData = async () => {
       try {
-        const responseApplicants = await dashboardService.recentlyApplied({
+        const responseApplicants = await notificationService.fetchVacanciesNotification({
           limit: 10,
+          type: 'applicants',
           page: paginationApplicants.currentPage,
         })
         setPageDataApplicants(responseApplicants)
-        console.log('length: ' + responseApplicants?.content?.length)
-        console.log('totalElements: ' + responseApplicants?.totalElements)
         setHasMoreItemsApplicants(responseApplicants?.content?.length < responseApplicants?.totalElements)
       } catch (e) {
         setPageError(e)
@@ -82,6 +82,7 @@ const NavbarNotification: React.FC = () => {
       setLoadingVacancies(true)
       const response = await notificationService.fetchVacanciesNotification({
         limit: 10,
+        type: 'vacancies',
         page: currentPageVacancies.currentPage + 1,
       })
       setPageDataVacancies((prevData) => ({
@@ -105,8 +106,9 @@ const NavbarNotification: React.FC = () => {
   const loadMoreDataApplicants = async () => {
     try {
       setLoadingApplicants(true)
-      const response = await dashboardService.recentlyApplied({
+      const response = await notificationService.fetchVacanciesNotification({
         limit: 10,
+        type: 'applicants',
         page: currentPageApplicants.currentPage + 1,
       })
       setPageDataApplicants((prevData) => ({
@@ -150,7 +152,7 @@ const NavbarNotification: React.FC = () => {
                     <div className="flex-1">
                       <span className="mb-1 block text-sm font-semibold">{el.candidate?.name}</span>
                       <span className="mb-1 block text-sm text-gray-600">{el.message}</span>
-                      <span className="block text-xs text-gray-400">{el.applyDate}</span>
+                      <span className="block text-xs text-gray-400">{el.createdAt}</span>
                     </div>
                   </li>
                 </Link>
@@ -173,7 +175,7 @@ const NavbarNotification: React.FC = () => {
             {pageDataVacancies?.content?.map((el, i) => (
               <Link
                 key={el.oid || i}
-                to={`/process/${el.flag === 'offering' ? 'offering-letter' : el.flag.toLowerCase()}?search=${el.candidate?.name?.replace(/\s/g, '+')}`}
+                to={`/process/${el.module === 'offering' ? 'offering-letter' : el.module.toLowerCase()}?search=${el.candidate.name?.replace(/\s/g, '+')}`}
               >
                 <li key={i} className="flex items-center gap-3 py-3">
                   <Avatar
@@ -185,7 +187,7 @@ const NavbarNotification: React.FC = () => {
                   <div className="flex-1">
                     <span className="mb-1 block text-sm font-semibold">{el.candidate?.name}</span>
                     <span className="mb-1 block text-sm text-gray-600">{el.message}</span>
-                    <span className="block text-xs text-gray-400">{formatDate(el.activity.actionAt)}</span>
+                    <span className="block text-xs text-gray-400">{formatDate(el.createdAt)}</span>
                   </div>
                 </li>
               </Link>
