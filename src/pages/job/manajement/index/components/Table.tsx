@@ -11,7 +11,7 @@ const getStatus = (vacancy: IVacancy): { color: string; text: string } => {
     active: { color: 'bg-green-100 text-green-600', text: 'Active' },
     draft: { color: 'bg-pink-100 text-pink-600', text: 'Draft' },
     expired: { color: 'bg-red-100 text-red-600', text: 'Expired' },
-    fulfilled: { color: 'bg-yellow-400 text-white', text: 'Fulfilled' },
+    fulfilled: { color: 'bg-yellow-100 text-yellow-700', text: 'Fulfilled' },
     inactive: { color: 'bg-gray-100 text-gray-600', text: 'Inactive' },
   }
 
@@ -35,12 +35,7 @@ const Table: React.FC<{
   const bodyItems = items.map((vacancy, index) => ({
     items: [
       {
-        children: (
-          <>
-            <span className="block font-semibold">{vacancy.vacancyName}</span>
-            {/* <span className="text-xs text-gray-500">{vacancy.rrNumber || '-'}</span> */}
-          </>
-        ),
+        children: <span className="block font-semibold">{vacancy.vacancyName}</span>,
       },
       { children: vacancy.department?.name || '-', className: 'text-center' },
       { children: vacancy.createdAt ? moment.utc(vacancy.createdAt).local().format('D/M/Y') : '-', className: 'text-center' },
