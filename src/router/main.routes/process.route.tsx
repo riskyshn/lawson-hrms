@@ -4,6 +4,7 @@ import AssessmentPage from '@/pages/process/assessment/AssessmentPage'
 import InterviewPage from '@/pages/process/interview/InterviewPage'
 import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'
 import OfferingLetterPage from '@/pages/process/offering-letter/index/OfferingLetterPage'
+import PreviewOfferingLetterPage from '@/pages/process/offering-letter/preview/PreviewOfferingLetterPage'
 import ReviseOfferingLetterPage from '@/pages/process/offering-letter/revise/ReviseOfferingLetterPage'
 import UploadDocumentsPage from '@/pages/process/offering-letter/upload-documents/UploadDocumentsPage'
 import UploadSignedOfferingLetterPage from '@/pages/process/offering-letter/upload-signed/UploadSignedOfferingLetterPage'
@@ -47,6 +48,10 @@ const candidatesRoute: RouteObject = {
         {
           element: <ViewSignedPage />,
           path: ':applicantId/view-signed',
+        },
+        {
+          element: <PreviewOfferingLetterPage />,
+          path: ':applicantId/preview',
         },
       ],
       name: 'Offering Letter',

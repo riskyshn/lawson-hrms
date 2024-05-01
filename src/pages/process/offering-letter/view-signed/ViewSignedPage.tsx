@@ -5,39 +5,26 @@ import useAsyncAction from '@/core/hooks/use-async-action'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Button, useToast } from 'jobseeker-ui'
-import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 const ViewSignedPage: React.FC = () => {
   const { applicantId } = useParams()
-  const [previewUrl, setPreviewUrl] = useState<string>()
   const toast = useToast()
 
-  const [preview] = useAsyncAction(processService.previewOfferingLetter, String(applicantId), { headers: { Accept: 'application/pdf' } })
-
-  useEffect(() => {
-    const onPreview = async () => {
-      if (!preview) return
-      try {
-        const blob = new Blob([preview.data], { type: 'application/pdf' })
-        const url = URL.createObjectURL(blob)
-        setPreviewUrl(url)
-      } catch (e) {
-        toast(axiosErrorMessage(e), { color: 'error' })
-      }
-    }
-    onPreview()
-  }, [preview, toast])
+  const [data] = useAsyncAction(processService.getSignedOfferingLetter, String(applicantId))
 
   const onDownload = async () => {
-    if (!preview) return
+    if (!data) return
+
     try {
-      const blob = new Blob([preview.data], { type: 'application/pdf' })
+      const response = await fetch(data.link)
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
-      link.href = window.URL.createObjectURL(blob)
-      link.download = `offering-letter-${+new Date()}.pdf`
+      link.href = url
+      link.download = `offering-letter-signed-${Date.now()}.pdf`
       link.click()
-      window.URL.revokeObjectURL(link.href)
+      window.URL.revokeObjectURL(url)
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
     }
@@ -47,8 +34,8 @@ const ViewSignedPage: React.FC = () => {
     <>
       <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'View Signed Offering Letter' }]} />
       <Container className="flex h-[calc(100vh-102px)] flex-col gap-3 py-3">
-        <LoadingScreen className="flex-1" show={!previewUrl} spinnerSize={80} />
-        {previewUrl && <iframe className="block flex-1 rounded-lg bg-white" src={previewUrl} />}
+        <LoadingScreen className="flex-1" show={!data?.link} spinnerSize={80} />
+        {data?.link && <iframe className="block flex-1 rounded-lg bg-white" src={data.link} />}
         <div className="flex justify-end gap-3">
           <Button as={Link} className="w-32" color="primary" to="/process/offering-letter" variant="light">
             Back

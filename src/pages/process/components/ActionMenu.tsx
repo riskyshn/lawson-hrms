@@ -4,6 +4,7 @@ import { axiosErrorMessage } from '@/utils/axios'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import {
   EditIcon,
+  EyeIcon,
   FileEditIcon,
   FileIcon,
   HistoryIcon,
@@ -126,7 +127,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
   const reviseOfferingLetter = createMenuItem('Revise Offering Letter', FileEditIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/revise`),
   )
-  const uploadSignedOfferingLetter = createMenuItem('Upload Signed Of... Le...', FileIcon, undefined, undefined, () =>
+  const uploadSignedOfferingLetter = createMenuItem('Upload Signed Offerig Letter', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-signed`),
   )
   const uploadDocuments = createMenuItem('Upload Documents', UploadIcon, undefined, undefined, () =>
@@ -135,8 +136,11 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
   const editDocuments = createMenuItem('Edit Documents', EditIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-documents?edit=true`),
   )
-  const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Le...', FileIcon, undefined, undefined, () =>
+  const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Letter', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/view-signed`),
+  )
+  const previewOfferingLetter = createMenuItem('Preview Offerig Letter', EyeIcon, undefined, undefined, () =>
+    navigate(`/process/offering-letter/${item.oid}/preview`),
   )
   const addAsEmployee = createMenuItem('Add As Employee', UserPlusIcon, undefined, undefined, () =>
     navigate(`/employees/employee-management/create?applicantId=${item.oid}`),
@@ -161,7 +165,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
     // Action menu items for applications in the "Ready to Offer" status (4).
     '4': [createOfferingLetter, editDocuments, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Offering Letter Sent" status (5).
-    '5': [reviseOfferingLetter, uploadSignedOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw],
+    '5': [reviseOfferingLetter, uploadSignedOfferingLetter, previewOfferingLetter, sendReminder, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Offering Signed" status (6).
     '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Waiting to Join" status (7).

@@ -96,6 +96,7 @@ const EmployeeDetailsForm: React.FC<{
         <AsyncSelect
           action={organizationService.fetchJobTypes}
           converter={emmbedToOptions}
+          params={{ status: 1 }}
           error={errors.jobType?.message}
           label="Employment Type"
           labelRequired
