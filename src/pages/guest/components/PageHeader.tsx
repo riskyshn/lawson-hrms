@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from 'react'
 
 const PageHeader: React.FC<PropsWithChildren<{ subTitle?: React.ReactNode }>> = ({ children, subTitle }) => {
   return (
-    <div className="background-animate relative flex items-center justify-center overflow-hidden bg-gradient-to-r from-primary-400 to-primary-900 py-12 text-white">
+    <div className="relative flex animate-[position_20s_infinite] items-center justify-center overflow-hidden bg-gradient-to-r from-primary-400 to-primary-900 bg-[length:400%] py-12 text-white">
       <div className="container mx-auto">
         <h1 className="mb-3 text-center text-2xl font-semibold">{children}</h1>
         {!!subTitle && <p className="mx-auto max-w-3xl text-center text-sm">{subTitle}</p>}
