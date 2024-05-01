@@ -7,6 +7,7 @@ import numberToCurrency from '@/utils/number-to-currency'
 import { Avatar, Button, useRemember, useToast } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
 import React, { useEffect, useMemo, useState } from 'react'
+
 import TableItem from './TableItem'
 
 type PropTypes = {
@@ -54,47 +55,47 @@ const DetailEmployeePayrollModal: React.FC<PropTypes> = ({ item: newItem, onClos
   const onRefresh = () => setRefresh((v) => !v)
 
   return (
-    <SideModal show={!!newItem} className="divide-y bg-white">
-      <LoadingScreen show={!detail} className="flex-1 p-0" />
+    <SideModal className="divide-y bg-white" show={!!newItem}>
+      <LoadingScreen className="flex-1 p-0" show={!detail} />
 
       {detail && (
         <>
           <div className="flex items-center gap-3 p-3">
-            <Avatar name={`${item?.name}`} size={48} className="bg-primary-50 text-primary-700" />
+            <Avatar className="bg-primary-50 text-primary-700" name={`${item?.name}`} size={48} />
             <div className="flex-1">
               <h3 className="font-semibold capitalize">{item?.name}</h3>
               <span className="block text-xs">{detail.employeeCode}</span>
             </div>
-            <Button type="button" iconOnly variant="light" color="error" onClick={onClose}>
+            <Button color="error" iconOnly onClick={onClose} type="button" variant="light">
               <XIcon size={18} />
             </Button>
           </div>
 
           <div className="flex-1 overflow-y-auto">
             <MainTable
-              headerItems={[
-                { children: 'Name', className: 'text-left' },
-                { children: 'Type', className: 'text-left' },
-                { children: 'Amount', className: 'text-left w-64' },
-                { children: '', className: 'w-40' },
-              ]}
               bodyItems={
                 detail.components?.map((el, i) => ({
                   children: (
                     <TableItem
                       {...el}
                       itemId={detail.oid}
-                      onRefresh={onRefresh}
                       onChange={(value) => {
                         setAmounts((old) => {
                           old[i] = value
                           return [...old]
                         })
                       }}
+                      onRefresh={onRefresh}
                     />
                   ),
                 })) || []
               }
+              headerItems={[
+                { children: 'Name', className: 'text-left' },
+                { children: 'Type', className: 'text-left' },
+                { children: 'Amount', className: 'text-left w-64' },
+                { children: '', className: 'w-40' },
+              ]}
             />
           </div>
 

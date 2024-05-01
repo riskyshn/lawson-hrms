@@ -2,10 +2,8 @@ import genSidebarLinks from '@/utils/gen-sidebar-links'
 import { PackageIcon, SettingsIcon } from 'lucide-react'
 
 const settingsLinks = genSidebarLinks({
-  title: 'Settings',
   items: [
     {
-      parent: { icon: SettingsIcon, text: 'Settings', to: '/settings' },
       child: [
         { text: 'Company', to: '/settings/company' },
         { text: 'Branch', to: '/settings/branches' },
@@ -18,9 +16,11 @@ const settingsLinks = genSidebarLinks({
         { text: 'Permissions', to: '/settings/permissions' },
         { text: 'Work Placement', to: '/settings/work-placements' },
       ],
+      parent: { icon: SettingsIcon, text: 'Settings', to: '/settings' },
     },
     { parent: { icon: PackageIcon, text: 'CMS', to: '/cms' } },
   ],
+  title: 'Settings',
 })
 
 export default settingsLinks

@@ -7,6 +7,7 @@ import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, MultiSelect, use
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+
 import getEditModalSubtitle from '../../utils/get-edit-modal-subtitle'
 
 type EditModalProps = {
@@ -16,8 +17,8 @@ type EditModalProps = {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Document Name'),
   allowedFileTypes: yup.array().of(yup.string().required().label('File Type')).required().label('Allowed File Types'),
+  name: yup.string().required().label('Document Name'),
 })
 
 const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
@@ -29,12 +30,12 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    trigger,
     formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+    setValue,
+    trigger,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -72,8 +73,8 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   })
 
   return (
-    <Modal as="form" show={!!item} onSubmit={onSubmit}>
-      <ModalHeader subTitle={getEditModalSubtitle(rItem)} onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={!!item}>
+      <ModalHeader onClose={onClose} subTitle={getEditModalSubtitle(rItem)}>
         Update Document Request
       </ModalHeader>
 
@@ -83,28 +84,28 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
         <div className="flex flex-col gap-3 p-3">
           {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-          <Input label="Document Name" labelRequired error={errors.name?.message} {...register('name')} />
+          <Input error={errors.name?.message} label="Document Name" labelRequired {...register('name')} />
 
           <MultiSelect
+            error={errors.allowedFileTypes?.message}
             label="Allowed File Types"
             labelRequired
-            options={fileTypes?.content.map((el) => ({ label: el.name, value: el.extension }))}
             name="allowedFileTypes"
-            error={errors.allowedFileTypes?.message}
-            value={getValues('allowedFileTypes')}
             onValueChange={(v) => {
               setValue('allowedFileTypes', v)
               trigger('allowedFileTypes')
             }}
+            options={fileTypes?.content.map((el) => ({ label: el.name, value: el.extension }))}
+            value={getValues('allowedFileTypes')}
           />
         </div>
       )}
 
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Update
         </Button>
       </ModalFooter>

@@ -2,21 +2,22 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
 import React, { useState } from 'react'
+
 import MenuList from '../../../components/MenuList'
 import CandidateMatchModal from './CandidateMatchModal'
 
 type PropTypes = {
   items: ICandidate[]
   loading?: boolean
-  setPreviewVideoModalUrl: (url: string) => void
-  setPreviewPdfModalUrl: (url: string) => void
   onDataChange: (data: string) => void
+  setPreviewPdfModalUrl: (url: string) => void
+  setPreviewVideoModalUrl: (url: string) => void
 }
 
-const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading, onDataChange }) => {
+const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPdfModalUrl, setPreviewVideoModalUrl }) => {
   const [selectedCandidate, setSelectedCandidate] = useState<any>(null)
   const [showOptionModal, setShowOptionModal] = useState(false)
-  const [modalType, setModalType] = useState<'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | 'CandidateMatch' | null>(null)
+  const [modalType, setModalType] = useState<'CandidateMatch' | 'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null)
   const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'View Profile', 'Reject']
 
   const handleViewDetails = (candidate: any, option: string) => {
@@ -47,8 +48,8 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
 
     return (
       <button
-        onClick={() => handleViewDetails(candidate, 'Candidate Match')}
         className={`rounded-lg ${bgClass} px-2 py-1 text-xs font-semibold ${textClass}`}
+        onClick={() => handleViewDetails(candidate, 'Candidate Match')}
       >
         {matchPercentage}% Match
       </button>
@@ -64,15 +65,15 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
               {candidate.photoProfile ? (
                 <img
                   alt={candidate.photoProfile}
-                  src={candidate.photoProfile}
                   className="block rounded-lg object-cover"
+                  src={candidate.photoProfile}
                   style={{
                     height: '38px',
                     width: '38px',
                   }}
                 />
               ) : (
-                <Avatar name={candidate?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={candidate?.name || '-'} size={38} />
               )}
             </div>
             <div>
@@ -96,18 +97,18 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         children: (
           <span className="flex items-center justify-center gap-2">
             <button
-              disabled={!candidate.cv}
-              title="Preview Pdf Resume"
               className={`text-${!candidate.cv ? 'gray' : 'primary'}-600 hover:text-${!candidate.cv ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!candidate.cv}
               onClick={() => setPreviewPdfModalUrl(candidate?.cv || '-')}
+              title="Preview Pdf Resume"
             >
               <FileTextIcon size={18} />
             </button>
             <button
-              disabled={!candidate.videoResume}
-              title="Preview Video Resume"
               className={`text-${!candidate.videoResume ? 'gray' : 'primary'}-600 hover:text-${!candidate.videoResume ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!candidate.videoResume}
               onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
+              title="Preview Video Resume"
             >
               <FileVideoIcon size={18} />
             </button>
@@ -130,19 +131,19 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
       {
         children: (() => {
           if (candidate.status === 'Locked') {
-            return <MenuList options={['View in Interview']} candidate={candidate} onApplyVacancy={onDataChange} />
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['View in Interview']} />
           } else if (candidate.status === 'Hired') {
-            return <MenuList options={['View in Onboarding']} candidate={candidate} onApplyVacancy={onDataChange} />
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['View in Onboarding']} />
           } else if (candidate.module === 'ASSESSMENT') {
-            return <MenuList options={['Go to Assessment']} candidate={candidate} onApplyVacancy={onDataChange} />
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Assessment']} />
           } else if (candidate.module === 'INTERVIEW') {
-            return <MenuList options={['Go to Interview']} candidate={candidate} onApplyVacancy={onDataChange} />
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Interview']} />
           } else if (candidate.module === 'OFFERING') {
-            return <MenuList options={['Go to Offering Letter']} candidate={candidate} onApplyVacancy={onDataChange} />
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Offering Letter']} />
           } else if (candidate.module === 'SHORTLIST') {
-            return <MenuList options={['Go to Shortlist']} candidate={candidate} onApplyVacancy={onDataChange} />
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Shortlist']} />
           } else {
-            return <MenuList options={options} candidate={candidate} onApplyVacancy={onDataChange} />
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={options} />
           }
         })(),
       },
@@ -152,6 +153,7 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
   return (
     <>
       <MainTable
+        bodyItems={bodyItems}
         headerItems={[
           { children: 'Candidate', className: 'text-left' },
           { children: 'Vacancy', className: 'text-left' },
@@ -161,12 +163,11 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
           { children: 'Status' },
           { children: 'Action', className: 'w-24' },
         ]}
-        bodyItems={bodyItems}
         loading={loading}
       />
 
       {showOptionModal && selectedCandidate && modalType === 'CandidateMatch' && (
-        <CandidateMatchModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={selectedCandidate} />
+        <CandidateMatchModal candidate={selectedCandidate} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       )}
     </>
   )

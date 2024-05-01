@@ -5,6 +5,7 @@ import { employeeService, payrollService } from '@/services'
 import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
 import ComponentsDataForm from '../components/ComponentsDataForm'
 import EmploymentDataForm from '../components/EmploymentDataForm'
 import PayrollDataForm from '../components/PayrollDataForm'
@@ -14,7 +15,7 @@ import useLoadApplicant from './hooks/use-load-applicant'
 import { applicantToFormCreate } from './utils/applicant-to-form-create'
 
 export const Component: React.FC = () => {
-  const { applicantId, applicant } = useLoadApplicant()
+  const { applicant, applicantId } = useLoadApplicant()
 
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const navigate = useNavigate()
@@ -25,15 +26,15 @@ export const Component: React.FC = () => {
   if (pageError) throw pageError
 
   const [formValues, setFormValues] = useState<any>({
-    personalData: {},
+    components: {},
     employment: {},
     payroll: {},
-    components: {},
+    personalData: {},
   })
 
-  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(4, {
+  const { activeStep, handleNext, handlePrev, isLastStep } = useSteps(4, {
     onNext() {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ behavior: 'smooth', top: 0 })
     },
   })
 
@@ -52,8 +53,8 @@ export const Component: React.FC = () => {
 
   useEffect(() => {
     if (!applicant) return
-    const { personalData, employment } = applicantToFormCreate(applicant)
-    setFormValues((formValues: any) => ({ ...formValues, personalData, employment }))
+    const { employment, personalData } = applicantToFormCreate(applicant)
+    setFormValues((formValues: any) => ({ ...formValues, employment, personalData }))
     setIsDataLoaded(true)
   }, [applicant])
 
@@ -79,27 +80,27 @@ export const Component: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Create' }]}
-        title="Add Employee"
         actions={
-          <Button as={Link} to="/employees/employee-management" variant="light" color="error">
+          <Button as={Link} color="error" to="/employees/employee-management" variant="light">
             Cancel
           </Button>
         }
+        breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Create' }]}
+        title="Add Employee"
       />
 
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
           steps={[
-            { title: 'Personal Data', details: 'Set Requirement Personal Data' },
-            { title: 'Employment Data', details: 'Set Requirement Employment Data' },
-            { title: 'Payroll', details: 'Set Payroll' },
-            { title: 'Components', details: 'Set Components' },
+            { details: 'Set Requirement Personal Data', title: 'Personal Data' },
+            { details: 'Set Requirement Employment Data', title: 'Employment Data' },
+            { details: 'Set Payroll', title: 'Payroll' },
+            { details: 'Set Components', title: 'Components' },
           ]}
         />
 
-        <LoadingScreen spinnerSize={80} strokeWidth={1} show={!isDataLoaded} />
+        <LoadingScreen show={!isDataLoaded} spinnerSize={80} strokeWidth={1} />
 
         {isDataLoaded && (
           <>
@@ -126,8 +127,8 @@ export const Component: React.FC = () => {
             )}
             {activeStep === 3 && (
               <ComponentsDataForm
-                defaultValue={formValues.components}
                 allFormData={formValues}
+                defaultValue={formValues.components}
                 handlePrev={handlePrev}
                 handleSubmit={(components) => handleStepSubmit({ ...formValues, components })}
                 isLoading={isSubmitLoading}

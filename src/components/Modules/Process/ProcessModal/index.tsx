@@ -2,18 +2,19 @@ import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Modal, ModalHeader, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
+
 import ProcessForm from './ProcessForm'
 import StagePickerForm from './StagePickerForm'
 
 type ProcessModalProps = {
-  show?: boolean
   applicant?: IDataTableApplicant
   onClose?: () => void
   onSubmited?: () => void
+  show?: boolean
 }
 
-const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited, onClose }) => {
-  const [stages, setStages] = useState<{ interviews: IApplicantStage[]; assessments: IApplicantStage[] }>()
+const ProcessModal: React.FC<ProcessModalProps> = ({ applicant, onClose, onSubmited, show }) => {
+  const [stages, setStages] = useState<{ assessments: IApplicantStage[]; interviews: IApplicantStage[] }>()
   const [dataApplicant, setDataApplicant] = useState<IDataTableApplicant>()
 
   const [tab, setTab] = useState(0)
@@ -27,7 +28,7 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited
         const stages = await processService.fetchDetailStages(applicantId)
         const interviews = stages.content.filter((el) => el.type == 'INTERVIEW')
         const assessments = stages.content.filter((el) => el.type == 'ASSESSMENT')
-        setStages({ interviews, assessments })
+        setStages({ assessments, interviews })
       } catch (e) {
         toast(axiosErrorMessage(e))
         onClose?.()
@@ -46,22 +47,22 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, applicant, onSubmited
 
   return (
     <Modal className="max-w-xl" show={!!show}>
-      <ModalHeader subTitle={tab ? 'Add Process to Your Calendar' : 'Please select the process stage'} onClose={onClose}>
+      <ModalHeader onClose={onClose} subTitle={tab ? 'Add Process to Your Calendar' : 'Please select the process stage'}>
         {tab ? 'Schedule Your Process' : 'Process Update'}
       </ModalHeader>
       {!stages && (
         <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
+          <Spinner className="text-primary-600" height={40} />
         </div>
       )}
       {stages && (
         <>
           {!tab ? (
-            <StagePickerForm stages={stages} value={stageId} onValueChange={setStageId} onCancel={onClose} onNext={() => setTab(1)} />
+            <StagePickerForm onCancel={onClose} onNext={() => setTab(1)} onValueChange={setStageId} stages={stages} value={stageId} />
           ) : (
             <>
               {dataApplicant && stage && (
-                <ProcessForm stage={stage} applicant={dataApplicant} onPrev={() => setTab(0)} onSubmited={onSubmited} onClose={onClose} />
+                <ProcessForm applicant={dataApplicant} onClose={onClose} onPrev={() => setTab(0)} onSubmited={onSubmited} stage={stage} />
               )}
             </>
           )}

@@ -14,9 +14,9 @@ export default function formDataToPayload(data: Record<string, Record<string, an
   const payload: Record<string, any> = {
     ...obj,
     expiredDate: !isRequisition ? moment(obj.expiredDate).format('YYYY-MM-DDTHH:mm:ss.SSS') : undefined,
-    minimumSalary: currencyToNumber(obj.minimumSalary),
     maximumSalary: currencyToNumber(obj.maximumSalary),
     maximumSalaryRequirement: currencyToNumber(obj.maximumSalaryRequirement),
+    minimumSalary: currencyToNumber(obj.minimumSalary),
     rrNumber: isRequisition ? obj.rrNumber : undefined,
     ...(isRequisition ? { approvals: obj.approvals?.map?.((el: any) => el?.value) || [] } : {}),
   }

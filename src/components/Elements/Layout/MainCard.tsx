@@ -1,14 +1,15 @@
 import { Card, CardBody, CardFooter } from 'jobseeker-ui'
 import React, { useEffect, useRef, useState } from 'react'
+
 import ScrollVisibilityContainer from './ScrollVisibilityContainer'
 
 type PropTypes = {
-  header: ((isOpenFilter: boolean, toggleOpenFilter: () => void) => React.ReactNode) | React.ReactNode
   body: React.ReactNode
   footer: React.ReactNode
+  header: ((isOpenFilter: boolean, toggleOpenFilter: () => void) => React.ReactNode) | React.ReactNode
 }
 
-const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
+const MainCard: React.FC<PropTypes> = ({ body, footer, header }) => {
   const ref = useRef<any>(null)
   const [scrollY, setScrollY] = useState(0)
   const [distance, setDistance] = useState(0)
@@ -47,7 +48,7 @@ const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
 
   return (
     <>
-      <ScrollVisibilityContainer distance={distance - 64} containerClassName="border-b">
+      <ScrollVisibilityContainer containerClassName="border-b" distance={distance - 64}>
         <div className="grid grid-cols-1 rounded-t-lg bg-white">
           {typeof header === 'function' ? header(isOpenFilter, toggleOpenFilter) : header}
         </div>
@@ -58,7 +59,7 @@ const MainCard: React.FC<PropTypes> = ({ header, body, footer }) => {
           {typeof header === 'function' ? header(isOpenFilter && scrollY < distance - 64, toggleOpenFilter) : header}
         </div>
 
-        <CardBody ref={ref} className="overflow-x-auto p-0">
+        <CardBody className="overflow-x-auto p-0" ref={ref}>
           {body}
         </CardBody>
 

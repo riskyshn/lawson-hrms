@@ -39,10 +39,10 @@ export const Component: React.FC = () => {
   const [previewUrl, setPreviewUrl] = useState<string>()
   const toast = useToast()
 
-  if (!token || !applicantId) throw { status: 419, hideLayout: true, message: 'This page url is invalid.' }
+  if (!token || !applicantId) throw { hideLayout: true, message: 'This page url is invalid.', status: 419 }
 
   const [preview] = useAsyncAction(processService.previewOfferingLetter, applicantId, {
-    headers: { Authorization: 'Bearer ' + token, Accept: 'application/pdf' },
+    headers: { Accept: 'application/pdf', Authorization: 'Bearer ' + token },
   })
 
   useEffect(() => {
@@ -75,15 +75,15 @@ export const Component: React.FC = () => {
 
   const {
     handleSubmit,
-    setValue,
-    getValues,
-    trigger,
     formState: { errors },
+    getValues,
+    setValue,
+    trigger,
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: {
       applicantId,
     },
+    resolver: yupResolver(schema),
   })
 
   const onSubmit = handleSubmit(async (data) => {
@@ -120,8 +120,8 @@ export const Component: React.FC = () => {
         {!success && (
           <>
             <Card className="flex aspect-square flex-col overflow-hidden border-none">
-              <LoadingScreen show={!previewUrl} className="flex-1" spinnerSize={80} />
-              {previewUrl && <iframe src={previewUrl} className="block flex-1" />}
+              <LoadingScreen className="flex-1" show={!previewUrl} spinnerSize={80} />
+              {previewUrl && <iframe className="block flex-1" src={previewUrl} />}
               <CardFooter>
                 <Button color="primary" onClick={onDownload}>
                   Download
@@ -133,12 +133,7 @@ export const Component: React.FC = () => {
               <CardBody>
                 <InputWrapper label="Upload signed offering letter." labelRequired>
                   <DocumentFileUpload
-                    type="applicant-result"
-                    value={getValues('link')}
                     error={errors.link?.message}
-                    onStart={() => {
-                      setValue('link', PROGRESS_KEY)
-                    }}
                     onChange={(value) => {
                       setValue('link', value)
                       trigger('link')
@@ -147,12 +142,17 @@ export const Component: React.FC = () => {
                       setValue('link', ERROR_PREFIX_KEY + message)
                       trigger('link')
                     }}
+                    onStart={() => {
+                      setValue('link', PROGRESS_KEY)
+                    }}
+                    type="applicant-result"
+                    value={getValues('link')}
                   />
                 </InputWrapper>
               </CardBody>
 
               <CardFooter>
-                <Button type="submit" className="min-w-24" color="primary" disabled={loading} loading={loading}>
+                <Button className="min-w-24" color="primary" disabled={loading} loading={loading} type="submit">
                   Submit
                 </Button>
               </CardFooter>

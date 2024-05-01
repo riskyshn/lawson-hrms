@@ -4,16 +4,17 @@ import { Button, useToast } from 'jobseeker-ui'
 import { CheckCircleIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import ConfirmationModal from './ConfirmationModal'
 import ViewModal from './ViewModal'
 
 interface ActionMenuProps {
-  options: string[]
   items?: ILeave
   onApplyVacancy: (data: string) => void
+  options: string[]
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ items, onApplyVacancy, options }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const toast = useToast()
@@ -29,8 +30,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
       setIsLoading(true)
       const payload = {
         oid: items?.oid,
-        status: type === 'Approve' ? 'approved' : 'rejected',
         rejectedReason: reason || '',
+        status: type === 'Approve' ? 'approved' : 'rejected',
       }
 
       if (type === 'Approve') {
@@ -54,7 +55,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
   return (
     <div className="text-center">
       <Menu as="div" className="relative">
-        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
+        <Menu.Button as={Button} block className="text-xs" color="primary" size="small" variant="light">
           Action
         </Menu.Button>
         <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
@@ -78,16 +79,16 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
         </Menu.Items>
       </Menu>
       {showOptionModal && modalType === 'View Details' && (
-        <ViewModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
+        <ViewModal items={items} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       )}
       {showOptionModal && (modalType === 'Approve' || modalType === 'Reject') && (
         <ConfirmationModal
-          show={showOptionModal}
-          onClose={() => setShowOptionModal(false)}
-          isLoading={isLoading}
           handleAction={(reason) => {
             openConfirmation(modalType, reason)
           }}
+          isLoading={isLoading}
+          onClose={() => setShowOptionModal(false)}
+          show={showOptionModal}
           type={modalType}
         />
       )}

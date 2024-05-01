@@ -67,19 +67,19 @@ export const Component: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Approve List' }]}
-        title="Setup Approval"
-        subtitle="Setup Approval Process for Your Job Requisition"
         actions={
-          <Button as={Link} to="/job/requisition" variant="light" color="error">
+          <Button as={Link} color="error" to="/job/requisition" variant="light">
             Cancel
           </Button>
         }
+        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Approve List' }]}
+        subtitle="Setup Approval Process for Your Job Requisition"
+        title="Setup Approval"
       />
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         {initLoading && (
           <div className="flex items-center justify-center py-48">
-            <Spinner height={40} className="text-primary-600" />
+            <Spinner className="text-primary-600" height={40} />
           </div>
         )}
 
@@ -91,25 +91,25 @@ export const Component: React.FC = () => {
               {values.map((el, i) => (
                 <div className="flex gap-1" key={i}>
                   <BaseSelect
-                    value={el}
-                    onChange={(value) => handleUpdateValue(i, value.toString())}
                     className="w-full"
-                    placeholder="Please Select Aprover"
+                    onChange={(value) => handleUpdateValue(i, value.toString())}
                     options={employees.filter((employee) => !values.includes(employee.value.toString()) || employee.value === el)}
+                    placeholder="Please Select Aprover"
+                    value={el}
                   />
-                  <Button color="error" iconOnly type="button" disabled={values.length <= 1} onClick={() => handleRemove(i)}>
+                  <Button color="error" disabled={values.length <= 1} iconOnly onClick={() => handleRemove(i)} type="button">
                     <MinusCircleIcon size={16} />
                   </Button>
                 </div>
               ))}
 
-              <Button block type="button" onClick={() => setValues((states) => [...states, ''])} variant="light" color="primary">
+              <Button block color="primary" onClick={() => setValues((states) => [...states, ''])} type="button" variant="light">
                 <PlusCircleIcon size={16} />
               </Button>
             </CardBody>
 
             <CardFooter className="gap-3">
-              <Button type="submit" color="primary" className="w-32" loading={loading} disabled={loading}>
+              <Button className="w-32" color="primary" disabled={loading} loading={loading} type="submit">
                 Save
               </Button>
             </CardFooter>

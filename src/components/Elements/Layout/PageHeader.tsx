@@ -1,16 +1,17 @@
 import { Breadcrumb, BreadcrumbProps } from 'jobseeker-ui'
 import { twMerge } from 'tailwind-merge'
+
 import Container from './Container'
 
 type PropTypes = {
-  title?: React.ReactNode
-  subtitle?: React.ReactNode
   actions?: React.ReactNode
   breadcrumb?: BreadcrumbProps['links']
   className?: string
+  subtitle?: React.ReactNode
+  title?: React.ReactNode
 }
 
-const PageHeader: React.FC<PropTypes> = ({ title, subtitle, actions, breadcrumb, className }) => {
+const PageHeader: React.FC<PropTypes> = ({ actions, breadcrumb, className, subtitle, title }) => {
   return (
     <>
       {breadcrumb && (

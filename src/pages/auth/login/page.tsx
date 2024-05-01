@@ -37,41 +37,41 @@ export const Component: React.FC = () => {
 
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         {!!errorMessage && (
-          <Alert color="error" className="text-center">
+          <Alert className="text-center" color="error">
             {errorMessage}
           </Alert>
         )}
 
         <div>
           <Input
+            error={form.formState.errors.email?.message}
             label="Email Address"
             placeholder="your@exmple.com"
-            error={form.formState.errors.email?.message}
             {...form.register('email')}
           />
 
           <Input
-            label="Password"
-            type="password"
-            placeholder="••••••••"
             error={form.formState.errors.password?.message}
+            label="Password"
+            placeholder="••••••••"
+            type="password"
             {...form.register('password')}
           />
         </div>
 
         <Button
-          type="submit"
           block
+          className="font-semibold uppercase tracking-widest"
+          color="primary"
           disabled={isLoading}
           loading={isLoading}
-          color="primary"
-          className="font-semibold uppercase tracking-widest"
+          type="submit"
         >
           Login
         </Button>
 
         <div className="text-center">
-          <Link to="/auth/forgot-password" className="text-xs font-semibold transition-colors hover:text-primary-600">
+          <Link className="text-xs font-semibold transition-colors hover:text-primary-600" to="/auth/forgot-password">
             Forgot your password?
           </Link>
         </div>

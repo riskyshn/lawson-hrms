@@ -1,6 +1,7 @@
 import { Spinner } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import { useAuthStore } from './store'
 
 const Boot: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -31,7 +32,7 @@ const Boot: React.FC<React.PropsWithChildren> = ({ children }) => {
           'fixed inset-0 z-[99999] flex items-center justify-center bg-white transition-opacity duration-[1s]',
         )}
       >
-        <Spinner className="block text-primary-600" width={80} height={80} strokeWidth={1} />
+        <Spinner className="block text-primary-600" height={80} strokeWidth={1} width={80} />
       </div>
       {!isLoading && children}
     </>

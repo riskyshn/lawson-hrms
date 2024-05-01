@@ -6,27 +6,28 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+
 import { schema } from './shared'
 
 type PropType = {
-  type: 'BENEFIT' | 'DEDUCTION'
-  show?: boolean
   onClose?: () => void
   onCreated?: () => void
+  show?: boolean
+  type: 'BENEFIT' | 'DEDUCTION'
 }
 
-const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => {
+const CreateModal: React.FC<PropType> = ({ onClose, onCreated, show, type }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     register,
-    getValues,
+    reset,
     setValue,
     trigger,
-    formState: { errors },
-    reset,
     watch,
   } = useForm({
     resolver: yupResolver(schema),
@@ -51,116 +52,116 @@ const CreateModal: React.FC<PropType> = ({ type, show, onClose, onCreated }) => 
   })
 
   return (
-    <Modal as="form" onSubmit={onSubmit} show={!!show} className="p-0">
+    <Modal as="form" className="p-0" onSubmit={onSubmit} show={!!show}>
       <ModalHeader
-        subTitle="Add Your Company Payroll Component"
         className="capitalize"
         onClose={() => {
           onClose?.()
           setTimeout(() => reset(), 200)
         }}
+        subTitle="Add Your Company Payroll Component"
       >
         Create {type.toLowerCase()} component
       </ModalHeader>
       <div className="grid grid-cols-1 gap-2 p-3">
-        <Input label="Component Title" placeholder="Component Title" labelRequired error={errors.name?.message} {...register('name')} />
+        <Input error={errors.name?.message} label="Component Title" labelRequired placeholder="Component Title" {...register('name')} />
         <Select
-          label="Fixed/Percentage"
-          placeholder="Fixed/Percentage"
-          labelRequired
-          options={AMOUNT_TYPE_OPTIONS}
-          name="amountType"
           error={errors.amountType?.message}
-          value={getValues('amountType')}
+          label="Fixed/Percentage"
+          labelRequired
+          name="amountType"
           onChange={(v) => {
             setValue('amountType', v.toString())
             trigger('amountType')
           }}
+          options={AMOUNT_TYPE_OPTIONS}
+          placeholder="Fixed/Percentage"
+          value={getValues('amountType')}
         />
         {watch(`amountType`) === 'FIXED' ? (
           <InputCurrency
-            label="Amount"
-            placeholder="Amount"
-            labelRequired
-            prefix="Rp "
             error={errors.amount?.message}
+            label="Amount"
+            labelRequired
             name={`amount`}
-            value={getValues(`amount`)}
             onValueChange={(v) => {
               setValue(`amount`, v || '')
               trigger(`amount`)
             }}
+            placeholder="Amount"
+            prefix="Rp "
+            value={getValues(`amount`)}
           />
         ) : (
           <Input
-            label="Amount"
-            placeholder="Amount"
-            labelRequired
             error={errors.amount?.message}
+            label="Amount"
+            labelRequired
+            placeholder="Amount"
             {...register(`amount`)}
-            type="number"
-            rightChild={<span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">%</span>}
             onChange={(v) => {
               setValue('amount', v.currentTarget.value)
               trigger('amount')
             }}
+            rightChild={<span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">%</span>}
+            type="number"
           />
         )}
         <InputCurrency
-          label="Max. Cap"
-          placeholder="Max. Cap"
-          labelRequired
-          prefix="Rp "
           error={errors.maxCap?.message}
+          label="Max. Cap"
+          labelRequired
           name="maxCap"
-          value={getValues('maxCap')}
           onValueChange={(v) => {
             setValue('maxCap', v || '')
             trigger('maxCap')
           }}
+          placeholder="Max. Cap"
+          prefix="Rp "
+          value={getValues('maxCap')}
         />
         <Select
-          label="Application Type"
-          placeholder="Application Type"
-          labelRequired
-          options={APPLICATION_TYPE_OPTIONS}
-          name="applicationType"
           error={errors.applicationType?.message}
-          value={getValues('applicationType')}
+          label="Application Type"
+          labelRequired
+          name="applicationType"
           onChange={(v) => {
             setValue('applicationType', v.toString())
             trigger('applicationType')
           }}
+          options={APPLICATION_TYPE_OPTIONS}
+          placeholder="Application Type"
+          value={getValues('applicationType')}
         />
         <Select
-          label="Taxable/Non-Taxable"
-          placeholder="Taxable/Non-Taxable"
-          labelRequired
-          options={TAX_TYPE_OPTIONS}
-          name="taxType"
           error={errors.taxType?.message}
-          value={getValues('taxType')}
+          label="Taxable/Non-Taxable"
+          labelRequired
+          name="taxType"
           onChange={(v) => {
             setValue('taxType', v.toString())
             trigger('taxType')
           }}
+          options={TAX_TYPE_OPTIONS}
+          placeholder="Taxable/Non-Taxable"
+          value={getValues('taxType')}
         />
       </div>
       <ModalFooter className="gap-3">
         <Button
-          type="button"
-          color="error"
-          variant="light"
           className="w-24"
+          color="error"
           disabled={loading}
           onClick={() => {
             onClose?.()
             setTimeout(() => reset(), 200)
           }}
+          type="button"
+          variant="light"
         >
           Cancel
         </Button>
-        <Button type="submit" color="primary" disabled={loading} loading={loading}>
+        <Button color="primary" disabled={loading} loading={loading} type="submit">
           Add Component
         </Button>
       </ModalFooter>

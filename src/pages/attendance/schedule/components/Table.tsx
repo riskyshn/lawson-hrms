@@ -1,5 +1,6 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import NumberOfEmployeeLink from '@/components/Elements/UI/NumberOfEmployeeLink'
+
 import ActionMenu from './ActionMenu'
 type PropTypes = {
   items: ISchedule[]
@@ -14,22 +15,22 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
     items: [
       { children: item.name, className: 'whitespace-normal' },
       {
-        children: <NumberOfEmployeeLink to={`#`} count={Number(item.count)} />,
+        children: <NumberOfEmployeeLink count={Number(item.count)} to={`#`} />,
         className: 'text-center',
       },
-      { children: <ActionMenu options={options} items={item} onApplyVacancy={onDataChange} /> },
+      { children: <ActionMenu items={item} onApplyVacancy={onDataChange} options={options} /> },
     ],
   }))
 
   return (
     <>
       <MainTable
+        bodyItems={bodyItems}
         headerItems={[
           { children: 'Schedule Name', className: 'text-left' },
           { children: 'Employee in Schedule', className: 'text-center' },
           { children: 'Action', className: 'w-24' },
         ]}
-        bodyItems={bodyItems}
         loading={loading}
       />
     </>

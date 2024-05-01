@@ -6,46 +6,43 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 type ActionMenuProps = {
-  vacancy: IVacancy
   index: number
+  onRefresh?: () => void
   total: number
   upSpace: number
-  onRefresh?: () => void
+  vacancy: IVacancy
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, onRefresh }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpace, vacancy }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
 
   const viewDetail: Table.ActionMenuItemProps = {
-    text: 'View Detail',
-    icon: EyeIcon,
     action() {
       navigate(`/job/management/${vacancy.oid}`)
     },
+    icon: EyeIcon,
+    text: 'View Detail',
   }
 
   const viewCandidates: Table.ActionMenuItemProps = {
-    text: 'View Candidates',
-    icon: UsersIcon,
     action() {
       navigate(`/candidates/management?vacancy=${vacancy.oid}`)
     },
+    icon: UsersIcon,
+    text: 'View Candidates',
   }
 
   const editVacancy: Table.ActionMenuItemProps = {
-    text: 'Edit Vacancy',
-    icon: PenToolIcon,
     action() {
       navigate(`/job/management/${vacancy.oid}/edit`)
     },
+    icon: PenToolIcon,
+    text: 'Edit Vacancy',
   }
 
   const deactivate: Table.ActionMenuItemProps = {
-    text: 'Deactivate',
-    icon: PowerIcon,
-    iconClassName: 'text-error-600',
     action: async () => {
       try {
         await vacancyService.updateVacancyStatus(vacancy.oid, 'inactive')
@@ -55,11 +52,12 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
       }
     },
+    icon: PowerIcon,
+    iconClassName: 'text-error-600',
+    text: 'Deactivate',
   }
 
   const reactivate: Table.ActionMenuItemProps = {
-    text: 'Reactivate',
-    icon: PowerIcon,
     action: async () => {
       try {
         await vacancyService.updateVacancyStatus(vacancy.oid, 'active')
@@ -69,17 +67,16 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
       }
     },
+    icon: PowerIcon,
+    text: 'Reactivate',
   }
 
   const deleteDraft: Table.ActionMenuItemProps = {
-    text: 'Delete Draft',
-    icon: TrashIcon,
-    iconClassName: 'text-error-600',
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to delete this draft vacancy?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to delete this draft vacancy?',
       })
       if (confirmed) {
         try {
@@ -91,16 +88,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         }
       }
     },
+    icon: TrashIcon,
+    iconClassName: 'text-error-600',
+    text: 'Delete Draft',
   }
 
   const postVacancy: Table.ActionMenuItemProps = {
-    text: 'Post Vacancy',
-    icon: GlobeIcon,
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to post vacancy?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to post vacancy?',
       })
       if (confirmed) {
         try {
@@ -112,14 +110,16 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         }
       }
     },
+    icon: GlobeIcon,
+    text: 'Post Vacancy',
   }
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     active: [viewDetail, viewCandidates, editVacancy, deactivate],
-    inactive: [reactivate, viewDetail, viewCandidates, editVacancy],
     draft: [viewDetail, postVacancy, editVacancy, deleteDraft],
-    fulfilled: [viewDetail, viewCandidates],
     expired: [reactivate, viewDetail, viewCandidates, editVacancy],
+    fulfilled: [viewDetail, viewCandidates],
+    inactive: [reactivate, viewDetail, viewCandidates, editVacancy],
   }
 
   const menu = menuItems[vacancy.status || '']

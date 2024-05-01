@@ -5,52 +5,49 @@ import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'
 import React from 'react'
 
 type ActionMenuProps = {
-  role: IRole
   index: number
-  total: number
-  upSpace: number
+  onDeleted?: (oid: string) => void
+  role: IRole
   setSelectedToUpdate?: (role: IRole) => void
   setSelectedToUpdatePermission?: (role: IRole) => void
-  onDeleted?: (oid: string) => void
+  total: number
+  upSpace: number
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({
-  role,
   index,
-  total,
-  upSpace,
+  onDeleted,
+  role,
   setSelectedToUpdate,
   setSelectedToUpdatePermission,
-  onDeleted,
+  total,
+  upSpace,
 }) => {
   const toast = useToast()
   const confirm = useConfirm()
 
   const editRole: Table.ActionMenuItemProps = {
-    text: 'Edit Role',
-    icon: PenToolIcon,
     action() {
       setSelectedToUpdate?.(role)
     },
+    icon: PenToolIcon,
+    text: 'Edit Role',
   }
 
   const editAccessPolice: Table.ActionMenuItemProps = {
-    text: 'Edit Access',
-    icon: LockIcon,
     action() {
       setSelectedToUpdatePermission?.(role)
     },
+    icon: LockIcon,
+    text: 'Edit Access',
   }
 
   const deleteRole: Table.ActionMenuItemProps = {
-    text: 'Delete Role',
-    icon: TrashIcon,
-    iconClassName: 'text-error-600',
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to delete this role?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to delete this role?',
       })
       if (confirmed) {
         try {
@@ -62,6 +59,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
         }
       }
     },
+    icon: TrashIcon,
+    iconClassName: 'text-error-600',
+    text: 'Delete Role',
   }
 
   const menus = [editRole, editAccessPolice, deleteRole]

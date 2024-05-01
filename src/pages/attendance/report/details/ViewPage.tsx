@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
 import { twMerge } from 'tailwind-merge'
+
 import DetailsTable from '../components/DetailsTable'
 import ProfileCard from '../components/ProfileCard'
 import AttendanceTable from './components/AttendanceTable'
@@ -23,9 +24,9 @@ const ViewPage: React.FC = () => {
   const [pageDataEmployee, setPageDataEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
-  const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
-    startDate: todayFormatted,
+  const [filterDate, setFilterDate] = useState<{ endDate: string; startDate: string }>({
     endDate: todayFormatted,
+    startDate: todayFormatted,
   })
   const toast = useToast()
 
@@ -34,15 +35,15 @@ const ViewPage: React.FC = () => {
   const tab = searchParams.get('tab') || 'clock'
 
   const pagination = usePagination({
+    params: { endDate: filterDate.endDate, startDate: filterDate?.startDate, tab: tab },
     pathname: `/attendance/report/${employeeId}`,
     totalPage: pageData?.totalPages || 0,
-    params: { tab: tab, startDate: filterDate?.startDate, endDate: filterDate.endDate },
   })
 
   const paginationAttendance = usePagination({
+    params: { endDate: filterDate.endDate, startDate: filterDate?.startDate, tab: tab },
     pathname: `/attendance/report/${employeeId}`,
     totalPage: pageDataAttendance?.totalPages || 0,
-    params: { tab: tab, startDate: filterDate?.startDate, endDate: filterDate.endDate },
   })
 
   useEffect(() => {
@@ -56,13 +57,13 @@ const ViewPage: React.FC = () => {
           if (tab === 'clock') {
             const response = await attendanceService.fetchAttendanceManagement(
               {
-                page: pagination.currentPage,
-                limit: 20,
                 attendance_group: 'clock',
-                start_date: filterDate?.startDate,
-                end_date: filterDate?.endDate,
                 employee_id: employeeId,
+                end_date: filterDate?.endDate,
                 is_in_office: isInOffice,
+                limit: 20,
+                page: pagination.currentPage,
+                start_date: filterDate?.startDate,
               },
               signal,
             )
@@ -70,9 +71,9 @@ const ViewPage: React.FC = () => {
           } else {
             const response = await attendanceService.fetchEmployee(employeeId, {
               attendance_group: tab,
-              start_date: filterDate?.startDate,
               end_date: filterDate?.endDate,
               page: pagination.currentPage,
+              start_date: filterDate?.startDate,
             })
             setPageData(response)
           }
@@ -113,7 +114,7 @@ const ViewPage: React.FC = () => {
       const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
       const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
 
-      setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+      setFilterDate({ endDate: formattedEndDate, startDate: formattedStartDate })
     }
   }
 
@@ -122,8 +123,8 @@ const ViewPage: React.FC = () => {
       setIsExporting(true)
       if (employeeId) {
         const excelData = await attendanceService.downloadAttendance(employeeId, {
-          start_date: filterDate?.startDate,
           end_date: filterDate?.endDate,
+          start_date: filterDate?.startDate,
         })
 
         if (!excelData) {
@@ -170,62 +171,62 @@ const ViewPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Attendance' }, { text: 'Report' }]}
-        title="Report"
-        subtitle="Manage Your Team Report"
         actions={
           <div className="flex flex-col">
             <CardBody className="p-0">
               <BaseInputDateRange
                 className="z-50 mb-3 w-64"
-                placeholder="Start - End Date"
                 onValueChange={handleDateChange}
+                placeholder="Start - End Date"
                 value={filterDate}
               />
             </CardBody>
             <div className="flex justify-end">
               <Button
-                loading={isExporting}
-                disabled={isExporting}
-                onClick={handleExportToExcel}
-                color="success"
-                rightChild={<FileSpreadsheetIcon size={18} />}
                 className="w-40 gap-2"
+                color="success"
+                disabled={isExporting}
+                loading={isExporting}
+                onClick={handleExportToExcel}
+                rightChild={<FileSpreadsheetIcon size={18} />}
               >
                 Export To Excel
               </Button>
             </div>
           </div>
         }
+        breadcrumb={[{ text: 'Attendance' }, { text: 'Report' }]}
+        subtitle="Manage Your Team Report"
+        title="Report"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <ProfileCard items={pageDataEmployee} filterDate={filterDate}>
+        <ProfileCard filterDate={filterDate} items={pageDataEmployee}>
           <div className="flex border-b border-gray-200">
             <Link
-              to={`/attendance/report/${pageDataEmployee?.oid}`}
               className={twMerge(
                 'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                 tab === 'clock' && 'border-primary-600',
               )}
+              to={`/attendance/report/${pageDataEmployee?.oid}`}
             >
               Attendance
             </Link>
             <Link
-              to={`/attendance/report/${pageDataEmployee?.oid}?tab=client_visit`}
               className={twMerge(
                 'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                 tab === 'client_visit' && 'border-primary-600',
               )}
+              to={`/attendance/report/${pageDataEmployee?.oid}?tab=client_visit`}
             >
               Client Visit
             </Link>
             <Link
-              to={`/attendance/report/${pageDataEmployee?.oid}?tab=overtime`}
               className={twMerge(
                 'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                 tab === 'overtime' && 'border-primary-600',
               )}
+              to={`/attendance/report/${pageDataEmployee?.oid}?tab=overtime`}
             >
               Overtime
             </Link>
@@ -234,67 +235,67 @@ const ViewPage: React.FC = () => {
 
         {tab === 'clock' && (
           <MainCard
+            body={<AttendanceTable items={pageDataAttendance?.content || []} loading={isLoading} />}
+            footer={paginationAttendance.render()}
             header={() => (
               <MainCardHeader
-                title="Report List"
-                subtitleLoading={typeof pageDataAttendance?.totalElements !== 'number'}
+                filter={
+                  <div className="grid grid-cols-1 gap-3 p-3">
+                    <Select
+                      onChange={(selectedOption: any) => handleInOfficeChange(selectedOption ? selectedOption : '')}
+                      options={[
+                        { label: 'Yes', value: '1' },
+                        { label: 'No', value: '0' },
+                      ]}
+                      placeholder="In Office"
+                      value={isInOffice !== null ? isInOffice : undefined}
+                      withReset
+                    />
+                  </div>
+                }
                 subtitle={
                   <>
                     You have <span className="text-primary-600">{pageDataAttendance?.totalElements} Report</span> in total
                   </>
                 }
-                filter={
-                  <div className="grid grid-cols-1 gap-3 p-3">
-                    <Select
-                      placeholder="In Office"
-                      withReset
-                      options={[
-                        { value: '1', label: 'Yes' },
-                        { value: '0', label: 'No' },
-                      ]}
-                      value={isInOffice !== null ? isInOffice : undefined}
-                      onChange={(selectedOption: any) => handleInOfficeChange(selectedOption ? selectedOption : '')}
-                    />
-                  </div>
-                }
+                subtitleLoading={typeof pageDataAttendance?.totalElements !== 'number'}
+                title="Report List"
               />
             )}
-            body={<AttendanceTable items={pageDataAttendance?.content || []} loading={isLoading} />}
-            footer={paginationAttendance.render()}
           />
         )}
         {tab === 'client_visit' && (
           <MainCard
+            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
+            footer={pagination.render()}
             header={() => (
               <MainCardHeader
-                title="Report List"
-                subtitleLoading={typeof pageData?.totalElements !== 'number'}
                 subtitle={
                   <>
                     You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
                   </>
                 }
+                subtitleLoading={typeof pageData?.totalElements !== 'number'}
+                title="Report List"
               />
             )}
-            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
-            footer={pagination.render()}
           />
         )}
         {tab === 'overtime' && (
           <MainCard
+            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
+            footer={pagination.render()}
             header={() => (
               <MainCardHeader
-                title="Report List"
-                subtitleLoading={typeof pageData?.totalElements !== 'number'}
                 subtitle={
                   <>
                     You have <span className="text-primary-600">{pageData?.totalElements} Report</span> in total
                   </>
                 }
+                subtitleLoading={typeof pageData?.totalElements !== 'number'}
+                title="Report List"
               />
             )}
-            body={<DetailsTable items={pageData?.content || []} loading={isLoading} />}
-            footer={pagination.render()}
           />
         )}
       </Container>

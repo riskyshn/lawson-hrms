@@ -2,22 +2,23 @@ import { useBreakpoint } from '@/hooks/use-breakpoint'
 import { Avatar, Card, CardBody } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, PhoneIcon } from 'lucide-react'
 import React from 'react'
+
 import StatisticCards from './StatisticCards'
 
 type PropType = {
-  items?: IEmployee
   children?: React.ReactNode
   filterDate?: IFilterDate
+  items?: IEmployee
 }
 
-const ProfileCard: React.FC<PropType> = ({ items, children, filterDate }) => {
+const ProfileCard: React.FC<PropType> = ({ children, filterDate, items }) => {
   const md = useBreakpoint('md')
 
   return (
     <Card>
       <CardBody className="flex items-center gap-3">
         <div className="flex">
-          <Avatar name={items?.name || ''} size={md ? 128 : 64} className="flex bg-primary-100 text-2xl text-primary-700" />
+          <Avatar className="flex bg-primary-100 text-2xl text-primary-700" name={items?.name || ''} size={md ? 128 : 64} />
         </div>
 
         <div className="ml-2 flex flex-1 flex-col gap-3 lg:flex-row">
@@ -56,7 +57,7 @@ const ProfileCard: React.FC<PropType> = ({ items, children, filterDate }) => {
         </div>
       </CardBody>
       <div className="p-4">
-        <StatisticCards items={items} filterDate={filterDate} />
+        <StatisticCards filterDate={filterDate} items={items} />
       </div>
 
       {children}

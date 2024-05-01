@@ -79,11 +79,11 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
                 <td className="w-full p-3">
                   {employee.personalData?.linkNationalId && (
                     <Button
-                      type="button"
-                      size="small"
-                      variant="light"
                       color="primary"
                       onClick={() => previewImage(employee.personalData?.linkNationalId)}
+                      size="small"
+                      type="button"
+                      variant="light"
                     >
                       Preview National ID Image
                     </Button>
@@ -268,7 +268,7 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
           <p className="text-xs">Employee BPJS payment arrangements</p>
         </CardHeader>
         {!employee.payroll?.participateBpjs && (
-          <Alert color="warning" className="rounded-none border-0">
+          <Alert className="rounded-none border-0" color="warning">
             This employee is not enrolled in the BPJS KS Program.
           </Alert>
         )}

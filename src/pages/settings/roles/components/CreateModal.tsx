@@ -7,27 +7,27 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type CreateModalProps = {
-  show: boolean
   onClose?: () => void
   onCreated?: (role: IRole) => void
+  show: boolean
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Name'),
   code: yup.string().required().label('Code'),
   description: yup.string().required().label('Description'),
+  name: yup.string().required().label('Name'),
 })
 
-const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
+const CreateModal: React.FC<CreateModalProps> = ({ onClose, onCreated, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    reset,
     formState: { errors },
+    handleSubmit,
+    register,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -53,21 +53,21 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   })
 
   return (
-    <Modal as="form" show={show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Set up a new role for your company" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={show}>
+      <ModalHeader onClose={onClose} subTitle="Set up a new role for your company">
         Create Role
       </ModalHeader>
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
-        <Input label="Code" labelRequired error={errors.code?.message} {...register('code')} />
-        <Textarea label="Description" labelRequired rows={6} error={errors.description?.message} {...register('description')} />
+        <Input error={errors.name?.message} label="Name" labelRequired {...register('name')} />
+        <Input error={errors.code?.message} label="Code" labelRequired {...register('code')} />
+        <Textarea error={errors.description?.message} label="Description" labelRequired rows={6} {...register('description')} />
       </div>
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Next
         </Button>
       </ModalFooter>

@@ -4,6 +4,7 @@ import { employeeService } from '@/services'
 import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
 import ComponentsDataForm from '../components/ComponentsDataForm'
 import EmploymentDataForm from '../components/EmploymentDataForm'
 import PayrollDataForm from '../components/PayrollDataForm'
@@ -21,15 +22,15 @@ export const Component: React.FC = () => {
   const toast = useToast()
 
   const [formValues, setFormValues] = useState<any>({
-    personalData: {},
+    components: {},
     employment: {},
     payroll: {},
-    components: {},
+    personalData: {},
   })
 
-  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(4, {
+  const { activeStep, handleNext, handlePrev, isLastStep } = useSteps(4, {
     onNext() {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ behavior: 'smooth', top: 0 })
     },
   })
 
@@ -67,29 +68,29 @@ export const Component: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Edit' }]}
-        title="Edit Employee"
         actions={
-          <Button as={Link} to="/employees/employee-management" variant="light" color="error">
+          <Button as={Link} color="error" to="/employees/employee-management" variant="light">
             Cancel
           </Button>
         }
+        breadcrumb={[{ text: 'Employee' }, { text: 'Employee Management' }, { text: 'Edit' }]}
+        title="Edit Employee"
       />
 
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
           steps={[
-            { title: 'Personal Data', details: 'Set Requirement Personal Data' },
-            { title: 'Employment Data', details: 'Set Requirement Employment Data' },
-            { title: 'Payroll', details: 'Set Payroll' },
-            { title: 'Components', details: 'Set Components' },
+            { details: 'Set Requirement Personal Data', title: 'Personal Data' },
+            { details: 'Set Requirement Employment Data', title: 'Employment Data' },
+            { details: 'Set Payroll', title: 'Payroll' },
+            { details: 'Set Components', title: 'Components' },
           ]}
         />
 
         {!isLoaded && (
           <div className="flex items-center justify-center py-48">
-            <Spinner height={40} className="text-primary-600" />
+            <Spinner className="text-primary-600" height={40} />
           </div>
         )}
 
@@ -116,11 +117,11 @@ export const Component: React.FC = () => {
         )}
         {isLoaded && activeStep === 3 && (
           <ComponentsDataForm
-            isEdit
-            defaultValue={formValues.components}
             allFormData={formValues}
+            defaultValue={formValues.components}
             handlePrev={handlePrev}
             handleSubmit={(components) => handleStepSubmit({ ...formValues, components })}
+            isEdit
             isLoading={isSubmitLoading}
           />
         )}

@@ -9,52 +9,6 @@ const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object({
-  heroAsset: yup
-    .string()
-    .required()
-    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
-    .test(
-      'is-error',
-      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
-      (value) => !value?.startsWith(ERROR_PREFIX_KEY),
-    )
-    .url()
-    .label('heroAsset'),
-  heroHeadingId: yup.string().required().label('heroHeadingId'),
-  heroHeadingEn: yup.string().required().label('heroHeadingEn'),
-
-  sectionAAsset: yup
-    .string()
-    .required()
-    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
-    .test(
-      'is-error',
-      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
-      (value) => !value?.startsWith(ERROR_PREFIX_KEY),
-    )
-    .url()
-    .label('sectionAAsset'),
-  sectionAHeadingId: yup.string().required().label('sectionAHeadingId'),
-  sectionAHeadingEn: yup.string().required().label('sectionAHeadingEn'),
-  sectionAParagraphId: yup.string().required().label('sectionAParagraphId'),
-  sectionAParagraphEn: yup.string().required().label('sectionAParagraphEn'),
-
-  sectionBAsset: yup
-    .string()
-    .required()
-    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
-    .test(
-      'is-error',
-      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
-      (value) => !value?.startsWith(ERROR_PREFIX_KEY),
-    )
-    .url()
-    .label('sectionBAsset'),
-  sectionBHeadingId: yup.string().required().label('sectionBHeadingId'),
-  sectionBHeadingEn: yup.string().required().label('sectionBHeadingEn'),
-  sectionBParagraphId: yup.string().required().label('sectionBParagraphId'),
-  sectionBParagraphEn: yup.string().required().label('sectionBParagraphEn'),
-
   bannerAsset: yup
     .string()
     .required()
@@ -67,8 +21,54 @@ const schema = yup.object({
     .url()
     .label('bannerAsset'),
   bannerCallToAction: yup.string().required().label('bannerCallToAction'),
-  bannerHeadingId: yup.string().required().label('bannerHeadingId'),
   bannerHeadingEn: yup.string().required().label('bannerHeadingEn'),
+
+  bannerHeadingId: yup.string().required().label('bannerHeadingId'),
+  heroAsset: yup
+    .string()
+    .required()
+    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
+    .test(
+      'is-error',
+      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
+      (value) => !value?.startsWith(ERROR_PREFIX_KEY),
+    )
+    .url()
+    .label('heroAsset'),
+  heroHeadingEn: yup.string().required().label('heroHeadingEn'),
+  heroHeadingId: yup.string().required().label('heroHeadingId'),
+  sectionAAsset: yup
+    .string()
+    .required()
+    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
+    .test(
+      'is-error',
+      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
+      (value) => !value?.startsWith(ERROR_PREFIX_KEY),
+    )
+    .url()
+    .label('sectionAAsset'),
+
+  sectionAHeadingEn: yup.string().required().label('sectionAHeadingEn'),
+  sectionAHeadingId: yup.string().required().label('sectionAHeadingId'),
+  sectionAParagraphEn: yup.string().required().label('sectionAParagraphEn'),
+  sectionAParagraphId: yup.string().required().label('sectionAParagraphId'),
+  sectionBAsset: yup
+    .string()
+    .required()
+    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
+    .test(
+      'is-error',
+      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
+      (value) => !value?.startsWith(ERROR_PREFIX_KEY),
+    )
+    .url()
+    .label('sectionBAsset'),
+
+  sectionBHeadingEn: yup.string().required().label('sectionBHeadingEn'),
+  sectionBHeadingId: yup.string().required().label('sectionBHeadingId'),
+  sectionBParagraphEn: yup.string().required().label('sectionBParagraphEn'),
+  sectionBParagraphId: yup.string().required().label('sectionBParagraphId'),
 })
 
 const HomeForm: React.FC<{
@@ -78,15 +78,15 @@ const HomeForm: React.FC<{
   isLoading?: boolean
 }> = (props) => {
   const {
-    register,
-    handleSubmit,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
     setValue,
     trigger,
-    formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
+    resolver: yupResolver(schema),
   })
 
   useEffect(() => {
@@ -124,14 +124,9 @@ const HomeForm: React.FC<{
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
         <span className="text-lg font-semibold">Hero Section</span>
-        <InputWrapper label="Asset" labelRequired error={errors?.heroAsset?.message}>
+        <InputWrapper error={errors?.heroAsset?.message} label="Asset" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('heroAsset')}
             error={errors.heroAsset?.message}
-            onStart={() => {
-              setValue('heroAsset', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('heroAsset', value)
               trigger('heroAsset')
@@ -140,22 +135,22 @@ const HomeForm: React.FC<{
               setValue('heroAsset', ERROR_PREFIX_KEY + message)
               trigger('heroAsset')
             }}
+            onStart={() => {
+              setValue('heroAsset', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('heroAsset')}
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired error={errors.heroHeadingId?.message} {...register('heroHeadingId')} />
+        <Input error={errors.heroHeadingId?.message} label="Heading Id" labelRequired {...register('heroHeadingId')} />
 
-        <Input label="Heading En" labelRequired error={errors.heroHeadingEn?.message} {...register('heroHeadingEn')} />
+        <Input error={errors.heroHeadingEn?.message} label="Heading En" labelRequired {...register('heroHeadingEn')} />
 
         <span className="text-lg font-semibold">Section A</span>
-        <InputWrapper label="Asset" labelRequired error={errors?.sectionAAsset?.message}>
+        <InputWrapper error={errors?.sectionAAsset?.message} label="Asset" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('sectionAAsset')}
             error={errors.sectionAAsset?.message}
-            onStart={() => {
-              setValue('sectionAAsset', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('sectionAAsset', value)
               trigger('sectionAAsset')
@@ -164,36 +159,36 @@ const HomeForm: React.FC<{
               setValue('sectionAAsset', ERROR_PREFIX_KEY + message)
               trigger('sectionAAsset')
             }}
+            onStart={() => {
+              setValue('sectionAAsset', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('sectionAAsset')}
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired error={errors.sectionAHeadingId?.message} {...register('sectionAHeadingId')} />
-        <Input label="Heading En" labelRequired error={errors.sectionAHeadingEn?.message} {...register('sectionAHeadingEn')} />
+        <Input error={errors.sectionAHeadingId?.message} label="Heading Id" labelRequired {...register('sectionAHeadingId')} />
+        <Input error={errors.sectionAHeadingEn?.message} label="Heading En" labelRequired {...register('sectionAHeadingEn')} />
 
         <Textarea
-          rows={5}
+          error={errors.sectionAParagraphId?.message}
           label="Paragraph Id"
           labelRequired
-          error={errors.sectionAParagraphId?.message}
+          rows={5}
           {...register('sectionAParagraphId')}
         />
         <Textarea
-          rows={5}
+          error={errors.sectionAParagraphEn?.message}
           label="Paragraph En"
           labelRequired
-          error={errors.sectionAParagraphEn?.message}
+          rows={5}
           {...register('sectionAParagraphEn')}
         />
 
         <span className="text-lg font-semibold">Section B</span>
-        <InputWrapper label="Asset" labelRequired error={errors?.sectionBAsset?.message}>
+        <InputWrapper error={errors?.sectionBAsset?.message} label="Asset" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('sectionBAsset')}
             error={errors.sectionBAsset?.message}
-            onStart={() => {
-              setValue('sectionBAsset', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('sectionBAsset', value)
               trigger('sectionBAsset')
@@ -202,36 +197,36 @@ const HomeForm: React.FC<{
               setValue('sectionBAsset', ERROR_PREFIX_KEY + message)
               trigger('sectionBAsset')
             }}
+            onStart={() => {
+              setValue('sectionBAsset', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('sectionBAsset')}
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired error={errors.sectionBHeadingId?.message} {...register('sectionBHeadingId')} />
-        <Input label="Heading En" labelRequired error={errors.sectionBHeadingEn?.message} {...register('sectionBHeadingEn')} />
+        <Input error={errors.sectionBHeadingId?.message} label="Heading Id" labelRequired {...register('sectionBHeadingId')} />
+        <Input error={errors.sectionBHeadingEn?.message} label="Heading En" labelRequired {...register('sectionBHeadingEn')} />
 
         <Textarea
-          rows={5}
+          error={errors.sectionBParagraphId?.message}
           label="Paragraph Id"
           labelRequired
-          error={errors.sectionBParagraphId?.message}
+          rows={5}
           {...register('sectionBParagraphId')}
         />
         <Textarea
-          rows={5}
+          error={errors.sectionBParagraphEn?.message}
           label="Paragraph En"
           labelRequired
-          error={errors.sectionBParagraphEn?.message}
+          rows={5}
           {...register('sectionBParagraphEn')}
         />
 
         <span className="text-lg font-semibold">Banner</span>
-        <InputWrapper label="Asset" labelRequired error={errors?.bannerAsset?.message}>
+        <InputWrapper error={errors?.bannerAsset?.message} label="Asset" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('bannerAsset')}
             error={errors.bannerAsset?.message}
-            onStart={() => {
-              setValue('bannerAsset', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('bannerAsset', value)
               trigger('bannerAsset')
@@ -240,16 +235,21 @@ const HomeForm: React.FC<{
               setValue('bannerAsset', ERROR_PREFIX_KEY + message)
               trigger('bannerAsset')
             }}
+            onStart={() => {
+              setValue('bannerAsset', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('bannerAsset')}
           />
         </InputWrapper>
 
-        <Input label="Call to Action" labelRequired error={errors.bannerCallToAction?.message} {...register('bannerCallToAction')} />
-        <Input label="Heading Id" labelRequired error={errors.bannerHeadingId?.message} {...register('bannerHeadingId')} />
-        <Input label="Heading En" labelRequired error={errors.bannerHeadingEn?.message} {...register('bannerHeadingEn')} />
+        <Input error={errors.bannerCallToAction?.message} label="Call to Action" labelRequired {...register('bannerCallToAction')} />
+        <Input error={errors.bannerHeadingId?.message} label="Heading Id" labelRequired {...register('bannerHeadingId')} />
+        <Input error={errors.bannerHeadingEn?.message} label="Heading En" labelRequired {...register('bannerHeadingEn')} />
       </CardBody>
 
       <CardFooter className="gap-3">
-        <Button type="submit" color="primary" className="w-32" disabled={props.isLoading} loading={props.isLoading}>
+        <Button className="w-32" color="primary" disabled={props.isLoading} loading={props.isLoading} type="submit">
           Next
         </Button>
       </CardFooter>

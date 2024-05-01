@@ -3,10 +3,10 @@ import type { GenericAbortSignal } from 'axios'
 import { API_EMPLOYEE_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
-type FetchEmployeesParams = IPaginationParam & {
-  departmentId?: string
+type FetchEmployeesParams = {
   branchId?: string
-}
+  departmentId?: string
+} & IPaginationParam
 
 const axios = createAxiosInstance({
   baseURL: API_EMPLOYEE_BASE_URL,

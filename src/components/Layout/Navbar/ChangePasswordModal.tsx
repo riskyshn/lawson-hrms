@@ -7,22 +7,22 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object().shape({
-  oldPassword: yup.string().required().label('Old Password'),
   newPassword: yup.string().required().label('New Password'),
   newPasswordConfirmation: yup.string().oneOf([yup.ref('newPassword')], 'New Password confirmation is not match'),
+  oldPassword: yup.string().required().label('Old Password'),
 })
 
-const ChangePasswordModal: React.FC<{ show?: boolean; onClose?: () => void }> = ({ show, onClose }) => {
+const ChangePasswordModal: React.FC<{ onClose?: () => void; show?: boolean }> = ({ onClose, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    reset,
     formState: { errors },
+    handleSubmit,
+    register,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -47,40 +47,40 @@ const ChangePasswordModal: React.FC<{ show?: boolean; onClose?: () => void }> = 
   })
 
   return (
-    <Modal as="form" show={!!show} onSubmit={onSubmit}>
+    <Modal as="form" onSubmit={onSubmit} show={!!show}>
       <ModalHeader onClose={onClose}>Change Password</ModalHeader>
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
         <Input
+          error={errors.oldPassword?.message}
           label="Old Password"
           labelRequired
-          type="password"
           placeholder="••••••••"
-          error={errors.oldPassword?.message}
+          type="password"
           {...register('oldPassword')}
         />
         <Input
+          error={errors.newPassword?.message}
           label="New Password"
           labelRequired
-          type="password"
           placeholder="••••••••"
-          error={errors.newPassword?.message}
+          type="password"
           {...register('newPassword')}
         />
         <Input
+          error={errors.newPasswordConfirmation?.message}
           label="Confirm New Password"
           labelRequired
-          type="password"
           placeholder="••••••••"
-          error={errors.newPasswordConfirmation?.message}
+          type="password"
           {...register('newPasswordConfirmation')}
         />
       </div>
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Save
         </Button>
       </ModalFooter>

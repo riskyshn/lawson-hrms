@@ -9,6 +9,9 @@ const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object({
+  backgroundColor: yup.string().required().label('backgroundColor'),
+
+  callToActionColor: yup.string().required().label('callToActionColor'),
   findJobAsset: yup
     .string()
     .required()
@@ -21,25 +24,9 @@ const schema = yup.object({
     .url()
     .label('findJobAsset'),
 
-  findJobHeadingId: yup.string().required().label('findJobHeadingId'),
   findJobHeadingEn: yup.string().required().label('findJobHeadingEn'),
-
-  registerAsset: yup
-    .string()
-    .required()
-    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
-    .test(
-      'is-error',
-      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
-      (value) => !value.startsWith(ERROR_PREFIX_KEY),
-    )
-    .url()
-    .label('registerAsset'),
-  registerHeadingId: yup.string().required().label('registerHeadingId'),
-  registerHeadingEn: yup.string().required().label('registerHeadingEn'),
-  registerSubheadingId: yup.string().required().label('registerSubheadingId'),
-  registerSubheadingEn: yup.string().required().label('registerSubheadingEn'),
-
+  findJobHeadingId: yup.string().required().label('findJobHeadingId'),
+  headingColor: yup.string().required().label('headingColor'),
   loginAsset: yup
     .string()
     .required()
@@ -51,16 +38,29 @@ const schema = yup.object({
     )
     .url()
     .label('loginAsset'),
-  loginHeadingId: yup.string().required().label('loginHeadingId'),
   loginHeadingEn: yup.string().required().label('loginHeadingEn'),
-  loginSubheadingId: yup.string().required().label('loginSubheadingId'),
-  loginSubheadingEn: yup.string().required().label('loginSubheadingEn'),
 
-  backgroundColor: yup.string().required().label('backgroundColor'),
-  callToActionColor: yup.string().required().label('callToActionColor'),
-  headingColor: yup.string().required().label('headingColor'),
-  subheadingColor: yup.string().required().label('subheadingColor'),
+  loginHeadingId: yup.string().required().label('loginHeadingId'),
+  loginSubheadingEn: yup.string().required().label('loginSubheadingEn'),
+  loginSubheadingId: yup.string().required().label('loginSubheadingId'),
   paragraphColor: yup.string().required().label('paragraphColor'),
+  registerAsset: yup
+    .string()
+    .required()
+    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
+    .test(
+      'is-error',
+      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
+      (value) => !value.startsWith(ERROR_PREFIX_KEY),
+    )
+    .url()
+    .label('registerAsset'),
+
+  registerHeadingEn: yup.string().required().label('registerHeadingEn'),
+  registerHeadingId: yup.string().required().label('registerHeadingId'),
+  registerSubheadingEn: yup.string().required().label('registerSubheadingEn'),
+  registerSubheadingId: yup.string().required().label('registerSubheadingId'),
+  subheadingColor: yup.string().required().label('subheadingColor'),
 })
 
 const JobForm: React.FC<{
@@ -70,12 +70,12 @@ const JobForm: React.FC<{
   isLoading: boolean
 }> = (props) => {
   const {
-    register,
-    handleSubmit,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
     setValue,
     trigger,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -118,14 +118,9 @@ const JobForm: React.FC<{
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
         <span className="text-lg font-semibold">Find Job</span>
-        <InputWrapper label="Asset" labelRequired error={errors?.findJobAsset?.message}>
+        <InputWrapper error={errors?.findJobAsset?.message} label="Asset" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('findJobAsset')}
             error={errors.findJobAsset?.message}
-            onStart={() => {
-              setValue('findJobAsset', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('findJobAsset', value)
               trigger('findJobAsset')
@@ -134,21 +129,21 @@ const JobForm: React.FC<{
               setValue('findJobAsset', ERROR_PREFIX_KEY + message)
               trigger('findJobAsset')
             }}
+            onStart={() => {
+              setValue('findJobAsset', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('findJobAsset')}
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired error={errors.findJobHeadingId?.message} {...register('findJobHeadingId')} />
-        <Input label="Heading En" labelRequired error={errors.findJobHeadingEn?.message} {...register('findJobHeadingEn')} />
+        <Input error={errors.findJobHeadingId?.message} label="Heading Id" labelRequired {...register('findJobHeadingId')} />
+        <Input error={errors.findJobHeadingEn?.message} label="Heading En" labelRequired {...register('findJobHeadingEn')} />
 
         <span className="text-lg font-semibold">Register</span>
-        <InputWrapper label="Asset" labelRequired error={errors?.registerAsset?.message}>
+        <InputWrapper error={errors?.registerAsset?.message} label="Asset" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('registerAsset')}
             error={errors.registerAsset?.message}
-            onStart={() => {
-              setValue('registerAsset', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('registerAsset', value)
               trigger('registerAsset')
@@ -157,24 +152,24 @@ const JobForm: React.FC<{
               setValue('registerAsset', ERROR_PREFIX_KEY + message)
               trigger('registerAsset')
             }}
+            onStart={() => {
+              setValue('registerAsset', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('registerAsset')}
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired error={errors.registerHeadingId?.message} {...register('registerHeadingId')} />
-        <Input label="Heading En" labelRequired error={errors.registerHeadingEn?.message} {...register('registerHeadingEn')} />
+        <Input error={errors.registerHeadingId?.message} label="Heading Id" labelRequired {...register('registerHeadingId')} />
+        <Input error={errors.registerHeadingEn?.message} label="Heading En" labelRequired {...register('registerHeadingEn')} />
 
-        <Input label="Subheading Id" labelRequired error={errors.registerSubheadingId?.message} {...register('registerSubheadingId')} />
-        <Input label="Subheading En" labelRequired error={errors.registerSubheadingEn?.message} {...register('registerSubheadingEn')} />
+        <Input error={errors.registerSubheadingId?.message} label="Subheading Id" labelRequired {...register('registerSubheadingId')} />
+        <Input error={errors.registerSubheadingEn?.message} label="Subheading En" labelRequired {...register('registerSubheadingEn')} />
 
         <span className="text-lg font-semibold">Login</span>
-        <InputWrapper label="Asset" labelRequired error={errors?.loginAsset?.message}>
+        <InputWrapper error={errors?.loginAsset?.message} label="Asset" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('loginAsset')}
             error={errors.loginAsset?.message}
-            onStart={() => {
-              setValue('loginAsset', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('loginAsset', value)
               trigger('loginAsset')
@@ -183,33 +178,38 @@ const JobForm: React.FC<{
               setValue('loginAsset', ERROR_PREFIX_KEY + message)
               trigger('loginAsset')
             }}
+            onStart={() => {
+              setValue('loginAsset', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('loginAsset')}
           />
         </InputWrapper>
 
-        <Input label="Heading Id" labelRequired error={errors.loginHeadingId?.message} {...register('loginHeadingId')} />
-        <Input label="Heading En" labelRequired error={errors.loginHeadingEn?.message} {...register('loginHeadingEn')} />
+        <Input error={errors.loginHeadingId?.message} label="Heading Id" labelRequired {...register('loginHeadingId')} />
+        <Input error={errors.loginHeadingEn?.message} label="Heading En" labelRequired {...register('loginHeadingEn')} />
 
-        <Input label="Subheading Id" labelRequired error={errors.loginSubheadingId?.message} {...register('loginSubheadingId')} />
-        <Input label="Subheading En" labelRequired error={errors.loginSubheadingEn?.message} {...register('loginSubheadingEn')} />
+        <Input error={errors.loginSubheadingId?.message} label="Subheading Id" labelRequired {...register('loginSubheadingId')} />
+        <Input error={errors.loginSubheadingEn?.message} label="Subheading En" labelRequired {...register('loginSubheadingEn')} />
 
-        <Input type="color" label="Background" labelRequired error={errors.backgroundColor?.message} {...register('backgroundColor')} />
+        <Input error={errors.backgroundColor?.message} label="Background" labelRequired type="color" {...register('backgroundColor')} />
         <Input
-          type="color"
+          error={errors.callToActionColor?.message}
           label="Call to Action"
           labelRequired
-          error={errors.callToActionColor?.message}
+          type="color"
           {...register('callToActionColor')}
         />
-        <Input type="color" label="Heading" labelRequired error={errors.headingColor?.message} {...register('headingColor')} />
-        <Input type="color" label="Subheading" labelRequired error={errors.subheadingColor?.message} {...register('subheadingColor')} />
-        <Input type="color" label="Paragraph" labelRequired error={errors.paragraphColor?.message} {...register('paragraphColor')} />
+        <Input error={errors.headingColor?.message} label="Heading" labelRequired type="color" {...register('headingColor')} />
+        <Input error={errors.subheadingColor?.message} label="Subheading" labelRequired type="color" {...register('subheadingColor')} />
+        <Input error={errors.paragraphColor?.message} label="Paragraph" labelRequired type="color" {...register('paragraphColor')} />
       </CardBody>
 
       <CardFooter className="gap-3">
-        <Button type="button" color="primary" variant="light" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
+        <Button className="w-32" color="primary" disabled={props.isLoading} onClick={props.handlePrev} type="button" variant="light">
           Prev
         </Button>
-        <Button type="submit" color="primary" className="w-32" disabled={props.isLoading} loading={props.isLoading}>
+        <Button className="w-32" color="primary" disabled={props.isLoading} loading={props.isLoading} type="submit">
           Submit
         </Button>
       </CardFooter>

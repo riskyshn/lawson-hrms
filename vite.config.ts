@@ -1,97 +1,17 @@
 import react from '@vitejs/plugin-react-swc'
-import { fileURLToPath, URL } from 'url'
-import { defineConfig } from 'vite'
 // import mkcert from 'vite-plugin-mkcert'
 import process from 'node:process'
+import { URL, fileURLToPath } from 'url'
+import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    // for https dev server
-    // mkcert(),
-    VitePWA({
-      injectRegister: 'auto',
-      manifest: {
-        name: 'HRMS BASIC',
-        short_name: 'HRMS',
-        theme_color: '#ffffff',
-        start_url: '.',
-        display: 'standalone',
-        icons: [
-          { src: 'icons/192.png', sizes: '192x192' },
-          { src: 'icons/512.png', sizes: '512x512' },
-        ],
-      },
-      workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'gstatic-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/unpkg\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'unpkg-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200],
-              },
-            },
-          },
-
-          {
-            urlPattern: /^https:\/\/master\.api-jobseeker\.site\/.*/i,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'master-data',
-              expiration: {
-                maxEntries: 20,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // <== 30 days
-              },
-            },
-          },
-        ],
-      },
-    }),
-  ],
-  resolve: {
-    alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
-  },
   build: {
-    sourcemap: process.env.SOURCE_MAP === 'true',
     rollupOptions: {
       output: {
         manualChunks: {
+          'chart.js': ['chart.js', 'react-chartjs-2'],
           'core-packages': [
             'react',
             'react-dom',
@@ -107,7 +27,6 @@ export default defineConfig({
             'react-hook-form',
             '@hookform/resolvers',
           ],
-          'jobseeker-ui': ['jobseeker-ui', 'dayjs', 'react-tailwindcss-datepicker'],
           fullcalendar: [
             '@fullcalendar/core',
             '@fullcalendar/daygrid',
@@ -116,10 +35,91 @@ export default defineConfig({
             '@fullcalendar/react',
             '@fullcalendar/timegrid',
           ],
+          'jobseeker-ui': ['jobseeker-ui', 'dayjs', 'react-tailwindcss-datepicker'],
           leaflet: ['leaflet', 'react-leaflet'],
-          'chart.js': ['chart.js', 'react-chartjs-2'],
         },
       },
     },
+    sourcemap: process.env.SOURCE_MAP === 'true',
+  },
+  plugins: [
+    react(),
+    // for https dev server
+    // mkcert(),
+    VitePWA({
+      injectRegister: 'auto',
+      manifest: {
+        display: 'standalone',
+        icons: [
+          { sizes: '192x192', src: 'icons/192.png' },
+          { sizes: '512x512', src: 'icons/512.png' },
+        ],
+        name: 'HRMS BASIC',
+        short_name: 'HRMS',
+        start_url: '.',
+        theme_color: '#ffffff',
+      },
+      workbox: {
+        runtimeCaching: [
+          {
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+                maxEntries: 10,
+              },
+            },
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+          },
+          {
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'gstatic-fonts-cache',
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+                maxEntries: 10,
+              },
+            },
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+          },
+          {
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'unpkg-cache',
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 365, // <== 365 days
+                maxEntries: 10,
+              },
+            },
+            urlPattern: /^https:\/\/unpkg\.com\/.*/i,
+          },
+
+          {
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'master-data',
+              expiration: {
+                maxAgeSeconds: 60 * 60 * 24 * 30, // <== 30 days
+                maxEntries: 20,
+              },
+            },
+            urlPattern: /^https:\/\/master\.api-jobseeker\.site\/.*/i,
+          },
+        ],
+      },
+    }),
+  ],
+  resolve: {
+    alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
   },
 })

@@ -2,6 +2,7 @@ import { Provider } from 'jobseeker-ui'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
+
 import Boot from './Boot'
 import { ImagePreviewerProvider } from './contexts/ImagePreviewerContext'
 import './index.css'

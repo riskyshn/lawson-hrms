@@ -12,17 +12,17 @@ import React, { ChangeEvent, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 interface ImageFileUploadProps {
-  type: 'employee-national-id' | 'candidate-photo-profile' | 'company-logo'
-  value?: string
   error?: string
   hidePreview?: boolean
-  onStart?: () => void
   onChange?: (value: string) => void
   onError?: (value: string) => void
-  onProgress?: (data: { progress: number; estimated: number }) => void
+  onProgress?: (data: { estimated: number; progress: number }) => void
+  onStart?: () => void
+  type: 'candidate-photo-profile' | 'company-logo' | 'employee-national-id'
+  value?: string
 }
 
-const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, hidePreview, onStart, onChange, onProgress, onError }) => {
+const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ error, hidePreview, onChange, onError, onProgress, onStart, type, value }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
@@ -52,7 +52,7 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
         setUploadProgress(progress)
         const estimatedTimeRemainingFormatted = moment.duration(progressEvent.estimated || 0, 'seconds').humanize()
         setEstimatedTimeRemaining(estimatedTimeRemainingFormatted)
-        onProgress?.({ progress, estimated: progressEvent.estimated || 0 })
+        onProgress?.({ estimated: progressEvent.estimated || 0, progress })
       },
       signal: controller.signal,
     }
@@ -99,11 +99,11 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
           {valueValidUrl && (
             <>
               <div className="absolute inset-0 z-[2] flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100">
-                <Button type="button" color="primary" className="border-0 bg-white" variant="light" onClick={() => previewImage(value)}>
+                <Button className="border-0 bg-white" color="primary" onClick={() => previewImage(value)} type="button" variant="light">
                   Preview
                 </Button>
               </div>
-              <img alt={value} src={value} className="block h-full w-full rounded-lg object-contain" />
+              <img alt={value} className="block h-full w-full rounded-lg object-contain" src={value} />
             </>
           )}
         </div>
@@ -126,7 +126,7 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
                 {uploading && uploadProgress !== 100 && ` | Uploading: ${uploadProgress}% (${estimatedTimeRemaining})`}
                 {uploading && uploadProgress === 100 && ` | Processing your image...`}
                 {' | '}
-                <button type="button" className="text-error-600" onClick={handleCancel}>
+                <button className="text-error-600" onClick={handleCancel} type="button">
                   Cancel
                 </button>
               </span>
@@ -136,7 +136,7 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
             <>
               <span className="block text-sm font-semibold text-gray-800">{truncateFilename(urlToFilename(value))}</span>
               <span className="block text-xs">
-                <button type="button" className="text-error-600" onClick={handleRemove}>
+                <button className="text-error-600" onClick={handleRemove} type="button">
                   Remove
                 </button>
               </span>
@@ -147,12 +147,12 @@ const ImageFileUpload: React.FC<ImageFileUploadProps> = ({ type, value, error, h
 
       {!selectedImage && !valueValidUrl && (
         <input
-          ref={inputRef}
+          accept="image/png, image/jpeg, image/jpg"
           aria-hidden="true"
-          type="file"
           className="absolute inset-0 z-[3] h-full w-full opacity-0"
           onChange={handleImageChange}
-          accept="image/png, image/jpeg, image/jpg"
+          ref={inputRef}
+          type="file"
         />
       )}
     </div>

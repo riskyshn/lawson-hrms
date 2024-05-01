@@ -4,11 +4,11 @@ import { MinusCircleIcon } from 'lucide-react'
 import { useState } from 'react'
 
 const RecruitmentStageItem: React.FC<{
-  type?: IRecruitmentStage['type']
-  item?: IRecruitmentStage
   isNew?: boolean
+  item?: IRecruitmentStage
   onRemove?: () => void
-}> = ({ type, item, isNew, onRemove }) => {
+  type?: IRecruitmentStage['type']
+}> = ({ isNew, item, onRemove, type }) => {
   const toast = useToast()
 
   const [value, setValue] = useState(item?.name || '')
@@ -19,7 +19,7 @@ const RecruitmentStageItem: React.FC<{
     if (value.trim().length === 0) return
     setLoading(true)
     try {
-      await organizationService.createRecruitmentStage({ type, name: value.trim() })
+      await organizationService.createRecruitmentStage({ name: value.trim(), type })
       toast('Recruitment Stage created successfully', { color: 'success' })
       onRemove?.()
     } catch (error: any) {
@@ -33,7 +33,7 @@ const RecruitmentStageItem: React.FC<{
     if (value.trim().length === 0 || !item) return
     setLoading(true)
     try {
-      await organizationService.updateRecruitmentStage(item.oid, { type: item.type, name: value.trim() })
+      await organizationService.updateRecruitmentStage(item.oid, { name: value.trim(), type: item.type })
       toast('Recruitment Stage updated successfully', { color: 'success' })
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
@@ -55,18 +55,18 @@ const RecruitmentStageItem: React.FC<{
 
   return (
     <div className="flex gap-1">
-      <BaseInput placeholder="Stage name" value={value} onChange={(e) => setValue(e.currentTarget.value)} />
+      <BaseInput onChange={(e) => setValue(e.currentTarget.value)} placeholder="Stage name" value={value} />
       {isNew && value.trim().length !== 0 && (
-        <Button color="primary" type="button" disabled={loading} loading={loading} onClick={handleCreate}>
+        <Button color="primary" disabled={loading} loading={loading} onClick={handleCreate} type="button">
           Save
         </Button>
       )}
       {!isNew && value.trim().length !== 0 && value !== item?.name && (
-        <Button color="primary" type="button" disabled={loading} loading={loading} onClick={handleUpdate}>
+        <Button color="primary" disabled={loading} loading={loading} onClick={handleUpdate} type="button">
           Save
         </Button>
       )}
-      <Button color="error" iconOnly type="button" disabled={deleteLoading} loading={deleteLoading} onClick={handleRemove}>
+      <Button color="error" disabled={deleteLoading} iconOnly loading={deleteLoading} onClick={handleRemove} type="button">
         <MinusCircleIcon size={16} />
       </Button>
     </div>

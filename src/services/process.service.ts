@@ -1,6 +1,7 @@
 import { API_PROCESS_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
+
 import { geventService } from '.'
 
 const axios = createAxiosInstance({
@@ -8,11 +9,11 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
-type FetchProcessParams = IPaginationParam & {
-  type?: 'INTERVIEW' | 'ASSESSMENT' | 'OFFERING' | 'ONBOARDING'
-  vacancy?: string
+type FetchProcessParams = {
   stage?: string
-}
+  type?: 'ASSESSMENT' | 'INTERVIEW' | 'OFFERING' | 'ONBOARDING'
+  vacancy?: string
+} & IPaginationParam
 
 export const fetchProcess = (params?: FetchProcessParams, signal?: GenericAbortSignal) => {
   return axios

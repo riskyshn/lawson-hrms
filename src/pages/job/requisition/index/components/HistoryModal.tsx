@@ -37,30 +37,30 @@ const renderStatus = (status?: number) => {
 
 const HistoryModal: React.FC<PropTypes> = ({ item, onClose }) => {
   const [data, setData] = useState<IVacancy | null>(null)
-  const [showDetailIndex, setShowDetailIndex] = useState<number | null>(null)
+  const [showDetailIndex, setShowDetailIndex] = useState<null | number>(null)
 
   useEffect(() => {
     if (item) setData(item)
   }, [item])
 
   return (
-    <Modal show={!!item} onClose={onClose}>
+    <Modal onClose={onClose} show={!!item}>
       <ModalHeader subTitle={`Approval History for ${data?.vacancyName} (${data?.rrNumber})`}>Approval History</ModalHeader>
       <div className="p-6">
         <Timeline>
           {data?.approvals?.users?.map((item, index) => (
             <TimelineItem key={index}>
               <HistoryItem
-                title={`Step ${index + 1}`}
+                onDetailToggleClick={() => setShowDetailIndex((v) => (v === index ? null : index))}
+                showDetail={showDetailIndex === index}
+                status={<div className="flex items-center gap-2">{renderStatus(item.flag)}</div>}
                 subTitle={
                   <>
                     Sent Date: {item.createdAt ? moment(item.createdAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
                     {item.updatedAt ? moment(item.updatedAt).format('DD/MM/YYYY') : '-'}
                   </>
                 }
-                status={<div className="flex items-center gap-2">{renderStatus(item.flag)}</div>}
-                showDetail={showDetailIndex === index}
-                onDetailToggleClick={() => setShowDetailIndex((v) => (v === index ? null : index))}
+                title={`Step ${index + 1}`}
               >
                 <div className="mb-3">
                   <h3 className="text-sm font-semibold">Aprovee:</h3>
@@ -102,7 +102,7 @@ const HistoryModal: React.FC<PropTypes> = ({ item, onClose }) => {
         </Timeline>
       </div>
       <ModalFooter>
-        <Button variant="light" color="error" className="w-24" onClick={onClose}>
+        <Button className="w-24" color="error" onClick={onClose} variant="light">
           Close
         </Button>
       </ModalFooter>

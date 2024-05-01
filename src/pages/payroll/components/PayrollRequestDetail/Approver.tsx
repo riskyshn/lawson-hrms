@@ -16,7 +16,7 @@ const Approver: React.FC<{ oid: string }> = ({ oid }) => {
     setStatus(status)
     setLoading(true)
     try {
-      await payrollService.updatePayrollRequestStatus(oid, { status, notes })
+      await payrollService.updatePayrollRequestStatus(oid, { notes, status })
       toast(`Successfully ${status.toLowerCase()} request.`)
       navigate('/payroll/payroll-request')
     } catch (e) {
@@ -28,12 +28,12 @@ const Approver: React.FC<{ oid: string }> = ({ oid }) => {
   return (
     <Card>
       <CardBody>
-        <Textarea label="Notes" value={notes} onChange={(e) => setNotes(e.currentTarget.value)} />
+        <Textarea label="Notes" onChange={(e) => setNotes(e.currentTarget.value)} value={notes} />
       </CardBody>
       <CardFooter>
         <Button
-          color="error"
           className="w-24"
+          color="error"
           disabled={loading}
           loading={loading && status == 'REJECTED'}
           onClick={() => handleSubmit('REJECTED')}
@@ -41,8 +41,8 @@ const Approver: React.FC<{ oid: string }> = ({ oid }) => {
           Reject
         </Button>
         <Button
-          color="primary"
           className="w-24"
+          color="primary"
           disabled={loading}
           loading={loading && status == 'APPROVED'}
           onClick={() => handleSubmit('APPROVED')}

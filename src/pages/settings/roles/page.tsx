@@ -7,6 +7,7 @@ import { authorityService } from '@/services'
 import { Button } from 'jobseeker-ui'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import CardHeader from '../components/CardHeader'
 import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
@@ -21,51 +22,51 @@ export const Component: React.FC = () => {
 
   const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(authorityService.fetchRoles, { limit: 20 }, search)
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(authorityService.fetchRoles, { limit: 20 }, search)
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/settings/roles',
     totalPage: pageData?.totalPages,
-    params: { search },
   })
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Roles' }]}
-        title="Role"
-        subtitle="Manage Your Company Role"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+          <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
             Add New Role
           </Button>
         }
+        breadcrumb={[{ text: 'Settings' }, { text: 'Roles' }]}
+        subtitle="Manage Your Company Role"
+        title="Role"
       />
 
       <CreateModal
-        show={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
         onCreated={(r) => {
           onRefresh()
           setToUpdateSelectedPermission(r)
         }}
-        onClose={() => setShowCreateModal(false)}
+        show={showCreateModal}
       />
-      <EditModal role={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} />
-      <EditPermissionModal role={toUpdateSelectedPermission} onClose={() => setToUpdateSelectedPermission(null)} onUpdated={onRefresh} />
+      <EditModal onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} role={toUpdateSelected} />
+      <EditPermissionModal onClose={() => setToUpdateSelectedPermission(null)} onUpdated={onRefresh} role={toUpdateSelectedPermission} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Role" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
             <Table
               items={pageData?.content || []}
               loading={isLoading}
+              onDeleted={onRefresh}
               setSelectedToUpdate={setToUpdateSelected}
               setSelectedToUpdatePermission={setToUpdateSelectedPermission}
-              onDeleted={onRefresh}
             />
           }
           footer={pagination.render()}
+          header={<CardHeader name="Role" onRefresh={onRefresh} total={pageData?.totalElements} />}
         />
       </Container>
     </>

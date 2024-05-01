@@ -7,6 +7,7 @@ import usePagination from '@/core/hooks/use-pagination'
 import { employeeService } from '@/services'
 import {} from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
+
 import Table from './components/Table'
 
 export const Component: React.FC = () => {
@@ -14,12 +15,12 @@ export const Component: React.FC = () => {
 
   const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(employeeService.fetchPreviousEmployees, { limit: 20 }, search)
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(employeeService.fetchPreviousEmployees, { limit: 20 }, search)
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/employees/previous-employee',
     totalPage: pageData?.totalPages,
-    params: { search },
   })
 
   return (
@@ -28,28 +29,28 @@ export const Component: React.FC = () => {
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} onRestored={onRefresh} />}
+          footer={pagination.render()}
           header={
             <MainCardHeader
-              title="Employee List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
-              subtitle={
-                <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Employee</span> in total
-                </>
-              }
               onRefresh={onRefresh}
               search={{
-                value: search || '',
                 setValue: (e) => {
                   searchParams.set('search', e)
                   searchParams.delete('page')
                   setSearchParam(searchParams)
                 },
+                value: search || '',
               }}
+              subtitle={
+                <>
+                  You have <span className="text-primary-600">{pageData?.totalElements} Employee</span> in total
+                </>
+              }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Employee List"
             />
           }
-          body={<Table items={pageData?.content || []} loading={isLoading} onRestored={onRefresh} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

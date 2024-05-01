@@ -5,13 +5,13 @@ import { Button, OptionProps, Select, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type MoveAnotherVacancyModalProps = {
-  show?: boolean
   applicant?: IDataTableApplicant
-  onClose?: () => void
   onApplied?: () => void
+  onClose?: () => void
+  show?: boolean
 }
 
-const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, applicant, onClose, onApplied }) => {
+const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ applicant, onApplied, onClose, show }) => {
   const [selectedVacancyId, setSelectedVacancyId] = useState('')
   const [vacancies, setVacancies] = useState<OptionProps[]>()
   const [loading, setLoading] = useState(false)
@@ -48,7 +48,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
   }
 
   return (
-    <MainModal className="max-w-xl py-12" show={!!show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={!!show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Move to Another Vacancy</h4>
         <p className="text-center">Move candidates to a more suitable job vacancy</p>
@@ -57,21 +57,21 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
       {vacancies && (
         <>
           <Select
-            label="Select Vacancy"
-            placeholder="Select Vacancy"
-            options={vacancies.filter((el) => el.value !== applicant?.vacancy?.oid)}
             className="mb-3"
-            value={selectedVacancyId}
+            label="Select Vacancy"
             onChange={(v) => setSelectedVacancyId(String(v))}
+            options={vacancies.filter((el) => el.value !== applicant?.vacancy?.oid)}
+            placeholder="Select Vacancy"
+            value={selectedVacancyId}
           />
           <Button
             block
-            type="button"
-            color="primary"
             className="mx-auto"
+            color="primary"
             disabled={loading}
             loading={loading}
             onClick={handleSelectVacancy}
+            type="button"
           >
             Select Vacancy
           </Button>
@@ -80,7 +80,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
 
       {!vacancies && (
         <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
+          <Spinner className="text-primary-600" height={40} />
         </div>
       )}
     </MainModal>

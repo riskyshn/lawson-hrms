@@ -4,6 +4,7 @@ import { organizationService } from '@/services'
 import { Button, Card, CardBody } from 'jobseeker-ui'
 import { PlusCircleIcon } from 'lucide-react'
 import { useState } from 'react'
+
 import RecruitmentStageItem from './RecruitmentStageItem'
 
 const RecruitmentStagesEditor: React.FC = () => {
@@ -24,22 +25,22 @@ const RecruitmentStagesEditor: React.FC = () => {
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-lg font-semibold">Interview</h3>
             {interviews.map((el) => (
-              <RecruitmentStageItem key={el.oid} item={el} />
+              <RecruitmentStageItem item={el} key={el.oid} />
             ))}
             {toCreateInterviews.map((id) => (
               <RecruitmentStageItem
-                key={id}
-                type="INTERVIEW"
                 isNew
+                key={id}
                 onRemove={() => setToCreateInterviews([...toCreateInterviews.filter((i) => i != id)])}
+                type="INTERVIEW"
               />
             ))}
             <Button
               block
-              variant="light"
               color="primary"
-              type="button"
               onClick={() => setToCreateInterviews([...toCreateInterviews, Date.now() + Math.random() * 10])}
+              type="button"
+              variant="light"
             >
               <PlusCircleIcon size={16} />
             </Button>
@@ -47,22 +48,22 @@ const RecruitmentStagesEditor: React.FC = () => {
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-lg font-semibold">Assessment</h3>
             {assessments.map((el) => (
-              <RecruitmentStageItem key={el.oid} item={el} />
+              <RecruitmentStageItem item={el} key={el.oid} />
             ))}
             {toCreateAssessments.map((id) => (
               <RecruitmentStageItem
-                key={id}
                 isNew
-                type="ASSESSMENT"
+                key={id}
                 onRemove={() => setToCreateAssessments([...toCreateAssessments.filter((i) => i != id)])}
+                type="ASSESSMENT"
               />
             ))}
             <Button
               block
-              variant="light"
               color="primary"
-              type="button"
               onClick={() => setToCreateAssessments([...toCreateAssessments, Date.now() + Math.random() * 10])}
+              type="button"
+              variant="light"
             >
               <PlusCircleIcon size={16} />
             </Button>

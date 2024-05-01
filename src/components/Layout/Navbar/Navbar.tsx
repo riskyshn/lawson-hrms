@@ -6,6 +6,7 @@ import { Calendar, Menu, Search } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
+
 import NavbarInfo from './NavbarInfo'
 import NavbarNotification from './NavbarNotification'
 import NavbarProfile from './NavbarProfile'
@@ -45,27 +46,27 @@ const Navbar: React.FC = () => {
       <NavbarBrand>
         <Link to="/">
           {!company?.logo?.file && <LogoFull height={40} />}
-          {!!company?.logo?.file && <img src={company.logo.file} alt={company.name} className="block h-10" />}
+          {!!company?.logo?.file && <img alt={company.name} className="block h-10" src={company.logo.file} />}
         </Link>
       </NavbarBrand>
 
       <NavbarNav className="justify-end gap-3 xl:px-8">
-        <Button as={Link} to="/explore" className="lg:hidden" variant="light" onClick={handleSearchClick}>
+        <Button as={Link} className="lg:hidden" onClick={handleSearchClick} to="/explore" variant="light">
           <Search size={16} />
         </Button>
 
-        <Button className="lg:hidden" variant="light" onClick={() => toggleSidebarOpen()}>
+        <Button className="lg:hidden" onClick={() => toggleSidebarOpen()} variant="light">
           <Menu size={16} />
         </Button>
 
         <Button
           as={Link}
-          to="/explore"
-          variant="light"
           block
-          rightChild={<Search size={16} className="ml-auto h-4 w-4" />}
           className="mr-auto hidden w-1/4 lg:flex"
           onClick={handleSearchClick}
+          rightChild={<Search className="ml-auto h-4 w-4" size={16} />}
+          to="/explore"
+          variant="light"
         >
           Explore Candidates
         </Button>
@@ -85,7 +86,7 @@ const Navbar: React.FC = () => {
 
             <NavbarNotification />
 
-            <Button iconOnly variant="light" onClick={handleCalendar}>
+            <Button iconOnly onClick={handleCalendar} variant="light">
               <Calendar size={16} />
             </Button>
 
@@ -93,8 +94,8 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        <Button variant="light" className="lg:hidden" onClick={() => setOpen(!open)}>
-          <Menu size={16} className="block rotate-90" />
+        <Button className="lg:hidden" onClick={() => setOpen(!open)} variant="light">
+          <Menu className="block rotate-90" size={16} />
         </Button>
       </NavbarNav>
     </BaseNavbar>

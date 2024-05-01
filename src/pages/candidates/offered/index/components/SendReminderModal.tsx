@@ -5,14 +5,14 @@ import { ClockIcon, MapPinIcon, PencilIcon, TextIcon, Users2Icon } from 'lucide-
 import React, { useState } from 'react'
 
 type SendReminderModalProps = {
-  show: boolean
   onClose: () => void
+  show: boolean
 }
 
-const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) => {
+const SendReminderModal: React.FC<SendReminderModalProps> = ({ onClose, show }) => {
   const guestOptions = [
-    { value: 'senin@gmail.com', label: 'senin@gmail.com' },
-    { value: 'selasa@gmail.com', label: 'selasa@gmail.com' },
+    { label: 'senin@gmail.com', value: 'senin@gmail.com' },
+    { label: 'selasa@gmail.com', value: 'selasa@gmail.com' },
   ]
 
   const [selectedGuests, setSelectedGuests] = useState<string[]>([])
@@ -81,21 +81,21 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
   }
 
   return (
-    <MainModal className="max-w-xl py-8" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-8" onClose={onClose} show={show}>
       <div className="mb-8">
         <div className="pb-2">
           <h3 className="text-lg font-semibold">Schedule Your Interview</h3>
           <p className="text-xs text-gray-500">Add Interview to Your Calendar</p>
         </div>
 
-        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <div className="mb-4" style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
           <PencilIcon style={{ marginRight: '10px' }} />
           <div style={{ flex: '1' }}>
             <Input placeholder="Add Title" />
           </div>
         </div>
 
-        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <div className="mb-4" style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
           <ClockIcon style={{ marginRight: '10px' }} />
           <div style={{ width: '100%' }}>
             <span className="block text-sm font-semibold">
@@ -110,31 +110,31 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
             </span>
             {showChangeTime && (
               <div className="mt-2">
-                <Input type="date" value={scheduledDate} onChange={(e) => setScheduledDate(e.target.value)} />
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="w-1/2" />
-                  <Input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} className="w-1/2" />
+                <Input onChange={(e) => setScheduledDate(e.target.value)} type="date" value={scheduledDate} />
+                <div style={{ alignItems: 'center', display: 'flex' }}>
+                  <Input className="w-1/2" onChange={(e) => setStartTime(e.target.value)} type="time" value={startTime} />
+                  <Input className="w-1/2" onChange={(e) => setEndTime(e.target.value)} type="time" value={endTime} />
                 </div>
-                <Select placeholder="Select Time Zone" options={guestOptions} value={timeZone} onChange={(value) => setTimeZone(value)} />
+                <Select onChange={(value) => setTimeZone(value)} options={guestOptions} placeholder="Select Time Zone" value={timeZone} />
               </div>
             )}
           </div>
         </div>
 
         <div className="mb-4">
-          <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <div style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
             <Users2Icon style={{ marginRight: '10px' }} />
             <div style={{ flex: '1' }}>
-              <Select placeholder="Add Guest" options={guestOptions} className="mb-1" onChange={(e) => handleGuestSelect(e)} />
+              <Select className="mb-1" onChange={(e) => handleGuestSelect(e)} options={guestOptions} placeholder="Add Guest" />
             </div>
           </div>
 
           {selectedGuests.length > 0 && (
             <div className="ml-8">
               {selectedGuests.map((guest) => (
-                <li key={guest} className="flex items-center gap-3 pt-1">
+                <li className="flex items-center gap-3 pt-1" key={guest}>
                   <div>
-                    <Avatar name={guest} className="bg-gray-100 text-primary-600" size={48} />
+                    <Avatar className="bg-gray-100 text-primary-600" name={guest} size={48} />
                   </div>
                   <div className="flex-1">
                     <span className="block text-sm">{guest}</span>
@@ -145,8 +145,8 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
           )}
         </div>
 
-        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div className="mb-4" style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ alignItems: 'center', display: 'flex' }}>
             <LogoGoogleMeet style={{ marginRight: '10px' }} />
             <div className="ml-2">
               <span className="block text-sm font-semibold">Add Google Meet Video Conferencing</span>
@@ -154,18 +154,18 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
             </div>
           </div>
           <div>
-            <InputCheckbox size={30} id="check-google-meet"></InputCheckbox>
+            <InputCheckbox id="check-google-meet" size={30}></InputCheckbox>
           </div>
         </div>
 
-        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <div className="mb-4" style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
           <MapPinIcon style={{ marginRight: '10px' }} />
           <div style={{ flex: '1' }}>
             <Input placeholder="Add Location" />
           </div>
         </div>
 
-        <div className="mb-4" style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+        <div className="mb-4" style={{ alignItems: 'center', display: 'flex', width: '100%' }}>
           <TextIcon style={{ marginRight: '10px' }} />
           <div style={{ flex: '1' }}>
             <Input placeholder="Add Description" />
@@ -174,7 +174,7 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ show, onClose }) 
       </div>
 
       <div className="flex justify-end">
-        <Button color="primary" className="ml-2 w-1/2">
+        <Button className="ml-2 w-1/2" color="primary">
           Add Interview
         </Button>
       </div>

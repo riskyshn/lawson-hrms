@@ -7,6 +7,7 @@ import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+
 import Modal from './components/Modal'
 
 export const Component: React.FC = () => {
@@ -51,38 +52,38 @@ export const Component: React.FC = () => {
     const extendedProps = event.extendedProps || {}
 
     setSelectedEvent({
-      title: event.title,
-      start: event.start ? event.start.toISOString() : '',
+      description: extendedProps.description || '',
       end: event.end ? event.end.toISOString() : '',
       guest: extendedProps.guest || [],
-      description: extendedProps.description || '',
       location: extendedProps.location || '',
+      start: event.start ? event.start.toISOString() : '',
       timezone: extendedProps.timezone || '',
+      title: event.title,
     })
 
     setIsModalOpen(true)
   }
 
   const handleDatesSet = (dateInfo: any) => {
-    const { startStr, endStr } = dateInfo
+    const { endStr, startStr } = dateInfo
 
     const load = async (startStr: string, endStr: string) => {
       try {
         const data = await fetchCalendar({
-          start_date: startStr.substring(0, 10),
           end_date: endStr.substring(0, 10),
+          start_date: startStr.substring(0, 10),
         })
 
         const mappedEvents = data.content.map((event: IDashboardSchedule) => ({
-          title: event.name,
-          start: event.startedAt,
           end: event.endedAt,
           extendedProps: {
-            guest: event.guests || [],
             description: event.description || '',
+            guest: event.guests || [],
             location: event.location || '',
             timezone: event.timezone || '',
           },
+          start: event.startedAt,
+          title: event.name,
         }))
         setCalendarEvents(mappedEvents)
       } catch (e) {
@@ -106,72 +107,72 @@ export const Component: React.FC = () => {
 
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <FullCalendar
-          ref={calendarRef}
-          plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-          initialView="dayGridMonth"
-          headerToolbar={{
-            left: 'prevButton,nextButton todayButton',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
-          }}
-          events={calendarEvents}
-          eventTimeFormat={{
-            hour: 'numeric',
-            minute: '2-digit',
-            meridiem: 'short',
-          }}
-          eventClick={handleEventClick}
-          datesSet={handleDatesSet}
-          eventMouseEnter={handleMouseEnter}
-          eventMouseLeave={handleMouseLeave}
           customButtons={{
-            prevButton: {
-              text: '<',
-              click: function () {
-                calendarRef.current?.getApi().prev()
-              },
-            },
-            nextButton: {
-              text: '>',
-              click: function () {
-                calendarRef.current?.getApi().next()
-              },
-            },
-            todayButton: {
-              text: 'Today',
-              click: function () {
-                calendarRef.current?.getApi().today()
-              },
-            },
             dayGridMonth: {
-              text: 'Month',
               click: function () {
                 calendarRef.current?.getApi().changeView('dayGridMonth')
               },
-            },
-            timeGridWeek: {
-              text: 'Week',
-              click: function () {
-                calendarRef.current?.getApi().changeView('timeGridWeek')
-              },
-            },
-            timeGridDay: {
-              text: 'Day',
-              click: function () {
-                calendarRef.current?.getApi().changeView('timeGridDay')
-              },
+              text: 'Month',
             },
             listMonth: {
-              text: 'List',
               click: function () {
                 calendarRef.current?.getApi().changeView('listMonth')
               },
+              text: 'List',
+            },
+            nextButton: {
+              click: function () {
+                calendarRef.current?.getApi().next()
+              },
+              text: '>',
+            },
+            prevButton: {
+              click: function () {
+                calendarRef.current?.getApi().prev()
+              },
+              text: '<',
+            },
+            timeGridDay: {
+              click: function () {
+                calendarRef.current?.getApi().changeView('timeGridDay')
+              },
+              text: 'Day',
+            },
+            timeGridWeek: {
+              click: function () {
+                calendarRef.current?.getApi().changeView('timeGridWeek')
+              },
+              text: 'Week',
+            },
+            todayButton: {
+              click: function () {
+                calendarRef.current?.getApi().today()
+              },
+              text: 'Today',
             },
           }}
+          datesSet={handleDatesSet}
+          eventClick={handleEventClick}
+          eventMouseEnter={handleMouseEnter}
+          eventMouseLeave={handleMouseLeave}
+          eventTimeFormat={{
+            hour: 'numeric',
+            meridiem: 'short',
+            minute: '2-digit',
+          }}
+          events={calendarEvents}
+          headerToolbar={{
+            center: 'title',
+            left: 'prevButton,nextButton todayButton',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+          }}
+          initialView="dayGridMonth"
+          plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+          ref={calendarRef}
         />
         {tooltipInstance}
 
-        <Modal show={isModalOpen} onClose={closeModal} items={selectedEvent} />
+        <Modal items={selectedEvent} onClose={closeModal} show={isModalOpen} />
       </Container>
 
       <style>

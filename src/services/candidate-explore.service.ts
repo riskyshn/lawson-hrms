@@ -1,16 +1,16 @@
 import { API_CANDIDATE_EXPLORE_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
-type ParamsType = IPaginationParam & {
-  keyword?: string
+type ParamsType = {
   city?: string
   educ?: string
-  min_age?: number
-  max_age?: number
-  gender?: 'male' | 'female'
-  lng: number
+  gender?: 'female' | 'male'
+  keyword?: string
   lat: number
-}
+  lng: number
+  max_age?: number
+  min_age?: number
+} & IPaginationParam
 
 const axios = createAxiosInstance({
   baseURL: API_CANDIDATE_EXPLORE_BASE_URL,

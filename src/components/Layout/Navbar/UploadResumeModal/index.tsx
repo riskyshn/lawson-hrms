@@ -1,11 +1,12 @@
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import { FileInputIcon, Link2Icon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+
 import CreateCandidateModal from './CreateCandidateModal'
 import SendLinkModal from './SendLinkModal'
 
-const UploadResumeModal: React.FC<{ show?: boolean; onClose?: () => void }> = ({ show, onClose }) => {
-  const [showModal, setShowModal] = useState<'SEND_LINK' | 'CREATE_CANDIDATE'>()
+const UploadResumeModal: React.FC<{ onClose?: () => void; show?: boolean }> = ({ onClose, show }) => {
+  const [showModal, setShowModal] = useState<'CREATE_CANDIDATE' | 'SEND_LINK'>()
 
   useEffect(() => {
     if (showModal || show) {
@@ -17,9 +18,9 @@ const UploadResumeModal: React.FC<{ show?: boolean; onClose?: () => void }> = ({
 
   return (
     <>
-      <SendLinkModal show={showModal === 'SEND_LINK'} onClose={() => setShowModal(undefined)} onSubmited={onClose} />
-      <CreateCandidateModal show={showModal === 'CREATE_CANDIDATE'} onClose={() => setShowModal(undefined)} onSubmited={onClose} />
-      <Modal show={!!show && typeof showModal === 'undefined'} onClose={onClose}>
+      <SendLinkModal onClose={() => setShowModal(undefined)} onSubmited={onClose} show={showModal === 'SEND_LINK'} />
+      <CreateCandidateModal onClose={() => setShowModal(undefined)} onSubmited={onClose} show={showModal === 'CREATE_CANDIDATE'} />
+      <Modal onClose={onClose} show={!!show && typeof showModal === 'undefined'}>
         <ModalHeader subTitle="Add Candidate Data into Your Talent Pool">Upload Resume</ModalHeader>
         <div className="grid grid-cols-2 divide-x">
           <button
@@ -48,7 +49,7 @@ const UploadResumeModal: React.FC<{ show?: boolean; onClose?: () => void }> = ({
           </button>
         </div>
         <ModalFooter>
-          <Button type="button" color="error" variant="light" className="w-24" onClick={onClose}>
+          <Button className="w-24" color="error" onClick={onClose} type="button" variant="light">
             Cancel
           </Button>
         </ModalFooter>

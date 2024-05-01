@@ -9,16 +9,16 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type CreateModalProps = {
-  show: boolean
   onClose?: () => void
   onRefresh?: () => void
+  show: boolean
 }
 
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object().shape({
-  title: yup.string().required().label('Title'),
+  content: yup.string().required().label('Content'),
   poster: yup
     .string()
     .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
@@ -32,22 +32,22 @@ const schema = yup.object().shape({
     )
     .url()
     .label('Poster'),
-  content: yup.string().required().label('Content'),
+  title: yup.string().required().label('Title'),
 })
 
-const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onRefresh }) => {
+const CreateModal: React.FC<CreateModalProps> = ({ onClose, onRefresh, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    reset,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
+    reset,
     setValue,
     trigger,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -73,22 +73,17 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onRefresh }) =
   })
 
   return (
-    <Modal as="form" className="max-w-3xl" show={show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Create a new Announcement" onClose={onClose}>
+    <Modal as="form" className="max-w-3xl" onSubmit={onSubmit} show={show}>
+      <ModalHeader onClose={onClose} subTitle="Create a new Announcement">
         Create Announcement
       </ModalHeader>
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Input label="Title" labelRequired error={errors.title?.message} {...register('title')} />
+        <Input error={errors.title?.message} label="Title" labelRequired {...register('title')} />
 
-        <InputWrapper label="Upload file" error={errors.poster?.message}>
+        <InputWrapper error={errors.poster?.message} label="Upload file">
           <DocumentFileUpload
-            type="applicant-result"
-            value={getValues('poster')}
             error={errors.poster?.message}
-            onStart={() => {
-              setValue('poster', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('poster', value)
               trigger('poster')
@@ -97,14 +92,19 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onRefresh }) =
               setValue('poster', ERROR_PREFIX_KEY + message)
               trigger('poster')
             }}
+            onStart={() => {
+              setValue('poster', PROGRESS_KEY)
+            }}
+            type="applicant-result"
+            value={getValues('poster')}
           />
         </InputWrapper>
 
         <Editor
-          label="Content"
-          error={errors.content?.message}
-          labelRequired
           apiKey={TINYMCE_API_KEY}
+          error={errors.content?.message}
+          label="Content"
+          labelRequired
           {...register('content')}
           onValueChange={(value) => {
             setValue('content', value)
@@ -113,10 +113,10 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onRefresh }) =
         />
       </div>
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Create
         </Button>
       </ModalFooter>

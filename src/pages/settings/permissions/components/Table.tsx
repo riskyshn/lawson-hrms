@@ -1,12 +1,13 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import React from 'react'
+
 import ActionMenu from './ActionMenu'
 
 type TableProps = {
   items: IPermission[]
   loading?: boolean
-  setSelectedToUpdate?: (permission: IPermission) => void
   onDeleted?: (oid: string) => void
+  setSelectedToUpdate?: (permission: IPermission) => void
 }
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
@@ -29,12 +30,12 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       { children: permission.path, className: 'text-center' },
       { children: permission.action, className: 'text-center' },
       {
-        children: <ActionMenu permission={permission} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} permission={permission} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
       },
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 export default Table

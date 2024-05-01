@@ -1,103 +1,103 @@
 interface IPreviousEmployee {
-  oid: string
   employeeCode?: string
-  name?: string
-  lastdayAt?: string
-  reasonInactive?: string
   jobType?: IGeneralDataEmmbed
+  lastdayAt?: string
+  name?: string
+  oid: string
+  reasonInactive?: string
 }
 
 interface IDataTableEmployee {
-  oid: string
-  employeeCode?: string
-  name?: string
-  email?: string
   branch?: IGeneralDataEmmbed
   department?: IGeneralDataEmmbed
-  position?: IGeneralDataEmmbed
-  jobType?: IGeneralDataEmmbed
+  email?: string
+  employeeCode?: string
   jobLevel?: IGeneralDataEmmbed
+  jobType?: IGeneralDataEmmbed
+  name?: string
+  oid: string
+  position?: IGeneralDataEmmbed
 }
 
 interface IEmployee {
-  oid: string
-  employeeCode?: string
-  name?: string
-  email?: string
-  personalData?: {
-    gender?: IGeneralDataEmmbed
-    religion?: IGeneralDataEmmbed
-    cityOfBirth?: IGeneralDataEmmbed
-    maritalStatus?: IGeneralDataEmmbed
-    phoneNumber?: string
-    birthDate?: string
-    numberOfChildren?: number
-    linkNationalId?: string
-    nationalIdNumber?: string
-    postalCode?: string
-    nationIdAddress?: string
-    residentalAddress?: string
+  components?: {
+    benefits?: Array<{
+      amount?: number
+      amountType?: IGeneralDataEmmbed
+      applicationType?: IGeneralDataEmmbed
+      component?: IGeneralDataEmmbed
+      maxCap?: number
+      taxType?: IGeneralDataEmmbed
+    }>
+    deductions?: Array<{
+      amount?: number
+      amountType?: IGeneralDataEmmbed
+      applicationType?: IGeneralDataEmmbed
+      component?: IGeneralDataEmmbed
+      maxCap?: number
+      taxType?: IGeneralDataEmmbed
+    }>
   }
+  email?: string
+  employeeCode?: string
   employment?: {
     branch?: IGeneralDataEmmbed
     department?: IGeneralDataEmmbed
-    position?: IGeneralDataEmmbed
     jobLevel?: IGeneralDataEmmbed
     jobType?: IGeneralDataEmmbed
     picApproval?: IGeneralDataEmmbed
-    schedule?: IGeneralDataEmmbed
+    position?: IGeneralDataEmmbed
     role?: IGeneralDataEmmbed
+    schedule?: IGeneralDataEmmbed
   }
+  name?: string
+  oid: string
   payroll?: {
-    taxMethod?: IGeneralDataEmmbed
-    baseSalary?: number
-    baseSalaryType?: IGeneralDataEmmbed
     allowOvertime?: boolean
     bank?: {
-      bankName?: string
-      accountNumber?: string
       accountHolderName?: string
+      accountNumber?: string
+      bankName?: string
     }
-    taxConfig?: {
-      taxStatus?: IGeneralDataEmmbed
-      npwpNumber?: string
-      ptkpStatus?: string
-      category?: string
+    baseSalary?: number
+    baseSalaryType?: IGeneralDataEmmbed
+    bpjs?: {
+      paidByEmployee?: {
+        jht?: { maxCap?: number; rate?: number }
+        jkk?: { maxCap?: number; rate?: number }
+        jkm?: { maxCap?: number; rate?: number }
+        jks?: { maxCap?: number; rate?: number }
+        jp?: { maxCap?: number; rate?: number }
+      }
+      paidByEmployer?: {
+        jht?: { maxCap?: number; rate?: number }
+        jkk?: { maxCap?: number; rate?: number }
+        jkm?: { maxCap?: number; rate?: number }
+        jks?: { maxCap?: number; rate?: number }
+        jp?: { maxCap?: number; rate?: number }
+      }
     }
     participateBpjs?: boolean
-    bpjs?: {
-      paidByEmployer?: {
-        jht?: { rate?: number; maxCap?: number }
-        jkk?: { rate?: number; maxCap?: number }
-        jkm?: { rate?: number; maxCap?: number }
-        jp?: { rate?: number; maxCap?: number }
-        jks?: { rate?: number; maxCap?: number }
-      }
-      paidByEmployee?: {
-        jht?: { rate?: number; maxCap?: number }
-        jkk?: { rate?: number; maxCap?: number }
-        jkm?: { rate?: number; maxCap?: number }
-        jp?: { rate?: number; maxCap?: number }
-        jks?: { rate?: number; maxCap?: number }
-      }
+    taxConfig?: {
+      category?: string
+      npwpNumber?: string
+      ptkpStatus?: string
+      taxStatus?: IGeneralDataEmmbed
     }
+    taxMethod?: IGeneralDataEmmbed
   }
-  components?: {
-    benefits?: Array<{
-      component?: IGeneralDataEmmbed
-      taxType?: IGeneralDataEmmbed
-      maxCap?: number
-      amountType?: IGeneralDataEmmbed
-      amount?: number
-      applicationType?: IGeneralDataEmmbed
-    }>
-    deductions?: Array<{
-      component?: IGeneralDataEmmbed
-      taxType?: IGeneralDataEmmbed
-      maxCap?: number
-      amountType?: IGeneralDataEmmbed
-      amount?: number
-      applicationType?: IGeneralDataEmmbed
-    }>
+  personalData?: {
+    birthDate?: string
+    cityOfBirth?: IGeneralDataEmmbed
+    gender?: IGeneralDataEmmbed
+    linkNationalId?: string
+    maritalStatus?: IGeneralDataEmmbed
+    nationIdAddress?: string
+    nationalIdNumber?: string
+    numberOfChildren?: number
+    phoneNumber?: string
+    postalCode?: string
+    religion?: IGeneralDataEmmbed
+    residentalAddress?: string
   }
 }

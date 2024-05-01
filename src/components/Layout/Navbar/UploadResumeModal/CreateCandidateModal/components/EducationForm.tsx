@@ -9,19 +9,19 @@ import * as yup from 'yup'
 
 const schema = yup.object({
   education: YUP_OPTION_OBJECT.required().label('Last Education'),
-  institutionId: yup.string().required().label('Institution'),
-  majorId: yup.string().required().label('Major'),
-  gpa: yup.string().required().label('GPA'),
-  startDate: yup.date().required().label('Start Date'),
   endDate: yup
     .date()
     .when('isStillLearning', {
       is: false,
-      then: (s) => s.required(),
       otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
     })
     .label('End Date'),
+  gpa: yup.string().required().label('GPA'),
+  institutionId: yup.string().required().label('Institution'),
   isStillLearning: yup.boolean(),
+  majorId: yup.string().required().label('Major'),
+  startDate: yup.date().required().label('Start Date'),
 })
 
 const EducationForm: React.FC<{
@@ -30,16 +30,16 @@ const EducationForm: React.FC<{
   handleSubmit: (data: any) => void
 }> = (props) => {
   const {
-    register,
-    handleSubmit,
-    setValue,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
+    setValue,
     trigger,
     watch,
-    formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: { isStillLearning: true, ...props.defaultValue } as yup.InferType<typeof schema>,
+    resolver: yupResolver(schema),
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
@@ -48,7 +48,7 @@ const EducationForm: React.FC<{
 
   return (
     <div>
-      <Card as="form" onSubmit={onSubmit} className="border-none">
+      <Card as="form" className="border-none" onSubmit={onSubmit}>
         <CardBody className="grid grid-cols-1 gap-2">
           <div className="pb-2">
             <h3 className="text-lg font-semibold">Personal Data</h3>
@@ -56,54 +56,54 @@ const EducationForm: React.FC<{
           </div>
 
           <AsyncSelect
-            label="Education"
-            labelRequired
-            placeholder="Choose Education"
             action={masterService.fetchEducationLevel}
             converter={emmbedToOptions}
-            name="education"
             error={errors.education?.message}
-            value={getValues('education')}
+            label="Education"
+            labelRequired
+            name="education"
             onValueChange={(v) => {
               setValue('education', v)
               trigger('education')
             }}
+            placeholder="Choose Education"
+            value={getValues('education')}
           />
           <Input
-            label="Institution"
-            placeholder="Institution"
-            labelRequired
             error={errors.institutionId?.message}
+            label="Institution"
+            labelRequired
+            placeholder="Institution"
             {...register('institutionId')}
           />
-          <Input label="Major" placeholder="Major" labelRequired error={errors.majorId?.message} {...register('majorId')} />
-          <Input label="GPA" placeholder="ex: 3.5" labelRequired error={errors.gpa?.message} {...register('gpa')} type="number" />
+          <Input error={errors.majorId?.message} label="Major" labelRequired placeholder="Major" {...register('majorId')} />
+          <Input error={errors.gpa?.message} label="GPA" labelRequired placeholder="ex: 3.5" {...register('gpa')} type="number" />
 
           <InputDate
+            displayFormat="DD/MM/YYYY"
+            error={errors.startDate?.message}
             label="Start Date"
             labelRequired
-            popoverDirection="up"
-            error={errors.startDate?.message}
-            displayFormat="DD/MM/YYYY"
-            value={getValues('startDate')}
             onValueChange={(v) => {
               setValue('startDate', v)
               trigger('startDate')
             }}
+            popoverDirection="up"
+            value={getValues('startDate')}
           />
 
           {!isStillLearning && (
             <InputDate
+              displayFormat="DD/MM/YYYY"
+              error={errors.endDate?.message}
               label="End Date"
               labelRequired
-              popoverDirection="up"
-              error={errors.endDate?.message}
-              displayFormat="DD/MM/YYYY"
-              value={getValues('endDate')}
               onValueChange={(v) => {
                 setValue('endDate', v)
                 trigger('endDate')
               }}
+              popoverDirection="up"
+              value={getValues('endDate')}
             />
           )}
 
@@ -113,10 +113,10 @@ const EducationForm: React.FC<{
         </CardBody>
 
         <CardFooter>
-          <Button type="button" variant="light" color="primary" className="w-32" onClick={props.handlePrev}>
+          <Button className="w-32" color="primary" onClick={props.handlePrev} type="button" variant="light">
             Prev
           </Button>
-          <Button type="submit" color="primary" className="w-32">
+          <Button className="w-32" color="primary" type="submit">
             Next
           </Button>
         </CardFooter>

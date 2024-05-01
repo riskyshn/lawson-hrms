@@ -8,14 +8,17 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type PropTypes = {
-  show?: boolean
   onClose?: () => void
+  show?: boolean
 }
 
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object({
+  additionalInformation: yup.string().required().label('Additional Information'),
+  body: yup.string().required().label('Body'),
+  greetings: yup.string().label('Greetings'),
   letterHead: yup
     .string()
     .required()
@@ -27,11 +30,6 @@ const schema = yup.object({
     )
     .url()
     .label('Letter Head'),
-  greetings: yup.string().label('Greetings'),
-  body: yup.string().required().label('Body'),
-  additionalInformation: yup.string().required().label('Additional Information'),
-  signeeRole: yup.string().required().label('Signee Role'),
-  signeeName: yup.string().required().label('Signee Full Name'),
   signature: yup
     .string()
     .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
@@ -45,9 +43,11 @@ const schema = yup.object({
     )
     .url()
     .label('Signature'),
+  signeeName: yup.string().required().label('Signee Full Name'),
+  signeeRole: yup.string().required().label('Signee Role'),
 })
 
-const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
+const SetupOfferingLetterModal: React.FC<PropTypes> = ({ onClose, show }) => {
   const [offeringLetterSetting, setOfferingLetterSetting] = useState<IOfferingLetterSetting>()
   const [previewLoading, setPreviewLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
@@ -56,13 +56,13 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     formState: { errors },
-    trigger,
+    getValues,
+    handleSubmit,
+    register,
     reset,
+    setValue,
+    trigger,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -134,31 +134,26 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
 
   return (
     <>
-      <Modal show={!!preview} className="flex h-full max-w-[1280px]" wrapperClassName="h-full" onClose={() => setPreview('')}>
-        <iframe src={preview} className="block flex-1 rounded-lg" />
+      <Modal className="flex h-full max-w-[1280px]" onClose={() => setPreview('')} show={!!preview} wrapperClassName="h-full">
+        <iframe className="block flex-1 rounded-lg" src={preview} />
       </Modal>
-      <Modal as="form" show={!!show} onSubmit={onSubmit}>
-        <ModalHeader subTitle="Adjust your offering letter template" onClose={onClose}>
+      <Modal as="form" onSubmit={onSubmit} show={!!show}>
+        <ModalHeader onClose={onClose} subTitle="Adjust your offering letter template">
           Setup Offering Letter
         </ModalHeader>
 
         {!offeringLetterSetting && (
           <div className="flex h-[600px] items-center justify-center">
-            <Spinner height={40} className="text-primary-600" />
+            <Spinner className="text-primary-600" height={40} />
           </div>
         )}
 
         {offeringLetterSetting && (
           <div className="grid grid-cols-1 gap-3 p-3">
-            <InputWrapper label="Letter Head" labelRequired error={errors.letterHead?.message}>
+            <InputWrapper error={errors.letterHead?.message} label="Letter Head" labelRequired>
               <ImageFileUpload
-                hidePreview
-                type="employee-national-id"
-                value={getValues('letterHead')}
                 error={errors.letterHead?.message}
-                onStart={() => {
-                  setValue('letterHead', PROGRESS_KEY)
-                }}
+                hidePreview
                 onChange={(value) => {
                   setValue('letterHead', value)
                   trigger('letterHead')
@@ -167,34 +162,34 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
                   setValue('letterHead', ERROR_PREFIX_KEY + message)
                   trigger('letterHead')
                 }}
+                onStart={() => {
+                  setValue('letterHead', PROGRESS_KEY)
+                }}
+                type="employee-national-id"
+                value={getValues('letterHead')}
               />
             </InputWrapper>
 
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Greetings" error={errors.greetings?.message} {...register('greetings')} />
-              <Input label="Candidate Name" defaultValue="[CANDIDATE NAME]" disabled />
+              <Input error={errors.greetings?.message} label="Greetings" {...register('greetings')} />
+              <Input defaultValue="[CANDIDATE NAME]" disabled label="Candidate Name" />
             </div>
-            <Textarea label="Body" labelRequired rows={3} error={errors.body?.message} {...register('body')} />
-            <Input label="Salary & Benefits" disabled />
+            <Textarea error={errors.body?.message} label="Body" labelRequired rows={3} {...register('body')} />
+            <Input disabled label="Salary & Benefits" />
             <Textarea
+              error={errors.additionalInformation?.message}
               label="Additional Information"
               labelRequired
               rows={3}
-              error={errors.additionalInformation?.message}
               {...register('additionalInformation')}
             />
-            <Input label="Signee Role" labelRequired error={errors.signeeRole?.message} {...register('signeeRole')} />
-            <Input label="Signee Full Name" labelRequired error={errors.signeeName?.message} {...register('signeeName')} />
+            <Input error={errors.signeeRole?.message} label="Signee Role" labelRequired {...register('signeeRole')} />
+            <Input error={errors.signeeName?.message} label="Signee Full Name" labelRequired {...register('signeeName')} />
 
-            <InputWrapper label="Signature" error={errors.signature?.message}>
+            <InputWrapper error={errors.signature?.message} label="Signature">
               <ImageFileUpload
-                hidePreview
-                type="employee-national-id"
-                value={getValues('signature')}
                 error={errors.signature?.message}
-                onStart={() => {
-                  setValue('signature', PROGRESS_KEY)
-                }}
+                hidePreview
                 onChange={(value) => {
                   setValue('signature', value)
                   trigger('signature')
@@ -203,6 +198,11 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
                   setValue('signature', ERROR_PREFIX_KEY + message)
                   trigger('signature')
                 }}
+                onStart={() => {
+                  setValue('signature', PROGRESS_KEY)
+                }}
+                type="employee-national-id"
+                value={getValues('signature')}
               />
             </InputWrapper>
           </div>
@@ -210,33 +210,33 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ show, onClose }) => {
 
         <ModalFooter className="justify-between gap-3">
           <Button
-            type="button"
-            color="error"
-            variant="light"
-            disabled={submitLoading || previewLoading}
             className="min-w-24"
+            color="error"
+            disabled={submitLoading || previewLoading}
             onClick={onClose}
+            type="button"
+            variant="light"
           >
             Cancel
           </Button>
           <div className="flex gap-3">
             <Button
-              type="button"
+              className="min-w-24"
               color="primary"
-              variant="light"
               disabled={submitLoading || previewLoading || !offeringLetterSetting}
               loading={previewLoading}
-              className="min-w-24"
               onClick={onPreview}
+              type="button"
+              variant="light"
             >
               Preview
             </Button>
             <Button
-              type="submit"
-              color="primary"
               className="min-w-24"
+              color="primary"
               disabled={submitLoading || previewLoading || !offeringLetterSetting}
               loading={submitLoading}
+              type="submit"
             >
               Save Changes
             </Button>

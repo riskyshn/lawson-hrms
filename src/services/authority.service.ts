@@ -12,7 +12,7 @@ const axios = createAxiosInstance({
  * Roles
  *
  */
-export const fetchRoles = (params?: IPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+export const fetchRoles = (params?: { active?: boolean } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IRole> }>(`/authority/roles`, { params, signal }).then((response) => response.data.data)
 }
 
@@ -36,7 +36,7 @@ export const deleteRole = (oid: string) => {
  * Permissions
  *
  */
-export const fetchPermissions = (params?: IPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+export const fetchPermissions = (params?: { active?: boolean } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: IPaginationResponse<IPermission> }>(`/authority/permissions`, { params, signal })
     .then((response) => response.data.data)
@@ -64,12 +64,12 @@ export const deletePermission = (oid: string) => {
  */
 export const givenRolesToUser = (userId: string, roleIds: string[]) => {
   return axios
-    .patch<{ data: IUser }>(`/authority/provide-access/roles-user`, { userId, roles: roleIds })
+    .patch<{ data: IUser }>(`/authority/provide-access/roles-user`, { roles: roleIds, userId })
     .then((response) => response.data.data)
 }
 
 export const givenPermissionsToUser = (userId: string, permissionIds: string[]) => {
   return axios
-    .patch<{ data: IUser }>(`/authority/provide-access/permissions-user`, { userId, permissions: permissionIds })
+    .patch<{ data: IUser }>(`/authority/provide-access/permissions-user`, { permissions: permissionIds, userId })
     .then((response) => response.data.data)
 }

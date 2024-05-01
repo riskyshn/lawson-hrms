@@ -19,9 +19,9 @@ const UpcomingScheduleCard: React.FC = () => {
           <CardBody className="chrome-scrollbar flex flex-1 flex-col gap-3 overflow-y-auto">
             {pageData.content.map((el, i) => (
               <Link
+                className="flex cursor-pointer flex-col gap-1 rounded-lg border border-l-4 border-l-success-300 bg-gray-50 p-2 transition-colors hover:border-success-300"
                 key={i}
                 to={`/calendar?date=${el?.startedAt}`}
-                className="flex cursor-pointer flex-col gap-1 rounded-lg border border-l-4 border-l-success-300 bg-gray-50 p-2 transition-colors hover:border-success-300"
               >
                 <span className="block text-xs">
                   {moment.utc(el.startedAt).local().format('DD/MM/YYYY HH:mm')} -{' '}

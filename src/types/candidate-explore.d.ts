@@ -1,28 +1,28 @@
 interface ICandidateExplore {
-  oid: string
-  video?: string
-  video_thumbnail?: string
-  photo?: string
-  phone?: string
-  position?: string
-  notif_token_mobile?: string
-  login_date?: string
-  gender?: string
-  district_name?: string
-  city_name?: string
-  job_func_desc?: string
-  province_name?: string
-  last_edu?: string
-  photo_validation?: number
   age?: number
-  distance?: number
-  liked_by_me?: number
-  is_recruit?: number
-  pagination_token?: string
-  is_complete?: number
   candidate_id?: number
+  city_name?: string
+  distance?: number
+  district_name?: string
   full_name?: string
+  gender?: string
+  is_complete?: number
+  is_recruit?: number
+  job_func_desc?: string
+  last_edu?: string
+  liked_by_me?: number
+  login_date?: string
   modified?: string
+  notif_token_mobile?: string
+  oid: string
+  pagination_token?: string
+  phone?: string
+  photo?: string
+  photo_validation?: number
+  position?: string
+  province_name?: string
   total_likes?: number
   total_views?: number
+  video?: string
+  video_thumbnail?: string
 }

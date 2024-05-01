@@ -7,6 +7,7 @@ import { attendanceService } from '@/services'
 import { Button } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import CreateScheduleModal from '../components/CreateScheduleModal'
 import Table from '../components/Table'
 
@@ -20,9 +21,9 @@ const SchedulePage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/attendance/schedule',
     totalPage: pageData?.totalPages,
-    params: { search },
   })
 
   useEffect(() => {
@@ -34,9 +35,9 @@ const SchedulePage: React.FC = () => {
       try {
         const data = await attendanceService.fetchSchedules(
           {
-            q: search,
-            page: pagination.currentPage,
             limit: 20,
+            page: pagination.currentPage,
+            q: search,
           },
           signal,
         )
@@ -59,37 +60,37 @@ const SchedulePage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Attendance' }, { text: 'Schedule' }]}
-        title="Schedule"
-        subtitle="Manage Your Team Schedule"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+          <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
             Add New Schedule
           </Button>
         }
+        breadcrumb={[{ text: 'Attendance' }, { text: 'Schedule' }]}
+        subtitle="Manage Your Team Schedule"
+        title="Schedule"
       />
 
-      <CreateScheduleModal show={showCreateModal} onApplyVacancy={setOnChangeData} onClose={() => setShowCreateModal(false)} />
+      <CreateScheduleModal onApplyVacancy={setOnChangeData} onClose={() => setShowCreateModal(false)} show={showCreateModal} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
+          footer={pagination.render()}
           header={() => (
             <MainCardHeader
-              title="Schedule List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Schedule</span> in total
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Schedule List"
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

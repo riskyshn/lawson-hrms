@@ -3,6 +3,7 @@ import DetailEmployeePayrollModal from '@/pages/payroll/components/DetailEmploye
 import numberToCurrency from '@/utils/number-to-currency'
 import { Avatar, Button } from 'jobseeker-ui'
 import React, { useState } from 'react'
+
 import DeleteItemButton from './DeleteItemButton'
 
 const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading, onRefresh }) => {
@@ -25,7 +26,7 @@ const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRe
         {
           children: (
             <div className="flex items-center gap-3">
-              <Avatar name={item.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar className="rounded-lg bg-primary-100 text-primary-700" name={item.name || ''} size={38} />
               <span className="block font-semibold">{item.name}</span>
             </div>
           ),
@@ -39,10 +40,10 @@ const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRe
         {
           children: (
             <span className="flex items-center justify-center gap-1">
-              <Button type="button" color="primary" variant="light" size="small" onClick={() => setSelectedToUpdate(item)}>
+              <Button color="primary" onClick={() => setSelectedToUpdate(item)} size="small" type="button" variant="light">
                 Detail
               </Button>
-              <DeleteItemButton oid={item.oid} color="error" size="small" onRefresh={onRefresh}>
+              <DeleteItemButton color="error" oid={item.oid} onRefresh={onRefresh} size="small">
                 Delete
               </DeleteItemButton>
             </span>
@@ -55,7 +56,7 @@ const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRe
   return (
     <>
       <DetailEmployeePayrollModal item={selectedToUpdate} onClose={() => setSelectedToUpdate(null)} />
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+      <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
     </>
   )
 }

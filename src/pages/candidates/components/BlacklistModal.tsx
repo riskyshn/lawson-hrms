@@ -4,13 +4,13 @@ import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type BlacklistModalProps = {
-  show: boolean
-  onClose: () => void
   candidate: any
   onApplyVacancy: (data: string) => void
+  onClose: () => void
+  show: boolean
 }
 
-const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
+const BlacklistModal: React.FC<BlacklistModalProps> = ({ candidate, onApplyVacancy, onClose, show }) => {
   const [selectReasonId, setSelectReasonId] = useState<string>('')
   const [reasonBlacklist, setReasonBlacklist] = useState<any[]>([])
   const toast = useToast()
@@ -40,12 +40,12 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidat
 
     const selectedReason = reasonBlacklist.find((reason) => reason.oid === selectReasonId)
 
-    const { oid, name } = selectedReason
+    const { name, oid } = selectedReason
 
     const payload = {
       applicantId: candidate.id,
-      blacklistReasonId: oid,
       blacklistReason: name,
+      blacklistReasonId: oid,
     }
 
     setLoading(true)
@@ -66,21 +66,21 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, candidat
   }
 
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Blacklist</h4>
         <p className="text-center">Please select the reason of why this candidate is Blacklist</p>
       </div>
       <Select
-        label="Select Reason"
-        placeholder="Underqualified, Salary Expectation Too High"
-        options={reasonBlacklist.map((reason) => ({ value: reason.oid, label: reason.name }))}
         className="mb-3"
-        value={selectReasonId}
+        label="Select Reason"
         onChange={handleChange}
+        options={reasonBlacklist.map((reason) => ({ label: reason.name, value: reason.oid }))}
+        placeholder="Underqualified, Salary Expectation Too High"
+        value={selectReasonId}
       />
-      <Button block color="primary" className="mx-auto" onClick={handleSelectReason}>
-        {loading ? <Spinner height={20} className="text-white-600" /> : 'Submit'}
+      <Button block className="mx-auto" color="primary" onClick={handleSelectReason}>
+        {loading ? <Spinner className="text-white-600" height={20} /> : 'Submit'}
       </Button>
     </MainModal>
   )

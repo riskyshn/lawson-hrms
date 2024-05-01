@@ -3,7 +3,7 @@ import { UserIcon } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const NumberOfEmployeeLink: React.FC<{ to: string; count?: number }> = ({ to, count }) => {
+const NumberOfEmployeeLink: React.FC<{ count?: number; to: string }> = ({ count, to }) => {
   return (
     <span className="flex items-center justify-center gap-2">
       <span className="flex">
@@ -17,7 +17,7 @@ const NumberOfEmployeeLink: React.FC<{ to: string; count?: number }> = ({ to, co
           <UserIcon size={18} />
         </span>
       </span>
-      <Link to={to} title="Number of employee" className="uppercase text-primary-600 underline">
+      <Link className="uppercase text-primary-600 underline" title="Number of employee" to={to}>
         {shortenNumber(count || 0)}
       </Link>
     </span>

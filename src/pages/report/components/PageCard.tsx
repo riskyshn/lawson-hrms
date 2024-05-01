@@ -2,7 +2,7 @@ import { Card } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
 
 const PageCard = (props: any) => {
-  const { label, activeLabel, onClick } = props
+  const { activeLabel, label, onClick } = props
 
   // Check if the current label matches the activeLabel
   const isActive = label === activeLabel

@@ -1,37 +1,37 @@
 interface IDataTableApplicant {
-  oid: string
-  recruitmentStage?: string
   actionAt?: string
+  candidate?: { email?: string } & IGeneralDataEmmbed
   createdAt?: string
   documentLink?: string
+  oid: string
+
+  recruitmentStage?: string
 
   status?: {
-    oid: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7'
     name?: string
+    oid: '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7'
   }
-
-  candidate?: IGeneralDataEmmbed & { email?: string }
-  vacancy?: IGeneralDataEmmbed & { rrNumber?: string }
+  vacancy?: { rrNumber?: string } & IGeneralDataEmmbed
 }
 
 interface IApplicant extends IDataTableApplicant {
   histories?: Array<{
-    oid: string
+    actionAt?: string
     applyProcess?: string
-    status?: string
+    file?: string
     from?: string
     notes?: string
-    file?: string
-    actionAt?: string
+    oid: string
     processAt?: string
+    status?: string
   }>
 }
 
 interface IApplicantStage {
-  oid: string
-  name: string
-  type: 'INTERVIEW' | 'ASSESSMENT'
   isAvailable: boolean
+  name: string
+  oid: string
+  type: 'ASSESSMENT' | 'INTERVIEW'
 }
 
 interface IUploadedProcessDocument {
@@ -44,14 +44,14 @@ interface IUploadedProcessDocument {
 }
 
 interface IOfferingLetter {
-  letterNumber: string
-  position?: IGeneralDataEmmbed
+  baseSalary?: number
+  benefits?: Array<{ amount?: number; name?: string }>
+  city?: IGeneralDataEmmbed
   department?: IGeneralDataEmmbed
+  expiryDate?: string
   jobLevel?: IGeneralDataEmmbed
   jobType?: IGeneralDataEmmbed
-  city?: IGeneralDataEmmbed
   joinDate?: string
-  expiryDate?: string
-  baseSalary?: number
-  benefits?: Array<{ name?: string; amount?: number }>
+  letterNumber: string
+  position?: IGeneralDataEmmbed
 }

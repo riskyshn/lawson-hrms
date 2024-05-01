@@ -1,24 +1,24 @@
 interface IGeneralDataEmmbed {
-  oid: string
   name?: string
+  oid: string
 }
 
 interface IUser {
-  oid: string
-  email: string
-  firstName?: string
-  lastName?: string
-
-  company?: IGeneralDataEmmbed
-  employee?: IGeneralDataEmmbed
-
-  accessGranted: IRole[]
   accessDirectPermissions: IPermission[]
+  accessGranted: IRole[]
+  company?: IGeneralDataEmmbed
+  email: string
+
+  employee?: IGeneralDataEmmbed
+  firstName?: string
+
+  lastName?: string
+  oid: string
 }
 
 interface ICoordinate {
+  coordinates: [number, number]
+  type: string
   x: number
   y: number
-  type: string
-  coordinates: [number, number]
 }

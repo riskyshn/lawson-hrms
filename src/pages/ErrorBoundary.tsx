@@ -45,11 +45,11 @@ const ErrorBoundary: React.FC = () => {
             <p className="mb-5 text-sm md:text-base">{errorMessage}</p>
             <div className="flex justify-center">
               {code === 404 ? (
-                <Button as={Link} to="/" color="primary" className="px-6">
+                <Button as={Link} className="px-6" color="primary" to="/">
                   Back To Home
                 </Button>
               ) : (
-                <Button onClick={() => window.location.reload()} color="primary" className="w-32">
+                <Button className="w-32" color="primary" onClick={() => window.location.reload()}>
                   Refresh
                 </Button>
               )}

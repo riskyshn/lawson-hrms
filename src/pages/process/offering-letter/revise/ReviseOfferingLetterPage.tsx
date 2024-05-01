@@ -10,19 +10,20 @@ import { Stepper, useSteps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+
 import EmployeeDetailsForm from '../components/EmployeeDetailsForm'
 import RenumerationForm from '../components/RenumerationForm'
 
 const offeringLetterToFormData = (data: IOfferingLetter) => ({
   step1: {
-    letterNumber: data.letterNumber,
-    position: emmbedToOption(data.position),
+    city: emmbedToOption(data.city),
     department: emmbedToOption(data.department),
+    expiryDate: data.expiryDate ? new Date(data.expiryDate) : undefined,
     jobLevel: emmbedToOption(data.jobLevel),
     jobType: emmbedToOption(data.jobType),
-    city: emmbedToOption(data.city),
     joinDate: data.joinDate ? new Date(data.joinDate) : undefined,
-    expiryDate: data.expiryDate ? new Date(data.expiryDate) : undefined,
+    letterNumber: data.letterNumber,
+    position: emmbedToOption(data.position),
   },
   step2: {
     baseSalary: data.baseSalary,
@@ -81,9 +82,9 @@ const ReviseOfferingLetterPage: React.FC = () => {
     }
   }, [offeringLetter])
 
-  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(2, {
+  const { activeStep, handleNext, handlePrev, isLastStep } = useSteps(2, {
     onNext() {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ behavior: 'smooth', top: 0 })
     },
   })
 
@@ -107,16 +108,16 @@ const ReviseOfferingLetterPage: React.FC = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'Create Offering Letter' }]}
-        title="Revise Offering Letter"
         subtitle="Please fill out the form below to generate offering letter"
+        title="Revise Offering Letter"
       />
 
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
           steps={[
-            { title: 'Employment Details', details: 'Set Employment Detail’s' },
-            { title: 'Remuneration & Benefits', details: 'Set Information' },
+            { details: 'Set Employment Detail’s', title: 'Employment Details' },
+            { details: 'Set Information', title: 'Remuneration & Benefits' },
           ]}
         />
 
@@ -131,11 +132,11 @@ const ReviseOfferingLetterPage: React.FC = () => {
         )}
         {loaded && activeStep === 1 && (
           <RenumerationForm
-            isLoading={loading}
-            isRevise
             defaultValue={formValues.step2}
             handlePrev={handlePrev}
             handleSubmit={(step2) => handleStepSubmit({ ...formValues, step2 })}
+            isLoading={loading}
+            isRevise
           />
         )}
       </Container>

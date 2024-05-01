@@ -24,8 +24,8 @@ const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruit
 
   const items = [
     { text: 'Candidate Apply' },
-    { text: 'Interview', items: interviews },
-    { text: 'Assessment', items: assessments },
+    { items: interviews, text: 'Interview' },
+    { items: assessments, text: 'Assessment' },
     { text: 'Offering Letter' },
     { text: 'Onboarding' },
   ]
@@ -40,7 +40,7 @@ const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruit
         {!loading && (
           <ol className="border-l border-dashed">
             {items.map((el, i) => (
-              <li key={i} className="relative mb-5 pl-6 last:mb-0">
+              <li className="relative mb-5 pl-6 last:mb-0" key={i}>
                 <span className="absolute left-[-0.4rem] top-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-white ring-4 ring-primary-600" />
                 <h3 className="flex items-center gap-3 font-semibold">{el.text}</h3>
                 {el.items && (

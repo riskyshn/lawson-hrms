@@ -1,4 +1,4 @@
-export default function currencyToNumber(currency?: string | number | null): number {
+export default function currencyToNumber(currency?: null | number | string): number {
   const currencyString = String(currency || '')
   const numericString = currencyString.replace(/[^\d.-]/g, '')
   let numericValue = parseFloat(numericString)

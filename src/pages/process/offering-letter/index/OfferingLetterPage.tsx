@@ -11,6 +11,7 @@ import { AsyncSelect, Button } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import Table from '../../components/Table'
 import SetupOfferingLetterModal from './components/SetupOfferingLetterModal'
 
@@ -22,80 +23,80 @@ const OfferingLetterPage: React.FC = () => {
   const [vacancy, setVacancy, rawVacancy] = useOptionSearchParam('vacancy')
   const [stage, setStage, rawStage] = useOptionSearchParam('stage')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(
     processService.fetchProcess,
-    { limit: 20, stage: stage?.value, vacancy: vacancy?.value, type: 'OFFERING' },
+    { limit: 20, stage: stage?.value, type: 'OFFERING', vacancy: vacancy?.value },
     search,
   )
 
   const pagination = usePagination({
+    params: { search, state: rawStage, vacancy: rawVacancy },
     pathname: '/process/offering-letter',
     totalPage: pageData?.totalPages,
-    params: { search, vacancy: rawVacancy, state: rawStage },
   })
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }]}
-        title="Offering Letter"
         actions={
           <Button
-            type="button"
-            variant="light"
-            color="primary"
             className="text-gray-600"
+            color="primary"
             leftChild={<SettingsIcon size={16} />}
             onClick={() => setShowSetupOfferingLetterModal(true)}
+            type="button"
+            variant="light"
           >
             Setup Offering Letter
           </Button>
         }
+        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }]}
+        title="Offering Letter"
       />
 
-      <SetupOfferingLetterModal show={showSetupOfferingLetterModal} onClose={() => setShowSetupOfferingLetterModal(false)} />
+      <SetupOfferingLetterModal onClose={() => setShowSetupOfferingLetterModal(false)} show={showSetupOfferingLetterModal} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="OFFERING" />}
+          footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Candidate List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <AsyncSelect
+                      action={vacancyService.fetchVacancies}
+                      className="mb-2"
+                      converter={(data) => data.content.map((el) => ({ label: el.vacancyName, value: el.oid }))}
+                      onValueChange={setVacancy}
+                      placeholder="All Vacancy"
+                      value={vacancy}
+                      withReset
+                    />
+                    <AsyncSelect
+                      action={organizationService.fetchRecruitmentStages}
+                      className="mb-2"
+                      converter={emmbedToOptions}
+                      onValueChange={setStage}
+                      placeholder="All Stage"
+                      value={stage}
+                      withReset
+                    />
+                  </div>
+                )
+              }
+              filterToogle={toggleOpen}
+              onRefresh={onRefresh}
+              search={{ setValue: (search) => setSearchParam({ search }), value: search || '' }}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total
                 </>
               }
-              search={{ value: search || '', setValue: (search) => setSearchParam({ search }) }}
-              onRefresh={onRefresh}
-              filterToogle={toggleOpen}
-              filter={
-                open && (
-                  <div className="grid grid-cols-2 gap-3 p-3">
-                    <AsyncSelect
-                      placeholder="All Vacancy"
-                      className="mb-2"
-                      withReset
-                      action={vacancyService.fetchVacancies}
-                      converter={(data) => data.content.map((el) => ({ label: el.vacancyName, value: el.oid }))}
-                      value={vacancy}
-                      onValueChange={setVacancy}
-                    />
-                    <AsyncSelect
-                      placeholder="All Stage"
-                      className="mb-2"
-                      withReset
-                      action={organizationService.fetchRecruitmentStages}
-                      converter={emmbedToOptions}
-                      value={stage}
-                      onValueChange={setStage}
-                    />
-                  </div>
-                )
-              }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Candidate List"
             />
           )}
-          body={<Table type="OFFERING" items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

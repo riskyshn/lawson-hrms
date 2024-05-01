@@ -7,6 +7,7 @@ import { organizationService } from '@/services'
 import { Button } from 'jobseeker-ui'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import CardHeader from '../components/CardHeader'
 import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
@@ -19,37 +20,37 @@ export const Component: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   const search = searchParams.get('search')
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(organizationService.fetchBranches, { limit: 20 }, search)
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(organizationService.fetchBranches, { limit: 20 }, search)
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/settings/branches',
     totalPage: pageData?.totalPages,
-    params: { search },
   })
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Branches' }]}
-        title="Branch"
-        subtitle="Manage Your Company Branch"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary">
+          <Button color="primary" onClick={() => setShowCreateModal(true)}>
             Add New Branch
           </Button>
         }
+        breadcrumb={[{ text: 'Settings' }, { text: 'Branches' }]}
+        subtitle="Manage Your Company Branch"
+        title="Branch"
       />
 
-      <CreateModal show={showCreateModal} onCreated={onRefresh} onClose={() => setShowCreateModal(false)} />
+      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={onRefresh} show={showCreateModal} />
       <EditModal item={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Branch" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
-            <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
+            <Table items={pageData?.content || []} loading={isLoading} onDeleted={onRefresh} setSelectedToUpdate={setToUpdateSelected} />
           }
           footer={pagination.render()}
+          header={<CardHeader name="Branch" onRefresh={onRefresh} total={pageData?.totalElements} />}
         />
       </Container>
     </>

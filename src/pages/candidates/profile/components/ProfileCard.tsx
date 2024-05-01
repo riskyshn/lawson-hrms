@@ -4,11 +4,11 @@ import { MailIcon, MapPinnedIcon, PhoneIcon, StarsIcon, User2Icon } from 'lucide
 import React from 'react'
 
 type PropType = {
-  items?: ICandidate
   children?: React.ReactNode
+  items?: ICandidate
 }
 
-const ProfileCard: React.FC<PropType> = ({ items, children }) => {
+const ProfileCard: React.FC<PropType> = ({ children, items }) => {
   const md = useBreakpoint('md')
 
   if (!items) return null
@@ -20,15 +20,15 @@ const ProfileCard: React.FC<PropType> = ({ items, children }) => {
           {items.photoProfile ? (
             <img
               alt={items.photoProfile}
-              src={items.photoProfile}
               className="block rounded-lg object-cover"
+              src={items.photoProfile}
               style={{
                 height: md ? '128px' : '64px',
                 width: md ? '128px' : '64px',
               }}
             />
           ) : (
-            <Avatar name={items.name || ''} size={md ? 128 : 64} className="flex bg-primary-100 text-2xl text-primary-700" />
+            <Avatar className="flex bg-primary-100 text-2xl text-primary-700" name={items.name || ''} size={md ? 128 : 64} />
           )}
         </div>
         <div className="ml-2 flex flex-1 flex-col gap-3 lg:flex-row">
@@ -41,7 +41,7 @@ const ProfileCard: React.FC<PropType> = ({ items, children }) => {
               </div>
               <div className="flex items-center gap-2">
                 <MailIcon className="text-gray-400" size={14} />
-                <a className="block text-sm hover:text-primary-600" target="_blank" href={`mailto:${items.email || '-'}`}>
+                <a className="block text-sm hover:text-primary-600" href={`mailto:${items.email || '-'}`} target="_blank" rel="noreferrer">
                   {items.email || '-'}
                 </a>
               </div>

@@ -12,33 +12,27 @@ const tailwindConfig: Config = {
     './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
   ],
   darkMode: 'class',
+  plugins: [typography],
   theme: {
     container: {
       center: true,
     },
     extend: {
-      fontFamily: {
-        sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
-      },
       colors: {
-        primary: colors.blue,
-        secondary: colors.gray,
-        success: colors.green,
-        warning: colors.yellow,
         error: colors.red,
         jsc: {
           primary: '#E4007E',
           secondary: '#20229B',
         },
+        primary: colors.blue,
+        secondary: colors.gray,
+        success: colors.green,
+        warning: colors.yellow,
       },
-      transitionProperty: {
-        spacing: 'margin, padding',
+      fontFamily: {
+        sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
-        shimmer: {
-          '0%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(100%)' },
-        },
         position: {
           '0%, 100%': {
             backgroundPosition: '0% 50%',
@@ -47,10 +41,16 @@ const tailwindConfig: Config = {
             backgroundPosition: '100% 50%',
           },
         },
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+      transitionProperty: {
+        spacing: 'margin, padding',
       },
     },
   },
-  plugins: [typography],
 }
 
 export default tailwindConfig

@@ -3,18 +3,19 @@ import { Button, Card, CardBody, CardFooter, InputCheckbox, InputCurrency } from
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+
 import ExperienceItem from './ExperienceItem'
 import { experiencesSchema } from './shared'
 
 const ExperiencesForm: React.FC<{
-  isLoading?: boolean
   defaultValue: any
   handlePrev: () => void
   handleSubmit: (data: any) => void
+  isLoading?: boolean
 }> = (props) => {
   const form = useForm({
-    resolver: yupResolver(experiencesSchema),
     defaultValues: { experiences: [{}], ...props.defaultValue } as yup.InferType<typeof experiencesSchema>,
+    resolver: yupResolver(experiencesSchema),
   })
 
   const isFreshGraduate = !!form.watch('freshGraduate')
@@ -35,20 +36,20 @@ const ExperiencesForm: React.FC<{
 
   return (
     <div>
-      <Card as="form" onSubmit={onSubmit} className="border-none">
+      <Card as="form" className="border-none" onSubmit={onSubmit}>
         <CardBody className="grid grid-cols-1 gap-3">
           <h3 className="text-lg font-semibold">Experiences</h3>
           {watchExperiences?.map((_, i) => (
             <ExperienceItem
-              key={i}
-              index={i}
               form={form}
               hideRemoveButton={watchExperiences.length <= 1 && !isFreshGraduate}
+              index={i}
+              key={i}
               onRemove={() => handleRemove(i)}
             />
           ))}
           {!isFreshGraduate && (
-            <Button type="button" block color="primary" variant="light" onClick={handleAdd}>
+            <Button block color="primary" onClick={handleAdd} type="button" variant="light">
               Add Experience
             </Button>
           )}
@@ -60,25 +61,25 @@ const ExperiencesForm: React.FC<{
           </InputCheckbox>
 
           <InputCurrency
+            error={form.formState.errors.expectedSalary?.message}
             label="Expected Salary"
             labelRequired
-            placeholder="Expected Salary"
-            prefix="Rp "
-            error={form.formState.errors.expectedSalary?.message}
             name="expectedSalary"
-            value={form.getValues('expectedSalary')}
             onValueChange={(v) => {
               form.setValue('expectedSalary', v || '')
               form.trigger('expectedSalary')
             }}
+            placeholder="Expected Salary"
+            prefix="Rp "
+            value={form.getValues('expectedSalary')}
           />
         </CardBody>
 
         <CardFooter>
-          <Button type="button" variant="light" color="primary" className="w-32" onClick={props.handlePrev}>
+          <Button className="w-32" color="primary" onClick={props.handlePrev} type="button" variant="light">
             Prev
           </Button>
-          <Button type="submit" color="primary" className="w-32" loading={props.isLoading}>
+          <Button className="w-32" color="primary" loading={props.isLoading} type="submit">
             Submit
           </Button>
         </CardFooter>

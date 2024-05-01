@@ -6,19 +6,19 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 type EditScheduleModalProps = {
-  show: boolean
-  onClose?: () => void
-  onApplyVacancy: (data: string) => void
   items?: ISchedule
+  onApplyVacancy: (data: string) => void
+  onClose?: () => void
+  show: boolean
 }
 
-const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, onApplyVacancy, items }) => {
+const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVacancy, onClose, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
   const [timezones, setTimezones] = useState<ITimezone[]>()
-  const [selectTimezoneId, setSelectTimezoneId] = useState<string | number | undefined>(items?.timezone?.oid)
-  const { register, handleSubmit } = useForm()
+  const [selectTimezoneId, setSelectTimezoneId] = useState<number | string | undefined>(items?.timezone?.oid)
+  const { handleSubmit, register } = useForm()
   const [daySchedules, setDaySchedules] = useState<IScheduleDetail[]>(items?.details || [])
 
   useEffect(() => {
@@ -65,14 +65,14 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
       }
 
       const payload = {
-        name: data.name,
-        timezoneId: selectTimezoneId || items?.timezone?.oid || null,
-        details: daySchedules.map(({ day, start, end, isActive }) => ({
+        details: daySchedules.map(({ day, end, isActive, start }) => ({
           day,
-          start,
           end,
           isActive: start && end ? isActive : false,
+          start,
         })),
+        name: data.name,
+        timezoneId: selectTimezoneId || items?.timezone?.oid || null,
       }
 
       await attendanceService.updateSchedule(items?.oid, payload)
@@ -87,7 +87,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
     }
   })
 
-  const handleInputChange = (index: number, field: string, value: string | boolean) => {
+  const handleInputChange = (index: number, field: string, value: boolean | string) => {
     setDaySchedules((prevState) => {
       const updatedSchedules = [...prevState]
       updatedSchedules[index] = { ...updatedSchedules[index], [field]: value }
@@ -105,7 +105,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
     })
   }
 
-  const handleChange = (selectedValue: string | number) => {
+  const handleChange = (selectedValue: number | string) => {
     setSelectTimezoneId(selectedValue)
   }
 
@@ -115,7 +115,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
   }
 
   return (
-    <MainModal className="max-w-xl" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl" onClose={onClose} show={show}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-3">
           <h3 className="text-center text-2xl font-semibold">Edit Schedule</h3>
@@ -124,42 +124,42 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
 
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input label="Schedule Name" defaultValue={items?.name} labelRequired required {...register('name')} />
+        <Input defaultValue={items?.name} label="Schedule Name" labelRequired required {...register('name')} />
 
         <Select
-          label="Select Timezone"
-          placeholder="WIB, WITA, WIT"
-          options={timezones?.map((timezone) => ({ value: timezone.oid, label: timezone.title })) || []}
           className="mb-3"
-          value={items?.timezone?.oid}
+          label="Select Timezone"
           onChange={handleChange}
+          options={timezones?.map((timezone) => ({ label: timezone.title, value: timezone.oid })) || []}
+          placeholder="WIB, WITA, WIT"
+          value={items?.timezone?.oid}
         />
 
         {daySchedules.map((schedule, index) => (
-          <div key={index} className="mb-2">
+          <div className="mb-2" key={index}>
             <span className="text-xs">{getDayFullName(schedule?.day)}</span>
 
             <div className="flex flex-1 justify-between gap-4">
               <Input
-                type="time"
                 className="w-full"
-                value={schedule.start}
                 onChange={(e) => handleInputChange(index, 'start', e.target.value)}
+                type="time"
+                value={schedule.start}
               />
 
               <Input
-                type="time"
                 className="w-full"
-                value={schedule.end}
                 onChange={(e) => handleInputChange(index, 'end', e.target.value)}
+                type="time"
+                value={schedule.end}
               />
 
               <label className="inline-flex cursor-pointer items-center">
                 <input
-                  type="checkbox"
-                  className="peer sr-only"
                   checked={schedule.isActive}
+                  className="peer sr-only"
                   onChange={(e) => handleInputChange(index, 'isActive', e.target.checked)}
+                  type="checkbox"
                 />
                 <div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800 rtl:peer-checked:after:-translate-x-full"></div>
               </label>
@@ -168,7 +168,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ show, onClose, on
         ))}
 
         <div className="mt-8 flex justify-end gap-3">
-          <Button type="submit" color="primary" className="w-full" disabled={isLoading} loading={isLoading}>
+          <Button className="w-full" color="primary" disabled={isLoading} loading={isLoading} type="submit">
             Submit
           </Button>
         </div>

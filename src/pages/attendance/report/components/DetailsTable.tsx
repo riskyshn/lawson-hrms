@@ -38,9 +38,9 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           <div className="flex gap-3 whitespace-nowrap">
             <div>
               <Avatar
+                className="static rounded-lg bg-primary-100 text-primary-700"
                 name={item.records?.[0]?.employee?.name || '-'}
                 size={38}
-                className="static rounded-lg bg-primary-100 text-primary-700"
               />
             </div>
             <div>
@@ -70,7 +70,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
             if (index % 2 === 0) {
               acc.push(
-                <div key={index} className="flex h-16 flex-col items-center justify-center">
+                <div className="flex h-16 flex-col items-center justify-center" key={index}>
                   {cur}
                   {array[index + 1]}
                 </div>,
@@ -93,7 +93,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           .reduce((acc: any, cur: any, index: number, array: any) => {
             if (index % 2 === 0) {
               acc.push(
-                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                   {cur}
                   {array[index + 1]}
                 </div>,
@@ -108,7 +108,6 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
             return (
               <div key={index}>
                 <button
-                  title="Maps"
                   className="text-primary-600 hover:text-primary-700 focus:outline-none"
                   onClick={() =>
                     handlePinClick(
@@ -117,6 +116,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
                       record.employee?.employment?.branch?.coordinate?.coordinates,
                     )
                   }
+                  title="Maps"
                 >
                   <MapPinIcon size={15} />
                 </button>
@@ -126,7 +126,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
             if (index % 2 === 0) {
               acc.push(
-                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                   {cur}
                   {array[index + 1]}
                 </div>,
@@ -142,9 +142,9 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
             return (
               <div key={index}>
                 <button
-                  title="Image"
                   className="text-primary-600 hover:text-primary-700 focus:outline-none"
                   onClick={() => previewImage(record.photo)}
+                  title="Image"
                 >
                   <ImageIcon size={15} />
                 </button>
@@ -154,7 +154,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
             if (index % 2 === 0) {
               acc.push(
-                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                   {cur}
                   {array[index + 1]}
                 </div>,
@@ -183,7 +183,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           .reduce((acc: any, cur: any, index: number, array: any) => {
             if (index % 2 === 0) {
               acc.push(
-                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                   {cur}
                   {array[index + 1]}
                 </div>,
@@ -220,7 +220,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           .reduce((acc: any, cur: any, index: number, array: any) => {
             if (index % 2 === 0) {
               acc.push(
-                <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                   {cur}
                   {array[index + 1]}
                 </div>,
@@ -234,16 +234,16 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
 
   return (
     <>
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+      <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
       {selectedLocation && (
         <MapsPreviewerModal
           coordinates={selectedLocation}
-          radiusCoordinates={branchLocation}
-          radius={100}
           onClose={() => {
             setSelectedLocation(null)
             setBranchLocation(null)
           }}
+          radius={100}
+          radiusCoordinates={branchLocation}
         />
       )}
     </>

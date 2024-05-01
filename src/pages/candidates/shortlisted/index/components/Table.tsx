@@ -2,17 +2,18 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
 import React from 'react'
+
 import MenuList from '../../../components/MenuList'
 
 type PropTypes = {
   items: ICandidate[]
   loading?: boolean
-  setPreviewVideoModalUrl: (url: string) => void
-  setPreviewPdfModalUrl: (url: string) => void
   onDataChange: (data: string) => void
+  setPreviewPdfModalUrl: (url: string) => void
+  setPreviewVideoModalUrl: (url: string) => void
 }
 
-const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreviewPdfModalUrl, loading, onDataChange }) => {
+const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPdfModalUrl, setPreviewVideoModalUrl }) => {
   const options = ['Unshortlist', 'Process', 'Move to Another Vacancy', 'View History', 'Blacklist', 'View Profile', 'Reject']
 
   const bodyItems = items.map((candidate) => ({
@@ -24,15 +25,15 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
               {candidate.photoProfile ? (
                 <img
                   alt={candidate.photoProfile}
-                  src={candidate.photoProfile}
                   className="block rounded-lg object-cover"
+                  src={candidate.photoProfile}
                   style={{
                     height: '38px',
                     width: '38px',
                   }}
                 />
               ) : (
-                <Avatar name={candidate?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={candidate?.name || '-'} size={38} />
               )}
             </div>
             <div>
@@ -57,18 +58,18 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         children: (
           <span className="flex items-center justify-center gap-2">
             <button
-              disabled={!candidate.cv}
-              title="Preview Pdf Resume"
               className={`text-${!candidate.cv ? 'gray' : 'primary'}-600 hover:text-${!candidate.cv ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!candidate.cv}
               onClick={() => setPreviewPdfModalUrl(candidate?.cv || '-')}
+              title="Preview Pdf Resume"
             >
               <FileTextIcon size={18} />
             </button>
             <button
-              disabled={!candidate.videoResume}
-              title="Preview Video Resume"
               className={`text-${!candidate.videoResume ? 'gray' : 'primary'}-600 hover:text-${!candidate.videoResume ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!candidate.videoResume}
               onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
+              title="Preview Video Resume"
             >
               <FileVideoIcon size={18} />
             </button>
@@ -76,13 +77,14 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
         ),
         className: 'text-center',
       },
-      { children: <MenuList options={options} candidate={candidate} onApplyVacancy={onDataChange} /> },
+      { children: <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={options} /> },
     ],
   }))
 
   return (
     <>
       <MainTable
+        bodyItems={bodyItems}
         headerItems={[
           { children: 'Candidate', className: 'text-left' },
           { children: 'Vacancy', className: 'text-left' },
@@ -92,7 +94,6 @@ const Table: React.FC<PropTypes> = ({ items, setPreviewVideoModalUrl, setPreview
           { children: 'Resume', className: 'w-24' },
           { children: 'Action', className: 'w-24' },
         ]}
-        bodyItems={bodyItems}
         loading={loading}
       />
     </>

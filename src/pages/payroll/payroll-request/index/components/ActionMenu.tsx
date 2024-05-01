@@ -4,31 +4,31 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 type ActionMenuProps = {
-  item: IPayrollRequest
   index: number
+  item: IPayrollRequest
   total: number
   upSpace: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, total, upSpace }) => {
   const navigate = useNavigate()
 
   const viewDetails: Table.ActionMenuItemProps = {
-    text: 'View Details',
-    icon: EyeIcon,
     action() {
       navigate(`/payroll/payroll-request/${item.oid}`)
     },
+    icon: EyeIcon,
+    text: 'View Details',
   }
 
   const downloadReport: Table.ActionMenuItemProps = {
-    text: 'Download Report',
     icon: DownloadIcon,
+    text: 'Download Report',
   }
 
   const downloadBankRelease: Table.ActionMenuItemProps = {
-    text: 'Download Bank Release',
     icon: BanknoteIcon,
+    text: 'Download Bank Release',
   }
 
   const menuItems = [viewDetails, downloadReport, downloadBankRelease]

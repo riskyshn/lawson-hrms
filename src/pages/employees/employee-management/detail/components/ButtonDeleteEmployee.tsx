@@ -3,7 +3,7 @@ import { Button, ButtonProps, useConfirm, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const ButtonDeleteEmployee: React.FC<ButtonProps & { oid: string }> = ({ oid, ...props }) => {
+const ButtonDeleteEmployee: React.FC<{ oid: string } & ButtonProps> = ({ oid, ...props }) => {
   const confirm = useConfirm()
   const toast = useToast()
   const navigate = useNavigate()
@@ -13,9 +13,9 @@ const ButtonDeleteEmployee: React.FC<ButtonProps & { oid: string }> = ({ oid, ..
   const handleDelete = async () => {
     setIsLoading(true)
     const confirmed = await confirm({
-      text: 'Are you sure you want to delete this Employee?',
-      confirmBtnColor: 'error',
       cancelBtnColor: 'primary',
+      confirmBtnColor: 'error',
+      text: 'Are you sure you want to delete this Employee?',
     })
     if (confirmed) {
       try {
@@ -31,7 +31,7 @@ const ButtonDeleteEmployee: React.FC<ButtonProps & { oid: string }> = ({ oid, ..
   }
 
   return (
-    <Button {...props} type="button" disabled={isLoading} loading={isLoading} onClick={handleDelete}>
+    <Button {...props} disabled={isLoading} loading={isLoading} onClick={handleDelete} type="button">
       Delete
     </Button>
   )

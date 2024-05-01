@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import * as yup from 'yup'
+
 import ResendEmailButton from './components/ResendEmailButton'
 
 const schema = yup.object({
@@ -19,10 +20,10 @@ export const Component: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     register,
-    getValues,
-    formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
 
   const onSubmit = handleSubmit(async (data) => {
@@ -47,13 +48,13 @@ export const Component: React.FC = () => {
       <h1 className="text-center text-xl font-semibold uppercase tracking-widest">Forgot Password</h1>
 
       {!!errorMessage && (
-        <Alert color="error" className="text-center">
+        <Alert className="text-center" color="error">
           {errorMessage}
         </Alert>
       )}
 
       {isSuccess && (
-        <Alert color="primary" className="text-center">
+        <Alert className="text-center" color="primary">
           Password reset instructions have been sent to your email address: <strong>{email}</strong>. If you don't receive an email within a
           few minutes, please check your spam folder.
           <ResendEmailButton email={email || ''} minutes={3} />
@@ -62,15 +63,15 @@ export const Component: React.FC = () => {
 
       {!isComplete && (
         <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-          <Input label="Email Address" labelRequired placeholder="your@exmple.com" error={errors.email?.message} {...register('email')} />
-          <Button block color="primary" className="font-semibold uppercase tracking-widest" disabled={isLoading} loading={isLoading}>
+          <Input error={errors.email?.message} label="Email Address" labelRequired placeholder="your@exmple.com" {...register('email')} />
+          <Button block className="font-semibold uppercase tracking-widest" color="primary" disabled={isLoading} loading={isLoading}>
             Submit
           </Button>
         </form>
       )}
 
       <div className="text-center">
-        <Link to="/auth/login" className="text-xs font-semibold transition-colors hover:text-primary-600">
+        <Link className="text-xs font-semibold transition-colors hover:text-primary-600" to="/auth/login">
           Back to login page
         </Link>
       </div>

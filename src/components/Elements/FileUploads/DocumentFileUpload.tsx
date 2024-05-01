@@ -10,16 +10,16 @@ import React, { ChangeEvent, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 interface DocumentFileUploadProps {
-  type: 'applicant-result'
-  value?: string
   error?: string
-  onStart?: () => void
   onChange?: (value: string) => void
   onError?: (value: string) => void
-  onProgress?: (data: { progress: number; estimated: number }) => void
+  onProgress?: (data: { estimated: number; progress: number }) => void
+  onStart?: () => void
+  type: 'applicant-result'
+  value?: string
 }
 
-const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ type, value, error, onStart, onChange, onProgress, onError }) => {
+const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ error, onChange, onError, onProgress, onStart, type, value }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
@@ -47,7 +47,7 @@ const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ type, value, er
         setUploadProgress(progress)
         const estimatedTimeRemainingFormatted = moment.duration(progressEvent.estimated || 0, 'seconds').humanize()
         setEstimatedTimeRemaining(estimatedTimeRemainingFormatted)
-        onProgress?.({ progress, estimated: progressEvent.estimated || 0 })
+        onProgress?.({ estimated: progressEvent.estimated || 0, progress })
       },
       signal: controller.signal,
     }
@@ -105,7 +105,7 @@ const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ type, value, er
                 {uploading && uploadProgress !== 100 && ` | Uploading: ${uploadProgress}% (${estimatedTimeRemaining})`}
                 {uploading && uploadProgress === 100 && ` | Processing your file...`}
                 {' | '}
-                <button type="button" className="text-error-600" onClick={handleCancel}>
+                <button className="text-error-600" onClick={handleCancel} type="button">
                   Cancel
                 </button>
               </span>
@@ -113,11 +113,11 @@ const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ type, value, er
           )}
           {!selectedImage && value && valueValidUrl && (
             <>
-              <a target="_blank" href={value} className="block text-sm font-semibold text-gray-800 hover:text-primary-600">
+              <a className="block text-sm font-semibold text-gray-800 hover:text-primary-600" href={value} target="_blank" rel="noreferrer">
                 {truncateFilename(urlToFilename(value))}
               </a>
               <span className="block text-xs">
-                <button type="button" className="text-error-600" onClick={handleRemove}>
+                <button className="text-error-600" onClick={handleRemove} type="button">
                   Remove
                 </button>
               </span>
@@ -128,11 +128,11 @@ const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ type, value, er
 
       {!selectedImage && !valueValidUrl && (
         <input
-          ref={inputRef}
           aria-hidden="true"
-          type="file"
           className="absolute inset-0 z-[3] h-full w-full opacity-0"
           onChange={handleChange}
+          ref={inputRef}
+          type="file"
         />
       )}
     </div>

@@ -1,199 +1,199 @@
 interface ICompany {
-  oid: string
-  code?: string
-  name?: string
-  profile?: string
   address?: string
-  email?: string
+  branch?: Array<{ address?: string } & IGeneralDataEmmbed>
   careersiteUrl?: string
-  language?: string
-  following?: number
-  newsletterSubscribe?: boolean
-  status?: boolean
-  totalFollowers?: number
-  totalBookmark?: number
-  totalLike?: number
-
-  greetingMsg?: string
-  nppNumber?: string
-  npwpNumber?: string
-
-  latestOnline?: string // date
-  loginDate?: string // date
-  deletedAt?: string // date
+  category?: {
+    name?: Record<string, string>
+    oid?: string
+  }
+  city?: IGeneralDataEmmbed
+  code?: string
   createdAt?: string // date
-  updatedAt?: string // date
+  credit?: {
+    coin?: number
+    offerCredit?: number
+    postingCredit?: number
+  }
+  deletedAt?: string // date
+  district?: IGeneralDataEmmbed
+  email?: string
+  following?: number
+  gallery?: Array<{
+    date?: string // date
+    description?: string
+    file?: string
+    oid?: string
+    order?: number
+    thumbnail?: string
+    type?: number
+  }>
+  greetingMsg?: string
+
+  industryType?: {
+    img?: string
+    name?: Record<string, string>
+    oid?: string
+  }
+  language?: string
+  latestOnline?: string // date
+
+  legacyData?: Array<{
+    atsFlag?: number
+    flag?: number
+    free?: number
+    isDummy?: boolean
+    isFreetrial?: boolean
+    registeredFrom?: string
+  }>
+  loginDate?: string // date
   logo?: {
     file?: string
     thumbnail?: string
   }
-  video?: {
-    file?: string
-    thumbnail?: string
-  }
-  credit?: {
-    postingCredit?: number
-    offerCredit?: number
-    coin?: number
-  }
+  name?: string
+  newsletterSubscribe?: boolean
+  notifTokens?: Array<{
+    createdAt?: string // date
+    deviceId?: string
+    loginFrom?: string
+    notifTokenMobile?: string
+    updatedAt?: string // date
+    username?: string
+  }>
+  nppNumber?: string
+  npwpNumber?: string
+  oid: string
   phoneNumber?: {
     countryCode?: string
-    phone?: string
     mobilePhone?: string
+    phone?: string
     whatsapp?: string
   }
-  category?: {
-    oid?: string
-    name?: Record<string, string>
-  }
-  industryType?: {
-    oid?: string
-    name?: Record<string, string>
-    img?: string
-  }
-  city?: IGeneralDataEmmbed
-  district?: IGeneralDataEmmbed
-  subDistrict?: IGeneralDataEmmbed
-  legacyData?: Array<{
-    registeredFrom?: string
-    flag?: number
-    atsFlag?: number
-    free?: number
-    isFreetrial?: boolean
-    isDummy?: boolean
-  }>
-  notifTokens?: Array<{
-    deviceId?: string
-    username?: string
-    notifTokenMobile?: string
-    loginFrom?: string
-    createdAt?: string // date
-    updatedAt?: string // date
-  }>
+  profile?: string
   sosmed?: Array<{
     oid?: string
     provider?: string
     username?: string
   }>
-  gallery?: Array<{
-    oid?: string
-    order?: number
+  status?: boolean
+  subDistrict?: IGeneralDataEmmbed
+  totalBookmark?: number
+  totalFollowers?: number
+  totalLike?: number
+  updatedAt?: string // date
+  video?: {
     file?: string
     thumbnail?: string
-    type?: number
-    description?: string
-    date?: string // date
-  }>
-  branch?: Array<IGeneralDataEmmbed & { address?: string }>
+  }
 }
 
 interface IBranch {
-  oid: string
-  name?: string
   address?: string
-  company?: IGeneralDataEmmbed & { code?: string }
-  pic?: IGeneralDataEmmbed & { email?: string }
-  status?: boolean
+  city?: IGeneralDataEmmbed
+  company?: { code?: string } & IGeneralDataEmmbed
   coordinate?: ICoordinate
+  createdAt?: string // date
+  name?: string
+  oid: string
+  pic?: { email?: string } & IGeneralDataEmmbed
   range?: number
+  status?: boolean
   totalEmployee?: number
   totalVacancy?: number
-  city?: IGeneralDataEmmbed
-  createdAt?: string // date
   updatedAt?: string // date
 }
 
 interface IDepartment {
-  oid: string
-  name?: string
   code?: string
-  company?: IGeneralDataEmmbed & { code?: string }
+  company?: { code?: string } & IGeneralDataEmmbed
+  createdAt?: string
+  name?: string
+  oid: string
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
-  createdAt?: string
   updatedAt?: string
 }
 
 interface IJobLevel {
-  oid: string
+  company?: { code?: string } & IGeneralDataEmmbed
+  createdAt?: string
   name?: string
-  company?: IGeneralDataEmmbed & { code?: string }
+  oid: string
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
-  createdAt?: string
   updatedAt?: string
 }
 
 interface IPosition {
-  oid: string
-  name?: string
-  company?: IGeneralDataEmmbed & { code?: string }
+  company?: { code?: string } & IGeneralDataEmmbed
+  createdAt?: string
   department?: IGeneralDataEmmbed
+  name?: string
+  oid: string
   status?: boolean
   totalEmployee?: number
   totalVacancy?: number
-  createdAt?: string
   updatedAt?: string
 }
 
 interface IBenefit {
-  oid: string
+  company?: { code?: string } & IGeneralDataEmmbed
+  createdAt?: string
   name?: string
-  company?: IGeneralDataEmmbed & { code?: string }
+  oid: string
   status?: boolean
   totalVacancy?: number
-  createdAt?: string
   updatedAt?: string
 }
 
 interface IWorkplacement {
-  oid: string
-  name?: string
   createdAt?: string
+  name?: string
+  oid: string
   updatedAt?: string
 }
 
 interface IJobType {
-  oid: string
+  createdAt?: string
   name?: string
+  oid: string
   status?: number
   totalEmployee?: number
-  createdAt?: string
   updatedAt?: string
 }
 
 interface IRecruitmentStage {
-  oid: string
-  type: 'INTERVIEW' | 'ASSESSMENT'
   name: string
+  oid: string
+  type: 'ASSESSMENT' | 'INTERVIEW'
 }
 
 interface IApproval {
-  oid: string
-  status: number
+  branch?: null | stirng
+  department?: null | stirng
   employee: IGeneralDataEmmbed
-  position?: stirng | null
-  department?: stirng | null
-  branch?: stirng | null
+  oid: string
+  position?: null | stirng
+  status: number
 }
 
 interface IDocumentRequest {
-  oid: string
   allowedFileTypes: string[]
-  name: string
   createdAt?: string
+  name: string
+  oid: string
   updatedAt?: string
 }
 
 interface IOfferingLetterSetting {
-  offeringLetterId: string
-  letterHead?: string
-  greetings?: string
-  body?: string
   additionalInformation?: string
-  signeeRole?: string
-  signeeName?: string
+  body?: string
+  greetings?: string
+  letterHead?: string
+  offeringLetterId: string
   signature?: string
+  signeeName?: string
+  signeeRole?: string
 }

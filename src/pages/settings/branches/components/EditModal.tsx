@@ -20,6 +20,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+
 import getEditModalSubtitle from '../../utils/get-edit-modal-subtitle'
 import GeoPicker from './GeoPicker'
 
@@ -30,15 +31,15 @@ type EditModalProps = {
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Name'),
   address: yup.string().required().label('Address'),
+  city: YUP_OPTION_OBJECT.label('City'),
   latLng: yup.string().required().label('LatLng'),
+  name: yup.string().required().label('Name'),
   range: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
     .required()
     .label('Range'),
-  city: YUP_OPTION_OBJECT.label('City'),
 })
 
 const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
@@ -49,13 +50,13 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    setValue,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
+    setValue,
     trigger,
     watch,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -76,7 +77,7 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
     }
   }, [item, setValue, trigger])
 
-  const onSubmit = handleSubmit(async ({ latLng, city, ...data }) => {
+  const onSubmit = handleSubmit(async ({ city, latLng, ...data }) => {
     try {
       setIsLoading(true)
       setErrorMessage('')
@@ -84,8 +85,8 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       const [lat, lng] = latLng.split(',')
       const updatedItem = await organizationService.createBranch({
         ...data,
-        longlat: `${lng.trim()}, ${lat.trim()}`,
         cityId: city.value,
+        longlat: `${lng.trim()}, ${lat.trim()}`,
       })
       onUpdated?.(updatedItem)
       toast('Branch updated successfully', { color: 'success' })
@@ -100,47 +101,47 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   const city = watch('city.label')
 
   return (
-    <Modal as="form" show={!!item} onSubmit={onSubmit}>
+    <Modal as="form" onSubmit={onSubmit} show={!!item}>
       <ModalHeader onClose={onClose} subTitle={getEditModalSubtitle(rItem)}>
         Update Branch
       </ModalHeader>
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Input label="Name" placeholder="Branch name" labelRequired error={errors.name?.message} {...register('name')} />
-        <Textarea label="Address" placeholder="Branch address here..." labelRequired rows={3} {...register('address')} />
+        <Input error={errors.name?.message} label="Name" labelRequired placeholder="Branch name" {...register('name')} />
+        <Textarea label="Address" labelRequired placeholder="Branch address here..." rows={3} {...register('address')} />
         <AsyncSelect
-          label="City"
-          labelRequired
-          placeholder="Choose City"
           action={masterService.fetchCities}
           converter={emmbedToOptions}
-          name="city"
           error={errors.city?.message}
-          value={getValues('city')}
+          label="City"
+          labelRequired
+          name="city"
           onChange={(v) => {
             setValue('city', v)
             trigger('city')
           }}
+          placeholder="Choose City"
+          value={getValues('city')}
         />
-        <InputWrapper label="LatLng" labelRequired error={errors.latLng?.message} help={!city && 'Pleace select a city before.'}>
+        <InputWrapper error={errors.latLng?.message} help={!city && 'Pleace select a city before.'} label="LatLng" labelRequired>
           <BaseInput className="mb-3" error={errors.latLng?.message} {...register('latLng')} />
           <GeoPicker
-            error={errors.latLng?.message}
-            value={watch('latLng')}
             city={city}
+            error={errors.latLng?.message}
             onValueChange={(v) => {
               setValue('latLng', v)
               trigger('latLng')
             }}
+            value={watch('latLng')}
           />
         </InputWrapper>
-        <Input label="Range" placeholder="Map location range" labelRequired {...register('range')} type="number" />
+        <Input label="Range" labelRequired placeholder="Map location range" {...register('range')} type="number" />
       </div>
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Update
         </Button>
       </ModalFooter>

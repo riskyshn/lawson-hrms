@@ -7,47 +7,45 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 type ActionMenuProps = {
-  vacancy: IVacancy
   index: number
-  total: number
-  upSpace: number
   onRefresh?: () => void
   setSelectedToShowHistoryModal?: (vacancy: IVacancy) => void
+  total: number
+  upSpace: number
+  vacancy: IVacancy
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace, onRefresh, setSelectedToShowHistoryModal }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, setSelectedToShowHistoryModal, total, upSpace, vacancy }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
   const { user } = useAuthStore()
 
   const goToJobManagement: Table.ActionMenuItemProps = {
-    text: 'Go to Job Management',
-    icon: EyeIcon,
     action() {
       navigate(`/job/management?search=${vacancy.vacancyName}`)
     },
+    icon: EyeIcon,
+    text: 'Go to Job Management',
   }
 
   const reviewRequisition: Table.ActionMenuItemProps = {
-    text: 'Review Requisition',
-    icon: EyeIcon,
     action() {
       navigate(`/job/requisition/${vacancy.oid}`)
     },
+    icon: EyeIcon,
+    text: 'Review Requisition',
   }
 
   const viewCandidates: Table.ActionMenuItemProps = {
-    text: 'View Candidates',
-    icon: UsersIcon,
     action() {
       navigate(`/candidates/management?vacancy=${vacancy.oid}`)
     },
+    icon: UsersIcon,
+    text: 'View Candidates',
   }
 
   const sendReminder: Table.ActionMenuItemProps = {
-    text: 'Send Reminder',
-    icon: UsersIcon,
     action: async () => {
       const approval = vacancy.approvals?.users?.find((el) => el.flag === 0)
       if (!approval) return
@@ -64,33 +62,32 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         }
       }
     },
+    icon: UsersIcon,
+    text: 'Send Reminder',
   }
 
   const viewHistory: Table.ActionMenuItemProps = {
-    text: 'View History',
-    icon: UsersIcon,
     action: () => {
       setSelectedToShowHistoryModal?.(vacancy)
     },
+    icon: UsersIcon,
+    text: 'View History',
   }
 
   const editRequisition: Table.ActionMenuItemProps = {
-    text: 'Edit Requisition',
-    icon: PenToolIcon,
     action() {
       navigate(`/job/requisition/${vacancy.oid}/edit`)
     },
+    icon: PenToolIcon,
+    text: 'Edit Requisition',
   }
 
   const cancelRequisition: Table.ActionMenuItemProps = {
-    text: 'Cancel Requisition',
-    icon: PowerIcon,
-    iconClassName: 'text-error-600',
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to cancel this requisition?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to cancel this requisition?',
       })
       if (confirmed) {
         try {
@@ -102,11 +99,12 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         }
       }
     },
+    icon: PowerIcon,
+    iconClassName: 'text-error-600',
+    text: 'Cancel Requisition',
   }
 
   const postVacancy: Table.ActionMenuItemProps = {
-    text: 'Post Vacancy',
-    icon: PowerIcon,
     action: async () => {
       const confirmed = await confirm('Are you sure you want to post this vacancy?')
       if (confirmed) {
@@ -119,17 +117,16 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         }
       }
     },
+    icon: PowerIcon,
+    text: 'Post Vacancy',
   }
 
   const deleteDraft: Table.ActionMenuItemProps = {
-    text: 'Delete Draft',
-    icon: TrashIcon,
-    iconClassName: 'text-error-600',
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to delete this draft vacancy?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to delete this draft vacancy?',
       })
       if (confirmed) {
         try {
@@ -141,16 +138,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         }
       }
     },
+    icon: TrashIcon,
+    iconClassName: 'text-error-600',
+    text: 'Delete Draft',
   }
 
   const activateVacancy: Table.ActionMenuItemProps = {
-    text: 'Activate Vacancy',
-    icon: GlobeIcon,
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to activate vacancy?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to activate vacancy?',
       })
       if (confirmed) {
         try {
@@ -162,15 +160,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ vacancy, index, total, upSpace,
         }
       }
     },
+    icon: GlobeIcon,
+    text: 'Activate Vacancy',
   }
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
-    published: [goToJobManagement, viewCandidates],
-    draft: [activateVacancy, editRequisition, deleteDraft],
-    rejected: [reviewRequisition, viewHistory],
     approved: [postVacancy, reviewRequisition, viewHistory],
-    progress: [reviewRequisition, sendReminder, editRequisition, viewHistory, cancelRequisition],
     canceled: [reviewRequisition, viewHistory],
+    draft: [activateVacancy, editRequisition, deleteDraft],
+    progress: [reviewRequisition, sendReminder, editRequisition, viewHistory, cancelRequisition],
+    published: [goToJobManagement, viewCandidates],
+    rejected: [reviewRequisition, viewHistory],
   }
 
   const menu = menuItems[vacancy.status || '']

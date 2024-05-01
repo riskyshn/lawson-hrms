@@ -3,7 +3,7 @@ import { axiosErrorMessage } from '@/utils/axios'
 import { Button, ButtonProps, useConfirm, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
 
-const DeleteItemButton: React.FC<ButtonProps & { oid: string; onRefresh?: () => void }> = ({ oid, onRefresh, ...props }) => {
+const DeleteItemButton: React.FC<{ oid: string; onRefresh?: () => void } & ButtonProps> = ({ oid, onRefresh, ...props }) => {
   const [loading, setLoading] = useState(false)
   const confirm = useConfirm()
   const toast = useToast()
@@ -24,7 +24,7 @@ const DeleteItemButton: React.FC<ButtonProps & { oid: string; onRefresh?: () => 
     setLoading(false)
   }
 
-  return <Button {...props} type="button" disabled={loading} loading={loading} onClick={handleDelete} />
+  return <Button {...props} disabled={loading} loading={loading} onClick={handleDelete} type="button" />
 }
 
 export default DeleteItemButton

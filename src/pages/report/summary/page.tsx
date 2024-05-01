@@ -9,6 +9,7 @@ import { BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Bar, Line } from 'react-chartjs-2'
 import { DateValueType } from 'react-tailwindcss-datepicker'
+
 import PageCard from '../components/PageCard'
 import StatisticCards from '../components/StatisticCards'
 import Table from '../components/Table'
@@ -25,9 +26,9 @@ export const Component: React.FC = () => {
   const [dataNumberHired, setDataNumberHired] = useState<IPaginationResponse<INumberOfHiredDataTable>>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
-  const [filterDate, setFilterDate] = useState<{ startDate: string; endDate: string }>({
-    startDate: todayFormatted,
+  const [filterDate, setFilterDate] = useState<{ endDate: string; startDate: string }>({
     endDate: todayFormatted,
+    startDate: todayFormatted,
   })
 
   const [activeLabel, setActiveLabel] = useState('Year')
@@ -42,8 +43,8 @@ export const Component: React.FC = () => {
 
   for (let year = endYear; year >= startYear; year--) {
     yearOptions.push({
-      value: year.toString(),
       label: year.toString(),
+      value: year.toString(),
     })
   }
 
@@ -65,53 +66,53 @@ export const Component: React.FC = () => {
   ]
 
   const optionsBar = {
-    responsive: true,
     plugins: {
       legend: {
         position: 'top' as const,
       },
     },
+    responsive: true,
   }
 
   const dataBar = {
-    labels: data?.total ? data.total.map((item) => item.label) : [],
     datasets: [
       {
-        label: '',
-        data: data?.total ? data.total.map((item) => item.total) : [],
         backgroundColor: backgroundColors.slice(0, 5),
+        data: data?.total ? data.total.map((item) => item.total) : [],
+        label: '',
       },
     ],
+    labels: data?.total ? data.total.map((item) => item.label) : [],
   }
 
   const optionsLine = {
-    responsive: true,
     plugins: {
       legend: {
         position: 'top' as const,
       },
     },
+    responsive: true,
   }
 
   const dataLineChart = {
-    labels: (dataLine?.[0] || []).map((item) => item.label),
     datasets: [] as Dataset[],
+    labels: (dataLine?.[0] || []).map((item) => item.label),
   }
 
   dataLineChart.datasets.push({
-    label: currentYear.toString(),
-    data: (dataLine?.[0] || []).map((item) => item.total) || [],
-    borderColor: 'rgb(255, 99, 132)',
     backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: (dataLine?.[0] || []).map((item) => item.total) || [],
+    label: currentYear.toString(),
     tension: 0.4,
   })
 
   if (dataLine && dataLine.length > 1) {
     dataLineChart.datasets.push({
-      label: selectedYear.toString(),
-      data: (dataLine[1] || []).map((item) => item.total),
-      borderColor: 'rgb(53, 162, 235)',
       backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      borderColor: 'rgb(53, 162, 235)',
+      data: (dataLine[1] || []).map((item) => item.total),
+      label: selectedYear.toString(),
       tension: 0.4,
     })
   }
@@ -126,8 +127,8 @@ export const Component: React.FC = () => {
       try {
         setLoadingBarChart(true)
         const recruitmentFunnelData = await reportService.fetchRecruitmentFunnel({
-          start_date: filterDate.startDate,
           end_date: filterDate.endDate,
+          start_date: filterDate.startDate,
         })
         setData(recruitmentFunnelData)
       } catch (e: any) {
@@ -145,8 +146,8 @@ export const Component: React.FC = () => {
       try {
         setLoadingLineChart(true)
         const numberHiredData = await reportService.fetchNumberHiredChart({
-          year: selectedYear,
           type: activeLabel.toLowerCase(),
+          year: selectedYear,
         })
         setDataLine(numberHiredData)
       } catch (e: any) {
@@ -183,46 +184,46 @@ export const Component: React.FC = () => {
       const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
       const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
 
-      setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+      setFilterDate({ endDate: formattedEndDate, startDate: formattedStartDate })
     }
   }
 
   const dummyDataUserActivity = [
     {
-      name: 'Alice Johnson',
-      postJob: 5,
+      blacklisted: 1,
       hired: 12,
-      rejected: 30,
       interviewed: 20,
       locked: 3,
-      blacklisted: 1,
+      name: 'Alice Johnson',
+      postJob: 5,
+      rejected: 30,
     },
     {
-      name: 'Bob Smith',
-      postJob: 8,
+      blacklisted: 2,
       hired: 20,
-      rejected: 50,
       interviewed: 35,
       locked: 5,
-      blacklisted: 2,
+      name: 'Bob Smith',
+      postJob: 8,
+      rejected: 50,
     },
     {
-      name: 'Carlos Ramirez',
-      postJob: 3,
+      blacklisted: 0,
       hired: 8,
-      rejected: 15,
       interviewed: 10,
       locked: 2,
-      blacklisted: 0,
+      name: 'Carlos Ramirez',
+      postJob: 3,
+      rejected: 15,
     },
     {
-      name: 'Diana Lewis',
-      postJob: 6,
+      blacklisted: 1,
       hired: 15,
-      rejected: 40,
       interviewed: 25,
       locked: 4,
-      blacklisted: 1,
+      name: 'Diana Lewis',
+      postJob: 6,
+      rejected: 40,
     },
   ]
 
@@ -237,8 +238,8 @@ export const Component: React.FC = () => {
         <Card className="mt-4 p-8">
           <div className="grid grid-cols-4 gap-4">
             {data?.percentage ? (
-              data?.percentage.map((stage) => (
-                <div className="border-r-4 border-blue-500 p-4">
+              data?.percentage.map((stage, i) => (
+                <div key={i} className="border-r-4 border-blue-500 p-4">
                   <p className="text-md">{stage.label}</p>
                   <p className="text-2xl font-semibold">{stage.total}%</p>
                 </div>
@@ -252,27 +253,27 @@ export const Component: React.FC = () => {
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="flex justify-between">
               <h2 className="text-2xl font-semibold">Recruitment Funnel</h2>
-              <BaseInputDateRange className="w-64" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+              <BaseInputDateRange className="w-64" onValueChange={handleDateChange} placeholder="Start - End Date" value={filterDate} />
             </div>
             {loadingBarChart ? (
               <div className="flex h-full items-center justify-center">
                 <div
+                  aria-label="Loading..."
                   className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
                   role="status"
-                  aria-label="Loading..."
                 >
                   <span className="sr-only">Loading...</span>
                 </div>
               </div>
             ) : (
-              <Bar options={optionsBar} data={dataBar} />
+              <Bar data={dataBar} options={optionsBar} />
             )}
           </CardBody>
         </Card>
         <MainCard
-          header={() => <MainCardHeader title="User Activity" />}
           body={<TableUserActivity items={dummyDataUserActivity} loading={loading} />}
           footer={[]}
+          header={() => <MainCardHeader title="User Activity" />}
         />
         <Card className="my-4 p-8">
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
@@ -285,15 +286,15 @@ export const Component: React.FC = () => {
                       <div className="flex items-center justify-end gap-3 overflow-x-scroll px-3">
                         {/* {['Month', 'Quarter', 'Year'].map((label, index) => ( */}
                         {['Quarter', 'Year'].map((label, index) => (
-                          <PageCard key={index} label={label} activeLabel={activeLabel} onClick={handlePageCardClick} />
+                          <PageCard activeLabel={activeLabel} key={index} label={label} onClick={handlePageCardClick} />
                         ))}
                       </div>
                       <div className="flex items-center justify-end p-3">
                         <Select
                           className="w-64"
+                          onChange={handleYearChange}
                           options={yearOptions}
                           placeholder="Select a year"
-                          onChange={handleYearChange}
                           value={selectedYear.toString()}
                         />
                       </div>
@@ -305,22 +306,22 @@ export const Component: React.FC = () => {
             {loadingLineChart ? (
               <div className="flex h-full items-center justify-center">
                 <div
+                  aria-label="Loading..."
                   className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
                   role="status"
-                  aria-label="Loading..."
                 >
                   <span className="sr-only">Loading...</span>
                 </div>
               </div>
             ) : (
-              <Line options={optionsLine} data={dataLineChart} />
+              <Line data={dataLineChart} options={optionsLine} />
             )}
           </CardBody>
         </Card>
         <MainCard
-          header={() => <MainCardHeader title="Number of Hired" />}
           body={<Table items={dataNumberHired?.content || []} loading={loading} />}
           footer={pagination.render()}
+          header={() => <MainCardHeader title="Number of Hired" />}
         />
       </Container>
     </>

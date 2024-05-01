@@ -5,6 +5,7 @@ import { Spinner } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
+
 import CandidateDetailCard from '../components/CandidateDetailCard'
 import ProfileCard from '../components/ProfileCard'
 
@@ -74,7 +75,7 @@ const CandidateProfilePage: React.FC = () => {
       <Container className="grid grid-cols-1 gap-3 py-3 xl:pb-8">
         {isLoading && (
           <div className="flex items-center justify-center py-48">
-            <Spinner height={40} className="text-primary-600" />
+            <Spinner className="text-primary-600" height={40} />
           </div>
         )}
 
@@ -83,47 +84,47 @@ const CandidateProfilePage: React.FC = () => {
             <ProfileCard items={pageData}>
               <div className="flex border-b border-gray-200">
                 <Link
-                  to={`/candidates/profile/${pageData.id}`}
                   className={twMerge(
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'candidate-information' && 'border-primary-600',
                   )}
+                  to={`/candidates/profile/${pageData.id}`}
                 >
                   Candidate Information
                 </Link>
                 <Link
-                  to={`/candidates/profile/${pageData.id}?tab=resume`}
                   className={twMerge(
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'resume' && 'border-primary-600',
                   )}
+                  to={`/candidates/profile/${pageData.id}?tab=resume`}
                 >
                   Resume/CV
                 </Link>
                 <Link
-                  to={`/candidates/profile/${pageData.id}?tab=education`}
                   className={twMerge(
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'education' && 'border-primary-600',
                   )}
+                  to={`/candidates/profile/${pageData.id}?tab=education`}
                 >
                   Education
                 </Link>
                 <Link
-                  to={`/candidates/profile/${pageData.id}?tab=experience`}
                   className={twMerge(
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'experience' && 'border-primary-600',
                   )}
+                  to={`/candidates/profile/${pageData.id}?tab=experience`}
                 >
                   Working Experience
                 </Link>
                 <Link
-                  to={`/candidates/profile/${pageData.id}?tab=document`}
                   className={twMerge(
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'document' && 'border-primary-600',
                   )}
+                  to={`/candidates/profile/${pageData.id}?tab=document`}
                 >
                   Documents
                 </Link>
@@ -131,12 +132,12 @@ const CandidateProfilePage: React.FC = () => {
             </ProfileCard>
 
             {tab === 'candidate-information' && (
-              <CandidateDetailCard items={pageData} title={'Personal Information'} flag={'candidate-information'} />
+              <CandidateDetailCard flag={'candidate-information'} items={pageData} title={'Personal Information'} />
             )}
-            {tab === 'resume' && <CandidateDetailCard items={pageData} title={'Resume/CV'} flag={'resume'} />}
-            {tab === 'education' && <CandidateDetailCard items={pageData} title={'Education'} flag={'education'} />}
-            {tab === 'experience' && <CandidateDetailCard items={pageData} title={'Working Experience'} flag={'experience'} />}
-            {tab === 'document' && <CandidateDetailCard items={pageData} documents={documentsData} title={'Documents'} flag={'document'} />}
+            {tab === 'resume' && <CandidateDetailCard flag={'resume'} items={pageData} title={'Resume/CV'} />}
+            {tab === 'education' && <CandidateDetailCard flag={'education'} items={pageData} title={'Education'} />}
+            {tab === 'experience' && <CandidateDetailCard flag={'experience'} items={pageData} title={'Working Experience'} />}
+            {tab === 'document' && <CandidateDetailCard documents={documentsData} flag={'document'} items={pageData} title={'Documents'} />}
           </>
         )}
       </Container>

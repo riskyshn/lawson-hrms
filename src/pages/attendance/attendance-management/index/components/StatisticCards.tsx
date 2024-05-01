@@ -5,21 +5,21 @@ import { useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 
 const Card: React.FC<{
-  label?: string
-  value?: number | string
   className?: string
+  label?: string
   onClick?: () => void
-}> = ({ value, label, className = 'bg-white', onClick }) => {
+  value?: number | string
+}> = ({ className = 'bg-white', label, onClick, value }) => {
   const isClickable = label !== 'Check In' && label !== 'Absent'
 
   return (
     <div
-      onClick={onClick}
       className={twJoin(
         'flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center',
         className,
         isClickable ? 'cursor-pointer' : 'cursor-default',
       )}
+      onClick={onClick}
     >
       <span className="mb-2 block text-2xl font-semibold">{value}</span>
       <span className="block text-xs">{label}</span>
@@ -38,8 +38,8 @@ const StatisticCards: React.FC<{ filterDate?: IFilterDate }> = ({ filterDate }) 
       setLoading(true)
       try {
         const data = await attendanceService.fetchStatistic({
-          start_date: filterDate?.startDate,
           end_date: filterDate?.endDate,
+          start_date: filterDate?.startDate,
         })
         setData(data)
       } catch (error) {
@@ -93,9 +93,9 @@ const StatisticCards: React.FC<{ filterDate?: IFilterDate }> = ({ filterDate }) 
     const cardData = data.map((item, index) => {
       const colorClass = colorClasses[index % colorClasses.length]
       return {
+        className: `text-white ${colorClass}`,
         label: item.title,
         value: item.count,
-        className: `text-white ${colorClass}`,
       }
     })
 

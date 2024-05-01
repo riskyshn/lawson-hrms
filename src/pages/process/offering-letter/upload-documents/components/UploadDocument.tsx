@@ -25,41 +25,36 @@ const schema = yup.object({
 })
 
 const UploadDocument: React.FC<{
+  allowedFileTypes: string[]
+  handlePrev: () => void
+  handleSubmit: (link: string) => void
   isFirst?: boolean
   isLast?: boolean
   isLoading?: boolean
   link?: string
-  handlePrev: () => void
-  handleSubmit: (link: string) => void
-  allowedFileTypes: string[]
 }> = (props) => {
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     setValue,
-    getValues,
-    formState: { errors },
     trigger,
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: { link: props.link || '' },
+    resolver: yupResolver(schema),
   })
 
   const onSubmit = handleSubmit(({ link }) => props.handleSubmit(link))
 
-  const isImage = props.allowedFileTypes.some((type) => ['png', 'jpg', 'pdf', 'jpeg', 'webp'].includes(type))
+  const isImage = props.allowedFileTypes.some((type) => ['jpeg', 'jpg', 'pdf', 'png', 'webp'].includes(type))
 
   return (
     <Card as="form" onSubmit={onSubmit}>
       <CardBody className="grid grid-cols-1 gap-2">
-        <InputWrapper label="Document" labelRequired error={errors.link?.message}>
+        <InputWrapper error={errors.link?.message} label="Document" labelRequired>
           {isImage ? (
             <ImageFileUpload
-              type="employee-national-id"
-              value={getValues('link')}
               error={errors.link?.message}
-              onStart={() => {
-                setValue('link', PROGRESS_KEY)
-              }}
               onChange={(value) => {
                 setValue('link', value)
                 trigger('link')
@@ -68,15 +63,15 @@ const UploadDocument: React.FC<{
                 setValue('link', ERROR_PREFIX_KEY + message)
                 trigger('link')
               }}
+              onStart={() => {
+                setValue('link', PROGRESS_KEY)
+              }}
+              type="employee-national-id"
+              value={getValues('link')}
             />
           ) : (
             <DocumentFileUpload
-              type="applicant-result"
-              value={getValues('link')}
               error={errors.link?.message}
-              onStart={() => {
-                setValue('link', PROGRESS_KEY)
-              }}
               onChange={(value) => {
                 setValue('link', value)
                 trigger('link')
@@ -85,6 +80,11 @@ const UploadDocument: React.FC<{
                 setValue('link', ERROR_PREFIX_KEY + message)
                 trigger('link')
               }}
+              onStart={() => {
+                setValue('link', PROGRESS_KEY)
+              }}
+              type="applicant-result"
+              value={getValues('link')}
             />
           )}
         </InputWrapper>
@@ -92,30 +92,30 @@ const UploadDocument: React.FC<{
 
       <CardFooter className="gap-3">
         {!props.isFirst && (
-          <Button type="button" color="default" variant="light" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
+          <Button className="w-32" color="default" disabled={props.isLoading} onClick={props.handlePrev} type="button" variant="light">
             Prev
           </Button>
         )}
         {props.isFirst && (
           <Button
             as={Link}
-            to="/process/offering-letter"
-            color="error"
-            variant="light"
             className="w-32"
+            color="error"
             disabled={props.isLoading}
             onClick={props.handlePrev}
+            to="/process/offering-letter"
+            variant="light"
           >
             Cancel
           </Button>
         )}
         {!props.isLast && (
-          <Button type="submit" color="primary" className="w-32">
+          <Button className="w-32" color="primary" type="submit">
             Next
           </Button>
         )}
         {props.isLast && (
-          <Button type="submit" color="primary" className="w-32" disabled={props.isLoading} loading={props.isLoading}>
+          <Button className="w-32" color="primary" disabled={props.isLoading} loading={props.isLoading} type="submit">
             Submit
           </Button>
         )}

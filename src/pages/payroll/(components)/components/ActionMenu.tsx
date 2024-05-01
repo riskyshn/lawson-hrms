@@ -6,40 +6,37 @@ import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
 import React from 'react'
 
 interface ActionMenuProps {
-  item: IBenefitComponent | IDeductionComponent
-  type: 'BENEFIT' | 'DEDUCTION'
   index: number
-  total: number
-  upSpace: number
+  item: IBenefitComponent | IDeductionComponent
   onRefresh?: () => void
-  setSelectedToEdit?: (item: IBenefitComponent | IDeductionComponent) => void
   setSelectedToApply?: (item: IBenefitComponent | IDeductionComponent) => void
+  setSelectedToEdit?: (item: IBenefitComponent | IDeductionComponent) => void
+  total: number
+  type: 'BENEFIT' | 'DEDUCTION'
+  upSpace: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ type, item, index, total, upSpace, setSelectedToEdit, setSelectedToApply, onRefresh }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onRefresh, setSelectedToApply, setSelectedToEdit, total, type, upSpace }) => {
   const toast = useToast()
   const confirm = useConfirm()
 
   const actions = [
     {
-      text: 'Apply to',
-      icon: UsersIcon,
       action: () => setSelectedToApply?.(item),
+      icon: UsersIcon,
+      text: 'Apply to',
     },
     {
-      text: 'Edit Component',
-      icon: PenToolIcon,
       action: () => setSelectedToEdit?.(item),
+      icon: PenToolIcon,
+      text: 'Edit Component',
     },
     {
-      text: 'Delete',
-      icon: TrashIcon,
-      iconClassName: 'text-error-600',
       action: async () => {
         const confirmed = await confirm({
-          text: 'Are you sure you want to delete this component?',
-          confirmBtnColor: 'error',
           cancelBtnColor: 'primary',
+          confirmBtnColor: 'error',
+          text: 'Are you sure you want to delete this component?',
         })
         if (confirmed) {
           try {
@@ -52,6 +49,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ type, item, index, total, upSpa
           }
         }
       },
+      icon: TrashIcon,
+      iconClassName: 'text-error-600',
+      text: 'Delete',
     },
   ]
 

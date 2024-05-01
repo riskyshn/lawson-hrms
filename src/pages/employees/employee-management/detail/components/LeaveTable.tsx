@@ -10,15 +10,15 @@ import React from 'react'
 const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const previewImage = usePreviewImage()
 
-  const { pageData, isLoading } = useAsyncSearch(attendanceService.fetchEmployeeLeave, {
+  const { isLoading, pageData } = useAsyncSearch(attendanceService.fetchEmployeeLeave, {
     employee_id: employee.oid,
     limit: 30,
   })
 
   const pagination = usePagination({
+    params: { tab: 'leave-request' },
     pathname: `/employees/employee-management/${employee.oid}`,
     totalPage: pageData?.totalPages,
-    params: { tab: 'leave-request' },
   })
 
   const headerItems = [
@@ -57,9 +57,9 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
         children: (
           <span className="flex gap-2">
             <button
-              title="Maps"
               className="text-primary-600 hover:text-primary-700 focus:outline-none"
               onClick={() => previewImage(item.attachment)}
+              title="Maps"
             >
               <ImageIcon size={18} />
             </button>
@@ -77,7 +77,7 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
 
   return (
     <Card className="overflow-x-auto">
-      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={isLoading} />
+      <MainTable bodyItems={bodyItems || []} headerItems={headerItems} loading={isLoading} />
       <CardFooter className="justify-center">{pagination.render()}</CardFooter>
     </Card>
   )

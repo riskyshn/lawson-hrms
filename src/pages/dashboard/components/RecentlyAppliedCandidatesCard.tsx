@@ -17,12 +17,12 @@ const RecentlyAppliedCandidatesCard: React.FC = () => {
           <CardHeader className="h-16 font-semibold">Recently Applied Candidates</CardHeader>
           <CardBody as="ul" className="chrome-scrollbar flex flex-1 flex-col divide-y overflow-y-auto py-0">
             {pageData.content.map((el, i) => (
-              <li key={i} className="flex items-center gap-3 py-3">
+              <li className="flex items-center gap-3 py-3" key={i}>
                 <Avatar
-                  name={el.candidate?.name || ''}
-                  src={el.candidate?.photoProfile}
                   className="bg-gray-100 text-primary-600"
+                  name={el.candidate?.name || ''}
                   size={48}
+                  src={el.candidate?.photoProfile}
                 />
                 <div className="flex-1">
                   <span className="block text-sm font-semibold">{el.candidate?.name}</span>
@@ -31,7 +31,7 @@ const RecentlyAppliedCandidatesCard: React.FC = () => {
                     {el.vacancy?.rrNumber ? ` | ${el.vacancy.rrNumber}` : ''}
                   </span>
                 </div>
-                <Button as={Link} to={`/candidates/management?search=${el.candidate?.name}`} color="primary" size="small" className="px-3">
+                <Button as={Link} className="px-3" color="primary" size="small" to={`/candidates/management?search=${el.candidate?.name}`}>
                   View
                 </Button>
               </li>
@@ -48,7 +48,7 @@ const RecentlyAppliedCandidatesCard: React.FC = () => {
             )}
           </CardBody>
           <CardFooter>
-            <Button as={Link} to="/candidates/management" block color="primary" variant="light">
+            <Button as={Link} block color="primary" to="/candidates/management" variant="light">
               See All Applicants
             </Button>
           </CardFooter>

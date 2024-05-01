@@ -37,13 +37,13 @@ const BpjsComponentPage: React.FC = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Payroll' }, { text: 'BPJS Component' }]}
-        title="BPJS Component"
         subtitle="Setup Your BPJS Component Settings"
+        title="BPJS Component"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <Card as="form">
-          <LoadingScreen spinnerSize={80} show={componentLoading} strokeWidth={1} />
+          <LoadingScreen show={componentLoading} spinnerSize={80} strokeWidth={1} />
 
           {!componentLoading && (
             <>
@@ -52,29 +52,29 @@ const BpjsComponentPage: React.FC = () => {
                   <h3 className="text-lg font-semibold">BPJS Paid by Employer</h3>
                   <p className="text-xs text-gray-500">Percentage from based salary Paid by Employer as allowance</p>
                 </div>
-                <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
+                <Input disabled label="Jaminan Hari Tua (JHT)" value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
                 <Select
-                  label="Jaminan Kecelakaan Kerja (JKK)"
-                  options={jkkOptions}
                   hideSearch
+                  label="Jaminan Kecelakaan Kerja (JKK)"
                   name="jkk"
-                  value={String(jkk)}
                   onChange={(v) => setJkk(Number(v))}
+                  options={jkkOptions}
+                  value={String(jkk)}
                 />
-                <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
+                <Input disabled label="Jaminan Kematian (JKM)" value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
                 <Input
-                  label="Jaminan Pensiun (JP)"
                   disabled
+                  help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}*`}
+                  label="Jaminan Pensiun (JP)"
                   required
                   value={`${bpjsComponent?.paidByEmployer?.jp?.rate}%`}
-                  help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}*`}
                 />
                 <Input
-                  label="Jaminan Kesehatan (KS)"
                   disabled
+                  help={`JKS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}*`}
+                  label="Jaminan Kesehatan (KS)"
                   required
                   value={`${bpjsComponent?.paidByEmployer?.jks?.rate}%`}
-                  help={`JKS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}*`}
                 />
               </CardBody>
               <CardBody className="grid grid-cols-1 gap-2">
@@ -82,27 +82,27 @@ const BpjsComponentPage: React.FC = () => {
                   <h3 className="text-lg font-semibold">BPJS Paid by Employee</h3>
                   <p className="text-xs text-gray-500">Percentage from based salary paid by the employee</p>
                 </div>
-                <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
+                <Input disabled label="Jaminan Hari Tua (JHT)" value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
                 <Input
-                  label="Jaminan Pensiun (JP)"
                   disabled
+                  help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}*`}
+                  label="Jaminan Pensiun (JP)"
                   required
                   value={`${bpjsComponent?.paidByEmployee?.jp?.rate}%`}
-                  help={`JP Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}*`}
                 />
                 <Input
-                  label="Jaminan Kesehatan (KS)"
                   disabled
+                  help={`JKS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}*`}
+                  label="Jaminan Kesehatan (KS)"
                   required
                   value={`${bpjsComponent?.paidByEmployee?.jks?.rate}%`}
-                  help={`JKS Maximum Cap ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}*`}
                 />
               </CardBody>
             </>
           )}
 
           <CardFooter>
-            <Button type="button" color="primary" disabled={loading || componentLoading} loading={loading} onClick={submit}>
+            <Button color="primary" disabled={loading || componentLoading} loading={loading} onClick={submit} type="button">
               Save Changes
             </Button>
           </CardFooter>

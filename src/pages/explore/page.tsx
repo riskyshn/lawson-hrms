@@ -13,6 +13,7 @@ import moment from 'moment'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
+
 import FilterForm from './components/FilterForm'
 
 const options = ['Show All', 'Never been offer', 'Your talent pool', 'Liked Candidate'].map((el) => ({
@@ -34,11 +35,11 @@ export const Component: React.FC = () => {
 
   const { pageData } = useAsyncSearch(candidateExploreService.exploreCandidate, {
     lat: latlng[0],
-    lng: latlng[1],
     limit: 20,
+    lng: latlng[1],
   })
 
-  const handleChange = (key: string, value?: string | null) => {
+  const handleChange = (key: string, value?: null | string) => {
     if (value) {
       searchParams.set(key, value)
     } else {
@@ -81,54 +82,54 @@ export const Component: React.FC = () => {
             <div className="relative z-10 flex h-16 flex-1 rounded-lg bg-white shadow-xl shadow-gray-600/5">
               <div className="relative h-full flex-1">
                 <BaseInput
-                  ref={inputRef}
-                  className="peer h-full border-0 px-14 text-base outline-none"
                   autoFocus
-                  placeholder="Search..."
-                  value={search}
+                  className="peer h-full border-0 px-14 text-base outline-none"
                   onChange={(e) => handleChange('q', e.currentTarget.value)}
+                  placeholder="Search..."
+                  ref={inputRef}
+                  value={search}
                 />
                 <SearchIcon
-                  size={18}
                   className="pointer-events-none absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
+                  size={18}
                 />
                 {search && (
                   <button
-                    type="button"
                     className="absolute right-6 top-1/2 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-full bg-gray-300 leading-none"
                     onClick={handleReset}
+                    type="button"
                   >
-                    <XIcon aria-label="Reset" size={14} className="block text-white" />
+                    <XIcon aria-label="Reset" className="block text-white" size={14} />
                   </button>
                 )}
               </div>
               <Listbox
                 as="div"
                 className="relative z-20 h-full py-4"
-                value={options.find((el) => el.value === type)}
                 onChange={(e) => handleChange('type', e.value)}
+                value={options.find((el) => el.value === type)}
               >
                 <Listbox.Button
                   as="button"
-                  type="button"
                   className="flex h-full w-48 items-center justify-between border-l-2 bg-white px-6 text-sm font-normal outline-none"
+                  type="button"
                 >
                   <span className="block">{options.find((el) => el.value === type)?.label}</span>
-                  <ChevronDownIcon size={16} className="block" />
+                  <ChevronDownIcon className="block" size={16} />
                 </Listbox.Button>
                 <Listbox.Options className="absolute left-0 mt-6 w-48 cursor-pointer list-none overflow-hidden rounded-lg border bg-white p-2 shadow-xl shadow-gray-600/5 outline-none">
                   {options.map((option) => (
                     <Listbox.Option
-                      key={option.value}
-                      value={option}
-                      className={({ selected, active }) =>
+                      className={({ active, selected }) =>
                         twJoin('flex items-center rounded-lg px-3 py-2 text-xs', (selected || active) && 'bg-gray-100')
                       }
+                      key={option.value}
+                      value={option}
                     >
                       {({ selected }) => (
                         <>
                           <span className="block flex-1">{option.label}</span>
-                          {selected && <CheckIcon size={14} className="text-gray-800" />}
+                          {selected && <CheckIcon className="text-gray-800" size={14} />}
                         </>
                       )}
                     </Listbox.Option>
@@ -152,10 +153,10 @@ export const Component: React.FC = () => {
             </Button> */}
 
             <Button
-              variant="light"
               className="min-w-24"
-              leftChild={<ListFilterIcon size={16} className="mr-1" />}
+              leftChild={<ListFilterIcon className="mr-1" size={16} />}
               onClick={() => setShowFilter((v) => !v)}
+              variant="light"
             >
               Filters
             </Button>
@@ -169,7 +170,7 @@ export const Component: React.FC = () => {
             const detail = [item.gender, !!item.age && `Age ${item.age}`, item.last_edu].filter((el) => !!el).join(', ')
             const location = [item.district_name, item.city_name, item.province_name].filter((el) => !!el).join(', ')
             return (
-              <li key={i} className="relative flex flex-col rounded-lg border bg-white">
+              <li className="relative flex flex-col rounded-lg border bg-white" key={i}>
                 <div
                   className="group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-lg bg-gray-300 bg-cover bg-center bg-no-repeat"
                   style={{ backgroundImage: `url(${item.video_thumbnail || item.photo})` }}
@@ -185,7 +186,7 @@ export const Component: React.FC = () => {
                         <span className="block text-xs">{moment.utc(item.login_date).local().fromNow()}</span>
                       </div>
                       <button className="flex flex-col items-center justify-center text-sm leading-none outline-none">
-                        <HeartIcon size={20} className={item.liked_by_me ? 'fill-red-600 stroke-none' : 'stroke-white text-black/20'} />
+                        <HeartIcon className={item.liked_by_me ? 'fill-red-600 stroke-none' : 'stroke-white text-black/20'} size={20} />
                         <span className="block text-center text-xs font-semibold text-white">{shortenNumber(item.total_likes)}</span>
                       </button>
                     </div>
@@ -198,15 +199,15 @@ export const Component: React.FC = () => {
                       </p>
                     </div>
 
-                    <h1 title={item.position} className="mb-3 w-full truncate font-semibold capitalize">
+                    <h1 className="mb-3 w-full truncate font-semibold capitalize" title={item.position}>
                       {item.position}
                     </h1>
 
                     <div className="flex gap-3">
-                      <Button color="primary" className="flex-1">
+                      <Button className="flex-1" color="primary">
                         Offer Job
                       </Button>
-                      <Button iconOnly variant="light" color="primary" className="border-0 bg-white">
+                      <Button className="border-0 bg-white" color="primary" iconOnly variant="light">
                         <BookMarkedIcon size={18} />
                       </Button>
                     </div>

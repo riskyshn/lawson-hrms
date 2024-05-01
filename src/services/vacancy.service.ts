@@ -3,11 +3,11 @@ import type { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
-type FetchVacanciesParams = IPaginationParam & {
+type FetchVacanciesParams = {
   departmentId?: string
-  status?: string
   isRequisition?: 0 | 1
-}
+  status?: string
+} & IPaginationParam
 
 const axios = createAxiosInstance({
   baseURL: API_VACANCY_BASE_URL,
@@ -34,7 +34,7 @@ export const deleteDraftVacancy = (id: string) => {
   return axios.delete(`/vacancy/${id}`).then((response) => response.data.data)
 }
 
-export const updateVacancyStatus = (id: string, status: 'active' | 'inactive' | 'draft') => {
+export const updateVacancyStatus = (id: string, status: 'active' | 'draft' | 'inactive') => {
   return axios.patch(`/vacancy/${id}?status=${status}`).then((response) => response.data.data)
 }
 

@@ -12,12 +12,12 @@ const generateOptionOptional = (dependKey: string, label: string) =>
     .object()
     .when(dependKey, {
       is: true,
+      otherwise: (s) => s.optional().nullable().default(null),
       then: (s) =>
         s
           .shape({ label: yup.string(), value: yup.string().required().label(label) })
           .default(null)
           .required(),
-      otherwise: (s) => s.optional().nullable().default(null),
     })
     .label(label) as yup.ObjectSchema<
     {
@@ -33,31 +33,39 @@ const generateOptionOptional = (dependKey: string, label: string) =>
   >
 
 const schema = yup.object({
+  cityRequirement: generateOptionOptional('isRequiredCityRequirement', 'City'),
   genderRequirement: yup
     .string()
     .when('isRequiredGenderRequirement', {
       is: true,
-      then: (s) => s.required(),
       otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
     })
     .label('Gender'),
-  isRequiredGenderRequirement: yup.boolean(),
-  minimumAgeRequirement: yup
+  gpaRequirement: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
-    .when('isRequiredAge', {
+    .when('isRequiredGpaRequirement', {
       is: true,
-      then: (s) => s.required(),
       otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
     })
-    .label('Minimum Age'),
+    .label('GPA'),
+  isRequiredAge: yup.boolean(),
+  isRequiredCityRequirement: yup.boolean(),
+  isRequiredGenderRequirement: yup.boolean(),
+  isRequiredGpaRequirement: yup.boolean(),
+  isRequiredMaximumSalaryRequirement: yup.boolean(),
+  isRequiredMinimalEducationRequirement: yup.boolean(),
+  isRequiredMinimumExperienceRequirement: yup.boolean(),
+  isRequiredProvinceRequirement: yup.boolean(),
   maximumAgeRequirement: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
     .when('isRequiredAge', {
       is: true,
-      then: (s) => s.required(),
       otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
     })
     .test('is-greater', '${label} must be greater than or equal minimum age', function (value) {
       const minAge = this.parent.minimumAgeRequirement || 0
@@ -65,63 +73,55 @@ const schema = yup.object({
       return maxAge >= minAge
     })
     .label('Maximum Age'),
-  isRequiredAge: yup.boolean(),
+  maximumSalaryRequirement: yup
+    .string()
+    .when('isRequiredMaximumSalaryRequirement', {
+      is: true,
+      otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
+    })
+    .label('Maximum Salary'),
   minimalEducationRequirement: generateOptionOptional('isRequiredMinimalEducationRequirement', 'Minimal Education'),
-  isRequiredMinimalEducationRequirement: yup.boolean(),
+  minimumAgeRequirement: yup
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .when('isRequiredAge', {
+      is: true,
+      otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
+    })
+    .label('Minimum Age'),
   minimumExperienceRequirement: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
     .when('isRequiredMinimumExperienceRequirement', {
       is: true,
-      then: (s) => s.required(),
       otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
     })
     .label('Minimum Experience'),
-  isRequiredMinimumExperienceRequirement: yup.boolean(),
-  gpaRequirement: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .when('isRequiredGpaRequirement', {
-      is: true,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
-    })
-    .label('GPA'),
-  isRequiredGpaRequirement: yup.boolean(),
-  cityRequirement: generateOptionOptional('isRequiredCityRequirement', 'City'),
-  isRequiredCityRequirement: yup.boolean(),
   provinceRequirement: generateOptionOptional('isRequiredProvinceRequirement', 'Province'),
-  isRequiredProvinceRequirement: yup.boolean(),
-  maximumSalaryRequirement: yup
-    .string()
-    .when('isRequiredMaximumSalaryRequirement', {
-      is: true,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
-    })
-    .label('Maximum Salary'),
-  isRequiredMaximumSalaryRequirement: yup.boolean(),
 })
 
 const RequirementsForm: React.FC<{
-  isRequisition?: boolean
-  isLoading: boolean
   defaultValue: yup.InferType<typeof schema>
-  isUpdate?: boolean
   handlePrev: () => void
   handleSubmit: (data: any) => void
+  isLoading: boolean
+  isRequisition?: boolean
+  isUpdate?: boolean
 }> = (props) => {
   const {
-    handleSubmit,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
     setValue,
     trigger,
-    register,
     watch,
-    formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: props.defaultValue,
+    resolver: yupResolver(schema),
   })
 
   const [flag, setFlag] = useState<number>(1)
@@ -152,21 +152,21 @@ const RequirementsForm: React.FC<{
           <div className="pb-2">
             <Select
               className="mb-2"
+              error={errors.genderRequirement?.message}
+              hideSearch
               label="Gender"
               labelRequired={watch('isRequiredGenderRequirement')}
-              placeholder="Male or Female"
-              hideSearch
-              options={[
-                { label: 'Male', value: 'MALE' },
-                { label: 'Female', value: 'FEMALE' },
-              ]}
               name="genderRequirement"
-              error={errors.genderRequirement?.message}
-              value={getValues('genderRequirement')}
               onChange={(v) => {
                 setValue('genderRequirement', v.toString())
                 trigger('genderRequirement')
               }}
+              options={[
+                { label: 'Male', value: 'MALE' },
+                { label: 'Female', value: 'FEMALE' },
+              ]}
+              placeholder="Male or Female"
+              value={getValues('genderRequirement')}
             />
             <InputCheckbox id="gender-required" {...register('isRequiredGenderRequirement')}>
               Candidate must meet the criteria
@@ -174,19 +174,19 @@ const RequirementsForm: React.FC<{
           </div>
           <div className="pb-2">
             <AsyncSelect
+              action={masterService.fetchEducationLevel}
               className="mb-2"
+              converter={emmbedToOptions}
+              error={errors.minimalEducationRequirement?.value?.message}
               label="Minimal Education"
               labelRequired={watch('isRequiredMinimalEducationRequirement')}
-              placeholder="Choose Education"
-              action={masterService.fetchEducationLevel}
-              converter={emmbedToOptions}
               name="minimalEducationRequirement"
-              error={errors.minimalEducationRequirement?.value?.message}
-              value={getValues('minimalEducationRequirement')}
               onValueChange={(v) => {
                 setValue('minimalEducationRequirement', v)
                 trigger('minimalEducationRequirement')
               }}
+              placeholder="Choose Education"
+              value={getValues('minimalEducationRequirement')}
             />
             <InputCheckbox id="minimal-education-required" {...register('isRequiredMinimalEducationRequirement')}>
               Candidate must meet the criteria
@@ -195,19 +195,19 @@ const RequirementsForm: React.FC<{
         </div>
 
         <div className="pb-2">
-          <InputWrapper label="Age" labelRequired={watch('isRequiredAge')} className="mb-2">
+          <InputWrapper className="mb-2" label="Age" labelRequired={watch('isRequiredAge')}>
             <div className="grid grid-cols-2 gap-3">
               <Input
                 className="m-0"
-                placeholder="Minimum"
                 error={errors.minimumAgeRequirement?.message}
+                placeholder="Minimum"
                 {...register('minimumAgeRequirement')}
                 type="number"
               />
               <Input
                 className="m-0"
-                placeholder="Maximum"
                 error={errors.maximumAgeRequirement?.message}
+                placeholder="Maximum"
                 {...register('maximumAgeRequirement')}
                 type="number"
               />
@@ -222,10 +222,10 @@ const RequirementsForm: React.FC<{
           <div className="pb-2">
             <Input
               className="mb-2"
+              error={errors.gpaRequirement?.message}
               label="Minimum GPA"
               labelRequired={watch('isRequiredGpaRequirement')}
               placeholder="Example : 3.25"
-              error={errors.gpaRequirement?.message}
               {...register('gpaRequirement')}
               type="number"
             />
@@ -236,10 +236,10 @@ const RequirementsForm: React.FC<{
           <div className="pb-2">
             <Input
               className="mb-2"
+              error={errors.minimumExperienceRequirement?.message}
               label="Minimum Experience"
               labelRequired={watch('isRequiredMinimumExperienceRequirement')}
               placeholder="Example : 3 Year(s)"
-              error={errors.minimumExperienceRequirement?.message}
               {...register('minimumExperienceRequirement')}
               type="number"
             />
@@ -252,17 +252,13 @@ const RequirementsForm: React.FC<{
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <div className="pb-2">
             <AsyncSelect
+              action={masterService.fetchProvinces}
               className="mb-2"
+              converter={emmbedToOptions}
+              error={errors.provinceRequirement?.message}
               label="Province"
               labelRequired={watch('isRequiredProvinceRequirement')}
-              placeholder="Province"
-              withReset
-              action={masterService.fetchProvinces}
-              params={{ country: 'Indonesia' }}
-              converter={emmbedToOptions}
               name="provinceRequirement"
-              error={errors.provinceRequirement?.message}
-              value={getValues('provinceRequirement')}
               onChange={(v) => {
                 setValue('provinceRequirement', v)
                 trigger('provinceRequirement')
@@ -272,6 +268,10 @@ const RequirementsForm: React.FC<{
                   trigger('cityRequirement')
                 }
               }}
+              params={{ country: 'Indonesia' }}
+              placeholder="Province"
+              value={getValues('provinceRequirement')}
+              withReset
             />
             <InputCheckbox id="province-required" {...register('isRequiredProvinceRequirement')}>
               Candidate must meet the criteria
@@ -279,22 +279,22 @@ const RequirementsForm: React.FC<{
           </div>
           <div className="pb-2">
             <AsyncSelect
+              action={masterService.fetchCities}
               className={twJoin(!provinceName && 'opacity-65', 'mb-2')}
+              converter={emmbedToOptions}
+              disabled={!provinceName}
+              error={errors.cityRequirement?.message}
               label="City"
               labelRequired={watch('isRequiredCityRequirement')}
-              placeholder="City"
-              withReset
-              disabled={!provinceName}
-              action={masterService.fetchCities}
-              params={{ province: provinceName }}
-              converter={emmbedToOptions}
               name="cityRequirement"
-              error={errors.cityRequirement?.message}
-              value={getValues('cityRequirement')}
               onChange={(v) => {
                 setValue('cityRequirement', v)
                 trigger('cityRequirement')
               }}
+              params={{ province: provinceName }}
+              placeholder="City"
+              value={getValues('cityRequirement')}
+              withReset
             />
             <InputCheckbox id="city-required" {...register('isRequiredCityRequirement')}>
               Candidate must meet the criteria
@@ -304,17 +304,17 @@ const RequirementsForm: React.FC<{
 
         <div className="pb-2">
           <InputCurrency
-            label="Maximum Salary Expectation"
-            labelRequired={watch('isRequiredMaximumSalaryRequirement')}
-            prefix="Rp "
             className="mb-2"
             error={errors.maximumSalaryRequirement?.message}
+            label="Maximum Salary Expectation"
+            labelRequired={watch('isRequiredMaximumSalaryRequirement')}
             name="maximumSalaryRequirement"
-            value={getValues('maximumSalaryRequirement')}
             onValueChange={(v) => {
               setValue('maximumSalaryRequirement', v || '')
               trigger('maximumSalaryRequirement')
             }}
+            prefix="Rp "
+            value={getValues('maximumSalaryRequirement')}
           />
           <InputCheckbox id="maximum-salary-expectation-required" {...register('isRequiredMaximumSalaryRequirement')}>
             Candidate must meet the criteria
@@ -325,8 +325,6 @@ const RequirementsForm: React.FC<{
       <CardFooter className="gap-3">
         {!props.isUpdate && (
           <Button
-            type="button"
-            variant="light"
             className="mr-auto w-32"
             disabled={props.isLoading}
             loading={props.isLoading && flag == 9}
@@ -334,23 +332,25 @@ const RequirementsForm: React.FC<{
               e.preventDefault()
               onSubmit(9)
             }}
+            type="button"
+            variant="light"
           >
             Save as Draft
           </Button>
         )}
-        <Button type="button" color="primary" variant="light" className="w-32" onClick={props.handlePrev}>
+        <Button className="w-32" color="primary" onClick={props.handlePrev} type="button" variant="light">
           Prev
         </Button>
         <Button
-          type="submit"
-          color="primary"
           className="w-32"
+          color="primary"
           disabled={props.isLoading}
           loading={props.isLoading && flag == 1}
           onClick={(e) => {
             e.preventDefault()
             onSubmit(props.isRequisition ? 6 : 1)
           }}
+          type="submit"
         >
           {props.isUpdate ? 'Update' : 'Create'}
         </Button>

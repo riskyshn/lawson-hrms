@@ -34,10 +34,10 @@ const UploadSignedOfferingLetterPage: React.FC = () => {
   const toast = useToast()
 
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     setValue,
-    getValues,
-    formState: { errors },
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
@@ -65,14 +65,9 @@ const UploadSignedOfferingLetterPage: React.FC = () => {
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Card as="form" onSubmit={onSubmit}>
           <CardBody className="grid grid-cols-1 gap-2">
-            <InputWrapper label="Document" labelRequired error={errors.file?.message}>
+            <InputWrapper error={errors.file?.message} label="Document" labelRequired>
               <DocumentFileUpload
-                type="applicant-result"
-                value={getValues('file')}
                 error={errors.file?.message}
-                onStart={() => {
-                  setValue('file', PROGRESS_KEY)
-                }}
                 onChange={(value) => {
                   setValue('file', value)
                   trigger('file')
@@ -81,15 +76,20 @@ const UploadSignedOfferingLetterPage: React.FC = () => {
                   setValue('file', ERROR_PREFIX_KEY + message)
                   trigger('file')
                 }}
+                onStart={() => {
+                  setValue('file', PROGRESS_KEY)
+                }}
+                type="applicant-result"
+                value={getValues('file')}
               />
             </InputWrapper>
           </CardBody>
 
           <CardFooter className="gap-3">
-            <Button as={Link} to="/process/offering-letter" color="error" variant="light" className="w-32">
+            <Button as={Link} className="w-32" color="error" to="/process/offering-letter" variant="light">
               Cancel
             </Button>
-            <Button type="submit" color="primary" className="w-32" disabled={loading} loading={loading}>
+            <Button className="w-32" color="primary" disabled={loading} loading={loading} type="submit">
               Submit
             </Button>
           </CardFooter>

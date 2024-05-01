@@ -9,17 +9,17 @@ const schema = yup.object().shape({
   email: yup.string().email().required().label('Email'),
 })
 
-const SendLinkModal: React.FC<{ show?: boolean; onClose?: () => void; onSubmited?: () => void }> = ({ show, onClose, onSubmited }) => {
+const SendLinkModal: React.FC<{ onClose?: () => void; onSubmited?: () => void; show?: boolean }> = ({ onClose, onSubmited, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    reset,
     formState: { errors },
+    handleSubmit,
+    register,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -44,25 +44,25 @@ const SendLinkModal: React.FC<{ show?: boolean; onClose?: () => void; onSubmited
   })
 
   return (
-    <Modal as="form" show={!!show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Get candidate information by sending form to your candidates" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={!!show}>
+      <ModalHeader onClose={onClose} subTitle="Get candidate information by sending form to your candidates">
         Send Link
       </ModalHeader>
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
         <Input
+          error={errors.email?.message}
           label="Candidate Email"
           labelRequired
           placeholder="i.e email@example.com"
-          error={errors.email?.message}
           {...register('email')}
         />
       </div>
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="min-w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="min-w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Send Link
         </Button>
       </ModalFooter>

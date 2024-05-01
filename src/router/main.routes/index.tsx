@@ -16,7 +16,6 @@ import settingsRoute from './settings.route'
 
 const mainRoutes: RouteObject[] = [
   {
-    lazy: () => import('@/components/Layout/MainLayout'),
     children: [
       dashboardRoute,
       jobRoute,
@@ -32,6 +31,7 @@ const mainRoutes: RouteObject[] = [
       chatRoute,
       exploreRoute,
     ],
+    lazy: () => import('@/components/Layout/MainLayout'),
   },
 ]
 

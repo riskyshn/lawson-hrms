@@ -1,9 +1,10 @@
 import numberToCurrency from '@/utils/number-to-currency'
 import { Card, CardBody, CardHeader, Skeleton } from 'jobseeker-ui'
 import React from 'react'
+
 import PreviewRecruitmentStageCard from './PreviewRecruitmentStageCard'
 
-const PreviewVacancy: React.FC<{ vacancy?: IVacancy; isLoading: boolean }> = ({ vacancy, isLoading }) => {
+const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }> = ({ isLoading, vacancy }) => {
   if (isLoading || !vacancy) return LoadingSkeleton
   return (
     <>
@@ -160,7 +161,7 @@ const LoadingSkeleton = Array.from(Array(4)).map((_, i) => (
       <Skeleton className="h-6 w-1/3" />
     </CardHeader>
     <CardBody className="flex flex-col gap-3 p-3">
-      <Skeleton count={4} className="h-6" />
+      <Skeleton className="h-6" count={4} />
     </CardBody>
   </Card>
 ))

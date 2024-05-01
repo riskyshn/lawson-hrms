@@ -9,18 +9,16 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type UpdateResultModalProps = {
-  show?: boolean
   applicant?: IDataTableApplicant
   onClose?: () => void
   onSubmited?: () => void
+  show?: boolean
 }
 
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object({
-  status: yup.string().required().label('Status'),
-  notes: yup.string().required().label('Notes'),
   file: yup
     .string()
     .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
@@ -34,21 +32,23 @@ const schema = yup.object({
     )
     .url()
     .label('File'),
+  notes: yup.string().required().label('Notes'),
+  status: yup.string().required().label('Status'),
 })
 
-const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, onClose, onSubmited }) => {
+const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ applicant, onClose, onSubmited, show }) => {
   const [loading, setLoading] = useState(false)
 
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     formState: { errors },
-    trigger,
+    getValues,
+    handleSubmit,
+    register,
     reset,
+    setValue,
+    trigger,
     watch,
   } = useForm({
     resolver: yupResolver(schema),
@@ -78,54 +78,49 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
   })
 
   return (
-    <MainModal className="max-w-xl py-12" show={!!show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={!!show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Candidate Result</h4>
       </div>
-      <form onSubmit={onSubmit} className="grid grid-cols-1 gap-3">
-        <InputWrapper label="Update Candidate’s Result" labelRequired error={errors.status?.message}>
+      <form className="grid grid-cols-1 gap-3" onSubmit={onSubmit}>
+        <InputWrapper error={errors.status?.message} label="Update Candidate’s Result" labelRequired>
           <div className="flex gap-4 py-3">
             <InputRadio
+              checked={watch('status') === 'PASSED'}
               className="text-green-600"
               id="radio-passed"
-              value="PASSED"
-              checked={watch('status') === 'PASSED'}
               onChange={(e) => {
                 if (e.target.checked) {
                   setValue('status', 'PASSED')
                   trigger('status')
                 }
               }}
+              value="PASSED"
             >
               Passed
             </InputRadio>
             <InputRadio
+              checked={watch('status') === 'FAILED'}
               className="text-red-600"
               id="radio-failed"
-              value="FAILED"
-              checked={watch('status') === 'FAILED'}
               onChange={(e) => {
                 if (e.target.checked) {
                   setValue('status', 'FAILED')
                   trigger('status')
                 }
               }}
+              value="FAILED"
             >
               Failed
             </InputRadio>
           </div>
         </InputWrapper>
 
-        <Textarea label="Notes" rows={4} error={errors.notes?.message} {...register('notes')} />
+        <Textarea error={errors.notes?.message} label="Notes" rows={4} {...register('notes')} />
 
-        <InputWrapper label="Upload file" error={errors.file?.message}>
+        <InputWrapper error={errors.file?.message} label="Upload file">
           <DocumentFileUpload
-            type="applicant-result"
-            value={getValues('file')}
             error={errors.file?.message}
-            onStart={() => {
-              setValue('file', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('file', value)
               trigger('file')
@@ -134,14 +129,19 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, applicant, 
               setValue('file', ERROR_PREFIX_KEY + message)
               trigger('file')
             }}
+            onStart={() => {
+              setValue('file', PROGRESS_KEY)
+            }}
+            type="applicant-result"
+            value={getValues('file')}
           />
         </InputWrapper>
 
         <div className="mt-4 flex justify-end gap-2">
-          <Button type="button" onClick={onClose} color="error" variant="light" disabled={loading} className="w-24">
+          <Button className="w-24" color="error" disabled={loading} onClick={onClose} type="button" variant="light">
             Cancel
           </Button>
-          <Button type="submit" color="primary" className="w-24" disabled={loading} loading={loading}>
+          <Button className="w-24" color="primary" disabled={loading} loading={loading} type="submit">
             Submit
           </Button>
         </div>

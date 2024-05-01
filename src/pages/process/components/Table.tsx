@@ -1,5 +1,3 @@
-import type { ModalType, TableType } from '../types'
-
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ProcessModal from '@/components/Modules/Process/ProcessModal'
 import RescheduleModal from '@/components/Modules/Process/RescheduleModal'
@@ -10,6 +8,9 @@ import { FileIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+
+import type { ModalType, TableType } from '../types'
+
 import ActionMenu from './ActionMenu'
 import BlacklistModal from './BlacklistModal'
 import EditJoinDateModal from './EditJoinDateModal'
@@ -66,7 +67,7 @@ const generateBodyItems = (
   const getCandidateInfo = () => ({
     children: (
       <div className="flex items-center gap-3">
-        <Avatar name={item.candidate?.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
+        <Avatar className="rounded-lg bg-primary-100 text-primary-700" name={item.candidate?.name || ''} size={38} />
         <div>
           <span className="block font-semibold">{item.candidate?.name || '-'}</span>
           <span className="block">{item.candidate?.email || '-'}</span>
@@ -89,7 +90,7 @@ const generateBodyItems = (
 
   const getStatusContent = () => ({
     children: item.status ? (
-      <Badge color={statusColors(item.status.name?.toLowerCase())} size="small" className="font-semibold capitalize">
+      <Badge className="font-semibold capitalize" color={statusColors(item.status.name?.toLowerCase())} size="small">
         {item.status.name?.toLowerCase().replace(/_/g, ' ')}
       </Badge>
     ) : (
@@ -98,7 +99,7 @@ const generateBodyItems = (
   })
 
   const getActionMenu = () => ({
-    children: <ActionMenu item={item} index={index} total={total} upSpace={total > 8 ? 3 : 0} setSelected={setSelected} />,
+    children: <ActionMenu index={index} item={item} setSelected={setSelected} total={total} upSpace={total > 8 ? 3 : 0} />,
   })
 
   switch (type) {
@@ -121,13 +122,12 @@ const generateBodyItems = (
           getVacancyInfo(),
           getStatusContent(),
           {
-            className: 'text-center',
             children: (
               <span className="inline-block">
                 {parseInt(item.status?.oid || '4') >= 4 ? (
                   <Link
-                    to={`/process/offering-letter/${item.oid}/upload-documents?edit=true`}
                     className="text-primary-600 hover:text-primary-700"
+                    to={`/process/offering-letter/${item.oid}/upload-documents?edit=true`}
                   >
                     <FileIcon size={18} />
                   </Link>
@@ -136,6 +136,7 @@ const generateBodyItems = (
                 )}
               </span>
             ),
+            className: 'text-center',
           },
           getActionMenu(),
         ],
@@ -153,7 +154,7 @@ const generateBodyItems = (
   }
 }
 
-const Table: React.FC<PropTypes> = ({ items, loading, type, onRefresh }) => {
+const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
   const [selected, setSelected] = useState<{ item: IDataTableApplicant; type: ModalType } | null>(null)
 
   const headerItems = useMemo(() => generateHeaderItems(type), [type])
@@ -162,76 +163,76 @@ const Table: React.FC<PropTypes> = ({ items, loading, type, onRefresh }) => {
   return (
     <>
       <MoveAnotherVacancyModal
-        show={!!selected && selected.type === 'MOVE TO ANOTHER VACANCY'}
         applicant={selected?.item}
-        onClose={() => setSelected(null)}
         onApplied={onRefresh}
+        onClose={() => setSelected(null)}
+        show={!!selected && selected.type === 'MOVE TO ANOTHER VACANCY'}
       />
       <BlacklistModal
-        show={!!selected && selected.type === 'BLACKLIST'}
         applicant={selected?.item}
-        onClose={() => setSelected(null)}
         onBlacklisted={onRefresh}
+        onClose={() => setSelected(null)}
+        show={!!selected && selected.type === 'BLACKLIST'}
       />
       <RejectModal
-        show={!!selected && selected.type === 'REJECT'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onRejected={onRefresh}
+        show={!!selected && selected.type === 'REJECT'}
       />
       <WithdrawModal
-        show={!!selected && selected.type === 'WITHDRAW'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onUpdated={onRefresh}
+        show={!!selected && selected.type === 'WITHDRAW'}
       />
       <UpdateResultModal
-        show={!!selected && selected.type === 'UPDATE RESULT'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onSubmited={onRefresh}
+        show={!!selected && selected.type === 'UPDATE RESULT'}
       />
       <ViewProcessHistoryModal
-        show={!!selected && selected.type === 'VIEW HISTORY'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
+        show={!!selected && selected.type === 'VIEW HISTORY'}
       />
       <ProcessModal
-        show={!!selected && selected.type === 'PROCESS'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onSubmited={onRefresh}
+        show={!!selected && selected.type === 'PROCESS'}
       />
       <RescheduleModal
-        show={!!selected && selected.type === 'RESCHEDULE'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onSubmited={onRefresh}
+        show={!!selected && selected.type === 'RESCHEDULE'}
       />
-      <HireModal show={!!selected && selected.type === 'HIRE CANDIDATE'} applicant={selected?.item} onClose={() => setSelected(null)} />
+      <HireModal applicant={selected?.item} onClose={() => setSelected(null)} show={!!selected && selected.type === 'HIRE CANDIDATE'} />
       <EditJoinDateModal
-        show={!!selected && selected.type === 'EDIT JOIN DATE'}
         applicant={selected?.item}
         onClose={() => setSelected(null)}
         onUpdated={onRefresh}
+        show={!!selected && selected.type === 'EDIT JOIN DATE'}
       />
 
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+      <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
     </>
   )
 }
 
 const statusColors = genStyles<string, Color>({
-  passed: 'success',
+  default: 'default',
   failed: 'error',
-  process: 'primary',
-  ready_to_offer: 'error',
-  waiting_documents: 'warning',
   offering_sent: 'primary',
   offering_sign: 'success',
-  waiting_to_join: 'warning',
+  passed: 'success',
+  process: 'primary',
+  ready_to_offer: 'error',
   waiting: 'default',
-  default: 'default',
+  waiting_documents: 'warning',
+  waiting_to_join: 'warning',
 })
 
 export default Table

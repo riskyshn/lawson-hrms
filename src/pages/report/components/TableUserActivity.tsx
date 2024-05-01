@@ -21,6 +21,7 @@ const TableUserActivity: React.FC<PropTypes> = ({ items, loading }) => {
   return (
     <>
       <MainTable
+        bodyItems={bodyItems}
         headerItems={[
           { children: 'Name', className: 'text-center' },
           { children: 'Post Job', className: 'text-center' },
@@ -30,7 +31,6 @@ const TableUserActivity: React.FC<PropTypes> = ({ items, loading }) => {
           { children: 'Locked', className: 'text-center' },
           { children: 'Blacklisted', className: 'text-center' },
         ]}
-        bodyItems={bodyItems}
         loading={loading}
       />
     </>

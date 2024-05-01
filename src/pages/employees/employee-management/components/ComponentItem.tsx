@@ -3,34 +3,35 @@ import { Button, Input, InputCurrency, Select } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { InferType } from 'yup'
+
 import { componentDataSchema } from './shared'
 
 type Schema = InferType<typeof componentDataSchema>
 
 type PropTypes = {
-  type: 'benefits' | 'deductions'
-  index: number
   components: (IBenefitComponent | IDeductionComponent)[]
+  form: UseFormReturn<Schema>
+  index: number
   item: {
-    componentId: string
-    amountType: string
     amount: string
-    maxCap: string
+    amountType: string
     applicationType: string
+    componentId: string
+    maxCap: string
     taxType: string
   }
-  form: UseFormReturn<Schema>
   onRemove: (index: number) => void
+  type: 'benefits' | 'deductions'
 }
 
-const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, form, onRemove }) => {
+const ComponentItem: React.FC<PropTypes> = ({ components, form, index, item, onRemove, type }) => {
   const {
-    setValue,
-    getValues,
-    trigger,
-    register,
-    watch,
     formState: { errors },
+    getValues,
+    register,
+    setValue,
+    trigger,
+    watch,
   } = form
 
   const [initial, setInitial] = useState(true)
@@ -60,103 +61,103 @@ const ComponentItem: React.FC<PropTypes> = ({ type, index, components, item, for
   return (
     <div className="grid grid-cols-1 gap-3 rounded-lg border p-3 shadow-sm even:bg-gray-100">
       <Select
+        error={errors[type]?.[index]?.componentId?.message}
         label="Component"
         labelRequired
-        placeholder="Select Component"
-        value={item.componentId}
         name={`${type}.${index}.componentId`}
-        error={errors[type]?.[index]?.componentId?.message}
         onChange={(v) => setValue(`${type}.${index}.componentId`, v.toString())}
         options={components.map((el) => ({ label: `${el.name}`, value: el.oid }))}
+        placeholder="Select Component"
+        value={item.componentId}
       />
       <Select
+        error={errors[type]?.[index]?.amountType?.message}
         hideSearch
         label="Amount Type"
-        placeholder="Fixed/Percentage"
         labelRequired
-        options={AMOUNT_TYPE_OPTIONS}
         name={`${type}.${index}.amountType`}
-        error={errors[type]?.[index]?.amountType?.message}
-        value={getValues(`${type}.${index}.amountType`)}
         onChange={(v) => {
           setValue(`${type}.${index}.amountType`, v.toString())
           trigger(`${type}.${index}.amountType`)
           setValue(`${type}.${index}.amount`, '')
           trigger(`${type}.${index}.amount`)
         }}
+        options={AMOUNT_TYPE_OPTIONS}
+        placeholder="Fixed/Percentage"
+        value={getValues(`${type}.${index}.amountType`)}
       />
       {watch(`${type}.${index}.amountType`) === 'FIXED' ? (
         <InputCurrency
-          label="Amount"
-          placeholder="Amount"
-          labelRequired
-          prefix="Rp "
           error={errors[type]?.[index]?.amount?.message}
+          label="Amount"
+          labelRequired
           name={`${type}.${index}.amount`}
-          value={getValues(`${type}.${index}.amount`)}
           onValueChange={(v) => {
             setValue(`${type}.${index}.amount`, v || '')
             trigger(`${type}.${index}.amount`)
           }}
+          placeholder="Amount"
+          prefix="Rp "
+          value={getValues(`${type}.${index}.amount`)}
         />
       ) : (
         <Input
-          label="Amount"
-          placeholder="Amount"
-          labelRequired
           error={errors[type]?.[index]?.amount?.message}
+          label="Amount"
+          labelRequired
+          placeholder="Amount"
           {...register(`${type}.${index}.amount`)}
-          rightChild={<span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">%</span>}
           onChange={(v) => {
             setValue(`${type}.${index}.amount`, v.currentTarget.value)
             trigger(`${type}.${index}.amount`)
           }}
+          rightChild={<span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">%</span>}
           type="number"
         />
       )}
       <InputCurrency
-        label="Max. Cap"
-        placeholder="Max. Cap"
-        labelRequired
-        prefix="Rp "
         error={errors[type]?.[index]?.maxCap?.message}
+        label="Max. Cap"
+        labelRequired
         name={`${type}.${index}.maxCap`}
-        value={getValues(`${type}.${index}.maxCap`)}
         onValueChange={(v) => {
           setValue(`${type}.${index}.maxCap`, v || '')
           trigger(`${type}.${index}.maxCap`)
         }}
+        placeholder="Max. Cap"
+        prefix="Rp "
+        value={getValues(`${type}.${index}.maxCap`)}
       />
       <Select
+        error={errors[type]?.[index]?.applicationType?.message}
         hideSearch
         label="Application Type"
-        placeholder="Application Type"
         labelRequired
-        options={APPLICATION_TYPE_OPTIONS}
         name="applicationType"
-        error={errors[type]?.[index]?.applicationType?.message}
-        value={getValues(`${type}.${index}.applicationType`)}
         onChange={(v) => {
           setValue(`${type}.${index}.applicationType`, v.toString())
           trigger(`${type}.${index}.applicationType`)
         }}
+        options={APPLICATION_TYPE_OPTIONS}
+        placeholder="Application Type"
+        value={getValues(`${type}.${index}.applicationType`)}
       />
       <Select
+        error={errors[type]?.[index]?.taxType?.message}
         hideSearch
         label="Tax Type"
-        placeholder="Taxable/Non-Taxable"
         labelRequired
-        options={TAX_TYPE_OPTIONS}
         name={`${type}.${index}.taxType`}
-        error={errors[type]?.[index]?.taxType?.message}
-        value={getValues(`${type}.${index}.taxType`)}
         onChange={(v) => {
           setValue(`${type}.${index}.taxType`, v.toString())
           trigger(`${type}.${index}.taxType`)
         }}
+        options={TAX_TYPE_OPTIONS}
+        placeholder="Taxable/Non-Taxable"
+        value={getValues(`${type}.${index}.taxType`)}
       />
       <div className="flex justify-end">
-        <Button type="button" color="error" variant="light" onClick={() => onRemove(index)}>
+        <Button color="error" onClick={() => onRemove(index)} type="button" variant="light">
           Remove Component
         </Button>
       </div>

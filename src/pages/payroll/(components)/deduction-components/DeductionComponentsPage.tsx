@@ -8,6 +8,7 @@ import { Button } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+
 import CreateModal from '../components/CreateModal'
 import Table from '../components/Table'
 
@@ -24,9 +25,9 @@ const DeductionComponentsPage: React.FC = () => {
   const [switchData, setSwitchData] = useState(false)
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/payroll/deduction-components',
     totalPage: pageData?.totalPages,
-    params: { search },
   })
 
   useEffect(() => {
@@ -38,9 +39,9 @@ const DeductionComponentsPage: React.FC = () => {
       try {
         const data = await payrollService.fetchDeductionComponents(
           {
-            q: search,
-            page: pagination.currentPage,
             limit: 20,
+            page: pagination.currentPage,
+            q: search,
           },
           signal,
         )
@@ -65,48 +66,48 @@ const DeductionComponentsPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Payroll' }, { text: 'Deduction Components' }]}
-        title="Deduction Components"
         actions={
           <>
             <Button
               as={Link}
+              className="text-gray-600"
+              color="primary"
+              leftChild={<SettingsIcon size={16} />}
               to="/payroll/bpjs-component"
               variant="light"
-              color="primary"
-              className="text-gray-600"
-              leftChild={<SettingsIcon size={16} />}
             >
               BPJS Component
             </Button>
-            <Button type="button" color="primary" className="ml-3" onClick={() => setShowCreateModal(true)}>
+            <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)} type="button">
               Create Deduction
             </Button>
           </>
         }
+        breadcrumb={[{ text: 'Payroll' }, { text: 'Deduction Components' }]}
+        title="Deduction Components"
       />
 
-      <CreateModal type="DEDUCTION" show={showCreateModal} onClose={() => setShowCreateModal(false)} onCreated={refresh} />
+      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={refresh} show={showCreateModal} type="DEDUCTION" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={refresh} type="DEDUCTION" />}
+          footer={pagination.render()}
           header={
             <MainCardHeader
-              title="Component List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Component</span> in total
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Component List"
             />
           }
-          body={<Table type="DEDUCTION" items={pageData?.content || []} loading={isLoading} onRefresh={refresh} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

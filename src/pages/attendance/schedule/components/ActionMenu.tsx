@@ -4,16 +4,17 @@ import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 import { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import EditScheduleModal from './EditScheduleModal'
 import ViewScheduleModal from './ViewScheduleModal'
 
 interface ActionMenuProps {
-  options: string[]
   items?: ISchedule
   onApplyVacancy: (data: string) => void
+  options: string[]
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ items, onApplyVacancy, options }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const toast = useToast()
@@ -31,9 +32,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
       case 'Delete':
         setModalType('')
         confirmed = await confirm({
-          text: `Are you sure you want to delete this schedule?`,
-          confirmBtnColor: 'primary',
           cancelBtnColor: 'error',
+          confirmBtnColor: 'primary',
+          text: `Are you sure you want to delete this schedule?`,
         })
 
         if (confirmed) {
@@ -55,14 +56,14 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
   const renderModal = () => {
     switch (modalType) {
       case 'View Details':
-        return <ViewScheduleModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
+        return <ViewScheduleModal items={items} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Edit Schedule':
         return (
           <EditScheduleModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
             items={items}
             onApplyVacancy={onApplyVacancy}
+            onClose={() => setShowOptionModal(false)}
+            show={showOptionModal}
           />
         )
       default:
@@ -73,7 +74,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ options, items, onApplyVacancy 
   return (
     <div className="text-center">
       <Menu as="div" className="relative">
-        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
+        <Menu.Button as={Button} block className="text-xs" color="primary" size="small" variant="light">
           Action
         </Menu.Button>
         <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">

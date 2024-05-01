@@ -32,5 +32,5 @@ export default function useVacancyPage() {
 
   if (pageError) throw pageError
 
-  return { vacancyId, isLoading, vacancy }
+  return { isLoading, vacancy, vacancyId }
 }

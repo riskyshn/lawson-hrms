@@ -3,19 +3,19 @@ import { Button, Select } from 'jobseeker-ui'
 import React from 'react'
 
 type MoveAnotherVacancyModalProps = {
-  show: boolean
   onClose: () => void
+  show: boolean
 }
 
-const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose }) => {
+const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ onClose, show }) => {
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Apply to Vacancy</h4>
         <p className="text-center">Move candidates to a more suitable job vacancy</p>
       </div>
-      <Select label="Select Vacancy" placeholder="Back-End Developer, Cashier, Barista" options={[]} className="mb-3" />
-      <Button block color="primary" className="mx-auto">
+      <Select className="mb-3" label="Select Vacancy" options={[]} placeholder="Back-End Developer, Cashier, Barista" />
+      <Button block className="mx-auto" color="primary">
         Select Vacancy
       </Button>
     </MainModal>

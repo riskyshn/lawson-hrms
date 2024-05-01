@@ -5,43 +5,40 @@ import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
 import React from 'react'
 
 type ActionMenuProps = {
-  item: IDepartment
   index: number
+  item: IDepartment
+  onDeleted?: (oid: string) => void
+  setSelectedToUpdate?: (item: IDepartment) => void
   total: number
   upSpace: number
-  setSelectedToUpdate?: (item: IDepartment) => void
-  onDeleted?: (oid: string) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelectedToUpdate, onDeleted }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSelectedToUpdate, total, upSpace }) => {
   const confirm = useConfirm()
   const toast = useToast()
 
   const editDepartment: Table.ActionMenuItemProps = {
-    text: 'Edit Department',
-    icon: PenToolIcon,
     action() {
       setSelectedToUpdate?.(item)
     },
+    icon: PenToolIcon,
+    text: 'Edit Department',
   }
 
   const viewEmployees: Table.ActionMenuItemProps = {
-    text: 'View Employees',
-    icon: UsersIcon,
     action() {
       //
     },
+    icon: UsersIcon,
+    text: 'View Employees',
   }
 
   const deleteDepartment: Table.ActionMenuItemProps = {
-    text: 'Delete Department',
-    icon: TrashIcon,
-    iconClassName: 'text-error-600',
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to delete this Department?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to delete this Department?',
       })
       if (confirmed) {
         try {
@@ -53,6 +50,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
         }
       }
     },
+    icon: TrashIcon,
+    iconClassName: 'text-error-600',
+    text: 'Delete Department',
   }
 
   const menus = [editDepartment, viewEmployees, deleteDepartment]

@@ -4,17 +4,17 @@ import React, { memo, useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 const Card: React.FC<{
+  className?: string
   label: string
   value: number | string
-  className?: string
-}> = ({ value, label, className = 'bg-white' }) => (
+}> = ({ className = 'bg-white', label, value }) => (
   <div className={twJoin('flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center', className)}>
     <span className="mb-2 block text-2xl font-semibold">{value}</span>
     <span className="block text-xs">{label}</span>
   </div>
 )
 
-const StatisticCards: React.FC<{ filterDate: { startDate: string; endDate: string } }> = ({ filterDate }) => {
+const StatisticCards: React.FC<{ filterDate: { endDate: string; startDate: string } }> = ({ filterDate }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<IRecruitmentFunnel>()
   const [error, setError] = useState<any>(null)
@@ -24,8 +24,8 @@ const StatisticCards: React.FC<{ filterDate: { startDate: string; endDate: strin
       setLoading(true)
       try {
         const data = await reportService.fetchRecruitmentFunnel({
-          start_date: filterDate.startDate,
           end_date: filterDate.endDate,
+          start_date: filterDate.startDate,
         })
         setData(data)
       } catch (error) {
@@ -46,7 +46,7 @@ const StatisticCards: React.FC<{ filterDate: { startDate: string; endDate: strin
 
     return data?.total ? (
       data.total.map((stage, index) => (
-        <Card key={index} label={`${stage.label.toUpperCase()}`} value={stage.total} className={`text-white bg-${colors[index]}-600`} />
+        <Card className={`text-white bg-${colors[index]}-600`} key={index} label={`${stage.label.toUpperCase()}`} value={stage.total} />
       ))
     ) : (
       <div></div>

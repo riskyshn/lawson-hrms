@@ -7,6 +7,7 @@ import { authorityService } from '@/services'
 import { Button } from 'jobseeker-ui'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import CardHeader from '../components/CardHeader'
 import CreateModal from './components/CreateModal'
 import EditModal from './components/EditModal'
@@ -19,36 +20,36 @@ export const Component: React.FC = () => {
 
   const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(authorityService.fetchPermissions, { limit: 20 }, search)
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(authorityService.fetchPermissions, { limit: 20 }, search)
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/settings/permissions',
     totalPage: pageData?.totalPages,
-    params: { search },
   })
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Settings' }, { text: 'Permissions' }]}
-        title="Permission"
-        subtitle="Manage Your Company Permission"
         actions={
-          <Button onClick={() => setShowCreateModal(true)} color="primary" className="ml-3">
+          <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
             Add New Permission
           </Button>
         }
+        breadcrumb={[{ text: 'Settings' }, { text: 'Permissions' }]}
+        subtitle="Manage Your Company Permission"
+        title="Permission"
       />
 
-      <CreateModal show={showCreateModal} onCreated={onRefresh} onClose={() => setShowCreateModal(false)} />
-      <EditModal permission={toUpdateSelected} onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} />
+      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={onRefresh} show={showCreateModal} />
+      <EditModal onClose={() => setToUpdateSelected(null)} onUpdated={onRefresh} permission={toUpdateSelected} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          header={<CardHeader name="Permission" total={pageData?.totalElements} onRefresh={onRefresh} />}
           body={
-            <Table items={pageData?.content || []} loading={isLoading} setSelectedToUpdate={setToUpdateSelected} onDeleted={onRefresh} />
+            <Table items={pageData?.content || []} loading={isLoading} onDeleted={onRefresh} setSelectedToUpdate={setToUpdateSelected} />
           }
           footer={pagination.render()}
+          header={<CardHeader name="Permission" onRefresh={onRefresh} total={pageData?.totalElements} />}
         />
       </Container>
     </>

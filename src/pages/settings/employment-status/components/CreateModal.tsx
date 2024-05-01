@@ -7,9 +7,9 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type CreateModalProps = {
-  show: boolean
   onClose?: () => void
   onCreated?: (item: IJobType) => void
+  show: boolean
 }
 
 const schema = yup.object().shape({
@@ -17,19 +17,19 @@ const schema = yup.object().shape({
   status: yup.number().required().label('Status for employment'),
 })
 
-const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
+const CreateModal: React.FC<CreateModalProps> = ({ onClose, onCreated, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    reset,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
+    reset,
     setValue,
     trigger,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -55,37 +55,37 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   })
 
   return (
-    <Modal as="form" show={show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Set up a new employment status for your company" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={show}>
+      <ModalHeader onClose={onClose} subTitle="Set up a new employment status for your company">
         Create Employment Status
       </ModalHeader>
 
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
+        <Input error={errors.name?.message} label="Name" labelRequired {...register('name')} />
         <Select
+          error={errors.status?.message}
+          hideSearch
           label="Status for employment"
           labelRequired
-          options={[
-            { label: 'Active', value: '1' },
-            { label: 'Inactive', value: '2' },
-          ]}
-          hideSearch
           name="status"
-          error={errors.status?.message}
-          value={String(getValues('status'))}
           onChange={(v) => {
             setValue('status', Number(v))
             trigger('status')
           }}
+          options={[
+            { label: 'Active', value: '1' },
+            { label: 'Inactive', value: '2' },
+          ]}
+          value={String(getValues('status'))}
         />
       </div>
 
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Save
         </Button>
       </ModalFooter>

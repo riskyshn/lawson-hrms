@@ -2,53 +2,53 @@ import { Color } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
 
 export type SidebarChildLinkParams = {
-  text: string
-  to: string
   badge?: {
-    show: boolean
     color?: Color
+    show: boolean
     text?: string
   }
   onClick?: React.MouseEventHandler
+  text: string
+  to: string
 }
 
-export type SidebarParentLinkParams = SidebarChildLinkParams & {
+export type SidebarParentLinkParams = {
   icon: React.ComponentType
-}
+} & SidebarChildLinkParams
 
 export type GenSidebarLinksOptions = {
-  title?: string
   items: Array<{
-    parent: SidebarParentLinkParams
     child?: Array<SidebarChildLinkParams>
+    parent: SidebarParentLinkParams
   }>
+  title?: string
 }
 
 export default function genSidebarLinks({
-  title,
   items,
+  title,
 }: {
+  items: { child?: SidebarChildLinkParams[]; parent: SidebarParentLinkParams }[]
   title?: string
-  items: { parent: SidebarParentLinkParams; child?: SidebarChildLinkParams[] }[]
 }) {
   return {
-    title,
-    items: items.map(({ parent, child }) => ({
-      parent: {
-        as: Link,
-        icon: parent.icon,
-        text: parent.text,
-        badge: parent.badge,
-        onClick: parent.onClick,
-        to: parent.to,
-      },
+    items: items.map(({ child, parent }) => ({
       child: child?.map((prm: SidebarChildLinkParams) => ({
         as: Link,
-        text: prm.text,
         badge: prm.badge,
         onClick: prm.onClick,
+        text: prm.text,
         to: prm.to,
       })),
+      parent: {
+        as: Link,
+        badge: parent.badge,
+        icon: parent.icon,
+        onClick: parent.onClick,
+        text: parent.text,
+        to: parent.to,
+      },
     })),
+    title,
   }
 }

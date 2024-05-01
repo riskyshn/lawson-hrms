@@ -23,7 +23,7 @@ const FilterForm: React.FC<{ show?: boolean }> = ({ show }) => {
     setSearchParams(searchParams)
   }
 
-  const handleMaxAgeChange = (value: string | number) => {
+  const handleMaxAgeChange = (value: number | string) => {
     const v = Number(value)
     if (v > 80) {
       searchParams.delete('max-age')
@@ -43,8 +43,8 @@ const FilterForm: React.FC<{ show?: boolean }> = ({ show }) => {
           <Select label="City" options={[]} />
           <Select label="Education" options={[]} />
           <div className="grid grid-cols-2 gap-3">
-            <Select label="Min Age" value={minAge.toString()} onValueChange={handleMinAgeChange} options={ageOptions} />
-            <Select label="Max Age" value={maxAge.toString()} onValueChange={handleMaxAgeChange} options={ageOptions} />
+            <Select label="Min Age" onValueChange={handleMinAgeChange} options={ageOptions} value={minAge.toString()} />
+            <Select label="Max Age" onValueChange={handleMaxAgeChange} options={ageOptions} value={maxAge.toString()} />
           </div>
         </div>
       </Container>

@@ -24,6 +24,7 @@ import {
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
+
 import SendReminderModal from '../offered/index/components/SendReminderModal'
 import ApplyVacancyModal from './ApplyVacancyModal'
 import BlacklistModal from './BlacklistModal'
@@ -33,12 +34,12 @@ import ViewHistoryModal from './ViewHistoryModal'
 import WithdrawModal from './WithdrawModal'
 
 interface MenuListProps {
-  options: string[]
   candidate?: any
   onApplyVacancy: (data: string) => void
+  options: string[]
 }
 
-const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy }) => {
+const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const toast = useToast()
@@ -140,58 +141,58 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
       case 'Process':
         return (
           <ProcessModal
-            show={showOptionModal}
+            applicant={{ candidate: { email: candidate.email, name: candidate.name, oid: candidate.candidateId }, oid: candidate.id }}
             onClose={() => setShowOptionModal(false)}
-            applicant={{ oid: candidate.id, candidate: { oid: candidate.candidateId, email: candidate.email, name: candidate.name } }}
+            show={showOptionModal}
           />
         )
       case 'View History':
-        return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
+        return <ViewHistoryModal candidate={candidate} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Move to Another Vacancy':
         return (
           <MoveAnotherVacancyModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
             candidate={candidate}
             onApplyVacancy={onApplyVacancy}
+            onClose={() => setShowOptionModal(false)}
+            show={showOptionModal}
           />
         )
       case 'Send Reminder':
-        return <SendReminderModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+        return <SendReminderModal onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Apply to Vacancy':
         return (
           <ApplyVacancyModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
             candidate={candidate}
             onApplyVacancy={onApplyVacancy}
+            onClose={() => setShowOptionModal(false)}
+            show={showOptionModal}
           />
         )
       case 'Blacklist':
         return (
           <BlacklistModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
             candidate={candidate}
             onApplyVacancy={onApplyVacancy}
+            onClose={() => setShowOptionModal(false)}
+            show={showOptionModal}
           />
         )
       case 'Reject':
         return (
           <RejectModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
             candidate={candidate}
             onApplyVacancy={onApplyVacancy}
+            onClose={() => setShowOptionModal(false)}
+            show={showOptionModal}
           />
         )
       case 'Withdraw':
         return (
           <WithdrawModal
-            show={showOptionModal}
-            onClose={() => setShowOptionModal(false)}
             candidate={candidate}
             onApplyVacancy={onApplyVacancy}
+            onClose={() => setShowOptionModal(false)}
+            show={showOptionModal}
           />
         )
       default:
@@ -204,12 +205,12 @@ const MenuList: React.FC<MenuListProps> = ({ options, candidate, onApplyVacancy 
       <Menu as="div" className="relative">
         <Menu.Button
           as={Button}
-          color="primary"
-          variant="light"
-          size="small"
           block
           className="text-xs"
+          color="primary"
           disabled={candidate.status === 'Locked'}
+          size="small"
+          variant="light"
         >
           Action
         </Menu.Button>

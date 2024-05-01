@@ -6,6 +6,7 @@ import { payrollService } from '@/services'
 import { useAuthStore } from '@/store'
 import {} from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
+
 import Approver from './Approver'
 import ExportButton from './ExportButton'
 import StatisticCards from './StatisticCards'
@@ -18,26 +19,40 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
 
   const { user } = useAuthStore()
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(
     (params: IPaginationParam) => payrollService.fetchPayrollRequestResults(item.oid, params),
     { limit: 20 },
     search,
   )
 
   const pagination = usePagination({
+    params: { search },
     pathname: `/payroll/payroll-request/${item.oid}`,
     totalPage: pageData?.totalPages,
-    params: { search },
   })
 
   return (
     <div className="grid grid-cols-1 gap-3">
       <StatisticCards item={item} />
       <MainCard
+        body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
+        footer={pagination.render()}
         header={
           <MainCardHeader
-            title="Review Data"
-            subtitleLoading={typeof pageData?.totalElements !== 'number'}
+            actions={
+              <ExportButton oid={item.oid} title={item.name || ''} variant="light">
+                Export
+              </ExportButton>
+            }
+            onRefresh={onRefresh}
+            search={{
+              setValue: (e) => {
+                searchParams.set('search', e)
+                searchParams.delete('page')
+                setSearchParam(searchParams)
+              },
+              value: search || '',
+            }}
             subtitle={
               <>
                 You have{' '}
@@ -48,24 +63,10 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
                 in total
               </>
             }
-            actions={
-              <ExportButton variant="light" oid={item.oid} title={item.name || ''}>
-                Export
-              </ExportButton>
-            }
-            search={{
-              value: search || '',
-              setValue: (e) => {
-                searchParams.set('search', e)
-                searchParams.delete('page')
-                setSearchParam(searchParams)
-              },
-            }}
-            onRefresh={onRefresh}
+            subtitleLoading={typeof pageData?.totalElements !== 'number'}
+            title="Review Data"
           />
         }
-        body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
-        footer={pagination.render()}
       />
 
       {showApprover && item.approver?.oid === user?.employee?.oid && <Approver oid={item.oid} />}

@@ -5,13 +5,13 @@ import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type WithdrawModalProps = {
-  show?: boolean
   applicant?: IDataTableApplicant
   onClose?: () => void
   onUpdated?: () => void
+  show?: boolean
 }
 
-const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, applicant, onUpdated }) => {
+const WithdrawModal: React.FC<WithdrawModalProps> = ({ applicant, onClose, onUpdated, show }) => {
   const [selectReasonId, setSelectReasonId] = useState('')
   const [loading, setLoading] = useState(false)
   const [reasons, setReasons] = useState<IMasterReason[]>()
@@ -37,8 +37,8 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, applicant,
     try {
       await candidateService.withdraw({
         applicantId: applicant?.oid,
-        withdrawReasonId: selectedReason.oid,
         withdrawReason: selectedReason.name,
+        withdrawReasonId: selectedReason.oid,
       })
       onUpdated?.()
       onClose?.()
@@ -49,7 +49,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, applicant,
   }
 
   return (
-    <MainModal className="max-w-xl py-12" show={!!show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={!!show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Candidate Withdraw</h4>
         <p className="text-center">Please select the reason of why this candidate is Withdraw</p>
@@ -58,14 +58,14 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, applicant,
       {reasons && (
         <>
           <Select
-            label="Select Reason"
-            placeholder="Underqualified, Salary Expectation Too High"
-            options={reasons.map((el) => ({ value: el.oid, label: el.name }))}
             className="mb-3"
-            value={selectReasonId}
+            label="Select Reason"
             onChange={(v) => setSelectReasonId(String(v))}
+            options={reasons.map((el) => ({ label: el.name, value: el.oid }))}
+            placeholder="Underqualified, Salary Expectation Too High"
+            value={selectReasonId}
           />
-          <Button block color="primary" className="mx-auto" disabled={loading} loading={loading} onClick={handleSelectReason}>
+          <Button block className="mx-auto" color="primary" disabled={loading} loading={loading} onClick={handleSelectReason}>
             Submit
           </Button>
         </>
@@ -73,7 +73,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ show, onClose, applicant,
 
       {!reasons && (
         <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
+          <Spinner className="text-primary-600" height={40} />
         </div>
       )}
     </MainModal>

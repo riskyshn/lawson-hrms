@@ -1,14 +1,15 @@
 import { useLayout, useScrollDirection } from 'jobseeker-ui'
 import { useEffect, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import Container from './Container'
 
 type PropTypes = React.PropsWithChildren<{
-  distance: number
   containerClassName?: string
+  distance: number
 }>
 
-const ScrollVisibilityContainer: React.FC<PropTypes> = ({ children, distance, containerClassName }) => {
+const ScrollVisibilityContainer: React.FC<PropTypes> = ({ children, containerClassName, distance }) => {
   const { sidebarMini } = useLayout()
   const [isShow, setIsShow] = useState(false)
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null)

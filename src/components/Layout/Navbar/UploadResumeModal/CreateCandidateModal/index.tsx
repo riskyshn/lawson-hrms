@@ -2,15 +2,16 @@ import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Modal, ModalHeader, Stepper, useConfirm, useSteps, useToast } from 'jobseeker-ui'
 import React, { useState } from 'react'
+
 import EducationForm from './components/EducationForm'
 import ExperiencesForm from './components/ExperiencesForm'
 import PersonalInformationForm from './components/PersonalInformationForm'
 import formCreateToPayload from './utils/form-create-to-payload'
 
-const CreateCandidateModal: React.FC<{ show?: boolean; onClose?: () => void; onSubmited?: () => void }> = ({
-  show,
+const CreateCandidateModal: React.FC<{ onClose?: () => void; onSubmited?: () => void; show?: boolean }> = ({
   onClose,
   onSubmited,
+  show,
 }) => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 
@@ -18,12 +19,12 @@ const CreateCandidateModal: React.FC<{ show?: boolean; onClose?: () => void; onS
   const confirm = useConfirm()
 
   const [formValues, setFormValues] = useState<any>({
-    personalInformation: {},
     educations: {},
+    personalInformation: {},
     workingExperiences: {},
   })
 
-  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(3)
+  const { activeStep, handleNext, handlePrev, isLastStep } = useSteps(3)
 
   const handleStepSubmit = async (data: any) => {
     setFormValues(data)
@@ -45,27 +46,27 @@ const CreateCandidateModal: React.FC<{ show?: boolean; onClose?: () => void; onS
 
   const confirmBeforeClose = async () => {
     const confirmed = await confirm({
-      text: 'Want to close this form without saving.',
       cancelBtnColor: 'primary',
       confirmBtnColor: 'error',
       confirmBtnText: 'Yes, close it!',
+      text: 'Want to close this form without saving.',
     })
     if (confirmed) onClose?.()
   }
 
   return (
-    <Modal show={!!show} className="max-w-3xl">
-      <ModalHeader subTitle="Input candidate information by filling out candidate form" onClose={confirmBeforeClose}>
+    <Modal className="max-w-3xl" show={!!show}>
+      <ModalHeader onClose={confirmBeforeClose} subTitle="Input candidate information by filling out candidate form">
         Create Candidate
       </ModalHeader>
       <>
         <Stepper
-          className="p-3"
           activeStep={activeStep}
+          className="p-3"
           steps={[
-            { title: 'Personal Information', details: '' },
-            { title: 'Educations', details: '' },
-            { title: 'Experiences', details: '' },
+            { details: '', title: 'Personal Information' },
+            { details: '', title: 'Educations' },
+            { details: '', title: 'Experiences' },
           ]}
         />
 

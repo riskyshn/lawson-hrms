@@ -1,14 +1,14 @@
 interface INotification {
-  vacancy: string
   candidate: {
     name: string
     photoProfile: string
   }
+  companyId: string
+  createdAt: string
+  isRead: boolean
   message: string
-  type: string
   module: string
   oid: string
-  companyId: string
-  isRead: boolean
-  createdAt: string
+  type: string
+  vacancy: string
 }

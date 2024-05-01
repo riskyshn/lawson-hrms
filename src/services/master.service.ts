@@ -16,19 +16,19 @@ export const fetchCountries = (params: IPaginationParam, signal?: GenericAbortSi
   return axios.get<{ data: IPaginationResponse<IMasterCountry> }>(`/area/country`, { params, signal }).then(({ data }) => data.data)
 }
 
-export const fetchProvinces = (params: IPaginationParam & { country: string }, signal?: GenericAbortSignal) => {
+export const fetchProvinces = (params: { country: string } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IMasterProvince> }>(`/area/province`, { params, signal }).then(({ data }) => data.data)
 }
 
-export const fetchCities = (params: IPaginationParam & { province?: string }, signal?: GenericAbortSignal) => {
+export const fetchCities = (params: { province?: string } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IMasterCity> }>(`/area/city`, { params, signal }).then(({ data }) => data.data)
 }
 
-export const fetchDistricts = (params: IPaginationParam & { city: string }, signal?: GenericAbortSignal) => {
+export const fetchDistricts = (params: { city: string } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IMasterDistrict> }>(`/area/district`, { params, signal }).then(({ data }) => data.data)
 }
 
-export const fetchSubDistrict = (params: IPaginationParam & { district: string }, signal?: GenericAbortSignal) => {
+export const fetchSubDistrict = (params: { district: string } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios
     .get<{ data: IPaginationResponse<IMasterSubDistrict> }>(`/area/sub-district`, { params, signal })
     .then(({ data }) => data.data)
@@ -80,6 +80,6 @@ export const fetchFileTypes = () => {
  * Reasons
  *
  */
-export const fetchReasons = (params: IPaginationParam & { type: 'reject' | 'blacklist' | 'withdraw' }, signal?: GenericAbortSignal) => {
+export const fetchReasons = (params: { type: 'blacklist' | 'reject' | 'withdraw' } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: { content: Array<IMasterReason> } }>(`/reason`, { params, signal }).then((response) => response.data.data)
 }

@@ -4,15 +4,15 @@ import { GenericAbortSignal } from 'axios'
 
 const axios = createAxiosInstance({ baseURL: API_ATTENDANCE_BASE_URL, withAuth: true })
 
-type FetchAttendanceParams = IPaginationParam & {
+type FetchAttendanceParams = {
   attendance_group?: string
-  start_date?: string
-  end_date?: string
   branch_id?: string
-  is_late?: string
   employee_id?: string
+  end_date?: string
   is_in_office?: string
-}
+  is_late?: string
+  start_date?: string
+} & IPaginationParam
 
 /**
  * Schedule
@@ -98,16 +98,16 @@ export const downloadAttendance = (oid: string, payload: Record<string, any>) =>
  * Request Management
  *
  */
-export const fetchEmployeeLeave = (params: IPaginationParam & { employee_id: string; start_date?: string; end_date?: string }) => {
-  params = { start_date: '2024-01-01', end_date: '2030-01-01', ...params }
+export const fetchEmployeeLeave = (params: { employee_id: string; end_date?: string; start_date?: string } & IPaginationParam) => {
+  params = { end_date: '2030-01-01', start_date: '2024-01-01', ...params }
   return axios.get<{ data: IPaginationResponse<IEmployeeLeave> }>(`/employer/leave`, { params }).then((response) => response.data.data)
 }
 
 export const fetchEmployeeAttendanceHistories = (
   oid: string,
-  params?: IPaginationParam & { attendance_group?: 'overtime' | 'clock' | 'client_visit'; start_date?: string; end_date?: string },
+  params?: { attendance_group?: 'client_visit' | 'clock' | 'overtime'; end_date?: string; start_date?: string } & IPaginationParam,
 ) => {
-  params = { start_date: '2024-01-01', end_date: '2030-01-01', ...params }
+  params = { end_date: '2030-01-01', start_date: '2024-01-01', ...params }
   return axios
     .get<{
       data: IPaginationResponse<{

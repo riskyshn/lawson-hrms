@@ -8,14 +8,14 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object({
-  letterNumber: yup.string().required().label('Letter Number'),
-  position: YUP_OPTION_OBJECT.required().label('Position'),
+  city: YUP_OPTION_OBJECT.required().label('City'),
   department: YUP_OPTION_OBJECT.required().label('Depantment'),
+  expiryDate: yup.date().label('Expiry Date'),
   jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
   jobType: YUP_OPTION_OBJECT.required().label('Job Type'),
-  city: YUP_OPTION_OBJECT.required().label('City'),
   joinDate: yup.date().required().label('Join Date'),
-  expiryDate: yup.date().label('Expiry Date'),
+  letterNumber: yup.string().required().label('Letter Number'),
+  position: YUP_OPTION_OBJECT.required().label('Position'),
 })
 
 const EmployeeDetailsForm: React.FC<{
@@ -24,15 +24,15 @@ const EmployeeDetailsForm: React.FC<{
   handleSubmit: (data: any) => void
 }> = (props) => {
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+    setValue,
     trigger,
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
+    resolver: yupResolver(schema),
   })
   const onSubmit = handleSubmit(props.handleSubmit)
 
@@ -45,112 +45,112 @@ const EmployeeDetailsForm: React.FC<{
         </div>
 
         <Input
+          error={errors.letterNumber?.message}
           label="Letter Number"
           labelRequired
           placeholder="Letter Number"
-          error={errors.letterNumber?.message}
           {...register('letterNumber')}
         />
         <AsyncSelect
-          label="Position"
-          placeholder="Select Position"
-          labelRequired
           action={organizationService.fetchPositions}
           converter={emmbedToOptions}
-          name="position"
           error={errors.position?.message}
-          value={getValues('position')}
+          label="Position"
+          labelRequired
+          name="position"
           onValueChange={(v) => {
             setValue('position', v)
             trigger('position')
           }}
+          placeholder="Select Position"
+          value={getValues('position')}
         />
         <AsyncSelect
-          label="Deparment"
-          placeholder="Select Deparment"
-          labelRequired
           action={organizationService.fetchDepartments}
           converter={emmbedToOptions}
-          name="department"
           error={errors.department?.message}
-          value={getValues('department')}
+          label="Deparment"
+          labelRequired
+          name="department"
           onValueChange={(v) => {
             setValue('department', v)
             trigger('department')
           }}
+          placeholder="Select Deparment"
+          value={getValues('department')}
         />
         <AsyncSelect
-          label="Job Level"
-          placeholder="Select Job Level"
-          labelRequired
           action={organizationService.fetchJobLevels}
           converter={emmbedToOptions}
-          name="jobLevel"
           error={errors.jobLevel?.message}
-          value={getValues('jobLevel')}
+          label="Job Level"
+          labelRequired
+          name="jobLevel"
           onValueChange={(v) => {
             setValue('jobLevel', v)
             trigger('jobLevel')
           }}
+          placeholder="Select Job Level"
+          value={getValues('jobLevel')}
         />
         <AsyncSelect
-          label="Employment Type"
-          placeholder="Select Employment Type"
-          labelRequired
           action={organizationService.fetchJobLevels}
           converter={emmbedToOptions}
-          name="jobType"
           error={errors.jobType?.message}
-          value={getValues('jobType')}
+          label="Employment Type"
+          labelRequired
+          name="jobType"
           onValueChange={(v) => {
             setValue('jobType', v)
             trigger('jobType')
           }}
+          placeholder="Select Employment Type"
+          value={getValues('jobType')}
         />
         <AsyncSelect
-          label="City"
-          placeholder="Select City"
-          labelRequired
-          searchMinCharacter={3}
           action={masterService.fetchCities}
           converter={emmbedToOptions}
-          name="cityId"
           error={errors.city?.message}
-          value={getValues('city')}
+          label="City"
+          labelRequired
+          name="cityId"
           onChange={(v) => {
             setValue('city', v)
             trigger('city')
           }}
+          placeholder="Select City"
+          searchMinCharacter={3}
+          value={getValues('city')}
         />
         <InputDate
-          label="Join Date"
-          placeholder="Join Date"
-          labelRequired
-          error={errors.joinDate?.message}
-          popoverDirection="up"
           displayFormat="DD/MM/YYYY"
-          value={getValues('joinDate')}
+          error={errors.joinDate?.message}
+          label="Join Date"
+          labelRequired
           onValueChange={(v) => {
             setValue('joinDate', v)
             trigger('joinDate')
           }}
+          placeholder="Join Date"
+          popoverDirection="up"
+          value={getValues('joinDate')}
         />
         <InputDate
-          label="Expiry Date"
-          placeholder="Expiry Date"
-          error={errors.expiryDate?.message}
-          popoverDirection="up"
           displayFormat="DD/MM/YYYY"
-          value={getValues('expiryDate')}
+          error={errors.expiryDate?.message}
+          label="Expiry Date"
           onValueChange={(v) => {
             setValue('expiryDate', v)
             trigger('expiryDate')
           }}
+          placeholder="Expiry Date"
+          popoverDirection="up"
+          value={getValues('expiryDate')}
         />
       </CardBody>
 
       <CardFooter>
-        <Button type="submit" color="primary" className="w-32">
+        <Button className="w-32" color="primary" type="submit">
           Next
         </Button>
       </CardFooter>

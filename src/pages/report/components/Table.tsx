@@ -19,6 +19,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
   return (
     <>
       <MainTable
+        bodyItems={bodyItems}
         headerItems={[
           { children: 'Job', className: 'text-center' },
           { children: 'Q1', className: 'text-center' },
@@ -26,7 +27,6 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
           { children: 'Q3', className: 'text-center' },
           { children: 'Q4', className: 'text-center' },
         ]}
-        bodyItems={bodyItems}
         loading={loading}
       />
     </>

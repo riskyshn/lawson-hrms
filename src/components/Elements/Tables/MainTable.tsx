@@ -3,33 +3,34 @@ import { Button } from 'jobseeker-ui'
 import { InboxIcon, LucideIcon } from 'lucide-react'
 import React from 'react'
 import { twJoin, twMerge } from 'tailwind-merge'
+
 import LoadingScreen from '../Layout/LoadingScreen'
 
-export type MainTableProps = Omit<JSX.IntrinsicElements['table'], 'children'> & {
-  loading?: boolean
-  headerItems: Array<JSX.IntrinsicElements['th']>
+export type MainTableProps = {
   bodyItems: Array<
-    JSX.IntrinsicElements['tr'] & {
+    {
       items?: Array<JSX.IntrinsicElements['td']>
-    }
+    } & JSX.IntrinsicElements['tr']
   >
-}
+  headerItems: Array<JSX.IntrinsicElements['th']>
+  loading?: boolean
+} & Omit<JSX.IntrinsicElements['table'], 'children'>
 
 export type ActionMenuProps = React.PropsWithChildren<{
-  up?: boolean
-  text?: string
   loading?: boolean
   onClick?: React.MouseEventHandler<HTMLButtonElement>
+  text?: string
+  up?: boolean
 }>
 
 export type ActionMenuItemProps = {
-  text: string
+  action?: React.MouseEventHandler<HTMLButtonElement>
   icon: LucideIcon
   iconClassName?: string
-  action?: React.MouseEventHandler<HTMLButtonElement>
+  text: string
 }
 
-export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bodyItems, loading, ...props }) => {
+export const MainTable: React.FC<MainTableProps> = ({ bodyItems, className, headerItems, loading, ...props }) => {
   return (
     <div className="flex min-h-[500px] w-full flex-col">
       {!loading && (
@@ -37,15 +38,15 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
           <thead>
             <tr>
               {headerItems.map(({ className, ...props }, i) => (
-                <th key={i} className={twMerge('border-b p-3 text-center text-xs', className)} {...props} />
+                <th className={twMerge('border-b p-3 text-center text-xs', className)} key={i} {...props} />
               ))}
             </tr>
           </thead>
           <tbody>
             {!loading &&
-              bodyItems.map(({ className, items, children, ...props }, i) => (
-                <tr key={i} className={twMerge(className, 'odd:bg-gray-50')} {...props}>
-                  {items?.map(({ className, ...props }, i) => <td key={i} className={twMerge('p-3 text-sm', className)} {...props} />)}
+              bodyItems.map(({ children, className, items, ...props }, i) => (
+                <tr className={twMerge(className, 'odd:bg-gray-50')} key={i} {...props}>
+                  {items?.map(({ className, ...props }, i) => <td className={twMerge('p-3 text-sm', className)} key={i} {...props} />)}
                   {children}
                 </tr>
               ))}
@@ -53,7 +54,7 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
         </table>
       )}
 
-      <LoadingScreen show={loading} className="flex-1 p-0" spinnerSize={80} strokeWidth={1} />
+      <LoadingScreen className="flex-1 p-0" show={loading} spinnerSize={80} strokeWidth={1} />
 
       {!loading && bodyItems.length === 0 && (
         <div className="flex flex-1 flex-col items-center justify-center">
@@ -69,10 +70,10 @@ export const MainTable: React.FC<MainTableProps> = ({ className, headerItems, bo
   )
 }
 
-export const ActionMenu: React.FC<ActionMenuProps> = ({ loading, onClick, children, up, text = 'Action' }) => {
+export const ActionMenu: React.FC<ActionMenuProps> = ({ children, loading, onClick, text = 'Action', up }) => {
   return (
     <Menu as="div" className="relative">
-      <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs" onClick={onClick}>
+      <Menu.Button as={Button} block className="text-xs" color="primary" onClick={onClick} size="small" variant="light">
         {text}
       </Menu.Button>
       <Menu.Items
@@ -81,22 +82,22 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ loading, onClick, childr
           up && 'bottom-full',
         )}
       >
-        {loading && <LoadingScreen show className="h-64 py-0" />}
+        {loading && <LoadingScreen className="h-64 py-0" show />}
         {!loading && children}
       </Menu.Items>
     </Menu>
   )
 }
 
-export const ActionMenuItem: React.FC<ActionMenuItemProps> = ({ text, icon, iconClassName, action }) => {
+export const ActionMenuItem: React.FC<ActionMenuItemProps> = ({ action, icon, iconClassName, text }) => {
   const IconTag = icon
   return (
     <Menu.Item>
       {({ active }) => (
         <button
-          type="button"
           className={twJoin(active && 'bg-primary-100', 'group flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm')}
           onClick={action}
+          type="button"
         >
           <IconTag className={twMerge('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400', iconClassName)} />
           {text}

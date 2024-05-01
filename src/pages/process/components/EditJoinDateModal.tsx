@@ -12,21 +12,21 @@ const schema = yup.object({
 })
 
 type PropTypes = {
-  show?: boolean
   applicant?: IDataTableApplicant
   onClose?: () => void
   onUpdated?: () => void
+  show?: boolean
 }
 
-const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose, onUpdated }) => {
+const EditJoinDateModal: React.FC<PropTypes> = ({ applicant, onClose, onUpdated, show }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     setValue,
-    getValues,
-    formState: { errors },
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
@@ -57,28 +57,28 @@ const EditJoinDateModal: React.FC<PropTypes> = ({ show, applicant, onClose, onUp
   })
 
   return (
-    <Modal as="form" show={!!show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Edit join date for this candidate" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={!!show}>
+      <ModalHeader onClose={onClose} subTitle="Edit join date for this candidate">
         Edit Join Date
       </ModalHeader>
       <div className="p-3">
         <InputDate
+          displayFormat="DD/MM/YYYY"
+          error={errors.joinDate?.message}
           label="Join Date"
           labelRequired
-          error={errors.joinDate?.message}
-          displayFormat="DD/MM/YYYY"
-          value={getValues('joinDate')}
           onValueChange={(v) => {
             setValue('joinDate', v)
             trigger('joinDate')
           }}
+          value={getValues('joinDate')}
         />
       </div>
       <ModalFooter className="gap-3">
-        <Button type="button" color="error" variant="light" className="min-w-24" disabled={loading} onClick={onClose}>
+        <Button className="min-w-24" color="error" disabled={loading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="min-w-24" disabled={loading} loading={loading}>
+        <Button className="min-w-24" color="primary" disabled={loading} loading={loading} type="submit">
           Save Changes
         </Button>
       </ModalFooter>

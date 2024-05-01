@@ -5,16 +5,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, Spinner } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+
 import ComponentItem from './ComponentItem'
 import { componentDataSchema, defaultComponentValue } from './shared'
 
 const ComponentsDataForm: React.FC<{
-  defaultValue: any
   allFormData?: any
+  defaultValue: any
   handlePrev: () => void
   handleSubmit: (data: any) => void
-  isLoading?: boolean
   isEdit?: boolean
+  isLoading?: boolean
 }> = (props) => {
   const form = useForm({ resolver: yupResolver(componentDataSchema) })
 
@@ -78,7 +79,7 @@ const ComponentsDataForm: React.FC<{
     <Card as="form" onSubmit={onSubmit}>
       {(!componentData || !bpjsComponent) && (
         <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
+          <Spinner className="text-primary-600" height={40} />
         </div>
       )}
       {componentData && bpjsComponent && (
@@ -90,23 +91,23 @@ const ComponentsDataForm: React.FC<{
             </div>
             <h3 className="text-sm font-semibold">Benefits</h3>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent.paidByEmployer?.jht?.rate}%`} />
-              <Input label="Jaminan Kecelakaan Kerja (JKK)" disabled value={props.allFormData?.payroll?.jkk + '%'} />
+              <Input disabled label="Jaminan Hari Tua (JHT)" value={`${bpjsComponent.paidByEmployer?.jht?.rate}%`} />
+              <Input disabled label="Jaminan Kecelakaan Kerja (JKK)" value={props.allFormData?.payroll?.jkk + '%'} />
             </div>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Kematian (JKM)" disabled value={`${bpjsComponent.paidByEmployer?.jkm?.rate}%`} />
+              <Input disabled label="Jaminan Kematian (JKM)" value={`${bpjsComponent.paidByEmployer?.jkm?.rate}%`} />
               <Input
-                label="Jaminan Pensiun (JP)"
                 disabled
-                value={`${bpjsComponent.paidByEmployer?.jp?.rate}%`}
                 help={`JP Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployer?.jp?.maxCap)}*`}
+                label="Jaminan Pensiun (JP)"
+                value={`${bpjsComponent.paidByEmployer?.jp?.rate}%`}
               />
             </div>
             <Input
-              label="Jaminan Kesehatan (KS)"
               disabled
-              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent.paidByEmployer?.jks?.rate + '%'}
               help={`KS Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployer?.jks?.maxCap)}*`}
+              label="Jaminan Kesehatan (KS)"
+              value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent.paidByEmployer?.jks?.rate + '%'}
             />
           </CardBody>
 
@@ -117,17 +118,17 @@ const ComponentsDataForm: React.FC<{
 
               return (
                 <ComponentItem
-                  key={i}
-                  index={i}
-                  item={el}
-                  type="benefits"
                   components={remainingComponents}
                   form={form}
+                  index={i}
+                  item={el}
+                  key={i}
                   onRemove={() => handleRemoveBenefit(i)}
+                  type="benefits"
                 />
               )
             })}
-            <Button type="button" block color="primary" variant="light" onClick={handleAddBenefit}>
+            <Button block color="primary" onClick={handleAddBenefit} type="button" variant="light">
               Add Component
             </Button>
           </CardBody>
@@ -135,21 +136,21 @@ const ComponentsDataForm: React.FC<{
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-sm font-semibold">Deduction</h3>
             <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-              <Input label="Jaminan Hari Tua (JHT)" disabled value={`${bpjsComponent.paidByEmployee?.jht?.rate}%`} />
+              <Input disabled label="Jaminan Hari Tua (JHT)" value={`${bpjsComponent.paidByEmployee?.jht?.rate}%`} />
               <Input
-                label="Jaminan Pensiun (JP)"
                 disabled
-                value={`${bpjsComponent.paidByEmployee?.jp?.rate}%`}
                 help={`JP Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployee?.jp?.maxCap)}*`}
+                label="Jaminan Pensiun (JP)"
+                value={`${bpjsComponent.paidByEmployee?.jp?.rate}%`}
               />
             </div>
 
             <Input
-              label="Jaminan Kesehatan (KS)"
               disabled
+              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployee?.jks?.maxCap)}*`}
+              label="Jaminan Kesehatan (KS)"
               required
               value={props.allFormData?.payroll?.notParticipateBpjs ? '0%' : bpjsComponent.paidByEmployee?.jks?.rate + '%'}
-              help={`KS Maximum Cap ${numberToCurrency(bpjsComponent.paidByEmployee?.jks?.maxCap)}*`}
             />
           </CardBody>
 
@@ -160,26 +161,26 @@ const ComponentsDataForm: React.FC<{
 
               return (
                 <ComponentItem
-                  key={i}
-                  index={i}
-                  item={el}
-                  type="deductions"
                   components={remainingComponents}
                   form={form}
+                  index={i}
+                  item={el}
+                  key={i}
                   onRemove={() => handleRemoveDeduction(i)}
+                  type="deductions"
                 />
               )
             })}
-            <Button type="button" block color="primary" variant="light" onClick={handleAddDeduction}>
+            <Button block color="primary" onClick={handleAddDeduction} type="button" variant="light">
               Add Component
             </Button>
           </CardBody>
 
           <CardFooter className="gap-3">
-            <Button type="button" color="primary" variant="light" className="w-32" disabled={props.isLoading} onClick={props.handlePrev}>
+            <Button className="w-32" color="primary" disabled={props.isLoading} onClick={props.handlePrev} type="button" variant="light">
               Prev
             </Button>
-            <Button type="submit" color="primary" className="w-32" disabled={props.isLoading} loading={props.isLoading}>
+            <Button className="w-32" color="primary" disabled={props.isLoading} loading={props.isLoading} type="submit">
               {props.isEdit ? 'Update' : 'Submit'}
             </Button>
           </CardFooter>

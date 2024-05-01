@@ -27,14 +27,14 @@ const fetchData = async (fetchFunction: any) => {
   try {
     const response = await fetchFunction()
     return {
-      labels: response?.map((item: any) => item.label) || [],
       data: response.map((item: any) => item.total),
+      labels: response?.map((item: any) => item.label) || [],
     }
   } catch (error: any) {
     console.error('Error fetching data:', error.message)
     return {
-      labels: [],
       data: [],
+      labels: [],
     }
   }
 }
@@ -51,12 +51,12 @@ export const Component: React.FC = () => {
   const [isDepartmentLoading, setIsDepartmentLoading] = useState(true)
 
   const [filterDates, setFilterDates] = useState<any>({
-    province: { startDate: defaultStartDate, endDate: todayFormatted },
-    age: { startDate: defaultStartDate, endDate: todayFormatted },
-    education: { startDate: defaultStartDate, endDate: todayFormatted },
-    gender: { startDate: defaultStartDate, endDate: todayFormatted },
-    experience: { startDate: defaultStartDate, endDate: todayFormatted },
-    department: { startDate: defaultStartDate, endDate: todayFormatted },
+    age: { endDate: todayFormatted, startDate: defaultStartDate },
+    department: { endDate: todayFormatted, startDate: defaultStartDate },
+    education: { endDate: todayFormatted, startDate: defaultStartDate },
+    experience: { endDate: todayFormatted, startDate: defaultStartDate },
+    gender: { endDate: todayFormatted, startDate: defaultStartDate },
+    province: { endDate: todayFormatted, startDate: defaultStartDate },
   })
 
   const [searchParams, setSearchParam] = useSearchParams()
@@ -68,43 +68,43 @@ export const Component: React.FC = () => {
   const [department, setDepartment] = useOptionSearchParam('department')
 
   type ChartData = {
-    province: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
-    age: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
-    education: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
-    gender: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
-    experience: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
-    department: { labels: string[]; datasets: { data: number[]; backgroundColor: string[] }[] }
+    age: { datasets: { backgroundColor: string[]; data: number[] }[]; labels: string[] }
+    department: { datasets: { backgroundColor: string[]; data: number[] }[]; labels: string[] }
+    education: { datasets: { backgroundColor: string[]; data: number[] }[]; labels: string[] }
+    experience: { datasets: { backgroundColor: string[]; data: number[] }[]; labels: string[] }
+    gender: { datasets: { backgroundColor: string[]; data: number[] }[]; labels: string[] }
+    province: { datasets: { backgroundColor: string[]; data: number[] }[]; labels: string[] }
   }
 
   const [chartData, setChartData] = useState<ChartData>({
-    province: { labels: [], datasets: [] },
-    age: { labels: [], datasets: [] },
-    education: { labels: [], datasets: [] },
-    gender: { labels: [], datasets: [] },
-    experience: { labels: [], datasets: [] },
-    department: { labels: [], datasets: [] },
+    age: { datasets: [], labels: [] },
+    department: { datasets: [], labels: [] },
+    education: { datasets: [], labels: [] },
+    experience: { datasets: [], labels: [] },
+    gender: { datasets: [], labels: [] },
+    province: { datasets: [], labels: [] },
   })
 
   const fetchProvinceData = async () => {
     setIsProvinceLoading(true)
     const provinceData = await fetchData(() =>
       reportService.fetchProvince({
-        start_date: filterDates.province.startDate,
         end_date: filterDates.province.endDate,
         province: province?.value,
+        start_date: filterDates.province.startDate,
       }),
     )
 
     setChartData((prevChartData) => ({
       ...prevChartData,
       province: {
-        labels: provinceData.labels,
         datasets: [
           {
-            data: provinceData.data,
             backgroundColor: backgroundColors.slice(0, provinceData.data.length),
+            data: provinceData.data,
           },
         ],
+        labels: provinceData.labels,
       },
     }))
 
@@ -115,22 +115,22 @@ export const Component: React.FC = () => {
     setIsAgeLoading(true)
     const ageData = await fetchData(() =>
       reportService.fetchAge({
-        start_date: filterDates.age.startDate,
         end_date: filterDates.age.endDate,
         range: age?.value,
+        start_date: filterDates.age.startDate,
       }),
     )
 
     setChartData((prevChartData) => ({
       ...prevChartData,
       age: {
-        labels: ageData.labels,
         datasets: [
           {
-            data: ageData.data,
             backgroundColor: backgroundColors.slice(0, ageData.data.length),
+            data: ageData.data,
           },
         ],
+        labels: ageData.labels,
       },
     }))
 
@@ -141,22 +141,22 @@ export const Component: React.FC = () => {
     setIsEducationLoading(true)
     const educationData = await fetchData(() =>
       reportService.fetchEducation({
-        start_date: filterDates.education.startDate,
-        end_date: filterDates.education.endDate,
         education: education?.value,
+        end_date: filterDates.education.endDate,
+        start_date: filterDates.education.startDate,
       }),
     )
 
     setChartData((prevChartData) => ({
       ...prevChartData,
       education: {
-        labels: educationData.labels,
         datasets: [
           {
-            data: educationData.data,
             backgroundColor: backgroundColors.slice(0, educationData.data.length),
+            data: educationData.data,
           },
         ],
+        labels: educationData.labels,
       },
     }))
 
@@ -167,22 +167,22 @@ export const Component: React.FC = () => {
     setIsGenderLoading(true)
     const genderData = await fetchData(() =>
       reportService.fetchGender({
-        start_date: filterDates.gender.startDate,
         end_date: filterDates.gender.endDate,
         gender: gender?.value,
+        start_date: filterDates.gender.startDate,
       }),
     )
 
     setChartData((prevChartData) => ({
       ...prevChartData,
       gender: {
-        labels: genderData.labels,
         datasets: [
           {
-            data: genderData.data,
             backgroundColor: backgroundColors.slice(0, genderData.data.length),
+            data: genderData.data,
           },
         ],
+        labels: genderData.labels,
       },
     }))
 
@@ -193,22 +193,22 @@ export const Component: React.FC = () => {
     setIsExperienceLoading(true)
     const experienceData = await fetchData(() =>
       reportService.fetchExperience({
-        start_date: filterDates.experience.startDate,
         end_date: filterDates.experience.endDate,
         range: experience?.value,
+        start_date: filterDates.experience.startDate,
       }),
     )
 
     setChartData((prevChartData) => ({
       ...prevChartData,
       experience: {
-        labels: experienceData.labels,
         datasets: [
           {
-            data: experienceData.data,
             backgroundColor: backgroundColors.slice(0, experienceData.data.length),
+            data: experienceData.data,
           },
         ],
+        labels: experienceData.labels,
       },
     }))
 
@@ -219,22 +219,22 @@ export const Component: React.FC = () => {
     setIsDepartmentLoading(true)
     const departmentData = await fetchData(() =>
       reportService.fetchDepartment({
-        start_date: filterDates.department.startDate,
-        end_date: filterDates.department.endDate,
         department: department?.value,
+        end_date: filterDates.department.endDate,
+        start_date: filterDates.department.startDate,
       }),
     )
 
     setChartData((prevChartData) => ({
       ...prevChartData,
       department: {
-        labels: departmentData.labels,
         datasets: [
           {
-            data: departmentData.data,
             backgroundColor: backgroundColors.slice(0, departmentData.data.length),
+            data: departmentData.data,
           },
         ],
+        labels: departmentData.labels,
       },
     }))
 
@@ -275,7 +275,7 @@ export const Component: React.FC = () => {
 
       setFilterDates((prevFilterDates: any) => ({
         ...prevFilterDates,
-        [chartType]: { startDate: formattedStartDate, endDate: formattedEndDate },
+        [chartType]: { endDate: formattedEndDate, startDate: formattedStartDate },
       }))
     }
   }
@@ -287,51 +287,54 @@ export const Component: React.FC = () => {
         <h2 className="mb-2 text-lg font-semibold">{title}</h2>
         <BaseInputDateRange
           className="mb-2"
-          placeholder="Start - End Date"
           onValueChange={(date) => handleDateChange(date, chartType)}
+          placeholder="Start - End Date"
           value={filterDates[chartType]}
         />
         {chartType === 'province' ? (
           <AsyncSelect
-            className="mb-2 text-left"
-            placeholder="Province"
-            withReset
             action={masterService.fetchProvinces}
-            params={{ country: 'Indonesia' }}
+            className="mb-2 text-left"
             converter={emmbedToOptions}
             name="province"
-            value={province}
             onValueChange={setProvince}
+            params={{ country: 'Indonesia' }}
+            placeholder="Province"
+            value={province}
+            withReset
           />
         ) : chartType === 'education' ? (
           <AsyncSelect
-            className="text-left"
-            placeholder="All Education"
-            withReset
             action={masterService.fetchEducationLevel}
+            className="text-left"
             converter={emmbedToOptions}
             name="education"
-            value={education}
             onValueChange={setEducation}
+            placeholder="All Education"
+            value={education}
+            withReset
           />
         ) : chartType === 'gender' ? (
           <AsyncSelect
-            className="text-left"
-            placeholder="Select Gender"
-            withReset
-            hideSearch
-            disableInfiniteScroll
             action={masterService.fetchGenders}
+            className="text-left"
             converter={emmbedToOptions}
+            disableInfiniteScroll
+            hideSearch
             name="gender"
-            value={gender}
             onValueChange={setGender}
+            placeholder="Select Gender"
+            value={gender}
+            withReset
           />
         ) : chartType === 'age' ? (
           <Select
             className="text-left"
-            placeholder="Select Age"
-            withReset
+            name="age"
+            onChange={(e) => {
+              searchParams.set('age', e)
+              setSearchParam(searchParams)
+            }}
             options={[
               { label: '17-23', value: '17-23' },
               { label: '24-29', value: '24-29' },
@@ -341,18 +344,18 @@ export const Component: React.FC = () => {
               { label: '48-53', value: '48-53' },
               { label: '>=58', value: '>=58' },
             ]}
-            name="age"
+            placeholder="Select Age"
             value={age?.value}
-            onChange={(e) => {
-              searchParams.set('age', e)
-              setSearchParam(searchParams)
-            }}
+            withReset
           />
         ) : chartType === 'experience' ? (
           <Select
             className="text-left"
-            placeholder="Select Experience"
-            withReset
+            name="experience"
+            onChange={(e: any) => {
+              searchParams.set('experience', e)
+              setSearchParam(searchParams)
+            }}
             options={[
               { label: '1-3', value: '1-3' },
               { label: '4-6', value: '4-6' },
@@ -361,33 +364,30 @@ export const Component: React.FC = () => {
               { label: '13-15', value: '13-15' },
               { label: '16-19', value: '16-19' },
             ]}
-            name="experience"
+            placeholder="Select Experience"
             value={experience?.value}
-            onChange={(e: any) => {
-              searchParams.set('experience', e)
-              setSearchParam(searchParams)
-            }}
+            withReset
           />
         ) : chartType === 'department' ? (
           <AsyncSelect
-            className="text-left"
-            placeholder="All Department"
-            withReset
             action={organizationService.fetchDepartments}
+            className="text-left"
             converter={emmbedToOptions}
             name="department"
-            value={department}
             onValueChange={setDepartment}
+            placeholder="All Department"
+            value={department}
+            withReset
           />
         ) : (
-          <Select placeholder={`All ${title}`} options={placeholderOptions} className="mb-2" />
+          <Select className="mb-2" options={placeholderOptions} placeholder={`All ${title}`} />
         )}
 
         {chartType === 'province' && (
           <>
             {isProvinceLoading ? (
               <div className="flex h-64 items-center justify-center">
-                <Spinner height={20} className="text-white-600" />
+                <Spinner className="text-white-600" height={20} />
               </div>
             ) : isNoData ? (
               <div className="flex h-64 items-center justify-center">
@@ -403,7 +403,7 @@ export const Component: React.FC = () => {
           <>
             {isEducationLoading ? (
               <div className="flex h-64 items-center justify-center">
-                <Spinner height={20} className="text-white-600" />
+                <Spinner className="text-white-600" height={20} />
               </div>
             ) : isNoData ? (
               <div className="flex h-64 items-center justify-center">
@@ -419,7 +419,7 @@ export const Component: React.FC = () => {
           <>
             {isGenderLoading ? (
               <div className="flex h-64 items-center justify-center">
-                <Spinner height={20} className="text-white-600" />
+                <Spinner className="text-white-600" height={20} />
               </div>
             ) : isNoData ? (
               <div className="flex h-64 items-center justify-center">
@@ -435,7 +435,7 @@ export const Component: React.FC = () => {
           <>
             {isAgeLoading ? (
               <div className="flex h-64 items-center justify-center">
-                <Spinner height={20} className="text-white-600" />
+                <Spinner className="text-white-600" height={20} />
               </div>
             ) : isNoData ? (
               <div className="flex h-64 items-center justify-center">
@@ -451,7 +451,7 @@ export const Component: React.FC = () => {
           <>
             {isExperienceLoading ? (
               <div className="flex h-64 items-center justify-center">
-                <Spinner height={20} className="text-white-600" />
+                <Spinner className="text-white-600" height={20} />
               </div>
             ) : isNoData ? (
               <div className="flex h-64 items-center justify-center">
@@ -467,7 +467,7 @@ export const Component: React.FC = () => {
           <>
             {isDepartmentLoading ? (
               <div className="flex h-64 items-center justify-center">
-                <Spinner height={20} className="text-white-600" />
+                <Spinner className="text-white-600" height={20} />
               </div>
             ) : isNoData ? (
               <div className="flex h-64 items-center justify-center">

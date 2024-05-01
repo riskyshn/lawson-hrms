@@ -4,6 +4,7 @@ import { vacancyService } from '@/services'
 import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
 import ProcessForm from '../../components/ProcessForm'
 import RequirementsForm from '../../components/RequirementsForm'
 import VacancyInformationForm from '../../components/VacancyInformationForm'
@@ -19,14 +20,14 @@ export const Component: React.FC = () => {
 
   const { vacancy } = useVacancyPage()
   const [formValues, setFormValues] = useState<any>({
-    vacancyInformation: {},
     process: {},
     requirements: {},
+    vacancyInformation: {},
   })
 
-  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(3, {
+  const { activeStep, handleNext, handlePrev, isLastStep } = useSteps(3, {
     onNext() {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ behavior: 'smooth', top: 0 })
     },
   })
 
@@ -58,38 +59,38 @@ export const Component: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Edit Job' }]}
-        title="Edit Job Posting"
         actions={
-          <Button as={Link} to="/job/management" variant="light" color="error">
+          <Button as={Link} color="error" to="/job/management" variant="light">
             Cancel
           </Button>
         }
+        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Edit Job' }]}
+        title="Edit Job Posting"
       />
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         {
           <Stepper
             activeStep={activeStep}
             steps={[
-              { title: 'Vacancy Information', details: 'Setup Your Vacancy' },
-              { title: 'Process', details: 'Set Requirement Process' },
-              { title: 'Requirements', details: 'Set Requirements' },
+              { details: 'Setup Your Vacancy', title: 'Vacancy Information' },
+              { details: 'Set Requirement Process', title: 'Process' },
+              { details: 'Set Requirements', title: 'Requirements' },
             ]}
           />
         }
 
         {!isLoaded && (
           <div className="flex items-center justify-center py-48">
-            <Spinner height={40} className="text-primary-600" />
+            <Spinner className="text-primary-600" height={40} />
           </div>
         )}
 
         {isLoaded && activeStep === 0 && (
           <VacancyInformationForm
-            isRequisition
             defaultValue={formValues.vacancyInformation}
             handlePrev={handlePrev}
             handleSubmit={(vacancyInformation) => handleStepSubmit({ ...formValues, vacancyInformation })}
+            isRequisition
           />
         )}
 
@@ -103,11 +104,11 @@ export const Component: React.FC = () => {
 
         {isLoaded && activeStep === 2 && (
           <RequirementsForm
-            isUpdate
             defaultValue={formValues.requirements}
             handlePrev={handlePrev}
             handleSubmit={(requirements) => handleStepSubmit({ ...formValues, requirements })}
             isLoading={isSubmitLoading}
+            isUpdate
           />
         )}
       </Container>

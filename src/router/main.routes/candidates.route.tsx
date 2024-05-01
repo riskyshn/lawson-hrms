@@ -10,90 +10,90 @@ import CandidateShortlistedPage from '@/pages/candidates/shortlisted/index/Candi
 import CandidateWithdrawPage from '@/pages/candidates/withdraw/index/CandidateWithdrawPage'
 
 const candidatesRoute: RouteObject = {
-  path: 'candidates',
-  name: 'Candidates',
   children: [
     {
-      path: 'pool',
-      name: 'Candidate Pool',
       children: [
         {
-          path: '',
           element: <CandidatePoolPage />,
+          path: '',
         },
       ],
+      name: 'Candidate Pool',
+      path: 'pool',
     },
     {
-      path: 'management',
-      name: 'Candidate Management',
       children: [
         {
-          path: '',
           element: <CandidateManagementPage />,
+          path: '',
         },
       ],
+      name: 'Candidate Management',
+      path: 'management',
     },
     {
-      path: 'shortlisted',
-      name: 'Candidate Shortlisted',
       children: [
         {
-          path: '',
           element: <CandidateShortlistedPage />,
+          path: '',
         },
       ],
+      name: 'Candidate Shortlisted',
+      path: 'shortlisted',
     },
     {
-      path: 'rejected',
-      name: 'Candidate Rejected',
       children: [
         {
-          path: '',
           element: <CandidateRejectedPage />,
+          path: '',
         },
       ],
+      name: 'Candidate Rejected',
+      path: 'rejected',
     },
     {
-      path: 'withdraw',
-      name: 'Candidate Withdraw',
       children: [
         {
-          path: '',
           element: <CandidateWithdrawPage />,
+          path: '',
         },
       ],
+      name: 'Candidate Withdraw',
+      path: 'withdraw',
     },
     {
-      path: 'blacklisted',
-      name: 'Candidate Blacklisted',
       children: [
         {
-          path: '',
           element: <CandidateBlacklistedPage />,
+          path: '',
         },
       ],
+      name: 'Candidate Blacklisted',
+      path: 'blacklisted',
     },
     {
-      path: 'offered',
-      name: 'Candidate Offered',
       children: [
         {
-          path: '',
           element: <CandidateOfferedPage />,
+          path: '',
         },
       ],
+      name: 'Candidate Offered',
+      path: 'offered',
     },
     {
-      path: 'profile/:candidateId',
-      name: 'Candidate Profile',
       children: [
         {
-          path: '',
           element: <CandidateProfilePage />,
+          path: '',
         },
       ],
+      name: 'Candidate Profile',
+      path: 'profile/:candidateId',
     },
   ],
+  name: 'Candidates',
+  path: 'candidates',
 }
 
 export default candidatesRoute
