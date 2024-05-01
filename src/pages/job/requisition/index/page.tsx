@@ -66,7 +66,7 @@ export const Component: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards isRequisition refresh={refresh} />
+        <StatisticCards light isRequisition refresh={refresh} />
 
         <MainCard
           body={
