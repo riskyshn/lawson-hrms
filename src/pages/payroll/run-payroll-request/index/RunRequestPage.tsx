@@ -95,9 +95,9 @@ const RunRequestPage: React.FC = () => {
     try {
       const payload = {
         ...data,
-        endPeriod: moment(period.endDate).format('YYYY-MM-DD'),
-        paymentedAt: moment(paymentedAt).format('YYYY-MM-DD'),
-        startPeriod: moment(period.startDate).format('YYYY-MM-DD'),
+        endPeriod: moment.utc(period.endDate).local().format('YYYY-MM-DD'),
+        paymentedAt: moment.utc(paymentedAt).local().format('YYYY-MM-DD'),
+        startPeriod: moment.utc(period.startDate).local().format('YYYY-MM-DD'),
       }
       const resp = await payrollService.createPayrollRequest(payload)
       toast('Success fully generate payroll', { color: 'success' })

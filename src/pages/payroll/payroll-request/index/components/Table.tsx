@@ -21,10 +21,10 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
     items: [
       { children: <span className="block font-semibold">{item.name}</span> },
       {
-        children: `${moment(item.startPeriod).format('DD-MM-YYYY')} - ${moment(item.endPeriod).format('DD-MM-YYYY')}`,
+        children: `${moment.utc(item.startPeriod).local().format('DD-MM-YYYY')} - ${moment.utc(item.endPeriod).local().format('DD-MM-YYYY')}`,
         className: 'text-center',
       },
-      { children: item.paymentedAt ? moment(item.paymentedAt).format('DD-MM-YYYY') : '-', className: 'text-center' },
+      { children: item.paymentedAt ? moment.utc(item.paymentedAt).local().format('DD-MM-YYYY') : '-', className: 'text-center' },
       { children: item.requestor?.name || '', className: 'text-center' },
       { children: item.approver?.name || '', className: 'text-center' },
       {

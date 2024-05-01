@@ -34,7 +34,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
         ),
       },
       {
-        children: moment(item.lastdayAt).format('DD/MM/YYYY'),
+        children: moment.utc(item.lastdayAt).local().format('DD/MM/YYYY'),
       },
       {
         children: (
