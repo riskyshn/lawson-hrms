@@ -94,7 +94,7 @@ const EmployeeDetailsForm: React.FC<{
           value={getValues('jobLevel')}
         />
         <AsyncSelect
-          action={organizationService.fetchJobLevels}
+          action={organizationService.fetchJobTypes}
           converter={emmbedToOptions}
           error={errors.jobType?.message}
           label="Employment Type"
