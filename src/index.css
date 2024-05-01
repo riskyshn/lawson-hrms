@@ -9,42 +9,6 @@
 }
 
 @layer components {
-  .hoverable-default {
-    @apply border-gray-100 bg-gray-100 text-gray-600 hover:[&:not(:disabled)]:[&:not(.disabled)]:border-gray-200 hover:[&:not(:disabled)]:[&:not(.disabled)]:bg-gray-200;
-  }
-
-  .hoverable-primary {
-    @apply border-primary-600 bg-primary-600 text-white hover:[&:not(:disabled)]:[&:not(.disabled)]:border-primary-700 hover:[&:not(:disabled)]:[&:not(.disabled)]:bg-primary-700;
-  }
-
-  .hoverable-secondary {
-    @apply border-secondary-600 bg-secondary-600 text-white hover:[&:not(:disabled)]:[&:not(.disabled)]:border-secondary-700 hover:[&:not(:disabled)]:[&:not(.disabled)]:bg-secondary-700;
-  }
-
-  .hoverable-success {
-    @apply border-success-600 bg-success-600 text-white hover:[&:not(:disabled)]:[&:not(.disabled)]:border-success-700 hover:[&:not(:disabled)]:[&:not(.disabled)]:bg-success-700;
-  }
-
-  .hoverable-warning {
-    @apply border-warning-600 bg-warning-600 text-white hover:[&:not(:disabled)]:[&:not(.disabled)]:border-warning-700 hover:[&:not(:disabled)]:[&:not(.disabled)]:bg-warning-700;
-  }
-
-  .hoverable-error {
-    @apply border-error-600 bg-error-600 text-white hover:[&:not(:disabled)]:[&:not(.disabled)]:border-error-700 hover:[&:not(:disabled)]:[&:not(.disabled)]:bg-error-700;
-  }
-
-  /* navbar dropdown */
-  .dropdown-drop {
-    transition:
-      opacity 250ms ease-out,
-      visibility 250ms ease-out;
-    @apply invisible opacity-0;
-  }
-
-  .dropdown-wrapper:hover .dropdown-drop {
-    @apply visible opacity-100;
-  }
-
   /* Scrollbar */
   .chrome-scrollbar::-webkit-scrollbar {
     @apply lg:h-1 lg:w-1;
@@ -60,10 +24,5 @@
 
   .chrome-scrollbar::-webkit-scrollbar-track {
     @apply bg-transparent;
-  }
-
-  /* Background animation */
-  .background-animate {
-    @apply animate-[position_20s_infinite] bg-[length:400%];
   }
 }

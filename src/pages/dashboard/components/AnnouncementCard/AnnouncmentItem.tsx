@@ -42,7 +42,11 @@ const AnnouncementItem: React.FC<{
 
   return (
     <li className="mb-3 flex overflow-hidden rounded-lg last:mb-0">
-      <button className="hoverable-default flex flex-1 flex-col gap-2 p-2" onClick={() => onClick?.(item)} type="button">
+      <button
+        className="flex flex-1 flex-col gap-2 bg-gray-100 p-2 text-gray-600 hover:bg-gray-200"
+        onClick={() => onClick?.(item)}
+        type="button"
+      >
         <h4 className="text-sm">{item.title}</h4>
         <span className="block text-xs text-gray-500">{moment.utc(item.createdAt).local().fromNow()}</span>
       </button>

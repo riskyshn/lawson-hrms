@@ -65,7 +65,7 @@ export const Component: React.FC = () => {
       <PageHeader breadcrumb={[{ text: 'Dashboard' }, { text: 'Explore' }]} />
 
       <div className="relative z-10 border-b bg-white pb-3">
-        <div className="background-animate relative h-20 overflow-hidden bg-gradient-to-r from-primary-400 to-primary-900 px-3 text-white">
+        <div className="relative h-20 animate-[position_20s_infinite] overflow-hidden bg-gradient-to-r from-primary-400 to-primary-900 bg-[length:400%] px-3 text-white">
           <span
             className="absolute inset-0 block bg-cover bg-fixed bg-center bg-no-repeat opacity-10"
             style={{
@@ -75,7 +75,7 @@ export const Component: React.FC = () => {
           <Logo className="absolute right-3 top-1/2 ml-auto h-48 w-48 -translate-y-1/2 opacity-30 md:h-72 md:w-72 [&_path]:fill-white" />
         </div>
 
-        {/* <div aria-hidden="true" className="background-animate flex h-20 overflow-hidden bg-gradient-to-r from-primary-800 to-primary-300" /> */}
+        {/* <div aria-hidden="true" className="animate-[position_20s_infinite] bg-[length:400%] flex h-20 overflow-hidden bg-gradient-to-r from-primary-800 to-primary-300" /> */}
 
         <Container className="-mt-8 flex flex-col justify-center gap-8">
           <div className="mx-auto flex w-full max-w-3xl">
