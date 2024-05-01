@@ -76,7 +76,7 @@ export const sendReminder = (oid: string) => {
 }
 
 export const createOfferingLetter = (payload: Record<string, any>) => {
-  return axios.put(`/process/offering-letter/create`, payload).then((response) => response.data.data)
+  return axios.put(`/process/offering-letter`, payload).then((response) => response.data.data)
 }
 export const getOfferingLetter = (oid: string) => {
   return axios.get<{ data: IOfferingLetter }>(`/process/offering-letter/${oid}`).then((response) => response.data.data)
@@ -84,6 +84,10 @@ export const getOfferingLetter = (oid: string) => {
 
 export const uploadSignedOfferingLetter = (payload: Record<string, any>, config?: AxiosRequestConfig) => {
   return axios.put<{ data: IApplicant }>(`/process/offering-letter/signed`, payload, config).then((response) => response.data.data)
+}
+
+export const getSignedOfferingLetter = (oid: string, config?: AxiosRequestConfig) => {
+  return axios.get<{ data: { link: string } }>(`/process/offering-letter/signed/${oid}`, config).then((response) => response.data.data)
 }
 
 export const setJoinDate = (payload: Record<string, any>, signal?: GenericAbortSignal) => {

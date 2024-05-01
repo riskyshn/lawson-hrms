@@ -39,7 +39,7 @@ const HireModal: React.FC<PropTypes> = ({ applicant, onClose, show }) => {
     try {
       await processService.setJoinDate({
         applicantId: applicant.oid,
-        joinDate: moment(joinDate).format('YYYY-MM-DD'),
+        joinDate: moment.utc(joinDate).local().format('YYYY-MM-DD'),
       })
       toast(`Join date for ${applicant.candidate?.name} set successfully.`, { color: 'success' })
       navigate('/process/onboarding')

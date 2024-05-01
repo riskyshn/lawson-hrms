@@ -56,8 +56,8 @@ const HistoryModal: React.FC<PropTypes> = ({ item, onClose }) => {
                 status={<div className="flex items-center gap-2">{renderStatus(item.flag)}</div>}
                 subTitle={
                   <>
-                    Sent Date: {item.createdAt ? moment(item.createdAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
-                    {item.updatedAt ? moment(item.updatedAt).format('DD/MM/YYYY') : '-'}
+                    Sent Date: {item.createdAt ? moment.utc(item.createdAt).local().format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
+                    {item.updatedAt ? moment.utc(item.updatedAt).local().format('DD/MM/YYYY') : '-'}
                   </>
                 }
                 title={`Step ${index + 1}`}
