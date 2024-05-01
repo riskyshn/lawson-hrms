@@ -3,7 +3,7 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 import { CheckCircle2Icon, XCircleIcon } from 'lucide-react'
 import React from 'react'
 
-const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candidate: ICandidate }> = ({ show, onClose, candidate }) => {
+const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void; show: boolean }> = ({ candidate, onClose, show }) => {
   const bodyItems = candidate.candidateMatches
     ? candidate.candidateMatches.map((item, i) => ({
         items: [
@@ -49,7 +49,7 @@ const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candid
     : []
 
   return (
-    <MainModal className="max-w-6xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-6xl py-12" onClose={onClose} show={show}>
       <div className="mb-8">
         <div className="pb-2">
           <h3 className="mb-8 text-center text-lg font-semibold">Candidate Match</h3>
@@ -57,13 +57,13 @@ const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candid
         </div>
 
         <MainTable
+          bodyItems={mandatoryBodyItems}
           headerItems={[
             { children: 'Requirement Type', className: 'text-left' },
             { children: 'Vacancy Requirement', className: 'text-left' },
             { children: 'Candidate', className: 'text-left' },
             { children: 'Match', className: 'text-center' },
           ]}
-          bodyItems={mandatoryBodyItems}
         />
 
         <div className="pb-2 pt-8">
@@ -71,13 +71,13 @@ const CandidateMatchModal: React.FC<{ show: boolean; onClose: () => void; candid
         </div>
 
         <MainTable
+          bodyItems={bodyItems}
           headerItems={[
             { children: 'Requirement Type', className: 'text-left' },
             { children: 'Vacancy Requirement', className: 'text-left' },
             { children: 'Candidate', className: 'text-left' },
             { children: 'Match', className: 'text-center' },
           ]}
-          bodyItems={bodyItems}
         />
       </div>
     </MainModal>

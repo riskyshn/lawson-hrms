@@ -2,22 +2,22 @@ import { Modal } from 'jobseeker-ui'
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 type ImagePreviewerContextProps = {
+  preview: (url?: null | string) => void
   show: boolean
-  url?: string | null
-  preview: (url?: string | null) => void
+  url?: null | string
 }
 
 const ImagePreviewer = createContext<ImagePreviewerContextProps>({
+  preview: () => {},
   show: false,
   url: null,
-  preview: () => {},
 })
 
 export const ImagePreviewerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [show, setShow] = useState(false)
-  const [url, setUrl] = useState<string | null>(null)
+  const [url, setUrl] = useState<null | string>(null)
 
-  const preview = useCallback((url?: string | null) => {
+  const preview = useCallback((url?: null | string) => {
     if (url) {
       setUrl(url)
       setShow(true)
@@ -35,14 +35,14 @@ export const ImagePreviewerProvider: React.FC<{ children: React.ReactNode }> = (
   }, [])
 
   return (
-    <ImagePreviewer.Provider value={{ show, url, preview }}>
+    <ImagePreviewer.Provider value={{ preview, show, url }}>
       <Modal
-        wrapperClassName="p-0 w-screen h-screen"
         className="h-screen w-screen max-w-none rounded-none bg-transparent shadow-none"
-        show={show}
         onClose={() => setShow(false)}
+        show={show}
+        wrapperClassName="p-0 w-screen h-screen"
       >
-        {url && <img src={url} className="block h-screen w-screen object-contain" />}
+        {url && <img className="block h-screen w-screen object-contain" src={url} />}
       </Modal>
 
       {children}

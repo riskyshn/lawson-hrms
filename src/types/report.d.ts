@@ -1,6 +1,6 @@
 interface IRecruitmentFunnel {
-  total?: Data[]
   percentage?: Data[]
+  total?: Data[]
 }
 
 interface Data {
@@ -17,17 +17,17 @@ interface IVacancy {
 }
 
 interface INumberOfHiredDataTable {
-  vacancy: IVacancy
   q1: number
   q2: number
   q3: number
   q4: number
+  vacancy: IVacancy
 }
 
 interface Dataset {
-  label: string
-  data: any
-  borderColor: string
   backgroundColor: string
+  borderColor: string
+  data: any
+  label: string
   tension: number
 }

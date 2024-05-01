@@ -12,8 +12,8 @@ export default function useOptionSearchParam(key: string) {
 
   if (rawValue) {
     parsedValue = {
-      value: rawValue.split('|')[0],
       label: rawValue.split('|')[1],
+      value: rawValue.split('|')[0],
     }
   }
 

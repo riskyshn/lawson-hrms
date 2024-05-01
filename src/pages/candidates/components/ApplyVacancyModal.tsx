@@ -4,13 +4,13 @@ import { Button, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type ApplyVacancyModalProps = {
-  show: boolean
-  onClose: () => void
   candidate: ICandidate
   onApplyVacancy: (data: string) => void
+  onClose: () => void
+  show: boolean
 }
 
-const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
+const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ candidate, onApplyVacancy, onClose, show }) => {
   const [selectedVacancyId, setSelectedVacancyId] = useState<string>('')
   const [vacancies, setVacancies] = useState<any[]>([])
   const toast = useToast()
@@ -40,8 +40,8 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
     }
 
     const payload = {
-      vacancyId: selectedVacancyId,
       candidateId: candidate?.candidateId,
+      vacancyId: selectedVacancyId,
     }
 
     setLoading(true)
@@ -63,20 +63,20 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ show, onClose, ca
   }
 
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Apply to Vacancy</h4>
         <p className="text-center">Apply candidates to a more suitable job vacancy</p>
       </div>
       <Select
-        label="Select Vacancy"
-        placeholder="Select Vacancy"
-        options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
         className="mb-3"
-        value={selectedVacancyId}
+        label="Select Vacancy"
         onChange={handleChange}
+        options={vacancies.map((vacancy) => ({ label: vacancy.vacancyName, value: vacancy.oid }))}
+        placeholder="Select Vacancy"
+        value={selectedVacancyId}
       />
-      <Button block loading={loading} color="primary" className="mx-auto" onClick={handleSelectVacancy}>
+      <Button block className="mx-auto" color="primary" loading={loading} onClick={handleSelectVacancy}>
         Select Vacancy
       </Button>
     </MainModal>

@@ -18,7 +18,7 @@ export const Component: React.FC = () => {
       <footer className="border-t bg-gray-50 py-6">
         <p className="text-center text-sm text-gray-500">
           &copy; Copyright {new Date().getFullYear()} -{' '}
-          <a href="https://jobseeker.company" className="text-primary-600 hover:text-primary-500">
+          <a className="text-primary-600 hover:text-primary-500" href="https://jobseeker.company">
             Jobseeker Company
           </a>
         </p>

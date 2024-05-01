@@ -3,14 +3,15 @@ import { Avatar, Button, Card, CardBody } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, User2Icon } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
+
 import ButtonDeleteEmployee from './ButtonDeleteEmployee'
 
 type PropType = {
-  employee?: IEmployee
   children?: React.ReactNode
+  employee?: IEmployee
 }
 
-const ProfileCard: React.FC<PropType> = ({ employee, children }) => {
+const ProfileCard: React.FC<PropType> = ({ children, employee }) => {
   const md = useBreakpoint('md')
 
   if (!employee) return null
@@ -19,7 +20,7 @@ const ProfileCard: React.FC<PropType> = ({ employee, children }) => {
     <Card>
       <CardBody className="flex gap-3">
         <div className="flex">
-          <Avatar name={employee.name || ''} size={md ? 128 : 64} className="flex bg-primary-100 text-2xl text-primary-700" />
+          <Avatar className="flex bg-primary-100 text-2xl text-primary-700" name={employee.name || ''} size={md ? 128 : 64} />
         </div>
         <div className="flex flex-1 flex-col gap-3 lg:flex-row">
           <div className="flex-1">
@@ -35,17 +36,17 @@ const ProfileCard: React.FC<PropType> = ({ employee, children }) => {
               </div>
               <div className="flex items-center gap-2">
                 <MailIcon className="text-gray-400" size={14} />
-                <a className="block text-sm hover:text-primary-600" target="_blank" href={`mailto:${employee.email}`}>
+                <a className="block text-sm hover:text-primary-600" href={`mailto:${employee.email}`} target="_blank" rel="noreferrer">
                   {employee.email}
                 </a>
               </div>
             </div>
           </div>
           <div className="flex gap-2">
-            <Button as={Link} to={`/employees/employee-management/${employee.oid}/edit`} variant="light" className="px-5" color="primary">
+            <Button as={Link} className="px-5" color="primary" to={`/employees/employee-management/${employee.oid}/edit`} variant="light">
               Edit
             </Button>
-            <ButtonDeleteEmployee oid={employee.oid} color="error" />
+            <ButtonDeleteEmployee color="error" oid={employee.oid} />
           </div>
         </div>
       </CardBody>

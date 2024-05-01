@@ -3,20 +3,20 @@ import { FilterIcon, RefreshCcwIcon, SearchIcon } from 'lucide-react'
 import React from 'react'
 
 type PropTypes = {
-  title: React.ReactNode
-  subtitle?: React.ReactNode
-  subtitleLoading?: boolean
-  search?: {
-    value: string
-    setValue: (value: string) => void
-  }
-  filter?: React.ReactNode
   actions?: React.ReactNode
+  filter?: React.ReactNode
   filterToogle?: () => void
   onRefresh?: () => void
+  search?: {
+    setValue: (value: string) => void
+    value: string
+  }
+  subtitle?: React.ReactNode
+  subtitleLoading?: boolean
+  title: React.ReactNode
 }
 
-const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading, search, filter, actions, filterToogle, onRefresh }) => {
+const MainCardHeader: React.FC<PropTypes> = ({ actions, filter, filterToogle, onRefresh, search, subtitle, subtitleLoading, title }) => {
   return (
     <>
       <div className="flex flex-col gap-3 p-3 lg:flex-row lg:items-center lg:justify-between">
@@ -28,28 +28,28 @@ const MainCardHeader: React.FC<PropTypes> = ({ title, subtitle, subtitleLoading,
         <div className="flex items-center gap-2">
           {actions}
           {onRefresh && (
-            <Button iconOnly title="Refresh Data Table" type="button" variant="outline" className="border-gray-300" onClick={onRefresh}>
+            <Button className="border-gray-300" iconOnly onClick={onRefresh} title="Refresh Data Table" type="button" variant="outline">
               <RefreshCcwIcon size={16} />
             </Button>
           )}
           {search && (
             <Input
-              type="text"
-              placeholder="Search..."
               className="m-0 mt-1 w-full lg:w-64"
               inputClassName="peer pl-7"
+              onChange={(e) => search.setValue(e.currentTarget.value)}
+              placeholder="Search..."
               rightChild={
                 <SearchIcon
                   className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
                   size={16}
                 />
               }
+              type="text"
               value={search.value}
-              onChange={(e) => search.setValue(e.currentTarget.value)}
             />
           )}
           {filterToogle && (
-            <Button iconOnly type="button" color="primary" onClick={filterToogle}>
+            <Button color="primary" iconOnly onClick={filterToogle} type="button">
               <FilterIcon size={16} />
             </Button>
           )}

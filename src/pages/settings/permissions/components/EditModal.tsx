@@ -7,34 +7,34 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type EditModalProps = {
-  permission?: IPermission | null
   onClose?: () => void
   onUpdated?: (permission: IPermission) => void
+  permission?: IPermission | null
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Name'),
+  apiId: yup.string().required().label('Api ID'),
   groupName: yup.string().required().label('Group Name'),
   method: yup.string().required().label('Method'),
+  name: yup.string().required().label('Name'),
   path: yup.string().required().label('Path'),
-  apiId: yup.string().required().label('Api ID'),
   region: yup.string().required().label('Region'),
   stage: yup.string().required().label('Stage'),
 })
 
-const EditModal: React.FC<EditModalProps> = ({ permission, onClose, onUpdated }) => {
+const EditModal: React.FC<EditModalProps> = ({ onClose, onUpdated, permission }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
     setValue,
     trigger,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -61,15 +61,15 @@ const EditModal: React.FC<EditModalProps> = ({ permission, onClose, onUpdated })
       setErrorMessage('')
 
       const payload = {
-        groupName: data.groupName,
-        name: data.name,
-        method: data.method,
-        path: data.path,
         arn: {
           apiId: data.apiId,
           region: data.region,
           stage: data.stage,
         },
+        groupName: data.groupName,
+        method: data.method,
+        name: data.name,
+        path: data.path,
       }
 
       const newPermission = await authorityService.updatePermission(permission.oid, payload)
@@ -84,40 +84,40 @@ const EditModal: React.FC<EditModalProps> = ({ permission, onClose, onUpdated })
   })
 
   return (
-    <Modal as="form" show={!!permission} onSubmit={onSubmit}>
+    <Modal as="form" onSubmit={onSubmit} show={!!permission}>
       <ModalHeader onClose={onClose}>Update Permission</ModalHeader>
 
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-        <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
-        <Input label="Group Name" labelRequired error={errors.groupName?.message} {...register('groupName')} />
-        <Input label="Path" labelRequired error={errors.path?.message} {...register('path')} />
+        <Input error={errors.name?.message} label="Name" labelRequired {...register('name')} />
+        <Input error={errors.groupName?.message} label="Group Name" labelRequired {...register('groupName')} />
+        <Input error={errors.path?.message} label="Path" labelRequired {...register('path')} />
 
         <Select
+          error={errors.method?.message}
           label="Method"
           labelRequired
-          placeholder="Choose Method"
           name="method"
-          options={['*', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'].map((el) => ({ label: el, value: el }))}
-          error={errors.method?.message}
-          value={getValues('method')}
           onChange={(v) => {
             setValue('method', v.toString())
             trigger('method')
           }}
+          options={['*', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'].map((el) => ({ label: el, value: el }))}
+          placeholder="Choose Method"
+          value={getValues('method')}
         />
 
-        <Input label="Api ID" labelRequired error={errors.apiId?.message} {...register('apiId')} />
-        <Input label="Region" labelRequired error={errors.region?.message} {...register('region')} />
-        <Input label="Stage" labelRequired error={errors.stage?.message} {...register('stage')} />
+        <Input error={errors.apiId?.message} label="Api ID" labelRequired {...register('apiId')} />
+        <Input error={errors.region?.message} label="Region" labelRequired {...register('region')} />
+        <Input error={errors.stage?.message} label="Stage" labelRequired {...register('stage')} />
       </div>
 
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Update
         </Button>
       </ModalFooter>

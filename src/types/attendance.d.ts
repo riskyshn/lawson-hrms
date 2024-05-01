@@ -1,23 +1,23 @@
 interface ITimezone {
+  code: string
   oid: string
   title: string
-  code: string
 }
 interface ISchedule {
-  oid: string
-  name: string
-  createdAt?: string
-  updatedAt?: string
-  timezone?: ITimezone
-  details?: IScheduleDetail[]
   count: string
+  createdAt?: string
+  details?: IScheduleDetail[]
+  name: string
+  oid: string
+  timezone?: ITimezone
+  updatedAt?: string
 }
 
 interface IScheduleDetail {
   day?: number
-  start?: string
   end?: string
   isActive?: boolean
+  start?: string
 }
 
 interface IAttendance {
@@ -26,294 +26,294 @@ interface IAttendance {
 }
 
 interface IAttendanceRecord {
-  oid?: string
   attendanceType?: string
-  earlyClockoutMinutes?: number
-  lateMinutes?: number
-  workHours?: number
-  isInOffice?: boolean
   coordinate?: ICoordinate
-  photo?: string
-  status?: string
-  rejectedReason?: string
-  timezoneTime?: string
+  earlyClockoutMinutes?: number
   employee?: {
-    name?: string
     employeeCode?: string
     employment?: {
-      schedule?: {
-        oid?: string
-        name?: string
-        timezone?: {
-          oid: string
-          title: string
-          code: string
-        }
-      }
       branch?: {
-        oid?: string
-        name?: string
         coordinate?: {
-          type?: string
           coordinates?: [number, number]
+          type?: string
         }
+        name?: string
+        oid?: string
         range?: number
       }
       department?: {
-        oid: string
         name: string
+        oid: string
       }
       position?: {
-        oid: string
         name: string
+        oid: string
+      }
+      schedule?: {
+        name?: string
+        oid?: string
+        timezone?: {
+          code: string
+          oid: string
+          title: string
+        }
       }
     }
+    name?: string
   }
+  isInOffice?: boolean
+  lateMinutes?: number
+  oid?: string
+  photo?: string
+  rejectedReason?: string
+  status?: string
+  timezoneTime?: string
+  workHours?: number
 }
 
 interface ILeave {
-  leaveType?: {
-    oid?: string
-    title?: string
-    isBalance?: boolean
-    isRequiredAttachment?: boolean
-    isSalaryDeduction?: boolean
-  }
+  attachment?: string
+  createdAt?: string
+  duration?: number
   employee?: {
-    name?: string
     employeeCode?: string
     employment?: {
-      schedule?: {
-        oid?: string
-        name?: string
-        timezone?: {
-          oid: string
-          title: string
-          code: string
-        }
-      }
       branch?: {
-        oid?: string
-        name?: string
         coordinate?: {
-          type?: string
           coordinates?: [number, number]
+          type?: string
         }
+        name?: string
+        oid?: string
         range?: number
       }
       department?: {
-        oid: string
         name: string
+        oid: string
       }
       position?: {
-        oid: string
         name: string
+        oid: string
+      }
+      schedule?: {
+        name?: string
+        oid?: string
+        timezone?: {
+          code: string
+          oid: string
+          title: string
+        }
       }
     }
+    name?: string
   }
-  startDate?: string
   endDate?: string
-  attachment?: string
+  leaveType?: {
+    isBalance?: boolean
+    isRequiredAttachment?: boolean
+    isSalaryDeduction?: boolean
+    oid?: string
+    title?: string
+  }
   note?: string
-  status?: string
-  duration?: number
-  createdAt?: string
   oid?: string
+  startDate?: string
+  status?: string
   updatedAt?: string
 }
 
 interface IEmployeeHistory {
   date?: string
   records?: {
-    oid?: string
     attendanceType?: string
-    earlyClockoutMinutes?: number
-    lateMinutes?: number
-    workHours?: number
-    isInOffice?: boolean
     coordinate?: {
-      type?: string
       coordinates?: [number, number]
+      type?: string
     }
-    photo?: string
-    status?: string
-    rejectedReason?: string
-    timezoneTime?: string
+    earlyClockoutMinutes?: number
     employee?: {
-      name?: string
       employeeCode?: string
       employment?: {
-        schedule?: {
-          oid?: string
-          name?: string
-          timezone?: {
-            oid: string
-            title: string
-            code: string
-          }
-        }
         branch?: {
-          oid?: string
-          name?: string
           coordinate?: {
-            type?: string
             coordinates?: [number, number]
+            type?: string
           }
+          name?: string
+          oid?: string
           range?: number
         }
         department?: {
-          oid: string
           name: string
+          oid: string
         }
         position?: {
-          oid: string
           name: string
+          oid: string
+        }
+        schedule?: {
+          name?: string
+          oid?: string
+          timezone?: {
+            code: string
+            oid: string
+            title: string
+          }
         }
       }
+      name?: string
     }
+    isInOffice?: boolean
+    lateMinutes?: number
+    oid?: string
+    photo?: string
+    rejectedReason?: string
+    status?: string
+    timezoneTime?: string
+    workHours?: number
   }[]
 }
 
 interface IEmployeeLeave {
-  oid: string
+  attachment?: string
   createdAt?: string
-  updatedAt?: string
-  leaveType?: {
-    oid?: string
-    title?: string
-    isBalance?: boolean
-    isRequiredAttachment?: boolean
-    isSalaryDeduction?: boolean
-  }
+  duration?: number
   employee?: {
-    name?: string
     employeeCode?: string
     employment?: {
-      schedule?: {
-        oid?: string
-        name?: string
-        timezone?: {
-          oid: string
-          title: string
-          code: string
-        }
-      }
       branch?: {
-        oid?: string
-        name?: string
         coordinate?: {
-          type?: string
           coordinates?: [number, number]
+          type?: string
         }
+        name?: string
+        oid?: string
         range?: number
       }
       department?: {
-        oid: string
         name: string
+        oid: string
       }
       position?: {
-        oid: string
         name: string
+        oid: string
+      }
+      schedule?: {
+        name?: string
+        oid?: string
+        timezone?: {
+          code: string
+          oid: string
+          title: string
+        }
       }
     }
+    name?: string
   }
-  startDate?: string
   endDate?: string
-  attachment?: string
+  leaveType?: {
+    isBalance?: boolean
+    isRequiredAttachment?: boolean
+    isSalaryDeduction?: boolean
+    oid?: string
+    title?: string
+  }
   note?: string
-  status?: string
-  duration?: number
+  oid: string
   rejectedReason?: string
+  startDate?: string
+  status?: string
+  updatedAt?: string
 }
 
 interface IFilterDate {
-  startDate?: string
   endDate?: string
+  startDate?: string
 }
 
 interface IStatistic {
-  title?: string
   count?: number
+  title?: string
 }
 
 interface IBranch {
-  oid: string
-  name: string
   coordinate: {
-    type?: string
     coordinates?: [number, number]
+    type?: string
   }
+  name: string
+  oid: string
   range: number
 }
 
 interface IEmployeeHistoryAttendance {
-  oid: string
+  attendanceData: {
+    attendanceType: string
+    coordinate: {
+      coordinates?: [number, number]
+      type?: string
+    }
+    earlyClockoutMinutes: number
+    isInOffice: boolean
+    lateMinutes: number
+    oid: string
+    photo: string
+    rejectedReason: null | string
+    status: string
+    timezoneTime: string
+    workHours: number
+  }[]
   date: string
   employee: {
-    name?: string
     employeeCode?: string
     employment?: {
-      schedule?: {
-        oid?: string
-        name?: string
-        timezone?: {
-          oid: string
-          title: string
-          code: string
-        }
-      }
       branch?: {
-        oid?: string
-        name?: string
         coordinate?: {
-          type?: string
           coordinates?: [number, number]
+          type?: string
         }
+        name?: string
+        oid?: string
         range?: number
       }
       department?: {
-        oid: string
         name: string
+        oid: string
       }
       position?: {
-        oid: string
         name: string
+        oid: string
+      }
+      schedule?: {
+        name?: string
+        oid?: string
+        timezone?: {
+          code: string
+          oid: string
+          title: string
+        }
       }
     }
+    name?: string
   }
-  attendanceData: {
-    oid: string
-    attendanceType: string
-    earlyClockoutMinutes: number
-    lateMinutes: number
-    workHours: number
-    isInOffice: boolean
-    photo: string
-    status: string
-    rejectedReason: string | null
-    timezoneTime: string
-    coordinate: {
-      type?: string
-      coordinates?: [number, number]
-    }
-  }[]
   leaveData: {
-    oid: string
+    attachment: string
+    createdAt: string
+    duration: number
+    endDate: string
     leaveType: {
-      oid?: string
-      title?: string
       isBalance?: boolean
       isRequiredAttachment?: boolean
       isSalaryDeduction?: boolean
+      oid?: string
+      title?: string
     }
-    createdAt: string
-    startDate: string
-    endDate: string
-    attachment: string
     note: string
+    oid: string
+    rejectedReason: null | string
+    startDate: string
     status: string
-    duration: number
-    rejectedReason: string | null
   }
   logType: string
+  oid: string
 }

@@ -6,7 +6,7 @@ const axios = createAxiosInstance({ baseURL: API_AUTH_BASE_URL })
 
 export const login = (payload: { email: string; password: string }) => {
   return axios
-    .post<{ data: { user: IUser; refresh_token: string; access_token: string } }>('/auth/sign-in', payload)
+    .post<{ data: { access_token: string; refresh_token: string; user: IUser } }>('/auth/sign-in', payload)
     .then(({ data }) => data)
 }
 
@@ -39,7 +39,7 @@ export const changePassword = (payload: Record<string, any>) => {
     .then(({ data }) => data)
 }
 
-export const refreshAccessToken = async (payload: { refresh_token: string; access_token: string }) => {
+export const refreshAccessToken = async (payload: { access_token: string; refresh_token: string }) => {
   return axios
     .get('/auth/refresh', {
       headers: {

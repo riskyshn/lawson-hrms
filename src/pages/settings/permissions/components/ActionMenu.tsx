@@ -5,35 +5,32 @@ import { PenToolIcon, TrashIcon } from 'lucide-react'
 import React from 'react'
 
 type ActionMenuProps = {
-  permission: IPermission
   index: number
+  onDeleted?: (oid: string) => void
+  permission: IPermission
+  setSelectedToUpdate?: (permission: IPermission) => void
   total: number
   upSpace: number
-  setSelectedToUpdate?: (permission: IPermission) => void
-  onDeleted?: (oid: string) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ permission, index, total, upSpace, setSelectedToUpdate, onDeleted }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, onDeleted, permission, setSelectedToUpdate, total, upSpace }) => {
   const toast = useToast()
   const confirm = useConfirm()
 
   const editPermission: Table.ActionMenuItemProps = {
-    text: 'Edit Permission',
-    icon: PenToolIcon,
     action() {
       setSelectedToUpdate?.(permission)
     },
+    icon: PenToolIcon,
+    text: 'Edit Permission',
   }
 
   const deletePermission: Table.ActionMenuItemProps = {
-    text: 'Delete Permission',
-    icon: TrashIcon,
-    iconClassName: 'text-error-600',
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to delete this permission?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to delete this permission?',
       })
       if (confirmed) {
         try {
@@ -45,6 +42,9 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ permission, index, total, upSpa
         }
       }
     },
+    icon: TrashIcon,
+    iconClassName: 'text-error-600',
+    text: 'Delete Permission',
   }
 
   const menus = [editPermission, deletePermission]

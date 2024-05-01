@@ -6,6 +6,7 @@ import { Card, CardHeader } from 'jobseeker-ui'
 import { AlertOctagonIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+
 import PayrollRequestDetail from '../../components/PayrollRequestDetail'
 
 const DetailRunRequestPage: React.FC = () => {
@@ -46,8 +47,8 @@ const DetailRunRequestPage: React.FC = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Payroll' }, { text: 'Run Payroll Request' }, { text: 'Detail' }]}
-        title="Detail Payroll Request"
         subtitle="You can review or manage employee payroll components."
+        title="Detail Payroll Request"
       />
 
       <Container className="py-3 xl:pb-8">
@@ -77,7 +78,7 @@ const DetailRunRequestPage: React.FC = () => {
           <Card>
             <CardHeader>
               <div className="flex flex-col items-center justify-center py-40">
-                <AlertOctagonIcon size={84} className="mb-3 block text-error-600" strokeWidth={1} />
+                <AlertOctagonIcon className="mb-3 block text-error-600" size={84} strokeWidth={1} />
                 <p className="mt-3 block text-center">
                   Oops! Something went wrong while processing the payroll request. Please try again later.
                 </p>

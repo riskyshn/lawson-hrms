@@ -12,12 +12,12 @@ const axiosCandidate = createAxiosInstance({
   withAuth: true,
 })
 
-type FetchCandidateParams = IPaginationParam & {
+type FetchCandidateParams = {
+  education?: string
   position?: string
   province?: string
-  education?: string
   vacancyId?: string
-}
+} & IPaginationParam
 
 export const fetchBlacklist = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {
   return axios

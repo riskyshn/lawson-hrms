@@ -1,14 +1,15 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { Badge } from 'jobseeker-ui'
 import React from 'react'
+
 import ActionMenu from './ActionMenu'
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
   items: IJobType[]
   loading?: boolean
-  setSelectedToUpdate?: (item: IJobType) => void
   onDeleted?: (oid: string) => void
+  setSelectedToUpdate?: (item: IJobType) => void
 }
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
@@ -26,7 +27,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       },
       {
         children: (
-          <Badge size="small" color={item.status == 1 ? 'primary' : 'error'}>
+          <Badge color={item.status == 1 ? 'primary' : 'error'} size="small">
             {item.status == 1 ? 'Active' : 'Inactive'}
           </Badge>
         ),
@@ -47,12 +48,12 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       //   className: 'text-center',
       // },
       {
-        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
       },
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 export default Table

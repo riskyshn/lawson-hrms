@@ -1,8 +1,6 @@
 import * as yup from 'yup'
 
 export const schema = yup.object().shape({
-  name: yup.string().required().label('Component Name'),
-  amountType: yup.string().required().label('Amount Type'),
   amount: yup
     .string()
     .required()
@@ -11,7 +9,9 @@ export const schema = yup.object().shape({
       then: (s) => s.transform(parseFloat).min(0).transform(String),
     })
     .label('Amount'),
-  maxCap: yup.string().required().label('Max Cap'),
+  amountType: yup.string().required().label('Amount Type'),
   applicationType: yup.string().required().label('Application Type'),
+  maxCap: yup.string().required().label('Max Cap'),
+  name: yup.string().required().label('Component Name'),
   taxType: yup.string().required().label('Tax Type'),
 })

@@ -13,7 +13,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const [selectedLocation, setSelectedLocation] = useState<[[number, number] | null, [number, number] | null]>([null, null])
   const previewImage = usePreviewImage()
 
-  const { pageData, isLoading } = useAsyncSearch(
+  const { isLoading, pageData } = useAsyncSearch(
     (params: Parameters<typeof attendanceService.fetchEmployeeAttendanceHistories>[1]) =>
       attendanceService.fetchEmployeeAttendanceHistories(employee.oid, params),
     {
@@ -23,9 +23,9 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   )
 
   const pagination = usePagination({
+    params: { tab: 'attendance' },
     pathname: `/employees/employee-management/${employee.oid}`,
     totalPage: pageData?.totalPages,
-    params: { tab: 'attendance' },
   })
 
   const headerItems = [
@@ -46,7 +46,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
         children: (
           <>
             {item.records?.map((el, i) => (
-              <span key={i} className="block capitalize">
+              <span className="block capitalize" key={i}>
                 {el.attendanceType?.replace('_', ' ')}
               </span>
             ))}
@@ -57,7 +57,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
         children: (
           <>
             {item.records?.map((el, i) => (
-              <span key={i} className="block">
+              <span className="block" key={i}>
                 {moment(el.timezoneTime).format('HH:mm')}
               </span>
             ))}
@@ -68,7 +68,7 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
         children: (
           <>
             {item.records?.map((el, i) => (
-              <span key={i} className="block capitalize">
+              <span className="block capitalize" key={i}>
                 {el.status}
               </span>
             ))}
@@ -80,8 +80,8 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
           <>
             {item.records?.map((el, i) => (
               <span
-                key={i}
                 className="flex cursor-pointer items-center justify-center text-primary-600 hover:text-primary-700"
+                key={i}
                 onClick={() => {
                   if (el.coordinate?.coordinates?.[0] && el.coordinate?.coordinates?.[1])
                     setSelectedLocation([
@@ -101,8 +101,8 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
           <>
             {item.records?.map((el, i) => (
               <span
-                key={i}
                 className="flex cursor-pointer items-center justify-center text-primary-600 hover:text-primary-700"
+                key={i}
                 onClick={() => previewImage(el.photo)}
               >
                 <ImageIcon size={14} />
@@ -118,11 +118,11 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
     <Card className="overflow-x-auto">
       <MapsPreviewerModal
         coordinates={selectedLocation[0]}
-        radiusCoordinates={selectedLocation[1]}
-        radius={100}
         onClose={() => setSelectedLocation([null, null])}
+        radius={100}
+        radiusCoordinates={selectedLocation[1]}
       />
-      <MainTable headerItems={headerItems} bodyItems={bodyItems || []} loading={isLoading} />
+      <MainTable bodyItems={bodyItems || []} headerItems={headerItems} loading={isLoading} />
       <CardFooter className="justify-center">{pagination.render()}</CardFooter>
     </Card>
   )

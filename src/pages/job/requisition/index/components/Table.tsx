@@ -2,6 +2,7 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 import moment from 'moment'
 import React from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import ActionMenu from './ActionMenu'
 
 interface TableProps {
@@ -18,17 +19,17 @@ const getApprovalCounter = (vacancy: IVacancy) => {
   return ` ${approved}/${total}`
 }
 
-const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
-  const statusMap: Record<string, { text: string; color: string }> = {
-    published: { text: 'Posted', color: 'bg-green-100 text-green-600' },
-    draft: { text: 'Draft', color: 'bg-gray-100 text-gray-600' },
-    rejected: { text: 'Rejected', color: 'bg-red-100 text-red-600' },
-    approved: { text: 'Approved', color: 'bg-blue-100 text-blue-600' },
-    progress: { text: 'Approval ' + getApprovalCounter(vacancy), color: 'bg-purple-100 text-purple-600' },
-    canceled: { text: 'Canceled', color: 'bg-red-100 text-red-600' },
+const getStatus = (vacancy: IVacancy): { color: string; text: string } => {
+  const statusMap: Record<string, { color: string; text: string }> = {
+    approved: { color: 'bg-blue-100 text-blue-600', text: 'Approved' },
+    canceled: { color: 'bg-red-100 text-red-600', text: 'Canceled' },
+    draft: { color: 'bg-gray-100 text-gray-600', text: 'Draft' },
+    progress: { color: 'bg-purple-100 text-purple-600', text: 'Approval ' + getApprovalCounter(vacancy) },
+    published: { color: 'bg-green-100 text-green-600', text: 'Posted' },
+    rejected: { color: 'bg-red-100 text-red-600', text: 'Rejected' },
   }
 
-  return statusMap[vacancy.status || ''] || { text: vacancy.status || 'Unknown', color: 'bg-gray-400 text-white' }
+  return statusMap[vacancy.status || ''] || { color: 'bg-gray-400 text-white', text: vacancy.status || 'Unknown' }
 }
 
 const Table: React.FC<TableProps> = ({ items, loading, onRefresh, setSelectedToShowHistoryModal }) => {
@@ -63,19 +64,19 @@ const Table: React.FC<TableProps> = ({ items, loading, onRefresh, setSelectedToS
       {
         children: (
           <ActionMenu
-            vacancy={vacancy}
             index={index}
-            total={items.length}
-            upSpace={items.length > 8 ? 3 : 0}
             onRefresh={onRefresh}
             setSelectedToShowHistoryModal={setSelectedToShowHistoryModal}
+            total={items.length}
+            upSpace={items.length > 8 ? 3 : 0}
+            vacancy={vacancy}
           />
         ),
       },
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 export default Table

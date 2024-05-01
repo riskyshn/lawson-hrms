@@ -14,21 +14,22 @@ import {
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import LoadingScreen from '../../Elements/Layout/LoadingScreen'
 import HistoryItem from '../../Elements/UI/HistoryItem'
 import { Timeline, TimelineItem } from '../../Elements/UI/Timeline'
 
 type OptionModalProps = {
-  show?: boolean
   applicant?: IDataTableApplicant
   onClose?: () => void
+  show?: boolean
 }
 
 const statusConfig: Record<string, { Icon: LucideIcon; className: string }> = {
-  PASSED: { Icon: CheckCircle2Icon, className: 'text-green-600' },
   FAILED: { Icon: XCircleIcon, className: 'text-error-600' },
-  WAITING: { Icon: ClockIcon, className: 'text-gray-600' },
+  PASSED: { Icon: CheckCircle2Icon, className: 'text-green-600' },
   PROCESS: { Icon: CircleEllipsisIcon, className: 'text-primary-600' },
+  WAITING: { Icon: ClockIcon, className: 'text-gray-600' },
 }
 
 const Status: React.FC<{ status?: string }> = ({ status }) => {
@@ -43,10 +44,10 @@ const Status: React.FC<{ status?: string }> = ({ status }) => {
   ) : null
 }
 
-const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, onClose }) => {
+const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicant, onClose, show }) => {
   const [aplicantDataTable, setAplicantDataTable] = useState<IDataTableApplicant>()
   const [aplicantDetail, setAplicantDetail] = useState<IApplicant | null>(null)
-  const [showDetailIndex, setShowDetailIndex] = useState<number | null>(null)
+  const [showDetailIndex, setShowDetailIndex] = useState<null | number>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -67,7 +68,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, 
   }, [applicant])
 
   return (
-    <Modal show={!!show} onClose={onClose}>
+    <Modal onClose={onClose} show={!!show}>
       <ModalHeader subTitle={`Candidate Process History for ${aplicantDataTable?.candidate?.name}`}>Candidate History</ModalHeader>
       <LoadingScreen show={!aplicantDetail} />
 
@@ -83,11 +84,11 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, 
               {aplicantDetail.histories?.map((item, index) => (
                 <TimelineItem key={index}>
                   <HistoryItem
-                    title={item.applyProcess}
-                    subTitle={moment.utc(item.processAt).local().format('D/M/Y HH:mm')}
-                    status={<Status status={item.status} />}
-                    showDetail={showDetailIndex === index}
                     onDetailToggleClick={() => setShowDetailIndex((v) => (v === index ? null : index))}
+                    showDetail={showDetailIndex === index}
+                    status={<Status status={item.status} />}
+                    subTitle={moment.utc(item.processAt).local().format('D/M/Y HH:mm')}
+                    title={item.applyProcess}
                   >
                     <div className="mb-3">
                       <h3 className="text-sm font-semibold">Attendee</h3>
@@ -125,13 +126,13 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, 
                         <h3 className="mb-1 text-sm font-semibold">Document</h3>
                         <Button<'a'>
                           as="a"
-                          href={item.file}
-                          target="_blank"
-                          size="small"
-                          color="primary"
                           className="gap-2"
-                          variant="default"
+                          color="primary"
+                          href={item.file}
                           leftChild={<FileInputIcon size={18} />}
+                          size="small"
+                          target="_blank"
+                          variant="default"
                         >
                           <span className="text-xs">Result Attachment</span>
                         </Button>
@@ -146,7 +147,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ show, applicant, 
       )}
 
       <ModalFooter>
-        <Button variant="light" color="error" className="w-24" onClick={onClose}>
+        <Button className="w-24" color="error" onClick={onClose} variant="light">
           Close
         </Button>
       </ModalFooter>

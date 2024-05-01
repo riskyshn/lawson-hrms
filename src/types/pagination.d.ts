@@ -1,15 +1,15 @@
 interface IPaginationParam {
-  page?: number
   limit?: number
+  page?: number
   q?: string
-  sortedField?: string
   sortDirection?: 'ASC' | 'DESC'
+  sortedField?: string
 }
 
 interface IPaginationResponse<T = any> {
   content: T[]
+  limit: number
+  page: number
   totalElements: number
   totalPages: number
-  page: number
-  limit: number
 }

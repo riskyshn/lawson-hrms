@@ -13,6 +13,7 @@ import {
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
+
 import BlacklistModal from '../../Modals/BlacklistModal'
 import MoveAnotherVacancyModal from '../../Modals/MoveAnotherVacancyModal'
 import ProcessModal from '../../Modals/ProcessModal'
@@ -21,12 +22,12 @@ import UpdateResultModal from '../../Modals/UpdateResultModal'
 import ViewHistoryModal from '../../Modals/ViewHistoryModal'
 
 interface MenuListProps {
-  options: string[]
-  items?: { id: number }
   candidate?: any
+  items?: { id: number }
+  options: string[]
 }
 
-const ActionMenu: React.FC<MenuListProps> = ({ options, items, candidate }) => {
+const ActionMenu: React.FC<MenuListProps> = ({ candidate, items, options }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const navigate = useNavigate()
@@ -46,37 +47,37 @@ const ActionMenu: React.FC<MenuListProps> = ({ options, items, candidate }) => {
   const renderModal = () => {
     switch (modalType) {
       case 'View History':
-        return <ViewHistoryModal show={showOptionModal} onClose={() => setShowOptionModal(false)} items={items} />
+        return <ViewHistoryModal items={items} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Move to Another Vacancy':
-        return <MoveAnotherVacancyModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+        return <MoveAnotherVacancyModal onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Update Result':
-        return <UpdateResultModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+        return <UpdateResultModal onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Reject':
-        return <RejectModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+        return <RejectModal onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Blacklist':
-        return <BlacklistModal show={showOptionModal} onClose={() => setShowOptionModal(false)} />
+        return <BlacklistModal onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Process':
-        return <ProcessModal show={showOptionModal} onClose={() => setShowOptionModal(false)} candidate={candidate} />
+        return <ProcessModal candidate={candidate} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       default:
         return null
     }
   }
 
   const iconMap: { [key: string]: JSX.Element } = {
-    Process: <RefreshCwIcon />,
-    'Move to Another Vacancy': <SendToBackIcon />,
-    'View History': <HistoryIcon />,
     Blacklist: <UserXIcon />,
-    'View in Interview': <CalendarDaysIcon />,
+    'Move to Another Vacancy': <SendToBackIcon />,
     'Offering Letter': <FileTextIcon />,
-    'Update Result': <UserPlus2Icon />,
+    Process: <RefreshCwIcon />,
     Reject: <XCircleIcon />,
+    'Update Result': <UserPlus2Icon />,
+    'View History': <HistoryIcon />,
+    'View in Interview': <CalendarDaysIcon />,
   }
 
   return (
     <div className="text-center">
       <Menu as="div" className="relative">
-        <Menu.Button as={Button} color="primary" variant="light" size="small" block className="text-xs">
+        <Menu.Button as={Button} block className="text-xs" color="primary" size="small" variant="light">
           Action
         </Menu.Button>
         <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">

@@ -4,11 +4,11 @@ import { useSearchParams } from 'react-router-dom'
 
 type PropType = {
   name: string
-  total?: number
   onRefresh?: () => void
+  total?: number
 }
 
-const CardHeader: React.FC<PropType> = ({ name, total, onRefresh }) => {
+const CardHeader: React.FC<PropType> = ({ name, onRefresh, total }) => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search') || undefined
@@ -16,8 +16,15 @@ const CardHeader: React.FC<PropType> = ({ name, total, onRefresh }) => {
 
   return (
     <MainCardHeader
-      title={`${name} List`}
-      subtitleLoading={loading}
+      onRefresh={onRefresh}
+      search={{
+        setValue: (e) => {
+          searchParams.set('search', e)
+          searchParams.delete('page')
+          setSearchParam(searchParams)
+        },
+        value: search || '',
+      }}
       subtitle={
         <>
           <span className="text-primary-600">
@@ -26,15 +33,8 @@ const CardHeader: React.FC<PropType> = ({ name, total, onRefresh }) => {
           in this list
         </>
       }
-      onRefresh={onRefresh}
-      search={{
-        value: search || '',
-        setValue: (e) => {
-          searchParams.set('search', e)
-          searchParams.delete('page')
-          setSearchParam(searchParams)
-        },
-      }}
+      subtitleLoading={loading}
+      title={`${name} List`}
     />
   )
 }

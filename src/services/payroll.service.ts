@@ -51,11 +51,11 @@ export const deleteBenefitComponent = (oid: string, signal?: GenericAbortSignal)
   return axios.delete(`/benefit-component/${oid}`, { signal }).then(({ data }) => data.data)
 }
 
-export const applyBenefitToEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
+export const applyBenefitToEmployees = (payload: { componentId: string; employeeIds: string[] }, signal?: GenericAbortSignal) => {
   return axios.post('/benefit-component/apply-to-employees', payload, { signal }).then(({ data }) => data.data)
 }
 
-export const removeBenefitFromEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
+export const removeBenefitFromEmployees = (payload: { componentId: string; employeeIds: string[] }, signal?: GenericAbortSignal) => {
   return axios.post('/benefit-component/remove-from-employees', payload, { signal }).then(({ data }) => data.data)
 }
 
@@ -84,18 +84,18 @@ export const deleteDeductionComponent = (oid: string, signal?: GenericAbortSigna
   return axios.delete(`/deduction-component/${oid}`, { signal }).then(({ data }) => data.data)
 }
 
-export const applyDeductionToEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
+export const applyDeductionToEmployees = (payload: { componentId: string; employeeIds: string[] }, signal?: GenericAbortSignal) => {
   return axios.post('/deduction-component/apply-to-employees', payload, { signal }).then(({ data }) => data.data)
 }
 
-export const removeDeductionFromEmployees = (payload: { employeeIds: string[]; componentId: string }, signal?: GenericAbortSignal) => {
+export const removeDeductionFromEmployees = (payload: { componentId: string; employeeIds: string[] }, signal?: GenericAbortSignal) => {
   return axios.post('/deduction-component/remove-from-employees', payload, { signal }).then(({ data }) => data.data)
 }
 
 /**
  * Payroll
  */
-export const fetchPayrollRequests = (params?: IPaginationParam & { statusRunner?: 'WAITING' | 'ON_PROCESS' | 'COMPLETED' | 'FAILED' }) => {
+export const fetchPayrollRequests = (params?: { statusRunner?: 'COMPLETED' | 'FAILED' | 'ON_PROCESS' | 'WAITING' } & IPaginationParam) => {
   return axios.get<{ data: IPaginationResponse<IPayrollRequest> }>('/payroll', { params }).then(({ data }) => data.data)
 }
 

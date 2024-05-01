@@ -7,14 +7,15 @@ import { candidateService, vacancyService } from '@/services'
 import { Select } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import Table from './components/Table'
 
 const CandidateBlacklistedPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
-  const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
-  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
+  const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<null | string>(null)
+  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<null | string>(null)
   const [isLoading, setIsLoading] = useState(true)
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
@@ -27,9 +28,9 @@ const CandidateBlacklistedPage: React.FC = () => {
   const education = searchParams.get('education') || undefined
 
   const pagination = usePagination({
+    params: { education, province, search, vacancy },
     pathname: '/candidates/blacklisted',
     totalPage: pageData?.totalPages,
-    params: { search, vacancy, province, education },
   })
 
   useEffect(() => {
@@ -41,12 +42,12 @@ const CandidateBlacklistedPage: React.FC = () => {
       try {
         const data = await candidateService.fetchBlacklist(
           {
-            q: search,
-            page: pagination.currentPage,
-            limit: 20,
             education: education,
-            vacancyId: vacancy,
+            limit: 20,
+            page: pagination.currentPage,
             province: province,
+            q: search,
+            vacancyId: vacancy,
           },
           signal,
         )
@@ -83,54 +84,54 @@ const CandidateBlacklistedPage: React.FC = () => {
     <>
       <PageHeader breadcrumb={[{ text: 'Candidate' }, { text: 'Blacklist' }]} title="Candidate Blacklist" />
 
-      <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
-      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
+      <PreviewVideoResumeModal onClose={() => setPreviewVideoModalUrl(null)} url={previewVideoModalUrl} />
+      <PreviewPdfResumeModal onClose={() => setPreviewPdfModalUrl(null)} url={previewPdfModalUrl} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={
+            <Table
+              items={pageData?.content || []}
+              loading={isLoading}
+              onDataChange={setOnChangeData}
+              setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+              setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
+            />
+          }
+          footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Candidate List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              filter={
+                open && (
+                  <div className="grid grid-cols-1 gap-3 p-3">
+                    <Select
+                      className="mb-3"
+                      onChange={(e) => {
+                        searchParams.set('vacancy', e.toString())
+                        setSearchParam(searchParams)
+                      }}
+                      options={vacancies.map((vacancy) => ({ label: vacancy.vacancyName, value: vacancy.oid }))}
+                      placeholder="Select Vacancy"
+                      value={vacancy}
+                      withReset
+                    />
+                  </div>
+                )
+              }
+              filterToogle={toggleOpen}
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
-              filterToogle={toggleOpen}
-              filter={
-                open && (
-                  <div className="grid grid-cols-1 gap-3 p-3">
-                    <Select
-                      placeholder="Select Vacancy"
-                      withReset
-                      options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
-                      className="mb-3"
-                      value={vacancy}
-                      onChange={(e) => {
-                        searchParams.set('vacancy', e.toString())
-                        setSearchParam(searchParams)
-                      }}
-                    />
-                  </div>
-                )
-              }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Candidate List"
             />
           )}
-          body={
-            <Table
-              items={pageData?.content || []}
-              loading={isLoading}
-              setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
-              setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
-              onDataChange={setOnChangeData}
-            />
-          }
-          footer={pagination.render()}
         />
       </Container>
     </>

@@ -32,5 +32,5 @@ export default function useEmployeePage() {
 
   if (pageError) throw pageError
 
-  return { employeeCode, isLoading, employee }
+  return { employee, employeeCode, isLoading }
 }

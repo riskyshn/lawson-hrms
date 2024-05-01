@@ -7,27 +7,25 @@ import React from 'react'
 
 // Define the props for the ActionMenu component
 type ActionMenuProps = {
-  item: IPreviousEmployee // Assuming IPreviousEmployee is defined elsewhere
   index: number
+  item: IPreviousEmployee // Assuming IPreviousEmployee is defined elsewhere
+  onRestored?: () => void // Optional callback function when employee is restored
   total: number
   upSpace: number
-  onRestored?: () => void // Optional callback function when employee is restored
 }
 
 // ActionMenu component for handling actions on each employee item
-const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, onRestored }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onRestored, total, upSpace }) => {
   const confirm = useConfirm() // Hook for displaying confirmation dialogs
   const toast = useToast() // Hook for displaying toast messages
 
   // Action to restore an employee
   const restoreEmployee: Table.ActionMenuItemProps = {
-    text: 'Restore Employee',
-    icon: PowerIcon,
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to restore this employee?', // Confirmation message
-        confirmBtnColor: 'error', // Color for the confirmation button
         cancelBtnColor: 'primary', // Color for the cancel button
+        confirmBtnColor: 'error', // Color for the confirmation button
+        text: 'Are you sure you want to restore this employee?', // Confirmation message
       })
 
       if (confirmed) {
@@ -44,6 +42,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, on
         }
       }
     },
+    icon: PowerIcon,
+    text: 'Restore Employee',
   }
 
   const menuItems = [restoreEmployee] // List of available menu items

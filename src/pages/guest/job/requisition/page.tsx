@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSearchParams } from 'react-router-dom'
 import * as yup from 'yup'
+
 import PageHeader from '../../components/PageHeader'
 
 const schema = yup.object().shape({
@@ -24,16 +25,16 @@ export const Component: React.FC = () => {
 
   const toast = useToast()
 
-  if (!token || !vacancyId || !approvalId) throw { status: 419, hideLayout: true, message: 'This page url is invalid.' }
+  if (!token || !vacancyId || !approvalId) throw { hideLayout: true, message: 'This page url is invalid.', status: 419 }
 
   const [vacancy, isLoading, refresh] = useAsyncAction(vacancyService.fetchVacancyDetail, vacancyId, {
     headers: { Authorization: `Bearer ${token}` },
   })
 
   const {
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -68,19 +69,19 @@ export const Component: React.FC = () => {
       <PageHeader subTitle={vacancy?.vacancyName}>Preview Job Requisition</PageHeader>
 
       <div className="container mx-auto flex flex-col gap-3 p-3">
-        <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
+        <PreviewVacancy isLoading={isLoading} vacancy={vacancy} />
 
         {!isLoading && vacancy?.status !== 'canceled' && isNotApproved && (
           <Card>
             <CardBody>
-              <Textarea label="Notes" placeholder="Add Your Notes Here" error={errors.notes?.message} {...register('notes')} />
+              <Textarea error={errors.notes?.message} label="Notes" placeholder="Add Your Notes Here" {...register('notes')} />
             </CardBody>
 
             <CardFooter className="gap-3">
-              <Button type="button" color="error" className="w-32" onClick={() => onSubmit(2)()} disabled={isFormLoading}>
+              <Button className="w-32" color="error" disabled={isFormLoading} onClick={() => onSubmit(2)()} type="button">
                 Reject
               </Button>
-              <Button type="button" color="primary" className="w-32" onClick={() => onSubmit(1)()} disabled={isFormLoading}>
+              <Button className="w-32" color="primary" disabled={isFormLoading} onClick={() => onSubmit(1)()} type="button">
                 Approve
               </Button>
             </CardFooter>

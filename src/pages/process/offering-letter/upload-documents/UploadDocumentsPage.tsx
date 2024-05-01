@@ -5,6 +5,7 @@ import { axiosErrorMessage } from '@/utils/axios'
 import { Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+
 import UploadDocument from './components/UploadDocument'
 
 const UploadDocumentsPage = () => {
@@ -53,7 +54,7 @@ const UploadDocumentsPage = () => {
 
   const [formValues, setFormValues] = useState<Record<string, string>>({})
   const [isLoading, setIsLoading] = useState(false)
-  const { activeStep, isLastStep, isFirstStep, handlePrev, handleNext } = useSteps(documentRequests?.length || 0)
+  const { activeStep, handleNext, handlePrev, isFirstStep, isLastStep } = useSteps(documentRequests?.length || 0)
 
   const handleStepSubmit = async (data: any) => {
     setFormValues(data)
@@ -89,7 +90,7 @@ const UploadDocumentsPage = () => {
 
       {!documentRequests && (
         <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
+          <Spinner className="text-primary-600" height={40} />
         </div>
       )}
 
@@ -97,20 +98,20 @@ const UploadDocumentsPage = () => {
         <Container className="flex flex-col gap-3 py-3 xl:pb-8">
           <Stepper
             activeStep={activeStep}
-            steps={documentRequests.map((el) => ({ title: el.name, details: el.allowedFileTypes.join(', ') }))}
+            steps={documentRequests.map((el) => ({ details: el.allowedFileTypes.join(', '), title: el.name }))}
           />
 
           {documentRequests.map((item, index) =>
             activeStep === index ? (
               <UploadDocument
-                key={index}
-                link={formValues[item.oid] || ''}
+                allowedFileTypes={item.allowedFileTypes}
+                handlePrev={handlePrev}
+                handleSubmit={(link) => handleStepSubmit({ ...formValues, [item.oid]: link })}
                 isFirst={isFirstStep}
                 isLast={isLastStep}
                 isLoading={isLoading}
-                handlePrev={handlePrev}
-                handleSubmit={(link) => handleStepSubmit({ ...formValues, [item.oid]: link })}
-                allowedFileTypes={item.allowedFileTypes}
+                key={index}
+                link={formValues[item.oid] || ''}
               />
             ) : null,
           )}

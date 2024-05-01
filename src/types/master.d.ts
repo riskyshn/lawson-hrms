@@ -1,53 +1,53 @@
 interface IMasterCountry {
-  oid: string
-  name: string
   code: string
-  region: string
   mobilePhonePrefix: string
+  name: string
+  oid: string
+  region: string
   subRegion: string
 }
 
 interface IMasterProvince {
-  oid: string
-  name: string
   country: string
+  name: string
+  oid: string
 }
 
 interface IMasterCity {
-  oid: string
   name: string
+  oid: string
   province: string
 }
 
 interface IMasterDistrict {
-  oid: string
-  name: string
   city: string
+  name: string
+  oid: string
 }
 
 interface IMasterSubDistrict {
-  oid: string
   name: string
+  oid: string
 }
 
 interface IMasterEducationLevel {
-  oid: string
   name: string
+  oid: string
 }
 
 interface IMasterGender {
-  oid: string
   name: string
+  oid: string
 }
 
 interface IMasterReligion {
-  oid: string
   name: string
+  oid: string
 }
 
 interface IMasterMaritalStatus {
-  oid: string
   name: string
+  oid: string
 }
 
 interface IMasterFileType {

@@ -3,24 +3,25 @@ import PageHeader from '@/components/Elements/Layout/PageHeader'
 import PreviewVacancy from '@/components/Modules/Job/PreviewVacancy'
 import { Button } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
+
 import useVacancyPage from '../../hooks/use-vacancy-page'
 
 export const Component: React.FC = () => {
-  const { vacancy, isLoading } = useVacancyPage()
+  const { isLoading, vacancy } = useVacancyPage()
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Preview Management' }]}
-        title="Preview Job Management"
         actions={
-          <Button as={Link} to="/job/Management" variant="light" color="error">
+          <Button as={Link} color="error" to="/job/Management" variant="light">
             Back
           </Button>
         }
+        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Preview Management' }]}
+        title="Preview Job Management"
       />
       <Container className="flex flex-col gap-3 pb-3 xl:pb-8">
-        <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
+        <PreviewVacancy isLoading={isLoading} vacancy={vacancy} />
       </Container>
     </>
   )

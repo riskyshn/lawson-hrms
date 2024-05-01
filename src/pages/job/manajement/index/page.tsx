@@ -11,6 +11,7 @@ import genOptions from '@/utils/gen-options'
 import { AsyncSelect, Button, Select } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
+
 import StatisticCards from '../../components/StatisticCards'
 import Table from './components/Table'
 
@@ -21,91 +22,91 @@ export const Component: React.FC = () => {
   const [department, setDepartment, rawDepartment] = useOptionSearchParam('department')
   const [status, setStatus, rawStatus] = useOptionSearchParam('status')
 
-  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch(
+  const { isLoading, onRefresh, pageData, refresh } = useAsyncSearch(
     vacancyService.fetchVacancies,
-    { limit: 20, status: status?.value, departmentId: department?.value, isRequisition: 0 },
+    { departmentId: department?.value, isRequisition: 0, limit: 20, status: status?.value },
     search,
   )
 
   const pagination = usePagination({
+    params: { department: rawDepartment, search, status: rawStatus },
     pathname: '/job/management',
     totalPage: pageData?.totalPages,
-    params: { search, department: rawDepartment, status: rawStatus },
   })
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Job Management' }]}
-        title="Job Management"
-        subtitle="Manage Your Job Vacancy"
         actions={
           <>
             <Button
               as={Link}
+              className="text-gray-600"
+              color="primary"
+              leftChild={<SettingsIcon size={16} />}
               to="/job/management/recruitment-stages"
               variant="light"
-              color="primary"
-              className="text-gray-600"
-              leftChild={<SettingsIcon size={16} />}
             >
               Recruitment Stages
             </Button>
-            <Button as={Link} to="/job/management/create" color="primary" className="ml-3">
+            <Button as={Link} className="ml-3" color="primary" to="/job/management/create">
               Create Job Posting
             </Button>
           </>
         }
+        breadcrumb={[{ text: 'Job' }, { text: 'Management' }, { text: 'Job Management' }]}
+        subtitle="Manage Your Job Vacancy"
+        title="Job Management"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <StatisticCards refresh={refresh} />
 
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
+          footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Vacancy List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
-              subtitle={
-                <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Vacancy</span> in total
-                </>
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <AsyncSelect
+                      action={organizationService.fetchDepartments}
+                      converter={emmbedToOptions}
+                      onChange={setDepartment}
+                      placeholder="All Departement"
+                      value={department}
+                      withReset
+                    />
+                    <Select
+                      onChange={setStatus}
+                      options={genOptions(['active', 'inactive', 'draft', 'expired', 'fulfilled'])}
+                      placeholder="All Status"
+                      value={status?.value}
+                      withReset
+                    />
+                  </div>
+                )
               }
+              filterToogle={toggleOpen}
+              onRefresh={onRefresh}
               search={{
-                value: search || '',
                 setValue: (e) => {
                   searchParams.set('search', e)
                   searchParams.delete('page')
                   setSearchParam(searchParams)
                 },
+                value: search || '',
               }}
-              onRefresh={onRefresh}
-              filterToogle={toggleOpen}
-              filter={
-                open && (
-                  <div className="grid grid-cols-2 gap-3 p-3">
-                    <AsyncSelect
-                      placeholder="All Departement"
-                      withReset
-                      action={organizationService.fetchDepartments}
-                      converter={emmbedToOptions}
-                      value={department}
-                      onChange={setDepartment}
-                    />
-                    <Select
-                      placeholder="All Status"
-                      withReset
-                      value={status?.value}
-                      onChange={setStatus}
-                      options={genOptions(['active', 'inactive', 'draft', 'expired', 'fulfilled'])}
-                    />
-                  </div>
-                )
+              subtitle={
+                <>
+                  You have <span className="text-primary-600">{pageData?.totalElements} Vacancy</span> in total
+                </>
               }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Vacancy List"
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

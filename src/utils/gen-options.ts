@@ -1,4 +1,4 @@
-export default function genOptions(items: (string | [string | number, string])[]) {
+export default function genOptions(items: ([number | string, string] | string)[]) {
   return items.map((item) => {
     if (typeof item === 'string') {
       return {

@@ -30,7 +30,7 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
         { children: item.approver?.name || '', className: 'text-center' },
         {
           children: (
-            <Badge color={status.color} className="font-semibold">
+            <Badge className="font-semibold" color={status.color}>
               {status.text}
             </Badge>
           ),
@@ -48,17 +48,17 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
     }
   })
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
-const getStatus = (status: string): { text: string; color: Color } => {
-  const statusMap: Record<string, { text: string; color: Color }> = {
-    WAITING: { text: 'Waiting', color: 'warning' },
-    ON_PROCESS: { text: 'On Process', color: 'primary' },
-    COMPLETED: { text: 'Completed', color: 'success' },
-    FAILED: { text: 'Failed', color: 'error' },
+const getStatus = (status: string): { color: Color; text: string } => {
+  const statusMap: Record<string, { color: Color; text: string }> = {
+    COMPLETED: { color: 'success', text: 'Completed' },
+    FAILED: { color: 'error', text: 'Failed' },
+    ON_PROCESS: { color: 'primary', text: 'On Process' },
+    WAITING: { color: 'warning', text: 'Waiting' },
   }
-  return statusMap[status] || { text: status || 'Unknown', color: 'default' }
+  return statusMap[status] || { color: 'default', text: status || 'Unknown' }
 }
 
 export default Table

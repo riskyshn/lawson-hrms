@@ -1,65 +1,65 @@
 interface IDashboardSchedule {
-  name?: string
   description?: string
-  location?: string
-  guests?: string[]
-  timezone?: string
-  meet?: boolean
-  startedAt?: string
   endedAt?: string
+  guests?: string[]
+  location?: string
+  meet?: boolean
+  name?: string
+  startedAt?: string
+  timezone?: string
 }
 
 interface IDashboardRecentlyPostedJob {
-  oid: string
-  name?: string
-  rrNumber?: string
   applicantCount?: number
   createdAt?: string
+  name?: string
+  oid: string
+  rrNumber?: string
 }
 
 interface IDashboardRecentlyApplied {
-  oid: string
+  applyDate?: string
   candidate?: {
-    name?: string
-    email?: string
     cv?: string
+    email?: string
+    name?: string
     oid?: string
     photoProfile?: string
     videoResume?: string
   }
+  candidateMatches?: Array<{
+    candidateData?: string
+    isMatch?: boolean
+    requirementType?: string
+    vacancyData?: string
+  }>
+  candidateMatchesMandatory?: Array<{
+    candidateData?: string
+    isMatch?: boolean
+    requirementType?: string
+    vacancyData?: string
+  }>
+  matchPercentage?: number
+  message: string
+  oid: string
+  source?: string
+  status?: string
   vacancy?: {
     name?: string
     oid?: string
     rrNumber?: string
   }
-  applyDate?: string
-  source?: string
-  status?: string
-  candidateMatches?: Array<{
-    requirementType?: string
-    vacancyData?: string
-    candidateData?: string
-    isMatch?: boolean
-  }>
-  candidateMatchesMandatory?: Array<{
-    requirementType?: string
-    vacancyData?: string
-    candidateData?: string
-    isMatch?: boolean
-  }>
-  message: string
-  matchPercentage?: number
 }
 
 interface IDashboardAnnouncement {
-  oid: string
-  title?: string
-  poster?: string
-  content?: string
   company?: {
-    oid: string
     name?: string
+    oid: string
   }
-  isPinned?: boolean
+  content?: string
   createdAt?: string
+  isPinned?: boolean
+  oid: string
+  poster?: string
+  title?: string
 }

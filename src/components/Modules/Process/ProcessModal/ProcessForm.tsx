@@ -8,11 +8,17 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
+
 import SelectEmployees from './SelectEmployees'
 
 const schema = yup.object({
-  name: yup.string().required().label('Title'),
   date: yup.date().min(moment().add(-1, 'days').toDate()).required().label('Date'),
+  description: yup.string().required().label('Description'),
+  endedAt: yup.string().required().label('Ended at'),
+  guests: yup.array().of(yup.string().email().required().label('Email')).min(1).required().label('Guests'),
+  location: yup.string().required().label('Location'),
+  meet: yup.boolean(),
+  name: yup.string().required().label('Title'),
   startedAt: yup
     .string()
     .required()
@@ -20,12 +26,7 @@ const schema = yup.object({
       return moment(value, 'HH:mm').isBefore(moment(this.parent.endedAt, 'HH:mm'))
     })
     .label('Started at'),
-  endedAt: yup.string().required().label('Ended at'),
   timezone: yup.string().required().label('Timezone'),
-  guests: yup.array().of(yup.string().email().required().label('Email')).min(1).required().label('Guests'),
-  meet: yup.boolean(),
-  location: yup.string().required().label('Location'),
-  description: yup.string().required().label('Description'),
 })
 
 const timezones = [
@@ -46,12 +47,12 @@ const getCurrentTimezone = () => {
 }
 
 const ProcessForm: React.FC<{
-  stage: IApplicantStage
   applicant?: IDataTableApplicant
   onClose?: () => void
-  onSubmited?: () => void
   onPrev?: () => void
-}> = ({ stage, applicant, onPrev, onClose, onSubmited }) => {
+  onSubmited?: () => void
+  stage: IApplicantStage
+}> = ({ applicant, onClose, onPrev, onSubmited, stage }) => {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -59,11 +60,11 @@ const ProcessForm: React.FC<{
   const navigate = useNavigate()
 
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+    setValue,
     trigger,
     watch,
   } = useForm({
@@ -88,14 +89,14 @@ const ProcessForm: React.FC<{
       const endedAt = moment(moment(data.date).format('YYYY-MM-DD') + ' ' + data.endedAt, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DDTHH:mm:ss')
       await processService.updateProcess({
         applicantId: applicant?.oid,
-        stageId: stage.oid,
         schedule: {
           ...data,
-          startedAt,
           endedAt,
           guests: [...data.guests, applicant?.candidate?.email].filter((el) => !!el),
           meet: !!data.meet,
+          startedAt,
         },
+        stageId: stage.oid,
       })
 
       toast('Process updated successfully', { color: 'success' })
@@ -112,88 +113,88 @@ const ProcessForm: React.FC<{
   })
 
   return (
-    <form onSubmit={onSubmit} className="divide-y">
+    <form className="divide-y" onSubmit={onSubmit}>
       <div className="grid grid-cols-1 gap-2 p-3">
         {errorMessage && (
-          <Alert color="error" className="mb-3">
+          <Alert className="mb-3" color="error">
             {errorMessage}
           </Alert>
         )}
 
-        <Input label="Title" labelRequired placeholder="Add Title" error={errors.name?.message} {...register('name')} />
+        <Input error={errors.name?.message} label="Title" labelRequired placeholder="Add Title" {...register('name')} />
 
         <InputDate
-          placeholder="Pick date"
-          label="Date"
           displayFormat="DD-MM-YYYY"
-          minDate={moment().toDate()}
           error={errors.date?.message}
-          value={getValues('date')}
+          label="Date"
+          minDate={moment().toDate()}
           onValueChange={(v) => {
             setValue('date', v)
             trigger('date')
           }}
+          placeholder="Pick date"
+          value={getValues('date')}
         />
 
         <div className="grid grid-cols-2 gap-2">
           <InputTime
+            error={errors.startedAt?.message}
             label="Started At"
             labelRequired
-            error={errors.startedAt?.message}
             name="startedAt"
-            value={watch('startedAt')}
             onValueChange={(v) => {
               setValue('startedAt', v)
               trigger('startedAt')
             }}
             rightChild={<ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />}
+            value={watch('startedAt')}
           />
           <InputTime
+            error={errors.endedAt?.message}
             label="Ended At"
             labelRequired
-            error={errors.endedAt?.message}
             name="endedAt"
-            value={watch('endedAt')}
             onValueChange={(v) => {
               setValue('endedAt', v)
               trigger('startedAt')
               trigger('endedAt')
             }}
             rightChild={<ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />}
+            value={watch('endedAt')}
           />
         </div>
 
         <Select
-          label="Timezone"
-          placeholder="Timezone"
-          labelRequired
-          hideSearch
-          wrapperClassName="m-0"
-          options={timezones}
           error={errors.timezone?.message}
-          value={getValues('timezone')}
+          hideSearch
+          label="Timezone"
+          labelRequired
           onChange={(v) => {
             setValue('timezone', v.toString())
             trigger('timezone')
           }}
+          options={timezones}
+          placeholder="Timezone"
+          value={getValues('timezone')}
+          wrapperClassName="m-0"
         />
 
         <div className="flex items-center gap-2 py-3">
           <Switch
             color="primary"
             id="generate-meet"
-            value={!!watch('meet')}
             onChange={(v) => {
               setValue('meet', v)
               trigger('meet')
             }}
+            value={!!watch('meet')}
           />
-          <label htmlFor="generate-meet" className="block text-sm">
+          <label className="block text-sm" htmlFor="generate-meet">
             Add Google Meet Video Conferencing For Online <span className="capitalize">{stage.type.toLowerCase()}</span>
           </label>
         </div>
 
-        <InputWrapper label="Guests" labelRequired error={errors.guests?.message}>
+        <InputWrapper error={errors.guests?.message} label="Guests" labelRequired>
           <SelectEmployees
             candidate={applicant?.candidate}
             onValueChange={(value) => {
@@ -203,20 +204,20 @@ const ProcessForm: React.FC<{
           />
         </InputWrapper>
 
-        <Input label="Location" labelRequired placeholder="Add Location" error={errors.location?.message} {...register('location')} />
+        <Input error={errors.location?.message} label="Location" labelRequired placeholder="Add Location" {...register('location')} />
         <Textarea
-          rows={2}
-          maxLength={156}
+          error={errors.description?.message}
           label="Description"
           labelRequired
+          maxLength={156}
           placeholder="Add Description"
-          error={errors.description?.message}
+          rows={2}
           {...register('description')}
         />
       </div>
 
       <ModalFooter className="gap-3">
-        <Button type="button" color="error" variant="light" className="w-24" disabled={loading} onClick={onPrev}>
+        <Button className="w-24" color="error" disabled={loading} onClick={onPrev} type="button" variant="light">
           Prev
         </Button>
         <Button color="primary" disabled={loading} loading={loading}>

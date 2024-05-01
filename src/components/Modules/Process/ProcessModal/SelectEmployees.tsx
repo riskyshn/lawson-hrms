@@ -2,15 +2,16 @@ import { employeeService } from '@/services'
 import { BaseInput, Spinner, useInfiniteScroll } from 'jobseeker-ui'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import EmployeeItem from './EmployeeItem'
 
 type PropTypes = {
-  onValueChange?: (value: string[]) => void
-  className?: string
   candidate?: IDataTableEmployee
+  className?: string
+  onValueChange?: (value: string[]) => void
 }
 
-const SelectEmployees: React.FC<PropTypes> = ({ onValueChange, className, candidate }) => {
+const SelectEmployees: React.FC<PropTypes> = ({ candidate, className, onValueChange }) => {
   const [selected, setSelected] = useState<IDataTableEmployee[]>([])
   const [items, setItems] = useState<IDataTableEmployee[]>([])
   const [page, setPage] = useState(1)
@@ -25,7 +26,7 @@ const SelectEmployees: React.FC<PropTypes> = ({ onValueChange, className, candid
   const loadMore = async (signal?: AbortSignal, overridePage?: number) => {
     setLoading(true)
     try {
-      const { content } = await employeeService.fetchEmployees({ page: overridePage || page, limit: 15, q: search || undefined }, signal)
+      const { content } = await employeeService.fetchEmployees({ limit: 15, page: overridePage || page, q: search || undefined }, signal)
       setItems((prev) => [...prev, ...content])
       setPage((prevPage) => prevPage + 1)
       setHasNextPage(content.length > 0)
@@ -37,10 +38,10 @@ const SelectEmployees: React.FC<PropTypes> = ({ onValueChange, className, candid
   }
 
   const [infiniteRef, { rootRef }] = useInfiniteScroll({
-    loading,
-    hasNextPage,
-    onLoadMore: loadMore,
     disabled: !!error,
+    hasNextPage,
+    loading,
+    onLoadMore: loadMore,
     rootMargin: '0px 0px 20px 0px',
   })
 
@@ -86,8 +87,8 @@ const SelectEmployees: React.FC<PropTypes> = ({ onValueChange, className, candid
 
   return (
     <>
-      <div className={twJoin('relative', className)} ref={dropdownRef} onClick={() => setShow(true)}>
-        <BaseInput placeholder="Search employee here..." value={search} onChange={(v) => setSearch(v.target.value)} />
+      <div className={twJoin('relative', className)} onClick={() => setShow(true)} ref={dropdownRef}>
+        <BaseInput onChange={(v) => setSearch(v.target.value)} placeholder="Search employee here..." value={search} />
         {loading && <Spinner className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-primary-600" />}
 
         {show && (
@@ -95,15 +96,15 @@ const SelectEmployees: React.FC<PropTypes> = ({ onValueChange, className, candid
             className="absolute left-0 right-0  top-full z-10 mt-px overflow-hidden rounded-lg border bg-white shadow-lg"
             onBlur={() => setShow(false)}
           >
-            <ul ref={rootRef} className="chrome-scrollbar flex h-64 flex-col divide-y  overflow-y-auto p-3">
+            <ul className="chrome-scrollbar flex h-64 flex-col divide-y  overflow-y-auto p-3" ref={rootRef}>
               {items.map((item, i) => (
-                <EmployeeItem key={i} item={item} selected={selectedEmails.includes(item.email)} onClick={handleItemClick} />
+                <EmployeeItem item={item} key={i} onClick={handleItemClick} selected={selectedEmails.includes(item.email)} />
               ))}
               <li className="flex flex-1 items-center justify-center py-8">
                 {loading && <Spinner className="block h-10 w-10 text-primary-600" />}
                 {!hasNextPage && page > 1 && <p>No more employees to load</p>}
                 {!hasNextPage && page == 1 && <p>No employees to show</p>}
-                {hasNextPage && <div ref={infiniteRef} className="block h-px" />}
+                {hasNextPage && <div className="block h-px" ref={infiniteRef} />}
               </li>
             </ul>
           </div>
@@ -111,9 +112,9 @@ const SelectEmployees: React.FC<PropTypes> = ({ onValueChange, className, candid
       </div>
 
       <ul className="flex flex-col divide-y">
-        {candidate && <EmployeeItem item={candidate} isCandidate />}
+        {candidate && <EmployeeItem isCandidate item={candidate} />}
         {selected.map((item, i) => (
-          <EmployeeItem key={i} item={item} onRemove={handleItemClick} />
+          <EmployeeItem item={item} key={i} onRemove={handleItemClick} />
         ))}
       </ul>
     </>

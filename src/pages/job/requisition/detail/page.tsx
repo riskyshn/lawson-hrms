@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
+
 import useVacancyPage from '../../hooks/use-vacancy-page'
 
 const schema = yup.object().shape({
@@ -17,7 +18,7 @@ const schema = yup.object().shape({
 })
 
 export const Component: React.FC = () => {
-  const { vacancy, isLoading } = useVacancyPage()
+  const { isLoading, vacancy } = useVacancyPage()
   const [loading, setLoading] = useState(false)
   const [employee, setEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
@@ -44,9 +45,9 @@ export const Component: React.FC = () => {
   }, [isAdmin, queuedEmployee, user?.employee?.oid])
 
   const {
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -75,16 +76,16 @@ export const Component: React.FC = () => {
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Preview Requisition' }]}
-        title="Preview Job Requisition"
         actions={
-          <Button as={Link} to="/job/requisition" variant="light" color="error">
+          <Button as={Link} color="error" to="/job/requisition" variant="light">
             Cancel
           </Button>
         }
+        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Preview Requisition' }]}
+        title="Preview Job Requisition"
       />
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
-        <PreviewVacancy vacancy={vacancy} isLoading={isLoading} />
+        <PreviewVacancy isLoading={isLoading} vacancy={vacancy} />
 
         {vacancy?.status !== 'canceled' && queuedEmployee && (isAdmin || queuedEmployee.oid === user?.employee?.oid) && (
           <Card>
@@ -92,7 +93,7 @@ export const Component: React.FC = () => {
               {queuedEmployee.oid !== user?.employee?.oid && (
                 <>
                   {employee ? (
-                    <Alert color="warning" className="mb-3 text-center">
+                    <Alert className="mb-3 text-center" color="warning">
                       You will represent "<strong>{employee.name}</strong>" to accept or reject this requisition.
                     </Alert>
                   ) : (
@@ -100,14 +101,14 @@ export const Component: React.FC = () => {
                   )}
                 </>
               )}
-              <Textarea label="Notes" placeholder="Add Your Notes Here" error={errors.notes?.message} {...register('notes')} />
+              <Textarea error={errors.notes?.message} label="Notes" placeholder="Add Your Notes Here" {...register('notes')} />
             </CardBody>
 
             <CardFooter className="gap-3">
-              <Button type="button" color="error" className="w-32" onClick={() => onSubmit(2, queuedEmployee.oid)()} disabled={loading}>
+              <Button className="w-32" color="error" disabled={loading} onClick={() => onSubmit(2, queuedEmployee.oid)()} type="button">
                 Reject
               </Button>
-              <Button type="button" color="primary" className="w-32" onClick={() => onSubmit(1, queuedEmployee.oid)()} disabled={loading}>
+              <Button className="w-32" color="primary" disabled={loading} onClick={() => onSubmit(1, queuedEmployee.oid)()} type="button">
                 Approve
               </Button>
             </CardFooter>

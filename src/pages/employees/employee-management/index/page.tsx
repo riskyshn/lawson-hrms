@@ -10,6 +10,7 @@ import emmbedToOptions from '@/utils/emmbed-to-options'
 import { AsyncSelect, Button } from 'jobseeker-ui'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+
 import ResignTerminateModal from './components/ResignTerminateModal'
 import Table from './components/Table'
 
@@ -22,87 +23,87 @@ export const Component: React.FC = () => {
 
   const [selectedToTerminate, setSelectedToTerminate] = useState<IDataTableEmployee | null>(null)
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(
     employeeService.fetchEmployees,
-    { limit: 20, branchId: branch?.value, departmentId: department?.value },
+    { branchId: branch?.value, departmentId: department?.value, limit: 20 },
     search,
   )
 
   const pagination = usePagination({
+    params: { branch: rawBranch, department: rawDepartment, search },
     pathname: '/employees/employee-management',
     totalPage: pageData?.totalPages,
-    params: { search, department: rawDepartment, branch: rawBranch },
   })
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Employees' }, { text: 'Employee Management' }]}
-        title="Employee Management"
         actions={
-          <Button as={Link} to="/employees/employee-management/create" color="primary" className="ml-3">
+          <Button as={Link} className="ml-3" color="primary" to="/employees/employee-management/create">
             Add Employee
           </Button>
         }
+        breadcrumb={[{ text: 'Employees' }, { text: 'Employee Management' }]}
+        title="Employee Management"
       />
 
       <ResignTerminateModal
         item={selectedToTerminate}
+        onClose={() => setSelectedToTerminate(null)}
         onSuccess={() => {
           onRefresh()
           setSelectedToTerminate(null)
         }}
-        onClose={() => setSelectedToTerminate(null)}
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} setSelectedTerminate={setSelectedToTerminate} />}
+          footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Employee List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
-              subtitle={
-                <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Employee</span> in total
-                </>
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <AsyncSelect
+                      action={organizationService.fetchDepartments}
+                      converter={emmbedToOptions}
+                      onChange={setDepartment}
+                      placeholder="All Departement"
+                      value={department}
+                      withReset
+                    />
+
+                    <AsyncSelect
+                      action={organizationService.fetchBranches}
+                      converter={emmbedToOptions}
+                      onChange={setBranch}
+                      placeholder="All Branch"
+                      value={branch}
+                      withReset
+                    />
+                  </div>
+                )
               }
+              filterToogle={toggleOpen}
+              onRefresh={onRefresh}
               search={{
-                value: search || '',
                 setValue: (e) => {
                   searchParams.set('search', e)
                   searchParams.delete('page')
                   setSearchParam(searchParams)
                 },
+                value: search || '',
               }}
-              onRefresh={onRefresh}
-              filterToogle={toggleOpen}
-              filter={
-                open && (
-                  <div className="grid grid-cols-2 gap-3 p-3">
-                    <AsyncSelect
-                      placeholder="All Departement"
-                      withReset
-                      action={organizationService.fetchDepartments}
-                      converter={emmbedToOptions}
-                      value={department}
-                      onChange={setDepartment}
-                    />
-
-                    <AsyncSelect
-                      placeholder="All Branch"
-                      withReset
-                      action={organizationService.fetchBranches}
-                      converter={emmbedToOptions}
-                      value={branch}
-                      onChange={setBranch}
-                    />
-                  </div>
-                )
+              subtitle={
+                <>
+                  You have <span className="text-primary-600">{pageData?.totalElements} Employee</span> in total
+                </>
               }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Employee List"
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} setSelectedTerminate={setSelectedToTerminate} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

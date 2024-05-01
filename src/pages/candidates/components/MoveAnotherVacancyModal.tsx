@@ -4,13 +4,13 @@ import { Button, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type MoveAnotherVacancyModalProps = {
-  show: boolean
-  onClose: () => void
   candidate: any
   onApplyVacancy: (data: string) => void
+  onClose: () => void
+  show: boolean
 }
 
-const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show, onClose, candidate, onApplyVacancy }) => {
+const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ candidate, onApplyVacancy, onClose, show }) => {
   const [selectedVacancyId, setSelectedVacancyId] = useState<string>('')
   const [vacancies, setVacancies] = useState<any[]>([])
   const [loading, setLoading] = useState<boolean>(false)
@@ -63,20 +63,20 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ show,
   }
 
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Move to Another Vacancy</h4>
         <p className="text-center">Move candidates to a more suitable job vacancy</p>
       </div>
       <Select
-        label="Select Vacancy"
-        placeholder="Select Vacancy"
-        options={vacancies.map((vacancy) => ({ value: vacancy.oid, label: vacancy.vacancyName }))}
         className="mb-3"
-        value={selectedVacancyId}
+        label="Select Vacancy"
         onChange={handleChange}
+        options={vacancies.map((vacancy) => ({ label: vacancy.vacancyName, value: vacancy.oid }))}
+        placeholder="Select Vacancy"
+        value={selectedVacancyId}
       />
-      <Button block type="button" color="primary" className="mx-auto" loading={loading} onClick={handleSelectVacancy}>
+      <Button block className="mx-auto" color="primary" loading={loading} onClick={handleSelectVacancy} type="button">
         Select Vacancy
       </Button>
     </MainModal>

@@ -7,17 +7,17 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
-type FetchReportParams = IPaginationParam & {
-  start_date?: string
-  end_date?: string
-  province?: any
-  education?: any
-  gender?: any
-  range?: any
-  year?: any
-  type?: any
+type FetchReportParams = {
   department?: any
-}
+  education?: any
+  end_date?: string
+  gender?: any
+  province?: any
+  range?: any
+  start_date?: string
+  type?: any
+  year?: any
+} & IPaginationParam
 
 export const fetchRecruitmentFunnel = (params?: FetchReportParams, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IRecruitmentFunnel }>(`/summary/recruitment-funnel`, { params, signal }).then((response) => response.data.data)

@@ -2,13 +2,13 @@ import { Button, Card, CardBody } from 'jobseeker-ui'
 import React from 'react'
 
 const HistoryItem: React.FC<{
-  title: React.ReactNode
-  subTitle?: React.ReactNode
-  status?: React.ReactNode
-  showDetail?: boolean
-  onDetailToggleClick?: () => void
   children?: React.ReactNode
-}> = ({ title, subTitle, status, showDetail, onDetailToggleClick, children }) => {
+  onDetailToggleClick?: () => void
+  showDetail?: boolean
+  status?: React.ReactNode
+  subTitle?: React.ReactNode
+  title: React.ReactNode
+}> = ({ children, onDetailToggleClick, showDetail, status, subTitle, title }) => {
   return (
     <>
       <div className="flex items-start justify-between gap-3">
@@ -16,7 +16,7 @@ const HistoryItem: React.FC<{
           <h3 className="flex gap-3 font-semibold">{title}</h3>
           {subTitle && <p className="mb-2 text-xs text-gray-500">{subTitle}</p>}
           {onDetailToggleClick && (
-            <Button type="button" size="small" color="default" variant="light" className="text-xs" onClick={onDetailToggleClick}>
+            <Button className="text-xs" color="default" onClick={onDetailToggleClick} size="small" type="button" variant="light">
               {showDetail ? 'Hide Details' : 'Show Details'}
             </Button>
           )}

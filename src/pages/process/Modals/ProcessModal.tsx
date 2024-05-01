@@ -4,38 +4,38 @@ import { SearchIcon } from 'lucide-react'
 import React from 'react'
 
 type ProcessModalProps = {
-  show: boolean
-  onClose: () => void
   candidate: any
+  onClose: () => void
+  show: boolean
 }
 
 const data = [
   {
-    title: 'Interview',
     options: [
-      { id: 'interviewHR', name: 'interview', value: 'hr', label: 'Interview HR' },
-      { id: 'interviewUser1', name: 'interview', value: 'user1', label: 'Interview User 1' },
-      { id: 'interviewUser2', name: 'interview', value: 'user2', label: 'Interview User 2' },
+      { id: 'interviewHR', label: 'Interview HR', name: 'interview', value: 'hr' },
+      { id: 'interviewUser1', label: 'Interview User 1', name: 'interview', value: 'user1' },
+      { id: 'interviewUser2', label: 'Interview User 2', name: 'interview', value: 'user2' },
     ],
+    title: 'Interview',
   },
   {
-    title: 'Assessment',
     options: [
-      { id: 'assessmentPsychological', name: 'assessment', value: 'hr', label: 'Psychological Assessment' },
-      { id: 'assessmentTechnical', name: 'assessment', value: 'user1', label: 'Technical Assessment' },
+      { id: 'assessmentPsychological', label: 'Psychological Assessment', name: 'assessment', value: 'hr' },
+      { id: 'assessmentTechnical', label: 'Technical Assessment', name: 'assessment', value: 'user1' },
     ],
+    title: 'Assessment',
   },
 ]
 
-const ProcessModal: React.FC<ProcessModalProps> = ({ show, onClose }) => {
+const ProcessModal: React.FC<ProcessModalProps> = ({ onClose, show }) => {
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
       <div className="mb-3">
         <h3 className="mb-5 text-lg font-semibold">Process Update</h3>
         <p className="text-xs text-gray-500">Please select the process stage</p>
         <div className="relative flex flex-1">
-          <BaseInput type="text" placeholder="Search Stage" className="peer w-full rounded-r-none" />
-          <Button iconOnly color="primary" className="rounded-l-none">
+          <BaseInput className="peer w-full rounded-r-none" placeholder="Search Stage" type="text" />
+          <Button className="rounded-l-none" color="primary" iconOnly>
             <SearchIcon size={16} />
           </Button>
         </div>
@@ -44,17 +44,17 @@ const ProcessModal: React.FC<ProcessModalProps> = ({ show, onClose }) => {
         <div className="mb-3" key={index}>
           <h6 className="mb-2 text-sm font-semibold">{section.title}</h6>
           {section.options.map((option, idx) => (
-            <InputRadio className="mb-2" key={idx} id={option.id} name={option.name} value={option.value}>
+            <InputRadio className="mb-2" id={option.id} key={idx} name={option.name} value={option.value}>
               {option.label}
             </InputRadio>
           ))}
         </div>
       ))}
       <div className="mt-8 flex justify-between">
-        <Button onClick={onClose} color="primary" variant="light" className="mr-2 w-1/2">
+        <Button className="mr-2 w-1/2" color="primary" onClick={onClose} variant="light">
           Cancel
         </Button>
-        <Button color="primary" className="ml-2 w-1/2">
+        <Button className="ml-2 w-1/2" color="primary">
           Next
         </Button>
       </div>

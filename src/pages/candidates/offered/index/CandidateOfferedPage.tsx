@@ -9,14 +9,15 @@ import emmbedToOptions from '@/utils/emmbed-to-options'
 import { AsyncSelect } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import Table from './components/Table'
 
 const CandidateOfferedPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
-  const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<string | null>(null)
-  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<string | null>(null)
+  const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<null | string>(null)
+  const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<null | string>(null)
   const [isLoading, setIsLoading] = useState(true)
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
@@ -29,9 +30,9 @@ const CandidateOfferedPage: React.FC = () => {
   const [education, setEducation, rawEducation] = useOptionSearchParam('education')
 
   const pagination = usePagination({
+    params: { education: rawEducation, province: rawProvince, search, vacancy: rawVacancy },
     pathname: '/candidates/offered',
     totalPage: pageData?.totalPages,
-    params: { search, vacancy: rawVacancy, province: rawProvince, education: rawEducation },
   })
 
   useEffect(() => {
@@ -43,12 +44,12 @@ const CandidateOfferedPage: React.FC = () => {
       try {
         const data = await candidateService.fetchOffer(
           {
-            q: search,
-            page: pagination.currentPage,
-            limit: 20,
             education: education?.value,
-            vacancyId: vacancy?.value,
+            limit: 20,
+            page: pagination.currentPage,
             province: province?.value,
+            q: search,
+            vacancyId: vacancy?.value,
           },
           signal,
         )
@@ -72,73 +73,73 @@ const CandidateOfferedPage: React.FC = () => {
     <>
       <PageHeader breadcrumb={[{ text: 'Candidate' }, { text: 'Offered' }]} title="Candidate Offered" />
 
-      <PreviewVideoResumeModal url={previewVideoModalUrl} onClose={() => setPreviewVideoModalUrl(null)} />
-      <PreviewPdfResumeModal url={previewPdfModalUrl} onClose={() => setPreviewPdfModalUrl(null)} />
+      <PreviewVideoResumeModal onClose={() => setPreviewVideoModalUrl(null)} url={previewVideoModalUrl} />
+      <PreviewPdfResumeModal onClose={() => setPreviewPdfModalUrl(null)} url={previewPdfModalUrl} />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={
+            <Table
+              items={pageData?.content || []}
+              loading={isLoading}
+              onDataChange={setOnChangeData}
+              setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
+              setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
+            />
+          }
+          footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
-              title="Candidate List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              filter={
+                open && (
+                  <div className="grid grid-cols-3 gap-3 p-3">
+                    <AsyncSelect
+                      action={vacancyService.fetchVacancies}
+                      className="mb-2"
+                      converter={(data) => data.content.map((el) => ({ label: el.vacancyName, value: el.oid }))}
+                      onValueChange={setVacancy}
+                      placeholder="Select Vacancy"
+                      value={vacancy}
+                      withReset
+                    />
+                    <AsyncSelect
+                      action={masterService.fetchProvinces}
+                      className="mb-2"
+                      converter={emmbedToOptions}
+                      disableInfiniteScroll
+                      onValueChange={setProvince}
+                      params={{ country: 'Indonesia' }}
+                      placeholder="Province"
+                      value={province}
+                      withReset
+                    />
+                    <AsyncSelect
+                      action={masterService.fetchEducationLevel}
+                      className="mb-2"
+                      converter={emmbedToOptions}
+                      disableInfiniteScroll
+                      onValueChange={setEducation}
+                      placeholder="All Education"
+                      value={education}
+                      withReset
+                    />
+                  </div>
+                )
+              }
+              filterToogle={toggleOpen}
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
-              filterToogle={toggleOpen}
-              filter={
-                open && (
-                  <div className="grid grid-cols-3 gap-3 p-3">
-                    <AsyncSelect
-                      placeholder="Select Vacancy"
-                      className="mb-2"
-                      withReset
-                      action={vacancyService.fetchVacancies}
-                      converter={(data) => data.content.map((el) => ({ label: el.vacancyName, value: el.oid }))}
-                      value={vacancy}
-                      onValueChange={setVacancy}
-                    />
-                    <AsyncSelect
-                      placeholder="Province"
-                      className="mb-2"
-                      withReset
-                      action={masterService.fetchProvinces}
-                      disableInfiniteScroll
-                      params={{ country: 'Indonesia' }}
-                      converter={emmbedToOptions}
-                      value={province}
-                      onValueChange={setProvince}
-                    />
-                    <AsyncSelect
-                      placeholder="All Education"
-                      className="mb-2"
-                      withReset
-                      action={masterService.fetchEducationLevel}
-                      disableInfiniteScroll
-                      converter={emmbedToOptions}
-                      value={education}
-                      onValueChange={setEducation}
-                    />
-                  </div>
-                )
-              }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Candidate List"
             />
           )}
-          body={
-            <Table
-              items={pageData?.content || []}
-              loading={isLoading}
-              setPreviewVideoModalUrl={(url) => setPreviewVideoModalUrl(url)}
-              setPreviewPdfModalUrl={(url) => setPreviewPdfModalUrl(url)}
-              onDataChange={setOnChangeData}
-            />
-          }
-          footer={pagination.render()}
         />
       </Container>
     </>

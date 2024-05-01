@@ -6,6 +6,7 @@ import { Avatar, Button, useToast } from 'jobseeker-ui'
 import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+
 import ConfirmationModal from '../../components/ConfirmationModal'
 
 type PropTypes = {
@@ -21,7 +22,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
   const toast = useToast()
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [selectedRecordId, setSelectedRecordId] = useState<string | undefined | null>(null)
+  const [selectedRecordId, setSelectedRecordId] = useState<null | string | undefined>(null)
   const [modalType, setModalType] = useState<string | undefined>()
 
   const handlePinClick = (lat: number, lng: number, latLng?: [number, number]) => {
@@ -39,9 +40,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
     try {
       setIsLoading(true)
       const payload = {
-        status: status,
         oids: ids,
         rejectedReason: reason || '',
+        status: status,
       }
       if (status === 'approved' && ids) {
         await attendanceService.updateAttendance(payload)
@@ -78,7 +79,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar name={item.employee.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item.employee.name || '-'} size={38} />
             </div>
             <div>
               <span className="block font-semibold">{item.employee.name}</span>
@@ -136,7 +137,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                   .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
                     if (index % 2 === 0) {
                       acc.push(
-                        <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                        <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                           {cur}
                           {array[index + 1]}
                         </div>,
@@ -157,7 +158,6 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                     return (
                       <div key={index}>
                         <button
-                          title="Maps"
                           className={`${record.isInOffice ? 'text-primary-600 hover:text-primary-700' : 'text-red-600 hover:text-red-700'} focus:outline-none`}
                           onClick={() =>
                             handlePinClick(
@@ -166,6 +166,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                               item.employee?.employment?.branch?.coordinate?.coordinates,
                             )
                           }
+                          title="Maps"
                         >
                           <MapPinIcon size={15} />
                         </button>
@@ -175,7 +176,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                   .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
                     if (index % 2 === 0) {
                       acc.push(
-                        <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                        <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                           {cur}
                           {array[index + 1]}
                         </div>,
@@ -192,9 +193,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
           ) : item.leaveData !== null ? (
             <div>
               <button
-                title="Image"
                 className="text-primary-600 hover:text-primary-700 focus:outline-none"
                 onClick={() => previewImage(item.leaveData.attachment)}
+                title="Image"
               >
                 <ImageIcon size={15} />
               </button>
@@ -205,9 +206,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                 return (
                   <div key={index}>
                     <button
-                      title="Image"
                       className="text-primary-600 hover:text-primary-700 focus:outline-none"
                       onClick={() => previewImage(record.photo)}
+                      title="Image"
                     >
                       <ImageIcon size={15} />
                     </button>
@@ -217,7 +218,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
               .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
                 if (index % 2 === 0) {
                   acc.push(
-                    <div key={index / 2} className="flex h-16 flex-col items-center justify-center">
+                    <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                       {cur}
                       {array[index + 1]}
                     </div>,
@@ -256,13 +257,20 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                     <div className="flex h-16 flex-col items-center justify-center" key={index}>
                       <div className={'mb-1 flex gap-2'}>
                         <Button
+                          color="success"
                           disabled={
                             record.status === 'approved' ||
                             record.status === 'rejected' ||
                             latestAttendanceType === 'clock_in' ||
                             latestAttendanceType === 'overtime_in'
                           }
-                          color="success"
+                          onClick={() =>
+                            handleViewDetails(
+                              item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
+                              'approved',
+                            )
+                          }
+                          size="small"
                           style={{
                             opacity:
                               record.status === 'approved' ||
@@ -272,27 +280,20 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                                 ? 0.5
                                 : 1,
                           }}
-                          size="small"
-                          onClick={() =>
-                            handleViewDetails(
-                              item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
-                              'approved',
-                            )
-                          }
                         >
                           <CheckIcon size={16} />
                         </Button>
                         <Button
-                          disabled={record.status === 'rejected' || record.status === 'approved'}
                           color="error"
-                          style={{ opacity: record.status === 'rejected' || record.status === 'approved' ? 0.5 : 1 }}
-                          size="small"
+                          disabled={record.status === 'rejected' || record.status === 'approved'}
                           onClick={() =>
                             handleViewDetails(
                               item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
                               'rejected',
                             )
                           }
+                          size="small"
+                          style={{ opacity: record.status === 'rejected' || record.status === 'approved' ? 0.5 : 1 }}
                         >
                           <XIcon size={16} />
                         </Button>
@@ -311,30 +312,30 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
 
   return (
     <>
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+      <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
       {selectedLocation && (
         <MapsPreviewerModal
           coordinates={selectedLocation}
-          radiusCoordinates={branchLocation}
-          radius={100}
           onClose={() => {
             setSelectedLocation(null)
             setBranchLocation(null)
           }}
+          radius={100}
+          radiusCoordinates={branchLocation}
         />
       )}
       {showOptionModal && (
         <ConfirmationModal
-          show={showOptionModal}
-          onClose={() => setShowOptionModal(false)}
-          isLoading={isLoading}
           handleAction={(reason) => {
             if (selectedRecordId) {
               openConfirmation(modalType, selectedRecordId, reason)
               setSelectedRecordId(null)
             }
           }}
+          isLoading={isLoading}
           modalType={modalType}
+          onClose={() => setShowOptionModal(false)}
+          show={showOptionModal}
         />
       )}
     </>

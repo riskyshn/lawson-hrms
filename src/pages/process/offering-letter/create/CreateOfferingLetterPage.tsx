@@ -7,6 +7,7 @@ import { Stepper, useSteps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+
 import EmployeeDetailsForm from '../components/EmployeeDetailsForm'
 import RenumerationForm from '../components/RenumerationForm'
 
@@ -51,9 +52,9 @@ const CreateOfferingLetterPage: React.FC = () => {
     step2: {},
   })
 
-  const { activeStep, isLastStep, handlePrev, handleNext } = useSteps(2, {
+  const { activeStep, handleNext, handlePrev, isLastStep } = useSteps(2, {
     onNext() {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ behavior: 'smooth', top: 0 })
     },
   })
 
@@ -77,16 +78,16 @@ const CreateOfferingLetterPage: React.FC = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'Create Offering Letter' }]}
-        title="Offering Letter"
         subtitle="Please fill out the form below to generate offering letter"
+        title="Offering Letter"
       />
 
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
           steps={[
-            { title: 'Employment Details', details: 'Set Employment Detail’s' },
-            { title: 'Remuneration & Benefits', details: 'Set Information' },
+            { details: 'Set Employment Detail’s', title: 'Employment Details' },
+            { details: 'Set Information', title: 'Remuneration & Benefits' },
           ]}
         />
 
@@ -99,10 +100,10 @@ const CreateOfferingLetterPage: React.FC = () => {
         )}
         {activeStep === 1 && (
           <RenumerationForm
-            isLoading={loading}
             defaultValue={formValues.step2}
             handlePrev={handlePrev}
             handleSubmit={(step2) => handleStepSubmit({ ...formValues, step2 })}
+            isLoading={loading}
           />
         )}
       </Container>

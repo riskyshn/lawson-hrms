@@ -8,11 +8,11 @@ type LatLng = [number, number]
 type PropType = {
   city?: string
   error?: string
-  value?: string
   onValueChange?: (value: string) => void
+  value?: string
 }
 
-const GeoPicker: React.FC<PropType> = ({ city, value, error, onValueChange }) => {
+const GeoPicker: React.FC<PropType> = ({ city, error, onValueChange, value }) => {
   const [latLng, setLatLng] = useState<LatLng>()
   const [viewLatLng, setViewLatLng] = useState<LatLng>()
   const [isHold, setIsHold] = useState(false)
@@ -51,10 +51,10 @@ const GeoPicker: React.FC<PropType> = ({ city, value, error, onValueChange }) =>
       )}
     >
       {viewLatLng && (
-        <MapContainer center={viewLatLng} zoom={14} style={{ height: '100%', width: '100%', cursor: 'inherit' }} attributionControl={false}>
+        <MapContainer attributionControl={false} center={viewLatLng} style={{ cursor: 'inherit', height: '100%', width: '100%' }} zoom={14}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           {latLng && <Marker position={latLng} />}
-          <MapEventHandlers latLng={latLng} viewLatLng={viewLatLng} setLatLng={onLatLngChange} setHold={setIsHold} />
+          <MapEventHandlers latLng={latLng} setHold={setIsHold} setLatLng={onLatLngChange} viewLatLng={viewLatLng} />
         </MapContainer>
       )}
     </div>
@@ -62,19 +62,19 @@ const GeoPicker: React.FC<PropType> = ({ city, value, error, onValueChange }) =>
 }
 
 const MapEventHandlers: React.FC<{
-  viewLatLng: LatLng
   latLng?: LatLng
-  setViewLatLng?: (latlng: LatLng) => void
-  setLatLng?: (latlng: LatLng) => void
   setHold?: (value: boolean) => void
-}> = ({ viewLatLng, latLng, setLatLng, setViewLatLng, setHold }) => {
+  setLatLng?: (latlng: LatLng) => void
+  setViewLatLng?: (latlng: LatLng) => void
+  viewLatLng: LatLng
+}> = ({ latLng, setHold, setLatLng, setViewLatLng, viewLatLng }) => {
   const map = useMapEvents({
     click: (e) => {
       setLatLng?.([e.latlng.lat, e.latlng.lng])
       setViewLatLng?.([e.latlng.lat, e.latlng.lng])
     },
-    mouseup: () => setHold?.(false),
     mousedown: () => setHold?.(true),
+    mouseup: () => setHold?.(false),
   })
 
   useEffect(() => {

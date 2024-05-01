@@ -12,8 +12,7 @@ const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object().shape({
-  nppNumber: yup.string().required().label('NPP Number'),
-  npwpNumber: yup.string().required().label("Company's NPWP Number"),
+  greetingMsg: yup.string().required().label('Greeting Message'),
   logoUrl: yup
     .string()
     .required()
@@ -25,7 +24,8 @@ const schema = yup.object().shape({
     )
     .url()
     .label('Company Logo'),
-  greetingMsg: yup.string().required().label('Greeting Message'),
+  nppNumber: yup.string().required().label('NPP Number'),
+  npwpNumber: yup.string().required().label("Company's NPWP Number"),
 })
 
 const SettingsCompanyForm: React.FC = () => {
@@ -35,12 +35,12 @@ const SettingsCompanyForm: React.FC = () => {
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
     setValue,
     trigger,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -82,30 +82,25 @@ const SettingsCompanyForm: React.FC = () => {
           </Alert>
         )}
 
-        <Input label="Company Name" labelRequired placeholder="Company Name" required defaultValue={company?.name} disabled />
+        <Input defaultValue={company?.name} disabled label="Company Name" labelRequired placeholder="Company Name" required />
 
         <Input
+          error={errors.nppNumber?.message}
           label="NPP Number"
           labelRequired
           placeholder="Example: 12345678912345"
-          error={errors.nppNumber?.message}
           {...register('nppNumber')}
         />
         <Input
+          error={errors.npwpNumber?.message}
           label="Company’s NPWP Number"
           labelRequired
           placeholder="Example: 12345678912345"
-          error={errors.npwpNumber?.message}
           {...register('npwpNumber')}
         />
-        <InputWrapper label="Company Logo" labelRequired error={errors.logoUrl?.message}>
+        <InputWrapper error={errors.logoUrl?.message} label="Company Logo" labelRequired>
           <ImageFileUpload
-            type="company-logo"
-            value={getValues('logoUrl')}
             error={errors.logoUrl?.message}
-            onStart={() => {
-              setValue('logoUrl', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('logoUrl', value)
               trigger('logoUrl')
@@ -114,20 +109,25 @@ const SettingsCompanyForm: React.FC = () => {
               setValue('logoUrl', ERROR_PREFIX_KEY + message)
               trigger('logoUrl')
             }}
+            onStart={() => {
+              setValue('logoUrl', PROGRESS_KEY)
+            }}
+            type="company-logo"
+            value={getValues('logoUrl')}
           />
         </InputWrapper>
         <Textarea
+          error={errors.greetingMsg?.message}
           label="Greeting Message"
           labelRequired
           placeholder="Add greeting message here"
           rows={6}
-          error={errors.greetingMsg?.message}
           {...register('greetingMsg')}
         />
       </CardBody>
 
       <CardFooter>
-        <Button type="submit" color="primary" className="w-32" disabled={isLoading} loading={isLoading}>
+        <Button className="w-32" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Save Change
         </Button>
       </CardFooter>

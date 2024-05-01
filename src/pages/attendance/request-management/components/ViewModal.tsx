@@ -1,15 +1,15 @@
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
-import { Badge, CardBody, CardFooter, Color, genStyles, Modal, ModalHeader, Spinner } from 'jobseeker-ui'
+import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, genStyles } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import React from 'react'
 
 type PropTypes = {
-  show: boolean
-  onClose: () => void
   items?: ILeave
+  onClose: () => void
+  show: boolean
 }
 
-const ViewModal: React.FC<PropTypes> = ({ show, onClose, items }) => {
+const ViewModal: React.FC<PropTypes> = ({ items, onClose, show }) => {
   const previewImage = usePreviewImage()
   const formatDateRequestDate = (dateString?: string): string => {
     if (!dateString) return ''
@@ -90,7 +90,7 @@ const ViewModal: React.FC<PropTypes> = ({ show, onClose, items }) => {
                     <td className="p-3">:</td>
                     <td className="w-full p-3">
                       {items.status ? (
-                        <Badge color={statusColors(items.status?.toLowerCase())} size="small" className="font-semibold capitalize">
+                        <Badge className="font-semibold capitalize" color={statusColors(items.status?.toLowerCase())} size="small">
                           {items.status?.toLowerCase()}
                         </Badge>
                       ) : (
@@ -103,11 +103,11 @@ const ViewModal: React.FC<PropTypes> = ({ show, onClose, items }) => {
                     <td className="p-3">:</td>
                     <td className="w-full p-3">
                       <button
-                        title="Image"
-                        className={`text-${items.attachment ? 'primary' : 'gray'}-600 hover:text-${items.attachment ? 'primary' : 'gray'}-700 focus:outline-none`}
-                        onClick={() => previewImage(items.attachment)}
                         aria-label="View Image"
+                        className={`text-${items.attachment ? 'primary' : 'gray'}-600 hover:text-${items.attachment ? 'primary' : 'gray'}-700 focus:outline-none`}
                         disabled={!items.attachment}
+                        onClick={() => previewImage(items.attachment)}
+                        title="Image"
                       >
                         <ImageIcon size={18} />
                       </button>
@@ -126,10 +126,10 @@ const ViewModal: React.FC<PropTypes> = ({ show, onClose, items }) => {
 
 const statusColors = genStyles<string, Color>({
   approved: 'success',
-  rejected: 'error',
-  process: 'primary',
-  waiting: 'default',
   default: 'default',
+  process: 'primary',
+  rejected: 'error',
+  waiting: 'default',
 })
 
 export default ViewModal

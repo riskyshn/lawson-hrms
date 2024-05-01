@@ -4,11 +4,12 @@ import { useAuthStore } from '@/store'
 import { useToast } from 'jobseeker-ui'
 import { useEffect } from 'react'
 import { Outlet, createBrowserRouter, useNavigate } from 'react-router-dom'
+
 import authRoutes from './auth.routes'
 import guestRoutes from './guest.routes'
 import mainRoutes from './main.routes'
 
-const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) => {
+const AuthChecker: React.FC<{ guest?: boolean; private?: boolean }> = (props) => {
   const { user } = useAuthStore()
   const navigate = useNavigate()
   const toast = useToast()
@@ -34,13 +35,13 @@ const AuthChecker: React.FC<{ private?: boolean; guest?: boolean }> = (props) =>
 
 const router = createBrowserRouter([
   {
-    element: <AuthChecker private />,
     children: mainRoutes,
+    element: <AuthChecker private />,
     errorElement: <ErrorBoundary />,
   },
   {
-    element: <AuthChecker guest />,
     children: authRoutes,
+    element: <AuthChecker guest />,
     errorElement: <ErrorBoundary />,
   },
   {
@@ -48,8 +49,8 @@ const router = createBrowserRouter([
     errorElement: <ErrorBoundary />,
   },
   {
-    path: '*',
     element: <NotFoundPage />,
+    path: '*',
   },
 ])
 

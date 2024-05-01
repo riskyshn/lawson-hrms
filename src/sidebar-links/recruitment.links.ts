@@ -2,17 +2,15 @@ import genSidebarLinks from '@/utils/gen-sidebar-links'
 import { BriefcaseIcon, FileIcon, RepeatIcon, UsersIcon } from 'lucide-react'
 
 const recruitmentLinks = genSidebarLinks({
-  title: 'Recruitment',
   items: [
     {
-      parent: { icon: BriefcaseIcon, text: 'Job', to: '/job' },
       child: [
         { text: 'Job Management', to: '/job/management' },
         { text: 'Job Requisition', to: '/job/requisition' },
       ],
+      parent: { icon: BriefcaseIcon, text: 'Job', to: '/job' },
     },
     {
-      parent: { icon: UsersIcon, text: 'Candidates', to: '/candidates' },
       child: [
         { text: 'Candidate Pool', to: '/candidates/pool' },
         { text: 'Candidate Management', to: '/candidates/management' },
@@ -22,9 +20,9 @@ const recruitmentLinks = genSidebarLinks({
         { text: 'Candidate Blacklisted', to: '/candidates/blacklisted' },
         { text: 'Candidate Offered', to: '/candidates/offered' },
       ],
+      parent: { icon: UsersIcon, text: 'Candidates', to: '/candidates' },
     },
     {
-      parent: { icon: RepeatIcon, text: 'Process', to: '/process' },
       child: [
         {
           text: 'Interview',
@@ -43,9 +41,9 @@ const recruitmentLinks = genSidebarLinks({
           to: '/process/onboarding',
         },
       ],
+      parent: { icon: RepeatIcon, text: 'Process', to: '/process' },
     },
     {
-      parent: { icon: FileIcon, text: 'Report', to: '/report' },
       child: [
         {
           text: 'Summary & Analytics',
@@ -56,8 +54,10 @@ const recruitmentLinks = genSidebarLinks({
           to: '/report/demography',
         },
       ],
+      parent: { icon: FileIcon, text: 'Report', to: '/report' },
     },
   ],
+  title: 'Recruitment',
 })
 
 export default recruitmentLinks

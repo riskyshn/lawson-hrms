@@ -8,6 +8,7 @@ import { BaseInputDateRange } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
+
 import Table from '../components/Table'
 
 const RequestPage: React.FC = () => {
@@ -19,14 +20,14 @@ const RequestPage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
   const [filterDate, setFilterDate] = useState({
-    startDate: searchParams.get('startDate') || todayFormatted,
     endDate: searchParams.get('endDate') || todayFormatted,
+    startDate: searchParams.get('startDate') || todayFormatted,
   })
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/attendance/request-management',
     totalPage: pageData?.totalPages,
-    params: { search },
   })
 
   useEffect(() => {
@@ -38,12 +39,12 @@ const RequestPage: React.FC = () => {
       try {
         const data = await attendanceService.fetchRequestManagement(
           {
-            q: search,
-            page: pagination.currentPage,
-            limit: 20,
             attendance_group: 'clock',
-            start_date: filterDate?.startDate,
             end_date: filterDate?.endDate,
+            limit: 20,
+            page: pagination.currentPage,
+            q: search,
+            start_date: filterDate?.startDate,
           },
           signal,
         )
@@ -70,7 +71,7 @@ const RequestPage: React.FC = () => {
       const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
       const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
 
-      setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+      setFilterDate({ endDate: formattedEndDate, startDate: formattedStartDate })
     }
   }
 
@@ -86,34 +87,34 @@ const RequestPage: React.FC = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Attendance' }, { text: 'Attendance Management' }]}
-        title="Request Management"
         subtitle="Manage Your Team Request"
+        title="Request Management"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
+          footer={pagination.render()}
           header={() => (
             <MainCardHeader
-              title="Request List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              filter={
+                <div className="grid grid-cols-1 gap-3 p-3">
+                  <BaseInputDateRange onValueChange={handleDateChange} placeholder="Start - End Date" value={filterDate} />
+                </div>
+              }
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
               subtitle={
                 <>
                   {formatDate(filterDate?.startDate)} - {formatDate(filterDate?.endDate)}
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
-              filter={
-                <div className="grid grid-cols-1 gap-3 p-3">
-                  <BaseInputDateRange placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
-                </div>
-              }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Request List"
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

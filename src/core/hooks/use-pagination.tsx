@@ -3,19 +3,19 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 
 export type UsePaginationOptions = {
-  totalPage?: number | null
-  pathname: string
-  totalRender?: number
-  queryKey?: string
   params?: Record<string, any>
+  pathname: string
+  queryKey?: string
+  totalPage?: null | number
+  totalRender?: number
 }
 
 export default function usePagination({
-  totalPage: _totalPage,
-  pathname,
   params,
-  totalRender = 5,
+  pathname,
   queryKey = 'page',
+  totalPage: _totalPage,
+  totalRender = 5,
 }: UsePaginationOptions) {
   const [searchParams] = useSearchParams()
   const currentPage = Number(searchParams.get(queryKey) || 1)
@@ -36,13 +36,13 @@ export default function usePagination({
       }
     }
 
-    return { startPage, endPage }
+    return { endPage, startPage }
   }
 
   const render = () => {
     if (totalPage <= 1) return null
 
-    const { startPage, endPage } = calculateStartAndEndPages()
+    const { endPage, startPage } = calculateStartAndEndPages()
     const pageButtons: React.ReactNode[] = []
 
     for (const key in params) {
@@ -53,7 +53,7 @@ export default function usePagination({
     for (let i = startPage; i <= endPage; i++) {
       routeParams.set(queryKey, String(i))
       pageButtons.push(
-        <PaginationItem key={i} as={Link} to={{ pathname, search: routeParams.toString() }} active={i === currentPage}>
+        <PaginationItem active={i === currentPage} as={Link} key={i} to={{ pathname, search: routeParams.toString() }}>
           {i}
         </PaginationItem>,
       )
@@ -63,6 +63,7 @@ export default function usePagination({
       <Pagination>
         <PaginationItem
           as={Link}
+          disabled={currentPage === 1}
           to={{
             pathname,
             search: new URLSearchParams({
@@ -70,13 +71,13 @@ export default function usePagination({
               [queryKey]: String(Math.max(currentPage - 1, 1)),
             }).toString(),
           }}
-          disabled={currentPage === 1}
         >
           <ChevronLeftIcon />
         </PaginationItem>
         {pageButtons}
         <PaginationItem
           as={Link}
+          disabled={currentPage === totalPage}
           to={{
             pathname,
             search: new URLSearchParams({
@@ -84,7 +85,6 @@ export default function usePagination({
               [queryKey]: String(Math.min(currentPage + 1, totalPage)),
             }).toString(),
           }}
-          disabled={currentPage === totalPage}
         >
           <ChevronRightIcon />
         </PaginationItem>

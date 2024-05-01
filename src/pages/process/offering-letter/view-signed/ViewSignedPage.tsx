@@ -47,13 +47,13 @@ const ViewSignedPage: React.FC = () => {
     <>
       <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }, { text: 'View Signed Offering Letter' }]} />
       <Container className="flex h-[calc(100vh-102px)] flex-col gap-3 py-3">
-        <LoadingScreen show={!previewUrl} className="flex-1" spinnerSize={80} />
-        {previewUrl && <iframe src={previewUrl} className="block flex-1 rounded-lg bg-white" />}
+        <LoadingScreen className="flex-1" show={!previewUrl} spinnerSize={80} />
+        {previewUrl && <iframe className="block flex-1 rounded-lg bg-white" src={previewUrl} />}
         <div className="flex justify-end gap-3">
-          <Button as={Link} to="/process/offering-letter" color="primary" variant="light" className="w-32">
+          <Button as={Link} className="w-32" color="primary" to="/process/offering-letter" variant="light">
             Back
           </Button>
-          <Button color="primary" className="w-32" onClick={onDownload}>
+          <Button className="w-32" color="primary" onClick={onDownload}>
             Download
           </Button>
         </div>

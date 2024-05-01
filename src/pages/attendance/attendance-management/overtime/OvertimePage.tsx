@@ -10,6 +10,7 @@ import { AsyncSelect, BaseInputDateRange, CardBody } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
+
 import PageCard from '../components/PageCard'
 import Table from '../components/Table'
 import StatisticCards from '../index/components/StatisticCards'
@@ -22,17 +23,17 @@ const OvertimePage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
   const [filterDate, setFilterDate] = useState({
-    startDate: searchParams.get('startDate') || todayFormatted,
     endDate: searchParams.get('endDate') || todayFormatted,
+    startDate: searchParams.get('startDate') || todayFormatted,
   })
 
   const search = searchParams.get('search') || undefined
   const [branch, setBranch, rawBranch] = useOptionSearchParam('branch')
 
   const pagination = usePagination({
+    params: { branch: rawBranch, search },
     pathname: '/attendance/attendance-management/overtime',
     totalPage: pageData?.totalPages,
-    params: { search, branch: rawBranch },
   })
 
   useEffect(() => {
@@ -44,13 +45,13 @@ const OvertimePage: React.FC = () => {
       try {
         const data = await attendanceService.fetchClientVisitAndOvertime(
           {
-            q: search,
-            page: pagination.currentPage,
-            limit: 20,
             attendance_group: 'overtime',
-            start_date: filterDate?.startDate,
-            end_date: filterDate?.endDate,
             branch_id: branch?.value,
+            end_date: filterDate?.endDate,
+            limit: 20,
+            page: pagination.currentPage,
+            q: search,
+            start_date: filterDate?.startDate,
           },
           signal,
         )
@@ -77,7 +78,7 @@ const OvertimePage: React.FC = () => {
       const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
       const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
 
-      setFilterDate({ startDate: formattedStartDate, endDate: formattedEndDate })
+      setFilterDate({ endDate: formattedEndDate, startDate: formattedStartDate })
       setSearchParam((prev) => {
         prev.set('startDate', formattedStartDate)
         prev.set('endDate', formattedEndDate)
@@ -91,60 +92,60 @@ const OvertimePage: React.FC = () => {
   return (
     <>
       <PageHeader
-        className="flex items-center"
-        breadcrumb={[{ text: 'Attendance' }, { text: 'Attendance Management' }]}
-        title="Attendance Management"
-        subtitle="Manage Your Team Attendance"
         actions={
           <CardBody className="p-0">
-            <BaseInputDateRange className="z-50 mb-3" placeholder="Start - End Date" onValueChange={handleDateChange} value={filterDate} />
+            <BaseInputDateRange className="z-50 mb-3" onValueChange={handleDateChange} placeholder="Start - End Date" value={filterDate} />
             <div className="chrome-scrollbar flex gap-3 overflow-x-scroll">
               {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
                 <PageCard
+                  activeLabel={'Overtime'}
+                  endDate={filterDate.endDate}
                   key={index}
                   label={label}
-                  activeLabel={'Overtime'}
                   startDate={filterDate.startDate}
-                  endDate={filterDate.endDate}
                 />
               ))}
             </div>
           </CardBody>
         }
+        breadcrumb={[{ text: 'Attendance' }, { text: 'Attendance Management' }]}
+        className="flex items-center"
+        subtitle="Manage Your Team Attendance"
+        title="Attendance Management"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <StatisticCards filterDate={filterDate} />
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
+          footer={pagination.render()}
           header={() => (
             <MainCardHeader
-              title="Overtime List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              filter={
+                <div className="grid grid-cols-1 gap-3 p-3">
+                  <AsyncSelect
+                    action={organizationService.fetchBranches}
+                    converter={emmbedToOptions}
+                    onChange={setBranch}
+                    placeholder="All Branch"
+                    value={branch}
+                    withReset
+                  />
+                </div>
+              }
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Attendance</span> in total
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
-              filter={
-                <div className="grid grid-cols-1 gap-3 p-3">
-                  <AsyncSelect
-                    placeholder="All Branch"
-                    withReset
-                    action={organizationService.fetchBranches}
-                    converter={emmbedToOptions}
-                    value={branch}
-                    onChange={setBranch}
-                  />
-                </div>
-              }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Overtime List"
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

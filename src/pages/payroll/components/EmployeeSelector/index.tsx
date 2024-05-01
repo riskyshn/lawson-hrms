@@ -4,17 +4,18 @@ import { axiosErrorMessage } from '@/utils/axios'
 import { Alert, Input, useSearchItem } from 'jobseeker-ui'
 import { SearchIcon } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
+
 import ClearToggle from './ClearToggle'
 import EmployeeItem from './EmployeeItem'
 
 type PropTypes = {
-  selected: string[]
-  setSelected: (selected: string[]) => void
-
   employees?: IDataTableEmployee[]
+  selected: string[]
+
+  setSelected: (selected: string[]) => void
 }
 
-const EmployeeSelector: React.FC<PropTypes> = ({ selected, setSelected, employees: dataEmployees }) => {
+const EmployeeSelector: React.FC<PropTypes> = ({ employees: dataEmployees, selected, setSelected }) => {
   const [employees, setEmployees] = useState<IDataTableEmployee[] | undefined>(dataEmployees)
   const [search, setSearch] = useState({ selected: '', unselected: '' })
   const [errorMessage, setErrorMessage] = useState('')
@@ -47,13 +48,13 @@ const EmployeeSelector: React.FC<PropTypes> = ({ selected, setSelected, employee
 
   if (errorMessage) {
     return (
-      <Alert color="error" className="text-center">
+      <Alert className="text-center" color="error">
         {errorMessage}
       </Alert>
     )
   }
 
-  if (!employees) return <LoadingScreen show className="h-full" />
+  if (!employees) return <LoadingScreen className="h-full" show />
 
   return (
     <div className="grid flex-1 grid-cols-2 gap-px overflow-hidden">
@@ -73,25 +74,25 @@ const EmployeeSelector: React.FC<PropTypes> = ({ selected, setSelected, employee
           </div>
           <div className="px-3 pb-2">
             <Input
-              type="text"
-              placeholder="Search..."
               className="peer m-0"
               inputClassName="peer pl-7"
+              onChange={(e) => setSearch(({ selected }) => ({ selected, unselected: e.target.value }))}
+              placeholder="Search..."
               rightChild={
                 <SearchIcon
                   className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
                   size={16}
                 />
               }
+              type="text"
               value={search.unselected}
-              onChange={(e) => setSearch(({ selected }) => ({ selected, unselected: e.target.value }))}
             />
           </div>
         </div>
 
         <ul className="flex flex-col divide-y overflow-y-auto border-t">
           {filteredUnselected.map((el) => (
-            <EmployeeItem key={el.oid} item={el} onClick={handleSelect} />
+            <EmployeeItem item={el} key={el.oid} onClick={handleSelect} />
           ))}
 
           {!filteredUnselected.length && (
@@ -112,24 +113,24 @@ const EmployeeSelector: React.FC<PropTypes> = ({ selected, setSelected, employee
           </div>
           <div className="px-3 pb-2">
             <Input
-              type="text"
-              placeholder="Search..."
               className="peer m-0"
               inputClassName="peer pl-7"
+              onChange={(e) => setSearch(({ unselected }) => ({ selected: e.target.value, unselected }))}
+              placeholder="Search..."
               rightChild={
                 <SearchIcon
                   className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
                   size={16}
                 />
               }
+              type="text"
               value={search.selected}
-              onChange={(e) => setSearch(({ unselected }) => ({ unselected, selected: e.target.value }))}
             />
           </div>
         </div>
         <ul className="flex flex-col divide-y overflow-y-auto border-t">
           {filteredSelected.map((el) => (
-            <EmployeeItem key={el.oid} item={el} onClick={handleUnselect} />
+            <EmployeeItem item={el} key={el.oid} onClick={handleUnselect} />
           ))}
 
           {!filteredSelected.length && (

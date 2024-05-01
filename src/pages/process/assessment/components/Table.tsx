@@ -1,6 +1,7 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar } from 'jobseeker-ui'
 import React from 'react'
+
 import ActionMenu from './ActionMenu'
 
 const total = 20
@@ -11,14 +12,14 @@ const Table: React.FC = () => {
     const formattedApplyDate = applyDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
 
     return {
-      id: i + 1,
-      name: `Candidate ${i + 1}`,
       email: `candidate${i + 1}@email.com`,
-      vacancy: `Last Position ${i + 1}`,
-      vacancyId: `#${i + 1}`,
+      id: i + 1,
+      interviewDate: formattedApplyDate,
+      name: `Candidate ${i + 1}`,
       stage: 'Interview HR 1',
       status: ['Passed', 'Process', 'Failed'][Math.floor(Math.random() * 3)],
-      interviewDate: formattedApplyDate,
+      vacancy: `Last Position ${i + 1}`,
+      vacancyId: `#${i + 1}`,
     }
   })
 
@@ -28,7 +29,7 @@ const Table: React.FC = () => {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar name={candidate.name} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={candidate.name} size={38} />
             </div>
             <div>
               <span className="block font-semibold">{candidate.name}</span>
@@ -64,17 +65,17 @@ const Table: React.FC = () => {
           if (candidate.status === 'Passed') {
             return (
               <ActionMenu
-                options={['Process', 'Offering Letter', 'Move to Another Vacancy', 'View History', 'Blacklist', 'Reject']}
                 items={candidate}
+                options={['Process', 'Offering Letter', 'Move to Another Vacancy', 'View History', 'Blacklist', 'Reject']}
               />
             )
           } else if (candidate.status === 'Process') {
             return (
-              <ActionMenu options={['Update Result', 'Move to Another Vacancy', 'View History', 'Blacklist', 'Reject']} items={candidate} />
+              <ActionMenu items={candidate} options={['Update Result', 'Move to Another Vacancy', 'View History', 'Blacklist', 'Reject']} />
             )
           } else if (candidate.status === 'Failed') {
             return (
-              <ActionMenu options={['Process', 'Offering Letter', 'Move to Another Vacancy', 'Blacklist', 'Reject']} items={candidate} />
+              <ActionMenu items={candidate} options={['Process', 'Offering Letter', 'Move to Another Vacancy', 'Blacklist', 'Reject']} />
             )
           }
         })(),
@@ -85,6 +86,7 @@ const Table: React.FC = () => {
   return (
     <>
       <MainTable
+        bodyItems={bodyItems}
         headerItems={[
           { children: 'Candidate', className: 'text-left' },
           { children: 'Vacancy', className: 'text-left' },
@@ -93,7 +95,6 @@ const Table: React.FC = () => {
           { children: 'Interview Date' },
           { children: 'Action', className: 'w-24' },
         ]}
-        bodyItems={bodyItems}
       />
     </>
   )

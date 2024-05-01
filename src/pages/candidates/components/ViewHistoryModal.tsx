@@ -19,16 +19,16 @@ import React, { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 type OptionModalProps = {
-  show?: boolean
   candidate?: ICandidate
   onClose?: () => void
+  show?: boolean
 }
 
 const statusConfig: Record<string, { Icon: LucideIcon; className: string }> = {
-  PASSED: { Icon: CheckCircle2Icon, className: 'text-green-600' },
   FAILED: { Icon: XCircleIcon, className: 'text-error-600' },
-  WAITING: { Icon: ClockIcon, className: 'text-gray-600' },
+  PASSED: { Icon: CheckCircle2Icon, className: 'text-green-600' },
   PROCESS: { Icon: CircleEllipsisIcon, className: 'text-primary-600' },
+  WAITING: { Icon: ClockIcon, className: 'text-gray-600' },
 }
 
 const Status: React.FC<{ status?: string }> = ({ status }) => {
@@ -43,10 +43,10 @@ const Status: React.FC<{ status?: string }> = ({ status }) => {
   ) : null
 }
 
-const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose }) => {
+const ViewHistoryModal: React.FC<OptionModalProps> = ({ candidate, onClose, show }) => {
   const [candidateDataTable, setCandidateDataTable] = useState<ICandidate>()
   const [candidateDetail, setCandidateDetail] = useState<ICandidateHistories | null>(null)
-  const [showDetailIndex, setShowDetailIndex] = useState<number | null>(null)
+  const [showDetailIndex, setShowDetailIndex] = useState<null | number>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -84,11 +84,11 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose
                   {item.histories?.map((history, i) => (
                     <TimelineItem key={i}>
                       <HistoryItem
-                        title={history.applyProcess}
-                        subTitle={moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
-                        status={<Status status={history.status} />}
-                        showDetail={showDetailIndex === i}
                         onDetailToggleClick={() => setShowDetailIndex((v) => (v === i ? null : i))}
+                        showDetail={showDetailIndex === i}
+                        status={<Status status={history.status} />}
+                        subTitle={moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                        title={history.applyProcess}
                       >
                         <div className="mb-3">
                           <h3 className="text-sm font-semibold">Attendee</h3>
@@ -126,13 +126,13 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose
                             <h3 className="mb-1 text-sm font-semibold">Document</h3>
                             <Button<'a'>
                               as="a"
-                              href={history.file}
-                              target="_blank"
-                              size="small"
-                              color="primary"
                               className="gap-2"
-                              variant="default"
+                              color="primary"
+                              href={history.file}
                               leftChild={<FileInputIcon size={18} />}
+                              size="small"
+                              target="_blank"
+                              variant="default"
                             >
                               <span className="text-xs">Result Attachment</span>
                             </Button>
@@ -149,7 +149,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, candidate, onClose
       )}
 
       <ModalFooter>
-        <Button variant="light" color="error" className="w-24" onClick={onClose}>
+        <Button className="w-24" color="error" onClick={onClose} variant="light">
           Close
         </Button>
       </ModalFooter>

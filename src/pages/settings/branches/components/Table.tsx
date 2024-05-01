@@ -2,14 +2,15 @@ import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { MapPinIcon } from 'lucide-react'
 import React, { useState } from 'react'
+
 import ActionMenu from './ActionMenu'
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
   items: IBranch[]
   loading?: boolean
-  setSelectedToUpdate?: (item: IBranch) => void
   onDeleted?: (oid: string) => void
+  setSelectedToUpdate?: (item: IBranch) => void
 }
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
@@ -33,10 +34,10 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       {
         children: (
           <button
-            title="View Coordinate"
             className="text-primary-600 disabled:text-gray-600"
             disabled={!item.coordinate}
             onClick={() => setShowCoordinate({ latLong: item.coordinate?.coordinates, range: item.range })}
+            title="View Coordinate"
           >
             <MapPinIcon size={16} />
           </button>
@@ -60,7 +61,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       // },
       { children: item?.range || '-', className: 'text-center' },
       {
-        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
       },
     ],
   }))
@@ -69,10 +70,10 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
     <>
       <MapsPreviewerModal
         coordinates={showCoordinate?.latLong}
-        radius={showCoordinate?.range}
         onClose={() => setShowCoordinate(undefined)}
+        radius={showCoordinate?.range}
       />
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+      <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
     </>
   )
 }

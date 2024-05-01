@@ -5,30 +5,28 @@ import { PenIcon, TrashIcon } from 'lucide-react'
 import React from 'react'
 
 type ActionMenuProps = {
-  item: IComponentInEmployee
   index: number
+  item: IComponentInEmployee
+  onRefresh?: () => void
   total: number
   upSpace: number
-  onRefresh?: () => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, total, upSpace, onRefresh }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpace }) => {
   const confirm = useConfirm()
   const toast = useToast()
 
   const editComponent: Table.ActionMenuItemProps = {
-    text: 'Edit',
     icon: PenIcon,
+    text: 'Edit',
   }
 
   const deleteComponent: Table.ActionMenuItemProps = {
-    text: 'Delete',
-    icon: TrashIcon,
     action: async () => {
       const confirmed = await confirm({
-        text: 'Are you sure you want to delete this component from this employee?',
-        confirmBtnColor: 'error',
         cancelBtnColor: 'primary',
+        confirmBtnColor: 'error',
+        text: 'Are you sure you want to delete this component from this employee?',
       })
 
       if (confirmed) {
@@ -41,6 +39,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, total, upSpace, onRefres
         }
       }
     },
+    icon: TrashIcon,
+    text: 'Delete',
   }
 
   const menuItems = [editComponent, deleteComponent]

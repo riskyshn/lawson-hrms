@@ -10,8 +10,8 @@ const schema = yup.object({
     .array()
     .of(
       yup.object().shape({
-        name: yup.string().required().label('Name'),
         amount: yup.string().required().label('Amount'),
+        name: yup.string().required().label('Name'),
       }),
     )
     .min(1)
@@ -20,18 +20,18 @@ const schema = yup.object({
 })
 
 const RenumerationForm: React.FC<{
-  isRevise?: boolean
-  isLoading: boolean
   defaultValue: yup.InferType<typeof schema>
   handlePrev: () => void
   handleSubmit: (data: any) => void
+  isLoading: boolean
+  isRevise?: boolean
 }> = (props) => {
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+    setValue,
     trigger,
     watch,
   } = useForm({
@@ -42,7 +42,7 @@ const RenumerationForm: React.FC<{
   useEffect(() => {
     if (!props.defaultValue) return
     setValue('baseSalary', props.defaultValue.baseSalary || '')
-    setValue('benefits', props.defaultValue.benefits || [{ name: '', amount: '' }])
+    setValue('benefits', props.defaultValue.benefits || [{ amount: '', name: '' }])
   }, [props.defaultValue, setValue])
 
   const watchBenefits = watch('benefits')
@@ -65,15 +65,15 @@ const RenumerationForm: React.FC<{
           <p className="text-xs text-gray-500">Please fill out this form below</p>
         </div>
         <InputCurrency
-          label="Base Salary"
-          prefix="Rp "
           error={errors.baseSalary?.message}
+          label="Base Salary"
           name="baseSalary"
-          value={getValues('baseSalary')}
           onValueChange={(v) => {
             setValue('baseSalary', v || '')
             trigger('baseSalary')
           }}
+          prefix="Rp "
+          value={getValues('baseSalary')}
         />
       </CardBody>
       <CardBody className="grid grid-cols-1 gap-2">
@@ -83,46 +83,46 @@ const RenumerationForm: React.FC<{
         </div>
 
         {watchBenefits?.map((el, i) => (
-          <div key={i} className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1" key={i}>
             <div className="grid flex-1 grid-cols-2 gap-1">
               <Input
+                error={errors.benefits?.[i]?.name?.message}
                 label="Name"
                 labelRequired
                 placeholder="Name"
-                error={errors.benefits?.[i]?.name?.message}
                 {...register(`benefits.${i}.name`)}
               />
               <InputCurrency
+                error={errors.benefits?.[i]?.amount?.message}
                 label="Amount"
                 labelRequired
-                placeholder="Rp."
-                prefix="Rp "
-                error={errors.benefits?.[i]?.amount?.message}
                 name={`benefits.${i}.amount`}
-                value={el.amount}
                 onValueChange={(v) => {
                   setValue(`benefits.${i}.amount`, v || '')
                   trigger(`benefits.${i}.amount`)
                 }}
+                placeholder="Rp."
+                prefix="Rp "
+                value={el.amount}
               />
             </div>
             <div className="flex justify-end">
-              <Button type="button" color="error" variant="light" onClick={() => handleRemoveBenefit(i)}>
+              <Button color="error" onClick={() => handleRemoveBenefit(i)} type="button" variant="light">
                 Remove Item
               </Button>
             </div>
           </div>
         ))}
-        <Button type="button" block color="primary" variant="light" onClick={handleAddBenefit}>
+        <Button block color="primary" onClick={handleAddBenefit} type="button" variant="light">
           Add Item
         </Button>
       </CardBody>
 
       <CardFooter className="gap-3">
-        <Button type="button" variant="light" color="primary" className="min-w-24" onClick={props.handlePrev}>
+        <Button className="min-w-24" color="primary" onClick={props.handlePrev} type="button" variant="light">
           Prev
         </Button>
-        <Button type="submit" color="primary" disabled={props.isLoading} loading={props.isLoading}>
+        <Button color="primary" disabled={props.isLoading} loading={props.isLoading} type="submit">
           {props.isRevise ? 'Revise' : 'Send'} Offering Letter
         </Button>
       </CardFooter>

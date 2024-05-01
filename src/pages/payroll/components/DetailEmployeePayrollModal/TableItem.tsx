@@ -7,18 +7,18 @@ import { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 type PropTypes = {
+  amount: string
   itemId: string
   name: string
-  type: {
-    oid: string
-    name: string
-  }
-  amount: string
   onChange?: (value: number) => void
   onRefresh?: () => void
+  type: {
+    name: string
+    oid: string
+  }
 }
 
-const TableItem: React.FC<PropTypes> = ({ itemId, name, type, amount, onChange, onRefresh }) => {
+const TableItem: React.FC<PropTypes> = ({ amount, itemId, name, onChange, onRefresh, type }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const isMinus = type.oid === 'DEDUCTION'
@@ -44,9 +44,9 @@ const TableItem: React.FC<PropTypes> = ({ itemId, name, type, amount, onChange, 
     setIsLoading(true)
     try {
       await payrollService.updatePayrollComponentDetail(itemId, {
+        amount: value,
         name,
         type: type.oid,
-        amount: value,
       })
       onRefresh?.()
     } catch (e) {
@@ -73,10 +73,10 @@ const TableItem: React.FC<PropTypes> = ({ itemId, name, type, amount, onChange, 
         <td>
           <BaseInputCurrency
             autoFocus
-            error={error ? 'true' : ''}
-            value={input}
             disabled={isLoading}
+            error={error ? 'true' : ''}
             onValueChange={(v) => setInput(v || '')}
+            value={input}
           />
         </td>
       )}
@@ -84,18 +84,18 @@ const TableItem: React.FC<PropTypes> = ({ itemId, name, type, amount, onChange, 
         <div className="flex justify-end gap-1">
           {isEdit && (
             <>
-              <Button size="small" variant="light" color="error" disabled={isLoading} onClick={handleCancel}>
+              <Button color="error" disabled={isLoading} onClick={handleCancel} size="small" variant="light">
                 Cancel
               </Button>
               {edited && (
-                <Button size="small" color="primary" className="w-14" disabled={isLoading} loading={isLoading} onClick={handleSave}>
+                <Button className="w-14" color="primary" disabled={isLoading} loading={isLoading} onClick={handleSave} size="small">
                   Save
                 </Button>
               )}
             </>
           )}
           {!isEdit && (
-            <Button size="small" variant="light" color="primary" className="w-14" onClick={() => setIsEdit(true)}>
+            <Button className="w-14" color="primary" onClick={() => setIsEdit(true)} size="small" variant="light">
               Edit
             </Button>
           )}

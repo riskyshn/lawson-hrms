@@ -19,20 +19,20 @@ const schema = yup.object().shape({
   reason: yup.string().required(),
 })
 
-const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }) => {
+const ResignTerminateModal: React.FC<ModalProps> = ({ item, onClose, onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
 
   const {
-    register,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
+    reset,
     setValue,
     trigger,
-    handleSubmit,
-    reset,
     watch,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -58,46 +58,46 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onSuccess, onClose }
   })
 
   return (
-    <Modal as="form" show={!!item} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Please select the reason of why this candidate is set as previous employee" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={!!item}>
+      <ModalHeader onClose={onClose} subTitle="Please select the reason of why this candidate is set as previous employee">
         Select Reason
       </ModalHeader>
 
       <div className="grid grid-cols-1 gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
         <AsyncSelect
-          label="Select Status"
-          labelRequired
-          placeholder="Status"
-          hideSearch
           action={organizationService.fetchJobTypes}
           converter={emmbedToOptions}
-          params={{ status: 2 }}
-          name="jobType"
           error={errors.jobType?.message}
-          value={getValues('jobType')}
+          hideSearch
+          label="Select Status"
+          labelRequired
+          name="jobType"
           onValueChange={(v) => {
             setValue('jobType', v)
             trigger('jobType')
           }}
+          params={{ status: 2 }}
+          placeholder="Status"
+          value={getValues('jobType')}
         />
 
         <Textarea
-          label="Reason"
-          labelRequired
           error={errors.reason?.message}
           help={`${watch('reason')?.length || 0}/50`}
-          rows={3}
+          label="Reason"
+          labelRequired
           maxLength={50}
+          rows={3}
           {...register('reason')}
         />
       </div>
 
       <ModalFooter className="gap-3">
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Submit
         </Button>
       </ModalFooter>

@@ -7,25 +7,25 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type CreateModalProps = {
-  show: boolean
   onClose?: () => void
   onCreated?: (item: IJobLevel) => void
+  show: boolean
 }
 
 const schema = yup.object().shape({
   name: yup.string().required().label('Name'),
 })
 
-const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
+const CreateModal: React.FC<CreateModalProps> = ({ onClose, onCreated, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    reset,
     formState: { errors },
+    handleSubmit,
+    register,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -51,21 +51,21 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   })
 
   return (
-    <Modal as="form" show={show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Set up a new job level for your company" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={show}>
+      <ModalHeader onClose={onClose} subTitle="Set up a new job level for your company">
         Create Job Level
       </ModalHeader>
 
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
+        <Input error={errors.name?.message} label="Name" labelRequired {...register('name')} />
       </div>
 
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Save
         </Button>
       </ModalFooter>

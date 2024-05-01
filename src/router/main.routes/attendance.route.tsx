@@ -1,3 +1,5 @@
+import type { RouteObject } from 'react-router-dom'
+
 import ClientVisitPage from '@/pages/attendance/attendance-management/client-visit/ClientVisitPage'
 import AttendancePage from '@/pages/attendance/attendance-management/index/AttendancePage'
 import OvertimePage from '@/pages/attendance/attendance-management/overtime/OvertimePage'
@@ -5,83 +7,82 @@ import ViewPage from '@/pages/attendance/report/details/ViewPage'
 import ReportPage from '@/pages/attendance/report/index/ReportPage'
 import RequestPage from '@/pages/attendance/request-management/index/RequestPage'
 import SchedulePage from '@/pages/attendance/schedule/index/SchedulePage'
-import type { RouteObject } from 'react-router-dom'
 
 const attendanceRoute: RouteObject = {
-  path: 'attendance',
-  name: 'Attendance',
   children: [
     {
-      path: 'schedule',
-      name: 'Schedule',
       children: [
         {
-          path: '',
           element: <SchedulePage />,
+          path: '',
         },
       ],
+      name: 'Schedule',
+      path: 'schedule',
     },
     {
-      path: 'attendance-management/attendance',
-      name: 'Attendance Management',
       children: [
         {
-          path: '',
           element: <AttendancePage />,
+          path: '',
         },
       ],
+      name: 'Attendance Management',
+      path: 'attendance-management/attendance',
     },
     {
-      path: 'attendance-management/client-visit',
-      name: 'Attendance Management',
       children: [
         {
-          path: '',
           element: <ClientVisitPage />,
+          path: '',
         },
       ],
-    },
-    {
-      path: 'attendance-management/overtime',
       name: 'Attendance Management',
+      path: 'attendance-management/client-visit',
+    },
+    {
       children: [
         {
-          path: '',
           element: <OvertimePage />,
+          path: '',
         },
       ],
+      name: 'Attendance Management',
+      path: 'attendance-management/overtime',
     },
     {
-      path: 'request-management',
-      name: 'Request Management',
       children: [
         {
-          path: '',
           element: <RequestPage />,
+          path: '',
         },
       ],
+      name: 'Request Management',
+      path: 'request-management',
     },
     {
-      path: 'report',
-      name: 'Report',
       children: [
         {
-          path: '',
           element: <ReportPage />,
+          path: '',
         },
       ],
+      name: 'Report',
+      path: 'report',
     },
     {
-      path: 'report/:employeeId',
-      name: 'Report Details',
       children: [
         {
-          path: '',
           element: <ViewPage />,
+          path: '',
         },
       ],
+      name: 'Report Details',
+      path: 'report/:employeeId',
     },
   ],
+  name: 'Attendance',
+  path: 'attendance',
 }
 
 export default attendanceRoute

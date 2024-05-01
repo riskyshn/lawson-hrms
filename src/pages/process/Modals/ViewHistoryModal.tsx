@@ -4,9 +4,9 @@ import { CalendarIcon, CheckCircle2Icon, FileInputIcon, UserIcon, XCircleIcon } 
 import React, { useState } from 'react'
 
 type OptionModalProps = {
-  show: boolean
-  onClose: () => void
   items: any
+  onClose: () => void
+  show: boolean
 }
 
 const data = [
@@ -20,55 +20,55 @@ const data = [
     },
     jobApplicationProcess: [
       {
-        title: 'Interview HR',
         date: '22/01/2024',
-        status: 'Passed',
         details: [
           {
             attendee: 'Anna Yuliana, Candidate',
-            scheduleDate: '18/01/2024',
+            document: '/sample.pdf',
             processDate: '24/01/2024',
             processRemarks:
               'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit laborum quo labore culpa nam, pariatur numquam unde, voluptatibus expedita cumque assumenda voluptate. Animi rerum asperiores a officia corrupti ipsa debitis.',
-            document: '/sample.pdf',
+            scheduleDate: '18/01/2024',
           },
         ],
-      },
-      {
-        title: 'Interview User',
-        date: '22/01/2024',
         status: 'Passed',
-        details: [
-          {
-            attendee: 'Anna Yuliana, Candidate, & User',
-            scheduleDate: '18/01/2024',
-            processDate: '24/01/2024',
-            processRemarks:
-              'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit laborum quo labore culpa nam, pariatur numquam unde, voluptatibus expedita cumque assumenda voluptate. Animi rerum asperiores a officia corrupti ipsa debitis.',
-            document: '/sample.pdf',
-          },
-        ],
+        title: 'Interview HR',
       },
       {
-        title: 'Technical Test',
         date: '22/01/2024',
-        status: 'Failed',
         details: [
           {
             attendee: 'Anna Yuliana, Candidate, & User',
-            scheduleDate: '18/01/2024',
+            document: '/sample.pdf',
             processDate: '24/01/2024',
             processRemarks:
               'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit laborum quo labore culpa nam, pariatur numquam unde, voluptatibus expedita cumque assumenda voluptate. Animi rerum asperiores a officia corrupti ipsa debitis.',
-            document: '/sample.pdf',
+            scheduleDate: '18/01/2024',
           },
         ],
+        status: 'Passed',
+        title: 'Interview User',
+      },
+      {
+        date: '22/01/2024',
+        details: [
+          {
+            attendee: 'Anna Yuliana, Candidate, & User',
+            document: '/sample.pdf',
+            processDate: '24/01/2024',
+            processRemarks:
+              'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugit laborum quo labore culpa nam, pariatur numquam unde, voluptatibus expedita cumque assumenda voluptate. Animi rerum asperiores a officia corrupti ipsa debitis.',
+            scheduleDate: '18/01/2024',
+          },
+        ],
+        status: 'Failed',
+        title: 'Technical Test',
       },
     ],
   },
 ]
 
-const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, onClose }) => {
+const ViewHistoryModal: React.FC<OptionModalProps> = ({ onClose, show }) => {
   const [showDetails, setShowDetails] = useState<boolean[]>([false, false, false])
 
   const handleShowDetails = (index: number) => {
@@ -99,10 +99,10 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, onClose }) => {
   }
 
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
       {data.map((item, index) => (
         <>
-          <div key={index} className="mb-8">
+          <div className="mb-8" key={index}>
             <h4 className="mb-2 text-center text-2xl font-semibold">Candidate History</h4>
             <p className="text-center">Candidate Process History for {item.candidate.name}</p>
           </div>
@@ -114,19 +114,19 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, onClose }) => {
           <div className="p-3">
             <ol className="border-l border-dashed">
               {item.jobApplicationProcess.map((process, idx) => (
-                <li key={idx} className="relative mb-5 pl-6 last:mb-0">
+                <li className="relative mb-5 pl-6 last:mb-0" key={idx}>
                   <span className="absolute left-[-0.4rem] top-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-white ring-4 ring-primary-600" />
                   <div className="flex items-center justify-between">
                     <div>
                       <h3 className="flex items-center gap-3 font-semibold">{process.title}</h3>
                       <p className="mb-2 text-xs text-gray-500">{process.date}</p>
                       <Button
-                        type="button"
-                        size="small"
-                        color="default"
-                        variant="light"
                         className="text-xs"
+                        color="default"
                         onClick={() => handleShowDetails(idx)}
+                        size="small"
+                        type="button"
+                        variant="light"
                       >
                         Show Details
                       </Button>
@@ -164,12 +164,12 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ show, onClose }) => {
                         </div>
                         <h3 className="mb-1 text-sm font-semibold">Document</h3>
                         <Button
+                          className="gap-2"
+                          color="primary"
+                          leftChild={<FileInputIcon size={18} />}
                           onClick={handleOpenPdf}
                           size="small"
-                          color="primary"
-                          className="gap-2"
                           variant="default"
-                          leftChild={<FileInputIcon size={18} />}
                         >
                           <span className="text-xs">Result Attachment</span>
                         </Button>

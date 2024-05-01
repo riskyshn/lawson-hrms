@@ -1,13 +1,14 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
 import React from 'react'
+
 import ActionMenu from './ActionMenu'
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
   items: IJobLevel[]
   loading?: boolean
-  setSelectedToUpdate?: (item: IJobLevel) => void
   onDeleted?: (oid: string) => void
+  setSelectedToUpdate?: (item: IJobLevel) => void
 }
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
@@ -38,12 +39,12 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       //   className: 'text-center',
       // },
       {
-        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
       },
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 export default Table

@@ -2,15 +2,16 @@ import { authorityService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import React, { useEffect, useMemo, useState } from 'react'
+
 import PermissionItem, { PermissionItemSkeleton } from './PermissionItem'
 
 type EditPermissionModalProps = {
-  role?: IRole | null
   onClose?: () => void
   onUpdated?: (role: IRole) => void
+  role?: IRole | null
 }
 
-const EditPermissionModal: React.FC<EditPermissionModalProps> = ({ role: newRole, onClose, onUpdated }) => {
+const EditPermissionModal: React.FC<EditPermissionModalProps> = ({ onClose, onUpdated, role: newRole }) => {
   const [role, setRole] = useState<IRole | null>(null)
   const [permissions, setPermissions] = useState<IPermission[]>([])
   const [isLoadPermissionsLoading, setIsLoadPermissionsLoading] = useState<boolean>(true)
@@ -49,10 +50,10 @@ const EditPermissionModal: React.FC<EditPermissionModalProps> = ({ role: newRole
     setIsSubmitLoading(true)
     try {
       const updatedRole = await authorityService.updateRole(role.oid, {
-        name: role.name,
+        attachedPermissions: value,
         code: role.code,
         description: role.description,
-        attachedPermissions: value,
+        name: role.name,
       })
       toast(`Role "${updatedRole.name}" permissions updated successfully.`, { color: 'success' })
       onClose?.()
@@ -79,12 +80,12 @@ const EditPermissionModal: React.FC<EditPermissionModalProps> = ({ role: newRole
   return (
     <Modal show={!!newRole}>
       <ModalHeader
+        onClose={onClose}
         subTitle={
           <>
             Edit Access Managemet For Role <span className="text-primary-600">{role?.name}</span>
           </>
         }
-        onClose={onClose}
       >
         Access Managemet
       </ModalHeader>
@@ -94,20 +95,20 @@ const EditPermissionModal: React.FC<EditPermissionModalProps> = ({ role: newRole
         {!isLoadPermissionsLoading &&
           Object.keys(groupedPermissionsByGroupName).map((groupName) => (
             <PermissionItem
-              key={groupName}
               groupName={groupName}
+              key={groupName}
               permissions={groupedPermissionsByGroupName[groupName]}
-              value={value}
               setValue={setValue}
+              value={value}
             />
           ))}
       </div>
 
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isSubmitLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isSubmitLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="button" color="primary" className="w-24" disabled={isSubmitLoading} loading={isSubmitLoading} onClick={handleSubmit}>
+        <Button className="w-24" color="primary" disabled={isSubmitLoading} loading={isSubmitLoading} onClick={handleSubmit} type="button">
           Save
         </Button>
       </ModalFooter>

@@ -2,11 +2,11 @@ import numberToCurrency from '@/utils/number-to-currency'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React from 'react'
 
-const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?: string; documents?: IUploadedProcessDocument[] }> = ({
+const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; flag?: string; items?: ICandidate; title?: string }> = ({
+  documents,
+  flag,
   items,
   title,
-  flag,
-  documents,
 }) => {
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString)
@@ -166,7 +166,7 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
           </CardHeader>
           <CardBody className="h-96 p-5">
             {items?.cv ? (
-              <iframe src={items.cv} className="block h-full w-full rounded-lg bg-white" />
+              <iframe className="block h-full w-full rounded-lg bg-white" src={items.cv} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="text-gray-500">No data found</p>
@@ -178,7 +178,7 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
           </CardHeader>
           <CardBody className="relative flex h-96 items-center justify-center p-5">
             {items?.videoResume ? (
-              <video className="h-full rounded-lg bg-black" src={items.videoResume} loop controls />
+              <video className="h-full rounded-lg bg-black" controls loop src={items.videoResume} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="text-gray-500">No video found</p>
@@ -197,14 +197,14 @@ const CandidateDetailCard: React.FC<{ items?: ICandidate; title?: string; flag?:
                 {doc.file.link ? (
                   doc.file.link.endsWith('.pdf') ? (
                     <iframe
-                      src={doc.file.link}
-                      className="block h-full w-full rounded-lg bg-white"
-                      style={{ border: 'none', display: 'block', background: '#000', height: '100vh', width: '100vw' }}
-                      title={`Document-${index}`}
                       allowFullScreen
+                      className="block h-full w-full rounded-lg bg-white"
+                      src={doc.file.link}
+                      style={{ background: '#000', border: 'none', display: 'block', height: '100vh', width: '100vw' }}
+                      title={`Document-${index}`}
                     />
                   ) : (
-                    <img src={doc.file.link} alt={`Document-${index}`} className="block h-full w-full rounded-lg" />
+                    <img alt={`Document-${index}`} className="block h-full w-full rounded-lg" src={doc.file.link} />
                   )
                 ) : (
                   <div className="flex h-full items-center justify-center">

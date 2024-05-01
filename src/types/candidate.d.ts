@@ -1,137 +1,137 @@
 interface ICandidateHistories {
   candidate?: ICandidate
   history?: {
-    vacancy?: IVacancy
     histories?: {
-      oid?: string
+      actionAt?: string
       applyProcess?: string
-      status?: string
-      type?: string
+      createdAt?: string
+      file?: string
       from?: string
       inReview?: string
-      actionAt?: string
       notes?: string
-      file?: string
-      schedules?: string
       offeringLetter?: string
       offeringLetterSigned?: string
-      createdAt?: string
+      oid?: string
+      schedules?: string
+      status?: string
+      type?: string
       updatedAt?: string
     }[]
+    vacancy?: IVacancy
   }[]
 }
 
 interface ICandidate {
-  id: string
-  candidateId?: string
-  vacancyId?: string
-  email?: string
-  name?: string
-  position?: string
-  rrNumber?: string
-  photoProfile?: string
-  cv?: string
-  videoResume?: string
-  province?: string
-  city?: string
-  lastEducation?: string
-  blacklistedBy?: string
-  blacklistReason?: string
-  blacklistDate?: string
-  matchPercentage?: string
+  age?: string
   applyDate?: string
-  source?: string
-  status?: string
-  module?: string
+  birthdate?: string
+  blacklistDate?: string
+  blacklistReason?: string
+  blacklistedBy?: string
+  candidateId?: string
   candidateMatches?: {
-    requirementType: string
-    vacancyData: string
     candidateData: string
     isMatch: boolean
+    requirementType: string
+    vacancyData: string
   }[]
   candidateMatchesMandatory?: {
-    requirementType: string
-    vacancyData: string
     candidateData: string
     isMatch: boolean
+    requirementType: string
+    vacancyData: string
   }[]
-  matchPercentage?: number
-  rejectReason?: string
-  withdrawReason?: string
-  vacancyId?: string
-  vacancyName?: string
-  lastPosition?: {
-    name?: string
-    oid: string
-  }
-  phone?: string
-  gender?: string
-  age?: string
-  expectedSalary?: string
-  nik?: string
-  birthdate?: string
-  educations?: {
-    id: string
-    degree?: {
-      id: string
-      name: string
-    }
-    major: string
-    institution: string
-    gpa: string
-    startDate: string
-    graduateDate: string
-    untilNow: string
-  }[]
-  experiences?: {
-    companyName: string
-    position: string
-    startDate: string
-    endDate: string
-  }[]
-  ktp?: string
+  city?: string
+  cv?: string
   documents?: {
     label: string
     value: string
   }[]
+  educations?: {
+    degree?: {
+      id: string
+      name: string
+    }
+    gpa: string
+    graduateDate: string
+    id: string
+    institution: string
+    major: string
+    startDate: string
+    untilNow: string
+  }[]
+  email?: string
+  expectedSalary?: string
+  experiences?: {
+    companyName: string
+    endDate: string
+    position: string
+    startDate: string
+  }[]
+  gender?: string
+  id: string
+  ktp?: string
+  lastEducation?: string
+  lastPosition?: {
+    name?: string
+    oid: string
+  }
+  matchPercentage?: string
+  matchPercentage?: number
+  module?: string
+  name?: string
+  nik?: string
+  phone?: string
+  photoProfile?: string
+  position?: string
+  province?: string
+  rejectReason?: string
+  rrNumber?: string
+  source?: string
+  status?: string
+  vacancyId?: string
+  vacancyId?: string
+  vacancyName?: string
+  videoResume?: string
+  withdrawReason?: string
 }
 
 interface ICandidateToCreateEmployee {
-  oid: string
-  name?: string
-  email?: string
-  photoProfile?: string
-  cv?: string
-  videoResume?: string
-  videoThumbnail?: string
   age?: string
-  phone?: string
   birthdate?: string
-  lastPosition?: string
-  expectedSalary?: string
-  nik?: string
-  ktp?: string
-  position?: IGeneralDataEmmbed
-  province?: IGeneralDataEmmbed
   city?: IGeneralDataEmmbed
-  gender?: IGeneralDataEmmbed
-  religion?: IGeneralDataEmmbed
-  lastEducation?: IGeneralDataEmmbed
-  maritalStatus?: IGeneralDataEmmbed
+  cv?: string
   educations?: Array<{
     degree?: IGeneralDataEmmbed
-    major?: string
-    institution?: string
     gpa?: number
-    startDate?: string
     graduateDate?: string
-    untilNow?: boolean
+    institution?: string
+    major?: string
     point_education?: number
+    startDate?: string
+    untilNow?: boolean
   }>
+  email?: string
+  expectedSalary?: string
   experiences?: Array<{
     companyName?: string
+    endDate?: string
     position?: string
     startDate?: string
-    endDate?: string
   }>
+  gender?: IGeneralDataEmmbed
+  ktp?: string
+  lastEducation?: IGeneralDataEmmbed
+  lastPosition?: string
+  maritalStatus?: IGeneralDataEmmbed
+  name?: string
+  nik?: string
+  oid: string
+  phone?: string
+  photoProfile?: string
+  position?: IGeneralDataEmmbed
+  province?: IGeneralDataEmmbed
+  religion?: IGeneralDataEmmbed
+  videoResume?: string
+  videoThumbnail?: string
 }

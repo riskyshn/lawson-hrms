@@ -20,21 +20,21 @@ const ChatPage: React.FC = () => {
 
   const messages = useMemo(() => {
     return [
-      { text: 'Hello, how can I help you?', sender: 'other' },
-      { text: 'Hi! I have a question.', sender: 'user' },
-      { text: 'Sure, what is your question?', sender: 'other' },
-      { text: 'Can you tell me more about your product?', sender: 'user' },
-      { text: 'Can you tell me more about your service too?', sender: 'user' },
+      { sender: 'other', text: 'Hello, how can I help you?' },
+      { sender: 'user', text: 'Hi! I have a question.' },
+      { sender: 'other', text: 'Sure, what is your question?' },
+      { sender: 'user', text: 'Can you tell me more about your product?' },
+      { sender: 'user', text: 'Can you tell me more about your service too?' },
       {
+        sender: 'other',
         text: "Of course! Our product offers a wide range of features, including A, B, and C. It's designed to help you achieve your goals efficiently and effectively.",
-        sender: 'other',
       },
-      { text: 'That sounds great! Can you explain feature A in more detail?', sender: 'user' },
-      { text: 'Certainly! Feature A allows you to do X, Y, and Z, providing you with great flexibility and control.', sender: 'other' },
-      { text: 'Wow, that sounds really useful! How do I get started?', sender: 'user' },
+      { sender: 'user', text: 'That sounds great! Can you explain feature A in more detail?' },
+      { sender: 'other', text: 'Certainly! Feature A allows you to do X, Y, and Z, providing you with great flexibility and control.' },
+      { sender: 'user', text: 'Wow, that sounds really useful! How do I get started?' },
       {
-        text: "You can get started by signing up on our website. Once you've registered, you'll have access to all the features right away.",
         sender: 'other',
+        text: "You can get started by signing up on our website. Once you've registered, you'll have access to all the features right away.",
       },
     ]
   }, [])
@@ -56,23 +56,23 @@ const ChatPage: React.FC = () => {
             <CardHeader>
               <div className="flex items-center">
                 <Input
-                  type="text"
-                  placeholder="Search..."
                   className="m-0 mt-1 w-full"
                   inputClassName="peer pl-7"
+                  placeholder="Search..."
                   rightChild={
                     <SearchIcon
                       className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
                       size={16}
                     />
                   }
+                  type="text"
                 />
               </div>
             </CardHeader>
             <CardBody className="flex h-[68.8vh] flex-col overflow-scroll">
               {users.map((user, index) => (
-                <div key={index} className="flex cursor-pointer items-center gap-3 p-2 hover:bg-gray-100">
-                  <Avatar name={user.name} size={38} className="bg-primary-100 text-primary-700" />
+                <div className="flex cursor-pointer items-center gap-3 p-2 hover:bg-gray-100" key={index}>
+                  <Avatar className="bg-primary-100 text-primary-700" name={user.name} size={38} />
                   <span className="text-sm">{user.name}</span>
                 </div>
               ))}
@@ -84,15 +84,15 @@ const ChatPage: React.FC = () => {
           <Card>
             <CardHeader>
               <div className="flex items-center gap-3 whitespace-nowrap">
-                <Avatar name={'John Doe'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={'John Doe'} size={38} />
                 <div>
                   <span className="block font-semibold">{'John Doe'}</span>
                 </div>
               </div>
             </CardHeader>
-            <CardBody ref={chatBodyRef} className="flex h-[60vh] flex-col overflow-scroll">
+            <CardBody className="flex h-[60vh] flex-col overflow-scroll" ref={chatBodyRef}>
               {messages.map((message, index) => (
-                <div key={index} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} mb-2`}>
+                <div className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'} mb-2`} key={index}>
                   <div
                     className={`rounded-lg p-2 text-sm ${message.sender === 'user' ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'}`}
                   >
@@ -102,7 +102,7 @@ const ChatPage: React.FC = () => {
               ))}
             </CardBody>
             <CardFooter className="flex rounded-lg bg-white">
-              <Input type="text" className="flex-grow" placeholder="Type your message..." />
+              <Input className="flex-grow" placeholder="Type your message..." type="text" />
               <Button className="ml-2" color="primary" variant="default">
                 <SendIcon />
               </Button>

@@ -24,21 +24,11 @@ const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object({
-  name: yup.string().required().label('Name'),
-  email: yup.string().email().required().label('Email Address'),
-
-  gender: YUP_OPTION_OBJECT.required().label('Gender'),
-  religion: YUP_OPTION_OBJECT.required().label('Religion'),
-  phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
-  cityOfBirth: YUP_OPTION_OBJECT.required().label('Place of Birth'),
   birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
+  cityOfBirth: YUP_OPTION_OBJECT.required().label('Place of Birth'),
 
-  maritalStatus: YUP_OPTION_OBJECT.required().label('Marital Status'),
-  numberOfChildren: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .label('Number of Children'),
-
+  email: yup.string().email().required().label('Email Address'),
+  gender: YUP_OPTION_OBJECT.required().label('Gender'),
   linkNationalId: yup
     .string()
     .required()
@@ -50,10 +40,20 @@ const schema = yup.object({
     )
     .url()
     .label('National ID'),
+  maritalStatus: YUP_OPTION_OBJECT.required().label('Marital Status'),
+  name: yup.string().required().label('Name'),
 
-  nationalIdNumber: yup.string().required().length(16).label('National ID Number'),
-  postalCode: yup.string().length(5).label('Postal Code'),
   nationIdAddress: yup.string().label('Nation ID Address'),
+  nationalIdNumber: yup.string().required().length(16).label('National ID Number'),
+
+  numberOfChildren: yup
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
+    .label('Number of Children'),
+
+  phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
+  postalCode: yup.string().length(5).label('Postal Code'),
+  religion: YUP_OPTION_OBJECT.required().label('Religion'),
   residentalAddress: yup.string().label('Residental Address'),
 })
 
@@ -65,16 +65,16 @@ const PersonalDataForm: React.FC<{
   const [sameAsNationalId, setSameAsNationalId] = useState(false)
 
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+    setValue,
     trigger,
     watch,
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
+    resolver: yupResolver(schema),
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
@@ -94,116 +94,116 @@ const PersonalDataForm: React.FC<{
           <p className="text-xs text-gray-500">Fill all employee personal basic information data</p>
         </div>
 
-        <Input label="Name" placeholder="Employee Name" labelRequired error={errors.name?.message} {...register('name')} />
+        <Input error={errors.name?.message} label="Name" labelRequired placeholder="Employee Name" {...register('name')} />
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <AsyncSelect
-            label="Gender"
-            placeholder="Gender"
-            labelRequired
-            hideSearch
-            disableInfiniteScroll
             action={masterService.fetchGenders}
             converter={emmbedToOptions}
-            name="gender"
+            disableInfiniteScroll
             error={errors.gender?.message}
-            value={getValues('gender')}
+            hideSearch
+            label="Gender"
+            labelRequired
+            name="gender"
             onValueChange={(v) => {
               setValue('gender', v)
               trigger('gender')
             }}
+            placeholder="Gender"
+            value={getValues('gender')}
           />
           <AsyncSelect
-            label="Religion"
-            placeholder="Religion"
-            labelRequired
-            hideSearch
-            disableInfiniteScroll
             action={masterService.fetchReligions}
             converter={emmbedToOptions}
-            name="religion"
+            disableInfiniteScroll
             error={errors.religion?.message}
-            value={getValues('religion')}
+            hideSearch
+            label="Religion"
+            labelRequired
+            name="religion"
             onValueChange={(v) => {
               setValue('religion', v)
               trigger('religion')
             }}
+            placeholder="Religion"
+            value={getValues('religion')}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
-          <Input label="Email" placeholder="email@example.com" labelRequired error={errors.email?.message} {...register('email')} />
+          <Input error={errors.email?.message} label="Email" labelRequired placeholder="email@example.com" {...register('email')} />
           <Input
-            label="Phone Number"
-            placeholder="(000) 000-0000"
-            labelRequired
             error={errors.phoneNumber?.message}
+            label="Phone Number"
+            labelRequired
+            placeholder="(000) 000-0000"
             {...register('phoneNumber')}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <AsyncSelect
-            label="City of Birth"
-            labelRequired
-            placeholder="Choose City"
             action={masterService.fetchCities}
             converter={emmbedToOptions}
-            searchMinCharacter={3}
-            name="cityOfBirth"
             error={errors.cityOfBirth?.message}
-            value={getValues('cityOfBirth')}
+            label="City of Birth"
+            labelRequired
+            name="cityOfBirth"
             onChange={(v) => {
               setValue('cityOfBirth', v)
               trigger('cityOfBirth')
             }}
+            placeholder="Choose City"
+            searchMinCharacter={3}
+            value={getValues('cityOfBirth')}
           />
           <InputDate
+            displayFormat="DD/MM/YYYY"
+            error={errors.birthDate?.message}
             label="Date of Birth"
             labelRequired
-            error={errors.birthDate?.message}
-            displayFormat="DD/MM/YYYY"
-            value={getValues('birthDate')}
             onValueChange={(v) => {
               setValue('birthDate', v)
               trigger('birthDate')
             }}
+            value={getValues('birthDate')}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <AsyncSelect
-            label="Marital Status"
-            labelRequired
-            placeholder="Married, Single"
-            hideSearch
-            disableInfiniteScroll
             action={masterService.fetchMaritalStatus}
             converter={emmbedToOptions}
-            name="maritalStatus"
+            disableInfiniteScroll
             error={errors.maritalStatus?.message}
-            value={getValues('maritalStatus')}
+            hideSearch
+            label="Marital Status"
+            labelRequired
+            name="maritalStatus"
             onValueChange={(v) => {
               setValue('maritalStatus', v)
               trigger('maritalStatus')
             }}
+            placeholder="Married, Single"
+            value={getValues('maritalStatus')}
           />
           <Select
-            label="Number of Children"
-            placeholder="1-9"
-            hideSearch
-            withReset
-            options={Array.from(Array(9)).map((_, i) => ({
-              label: String(i + 1),
-              value: String(i + 1),
-            }))}
-            name="numberOfChildren"
             error={errors.numberOfChildren?.message}
-            value={String(getValues('numberOfChildren') || '')}
+            hideSearch
+            label="Number of Children"
+            name="numberOfChildren"
             onChange={(v) => {
               setValue('numberOfChildren', Number(v))
               trigger('numberOfChildren')
             }}
+            options={Array.from(Array(9)).map((_, i) => ({
+              label: String(i + 1),
+              value: String(i + 1),
+            }))}
+            placeholder="1-9"
+            value={String(getValues('numberOfChildren') || '')}
+            withReset
           />
         </div>
       </CardBody>
@@ -214,14 +214,9 @@ const PersonalDataForm: React.FC<{
           <p className="text-xs text-gray-500">Employee identity address information</p>
         </div>
 
-        <InputWrapper label="National ID" labelRequired error={errors.linkNationalId?.message}>
+        <InputWrapper error={errors.linkNationalId?.message} label="National ID" labelRequired>
           <ImageFileUpload
-            type="employee-national-id"
-            value={getValues('linkNationalId')}
             error={errors.linkNationalId?.message}
-            onStart={() => {
-              setValue('linkNationalId', PROGRESS_KEY)
-            }}
             onChange={(value) => {
               setValue('linkNationalId', value)
               trigger('linkNationalId')
@@ -230,32 +225,37 @@ const PersonalDataForm: React.FC<{
               setValue('linkNationalId', ERROR_PREFIX_KEY + message)
               trigger('linkNationalId')
             }}
+            onStart={() => {
+              setValue('linkNationalId', PROGRESS_KEY)
+            }}
+            type="employee-national-id"
+            value={getValues('linkNationalId')}
           />
         </InputWrapper>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <Input
+            error={errors.nationalIdNumber?.message}
             label="National ID Number"
             labelRequired
-            error={errors.nationalIdNumber?.message}
             {...register('nationalIdNumber')}
             type="number"
           />
-          <Input label="Postal Code" error={errors.postalCode?.message} {...register('postalCode')} type="number" />
+          <Input error={errors.postalCode?.message} label="Postal Code" {...register('postalCode')} type="number" />
         </div>
-        <Textarea label="Nation ID Address" rows={6} error={errors.nationIdAddress?.message} {...register('nationIdAddress')} />
+        <Textarea error={errors.nationIdAddress?.message} label="Nation ID Address" rows={6} {...register('nationIdAddress')} />
         <Textarea
-          label="Residential Address"
           className="mb-2"
-          rows={6}
           error={errors.residentalAddress?.message}
+          label="Residential Address"
+          rows={6}
           {...register('residentalAddress')}
           disabled={sameAsNationalId}
         />
 
         <InputCheckbox
-          id="same-as-national-id-address"
           checked={sameAsNationalId}
+          id="same-as-national-id-address"
           onChange={(e) => setSameAsNationalId(e.currentTarget.checked)}
         >
           Same as National ID Address
@@ -263,7 +263,7 @@ const PersonalDataForm: React.FC<{
       </CardBody>
 
       <CardFooter>
-        <Button type="submit" color="primary" className="w-32">
+        <Button className="w-32" color="primary" type="submit">
           Next
         </Button>
       </CardFooter>

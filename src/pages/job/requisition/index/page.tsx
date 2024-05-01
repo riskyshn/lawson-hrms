@@ -12,6 +12,7 @@ import { AsyncSelect, Button, Select } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
+
 import StatisticCards from '../../components/StatisticCards'
 import HistoryModal from './components/HistoryModal'
 import Table from './components/Table'
@@ -25,16 +26,16 @@ export const Component: React.FC = () => {
   const [department, setDepartment, rawDepartment] = useOptionSearchParam('department')
   const [status, setStatus, rawStatus] = useOptionSearchParam('status')
 
-  const { pageData, isLoading, refresh, onRefresh } = useAsyncSearch(
+  const { isLoading, onRefresh, pageData, refresh } = useAsyncSearch(
     vacancyService.fetchVacancies,
-    { limit: 20, status: status?.value, departmentId: department?.value, isRequisition: 1 },
+    { departmentId: department?.value, isRequisition: 1, limit: 20, status: status?.value },
     search,
   )
 
   const pagination = usePagination({
+    params: { department: rawDepartment, search, status: rawStatus },
     pathname: '/job/requisition',
     totalPage: pageData?.totalPages,
-    params: { search, department: rawDepartment, status: rawStatus },
   })
 
   return (
@@ -42,70 +43,32 @@ export const Component: React.FC = () => {
       <HistoryModal item={selectedToShowHistoryModal} onClose={() => setSelectedToShowHistoryModal(null)} />
 
       <PageHeader
-        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
-        title="Job Requisition"
-        subtitle="Manage Your Job Requisition Needs"
         actions={
           <>
             <Button
               as={Link}
+              className="text-gray-600"
+              color="primary"
+              leftChild={<SettingsIcon size={16} />}
               to="/job/requisition/approve-list"
               variant="light"
-              color="primary"
-              className="text-gray-600"
-              leftChild={<SettingsIcon size={16} />}
             >
               Approve List
             </Button>
-            <Button as={Link} to="/job/requisition/create" color="primary" className="ml-3">
+            <Button as={Link} className="ml-3" color="primary" to="/job/requisition/create">
               Create Requisition
             </Button>
           </>
         }
+        breadcrumb={[{ text: 'Job' }, { text: 'Requisition' }, { text: 'Job Requisition' }]}
+        subtitle="Manage Your Job Requisition Needs"
+        title="Job Requisition"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <StatisticCards isRequisition refresh={refresh} />
 
         <MainCard
-          header={(open, toggleOpen) => (
-            <MainCardHeader
-              title="Vacancy List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
-              subtitle={
-                <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Vacancy</span> in total
-                </>
-              }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
-              filterToogle={toggleOpen}
-              onRefresh={onRefresh}
-              filter={
-                open && (
-                  <div className="grid grid-cols-2 gap-3 p-3">
-                    <AsyncSelect
-                      placeholder="All Departement"
-                      withReset
-                      action={organizationService.fetchDepartments}
-                      converter={emmbedToOptions}
-                      value={department}
-                      onChange={setDepartment}
-                    />
-                    <Select
-                      placeholder="All Status"
-                      withReset
-                      value={status?.value}
-                      onChange={setStatus}
-                      options={genOptions(['progress', 'approved', 'published', 'draft', 'canceled', 'rejected'])}
-                    />
-                  </div>
-                )
-              }
-            />
-          )}
           body={
             <Table
               items={pageData?.content || []}
@@ -115,6 +78,44 @@ export const Component: React.FC = () => {
             />
           }
           footer={pagination.render()}
+          header={(open, toggleOpen) => (
+            <MainCardHeader
+              filter={
+                open && (
+                  <div className="grid grid-cols-2 gap-3 p-3">
+                    <AsyncSelect
+                      action={organizationService.fetchDepartments}
+                      converter={emmbedToOptions}
+                      onChange={setDepartment}
+                      placeholder="All Departement"
+                      value={department}
+                      withReset
+                    />
+                    <Select
+                      onChange={setStatus}
+                      options={genOptions(['progress', 'approved', 'published', 'draft', 'canceled', 'rejected'])}
+                      placeholder="All Status"
+                      value={status?.value}
+                      withReset
+                    />
+                  </div>
+                )
+              }
+              filterToogle={toggleOpen}
+              onRefresh={onRefresh}
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
+              subtitle={
+                <>
+                  You have <span className="text-primary-600">{pageData?.totalElements} Vacancy</span> in total
+                </>
+              }
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Vacancy List"
+            />
+          )}
         />
       </Container>
     </>

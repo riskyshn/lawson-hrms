@@ -3,13 +3,13 @@ import { Button, Dropzone, InputRadio, Textarea } from 'jobseeker-ui'
 import React from 'react'
 
 type UpdateResultModalProps = {
-  show: boolean
   onClose: () => void
+  show: boolean
 }
 
-const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, onClose }) => {
+const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ onClose, show }) => {
   return (
-    <MainModal className="max-w-xl py-12" show={show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Candidate Result</h4>
       </div>
@@ -31,10 +31,10 @@ const UpdateResultModal: React.FC<UpdateResultModalProps> = ({ show, onClose }) 
       </div>
 
       <div className="mt-8 flex justify-between">
-        <Button onClick={onClose} color="primary" variant="light" className="mr-2 w-1/2">
+        <Button className="mr-2 w-1/2" color="primary" onClick={onClose} variant="light">
           Cancel
         </Button>
-        <Button color="primary" className="ml-2 w-1/2">
+        <Button className="ml-2 w-1/2" color="primary">
           Submit
         </Button>
       </div>

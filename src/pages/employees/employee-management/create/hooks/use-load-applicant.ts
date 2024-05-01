@@ -28,5 +28,5 @@ export default function useLoadApplicant() {
 
   if (pageError) throw pageError
 
-  return { applicantId, isLoading, applicant }
+  return { applicant, applicantId, isLoading }
 }

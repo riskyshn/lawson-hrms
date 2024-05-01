@@ -4,13 +4,14 @@ import PageHeader from '@/components/Elements/Layout/PageHeader'
 import Logo from '@/components/Logo/Logo'
 import { useAuthStore } from '@/store'
 import moment from 'moment'
+
 import AnnouncementCard from './components/AnnouncementCard'
 import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidatesCard'
 import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
 import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 
 export const Component: React.FC = () => {
-  const { user, company } = useAuthStore()
+  const { company, user } = useAuthStore()
   return (
     <>
       <PageHeader breadcrumb={[{ text: 'Dashboard' }]} />

@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 type PropTypes = {
-  disabled?: boolean
   children?: React.ReactNode
+  disabled?: boolean
   onClear?: () => void
 }
 
 const ClearToggle: React.FC<PropTypes> = ({ children, disabled, onClear }) => {
   const [confirming, setConfirming] = useState(false)
-  const timerRef = useRef<number | null>(null)
+  const timerRef = useRef<null | number>(null)
 
   const handleClear = () => {
     if (timerRef.current) {
@@ -45,16 +45,16 @@ const ClearToggle: React.FC<PropTypes> = ({ children, disabled, onClear }) => {
   return (
     <span className="block text-sm">
       {!confirming ? (
-        <button type="button" disabled={disabled} onClick={handleClear} className="text-error-600 disabled:text-gray-400">
+        <button className="text-error-600 disabled:text-gray-400" disabled={disabled} onClick={handleClear} type="button">
           {children}
         </button>
       ) : (
         <>
           Are you sure?
-          <button type="button" onClick={handleClear} className="mx-2 text-error-600">
+          <button className="mx-2 text-error-600" onClick={handleClear} type="button">
             Yes
           </button>
-          <button type="button" onClick={handleCancel}>
+          <button onClick={handleCancel} type="button">
             No
           </button>
         </>

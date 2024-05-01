@@ -2,6 +2,7 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
+
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {
@@ -49,7 +50,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
           children: (
             <div className="flex gap-3 whitespace-nowrap">
               <div>
-                <Avatar name={item.employee?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item.employee?.name || '-'} size={38} />
               </div>
               <div>
                 <span className="block font-semibold">{item.employee?.name}</span>
@@ -80,7 +81,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
         { children: item.note, className: 'whitespace-normal' },
         {
           children: item.status ? (
-            <Badge color={statusColors(item.status?.toLowerCase())} size="small" className="font-semibold capitalize">
+            <Badge className="font-semibold capitalize" color={statusColors(item.status?.toLowerCase())} size="small">
               {item.status?.toLowerCase()}
             </Badge>
           ) : (
@@ -92,11 +93,11 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
           children: (
             <span className="mb-1 flex items-center justify-center gap-2">
               <button
-                title="Image"
-                className={`text-${item.attachment ? 'primary' : 'gray'}-600 hover:text-${item.attachment ? 'primary' : 'gray'}-700 focus:outline-none`}
-                onClick={() => previewImage(item.attachment)}
                 aria-label="View Image"
+                className={`text-${item.attachment ? 'primary' : 'gray'}-600 hover:text-${item.attachment ? 'primary' : 'gray'}-700 focus:outline-none`}
                 disabled={!item.attachment}
+                onClick={() => previewImage(item.attachment)}
+                title="Image"
               >
                 <ImageIcon size={18} />
               </button>
@@ -104,20 +105,20 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
           ),
           className: 'text-center',
         },
-        { children: <ActionMenu options={filteredOptions} items={item} onApplyVacancy={onDataChange} /> },
+        { children: <ActionMenu items={item} onApplyVacancy={onDataChange} options={filteredOptions} /> },
       ],
     }
   })
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 const statusColors = genStyles<string, Color>({
   approved: 'success',
-  rejected: 'error',
-  process: 'primary',
-  waiting: 'default',
   default: 'default',
+  process: 'primary',
+  rejected: 'error',
+  waiting: 'default',
 })
 
 export default Table

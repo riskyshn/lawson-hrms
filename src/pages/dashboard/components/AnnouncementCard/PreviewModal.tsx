@@ -13,14 +13,14 @@ const PreviewModal: React.FC<PropTypes> = ({ item, onClose }) => {
   const subtitle = rememberedItem?.createdAt ? `Published ${moment.utc(rememberedItem.createdAt).local().fromNow()}` : undefined
 
   return (
-    <Modal show={!!item} className="max-w-6xl" onClose={onClose}>
-      <ModalHeader subTitle={subtitle} onClose={onClose}>
+    <Modal className="max-w-6xl" onClose={onClose} show={!!item}>
+      <ModalHeader onClose={onClose} subTitle={subtitle}>
         {rememberedItem?.title}
       </ModalHeader>
-      {!!rememberedItem?.poster && <img src={rememberedItem.poster} alt={rememberedItem.title} className="block w-full" />}
+      {!!rememberedItem?.poster && <img alt={rememberedItem.title} className="block w-full" src={rememberedItem.poster} />}
       <div className="prose max-w-none p-3" dangerouslySetInnerHTML={{ __html: rememberedItem?.content || '' }} />
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" onClick={onClose}>
+        <Button className="w-24" color="error" onClick={onClose} type="button" variant="light">
           Close
         </Button>
       </ModalFooter>

@@ -3,11 +3,11 @@ import { XCircleIcon } from 'lucide-react'
 import { Fragment, useEffect, useState } from 'react'
 
 type PropTypes = {
-  url?: string | null
   onClose?: () => void
+  url?: null | string
 }
 
-const PreviewVideoResumeModal: React.FC<PropTypes> = ({ url, onClose }) => {
+const PreviewVideoResumeModal: React.FC<PropTypes> = ({ onClose, url }) => {
   const [videoUrl, setVideoUrl] = useState<string>()
   const [isShow, setIsShow] = useState(false)
 
@@ -25,7 +25,7 @@ const PreviewVideoResumeModal: React.FC<PropTypes> = ({ url, onClose }) => {
 
   return (
     <>
-      <Transition appear show={isShow} as={Fragment}>
+      <Transition appear as={Fragment} show={isShow}>
         <Dialog as="div" className="relative z-[999999]" onClose={handleClose}>
           <Transition.Child
             as={Fragment}
@@ -55,9 +55,9 @@ const PreviewVideoResumeModal: React.FC<PropTypes> = ({ url, onClose }) => {
                     className="absolute -right-3 -top-3 z-50 text-error-600 hover:text-error-700 focus:outline-none"
                     onClick={handleClose}
                   >
-                    <XCircleIcon size={32} fill="white" />
+                    <XCircleIcon fill="white" size={32} />
                   </button>
-                  <video className="h-full rounded-lg bg-black" src={videoUrl} loop controls />
+                  <video className="h-full rounded-lg bg-black" controls loop src={videoUrl} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

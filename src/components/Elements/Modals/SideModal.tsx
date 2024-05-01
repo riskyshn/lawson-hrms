@@ -3,16 +3,16 @@ import { Fragment, forwardRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 type PropTypes = {
-  show?: boolean
-  onClose?: () => void
-  className?: string
   children?: React.ReactNode
+  className?: string
+  onClose?: () => void
+  show?: boolean
 }
 
-const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ show, onClose, children, className }, ref) => {
+const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ children, className, onClose, show }, ref) => {
   return (
-    <Transition show={!!show} as={Fragment}>
-      <Dialog as="div" ref={ref} className="relative z-50" onClose={() => onClose?.()}>
+    <Transition as={Fragment} show={!!show}>
+      <Dialog as="div" className="relative z-50" onClose={() => onClose?.()} ref={ref}>
         <Transition.Child
           as={Fragment}
           enter="ease-in-out duration-200"
@@ -49,5 +49,7 @@ const SideModal = forwardRef<HTMLDivElement, PropTypes>(({ show, onClose, childr
     </Transition>
   )
 })
+
+SideModal.displayName = 'SideModal'
 
 export default SideModal

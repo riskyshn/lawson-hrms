@@ -2,6 +2,7 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 import { Avatar, Badge } from 'jobseeker-ui'
 import moment from 'moment'
 import React from 'react'
+
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {
@@ -24,7 +25,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
       {
         children: (
           <div className="flex gap-3">
-            <Avatar name={item.name || ''} size={38} className="rounded-lg bg-primary-100 text-primary-700" />
+            <Avatar className="rounded-lg bg-primary-100 text-primary-700" name={item.name || ''} size={38} />
             <div>
               <span className="block font-semibold">{item.name}</span>
               <span className="text-xs text-gray-500">{item.employeeCode}</span>
@@ -47,12 +48,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
         className: 'whitespace-normal',
       },
       {
-        children: <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} onRestored={onRestored} />,
+        children: <ActionMenu index={index} item={item} onRestored={onRestored} total={items.length} upSpace={items.length > 8 ? 3 : 0} />,
       },
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 export default Table

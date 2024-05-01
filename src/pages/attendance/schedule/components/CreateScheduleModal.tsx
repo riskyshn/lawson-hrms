@@ -7,38 +7,38 @@ import { useForm } from 'react-hook-form'
 
 type DaySchedule = {
   day: string
-  start: string
   end: string
   isActive: boolean
+  start: string
 }
 
 type CreateModalProps = {
-  show: boolean
-  onClose?: () => void
   onApplyVacancy: (data: string) => void
+  onClose?: () => void
+  show: boolean
 }
 
 const initialDaySchedules: DaySchedule[] = [
-  { day: 'Monday', start: '', end: '', isActive: false },
-  { day: 'Tuesday', start: '', end: '', isActive: false },
-  { day: 'Wednesday', start: '', end: '', isActive: false },
-  { day: 'Thursday', start: '', end: '', isActive: false },
-  { day: 'Friday', start: '', end: '', isActive: false },
-  { day: 'Saturday', start: '', end: '', isActive: false },
-  { day: 'Sunday', start: '', end: '', isActive: false },
+  { day: 'Monday', end: '', isActive: false, start: '' },
+  { day: 'Tuesday', end: '', isActive: false, start: '' },
+  { day: 'Wednesday', end: '', isActive: false, start: '' },
+  { day: 'Thursday', end: '', isActive: false, start: '' },
+  { day: 'Friday', end: '', isActive: false, start: '' },
+  { day: 'Saturday', end: '', isActive: false, start: '' },
+  { day: 'Sunday', end: '', isActive: false, start: '' },
 ]
 
-const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onApplyVacancy }) => {
+const CreateScheduleModal: React.FC<CreateModalProps> = ({ onApplyVacancy, onClose, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
   const [timezones, setTimezones] = useState<ITimezone[]>()
   const [selectTimezoneId, setSelectTimezoneId] = useState<string>('')
   const {
-    register,
-    handleSubmit,
-    reset,
     formState: { errors },
+    handleSubmit,
+    register,
+    reset,
   } = useForm()
   const [daySchedules, setDaySchedules] = useState<DaySchedule[]>(initialDaySchedules)
 
@@ -75,14 +75,14 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
 
     try {
       const payload = {
-        name: data.name,
-        timezoneId: selectTimezoneId,
-        details: daySchedules.map(({ start, end, isActive }, index) => ({
+        details: daySchedules.map(({ end, isActive, start }, index) => ({
           day: index,
-          start,
           end,
           isActive: start && end ? isActive : false,
+          start,
         })),
+        name: data.name,
+        timezoneId: selectTimezoneId,
       }
 
       await attendanceService.createSchedule(payload)
@@ -96,7 +96,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
     }
   })
 
-  const handleInputChange = (index: number, field: keyof DaySchedule, value: string | boolean) => {
+  const handleInputChange = (index: number, field: keyof DaySchedule, value: boolean | string) => {
     setDaySchedules((prevSchedules) => {
       const updatedSchedules = [...prevSchedules]
       updatedSchedules[index] = { ...updatedSchedules[index], [field]: value }
@@ -116,7 +116,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
   }
 
   return (
-    <MainModal className="max-w-xl" show={show} onClose={handleCloseModal}>
+    <MainModal className="max-w-xl" onClose={handleCloseModal} show={show}>
       <form className="flex flex-col gap-3" onSubmit={onSubmit}>
         <div className="mb-3">
           <h3 className="text-center text-2xl font-semibold">Add Schedule</h3>
@@ -126,39 +126,39 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
         {errors.timezone && <Alert color="error">Timezone is required.</Alert>}
 
-        <Input labelRequired label="Schedule Name" required {...register('name')} />
+        <Input label="Schedule Name" labelRequired required {...register('name')} />
         <Select
-          labelRequired
-          label="Select Timezone"
-          placeholder="WIB, WITA, WIT"
-          options={timezones?.map(({ oid, title }) => ({ value: oid, label: title })) || []}
           className="mb-3"
+          label="Select Timezone"
+          labelRequired
+          options={timezones?.map(({ oid, title }) => ({ label: title, value: oid })) || []}
+          placeholder="WIB, WITA, WIT"
           value={selectTimezoneId}
           {...register('timezone')}
           onChange={handleChange}
         />
         {daySchedules.map((schedule, index) => (
-          <div key={index} className="mb-2">
+          <div className="mb-2" key={index}>
             <span className="text-xs">{schedule.day}</span>
             <div className="flex flex-1 items-center justify-between gap-4">
               <Input
-                type="time"
                 className="w-full"
-                value={schedule.start}
                 onChange={(e) => handleInputChange(index, 'start', e.target.value)}
+                type="time"
+                value={schedule.start}
               />
               <Input
-                type="time"
                 className="w-full"
-                value={schedule.end}
                 onChange={(e) => handleInputChange(index, 'end', e.target.value)}
+                type="time"
+                value={schedule.end}
               />
               <label className="inline-flex cursor-pointer items-center">
                 <input
-                  type="checkbox"
-                  className="peer sr-only"
                   checked={schedule.isActive && schedule.start !== '' && schedule.end !== ''}
+                  className="peer sr-only"
                   onChange={(e) => handleInputChange(index, 'isActive', e.target.checked)}
+                  type="checkbox"
                 />
                 <div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800 rtl:peer-checked:after:-translate-x-full"></div>
               </label>
@@ -167,7 +167,7 @@ const CreateScheduleModal: React.FC<CreateModalProps> = ({ show, onClose, onAppl
         ))}
 
         <div className="mt-8 flex justify-end gap-3">
-          <Button type="submit" color="primary" className="w-full" disabled={isLoading} loading={isLoading}>
+          <Button className="w-full" color="primary" disabled={isLoading} loading={isLoading} type="submit">
             Submit
           </Button>
         </div>

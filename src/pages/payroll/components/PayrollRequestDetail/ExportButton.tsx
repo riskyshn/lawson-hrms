@@ -4,7 +4,7 @@ import { Button, ButtonProps, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import React, { useState } from 'react'
 
-const ExportButton: React.FC<ButtonProps & { oid: string; title: string }> = ({ oid, title, ...props }) => {
+const ExportButton: React.FC<{ oid: string; title: string } & ButtonProps> = ({ oid, title, ...props }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -38,7 +38,7 @@ const ExportButton: React.FC<ButtonProps & { oid: string; title: string }> = ({ 
     setLoading(false)
   }
 
-  return <Button {...props} type="button" disabled={loading} loading={loading} onClick={handleExport} />
+  return <Button {...props} disabled={loading} loading={loading} onClick={handleExport} type="button" />
 }
 
 export default ExportButton

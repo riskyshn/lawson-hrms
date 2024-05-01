@@ -4,16 +4,16 @@ import React, { Fragment } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 type PropTypes = React.PropsWithChildren<{
-  show: boolean
-  onClose?: () => void
   className?: string
   closeToggleInOutside?: boolean
   hideCloseToggle?: boolean
+  onClose?: () => void
+  show: boolean
 }>
 
-const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, closeToggleInOutside, hideCloseToggle }) => {
+const MainModal: React.FC<PropTypes> = ({ children, className, closeToggleInOutside, hideCloseToggle, onClose, show }) => {
   return (
-    <Transition appear show={show} as={Fragment}>
+    <Transition appear as={Fragment} show={show}>
       <Dialog as="div" className="relative z-[50]" onClose={() => onClose?.()}>
         <Transition.Child
           as={Fragment}
@@ -39,7 +39,7 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, cl
               leaveTo="opacity-0 scale-95"
             >
               <button className="absolute right-3 top-3 z-[999] text-error-600 hover:text-error-700 focus:outline-none" onClick={onClose}>
-                <XCircleIcon size={32} fill="white" />
+                <XCircleIcon fill="white" size={32} />
               </button>
             </Transition.Child>
           )}
@@ -61,7 +61,7 @@ const MainModal: React.FC<PropTypes> = ({ show, onClose, className, children, cl
                     className="absolute -right-3 -top-3 z-50 text-error-600 hover:text-error-700 focus:outline-none"
                     onClick={onClose}
                   >
-                    <XCircleIcon size={32} fill="white" />
+                    <XCircleIcon fill="white" size={32} />
                   </button>
                 )}
                 {children}

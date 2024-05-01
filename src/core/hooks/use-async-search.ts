@@ -7,7 +7,7 @@ type ActionReturnType<T extends (...args: any[]) => any> = ReturnType<T>
 export default function useAsyncSearch<T1 extends (...args: any[]) => Promise<any>>(
   action: T1,
   params?: Parameters<T1>[0],
-  input: string | null = '',
+  input: null | string = '',
   {
     pagination = true,
     paginationKey = 'page',
@@ -17,7 +17,7 @@ export default function useAsyncSearch<T1 extends (...args: any[]) => Promise<an
   } = {},
 ) {
   const [searchParams] = useSearchParams()
-  const [results, setResults] = useState<{ response: Awaited<ActionReturnType<T1>>; query: string } | undefined>()
+  const [results, setResults] = useState<{ query: string; response: Awaited<ActionReturnType<T1>> } | undefined>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [typing, setTyping] = useState<boolean>(true)
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null)
@@ -32,11 +32,11 @@ export default function useAsyncSearch<T1 extends (...args: any[]) => Promise<an
     }
   }
 
-  const handleSearch = useCallback(async (query: string | null, params?: Parameters<T1>[0]) => {
+  const handleSearch = useCallback(async (query: null | string, params?: Parameters<T1>[0]) => {
     try {
       if (query) params = { ...(params || {}), q: query }
       const response = await action(params)
-      setResults({ response, query: query || '' })
+      setResults({ query: query || '', response })
     } catch (e) {
       setError(e)
     } finally {
@@ -60,11 +60,11 @@ export default function useAsyncSearch<T1 extends (...args: any[]) => Promise<an
   if (error) throw error
 
   return {
+    isLoading: isLoading || typing,
+    onRefresh: () => setRefresh((v) => !v),
     pageData: results?.response,
     query: results?.query,
-    isLoading: isLoading || typing,
-    typing,
     refresh,
-    onRefresh: () => setRefresh((v) => !v),
+    typing,
   }
 }

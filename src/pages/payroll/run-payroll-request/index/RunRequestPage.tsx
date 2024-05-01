@@ -22,20 +22,21 @@ import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
+
 import EmployeeSelectorModal from '../../components/EmployeeSelectorModal'
 
 const schema = yup.object().shape({
+  approver: yup.string().required().label('Name'),
+  employeeIds: yup.array().of(yup.string().required()).required().label('Employees'),
   name: yup.string().required().label('Name'),
+  paymentedAt: yup.date().required().label('Paymented At'),
   period: yup
     .object({
-      startDate: yup.date().required().label('Start date'),
       endDate: yup.date().required().label('End date'),
+      startDate: yup.date().required().label('Start date'),
     })
     .required()
     .label('Start Period'),
-  paymentedAt: yup.date().required().label('Paymented At'),
-  approver: yup.string().required().label('Name'),
-  employeeIds: yup.array().of(yup.string().required()).required().label('Employees'),
 })
 
 const RunRequestPage: React.FC = () => {
@@ -63,13 +64,13 @@ const RunRequestPage: React.FC = () => {
   }, [])
 
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     register,
-    getValues,
     setValue,
     trigger,
     watch,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -78,7 +79,7 @@ const RunRequestPage: React.FC = () => {
 
   if (pageError) throw pageError
 
-  const onSubmit = handleSubmit(async ({ period, paymentedAt, ...data }) => {
+  const onSubmit = handleSubmit(async ({ paymentedAt, period, ...data }) => {
     setErrorMessage('')
 
     if (!data || !data.employeeIds || data.employeeIds.length === 0) {
@@ -94,9 +95,9 @@ const RunRequestPage: React.FC = () => {
     try {
       const payload = {
         ...data,
-        startPeriod: moment(period.startDate).format('YYYY-MM-DD'),
         endPeriod: moment(period.endDate).format('YYYY-MM-DD'),
         paymentedAt: moment(paymentedAt).format('YYYY-MM-DD'),
+        startPeriod: moment(period.startDate).format('YYYY-MM-DD'),
       }
       const resp = await payrollService.createPayrollRequest(payload)
       toast('Success fully generate payroll', { color: 'success' })
@@ -111,63 +112,63 @@ const RunRequestPage: React.FC = () => {
     <>
       <PageHeader
         breadcrumb={[{ text: 'Payroll' }, { text: 'Run Payroll Request' }]}
-        title="Run Payroll Request"
         subtitle={
           <>
             You can check payroll <span className="text-primary-600">Requests here</span>
           </>
         }
+        title="Run Payroll Request"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <Card as="form" onSubmit={onSubmit}>
-          <LoadingScreen show={!employees} className="py-32" />
+          <LoadingScreen className="py-32" show={!employees} />
 
           {employees && (
             <CardBody className="grid grid-cols-1 gap-2">
-              <Input labelRequired label="Payroll Name" placeholder="Payroll March" error={errors.name?.message} {...register('name')} />
+              <Input error={errors.name?.message} label="Payroll Name" labelRequired placeholder="Payroll March" {...register('name')} />
               <InputDateRange
+                displayFormat="DD-MM-YYYY"
+                error={errors.period?.message || errors.period?.startDate?.message || errors.period?.endDate?.message}
                 label="Payroll Period"
                 labelRequired
-                displayFormat="DD-MM-YYYY"
-                name="period"
-                error={errors.period?.message || errors.period?.startDate?.message || errors.period?.endDate?.message}
-                value={getValues('period')}
                 maxDate={new Date()}
+                name="period"
                 onValueChange={(v) => {
                   setValue('period', v)
                   trigger('period')
                 }}
+                value={getValues('period')}
               />
               <InputDate
+                displayFormat="DD-MM-YYYY"
                 label="Payroll Schedule"
                 labelRequired
-                displayFormat="DD-MM-YYYY"
-                value={getValues('paymentedAt')}
                 onValueChange={(v) => {
                   setValue('paymentedAt', v)
                   trigger('paymentedAt')
                 }}
+                value={getValues('paymentedAt')}
               />
               <Select
+                error={errors.approver?.message}
                 label="PIC Approval"
                 labelRequired
-                placeholder="PIC Approval"
-                options={picOptions}
-                error={errors.approver?.message}
-                value={getValues('approver')}
                 onChange={(v) => {
                   setValue('approver', v.toString())
                   trigger('approver')
                 }}
+                options={picOptions}
+                placeholder="PIC Approval"
+                value={getValues('approver')}
               />
               <InputWrapper
+                error={errors.employeeIds?.message}
                 label="Who will be processed in this run payroll?"
                 labelRequired
                 wrapperClassName="flex py-1 gap-3 items-center"
-                error={errors.employeeIds?.message}
               >
-                <Button type="button" color="primary" variant="outline" onClick={() => setShowSelectEmployeeModal(true)}>
+                <Button color="primary" onClick={() => setShowSelectEmployeeModal(true)} type="button" variant="outline">
                   Select Employees
                 </Button>
                 <span className="block">
@@ -179,7 +180,7 @@ const RunRequestPage: React.FC = () => {
           )}
 
           <CardFooter>
-            <Button type="submit" color="primary" className="w-24" disabled={loading} loading={loading}>
+            <Button className="w-24" color="primary" disabled={loading} loading={loading} type="submit">
               Generate
             </Button>
           </CardFooter>
@@ -188,11 +189,11 @@ const RunRequestPage: React.FC = () => {
 
       {employees && (
         <EmployeeSelectorModal
-          show={showSelectEmployeeModal}
           employees={employees}
+          onClose={() => setShowSelectEmployeeModal(false)}
           selected={watch('employeeIds') || []}
           setSelected={(v) => setValue('employeeIds', v)}
-          onClose={() => setShowSelectEmployeeModal(false)}
+          show={showSelectEmployeeModal}
         />
       )}
     </>

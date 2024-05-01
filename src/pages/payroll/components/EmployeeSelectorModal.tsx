@@ -2,18 +2,19 @@ import SideModal from '@/components/Elements/Modals/SideModal'
 import { Button } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+
 import EmployeeSelector from './EmployeeSelector'
 
 type PropTypes = {
-  show?: boolean
+  employees?: IDataTableEmployee[]
   onClose?: () => void
 
   selected: string[]
   setSelected: (selected: string[]) => void
-  employees?: IDataTableEmployee[]
+  show?: boolean
 }
 
-const EmployeeSelectorModal: React.FC<PropTypes> = ({ selected, setSelected, employees, show, onClose }) => {
+const EmployeeSelectorModal: React.FC<PropTypes> = ({ employees, onClose, selected, setSelected, show }) => {
   const [value, setValue] = useState<string[]>([])
 
   useEffect(() => {
@@ -30,10 +31,10 @@ const EmployeeSelectorModal: React.FC<PropTypes> = ({ selected, setSelected, emp
   }
 
   return (
-    <SideModal show={show} className="flex h-full flex-col">
+    <SideModal className="flex h-full flex-col" show={show}>
       <div className="flex items-center justify-between border-b bg-white p-3">
         <h3 className="block text-lg font-semibold">Select Employees</h3>
-        <Button iconOnly color="error" variant="light" onClick={handleClose}>
+        <Button color="error" iconOnly onClick={handleClose} variant="light">
           <XIcon size={18} />
         </Button>
       </div>
@@ -41,10 +42,10 @@ const EmployeeSelectorModal: React.FC<PropTypes> = ({ selected, setSelected, emp
       <EmployeeSelector employees={employees} selected={value} setSelected={setValue} />
 
       <div className="mt-auto flex justify-end gap-3 border-t bg-white p-3">
-        <Button type="button" className="min-w-24" color="error" variant="light" onClick={handleClose}>
+        <Button className="min-w-24" color="error" onClick={handleClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="button" className="min-w-24" color="primary" onClick={handleSubmit}>
+        <Button className="min-w-24" color="primary" onClick={handleSubmit} type="button">
           Submit
         </Button>
       </div>

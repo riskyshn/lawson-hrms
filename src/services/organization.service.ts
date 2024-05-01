@@ -24,7 +24,7 @@ export const updateCompany = (payload: Record<string, any>) => {
  * Branches
  *
  */
-export const fetchBranches = (params?: IPaginationParam & { active?: boolean }, signal?: GenericAbortSignal) => {
+export const fetchBranches = (params?: { active?: boolean } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IBranch> }>(`/branch`, { params, signal }).then((response) => response.data.data)
 }
 
@@ -146,7 +146,7 @@ export const deleteWorkplacement = (id: string) => {
  * JobTypes
  *
  */
-export const fetchJobTypes = (params?: IPaginationParam & { status?: 0 | 1 | 2 }, signal?: GenericAbortSignal) => {
+export const fetchJobTypes = (params?: { status?: 0 | 1 | 2 } & IPaginationParam, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<IJobType> }>(`/job-type`, { params, signal }).then((response) => response.data.data)
 }
 

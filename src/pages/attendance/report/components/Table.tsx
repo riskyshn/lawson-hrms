@@ -28,7 +28,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar name={item?.name || '-'} size={38} className="static rounded-lg bg-primary-100 text-primary-700" />
+              <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item?.name || '-'} size={38} />
             </div>
             <div>
               <span className="block font-semibold">{item?.name}</span>
@@ -40,26 +40,26 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
       { children: item?.department?.name, className: 'text-center' },
       { children: item?.branch?.name, className: 'text-center' },
       {
-        className: 'flex item-center justify-center',
         children: (
           <Button
-            type="button"
-            size="small"
-            color="primary"
-            variant="light"
             className="text-xs"
+            color="primary"
             onClick={() => handleViewDetails(item.oid)}
+            size="small"
+            type="button"
+            variant="light"
           >
             View Report
           </Button>
         ),
+        className: 'flex item-center justify-center',
       },
     ],
   }))
 
   return (
     <>
-      <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+      <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
     </>
   )
 }

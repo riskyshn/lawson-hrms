@@ -6,24 +6,24 @@ import { Circle, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 type MapsPreviewerModalProps = {
   coordinates?: [number, number] | null
-  radiusCoordinates?: [number, number] | null
-  radius?: number
-  zoom?: number
   onClose: () => void
+  radius?: number
+  radiusCoordinates?: [number, number] | null
+  zoom?: number
 }
 
-const MapsPreviewerModal: React.FC<MapsPreviewerModalProps> = ({ coordinates, radiusCoordinates, radius, zoom, onClose }) => {
+const MapsPreviewerModal: React.FC<MapsPreviewerModalProps> = ({ coordinates, onClose, radius, radiusCoordinates, zoom }) => {
   const [data, setData] = useState<{
     coordinates: [number, number]
-    radiusCoordinates?: [number, number] | null
     radius?: number
+    radiusCoordinates?: [number, number] | null
     zoom?: number
   }>()
   const ref = useRef<Map>(null)
 
   useEffect(() => {
     if (coordinates) {
-      setData({ coordinates, radiusCoordinates, radius, zoom })
+      setData({ coordinates, radius, radiusCoordinates, zoom })
       setTimeout(() => {
         ref.current?.invalidateSize()
       }, 100)
@@ -33,13 +33,13 @@ const MapsPreviewerModal: React.FC<MapsPreviewerModalProps> = ({ coordinates, ra
   if (!data) return null
 
   return (
-    <Modal show={!!coordinates} onClose={() => onClose?.()}>
+    <Modal onClose={() => onClose?.()} show={!!coordinates}>
       <MapContainer
-        ref={ref}
-        center={data.coordinates}
-        zoom={data.zoom || 15}
-        className="h-[600px] max-h-[90vh] w-full overflow-hidden rounded-lg"
         attributionControl={false}
+        center={data.coordinates}
+        className="h-[600px] max-h-[90vh] w-full overflow-hidden rounded-lg"
+        ref={ref}
+        zoom={data.zoom || 15}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Marker position={data.coordinates}>

@@ -4,26 +4,26 @@ import React from 'react'
 import { twJoin } from 'tailwind-merge'
 
 type PropTypes = {
-  item: IDataTableEmployee
-  selected?: boolean
   isCandidate?: boolean
+  item: IDataTableEmployee
   onClick?: (item: IDataTableEmployee) => void
   onRemove?: (item: IDataTableEmployee) => void
+  selected?: boolean
 }
 
-const EmployeeItem: React.FC<PropTypes> = ({ item, selected, isCandidate, onClick, onRemove }) => {
+const EmployeeItem: React.FC<PropTypes> = ({ isCandidate, item, onClick, onRemove, selected }) => {
   return (
     <li className={twJoin('flex justify-center gap-3 py-2', onClick && 'cursor-pointer')} onClick={() => onClick?.(item)}>
-      <Avatar name={item.name || ''} size={32} className="bg-primary-100 text-xs text-primary-600" />
+      <Avatar className="bg-primary-100 text-xs text-primary-600" name={item.name || ''} size={32} />
       <div className="flex-1">
         <span className="block text-sm text-gray-700">{item.name}</span>
         <span className="block text-xs text-gray-500">{item.email}</span>
       </div>
       <div className="flex items-center justify-center">
         {isCandidate && <span className="block text-xs italic text-gray-500">Candidate</span>}
-        {selected && <CheckIcon size={20} className="text-primary-600" />}
+        {selected && <CheckIcon className="text-primary-600" size={20} />}
         {onRemove && (
-          <Button type="button" iconOnly color="error" size="small" variant="light" onClick={() => onRemove(item)}>
+          <Button color="error" iconOnly onClick={() => onRemove(item)} size="small" type="button" variant="light">
             <XIcon size={14} />
           </Button>
         )}

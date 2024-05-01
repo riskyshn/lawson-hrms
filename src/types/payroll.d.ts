@@ -1,98 +1,98 @@
 interface IBPJSComponent {
-  paidByEmployer?: {
-    jht?: { rate?: number; maxCap?: number }
-    jkk?: { rate?: number; maxCap?: number }
-    jkm?: { rate?: number; maxCap?: number }
-    jp?: { rate?: number; maxCap?: number }
-    jks?: { rate?: number; maxCap?: number }
-  }
-  paidByEmployee?: {
-    jht?: { rate?: number; maxCap?: number }
-    jkk?: { rate?: number; maxCap?: number }
-    jkm?: { rate?: number; maxCap?: number }
-    jp?: { rate?: number; maxCap?: number }
-    jks?: { rate?: number; maxCap?: number }
-  }
   bpjsComponentId: string
+  paidByEmployee?: {
+    jht?: { maxCap?: number; rate?: number }
+    jkk?: { maxCap?: number; rate?: number }
+    jkm?: { maxCap?: number; rate?: number }
+    jks?: { maxCap?: number; rate?: number }
+    jp?: { maxCap?: number; rate?: number }
+  }
+  paidByEmployer?: {
+    jht?: { maxCap?: number; rate?: number }
+    jkk?: { maxCap?: number; rate?: number }
+    jkm?: { maxCap?: number; rate?: number }
+    jks?: { maxCap?: number; rate?: number }
+    jp?: { maxCap?: number; rate?: number }
+  }
 }
 
 interface IPPH21 {
-  oid: string
-  name?: string
-  description?: string
   category?: string
+  description?: string
+  name?: string
+  oid: string
   yearValidRegulation?: string
 }
 
 interface IBenefitComponent {
-  oid: string
-  name?: string
-  amountType?: IGeneralDataEmmbed
   amount?: number
-  maxCap?: number
+  amountType?: IGeneralDataEmmbed
   applicationType?: IGeneralDataEmmbed
+  maxCap?: number
+  name?: string
+  oid: string
   taxType?: IGeneralDataEmmbed
 }
 
 interface IDeductionComponent {
-  oid: string
-  name?: string
-  amountType?: IGeneralDataEmmbed
   amount?: number
-  maxCap?: number
+  amountType?: IGeneralDataEmmbed
   applicationType?: IGeneralDataEmmbed
+  maxCap?: number
+  name?: string
+  oid: string
   taxType?: IGeneralDataEmmbed
 }
 
 interface IComponentInEmployee {
-  component: IDeductionComponent | IBenefitComponent
+  component: IBenefitComponent | IDeductionComponent
   employee: IDataTableEmployee
 }
 
 interface IPayrollRequest {
-  oid: string
-  name?: string
-  startPeriod?: string
+  approver?: {
+    email?: string
+    employeeCode?: string
+    name?: string
+    oid: string
+  }
+  createdAt?: string
   endPeriod?: string
+  name?: string
+  oid: string
   paymentedAt?: string
+  requestor?: {
+    email?: string
+    employeeCode?: string
+    name?: string
+    oid: string
+  }
+  startPeriod?: string
   status?: IGeneralDataEmmbed
   statusRunner?: string
-  createdAt?: string
   totalAmount?: string
   totalEmployee?: string
-  requestor?: {
-    oid: string
-    employeeCode?: string
-    name?: string
-    email?: string
-  }
-  approver?: {
-    oid: string
-    employeeCode?: string
-    name?: string
-    email?: string
-  }
 }
 
 interface IEmployeePayrollResult {
-  oid: string
-  name?: string
-  taxMethod?: string
-  ptkpStatus?: string
   baseSalary?: string
+  name?: string
+  oid: string
+  ptkpStatus?: string
+  taxMethod?: string
+  totalAll?: string
   totalBenefit?: string
   totalDeduction?: string
-  totalAll?: string
 }
 
 interface IEmployeePayrollDetail {
-  oid: string
-  name?: string
-  employeeCode?: string
   components?: {
-    name: string
-    type: { oid: 'DEDUCTION' | 'BENEFIT' | 'BASE_SALARY'; name: string }
     amount: string
+    name: string
+    type: { name: string; oid: 'BASE_SALARY' | 'BENEFIT' | 'DEDUCTION' }
   }[]
+  employeeCode?: string
+  name?: string
+  oid: string
   totalAll?: string
 }

@@ -7,6 +7,7 @@ import { employeeService } from '@/services'
 import {} from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import Table from '../components/Table'
 
 const ReportPage: React.FC = () => {
@@ -18,9 +19,9 @@ const ReportPage: React.FC = () => {
   const [pageError, setPageError] = useState<any>()
 
   const pagination = usePagination({
+    params: { search },
     pathname: '/attendance/report/',
     totalPage: pageData?.totalPages || 0,
-    params: { search },
   })
 
   useEffect(() => {
@@ -28,9 +29,9 @@ const ReportPage: React.FC = () => {
     const loadEmployees = async () => {
       try {
         const response = await employeeService.fetchEmployees({
-          q: search,
-          page: pagination.currentPage,
           limit: 20,
+          page: pagination.currentPage,
+          q: search,
         })
         setPageData(response)
         setIsLoading(false)
@@ -47,27 +48,27 @@ const ReportPage: React.FC = () => {
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Attendance' }, { text: 'Report' }]} title="Report" subtitle="Manage Your Team Report" />
+      <PageHeader breadcrumb={[{ text: 'Attendance' }, { text: 'Report' }]} subtitle="Manage Your Team Report" title="Report" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
+          body={<Table items={pageData?.content || []} loading={isLoading} />}
+          footer={pagination.render()}
           header={() => (
             <MainCardHeader
-              title="Request List"
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              search={{
+                setValue: (v) => setSearchParam({ search: v }),
+                value: search || '',
+              }}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Attendance</span> in total
                 </>
               }
-              search={{
-                value: search || '',
-                setValue: (v) => setSearchParam({ search: v }),
-              }}
+              subtitleLoading={typeof pageData?.totalElements !== 'number'}
+              title="Request List"
             />
           )}
-          body={<Table items={pageData?.content || []} loading={isLoading} />}
-          footer={pagination.render()}
         />
       </Container>
     </>

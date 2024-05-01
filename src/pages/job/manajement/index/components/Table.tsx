@@ -3,18 +3,19 @@ import NumberOfEmployeeLink from '@/components/Elements/UI/NumberOfEmployeeLink'
 import moment from 'moment'
 import React from 'react'
 import { twJoin } from 'tailwind-merge'
+
 import ActionMenu from './ActionMenu'
 
-const getStatus = (vacancy: IVacancy): { text: string; color: string } => {
-  const statusMap: Record<string, { text: string; color: string }> = {
-    active: { text: 'Active', color: 'bg-green-100 text-green-600' },
-    inactive: { text: 'Inactive', color: 'bg-gray-100 text-gray-600' },
-    draft: { text: 'Draft', color: 'bg-pink-100 text-pink-600' },
-    expired: { text: 'Expired', color: 'bg-red-100 text-red-600' },
-    fulfilled: { text: 'Fulfilled', color: 'bg-yellow-400 text-white' },
+const getStatus = (vacancy: IVacancy): { color: string; text: string } => {
+  const statusMap: Record<string, { color: string; text: string }> = {
+    active: { color: 'bg-green-100 text-green-600', text: 'Active' },
+    draft: { color: 'bg-pink-100 text-pink-600', text: 'Draft' },
+    expired: { color: 'bg-red-100 text-red-600', text: 'Expired' },
+    fulfilled: { color: 'bg-yellow-400 text-white', text: 'Fulfilled' },
+    inactive: { color: 'bg-gray-100 text-gray-600', text: 'Inactive' },
   }
 
-  return statusMap[vacancy.status || ''] || { text: vacancy.status || 'Unknown', color: 'bg-gray-400 text-white' }
+  return statusMap[vacancy.status || ''] || { color: 'bg-gray-400 text-white', text: vacancy.status || 'Unknown' }
 }
 
 const Table: React.FC<{
@@ -44,7 +45,7 @@ const Table: React.FC<{
       { children: vacancy.department?.name || '-', className: 'text-center' },
       { children: vacancy.createdAt ? moment(vacancy.createdAt).format('D/M/Y') : '-', className: 'text-center' },
       {
-        children: <NumberOfEmployeeLink to={`/candidates/management?vacancy=${vacancy.oid}`} count={vacancy.applicantCount} />,
+        children: <NumberOfEmployeeLink count={vacancy.applicantCount} to={`/candidates/management?vacancy=${vacancy.oid}`} />,
         className: 'text-center',
       },
       {
@@ -57,13 +58,13 @@ const Table: React.FC<{
       },
       {
         children: (
-          <ActionMenu vacancy={vacancy} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} onRefresh={onRefresh} />
+          <ActionMenu index={index} onRefresh={onRefresh} total={items.length} upSpace={items.length > 8 ? 3 : 0} vacancy={vacancy} />
         ),
       },
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 export default Table

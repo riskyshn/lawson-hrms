@@ -23,42 +23,37 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 const schema = yup.object({
-  vacancyName: yup.string().required().label('Position Name'),
-  department: YUP_OPTION_OBJECT.required().label('Department'),
+  approvals: yup
+    .array(YUP_OPTION_OBJECT.required().label('Approval'))
+    .min(1)
+    .when('isRequisition', {
+      is: true,
+      otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
+    })
+    .label('Approval Process'),
   branch: YUP_OPTION_OBJECT.required().label('Branch'),
+  city: YUP_OPTION_OBJECT.required().label('City'),
+  department: YUP_OPTION_OBJECT.required().label('Department'),
   expiredDate: yup
     .date()
     .min(new Date())
     .when('isRequisition', {
       is: true,
-      then: (s) => s.optional(),
       otherwise: (s) => s.required(),
+      then: (s) => s.optional(),
     })
     .label('Expired Date'),
+  hideRangeSalary: yup.boolean().required(),
+  isRequisition: yup.boolean().required(),
   jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
   jobType: YUP_OPTION_OBJECT.required().label('Job Type'),
-  workplacementType: YUP_OPTION_OBJECT.optional().label('Workplacement Type'),
-  city: YUP_OPTION_OBJECT.required().label('City'),
-  numberOfEmployeeNeeded: yup
-    .number()
-    .transform((value) => (isNaN(value) ? undefined : value))
-    .min(1)
-    .required()
-    .label('Number of Employee Needed'),
-  minimumSalary: yup
-    .string()
-    .when('negotiableSalary', {
-      is: false,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
-    })
-    .label('Minimum Salary'),
   maximumSalary: yup
     .string()
     .when('negotiableSalary', {
       is: false,
-      then: (s) => s.required(),
       otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
     })
     .test('is-greater', '${label} must be greater than or equal minimum salary', function (value) {
       const minSalary = currencyToNumber(this.parent.minimumSalary)
@@ -66,50 +61,55 @@ const schema = yup.object({
       return maxSalary >= minSalary
     })
     .label('Maximum Salary'),
-  hideRangeSalary: yup.boolean().required(),
+  minimumSalary: yup
+    .string()
+    .when('negotiableSalary', {
+      is: false,
+      otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
+    })
+    .label('Minimum Salary'),
   negotiableSalary: yup
     .boolean()
     .transform((value) => !!value)
     .required(),
-  other: yup.string().required().label('Task, Responsibility & Others'),
-  approvals: yup
-    .array(YUP_OPTION_OBJECT.required().label('Approval'))
+  numberOfEmployeeNeeded: yup
+    .number()
+    .transform((value) => (isNaN(value) ? undefined : value))
     .min(1)
-    .when('isRequisition', {
-      is: true,
-      then: (s) => s.required(),
-      otherwise: (s) => s.optional(),
-    })
-    .label('Approval Process'),
+    .required()
+    .label('Number of Employee Needed'),
+  other: yup.string().required().label('Task, Responsibility & Others'),
   rrNumber: yup
     .string()
     .when('isRequisition', {
       is: true,
-      then: (s) => s.required(),
       otherwise: (s) => s.optional(),
+      then: (s) => s.required(),
     })
     .label('RR Number'),
-  isRequisition: yup.boolean().required(),
+  vacancyName: yup.string().required().label('Position Name'),
+  workplacementType: YUP_OPTION_OBJECT.optional().label('Workplacement Type'),
 })
 
 const VacancyInformationForm: React.FC<{
-  isRequisition?: boolean
   defaultValue: any
   handlePrev: () => void
   handleSubmit: (data: any) => void
+  isRequisition?: boolean
 }> = (props) => {
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
     formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+    setError,
+    setValue,
     trigger,
     watch,
-    setError,
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: { ...props.defaultValue, isRequisition: !!props.isRequisition } as yup.InferType<typeof schema>,
+    resolver: yupResolver(schema),
   })
 
   const onSubmit = handleSubmit(props.handleSubmit)
@@ -135,78 +135,78 @@ const VacancyInformationForm: React.FC<{
           <p className="text-xs text-gray-500">Please fill out this form below</p>
         </div>
 
-        <Input label="Position Name" labelRequired error={errors.vacancyName?.message} {...register('vacancyName')} />
+        <Input error={errors.vacancyName?.message} label="Position Name" labelRequired {...register('vacancyName')} />
 
         {props.isRequisition && (
           <Input
-            label="RR Number"
-            labelRequired
-            error={errors.rrNumber?.message}
-            name="rrNumber"
             defaultValue={watch('rrNumber')}
             disabled
+            error={errors.rrNumber?.message}
+            label="RR Number"
+            labelRequired
+            name="rrNumber"
           />
         )}
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <AsyncSelect
-            label="Department"
-            placeholder="Department"
-            labelRequired
             action={organizationService.fetchDepartments}
             converter={emmbedToOptions}
-            name="department"
             error={errors.department?.message}
-            value={getValues('department')}
+            label="Department"
+            labelRequired
+            name="department"
             onValueChange={(v) => {
               setValue('department', v)
               trigger('department')
             }}
+            placeholder="Department"
+            value={getValues('department')}
           />
           <AsyncSelect
-            label="Branch"
-            placeholder="Branch"
-            labelRequired
             action={organizationService.fetchBranches}
             converter={emmbedToOptions}
-            name="branch"
             error={errors.branch?.message}
-            value={getValues('branch')}
+            label="Branch"
+            labelRequired
+            name="branch"
             onValueChange={(v) => {
               setValue('branch', v)
               trigger('branch')
             }}
+            placeholder="Branch"
+            value={getValues('branch')}
           />
         </div>
         {!props.isRequisition && (
           <InputDate
+            displayFormat="DD/MM/YYYY"
+            error={errors.expiredDate?.message}
             label="Expired at"
             labelRequired
-            error={errors.expiredDate?.message}
             minDate={new Date()}
-            displayFormat="DD/MM/YYYY"
-            value={getValues('expiredDate')}
             onValueChange={(v) => {
               setValue('expiredDate', v)
               trigger('expiredDate')
             }}
+            value={getValues('expiredDate')}
           />
         )}
         {props.isRequisition && (
           <AsyncMultiSelect
-            label="Approvals"
-            labelRequired
-            withReset
-            placeholder="Approvals"
             action={employeeService.fetchEmployees}
             converter={emmbedToOptions}
-            name="approvals"
             error={errors.approvals?.message}
-            value={getValues('approvals')}
+            label="Approvals"
+            labelRequired
+            name="approvals"
             onValueChange={(v) => {
               setValue('approvals', v)
               trigger('approvals')
             }}
+            placeholder="Approvals"
+            value={getValues('approvals')}
+            withReset
           />
         )}
       </CardBody>
@@ -218,101 +218,101 @@ const VacancyInformationForm: React.FC<{
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <AsyncSelect
-            label="Job Level"
-            placeholder="Job Level"
-            labelRequired
             action={organizationService.fetchJobLevels}
             converter={emmbedToOptions}
-            name="jobLevel"
             error={errors.jobLevel?.message}
-            value={getValues('jobLevel')}
+            label="Job Level"
+            labelRequired
+            name="jobLevel"
             onValueChange={(v) => {
               setValue('jobLevel', v)
               trigger('jobLevel')
             }}
+            placeholder="Job Level"
+            value={getValues('jobLevel')}
           />
 
           <AsyncSelect
-            label="Job Type"
-            placeholder="Job Type"
-            labelRequired
             action={organizationService.fetchJobTypes}
             converter={emmbedToOptions}
-            name="jobType"
             error={errors.jobType?.message}
-            value={getValues('jobType')}
+            label="Job Type"
+            labelRequired
+            name="jobType"
             onValueChange={(v) => {
               setValue('jobType', v)
               trigger('jobType')
             }}
+            placeholder="Job Type"
+            value={getValues('jobType')}
           />
         </div>
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <AsyncSelect
-            label="Work Placement Type"
-            placeholder="Work Placement Type"
-            labelRequired
             action={organizationService.fetchWorkplacements}
             converter={emmbedToOptions}
-            name="workplacementType"
             error={errors.workplacementType?.message}
-            value={getValues('workplacementType')}
+            label="Work Placement Type"
+            labelRequired
+            name="workplacementType"
             onValueChange={(v) => {
               setValue('workplacementType', v)
               trigger('workplacementType')
             }}
+            placeholder="Work Placement Type"
+            value={getValues('workplacementType')}
           />
           <AsyncSelect
-            label="City"
-            labelRequired
-            placeholder="Choose City"
             action={masterService.fetchCities}
             converter={emmbedToOptions}
-            searchMinCharacter={3}
-            name="city"
             error={errors.city?.message}
-            value={getValues('city')}
+            label="City"
+            labelRequired
+            name="city"
             onChange={(v) => {
               setValue('city', v)
               trigger('city')
             }}
+            placeholder="Choose City"
+            searchMinCharacter={3}
+            value={getValues('city')}
           />
         </div>
 
         <Input
+          error={errors.numberOfEmployeeNeeded?.message}
           label="Number of Employee Needed"
           labelRequired
           placeholder="5"
           type="number"
-          error={errors.numberOfEmployeeNeeded?.message}
           {...register('numberOfEmployeeNeeded')}
         />
 
         <div>
-          <InputWrapper label="Range Salary" labelRequired={!getValues('negotiableSalary')} className="mb-2">
+          <InputWrapper className="mb-2" label="Range Salary" labelRequired={!getValues('negotiableSalary')}>
             <div className="grid grid-cols-2 gap-3">
               <InputCurrency
-                placeholder="Minimum"
-                prefix="Rp "
                 error={errors.minimumSalary?.message}
                 name="minimumSalary"
-                value={getValues('minimumSalary')}
                 onValueChange={(v) => {
                   setValue('minimumSalary', v || '')
                   trigger('minimumSalary')
                 }}
+                placeholder="Minimum"
+                prefix="Rp "
+                value={getValues('minimumSalary')}
               />
               <InputCurrency
-                placeholder="Maximum"
-                prefix="Rp "
                 error={errors.maximumSalary?.message}
                 name="maximumSalary"
-                value={getValues('maximumSalary')}
                 onValueChange={(v) => {
                   setValue('maximumSalary', v || '')
                   trigger('maximumSalary')
                 }}
+                placeholder="Maximum"
+                prefix="Rp "
+                value={getValues('maximumSalary')}
               />
             </div>
           </InputWrapper>
@@ -327,17 +327,17 @@ const VacancyInformationForm: React.FC<{
         </div>
 
         <Textarea
+          error={errors.other?.message}
           label="Task, Responsibility & Others"
           labelRequired
           placeholder="Add description here"
           rows={6}
-          error={errors.other?.message}
           {...register('other')}
         />
       </CardBody>
 
       <CardFooter>
-        <Button type="submit" color="primary" className="w-32">
+        <Button className="w-32" color="primary" type="submit">
           Next
         </Button>
       </CardFooter>

@@ -1,18 +1,18 @@
 export type Config = {
-  fixed?: number
   decimalSeparator?: ',' | '.'
+  fixed?: number
 }
 
 const defaultConfig: Config = {
-  fixed: 0,
   decimalSeparator: '.',
+  fixed: 0,
 }
 
 export default function shortenNumber(num: number | string | undefined, config = defaultConfig) {
   if (!num || num.toString().trim() === '') {
     return '0'
   }
-  const { fixed, decimalSeparator = ',' } = config
+  const { decimalSeparator = ',', fixed } = config
   const parsedNum = typeof num === 'string' ? Number(num) : num
 
   const suffixes = ['', 'k', 'm', 'b', 't']

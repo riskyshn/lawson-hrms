@@ -10,17 +10,17 @@ export const recentlyApplied = (params?: IPaginationParam) => {
   return axios.get<{ data: IPaginationResponse<IDashboardRecentlyApplied> }>(`/recently-applied`, { params }).then(({ data }) => data.data)
 }
 
-export const recentlyPostedJobs = (params?: IPaginationParam & { department_id?: string }) => {
+export const recentlyPostedJobs = (params?: { department_id?: string } & IPaginationParam) => {
   return axios
     .get<{ data: IPaginationResponse<IDashboardRecentlyPostedJob> }>(`/recently-posted-jobs`, { params })
     .then(({ data }) => data.data)
 }
 
-export const upcomingSchedule = (params?: IPaginationParam & { date?: string }) => {
+export const upcomingSchedule = (params?: { date?: string } & IPaginationParam) => {
   return axios.get<{ data: IPaginationResponse<IDashboardSchedule> }>(`/upcoming-schedule`, { params }).then(({ data }) => data.data)
 }
 
-export const fetchAnnouncements = (params?: IPaginationParam & { start_date?: string; end_date?: string }) => {
+export const fetchAnnouncements = (params?: { end_date?: string; start_date?: string } & IPaginationParam) => {
   return axios
     .get<{ data: IPaginationResponse<IDashboardAnnouncement> }>(`/announcements`, { params })
     .then((response) => response.data.data)
@@ -38,6 +38,6 @@ export const deleteAnnouncement = (oid: string) => {
   return axios.delete<{ data: IDashboardAnnouncement }>(`/announcements/delete/${oid}`).then((response) => response.data.data)
 }
 
-export const fetchCalendar = (params?: IPaginationParam & { start_date?: string; end_date?: string }) => {
+export const fetchCalendar = (params?: { end_date?: string; start_date?: string } & IPaginationParam) => {
   return axios.get<{ data: IPaginationResponse<IDashboardSchedule> }>(`/calendar`, { params }).then((response) => response.data.data)
 }

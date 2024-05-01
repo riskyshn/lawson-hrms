@@ -52,8 +52,8 @@ const NavbarNotification: React.FC = () => {
       try {
         const responseVacancies = await notificationService.fetchNotification({
           limit: 10,
-          type: 'VACANCIES',
           page: paginationVacancies.currentPage,
+          type: 'VACANCIES',
         })
         setPageDataVacancies(responseVacancies)
         setHasMoreItemsVacancies(responseVacancies?.content?.length < responseVacancies?.totalElements)
@@ -70,8 +70,8 @@ const NavbarNotification: React.FC = () => {
       try {
         const responseApplicants = await notificationService.fetchNotification({
           limit: 10,
-          type: 'APPLICANTS',
           page: paginationApplicants.currentPage,
+          type: 'APPLICANTS',
         })
         setPageDataApplicants(responseApplicants)
         setHasMoreItemsApplicants(responseApplicants?.content?.length < responseApplicants?.totalElements)
@@ -118,8 +118,8 @@ const NavbarNotification: React.FC = () => {
       setLoadingVacancies(true)
       const response = await notificationService.fetchNotification({
         limit: 10,
-        type: 'VACANCIES',
         page: currentPageVacancies.currentPage + 1,
+        type: 'VACANCIES',
       })
       setPageDataVacancies((prevData) => ({
         ...response,
@@ -144,8 +144,8 @@ const NavbarNotification: React.FC = () => {
       setLoadingApplicants(true)
       const response = await notificationService.fetchNotification({
         limit: 10,
-        type: 'APPLICANTS',
         page: currentPageApplicants.currentPage + 1,
+        type: 'APPLICANTS',
       })
       setPageDataApplicants((prevData) => ({
         ...response,
@@ -195,13 +195,13 @@ const NavbarNotification: React.FC = () => {
           <div className="p-3">
             <CardBody as="div" className="chrome-scrollbar flex max-h-80 flex-col divide-y overflow-y-auto py-0">
               {pageDataApplicants.content.map((el, i) => (
-                <div key={el.oid || i} onClick={() => handleItemClick(el, 'applicants')} className="cursor-pointer">
+                <div className="cursor-pointer" key={el.oid || i} onClick={() => handleItemClick(el, 'applicants')}>
                   <li className="relative flex items-center gap-3 py-3">
                     <Avatar
-                      name={el.candidate?.name || ''}
-                      src={el.candidate?.photoProfile}
                       className="bg-gray-100 text-primary-600"
+                      name={el.candidate?.name || ''}
                       size={48}
+                      src={el.candidate?.photoProfile}
                     />
                     <div className="flex-1">
                       <span className="mb-1 block text-sm font-semibold">{el.candidate?.name}</span>
@@ -219,7 +219,7 @@ const NavbarNotification: React.FC = () => {
             </CardBody>
             {hasMoreItemsApplicants && (
               <div className="flex w-full flex-1 pt-3 text-center">
-                <Button className="w-full" variant="default" color="primary" disabled={loadingApplicants} onClick={loadMoreDataApplicants}>
+                <Button className="w-full" color="primary" disabled={loadingApplicants} onClick={loadMoreDataApplicants} variant="default">
                   {loadingApplicants ? <Spinner className="text-whte h-4 w-4" /> : 'View More'}
                 </Button>
               </div>
@@ -232,13 +232,13 @@ const NavbarNotification: React.FC = () => {
         <div className="p-3">
           <CardBody className="chrome-scrollbar flex max-h-80 flex-col divide-y overflow-y-auto py-0">
             {pageDataVacancies?.content?.map((el, i) => (
-              <div key={el.oid || i} onClick={() => handleItemClick(el, 'vacancies')} className="cursor-pointer">
+              <div className="cursor-pointer" key={el.oid || i} onClick={() => handleItemClick(el, 'vacancies')}>
                 <li className="relative flex items-center gap-3 py-3">
                   <Avatar
-                    name={el.candidate?.name || ''}
-                    src={el.candidate?.photoProfile}
                     className="bg-gray-100 text-primary-600"
+                    name={el.candidate?.name || ''}
                     size={48}
+                    src={el.candidate?.photoProfile}
                   />
                   <div className="flex-1">
                     <span className="mb-1 block text-sm font-semibold">{el.candidate?.name}</span>
@@ -255,7 +255,7 @@ const NavbarNotification: React.FC = () => {
             ))}
             {hasMoreItemsVacancies && (
               <div className="flex w-full flex-1 pt-3 text-center">
-                <Button className="w-full" variant="default" color="primary" disabled={loadingVacancies} onClick={loadMoreDataVacancies}>
+                <Button className="w-full" color="primary" disabled={loadingVacancies} onClick={loadMoreDataVacancies} variant="default">
                   {loadingVacancies ? <Spinner className="h-4 w-4 text-white" /> : 'View More'}
                 </Button>
               </div>
@@ -270,7 +270,7 @@ const NavbarNotification: React.FC = () => {
   return (
     <Menu>
       <Menu.Button as={Button} iconOnly variant="light">
-        <Badge color="error" size="small" className="absolute -right-1.5 -top-1.5 min-w-4 font-semibold">
+        <Badge className="absolute -right-1.5 -top-1.5 min-w-4 font-semibold" color="error" size="small">
           {(totalApplicantsNotification || 0) + (totalVacanciesNotification || 0)}
         </Badge>
         <Bell size={16} />
@@ -282,15 +282,15 @@ const NavbarNotification: React.FC = () => {
           <span className="text-lg">Notifications</span>
         </div>
         <div className="grid grid-cols-2 gap-3 px-3">
-          <Button onClick={handleViewApplicants} variant="light" color={viewMode === 'applicants' ? 'primary' : 'default'}>
+          <Button color={viewMode === 'applicants' ? 'primary' : 'default'} onClick={handleViewApplicants} variant="light">
             Applicants
-            <Badge color="error" size="small" className="absolute -right-px -top-px ml-2 min-w-6 font-semibold">
+            <Badge className="absolute -right-px -top-px ml-2 min-w-6 font-semibold" color="error" size="small">
               {totalApplicantsNotification}
             </Badge>
           </Button>
-          <Button onClick={handleViewVacancies} variant="light" color={viewMode === 'vacancies' ? 'primary' : 'default'}>
+          <Button color={viewMode === 'vacancies' ? 'primary' : 'default'} onClick={handleViewVacancies} variant="light">
             Vacancies
-            <Badge color="error" size="small" className="absolute -right-px -top-px ml-2 min-w-6 font-semibold">
+            <Badge className="absolute -right-px -top-px ml-2 min-w-6 font-semibold" color="error" size="small">
               {totalVacanciesNotification}
             </Badge>
           </Button>

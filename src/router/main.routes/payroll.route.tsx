@@ -12,70 +12,70 @@ import DetailRunRequestPage from '@/pages/payroll/run-payroll-request/detail/Det
 import RunRequestPage from '@/pages/payroll/run-payroll-request/index/RunRequestPage'
 
 const payrollRoute: RouteObject = {
-  path: 'payroll',
-  name: 'Payroll',
   children: [
     {
-      path: 'bpjs-component',
       element: <BpjsComponentPage />,
+      path: 'bpjs-component',
     },
     {
-      path: 'benefit-components',
       children: [
         {
-          path: '',
           element: <BenefitComponentsPage />,
+          path: '',
         },
         {
-          path: ':componentId/employees',
           element: <DetailAppliedBenefitEmployeesPage />,
-        },
-      ],
-    },
-    {
-      path: 'deduction-components',
-      children: [
-        {
-          path: '',
-          element: <DeductionComponentsPage />,
-        },
-        {
           path: ':componentId/employees',
+        },
+      ],
+      path: 'benefit-components',
+    },
+    {
+      children: [
+        {
+          element: <DeductionComponentsPage />,
+          path: '',
+        },
+        {
           element: <DetailAppliedDeductionEmployeesPage />,
+          path: ':componentId/employees',
         },
       ],
+      path: 'deduction-components',
     },
     {
-      path: 'run-payroll-request',
       children: [
         {
-          path: '',
           element: <RunRequestPage />,
+          path: '',
         },
         {
-          path: ':payrollRequestId',
           element: <DetailRunRequestPage />,
+          path: ':payrollRequestId',
         },
       ],
+      path: 'run-payroll-request',
     },
     {
-      path: 'generated-payroll-request',
       element: <GeneratedPayrollRequestPage />,
+      path: 'generated-payroll-request',
     },
     {
-      path: 'payroll-request',
       children: [
         {
-          path: '',
           element: <PayrollRequestPage />,
+          path: '',
         },
         {
-          path: ':payrollRequestId',
           element: <DetailPayrollRequestPage />,
+          path: ':payrollRequestId',
         },
       ],
+      path: 'payroll-request',
     },
   ],
+  name: 'Payroll',
+  path: 'payroll',
 }
 
 export default payrollRoute

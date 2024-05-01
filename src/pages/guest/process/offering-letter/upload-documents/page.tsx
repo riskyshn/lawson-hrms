@@ -45,7 +45,7 @@ export const Component: React.FC = () => {
   const [success, setSuccess] = useState(false)
   const toast = useToast()
 
-  if (!token || !applicantId) throw { status: 419, hideLayout: true, message: 'This page url is invalid.' }
+  if (!token || !applicantId) throw { hideLayout: true, message: 'This page url is invalid.', status: 419 }
 
   const [documentRequests, documentRequestsLoading] = useAsyncAction(
     organizationService.fetchDocumentRequests,
@@ -58,16 +58,16 @@ export const Component: React.FC = () => {
   })
 
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     setValue,
-    getValues,
     trigger,
-    formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
     defaultValues: {
       applicantId,
     },
+    resolver: yupResolver(schema),
   })
 
   useEffect(() => {
@@ -123,15 +123,10 @@ export const Component: React.FC = () => {
             !documentRequestsLoading &&
             documentRequests?.content.map((el, index) => (
               <CardBody key={index}>
-                <InputWrapper label={el.name} labelRequired error={errors.documents?.[index]?.link?.message}>
-                  {el.allowedFileTypes.some((type) => ['png', 'jpg', 'pdf', 'jpeg', 'webp'].includes(type)) ? (
+                <InputWrapper error={errors.documents?.[index]?.link?.message} label={el.name} labelRequired>
+                  {el.allowedFileTypes.some((type) => ['jpeg', 'jpg', 'pdf', 'png', 'webp'].includes(type)) ? (
                     <ImageFileUpload
-                      type="employee-national-id"
-                      value={getValues(`documents.${index}.link`)}
                       error={errors.documents?.[index]?.link?.message}
-                      onStart={() => {
-                        setValue(`documents.${index}.link`, PROGRESS_KEY)
-                      }}
                       onChange={(value) => {
                         setValue(`documents.${index}.link`, value)
                         trigger(`documents.${index}.link`)
@@ -140,15 +135,15 @@ export const Component: React.FC = () => {
                         setValue(`documents.${index}.link`, ERROR_PREFIX_KEY + message)
                         trigger(`documents.${index}.link`)
                       }}
+                      onStart={() => {
+                        setValue(`documents.${index}.link`, PROGRESS_KEY)
+                      }}
+                      type="employee-national-id"
+                      value={getValues(`documents.${index}.link`)}
                     />
                   ) : (
                     <DocumentFileUpload
-                      type="applicant-result"
-                      value={getValues(`documents.${index}.link`)}
                       error={errors.documents?.[index]?.link?.message}
-                      onStart={() => {
-                        setValue(`documents.${index}.link`, PROGRESS_KEY)
-                      }}
                       onChange={(value) => {
                         setValue(`documents.${index}.link`, value)
                         trigger(`documents.${index}.link`)
@@ -157,6 +152,11 @@ export const Component: React.FC = () => {
                         setValue(`documents.${index}.link`, ERROR_PREFIX_KEY + message)
                         trigger(`documents.${index}.link`)
                       }}
+                      onStart={() => {
+                        setValue(`documents.${index}.link`, PROGRESS_KEY)
+                      }}
+                      type="applicant-result"
+                      value={getValues(`documents.${index}.link`)}
                     />
                   )}
                 </InputWrapper>
@@ -164,7 +164,7 @@ export const Component: React.FC = () => {
             ))}
           {!success && (
             <CardFooter>
-              <Button type="submit" className="min-w-24" color="primary" disabled={loading} loading={loading}>
+              <Button className="min-w-24" color="primary" disabled={loading} loading={loading} type="submit">
                 {oldDocuments ? 'Update' : 'Submit'}
               </Button>
             </CardFooter>

@@ -5,6 +5,7 @@ import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Select, useRemem
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+
 import getEditModalSubtitle from '../../utils/get-edit-modal-subtitle'
 
 type EditModalProps = {
@@ -26,12 +27,12 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    trigger,
     formState: { errors },
+    getValues,
+    handleSubmit,
+    register,
+    setValue,
+    trigger,
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -64,37 +65,37 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   })
 
   return (
-    <Modal as="form" show={!!item} onSubmit={onSubmit}>
-      <ModalHeader subTitle={getEditModalSubtitle(rItem)} onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={!!item}>
+      <ModalHeader onClose={onClose} subTitle={getEditModalSubtitle(rItem)}>
         Edit Employment Status
       </ModalHeader>
 
       <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
-        <Input label="Name" labelRequired error={errors.name?.message} {...register('name')} />
+        <Input error={errors.name?.message} label="Name" labelRequired {...register('name')} />
         <Select
+          error={errors.status?.message}
+          hideSearch
           label="Status for employment"
           labelRequired
-          options={[
-            { label: 'Active', value: '1' },
-            { label: 'Inactive', value: '2' },
-          ]}
-          hideSearch
           name="status"
-          error={errors.status?.message}
-          value={String(getValues('status'))}
           onChange={(v) => {
             setValue('status', Number(v))
             trigger('status')
           }}
+          options={[
+            { label: 'Active', value: '1' },
+            { label: 'Inactive', value: '2' },
+          ]}
+          value={String(getValues('status'))}
         />
       </div>
 
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Update
         </Button>
       </ModalFooter>

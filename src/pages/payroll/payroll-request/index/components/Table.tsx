@@ -3,6 +3,7 @@ import { Badge, Button, Color } from 'jobseeker-ui'
 import moment from 'moment'
 import React from 'react'
 import { Link } from 'react-router-dom'
+
 import ActionMenu from './ActionMenu'
 
 const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading }) => {
@@ -28,7 +29,7 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
       { children: item.approver?.name || '', className: 'text-center' },
       {
         children: (
-          <Badge color={getStatusColor(item.status?.oid || '')} className="font-semibold">
+          <Badge className="font-semibold" color={getStatusColor(item.status?.oid || '')}>
             {item.status?.name}
           </Badge>
         ),
@@ -37,9 +38,9 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
       {
         children:
           item.status?.oid === '1' ? (
-            <ActionMenu item={item} index={index} total={items.length} upSpace={items.length > 8 ? 3 : 0} />
+            <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} />
           ) : (
-            <Button as={Link} block color="primary" className="text-xs" size="small" to={`/payroll/payroll-request/${item.oid}`}>
+            <Button as={Link} block className="text-xs" color="primary" size="small" to={`/payroll/payroll-request/${item.oid}`}>
               Detail
             </Button>
           ),
@@ -47,7 +48,7 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
     ],
   }))
 
-  return <MainTable headerItems={headerItems} bodyItems={bodyItems} loading={loading} />
+  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
 const getStatusColor = (status: string): Color => {

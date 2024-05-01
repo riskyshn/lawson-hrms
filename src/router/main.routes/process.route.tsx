@@ -11,55 +11,55 @@ import ViewSignedPage from '@/pages/process/offering-letter/view-signed/ViewSign
 import OnboardingPage from '@/pages/process/onboarding/OnboardingPage'
 
 const candidatesRoute: RouteObject = {
-  path: 'process',
-  name: 'Process',
   children: [
     {
-      path: 'interview',
-      name: 'Interview',
       element: <InterviewPage />,
+      name: 'Interview',
+      path: 'interview',
     },
     {
-      path: 'assessment',
-      name: 'Assessment',
       element: <AssessmentPage />,
+      name: 'Assessment',
+      path: 'assessment',
     },
     {
-      path: 'offering-letter',
-      name: 'Offering Letter',
       children: [
         {
-          path: '',
           element: <OfferingLetterPage />,
+          path: '',
         },
         {
-          path: ':applicantId/create',
           element: <CreateOfferingLetterPage />,
+          path: ':applicantId/create',
         },
         {
-          path: ':applicantId/revise',
           element: <ReviseOfferingLetterPage />,
+          path: ':applicantId/revise',
         },
         {
-          path: ':applicantId/upload-documents',
           element: <UploadDocumentsPage />,
+          path: ':applicantId/upload-documents',
         },
         {
-          path: ':applicantId/upload-signed',
           element: <UploadSignedOfferingLetterPage />,
+          path: ':applicantId/upload-signed',
         },
         {
-          path: ':applicantId/view-signed',
           element: <ViewSignedPage />,
+          path: ':applicantId/view-signed',
         },
       ],
+      name: 'Offering Letter',
+      path: 'offering-letter',
     },
     {
-      path: 'onboarding',
-      name: 'Onboarding',
       element: <OnboardingPage />,
+      name: 'Onboarding',
+      path: 'onboarding',
     },
   ],
+  name: 'Process',
+  path: 'process',
 }
 
 export default candidatesRoute

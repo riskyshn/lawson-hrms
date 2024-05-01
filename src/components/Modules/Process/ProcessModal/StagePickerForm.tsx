@@ -3,18 +3,18 @@ import React from 'react'
 import { twJoin } from 'tailwind-merge'
 
 type PropTypes = {
-  stages: {
-    interviews: IApplicantStage[]
-    assessments: IApplicantStage[]
-  }
-  value?: string
-  onValueChange?: (value: string) => void
-
   onCancel?: () => void
   onNext?: () => void
+  onValueChange?: (value: string) => void
+
+  stages: {
+    assessments: IApplicantStage[]
+    interviews: IApplicantStage[]
+  }
+  value?: string
 }
 
-const StagePickerForm: React.FC<PropTypes> = ({ value, stages, onValueChange, onCancel, onNext }) => {
+const StagePickerForm: React.FC<PropTypes> = ({ onCancel, onNext, onValueChange, stages, value }) => {
   return (
     <>
       <div className="flex flex-col gap-3 p-3">
@@ -23,13 +23,13 @@ const StagePickerForm: React.FC<PropTypes> = ({ value, stages, onValueChange, on
             <h6 className="mb-3 text-sm font-semibold">Interview</h6>
             {stages.interviews.map((option, index) => (
               <InputRadio
-                className={twJoin('mb-3', !option.isAvailable ? 'pointer-events-none opacity-70' : 'text-gray-900')}
-                key={index}
-                id={option.oid}
-                name="stageId"
-                value={option.type}
                 checked={value == option.oid}
+                className={twJoin('mb-3', !option.isAvailable ? 'pointer-events-none opacity-70' : 'text-gray-900')}
+                id={option.oid}
+                key={index}
+                name="stageId"
                 onChange={() => onValueChange?.(option.oid)}
+                value={option.type}
               >
                 {option.name}
               </InputRadio>
@@ -42,14 +42,14 @@ const StagePickerForm: React.FC<PropTypes> = ({ value, stages, onValueChange, on
             <h6 className="mb-3 text-sm font-semibold">Assessment</h6>
             {stages.assessments.map((option, index) => (
               <InputRadio
-                className={twJoin('mb-3', !option.isAvailable ? 'pointer-events-none opacity-70' : 'text-gray-900')}
-                key={index}
-                id={option.oid}
-                name="stageId"
-                value={option.type}
                 checked={value == option.oid}
-                onChange={() => onValueChange?.(option.oid)}
+                className={twJoin('mb-3', !option.isAvailable ? 'pointer-events-none opacity-70' : 'text-gray-900')}
                 disabled={!option.isAvailable}
+                id={option.oid}
+                key={index}
+                name="stageId"
+                onChange={() => onValueChange?.(option.oid)}
+                value={option.type}
               >
                 {option.name}
               </InputRadio>
@@ -59,10 +59,10 @@ const StagePickerForm: React.FC<PropTypes> = ({ value, stages, onValueChange, on
       </div>
 
       <CardFooter className="gap-3">
-        <Button type="button" color="error" variant="light" className="w-24" onClick={onCancel}>
+        <Button className="w-24" color="error" onClick={onCancel} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="button" color="primary" className="w-24" disabled={!value} onClick={onNext}>
+        <Button className="w-24" color="primary" disabled={!value} onClick={onNext} type="button">
           Next
         </Button>
       </CardFooter>

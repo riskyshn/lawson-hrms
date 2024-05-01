@@ -13,21 +13,21 @@ const schema = yup.object({
 })
 
 type PropTypes = {
-  show?: boolean
   applicant?: IDataTableApplicant
   onClose?: () => void
+  show?: boolean
 }
 
-const HireModal: React.FC<PropTypes> = ({ show, applicant, onClose }) => {
+const HireModal: React.FC<PropTypes> = ({ applicant, onClose, show }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
   const navigate = useNavigate()
 
   const {
+    formState: { errors },
+    getValues,
     handleSubmit,
     setValue,
-    getValues,
-    formState: { errors },
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
@@ -50,28 +50,28 @@ const HireModal: React.FC<PropTypes> = ({ show, applicant, onClose }) => {
   })
 
   return (
-    <Modal as="form" show={!!show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Add join date for this candidate" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={!!show}>
+      <ModalHeader onClose={onClose} subTitle="Add join date for this candidate">
         Hire Candidate
       </ModalHeader>
       <div className="p-3">
         <InputDate
+          displayFormat="DD/MM/YYYY"
+          error={errors.joinDate?.message}
           label="Join Date"
           labelRequired
-          error={errors.joinDate?.message}
-          displayFormat="DD/MM/YYYY"
-          value={getValues('joinDate')}
           onValueChange={(v) => {
             setValue('joinDate', v)
             trigger('joinDate')
           }}
+          value={getValues('joinDate')}
         />
       </div>
       <ModalFooter className="gap-3">
-        <Button type="button" color="error" variant="light" className="min-w-24" disabled={loading} onClick={onClose}>
+        <Button className="min-w-24" color="error" disabled={loading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="min-w-24" disabled={loading} loading={loading}>
+        <Button className="min-w-24" color="primary" disabled={loading} loading={loading} type="submit">
           Hire
         </Button>
       </ModalFooter>

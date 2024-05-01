@@ -8,9 +8,9 @@ const axios = createAxiosInstance({
   withAuth: true,
 })
 
-type FetchNotificationParams = IPaginationParam & {
+type FetchNotificationParams = {
   type: string
-}
+} & IPaginationParam
 
 export const fetchNotification = (params: FetchNotificationParams, signal?: GenericAbortSignal) => {
   return axios.get<{ data: IPaginationResponse<INotification> }>(`/notification`, { params, signal }).then((response) => response.data.data)

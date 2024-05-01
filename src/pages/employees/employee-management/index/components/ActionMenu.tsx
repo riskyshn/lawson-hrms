@@ -4,37 +4,37 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 type ActionMenuProps = {
-  item: IDataTableEmployee
   index: number
+  item: IDataTableEmployee
+  setSelectedTerminate?: (item: IDataTableEmployee) => void
   total: number
   upSpace: number
-  setSelectedTerminate?: (item: IDataTableEmployee) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelectedTerminate }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelectedTerminate, total, upSpace }) => {
   const navigate = useNavigate()
 
   const viewItem: Table.ActionMenuItemProps = {
-    text: 'View Employee',
-    icon: EyeIcon,
     action() {
       navigate(`/employees/employee-management/${item.oid}`)
     },
+    icon: EyeIcon,
+    text: 'View Employee',
   }
 
   const editItem: Table.ActionMenuItemProps = {
-    text: 'Edit Employee',
-    icon: PenToolIcon,
     action() {
       navigate(`/employees/employee-management/${item.oid}/edit`)
     },
+    icon: PenToolIcon,
+    text: 'Edit Employee',
   }
 
   const resignTerminate: Table.ActionMenuItemProps = {
-    text: 'Resign/Terminate',
+    action: () => setSelectedTerminate?.(item),
     icon: PowerIcon,
     iconClassName: 'text-error-600',
-    action: () => setSelectedTerminate?.(item),
+    text: 'Resign/Terminate',
   }
 
   const menuItems = [viewItem, editItem, resignTerminate]

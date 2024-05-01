@@ -9,15 +9,15 @@ import React, { ChangeEvent, useRef, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
 
 interface PhotoProfileFileUploadProps {
-  value?: string
   nickname?: string
-  onStart?: () => void
   onChange?: (value: string) => void
   onError?: (value: string) => void
-  onProgress?: (data: { progress: number; estimated: number }) => void
+  onProgress?: (data: { estimated: number; progress: number }) => void
+  onStart?: () => void
+  value?: string
 }
 
-const PhotoProfileFileUpload: React.FC<PhotoProfileFileUploadProps> = ({ value, nickname, onStart, onChange, onProgress, onError }) => {
+const PhotoProfileFileUpload: React.FC<PhotoProfileFileUploadProps> = ({ nickname, onChange, onError, onProgress, onStart, value }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [uploadProgress, setUploadProgress] = useState<number>(0)
@@ -47,7 +47,7 @@ const PhotoProfileFileUpload: React.FC<PhotoProfileFileUploadProps> = ({ value, 
         setUploadProgress(progress)
         const estimatedTimeRemainingFormatted = moment.duration(progressEvent.estimated || 0, 'seconds').humanize()
         setEstimatedTimeRemaining(estimatedTimeRemainingFormatted)
-        onProgress?.({ progress, estimated: progressEvent.estimated || 0 })
+        onProgress?.({ estimated: progressEvent.estimated || 0, progress })
       },
       signal: controller.signal,
     }
@@ -84,27 +84,27 @@ const PhotoProfileFileUpload: React.FC<PhotoProfileFileUploadProps> = ({ value, 
   return (
     <div className="flex w-full items-center gap-3 py-2 transition-spacing">
       <Avatar
-        name={nickname || 'Avatar'}
-        src={value}
-        size={56}
         className={twJoin('cursor-default bg-primary-100 text-primary-600', value && 'cursor-pointer')}
+        name={nickname || 'Avatar'}
         onClick={() => previewImage(value)}
+        size={56}
+        src={value}
       />
 
       <Button
-        type="button"
         className="px-4"
-        variant="outline"
         disabled={uploading}
         loading={uploading}
         onClick={() => inputRef.current?.click()}
+        type="button"
+        variant="outline"
       >
         Change
       </Button>
 
       {selectedImage && (
         <>
-          <Button type="button" className="px-4" color="error" onClick={handleCancel}>
+          <Button className="px-4" color="error" onClick={handleCancel} type="button">
             Cancel
           </Button>
 
@@ -116,18 +116,18 @@ const PhotoProfileFileUpload: React.FC<PhotoProfileFileUploadProps> = ({ value, 
         </>
       )}
       {!selectedImage && value && valueValidUrl && (
-        <Button type="button" className="px-4" color="error" onClick={handleRemove}>
+        <Button className="px-4" color="error" onClick={handleRemove} type="button">
           Remove
         </Button>
       )}
 
       <input
-        ref={inputRef}
-        type="file"
+        accept="image/png, image/jpeg, image/jpg"
         aria-hidden="true"
         className="hidden"
-        accept="image/png, image/jpeg, image/jpg"
         onChange={handleImageChange}
+        ref={inputRef}
+        type="file"
       />
     </div>
   )

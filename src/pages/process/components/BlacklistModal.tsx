@@ -5,13 +5,13 @@ import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type BlacklistModalProps = {
-  show?: boolean
   applicant?: IDataTableApplicant
-  onClose?: () => void
   onBlacklisted?: () => void
+  onClose?: () => void
+  show?: boolean
 }
 
-const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, applicant, onBlacklisted }) => {
+const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicant, onBlacklisted, onClose, show }) => {
   const [selectReasonId, setSelectReasonId] = useState('')
   const [loading, setLoading] = useState(false)
   const [reasons, setReasons] = useState<IMasterReason[]>()
@@ -37,8 +37,8 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, applican
     try {
       await candidateService.createBlacklist({
         applicantId: applicant?.oid,
-        blacklistReasonId: selectedReason.oid,
         blacklistReason: selectedReason.name,
+        blacklistReasonId: selectedReason.oid,
       })
       onBlacklisted?.()
       onClose?.()
@@ -49,7 +49,7 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, applican
   }
 
   return (
-    <MainModal className="max-w-xl py-12" show={!!show} onClose={onClose}>
+    <MainModal className="max-w-xl py-12" onClose={onClose} show={!!show}>
       <div className="mb-8">
         <h4 className="mb-2 text-center text-2xl font-semibold">Blacklist</h4>
         <p className="text-center">Please select the reason of why this candidate is Blacklist</p>
@@ -58,14 +58,14 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, applican
       {reasons && (
         <>
           <Select
-            label="Select Reason"
-            placeholder="Underqualified, Salary Expectation Too High"
-            options={reasons.map((el) => ({ value: el.oid, label: el.name }))}
             className="mb-3"
-            value={selectReasonId}
+            label="Select Reason"
             onChange={(v) => setSelectReasonId(String(v))}
+            options={reasons.map((el) => ({ label: el.name, value: el.oid }))}
+            placeholder="Underqualified, Salary Expectation Too High"
+            value={selectReasonId}
           />
-          <Button block color="primary" className="mx-auto" disabled={loading} loading={loading} onClick={handleSelectReason}>
+          <Button block className="mx-auto" color="primary" disabled={loading} loading={loading} onClick={handleSelectReason}>
             Submit
           </Button>
         </>
@@ -73,7 +73,7 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ show, onClose, applican
 
       {!reasons && (
         <div className="flex items-center justify-center py-48">
-          <Spinner height={40} className="text-primary-600" />
+          <Spinner className="text-primary-600" height={40} />
         </div>
       )}
     </MainModal>

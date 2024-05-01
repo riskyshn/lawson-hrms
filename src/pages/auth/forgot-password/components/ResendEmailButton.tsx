@@ -20,7 +20,7 @@ const ResendEmailButton: React.FC<{ email: string; minutes?: number }> = ({ emai
   const [isLoading, setIsLoading] = useState(false)
   const toast = useToast()
 
-  const { timeLeft, resetTimeout } = useTimeout(minutes * 60 * 1000)
+  const { resetTimeout, timeLeft } = useTimeout(minutes * 60 * 1000)
 
   const handleResendEmail = async () => {
     setIsLoading(true)
@@ -36,9 +36,9 @@ const ResendEmailButton: React.FC<{ email: string; minutes?: number }> = ({ emai
 
   return (
     <button
-      onClick={handleResendEmail}
-      disabled={timeLeft > 0 || isLoading}
       className={twJoin('ml-2 font-semibold underline', (timeLeft > 0 || isLoading) && 'cursor-not-allowed opacity-50')}
+      disabled={timeLeft > 0 || isLoading}
+      onClick={handleResendEmail}
     >
       {isLoading ? 'Resending...' : timeLeft > 0 ? `Resend email in ${formatTime(Math.ceil(timeLeft))}` : 'Resend email'}
     </button>

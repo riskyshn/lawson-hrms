@@ -2,44 +2,9 @@ import currencyToNumber from '@/utils/currency-to-number'
 import moment from 'moment'
 
 export default function formDataToPayload(data: any) {
-  const { personalData, payroll, components, employment } = data
+  const { components, employment, payroll, personalData } = data
 
   const payload = {
-    name: personalData.name,
-    email: personalData.email,
-    employment: {
-      employeeCode: employment.employeeCode,
-      roleId: employment.role.value,
-      jobTypeId: employment.jobType.value,
-      branchId: employment.branch.value,
-      departmentId: employment.department.value,
-      positionId: employment.position.value,
-      jobLevelId: employment.jobLevel.value,
-      picApprovalId: employment.picApproval.value,
-      scheduleId: employment.schedule.value,
-    },
-    personalData: {
-      name: personalData.name,
-      email: personalData.email,
-      genderId: personalData.gender.value,
-      religionId: personalData.religion.value,
-      cityOfBirth: personalData.cityOfBirth.value,
-      maritalStatusId: personalData.maritalStatus.value,
-      phoneNumber: personalData.phoneNumber,
-      birthDate: moment(personalData.birthDate).format('YYYY-MM-DD'),
-      numberOfChildren: personalData.numberOfChildren,
-      linkNationalId: personalData.linkNationalId,
-      nationalIdNumber: personalData.nationalIdNumber,
-      postalCode: personalData.postalCode,
-      nationIdAddress: personalData.nationIdAddress,
-      residentalAddress: personalData.residentalAddress,
-    },
-    payroll: {
-      ...payroll,
-      allowOvertime: !!payroll.allowOvertime,
-      baseSalary: currencyToNumber(payroll.baseSalary),
-      participateBpjs: !payroll.notParticipateBpjs,
-    },
     components: {
       ...components,
       benefits: components.benefits.map((el: any) => ({
@@ -52,6 +17,41 @@ export default function formDataToPayload(data: any) {
         amount: currencyToNumber(el.amount),
         maxCap: currencyToNumber(el.maxCap),
       })),
+    },
+    email: personalData.email,
+    employment: {
+      branchId: employment.branch.value,
+      departmentId: employment.department.value,
+      employeeCode: employment.employeeCode,
+      jobLevelId: employment.jobLevel.value,
+      jobTypeId: employment.jobType.value,
+      picApprovalId: employment.picApproval.value,
+      positionId: employment.position.value,
+      roleId: employment.role.value,
+      scheduleId: employment.schedule.value,
+    },
+    name: personalData.name,
+    payroll: {
+      ...payroll,
+      allowOvertime: !!payroll.allowOvertime,
+      baseSalary: currencyToNumber(payroll.baseSalary),
+      participateBpjs: !payroll.notParticipateBpjs,
+    },
+    personalData: {
+      birthDate: moment(personalData.birthDate).format('YYYY-MM-DD'),
+      cityOfBirth: personalData.cityOfBirth.value,
+      email: personalData.email,
+      genderId: personalData.gender.value,
+      linkNationalId: personalData.linkNationalId,
+      maritalStatusId: personalData.maritalStatus.value,
+      name: personalData.name,
+      nationIdAddress: personalData.nationIdAddress,
+      nationalIdNumber: personalData.nationalIdNumber,
+      numberOfChildren: personalData.numberOfChildren,
+      phoneNumber: personalData.phoneNumber,
+      postalCode: personalData.postalCode,
+      religionId: personalData.religion.value,
+      residentalAddress: personalData.residentalAddress,
     },
   }
 

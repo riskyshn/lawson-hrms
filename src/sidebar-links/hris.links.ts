@@ -2,17 +2,15 @@ import genSidebarLinks from '@/utils/gen-sidebar-links'
 import { BanknoteIcon, UserCogIcon, UserPlus2Icon } from 'lucide-react'
 
 const hrisLinks = genSidebarLinks({
-  title: 'HRIS',
   items: [
     {
-      parent: { icon: UserPlus2Icon, text: 'Employee', to: '/employees' },
       child: [
         { text: 'Employee Management', to: '/employees/employee-management' },
         { text: 'Previous Employee', to: '/employees/previous-employee' },
       ],
+      parent: { icon: UserPlus2Icon, text: 'Employee', to: '/employees' },
     },
     {
-      parent: { icon: UserCogIcon, text: 'Attendance', to: '/attendance' },
       child: [
         {
           text: 'Schedule',
@@ -31,9 +29,9 @@ const hrisLinks = genSidebarLinks({
           to: '/attendance/report',
         },
       ],
+      parent: { icon: UserCogIcon, text: 'Attendance', to: '/attendance' },
     },
     {
-      parent: { icon: BanknoteIcon, text: 'Payroll', to: '/payroll' },
       child: [
         {
           text: 'BPJS Component',
@@ -60,8 +58,10 @@ const hrisLinks = genSidebarLinks({
           to: '/payroll/payroll-request',
         },
       ],
+      parent: { icon: BanknoteIcon, text: 'Payroll', to: '/payroll' },
     },
   ],
+  title: 'HRIS',
 })
 
 export default hrisLinks

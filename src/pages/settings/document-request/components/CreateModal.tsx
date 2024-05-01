@@ -9,30 +9,30 @@ import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 type CreateModalProps = {
-  show: boolean
   onClose?: () => void
   onCreated?: (item: IDocumentRequest) => void
+  show: boolean
 }
 
 const schema = yup.object().shape({
-  name: yup.string().required().label('Document Name'),
   allowedFileTypes: yup.array().of(yup.string().required().label('File Type')).required().label('Allowed File Types'),
+  name: yup.string().required().label('Document Name'),
 })
 
-const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) => {
+const CreateModal: React.FC<CreateModalProps> = ({ onClose, onCreated, show }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [fileTypes] = useAsyncAction(masterService.fetchFileTypes)
   const toast = useToast()
 
   const {
-    register,
-    handleSubmit,
-    reset,
+    formState: { errors },
     getValues,
+    handleSubmit,
+    register,
+    reset,
     setValue,
     trigger,
-    formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
@@ -58,8 +58,8 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
   })
 
   return (
-    <Modal as="form" show={show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Set up a new document request for your company" onClose={onClose}>
+    <Modal as="form" onSubmit={onSubmit} show={show}>
+      <ModalHeader onClose={onClose} subTitle="Set up a new document request for your company">
         Create Document Request
       </ModalHeader>
 
@@ -69,28 +69,28 @@ const CreateModal: React.FC<CreateModalProps> = ({ show, onClose, onCreated }) =
         <div className="flex flex-col gap-3 p-3">
           {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
-          <Input label="Document Name" labelRequired error={errors.name?.message} {...register('name')} />
+          <Input error={errors.name?.message} label="Document Name" labelRequired {...register('name')} />
 
           <MultiSelect
+            error={errors.allowedFileTypes?.message}
             label="Allowed File Types"
             labelRequired
-            options={fileTypes?.content.map((el) => ({ label: el.name, value: el.extension }))}
             name="allowedFileTypes"
-            error={errors.allowedFileTypes?.message}
-            value={getValues('allowedFileTypes')}
             onValueChange={(v) => {
               setValue('allowedFileTypes', v)
               trigger('allowedFileTypes')
             }}
+            options={fileTypes?.content.map((el) => ({ label: el.name, value: el.extension }))}
+            value={getValues('allowedFileTypes')}
           />
         </div>
       )}
 
       <ModalFooter>
-        <Button type="button" color="error" variant="light" className="w-24" disabled={isLoading} onClick={onClose}>
+        <Button className="w-24" color="error" disabled={isLoading} onClick={onClose} type="button" variant="light">
           Cancel
         </Button>
-        <Button type="submit" color="primary" className="w-24" disabled={isLoading} loading={isLoading}>
+        <Button className="w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
           Save
         </Button>
       </ModalFooter>

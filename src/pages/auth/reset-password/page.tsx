@@ -28,16 +28,16 @@ export const Component: React.FC = () => {
 
   // Initialize React Hook Form
   const {
-    register,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
+    register,
   } = useForm({
     resolver: yupResolver(schema),
   })
 
   useEffect(() => {
     if (!token || !email) {
-      setPageError({ status: 400, message: 'Invalid or missing token or email.' })
+      setPageError({ message: 'Invalid or missing token or email.', status: 400 })
       return
     }
 
@@ -46,7 +46,7 @@ export const Component: React.FC = () => {
         await authService.checkforgotPasswordToken({ token })
         setCheckingToken(false)
       } catch {
-        setPageError({ status: 419, message: 'The token has expired or is invalid. Please request a new one.' })
+        setPageError({ message: 'The token has expired or is invalid. Please request a new one.', status: 419 })
       }
     }
 
@@ -57,7 +57,7 @@ export const Component: React.FC = () => {
   const onSubmit = handleSubmit(async ({ password }) => {
     setIsLoading(true)
     try {
-      await authService.resetPassword({ email, token, password, passwordConfirmation: password })
+      await authService.resetPassword({ email, password, passwordConfirmation: password, token })
       toast('Password reset successfully. You can now log in with your new password.', { color: 'success' })
       navigate('/auth/login')
     } catch (e) {
@@ -74,30 +74,30 @@ export const Component: React.FC = () => {
       <LoadingScreen show={checkingToken} />
       {!checkingToken && (
         <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-          <Input label="Email Address" name="email" value={email} disabled />
+          <Input disabled label="Email Address" name="email" value={email} />
           <Input
+            error={errors.password?.message}
             label="New Password"
             labelRequired
-            type="password"
             placeholder="••••••••"
-            error={errors.password?.message}
+            type="password"
             {...register('password')}
           />
           <Input
+            error={errors.passwordConfirmation?.message}
             label="Confirm Password"
             labelRequired
-            type="password"
             placeholder="••••••••"
-            error={errors.passwordConfirmation?.message}
+            type="password"
             {...register('passwordConfirmation')}
           />
           <Button
-            type="submit"
             block
-            color="primary"
             className="font-semibold uppercase tracking-widest"
+            color="primary"
             disabled={isLoading}
             loading={isLoading}
+            type="submit"
           >
             Submit
           </Button>

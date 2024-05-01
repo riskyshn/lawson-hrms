@@ -42,24 +42,24 @@ const AnnouncementItem: React.FC<{
 
   return (
     <li className="mb-3 flex overflow-hidden rounded-lg last:mb-0">
-      <button type="button" className="hoverable-default flex flex-1 flex-col gap-2 p-2" onClick={() => onClick?.(item)}>
+      <button className="hoverable-default flex flex-1 flex-col gap-2 p-2" onClick={() => onClick?.(item)} type="button">
         <h4 className="text-sm">{item.title}</h4>
         <span className="block text-xs text-gray-500">{moment.utc(item.createdAt).local().fromNow()}</span>
       </button>
       <div className="flex flex-col">
         <Button
-          iconOnly
-          type="button"
-          size="small"
-          variant={item.isPinned ? 'default' : 'light'}
-          color={item.isPinned ? 'primary' : 'default'}
           className="h-1/2 min-h-8 rounded-none"
+          color={item.isPinned ? 'primary' : 'default'}
           disabled={loading}
+          iconOnly
           onClick={handlePin}
+          size="small"
+          type="button"
+          variant={item.isPinned ? 'default' : 'light'}
         >
           <PinIcon size={14} />
         </Button>
-        <Button iconOnly size="small" color="error" className="h-1/2 min-h-8 rounded-none" disabled={loading} onClick={handleDelete}>
+        <Button className="h-1/2 min-h-8 rounded-none" color="error" disabled={loading} iconOnly onClick={handleDelete} size="small">
           <Trash2Icon size={14} />
         </Button>
       </div>

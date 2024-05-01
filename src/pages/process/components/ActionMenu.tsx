@@ -22,19 +22,20 @@ import {
 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import { ModalType } from '../types'
 
 type ActionMenuProps = {
-  item: IDataTableApplicant
   index: number
+  item: IDataTableApplicant
+  onVacancyDeleted?: (id: string) => void
+  onVacancyUpdated?: (item: IVacancy) => void
+  setSelected: (selected: { item: IDataTableApplicant; type: ModalType }) => void
   total: number
   upSpace: number
-  onVacancyUpdated?: (item: IVacancy) => void
-  onVacancyDeleted?: (id: string) => void
-  setSelected: (selected: { item: IDataTableApplicant; type: ModalType }) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, setSelected }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total, upSpace }) => {
   const [loading, setLoading] = useState(item.status?.oid === '1' || item.status?.oid === '2')
   const [triggered, setTriggered] = useState(false)
   const [haveProcess, setHaveProcess] = useState(true)
@@ -74,10 +75,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
     iconClassName?: string,
     action?: () => void,
   ): Table.ActionMenuItemProps => ({
-    text,
+    action: () => (action ? action() : type && setSelected({ item, type })),
     icon,
     iconClassName,
-    action: () => (action ? action() : type && setSelected({ item, type })),
+    text,
   })
 
   const process = createMenuItem('Process', RepeatIcon, 'PROCESS')
@@ -92,8 +93,6 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   const reschedule = createMenuItem('Reschedule', RefreshCcwIcon, 'RESCHEDULE')
 
   const sendReminder: Table.ActionMenuItemProps = {
-    text: 'Send Reminder',
-    icon: SendIcon,
     action: async () => {
       const confirmed = await confirm(`Are you sure you want to send a reminder to ${item.candidate?.email}?`)
       if (confirmed) {
@@ -105,6 +104,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
         }
       }
     },
+    icon: SendIcon,
+    text: 'Send Reminder',
   }
 
   const offeringLetter = createMenuItem('Offering Letter', RepeatIcon, undefined, undefined, async () => {
@@ -172,7 +173,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ item, index, total, upSpace, se
   if (!menu) return null
 
   return (
-    <Table.ActionMenu loading={loading} up={index >= total - upSpace} onClick={() => setTriggered(true)}>
+    <Table.ActionMenu loading={loading} onClick={() => setTriggered(true)} up={index >= total - upSpace}>
       {menu.map((menuItem, i) => (
         <Table.ActionMenuItem key={i} {...menuItem} />
       ))}
