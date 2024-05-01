@@ -138,7 +138,14 @@ const VacancyInformationForm: React.FC<{
         <Input label="Position Name" labelRequired error={errors.vacancyName?.message} {...register('vacancyName')} />
 
         {props.isRequisition && (
-          <Input label="RR Number" labelRequired error={errors.rrNumber?.message} name="rrNumber" value={watch('rrNumber')} disabled />
+          <Input
+            label="RR Number"
+            labelRequired
+            error={errors.rrNumber?.message}
+            name="rrNumber"
+            defaultValue={watch('rrNumber')}
+            disabled
+          />
         )}
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
@@ -189,6 +196,7 @@ const VacancyInformationForm: React.FC<{
           <AsyncMultiSelect
             label="Approvals"
             labelRequired
+            withReset
             placeholder="Approvals"
             action={employeeService.fetchEmployees}
             converter={emmbedToOptions}
