@@ -1,5 +1,5 @@
 import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
-import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
+import PhotoProfileFileUpload from '@/components/Elements/FileUploads/PhotoProfileFIleUpload'
 import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
@@ -81,10 +81,9 @@ const PersonalInformationForm: React.FC<{
           </div>
 
           <InputWrapper label="Photo Profile" error={errors.photoURL?.message}>
-            <ImageFileUpload
-              type="candidate-photo-profile"
+            <PhotoProfileFileUpload
               value={getValues('photoURL')}
-              error={errors.photoURL?.message}
+              nickname={watch('fullName')}
               onStart={() => {
                 setValue('photoURL', PROGRESS_KEY)
               }}
