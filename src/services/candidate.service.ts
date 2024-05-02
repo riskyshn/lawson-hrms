@@ -1,6 +1,6 @@
 import { API_APPLICANT_BASE_URL, API_CANDIDATE_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
-import { GenericAbortSignal } from 'axios'
+import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 
 const axios = createAxiosInstance({
   baseURL: API_APPLICANT_BASE_URL,
@@ -106,8 +106,8 @@ export const applyVacancy = (payload: Record<string, any>) => {
   return axios.post<{ data: ICandidate }>(`/basic/apply`, payload).then((response) => response.data.data)
 }
 
-export const fetchCandidate = (id: string) => {
-  return axiosCandidate.get<{ data: ICandidate }>(`/candidate/profile/${id}`).then((response) => response.data.data)
+export const fetchCandidate = (id: string, config?: AxiosRequestConfig) => {
+  return axiosCandidate.get<{ data: ICandidate }>(`/candidate/profile/${id}`, config).then((response) => response.data.data)
 }
 
 export const downloadCandidate = (payload: Record<string, any>) => {
@@ -118,8 +118,8 @@ export const fetchVacanciesCandidate = (id: string) => {
   return axios.get<{ data: IPaginationResponse<IVacancy> }>(`/vacancy/${id}`).then((response) => response.data.data)
 }
 
-export const fetchCandidateToCreateEmployeeByApplicanId = (oid: string) => {
-  return axiosCandidate.get<{ data: ICandidateToCreateEmployee }>(`/candidate/${oid}`).then((response) => response.data.data)
+export const fetchCandidateToCreateEmployeeByApplicanId = (oid: string, config?: AxiosRequestConfig) => {
+  return axiosCandidate.get<{ data: ICandidateToCreateEmployee }>(`/candidate/${oid}`, config).then((response) => response.data.data)
 }
 
 export const fetchDetailCandidate = (oid?: string, signal?: GenericAbortSignal) => {

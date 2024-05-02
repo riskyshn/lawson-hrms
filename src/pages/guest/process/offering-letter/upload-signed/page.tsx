@@ -2,7 +2,7 @@ import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUp
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncAction from '@/core/hooks/use-async-action'
 import PageHeader from '@/pages/guest/components/PageHeader'
-import { processService } from '@/services'
+import { candidateService, organizationService, processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, InputWrapper, useToast } from 'jobseeker-ui'
@@ -40,9 +40,12 @@ export const Component: React.FC = () => {
   const toast = useToast()
 
   if (!token || !applicantId) throw { hideLayout: true, message: 'This page url is invalid.', status: 419 }
+  const config = { headers: { Authorization: 'Bearer ' + token } }
 
+  const [company] = useAsyncAction(organizationService.fetchCompany, config)
+  const [candidate] = useAsyncAction(candidateService.fetchCandidateToCreateEmployeeByApplicanId, applicantId, config)
   const [preview] = useAsyncAction(processService.previewOfferingLetter, applicantId, {
-    headers: { Accept: 'application/pdf', Authorization: 'Bearer ' + token },
+    headers: { Accept: 'application/pdf', ...config.headers },
   })
 
   useEffect(() => {
@@ -100,7 +103,13 @@ export const Component: React.FC = () => {
 
   return (
     <>
-      <PageHeader subTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure neque quasi expedita. Architecto debitis provident vero repudiandae asperiores iste doloremque laborum nesciunt mollitia. Quas minus blanditiis sequi consequatur temporibus corrupti!">
+      <PageHeader
+        subTitle={
+          candidate && company
+            ? `Congratulations! ${candidate?.name}, ${company?.name} has sent you an offering letter for the position ${candidate?.position?.name}, Please submit a signed version of the offering letter document in order to continue with the recruitment process.`
+            : ''
+        }
+      >
         Upload Signed
       </PageHeader>
 
@@ -111,8 +120,8 @@ export const Component: React.FC = () => {
               <CheckCircleIcon className="block h-28 w-28 text-success-600" strokeWidth={1} />
               <h1 className="text-3xl">Thank you!</h1>
               <p className="max-w-2xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam odit incidunt hic numquam iure quibusdam quod animi rerum
-                ratione expedita totam, sapiente possimus, placeat corporis eum. Voluptatem esse cupiditate ipsa.
+                Thank you for submitting the signed document. This step is pivotal in the recruitment process. Your document will be
+                carefully reviewed in a timely manner. We appreciate your cooperation.
               </p>
             </CardBody>
           </Card>

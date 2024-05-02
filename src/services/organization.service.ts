@@ -12,8 +12,8 @@ const axios = createAxiosInstance({
  * Company
  *
  */
-export const fetchCompany = () => {
-  return axios.get<{ data: ICompany }>(`/company`).then((response) => response.data.data)
+export const fetchCompany = (config?: AxiosRequestConfig) => {
+  return axios.get<{ data: ICompany }>(`/company`, config).then((response) => response.data.data)
 }
 
 export const updateCompany = (payload: Record<string, any>) => {
