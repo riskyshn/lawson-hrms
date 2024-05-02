@@ -148,12 +148,12 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, setSelectedTo
       const confirmed = await confirm({
         cancelBtnColor: 'primary',
         confirmBtnColor: 'error',
-        text: 'Are you sure you want to activate vacancy?',
+        text: 'Are you sure you want to request approval?',
       })
       if (confirmed) {
         try {
           await vacancyService.progressRequisition(vacancy.oid)
-          toast('Success fully post vacancy.', { color: 'success' })
+          toast('Success fully update job requisition.', { color: 'success' })
           onRefresh?.()
         } catch (e: any) {
           toast(e.response?.data?.meta?.message || e.message, { color: 'error' })
@@ -161,7 +161,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, setSelectedTo
       }
     },
     icon: GlobeIcon,
-    text: 'Activate Vacancy',
+    text: 'Request Approval ',
   }
 
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
