@@ -127,7 +127,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
   const reviseOfferingLetter = createMenuItem('Revise Offering Letter', FileEditIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/revise`),
   )
-  const uploadSignedOfferingLetter = createMenuItem('Upload Signed Offerig Letter', FileIcon, undefined, undefined, () =>
+  const uploadSignedOfferingLetter = createMenuItem('Upload Signed Offering Letter', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-signed`),
   )
   const uploadDocuments = createMenuItem('Upload Documents', UploadIcon, undefined, undefined, () =>
@@ -136,10 +136,10 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
   const editDocuments = createMenuItem('Edit Documents', EditIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/upload-documents?edit=true`),
   )
-  const viewSignedOfferingLetter = createMenuItem('View Signed Offerig Letter', FileIcon, undefined, undefined, () =>
+  const viewSignedOfferingLetter = createMenuItem('View Signed Offering Letter', FileIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/view-signed`),
   )
-  const previewOfferingLetter = createMenuItem('Preview Offerig Letter', EyeIcon, undefined, undefined, () =>
+  const previewOfferingLetter = createMenuItem('Preview Offering Letter', EyeIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/preview`),
   )
   const addAsEmployee = createMenuItem('Add As Employee', UserPlusIcon, undefined, undefined, () =>
