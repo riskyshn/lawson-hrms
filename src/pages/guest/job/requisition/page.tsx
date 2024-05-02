@@ -66,7 +66,9 @@ export const Component: React.FC = () => {
 
   return (
     <>
-      <PageHeader subTitle={vacancy?.vacancyName}>Preview Job Requisition</PageHeader>
+      <PageHeader subTitle="Preview Job Requisition is a summary of the proposed position and qualifications needed for recruitment. You play a crucial role in giving approval to kickstart this process. Let's find the best talent together!">
+        Preview Job Requisition
+      </PageHeader>
 
       <div className="container mx-auto flex flex-col gap-3 p-3">
         <PreviewVacancy isLoading={isLoading} vacancy={vacancy} />

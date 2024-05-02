@@ -67,7 +67,12 @@ const generateBodyItems = (
   const getCandidateInfo = () => ({
     children: (
       <div className="flex items-center gap-3">
-        <Avatar className="rounded-lg bg-primary-100 text-primary-700" name={item.candidate?.name || ''} size={38} />
+        <Avatar
+          className="rounded-lg bg-primary-100 text-primary-700"
+          name={item.candidate?.name || ''}
+          src={item.photoProfile}
+          size={38}
+        />
         <div>
           <span className="block font-semibold">{item.candidate?.name || '-'}</span>
           <span className="block">{item.candidate?.email || '-'}</span>

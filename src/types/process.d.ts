@@ -3,6 +3,7 @@ interface IDataTableApplicant {
   candidate?: { email?: string } & IGeneralDataEmmbed
   createdAt?: string
   documentLink?: string
+  photoProfile?: string
   oid: string
 
   recruitmentStage?: string

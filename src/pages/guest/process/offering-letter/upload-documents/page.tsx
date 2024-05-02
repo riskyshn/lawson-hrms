@@ -47,15 +47,11 @@ export const Component: React.FC = () => {
 
   if (!token || !applicantId) throw { hideLayout: true, message: 'This page url is invalid.', status: 419 }
 
-  const [documentRequests, documentRequestsLoading] = useAsyncAction(
-    organizationService.fetchDocumentRequests,
-    { limit: 9999 },
-    { headers: { Authorization: 'Bearer ' + token } },
-  )
+  const options = { headers: { Authorization: 'Bearer ' + token } }
 
-  const [oldDocuments, oldDocumentLoading] = useAsyncAction(processService.getDocumentRequest, applicantId, {
-    headers: { Authorization: 'Bearer ' + token },
-  })
+  const [documentRequests, documentRequestsLoading] = useAsyncAction(organizationService.fetchDocumentRequests, { limit: 9999 }, options)
+  const [oldDocuments, oldDocumentLoading] = useAsyncAction(processService.getDocumentRequest, applicantId, options)
+  const [company] = useAsyncAction(organizationService.fetchCompany, options)
 
   const {
     formState: { errors },
@@ -99,7 +95,13 @@ export const Component: React.FC = () => {
 
   return (
     <>
-      <PageHeader subTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure neque quasi expedita. Architecto debitis provident vero repudiandae asperiores iste doloremque laborum nesciunt mollitia. Quas minus blanditiis sequi consequatur temporibus corrupti!">
+      <PageHeader
+        subTitle={
+          company?.name
+            ? `${company.name} has requested you to upload certain documents in order to continue the recruitment process. Please submit the documents accordingly.`
+            : ''
+        }
+      >
         Upload Documents
       </PageHeader>
 
@@ -112,8 +114,8 @@ export const Component: React.FC = () => {
               <CheckCircleIcon className="block h-28 w-28 text-success-600" strokeWidth={1} />
               <h1 className="text-3xl">Thank you!</h1>
               <p className="max-w-2xl">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam odit incidunt hic numquam iure quibusdam quod animi rerum
-                ratione expedita totam, sapiente possimus, placeat corporis eum. Voluptatem esse cupiditate ipsa.
+                Thank you for submitting the required documents. This step is crucial in the recruitment process. Your documents will be
+                reviewed thoroughly and in a timely manner. We appreciate your cooperation
               </p>
             </CardBody>
           )}
