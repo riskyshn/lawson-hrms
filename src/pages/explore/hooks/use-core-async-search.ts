@@ -135,5 +135,6 @@ export default function useCoreAsyncSearch(search: string, params: OptionParams)
     loading: loading || typing,
     total,
     page,
+    hasNextPage,
   }
 }
