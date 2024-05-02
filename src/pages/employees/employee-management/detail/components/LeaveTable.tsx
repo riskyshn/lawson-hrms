@@ -1,5 +1,5 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
-import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 import useAsyncSearch from '@/core/hooks/use-async-search'
 import usePagination from '@/core/hooks/use-pagination'
 import { attendanceService } from '@/services'

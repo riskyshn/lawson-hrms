@@ -10,19 +10,19 @@
 
 @layer components {
   /* Scrollbar */
-  .chrome-scrollbar::-webkit-scrollbar {
+  body *::-webkit-scrollbar {
     @apply lg:h-1 lg:w-1;
   }
 
-  .chrome-scrollbar::-webkit-scrollbar-thumb {
+  body *::-webkit-scrollbar-thumb {
     @apply rounded-full lg:bg-transparent;
   }
 
-  .chrome-scrollbar:hover::-webkit-scrollbar-thumb {
+  body *:hover::-webkit-scrollbar-thumb {
     @apply rounded-full lg:bg-gray-300;
   }
 
-  .chrome-scrollbar::-webkit-scrollbar-track {
+  body *::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
 }

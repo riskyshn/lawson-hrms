@@ -3,18 +3,16 @@ import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import Logo from '@/components/Logo/Logo'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
-import useAsyncSearch from '@/core/hooks/use-async-search'
-import { candidateExploreService } from '@/services'
-import shortenNumber from '@/utils/shorten-number'
+import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import { Listbox } from '@headlessui/react'
 import { BaseInput, Button, usePubSub } from 'jobseeker-ui'
-import { BookMarkedIcon, CheckIcon, ChevronDownIcon, HeartIcon, ListFilterIcon, SearchIcon, XIcon } from 'lucide-react'
-import moment from 'moment'
+import { CheckIcon, ChevronDownIcon, ListFilterIcon, SearchIcon, XIcon } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
-
 import FilterForm from './components/FilterForm'
+import ListItem from './components/ListItem'
+import useCoreAsyncSearch from './hooks/use-core-async-search'
 
 const options = ['Show All', 'Never been offer', 'Your talent pool', 'Liked Candidate'].map((el) => ({
   label: el,
@@ -25,22 +23,27 @@ export const Component: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   // const [isGrid, setIsGrid] = useLocalStorageState('GRID_VIEW_EXPLORE', false)
   const [showFilter, setShowFilter] = useState(false)
-  const [latlng] = useState<[number, number]>([-8.4095167, 115.188915])
-
   const [searchParams, setSearchParams] = useSearchParams()
   const pubSub = usePubSub()
 
-  const search = searchParams.get('q') || ''
+  const search = searchParams.get('q')
   const type = searchParams.get('type') || options[0].value
+  const minAge = searchParams.get('min-age')
+  const maxAge = searchParams.get('max-age')
+  const [gender] = useOptionSearchParam('gender')
+  const [city] = useOptionSearchParam('city')
+  const [education] = useOptionSearchParam('education')
 
-  const { pageData } = useAsyncSearch(candidateExploreService.exploreCandidate, {
-    lat: latlng[0],
-    limit: 20,
-    lng: latlng[1],
+  const { results, query, loading, infiniteRef, total } = useCoreAsyncSearch(search?.trim() || '', {
+    min_age: minAge ? Number(minAge) : undefined,
+    max_age: maxAge ? Number(maxAge) : undefined,
+    gender: gender?.value || undefined,
+    city: city?.value || undefined,
+    educ: education?.value || undefined,
   })
 
   const handleChange = (key: string, value?: null | string) => {
-    if (value) {
+    if (value?.trim()) {
       searchParams.set(key, value)
     } else {
       searchParams.delete(key)
@@ -75,8 +78,6 @@ export const Component: React.FC = () => {
           <Logo className="absolute right-3 top-1/2 ml-auto h-48 w-48 -translate-y-1/2 opacity-30 md:h-72 md:w-72 [&_path]:fill-white" />
         </div>
 
-        {/* <div aria-hidden="true" className="animate-[position_20s_infinite] bg-[length:400%] flex h-20 overflow-hidden bg-gradient-to-r from-primary-800 to-primary-300" /> */}
-
         <Container className="-mt-8 flex flex-col justify-center gap-8">
           <div className="mx-auto flex w-full max-w-3xl">
             <div className="relative z-10 flex h-16 flex-1 rounded-lg bg-white shadow-xl shadow-gray-600/5">
@@ -87,7 +88,7 @@ export const Component: React.FC = () => {
                   onChange={(e) => handleChange('q', e.currentTarget.value)}
                   placeholder="Search..."
                   ref={inputRef}
-                  value={search}
+                  value={search || ''}
                 />
                 <SearchIcon
                   className="pointer-events-none absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 peer-focus:text-primary-600"
@@ -141,10 +142,14 @@ export const Component: React.FC = () => {
 
           <div className="text-center">
             <h1 className="mb-4 text-2xl font-semibold leading-7 text-gray-900 first-letter:uppercase md:text-[2rem] md:leading-[2.375rem]">
-              {search.trim() ? search : 'Explore Candidate'}
+              {query?.trim() ? query : 'Explore Candidate'}
             </h1>
-            {!search.trim() && <p className="text-gray-500">Try to type Jakarta, Product Manager, Shortlist</p>}
-            {!!search.trim() && <p className="text-gray-500">215 search results found for: "{search}"</p>}
+            {!query?.trim() && <p className="text-gray-500">Try to type Jakarta, Product Manager, Shortlist</p>}
+            {!!query?.trim() && (
+              <p className="text-gray-500">
+                {total} search results found for: "{query}"
+              </p>
+            )}
           </div>
 
           <div className="flex justify-end">
@@ -166,57 +171,11 @@ export const Component: React.FC = () => {
       <FilterForm show={showFilter} />
       <Container className="py-3 xl:pb-8">
         <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {pageData?.content.map((item, i) => {
-            const detail = [item.gender, !!item.age && `Age ${item.age}`, item.last_edu].filter((el) => !!el).join(', ')
-            const location = [item.district_name, item.city_name, item.province_name].filter((el) => !!el).join(', ')
-            return (
-              <li className="relative flex flex-col rounded-lg border bg-white" key={i}>
-                <div
-                  className="group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-lg bg-gray-300 bg-cover bg-center bg-no-repeat"
-                  style={{ backgroundImage: `url(${item.video_thumbnail || item.photo})` }}
-                >
-                  <div className="absolute inset-0 flex flex-col">
-                    <div className="h-1/2 w-full bg-gradient-to-t from-transparent via-black/30 to-black/75"></div>
-                    <div className="h-1/2 w-full bg-gradient-to-t from-black/75 via-black/50 to-transparent"></div>
-                  </div>
-                  <div className="relative z-10 flex flex-1 flex-col p-3 text-white transition-all group-hover:bg-black/25">
-                    <div className="flex flex-1 items-start">
-                      <div className="flex flex-1 flex-col gap-1">
-                        <span className="block truncate text-base capitalize leading-none">{item.full_name}</span>
-                        <span className="block text-xs">{moment.utc(item.login_date).local().fromNow()}</span>
-                      </div>
-                      <button className="flex flex-col items-center justify-center text-sm leading-none outline-none">
-                        <HeartIcon className={item.liked_by_me ? 'fill-red-600 stroke-none' : 'stroke-white text-black/20'} size={20} />
-                        <span className="block text-center text-xs font-semibold text-white">{shortenNumber(item.total_likes)}</span>
-                      </button>
-                    </div>
-
-                    <div className="flex items-end">
-                      <p className="flex flex-1 flex-col gap-1 text-xs leading-snug">
-                        {detail}
-                        <br />
-                        {location}
-                      </p>
-                    </div>
-
-                    <h1 className="mb-3 w-full truncate font-semibold capitalize" title={item.position}>
-                      {item.position}
-                    </h1>
-
-                    <div className="flex gap-3">
-                      <Button className="flex-1" color="primary">
-                        Offer Job
-                      </Button>
-                      <Button className="border-0 bg-white" color="primary" iconOnly variant="light">
-                        <BookMarkedIcon size={18} />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            )
-          })}
+          {results.map((item, i) => (
+            <ListItem key={i} item={item} />
+          ))}
         </ul>
+        {!loading && <div className="h-px" ref={infiniteRef} />}
       </Container>
     </>
   )

@@ -4,7 +4,7 @@ import { createAxiosInstance } from '@/utils/axios'
 type ParamsType = {
   city?: string
   educ?: string
-  gender?: 'female' | 'male'
+  gender?: string
   keyword?: string
   lat: number
   lng: number

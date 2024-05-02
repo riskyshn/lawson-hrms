@@ -1,5 +1,5 @@
 import MainTable from '@/components/Elements/Tables/MainTable'
-import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 

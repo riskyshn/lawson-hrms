@@ -1,4 +1,4 @@
-import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 import { s3Service } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import formatFileSize from '@/utils/format-file-sizes'

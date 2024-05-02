@@ -1,4 +1,4 @@
-import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, genStyles } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import React from 'react'
