@@ -4,18 +4,19 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
 import Boot from './Boot'
-import { ImagePreviewerProvider } from './contexts/ImagePreviewerContext'
-import './index.css'
+import { MediaPreviewerProvider } from './contexts/MediaPreviewerContext'
 import router from './router'
+
+import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider>
-      <ImagePreviewerProvider>
+      <MediaPreviewerProvider>
         <Boot>
           <RouterProvider router={router} />
         </Boot>
-      </ImagePreviewerProvider>
+      </MediaPreviewerProvider>
     </Provider>
   </React.StrictMode>,
 )

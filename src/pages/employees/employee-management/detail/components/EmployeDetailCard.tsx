@@ -1,4 +1,4 @@
-import { usePreviewImage } from '@/contexts/ImagePreviewerContext'
+import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 import numberToCurrency from '@/utils/number-to-currency'
 import { Alert, Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React from 'react'

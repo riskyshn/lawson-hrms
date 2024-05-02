@@ -30,7 +30,11 @@ export default function useOptionSearchParam(key: string) {
 
   const setValue = (value?: OptionProps | string) => {
     if (typeof value === 'string') {
-      searchParams.set(key, value)
+      if (value) {
+        searchParams.set(key, value)
+      } else {
+        searchParams.delete(key)
+      }
     } else if (value?.value) {
       searchParams.set(key, value.label ? `${value.value}|${value.label}` : value.value)
     } else {

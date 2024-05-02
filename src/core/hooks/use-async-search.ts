@@ -11,9 +11,11 @@ export default function useAsyncSearch<T1 extends (...args: any[]) => Promise<an
   {
     pagination = true,
     paginationKey = 'page',
+    searchKey = 'q',
   }: {
     pagination?: boolean
     paginationKey?: string
+    searchKey?: string
   } = {},
 ) {
   const [searchParams] = useSearchParams()
@@ -34,7 +36,7 @@ export default function useAsyncSearch<T1 extends (...args: any[]) => Promise<an
 
   const handleSearch = useCallback(async (query: null | string, params?: Parameters<T1>[0]) => {
     try {
-      if (query) params = { ...(params || {}), q: query }
+      if (query) params = { ...(params || {}), [searchKey]: query }
       const response = await action(params)
       setResults({ query: query || '', response })
     } catch (e) {
