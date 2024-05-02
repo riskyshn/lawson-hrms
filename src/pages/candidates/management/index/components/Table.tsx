@@ -29,7 +29,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
   }
 
   const renderMatchButton = (candidate: any) => {
-    const matchPercentage = candidate.matchPercentage || '-'
+    const matchPercentage = candidate.matchPercentage || '0'
     let bgClass, textClass
 
     if (matchPercentage >= 90) {
@@ -142,6 +142,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
             return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Offering Letter']} />
           } else if (candidate.module === 'SHORTLIST') {
             return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Shortlist']} />
+          } else if (candidate.module === 'ONBOARDING') {
+            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Onboarding']} />
           } else {
             return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={options} />
           }
