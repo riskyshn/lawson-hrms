@@ -131,6 +131,9 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Go to Shortlist':
         navigate(`/candidates/shortlisted?search=${formattedName}`)
         break
+      case 'Go to Onboarding':
+        navigate(`/process/onboarding?search=${formattedName}`)
+        break
       default:
         break
     }
@@ -261,6 +264,9 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
                   )}
                   {option == 'Go to Shortlist' && (
                     <ListEndIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
+                  )}
+                  {option == 'Go to Onboarding' && (
+                    <LaptopIcon className={twJoin('h-4 w-4', active ? 'text-primary-600' : 'text-gray-400')} />
                   )}
                   {option}
                 </button>
