@@ -61,7 +61,7 @@ const SchedulePage: React.FC = () => {
     <>
       <PageHeader
         actions={
-          <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
+          <Button color="primary" onClick={() => setShowCreateModal(true)}>
             Add New Schedule
           </Button>
         }

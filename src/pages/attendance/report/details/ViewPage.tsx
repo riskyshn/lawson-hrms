@@ -172,10 +172,10 @@ const ViewPage: React.FC = () => {
     <>
       <PageHeader
         actions={
-          <div className="flex flex-col">
+          <div className="w-full">
             <CardBody className="p-0">
               <BaseInputDateRange
-                className="z-50 mb-3 w-64"
+                className="z-50 mb-3 w-full md:w-64"
                 onValueChange={handleDateChange}
                 placeholder="Start - End Date"
                 value={filterDate}
@@ -183,7 +183,7 @@ const ViewPage: React.FC = () => {
             </CardBody>
             <div className="flex justify-end">
               <Button
-                className="w-40 gap-2"
+                className="w-full gap-2 md:w-40"
                 color="success"
                 disabled={isExporting}
                 loading={isExporting}

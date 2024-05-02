@@ -5,7 +5,7 @@ import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/core/hooks/use-pagination'
 import { reportService } from '@/services'
 import { BarElement, CategoryScale, Chart as ChartJS, Legend, LineElement, LinearScale, PointElement, Title, Tooltip } from 'chart.js'
-import { BaseInputDateRange, Card, CardBody, Select } from 'jobseeker-ui'
+import { BaseInputDateRange, Card, CardBody, Select, Spinner } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
 import { Bar, Line } from 'react-chartjs-2'
 import { DateValueType } from 'react-tailwindcss-datepicker'
@@ -236,7 +236,7 @@ export const Component: React.FC = () => {
       <Container className="py-3 xl:pb-8">
         <StatisticCards filterDate={filterDate} />
         <Card className="mt-4 p-8">
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {data?.percentage ? (
               data?.percentage.map((stage, i) => (
                 <div key={i} className="border-r-4 border-blue-500 p-4">
@@ -249,27 +249,34 @@ export const Component: React.FC = () => {
             )}
           </div>
         </Card>
+
         <Card className="my-4 p-8">
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
-            <div className="flex justify-between">
-              <h2 className="text-2xl font-semibold">Recruitment Funnel</h2>
-              <BaseInputDateRange className="w-64" onValueChange={handleDateChange} placeholder="Start - End Date" value={filterDate} />
+            <div className="flex flex-col items-center justify-between sm:flex-row">
+              <h2 className="mb-4 text-2xl font-semibold sm:mb-0 sm:mr-4">Recruitment Funnel</h2>
+              <BaseInputDateRange
+                className="w-64 max-sm:w-full"
+                onValueChange={handleDateChange}
+                placeholder="Start - End Date"
+                value={filterDate}
+              />
             </div>
             {loadingBarChart ? (
               <div className="flex h-full items-center justify-center">
-                <div
-                  aria-label="Loading..."
-                  className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
-                  role="status"
-                >
-                  <span className="sr-only">Loading...</span>
-                </div>
+                <Spinner className="block h-10 w-10 text-primary-600" />
               </div>
             ) : (
-              <Bar data={dataBar} options={optionsBar} />
+              <div className="overflow-x-auto">
+                {typeof window !== 'undefined' && window.innerWidth <= 640 ? (
+                  <Bar height={350} data={dataBar} options={optionsBar} />
+                ) : (
+                  <Bar data={dataBar} options={optionsBar} />
+                )}
+              </div>
             )}
           </CardBody>
         </Card>
+
         <MainCard
           body={<TableUserActivity items={dummyDataUserActivity} loading={loading} />}
           footer={[]}
@@ -278,44 +285,43 @@ export const Component: React.FC = () => {
         <Card className="my-4 p-8">
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="flex flex-col">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold">Number of Hired</h2>
+              <div className="mb-4 flex flex-col items-center justify-between sm:flex-row">
+                <h2 className="mb-2 text-2xl font-semibold sm:mb-0">Number of Hired</h2>
                 <div className="flex items-center">
-                  <div>
-                    <CardBody className="p-0">
-                      <div className="flex items-center justify-end gap-3 overflow-x-scroll px-3">
-                        {/* {['Month', 'Quarter', 'Year'].map((label, index) => ( */}
-                        {['Quarter', 'Year'].map((label, index) => (
-                          <PageCard activeLabel={activeLabel} key={index} label={label} onClick={handlePageCardClick} />
-                        ))}
-                      </div>
-                      <div className="flex items-center justify-end p-3">
-                        <Select
-                          className="w-64"
-                          onChange={handleYearChange}
-                          options={yearOptions}
-                          placeholder="Select a year"
-                          value={selectedYear.toString()}
-                        />
-                      </div>
-                    </CardBody>
-                  </div>
+                  <CardBody className="p-0">
+                    <div className="flex items-center justify-center gap-2 sm:justify-end sm:overflow-x-auto sm:px-3">
+                      {['Quarter', 'Year'].map((label, index) => (
+                        <div key={index} className="flex-shrink-0">
+                          <PageCard activeLabel={activeLabel} label={label} onClick={handlePageCardClick} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-end p-3">
+                      <Select
+                        className="w-64"
+                        onChange={handleYearChange}
+                        options={yearOptions}
+                        placeholder="Select a year"
+                        value={selectedYear.toString()}
+                      />
+                    </div>
+                  </CardBody>
                 </div>
               </div>
+              {loadingLineChart ? (
+                <div className="flex h-full items-center justify-center">
+                  <Spinner className="block h-10 w-10 text-primary-600" />
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  {typeof window !== 'undefined' && window.innerWidth <= 640 ? (
+                    <Line height={350} data={dataLineChart} options={optionsLine} />
+                  ) : (
+                    <Line data={dataLineChart} options={optionsLine} />
+                  )}
+                </div>
+              )}
             </div>
-            {loadingLineChart ? (
-              <div className="flex h-full items-center justify-center">
-                <div
-                  aria-label="Loading..."
-                  className="spinner-border inline-block h-8 w-8 animate-spin rounded-full border-4 border-indigo-500 border-t-transparent"
-                  role="status"
-                >
-                  <span className="sr-only">Loading...</span>
-                </div>
-              </div>
-            ) : (
-              <Line data={dataLineChart} options={optionsLine} />
-            )}
           </CardBody>
         </Card>
         <MainCard

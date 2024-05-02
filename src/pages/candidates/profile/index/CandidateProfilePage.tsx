@@ -82,7 +82,7 @@ const CandidateProfilePage: React.FC = () => {
         {!isLoading && pageData && (
           <>
             <ProfileCard items={pageData}>
-              <div className="flex border-b border-gray-200">
+              <div className="flex overflow-x-auto border-b border-gray-200">
                 <Link
                   className={twMerge(
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
