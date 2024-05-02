@@ -1,5 +1,5 @@
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
-import { offeringLetterService, organizationService } from '@/services'
+import { organizationService, processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Spinner, Textarea, useToast } from 'jobseeker-ui'
@@ -122,7 +122,7 @@ const SetupOfferingLetterModal: React.FC<PropTypes> = ({ onClose, show }) => {
 
     setPreviewLoading(true)
     try {
-      const response = await offeringLetterService.preview()
+      const response = await processService.previewOfferingLetterPlain({ headers: { Accept: 'application/pdf' } })
       const blob = new Blob([response.data], { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
       setPreview(url)

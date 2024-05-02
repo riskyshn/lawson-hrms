@@ -61,6 +61,10 @@ export const previewOfferingLetter = (oid: string, config?: AxiosRequestConfig) 
   return axios.get(`/process/offering-letter/preview/${oid}`, { ...config, responseType: 'blob' })
 }
 
+export const previewOfferingLetterPlain = (config?: AxiosRequestConfig) => {
+  return axios.get(`/process/offering-letter/preview`, { ...config, responseType: 'blob' })
+}
+
 export const uploadDocumentRequest = (payload: Record<string, any>, config?: AxiosRequestConfig) => {
   return axios.put<{ data: IApplicant }>(`/process/offering-letter/documents`, payload, config).then((response) => response.data.data)
 }
