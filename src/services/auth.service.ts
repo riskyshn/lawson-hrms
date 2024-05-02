@@ -57,3 +57,11 @@ export const signUpCandidate = async (payload: Record<string, any>) => {
     })
     .then(({ data }) => data)
 }
+
+export const isEmailUnique = (email: string) => {
+  return axios.get('/check-unique/candidate/email', { params: { value: email } })
+}
+
+export const isNiklUnique = (nik: string) => {
+  return axios.get('/check-unique/candidate/nik', { params: { value: nik } })
+}
