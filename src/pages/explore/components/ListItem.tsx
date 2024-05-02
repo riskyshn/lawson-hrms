@@ -1,5 +1,5 @@
 import { usePreviewVideo } from '@/contexts/MediaPreviewerContext'
-import { Button } from 'jobseeker-ui'
+import { Button, Skeleton } from 'jobseeker-ui'
 import { PlayIcon } from 'lucide-react'
 import moment from 'moment'
 import React from 'react'
@@ -48,6 +48,28 @@ const ListItem: React.FC<{ item: ICandidateExplore }> = ({ item }) => {
             )}
           </div>
         </div>
+      </div>
+    </li>
+  )
+}
+
+export const ListItemSkeleton: React.FC = () => {
+  return (
+    <li className="flex aspect-[3/4] flex-col gap-3 rounded-lg border bg-white p-3">
+      <div className="flex flex-1 flex-col gap-1">
+        <Skeleton className="h-5 w-1/2" />
+        <Skeleton className="h-3 w-1/3" />
+      </div>
+
+      <div className="w-full font-semibold">
+        <Skeleton className="mb-1 h-3 w-1/4" />
+        <Skeleton className="mb-2 h-3 w-1/3" />
+        <Skeleton className="h-5 w-3/4" />
+      </div>
+
+      <div className="flex w-full gap-3">
+        <Skeleton className="h-10 flex-1" />
+        <Skeleton className="h-10 w-10" />
       </div>
     </li>
   )

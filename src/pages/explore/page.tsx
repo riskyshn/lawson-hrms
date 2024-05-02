@@ -11,7 +11,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
 import FilterForm from './components/FilterForm'
-import ListItem from './components/ListItem'
+import ListItem, { ListItemSkeleton } from './components/ListItem'
 import useCoreAsyncSearch from './hooks/use-core-async-search'
 
 const options = ['Show All', 'Never been offer', 'Your talent pool', 'Liked Candidate'].map((el) => ({
@@ -34,7 +34,7 @@ export const Component: React.FC = () => {
   const [city] = useOptionSearchParam('city')
   const [education] = useOptionSearchParam('education')
 
-  const { results, query, loading, infiniteRef, total } = useCoreAsyncSearch(search?.trim() || '', {
+  const { results, query, loading, infiniteRef, total, hasNextPage } = useCoreAsyncSearch(search?.trim() || '', {
     min_age: minAge ? Number(minAge) : undefined,
     max_age: maxAge ? Number(maxAge) : undefined,
     gender: gender?.value || undefined,
@@ -170,12 +170,31 @@ export const Component: React.FC = () => {
       </div>
       <FilterForm show={showFilter} />
       <Container className="py-3 xl:pb-8">
-        <ul className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <ul className="mb-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
           {results.map((item, i) => (
             <ListItem key={i} item={item} />
           ))}
         </ul>
-        {!loading && <div className="h-px" ref={infiniteRef} />}
+        {loading && (
+          <>
+            <ul className="hidden grid-cols-4 gap-3 xl:grid">
+              {Array.from(Array(8)).map((_, i) => (
+                <ListItemSkeleton key={i} />
+              ))}
+            </ul>
+            <ul className="hidden grid-cols-2 gap-3 md:grid xl:hidden">
+              {Array.from(Array(4)).map((_, i) => (
+                <ListItemSkeleton key={i} />
+              ))}
+            </ul>
+            <ul className="grid grid-cols-1 gap-3 md:hidden">
+              {Array.from(Array(2)).map((_, i) => (
+                <ListItemSkeleton key={i} />
+              ))}
+            </ul>
+          </>
+        )}
+        {!loading && hasNextPage && <div className="h-px" ref={infiniteRef} />}
       </Container>
     </>
   )
