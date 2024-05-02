@@ -255,7 +255,12 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
                       </Button>
                       <Button
                         color="error"
-                        disabled={record.status === 'rejected' || record.status === 'approved'}
+                        disabled={
+                          record.status === 'approved' ||
+                          record.status === 'rejected' ||
+                          latestAttendanceType === 'clock_in' ||
+                          latestAttendanceType === 'overtime_in'
+                        }
                         onClick={() =>
                           handleViewDetails(
                             item.records?.slice(index, index + 2).map((record) => record.oid),
@@ -263,7 +268,15 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
                           )
                         }
                         size="small"
-                        style={{ opacity: record.status === 'rejected' || record.status === 'approved' ? 0.5 : 1 }}
+                        style={{
+                          opacity:
+                            record.status === 'approved' ||
+                            record.status === 'rejected' ||
+                            latestAttendanceType === 'clock_in' ||
+                            latestAttendanceType === 'overtime_in'
+                              ? 0.5
+                              : 1,
+                        }}
                       >
                         <XIcon size={16} />
                       </Button>
