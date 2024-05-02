@@ -118,7 +118,6 @@ const CandidatePoolPage: React.FC = () => {
       <PageHeader
         actions={
           <Button
-            className="gap-2"
             color="success"
             disabled={isExporting}
             loading={isExporting}
@@ -135,7 +134,7 @@ const CandidatePoolPage: React.FC = () => {
       <PreviewVideoResumeModal onClose={() => setPreviewVideoModalUrl(null)} url={previewVideoModalUrl} />
       <PreviewPdfResumeModal onClose={() => setPreviewPdfModalUrl(null)} url={previewPdfModalUrl} />
 
-      <Container className="relative flex flex-col gap-3 pb-3 xl:pb-8">
+      <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
           body={
             <Table

@@ -21,37 +21,33 @@ const ProfileCard: React.FC<PropType> = ({ children, filterDate, items }) => {
           <Avatar className="flex bg-primary-100 text-2xl text-primary-700" name={items?.name || ''} size={md ? 128 : 64} />
         </div>
 
-        <div className="ml-2 flex flex-1 flex-col gap-3 lg:flex-row">
-          <div className="flex-1">
-            <span className="mb-2 block text-lg font-semibold lg:text-2xl">{items?.name}</span>
+        <div className="flex flex-col">
+          <span className="text-lg font-semibold lg:text-2xl">{items?.name}</span>
 
-            <div className="flex flex-col lg:gap-3">
-              <div className="flex items-center gap-2">
-                <span className="block text-sm">{items?.employment?.position?.name}</span>
-              </div>
+          <div className="mt-2 flex flex-col space-y-1">
+            <span className="mb-2 text-sm">{items?.employment?.position?.name}</span>
 
-              <div className="flex flex-1 items-center gap-2">
-                {items?.personalData?.phoneNumber && (
-                  <div className="mr-4 flex items-center gap-2">
-                    <PhoneIcon className="text-gray-400" size={14} />
-                    <span className="block text-sm">{items?.personalData?.phoneNumber}</span>
-                  </div>
-                )}
+            <div className="flex flex-wrap items-start gap-2">
+              {items?.personalData?.phoneNumber && (
+                <div className="flex items-center gap-2">
+                  <PhoneIcon className="text-gray-400" size={14} />
+                  <span className="text-sm">{items?.personalData?.phoneNumber}</span>
+                </div>
+              )}
 
-                {items?.email && (
-                  <div className="mr-4 flex items-center gap-2">
-                    <MailIcon className="text-gray-400" size={14} />
-                    <span className="block text-sm">{items?.email}</span>
-                  </div>
-                )}
+              {items?.email && (
+                <div className="flex items-center gap-2">
+                  <MailIcon className="text-gray-400" size={14} />
+                  <span className="text-sm">{items?.email}</span>
+                </div>
+              )}
 
-                {items?.employment?.branch?.name && (
-                  <div className="mr-4 flex items-center gap-2">
-                    <MapPinnedIcon className="text-gray-400" size={14} />
-                    <span className="block text-sm">{items?.employment?.branch?.name}</span>
-                  </div>
-                )}
-              </div>
+              {items?.employment?.branch?.name && (
+                <div className="flex items-center gap-2">
+                  <MapPinnedIcon className="text-gray-400" size={14} />
+                  <span className="text-sm">{items?.employment?.branch?.name}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>

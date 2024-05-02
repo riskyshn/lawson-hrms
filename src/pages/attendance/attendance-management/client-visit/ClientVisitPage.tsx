@@ -94,7 +94,7 @@ const ClientVisitPage: React.FC = () => {
       <PageHeader
         actions={
           <CardBody className="p-0">
-            <BaseInputDateRange className="z-50 mb-3" onValueChange={handleDateChange} placeholder="Start - End Date" value={filterDate} />
+            <BaseInputDateRange className="z-20 mb-3" onValueChange={handleDateChange} placeholder="Start - End Date" value={filterDate} />
             <div className="chrome-scrollbar flex gap-3 overflow-x-scroll">
               {['Attendance', 'Client Visit', 'Overtime'].map((label, index) => (
                 <PageCard
