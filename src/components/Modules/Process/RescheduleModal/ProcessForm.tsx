@@ -7,8 +7,7 @@ import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-
-import SelectEmployees from './SelectEmployees'
+import SelectEmployees from '../components/SelectEmployees'
 
 const schema = yup.object({
   date: yup.date().min(moment().add(-1, 'days').toDate()).required().label('Date'),
@@ -34,22 +33,12 @@ const timezones = [
   { label: '(GMT+09:00) Eastern Indonesian Time', value: 'Asia/Jayapura' },
 ]
 
-const getCurrentTimezone = () => {
-  const currentDate = new Date()
-  const offset = -currentDate.getTimezoneOffset()
-  const offsetHours = Math.floor(Math.abs(offset) / 60)
-  const offsetMinutes = Math.abs(offset) % 60
-  const formattedOffset = `${offset < 0 ? '-' : '+'}${offsetHours.toString().padStart(2, '0')}:${offsetMinutes.toString().padStart(2, '0')}`
-  if (formattedOffset === '+07:00') return 'Asia/Jakarta'
-  if (formattedOffset === '+09:00') return 'Asia/Jayapura'
-  return 'Asia/Makassar'
-}
-
 const ProcessForm: React.FC<{
-  applicant?: IDataTableApplicant
+  applicant: IDataTableApplicant
+  schedule: IProcessSchedule
   onClose?: () => void
   onSubmited?: () => void
-}> = ({ applicant, onClose, onSubmited }) => {
+}> = ({ applicant, schedule, onClose, onSubmited }) => {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -68,13 +57,15 @@ const ProcessForm: React.FC<{
   })
 
   useEffect(() => {
-    setValue('name', 'Reschedule')
-    setValue('date', moment().toDate())
-    setValue('startedAt', moment().add(60, 'minutes').format('HH:mm'))
-    setValue('endedAt', moment().add(90, 'minutes').format('HH:mm'))
-    setValue('timezone', getCurrentTimezone())
-    setValue('meet', true)
-  }, [setValue, trigger])
+    setValue('name', schedule.schedule?.name || '')
+    setValue('date', moment(schedule.schedule?.startedAt).toDate())
+    setValue('startedAt', moment(schedule.schedule?.startedAt).format('HH:mm'))
+    setValue('endedAt', moment(schedule.schedule?.endedAt).format('HH:mm'))
+    setValue('timezone', schedule.schedule?.timezone || '')
+    setValue('meet', !!schedule.schedule?.meet)
+    setValue('guests', schedule.schedule?.guests || [])
+    trigger()
+  }, [setValue, trigger, schedule])
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true)

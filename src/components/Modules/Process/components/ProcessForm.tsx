@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 
-import SelectEmployees from '../components/SelectEmployees'
+import SelectEmployees from './SelectEmployees'
 
 const schema = yup.object({
   date: yup.date().min(moment().add(-1, 'days').toDate()).required().label('Date'),

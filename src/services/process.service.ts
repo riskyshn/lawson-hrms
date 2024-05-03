@@ -2,8 +2,6 @@ import { API_PROCESS_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 
-import { geventService } from '.'
-
 const axios = createAxiosInstance({
   baseURL: API_PROCESS_BASE_URL,
   withAuth: true,
@@ -26,23 +24,15 @@ export const fetchDetailProcess = (oid: string, signal?: GenericAbortSignal) => 
 }
 
 export const updateProcess = async (payload: Record<string, any>, signal?: GenericAbortSignal) => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let interviewId = ''
-  for (let i = 0; i < 9; i++) {
-    interviewId += characters.charAt(Math.floor(Math.random() * characters.length))
-  }
-  await geventService.createCalendarEvent({ ...payload.schedule, interviewId })
   return axios.put<{ data: IApplicant }>('/process', payload, { signal }).then(({ data }) => data.data)
 }
 
 export const rescheduleProcess = async (payload: Record<string, any>, signal?: GenericAbortSignal) => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let interviewId = ''
-  for (let i = 0; i < 9; i++) {
-    interviewId += characters.charAt(Math.floor(Math.random() * characters.length))
-  }
-  await geventService.createCalendarEvent({ ...payload.schedule, interviewId })
   return axios.put('/process/reschedule', payload, { signal }).then(({ data }) => data.data)
+}
+
+export const fetchScheduleProcess = async (oid: string, signal?: GenericAbortSignal) => {
+  return axios.get<{ data: IProcessSchedule }>(`/process/${oid}/schedule`, { signal }).then(({ data }) => data.data)
 }
 
 export const updateProcessResult = (payload: Record<string, any>, signal?: GenericAbortSignal) => {

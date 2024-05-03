@@ -4,6 +4,7 @@ import MainTable from '@/components/Elements/Tables/MainTable'
 import BlacklistModal from '@/components/Modules/Process/BlacklistModal'
 import MoveAnotherVacancyModal from '@/components/Modules/Process/MoveAnotherVacancyModal'
 import ProcessModal from '@/components/Modules/Process/ProcessModal'
+import RejectModal from '@/components/Modules/Process/RejectModal'
 import RescheduleModal from '@/components/Modules/Process/RescheduleModal'
 import ViewProcessHistoryModal from '@/components/Modules/Process/ViewProcessHistoryModal'
 import WithdrawModal from '@/components/Modules/Process/WithdrawModal'
@@ -15,7 +16,6 @@ import { Link } from 'react-router-dom'
 import ActionMenu from './ActionMenu'
 import EditJoinDateModal from './EditJoinDateModal'
 import HireModal from './HireModal'
-import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
 
 type PropTypes = {
@@ -167,27 +167,27 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
   return (
     <>
       <MoveAnotherVacancyModal
-        applicant={selected?.item}
-        onApplied={onRefresh}
+        applicantId={selected?.item.oid}
+        onRefresh={onRefresh}
         onClose={() => setSelected(null)}
         show={!!selected && selected.type === 'MOVE TO ANOTHER VACANCY'}
       />
       <BlacklistModal
-        applicant={selected?.item}
-        onBlacklisted={onRefresh}
+        applicantId={selected?.item.oid}
+        onRefresh={onRefresh}
         onClose={() => setSelected(null)}
         show={!!selected && selected.type === 'BLACKLIST'}
       />
       <RejectModal
-        applicant={selected?.item}
+        applicantId={selected?.item.oid}
+        onRefresh={onRefresh}
         onClose={() => setSelected(null)}
-        onRejected={onRefresh}
         show={!!selected && selected.type === 'REJECT'}
       />
       <WithdrawModal
-        applicant={selected?.item}
+        applicantId={selected?.item.oid}
         onClose={() => setSelected(null)}
-        onUpdated={onRefresh}
+        onRefresh={onRefresh}
         show={!!selected && selected.type === 'WITHDRAW'}
       />
       <UpdateResultModal
@@ -197,7 +197,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
         show={!!selected && selected.type === 'UPDATE RESULT'}
       />
       <ViewProcessHistoryModal
-        applicant={selected?.item}
+        applicantId={selected?.item.oid}
         onClose={() => setSelected(null)}
         show={!!selected && selected.type === 'VIEW HISTORY'}
       />
@@ -213,11 +213,15 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
         onSubmited={onRefresh}
         show={!!selected && selected.type === 'RESCHEDULE'}
       />
-      <HireModal applicant={selected?.item} onClose={() => setSelected(null)} show={!!selected && selected.type === 'HIRE CANDIDATE'} />
+      <HireModal
+        applicantId={selected?.item.oid}
+        onClose={() => setSelected(null)}
+        show={!!selected && selected.type === 'HIRE CANDIDATE'}
+      />
       <EditJoinDateModal
         applicant={selected?.item}
         onClose={() => setSelected(null)}
-        onUpdated={onRefresh}
+        onRefresh={onRefresh}
         show={!!selected && selected.type === 'EDIT JOIN DATE'}
       />
 

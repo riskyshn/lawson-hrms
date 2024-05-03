@@ -56,3 +56,18 @@ interface IOfferingLetter {
   letterNumber: string
   position?: IGeneralDataEmmbed
 }
+
+interface IProcessSchedule {
+  schedule?: {
+    interviewId?: string
+    name?: string
+    description?: string
+    location?: string
+    startedAt?: string
+    endedAt?: string
+    timezone?: string
+    guests?: Array<string>
+    meet?: boolean
+    linkGmeet?: string
+  }
+}
