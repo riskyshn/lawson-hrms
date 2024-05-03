@@ -1,4 +1,8 @@
+import type { ModalType, TableType } from '../types'
+
 import MainTable from '@/components/Elements/Tables/MainTable'
+import BlacklistModal from '@/components/Modules/Process/BlacklistModal'
+import MoveAnotherVacancyModal from '@/components/Modules/Process/MoveAnotherVacancyModal'
 import ProcessModal from '@/components/Modules/Process/ProcessModal'
 import RescheduleModal from '@/components/Modules/Process/RescheduleModal'
 import ViewProcessHistoryModal from '@/components/Modules/Process/ViewProcessHistoryModal'
@@ -8,14 +12,9 @@ import { FileIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-
-import type { ModalType, TableType } from '../types'
-
 import ActionMenu from './ActionMenu'
-import BlacklistModal from './BlacklistModal'
 import EditJoinDateModal from './EditJoinDateModal'
 import HireModal from './HireModal'
-import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
 import RejectModal from './RejectModal'
 import UpdateResultModal from './UpdateResultModal'
 
