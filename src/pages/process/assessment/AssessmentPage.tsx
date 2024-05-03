@@ -6,7 +6,6 @@ import useAsyncSearch from '@/core/hooks/use-async-search'
 import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import usePagination from '@/core/hooks/use-pagination'
 import { organizationService, processService, vacancyService } from '@/services'
-import emmbedToOptions from '@/utils/emmbed-to-options'
 import { AsyncSelect } from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
 
@@ -21,7 +20,7 @@ const AssessmentPage: React.FC = () => {
 
   const { isLoading, onRefresh, pageData } = useAsyncSearch(
     processService.fetchProcess,
-    { limit: 20, stage: stage?.value, type: 'ASSESSMENT', vacancy: vacancy?.value },
+    { limit: 20, stageName: stage?.value, type: 'ASSESSMENT', vacancyId: vacancy?.value },
     search,
   )
 
@@ -56,7 +55,7 @@ const AssessmentPage: React.FC = () => {
                     <AsyncSelect
                       action={organizationService.fetchRecruitmentStages}
                       className="mb-2"
-                      converter={emmbedToOptions}
+                      converter={(res) => res.content.map(({ name, oid }) => ({ label: name || oid, value: name || oid }))}
                       onValueChange={setStage}
                       placeholder="All Stage"
                       value={stage}
