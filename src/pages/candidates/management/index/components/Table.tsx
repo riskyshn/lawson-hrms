@@ -15,7 +15,7 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPdfModalUrl, setPreviewVideoModalUrl }) => {
-  const [selectedCandidate, setSelectedCandidate] = useState<any>(null)
+  const [selectedCandidate, setSelectedCandidate] = useState<ICandidate>()
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState<'CandidateMatch' | 'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null)
   const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'View Profile', 'Reject']

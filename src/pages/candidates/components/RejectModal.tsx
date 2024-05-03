@@ -14,7 +14,7 @@ const RejectModal: React.FC<RejectModalProps> = ({ candidate, onApplyVacancy, on
   const [selectReasonId, setSelectReasonId] = useState('')
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
-  const [reasonReject, setReasonReject] = useState<any[]>([])
+  const [reasonReject, setReasonReject] = useState<IMasterReason[]>([])
 
   useEffect(() => {
     fetchReasonReject()
@@ -40,12 +40,10 @@ const RejectModal: React.FC<RejectModalProps> = ({ candidate, onApplyVacancy, on
 
     const selectedReason = reasonReject.find((reason) => reason.oid === selectReasonId)
 
-    const { name, oid } = selectedReason
-
     const payload = {
       applicantId: candidate.id,
-      rejectReason: name,
-      rejectReasonId: oid,
+      rejectReason: selectedReason?.name,
+      rejectReasonId: selectedReason?.oid,
     }
 
     setLoading(true)

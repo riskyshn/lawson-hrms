@@ -19,7 +19,7 @@ const CandidateManagementPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
-  const [vacancies, setVacancies] = useState<any[]>([])
+  const [vacancies, setVacancies] = useState<IVacancy[]>([])
 
   const vacancy = searchParams.get('vacancy') || undefined
 
