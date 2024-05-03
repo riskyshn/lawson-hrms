@@ -12,7 +12,7 @@ type BlacklistModalProps = {
 
 const BlacklistModal: React.FC<BlacklistModalProps> = ({ candidate, onApplyVacancy, onClose, show }) => {
   const [selectReasonId, setSelectReasonId] = useState<string>('')
-  const [reasonBlacklist, setReasonBlacklist] = useState<any[]>([])
+  const [reasonBlacklist, setReasonBlacklist] = useState<IMasterReason[]>([])
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -40,12 +40,10 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ candidate, onApplyVacan
 
     const selectedReason = reasonBlacklist.find((reason) => reason.oid === selectReasonId)
 
-    const { name, oid } = selectedReason
-
     const payload = {
       applicantId: candidate.id,
-      blacklistReason: name,
-      blacklistReasonId: oid,
+      blacklistReason: selectedReason?.name,
+      blacklistReasonId: selectedReason?.oid,
     }
 
     setLoading(true)

@@ -59,11 +59,12 @@ export const Component: React.FC = () => {
   }, [applicant])
 
   const handleStepSubmit = async (data: any) => {
+    console.log('masuk 1')
     setFormValues(data)
     handleNext()
 
     if (!isLastStep) return
-
+    console.log('masuk 2')
     setIsSubmitLoading(true)
 
     try {

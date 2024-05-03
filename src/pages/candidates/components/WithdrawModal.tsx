@@ -14,7 +14,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ candidate, onApplyVacancy
   const [selectReasonId, setSelectReasonId] = useState('')
   const toast = useToast()
   const [loading, setLoading] = useState<boolean>(false)
-  const [reasonWithdraw, setReasonWithdraw] = useState<any[]>([])
+  const [reasonWithdraw, setReasonWithdraw] = useState<IMasterReason[]>([])
 
   useEffect(() => {
     fetchReasonWithdraw()
@@ -39,12 +39,10 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ candidate, onApplyVacancy
 
     const selectedReason = reasonWithdraw.find((reason) => reason.oid === selectReasonId)
 
-    const { name, oid } = selectedReason
-
     const payload = {
       applicantId: candidate.id,
-      withdrawReason: name,
-      withdrawReasonId: oid,
+      withdrawReason: selectedReason?.name,
+      withdrawReasonId: selectedReason?.oid,
     }
 
     setLoading(true)

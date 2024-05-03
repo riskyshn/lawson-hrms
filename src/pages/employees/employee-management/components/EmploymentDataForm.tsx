@@ -35,7 +35,10 @@ const EmploymentDataForm: React.FC<{
     defaultValues: props.defaultValue as yup.InferType<typeof schema>,
     resolver: yupResolver(schema),
   })
-  const onSubmit = handleSubmit(props.handleSubmit)
+  const onSubmit = async (data: any) => {
+    console.log('Form data:', data) // Log the form data
+    handleSubmit(props.handleSubmit)(data) // Call props.handleSubmit with the form data
+  }
 
   return (
     <Card as="form" onSubmit={onSubmit}>

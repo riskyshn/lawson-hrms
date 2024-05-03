@@ -11,6 +11,16 @@ import { Pie } from 'react-chartjs-2'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
 
+interface FilterDate {
+  startDate: string
+  endDate: string
+}
+
+// Define a type for the filter dates state
+interface FilterDatesState {
+  [key: string]: FilterDate
+}
+
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 const backgroundColors = [
@@ -50,7 +60,7 @@ export const Component: React.FC = () => {
   const [isExperienceLoading, setIsExperienceLoading] = useState(true)
   const [isDepartmentLoading, setIsDepartmentLoading] = useState(true)
 
-  const [filterDates, setFilterDates] = useState<any>({
+  const [filterDates, setFilterDates] = useState<FilterDatesState>({
     age: { endDate: todayFormatted, startDate: defaultStartDate },
     department: { endDate: todayFormatted, startDate: defaultStartDate },
     education: { endDate: todayFormatted, startDate: defaultStartDate },

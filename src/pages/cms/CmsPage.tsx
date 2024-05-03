@@ -29,6 +29,7 @@ const CmsPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const data = await cmsService.fetchCms()
+        console.log(data)
 
         const homeData = {
           bannerAsset: data.banner?.asset || '',
