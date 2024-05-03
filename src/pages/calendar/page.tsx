@@ -12,15 +12,15 @@ import Modal from './components/Modal'
 
 export const Component: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedEvent, setSelectedEvent] = useState<any>(null)
-  const [calendarEvents, setCalendarEvents] = useState<any[]>([])
+  const [selectedEvent, setSelectedEvent] = useState<IEvent | null>()
+  const [calendarEvents, setCalendarEvents] = useState<IEventRefiners[]>([])
   const calendarRef = useRef<FullCalendar | null>(null)
 
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const dateParam = queryParams.get('date')
 
-  const [tooltipInstance, setTooltipInstance] = useState<any>('')
+  const [tooltipInstance, setTooltipInstance] = useState<React.ReactNode>('')
 
   const handleMouseEnter = (info: any) => {
     if (info.event.extendedProps.description) {
@@ -59,6 +59,7 @@ export const Component: React.FC = () => {
       start: event.start ? event.start.toISOString() : '',
       timezone: extendedProps.timezone || '',
       title: event.title,
+      linkGmeet: extendedProps.linkGmeet || '',
     })
 
     setIsModalOpen(true)
@@ -81,6 +82,7 @@ export const Component: React.FC = () => {
             guest: event.guests || [],
             location: event.location || '',
             timezone: event.timezone || '',
+            linkGmeet: event.linkGmeet,
           },
           start: event.startedAt,
           title: event.name,

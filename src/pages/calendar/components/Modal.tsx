@@ -1,16 +1,10 @@
 import MainModal from '@/components/Elements/Modals/MainModal'
+import { Button } from 'jobseeker-ui'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 type ModalProps = {
-  items?: {
-    description?: string
-    end?: string
-    guest?: string[]
-    location?: string
-    start?: string
-    timezone?: string
-    title: string
-  } | null
+  items?: IEvent | null
   onClose?: () => void
   show: boolean
 }
@@ -68,6 +62,17 @@ const Modal: React.FC<ModalProps> = ({ items, onClose, show }) => {
                   <td className="p-3 text-sm font-semibold">Timezone</td>
                   <td className="p-3 text-sm">:</td>
                   <td className="p-3 text-sm">{items.timezone}</td>
+                </tr>
+                <tr className="odd:bg-gray-50">
+                  <td className="p-3 text-sm font-semibold">Timezone</td>
+                  <td className="p-3 text-sm">:</td>
+                  <td className="p-3 text-sm">
+                    <Link to={items.linkGmeet || ''} target="_blank" rel="noopener noreferrer">
+                      <Button color="primary" variant="default">
+                        Link Google Meet
+                      </Button>
+                    </Link>
+                  </td>
                 </tr>
               </tbody>
             </table>
