@@ -7,6 +7,7 @@ interface IDashboardSchedule {
   name?: string
   startedAt?: string
   timezone?: string
+  linkGmeet?: string
 }
 
 interface IDashboardRecentlyPostedJob {
