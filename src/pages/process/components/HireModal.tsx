@@ -2,7 +2,6 @@ import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, InputDate, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
-import moment from 'moment'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -13,12 +12,12 @@ const schema = yup.object({
 })
 
 type PropTypes = {
-  applicant?: IDataTableApplicant
+  applicantId?: string
   onClose?: () => void
   show?: boolean
 }
 
-const HireModal: React.FC<PropTypes> = ({ applicant, onClose, show }) => {
+const HireModal: React.FC<PropTypes> = ({ applicantId, onClose, show }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
   const navigate = useNavigate()
@@ -34,14 +33,10 @@ const HireModal: React.FC<PropTypes> = ({ applicant, onClose, show }) => {
   })
 
   const onSubmit = handleSubmit(async ({ joinDate }) => {
-    if (!applicant) return
     setLoading(true)
     try {
-      await processService.setJoinDate({
-        applicantId: applicant.oid,
-        joinDate: moment.utc(joinDate).local().format('YYYY-MM-DD'),
-      })
-      toast(`Join date for ${applicant.candidate?.name} set successfully.`, { color: 'success' })
+      await processService.setJoinDate({ applicantId, joinDate })
+      toast(`Join date for candidate set successfully.`, { color: 'success' })
       navigate('/process/onboarding')
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })

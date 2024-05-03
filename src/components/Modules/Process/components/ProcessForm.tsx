@@ -6,8 +6,10 @@ import { ClockIcon } from 'lucide-react'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
-import SelectEmployees from '../components/SelectEmployees'
+
+import SelectEmployees from './SelectEmployees'
 
 const schema = yup.object({
   date: yup.date().min(moment().add(-1, 'days').toDate()).required().label('Date'),
@@ -47,12 +49,15 @@ const getCurrentTimezone = () => {
 const ProcessForm: React.FC<{
   applicant?: IDataTableApplicant
   onClose?: () => void
+  onPrev?: () => void
   onSubmited?: () => void
-}> = ({ applicant, onClose, onSubmited }) => {
+  stage: IApplicantStage
+}> = ({ applicant, onClose, onPrev, onSubmited, stage }) => {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
   const toast = useToast()
+  const navigate = useNavigate()
 
   const {
     formState: { errors },
@@ -67,13 +72,13 @@ const ProcessForm: React.FC<{
   })
 
   useEffect(() => {
-    setValue('name', 'Reschedule')
+    setValue('name', stage.name)
     setValue('date', moment().toDate())
     setValue('startedAt', moment().add(60, 'minutes').format('HH:mm'))
     setValue('endedAt', moment().add(90, 'minutes').format('HH:mm'))
     setValue('timezone', getCurrentTimezone())
     setValue('meet', true)
-  }, [setValue, trigger])
+  }, [stage, setValue, trigger])
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true)
@@ -82,7 +87,7 @@ const ProcessForm: React.FC<{
         'YYYY-MM-DDTHH:mm:ss',
       )
       const endedAt = moment(moment(data.date).format('YYYY-MM-DD') + ' ' + data.endedAt, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DDTHH:mm:ss')
-      await processService.rescheduleProcess({
+      await processService.updateProcess({
         applicantId: applicant?.oid,
         schedule: {
           ...data,
@@ -91,10 +96,14 @@ const ProcessForm: React.FC<{
           meet: !!data.meet,
           startedAt,
         },
+        stageId: stage.oid,
       })
 
-      toast('Successfully regenerate schedule', { color: 'success' })
-
+      toast('Process updated successfully', { color: 'success' })
+      navigate(`/process/${stage.type.toLowerCase()}`)
+      setTimeout(() => {
+        onPrev?.()
+      }, 200)
       onSubmited?.()
       onClose?.()
     } catch (e) {
@@ -181,7 +190,7 @@ const ProcessForm: React.FC<{
             value={!!watch('meet')}
           />
           <label className="block text-sm" htmlFor="generate-meet">
-            Add Google Meet Video Conferencing
+            Add Google Meet Video Conferencing For Online <span className="capitalize">{stage.type.toLowerCase()}</span>
           </label>
         </div>
 
@@ -208,8 +217,11 @@ const ProcessForm: React.FC<{
       </div>
 
       <ModalFooter className="gap-3">
+        <Button className="w-24" color="error" disabled={loading} onClick={onPrev} type="button" variant="light">
+          Prev
+        </Button>
         <Button color="primary" disabled={loading} loading={loading}>
-          Reschedule
+          Add an Interview
         </Button>
       </ModalFooter>
     </form>

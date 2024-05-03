@@ -14,11 +14,11 @@ const schema = yup.object({
 type PropTypes = {
   applicant?: IDataTableApplicant
   onClose?: () => void
-  onUpdated?: () => void
+  onRefresh?: () => void
   show?: boolean
 }
 
-const EditJoinDateModal: React.FC<PropTypes> = ({ applicant, onClose, onUpdated, show }) => {
+const EditJoinDateModal: React.FC<PropTypes> = ({ applicant, onClose, onRefresh, show }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -49,7 +49,7 @@ const EditJoinDateModal: React.FC<PropTypes> = ({ applicant, onClose, onUpdated,
       })
       toast(`Join date for ${applicant.candidate?.name} updated successfully.`, { color: 'success' })
       onClose?.()
-      onUpdated?.()
+      onRefresh?.()
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
     }

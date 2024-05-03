@@ -8,7 +8,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
-type BlacklistModalProps = {
+type RejectModalProps = {
   applicantId?: string
   onClose?: () => void
   onRefresh?: () => void
@@ -17,7 +17,7 @@ type BlacklistModalProps = {
 
 const schema = yup.object().shape({ reason: YUP_OPTION_OBJECT.required().label('Reason') })
 
-const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicantId, onClose, onRefresh, show }) => {
+const RejectModal: React.FC<RejectModalProps> = ({ applicantId, onClose, onRefresh, show }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
 
@@ -34,10 +34,10 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicantId, onClose, o
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true)
     try {
-      await candidateService.createBlacklist({
+      await candidateService.reject({
         applicantId,
-        blacklistReason: data.reason.label,
-        blacklistReasonId: data.reason.value,
+        rejectReason: data.reason.label,
+        rejectReasonId: data.reason.value,
       })
       onRefresh?.()
       onClose?.()
@@ -49,8 +49,8 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicantId, onClose, o
 
   return (
     <Modal as="form" show={!!show} onSubmit={onSubmit}>
-      <ModalHeader subTitle="Please select the reason of why this candidate is Blacklist" onClose={onClose}>
-        Blacklist
+      <ModalHeader subTitle="Please select the reason of why this candidate is Reject" onClose={onClose}>
+        Reject
       </ModalHeader>
 
       <div className="p-3">
@@ -59,7 +59,7 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicantId, onClose, o
           label="Select Reason"
           labelRequired
           action={masterService.fetchReasons}
-          params={{ type: 'blacklist' }}
+          params={{ type: 'reject' }}
           placeholder="Underqualified, Salary Expectation Too High"
           converter={emmbedToOptions}
           error={errors.reason?.message}
@@ -84,4 +84,4 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicantId, onClose, o
   )
 }
 
-export default BlacklistModal
+export default RejectModal

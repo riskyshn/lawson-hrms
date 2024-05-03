@@ -14,15 +14,14 @@ import {
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
-
 import LoadingScreen from '../../Elements/Layout/LoadingScreen'
 import HistoryItem from '../../Elements/UI/HistoryItem'
 import { Timeline, TimelineItem } from '../../Elements/UI/Timeline'
 
 type OptionModalProps = {
-  applicant?: IDataTableApplicant
-  onClose?: () => void
   show?: boolean
+  applicantId?: string
+  onClose?: () => void
 }
 
 const statusConfig: Record<string, { Icon: LucideIcon; className: string }> = {
@@ -44,44 +43,38 @@ const Status: React.FC<{ status?: string }> = ({ status }) => {
   ) : null
 }
 
-const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicant, onClose, show }) => {
-  const [aplicantDataTable, setAplicantDataTable] = useState<IDataTableApplicant>()
-  const [aplicantDetail, setAplicantDetail] = useState<IApplicant | null>(null)
+const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicantId, onClose, show }) => {
   const [showDetailIndex, setShowDetailIndex] = useState<null | number>(null)
+  const [applicant, setApplicant] = useState<IApplicant | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
-    const load = async (applicant: IDataTableApplicant, signal: AbortSignal) => {
-      const data = await processService.fetchDetailProcess(applicant.oid, signal)
-      setAplicantDetail({ ...applicant, ...data })
+    const load = async (applicantId: string, signal: AbortSignal) => {
+      const data = await processService.fetchDetailProcess(applicantId, signal)
+      setApplicant(data)
     }
 
-    if (applicant?.oid) {
-      setAplicantDataTable(applicant)
-      setAplicantDetail(null)
-      load(applicant, controller.signal)
+    if (applicantId) {
+      setApplicant(null)
+      load(applicantId, controller.signal)
     }
-
-    return () => {
-      controller.abort()
-    }
-  }, [applicant])
+    return () => controller.abort()
+  }, [applicantId])
 
   return (
     <Modal onClose={onClose} show={!!show}>
-      <ModalHeader subTitle={`Candidate Process History for ${aplicantDataTable?.candidate?.name}`}>Candidate History</ModalHeader>
-      <LoadingScreen show={!aplicantDetail} />
-
-      {aplicantDetail && (
+      <ModalHeader subTitle="Candidate Process History">Candidate History</ModalHeader>
+      <LoadingScreen show={!applicant?.vacancy} />
+      {!!applicant?.vacancy && (
         <>
           <div className="bg-gray-100 px-6 py-3">
-            <h3 className="text-lg font-semibold">{aplicantDetail.vacancy?.name}</h3>
-            <p className="text-xs text-gray-500">{aplicantDetail.vacancy?.rrNumber}</p>
+            <h3 className="text-lg font-semibold">{applicant.vacancy?.name}</h3>
+            <p className="text-xs text-gray-500">{applicant.vacancy?.rrNumber}</p>
           </div>
 
           <div className="p-6">
             <Timeline>
-              {aplicantDetail.histories?.map((item, index) => (
+              {applicant.histories?.map((item, index) => (
                 <TimelineItem key={index}>
                   <HistoryItem
                     onDetailToggleClick={() => setShowDetailIndex((v) => (v === index ? null : index))}
@@ -94,7 +87,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicant, onClos
                       <h3 className="text-sm font-semibold">Attendee</h3>
                       <span className="flex items-center gap-1 text-xs">
                         <UserIcon size={16} />
-                        {aplicantDetail.candidate?.name}
+                        {applicant.candidate?.name}
                       </span>
                     </div>
                     {item.actionAt && (
@@ -147,7 +140,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicant, onClos
       )}
 
       <ModalFooter>
-        <Button className="w-24" color="error" onClick={onClose} variant="light">
+        <Button className="w-24" color="error" variant="light" onClick={onClose}>
           Close
         </Button>
       </ModalFooter>
