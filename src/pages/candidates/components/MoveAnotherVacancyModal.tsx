@@ -4,7 +4,7 @@ import { Button, Select, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type MoveAnotherVacancyModalProps = {
-  candidate: any
+  candidate: ICandidate
   onApplyVacancy: (data: string) => void
   onClose: () => void
   show: boolean
@@ -23,7 +23,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ candi
 
   const fetchVacancies = async () => {
     try {
-      const data = await candidateService.fetchVacanciesCandidate(candidate.candidateId)
+      const data = await candidateService.fetchVacanciesCandidate(candidate?.candidateId || '')
       setVacancies(data.content)
     } catch (error) {
       console.error('Error fetching vacancies:', error)

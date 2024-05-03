@@ -20,7 +20,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
   const [modalType, setModalType] = useState<'CandidateMatch' | 'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null)
   const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'View Profile', 'Reject']
 
-  const handleViewDetails = (candidate: any, option: string) => {
+  const handleViewDetails = (candidate: ICandidate, option: string) => {
     setSelectedCandidate(candidate)
     if (option === 'Candidate Match') {
       setModalType('CandidateMatch')
@@ -28,8 +28,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
     }
   }
 
-  const renderMatchButton = (candidate: any) => {
-    const matchPercentage = candidate.matchPercentage || '0'
+  const renderMatchButton = (candidate: ICandidate) => {
+    const matchPercentage = candidate.matchPercentage || 0
     let bgClass, textClass
 
     if (matchPercentage >= 90) {

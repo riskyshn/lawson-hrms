@@ -34,7 +34,7 @@ import ViewHistoryModal from './ViewHistoryModal'
 import WithdrawModal from './WithdrawModal'
 
 interface MenuListProps {
-  candidate?: any
+  candidate: ICandidate
   onApplyVacancy: (data: string) => void
   options: string[]
 }
@@ -48,7 +48,6 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
   const handleViewDetails = (option: string) => {
     setShowOptionModal(true)
 
-    let payload: any
     const formattedName = encodeURIComponent(candidate.name || '').replace(/%20/g, '+')
 
     switch (option) {
@@ -66,7 +65,7 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Unblacklist':
         setModalType('')
         candidateService
-          .unblacklist(candidate.candidateId)
+          .unblacklist(candidate?.candidateId || '')
           .then(() => {
             toast('Unblacklist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
@@ -80,12 +79,11 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
 
       case 'Unshortlist':
         setModalType('')
-        payload = {
-          candidateId: candidate.candidateId,
-          vacancyId: candidate.vacancyId,
-        }
         candidateService
-          .deleteShortlist(payload)
+          .deleteShortlist({
+            candidateId: candidate.candidateId,
+            vacancyId: candidate.vacancyId,
+          })
           .then(() => {
             toast('Unshortlist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
@@ -99,12 +97,11 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
 
       case 'Shortlist':
         setModalType('')
-        payload = {
-          candidateId: candidate.candidateId,
-          vacancyId: candidate.vacancyId,
-        }
         candidateService
-          .createShortlist(payload)
+          .createShortlist({
+            candidateId: candidate.candidateId,
+            vacancyId: candidate.vacancyId,
+          })
           .then(() => {
             toast('Shortlist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
@@ -144,7 +141,10 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Process':
         return (
           <ProcessModal
-            applicant={{ candidate: { email: candidate.email, name: candidate.name, oid: candidate.candidateId }, oid: candidate.id }}
+            applicant={{
+              candidate: { email: candidate.email, name: candidate.name, oid: candidate?.candidateId || '' },
+              oid: candidate.id,
+            }}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
           />
