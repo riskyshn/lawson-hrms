@@ -4,7 +4,7 @@ import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 
 type RejectModalProps = {
-  candidate: any
+  candidate: ICandidate
   onApplyVacancy: (data: string) => void
   onClose: () => void
   show: boolean

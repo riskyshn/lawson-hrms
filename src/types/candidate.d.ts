@@ -76,7 +76,6 @@ interface ICandidate {
     name?: string
     oid: string
   }
-  matchPercentage?: string
   matchPercentage?: number
   module?: string
   name?: string
