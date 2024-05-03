@@ -6,7 +6,6 @@ import useAsyncSearch from '@/core/hooks/use-async-search'
 import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import usePagination from '@/core/hooks/use-pagination'
 import { organizationService, processService, vacancyService } from '@/services'
-import emmbedToOptions from '@/utils/emmbed-to-options'
 import { AsyncSelect, Button } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -25,7 +24,7 @@ const OfferingLetterPage: React.FC = () => {
 
   const { isLoading, onRefresh, pageData } = useAsyncSearch(
     processService.fetchProcess,
-    { limit: 20, stage: stage?.value, type: 'OFFERING', vacancy: vacancy?.value },
+    { limit: 20, stageName: stage?.value, type: 'OFFERING', vacancyId: vacancy?.value },
     search,
   )
 
@@ -34,6 +33,7 @@ const OfferingLetterPage: React.FC = () => {
     pathname: '/process/offering-letter',
     totalPage: pageData?.totalPages,
   })
+
   return (
     <>
       <PageHeader
@@ -76,7 +76,7 @@ const OfferingLetterPage: React.FC = () => {
                     <AsyncSelect
                       action={organizationService.fetchRecruitmentStages}
                       className="mb-2"
-                      converter={emmbedToOptions}
+                      converter={(res) => res.content.map(({ name, oid }) => ({ label: name || oid, value: name || oid }))}
                       onValueChange={setStage}
                       placeholder="All Stage"
                       value={stage}

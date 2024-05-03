@@ -10,9 +10,9 @@ const axios = createAxiosInstance({
 })
 
 type FetchProcessParams = {
-  stage?: string
+  stageName?: string
   type?: 'ASSESSMENT' | 'INTERVIEW' | 'OFFERING' | 'ONBOARDING'
-  vacancy?: string
+  vacancyId?: string
 } & IPaginationParam
 
 export const fetchProcess = (params?: FetchProcessParams, signal?: GenericAbortSignal) => {
