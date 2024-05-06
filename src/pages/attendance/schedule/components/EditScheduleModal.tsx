@@ -18,11 +18,12 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
   const [timezones, setTimezones] = useState<ITimezone[]>()
-  const [selectTimezoneId, setSelectTimezoneId] = useState<number | string | undefined>(items?.timezone?.oid)
+  const [selectTimezoneId, setSelectTimezoneId] = useState<string | undefined>(items?.timezone?.oid)
   const { handleSubmit, register } = useForm()
   const [daySchedules, setDaySchedules] = useState<IScheduleDetail[]>(items?.details || [])
 
   useEffect(() => {
+    fetchTimezone()
     if (items?.details) {
       setDaySchedules(items.details)
     }
@@ -105,7 +106,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
     })
   }
 
-  const handleChange = (selectedValue: number | string) => {
+  const handleChange = (selectedValue: string) => {
     setSelectTimezoneId(selectedValue)
   }
 
@@ -132,7 +133,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
           onChange={handleChange}
           options={timezones?.map((timezone) => ({ label: timezone.title, value: timezone.oid })) || []}
           placeholder="WIB, WITA, WIT"
-          value={items?.timezone?.oid}
+          value={selectTimezoneId || items?.timezone?.oid || ''}
         />
 
         {daySchedules.map((schedule, index) => (
