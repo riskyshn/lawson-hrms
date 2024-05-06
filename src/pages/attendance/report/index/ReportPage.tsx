@@ -4,7 +4,7 @@ import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import usePagination from '@/core/hooks/use-pagination'
 import { employeeService } from '@/services'
-import {} from 'jobseeker-ui'
+
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
