@@ -9,7 +9,7 @@ const axios = createAxiosInstance({
 })
 
 export const fetchCms = (signal?: GenericAbortSignal) => {
-  return axios.get(`/cms`, { signal }).then((response) => response.data.data)
+  return axios.get<{ data: ICms }>(`/cms`, { signal }).then((response) => response.data.data)
 }
 
 export const createCms = (payload: Record<string, any>) => {

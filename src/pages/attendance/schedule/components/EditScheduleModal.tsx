@@ -1,7 +1,8 @@
 import MainModal from '@/components/Elements/Modals/MainModal'
 import { attendanceService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { Alert, Button, Input, Select, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, InputTime, Select, useToast } from 'jobseeker-ui'
+import { ClockIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -17,13 +18,16 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
   const [errorMessage, setErrorMessage] = useState('')
   const toast = useToast()
   const [timezones, setTimezones] = useState<ITimezone[]>()
-  const [selectTimezoneId, setSelectTimezoneId] = useState<number | string | undefined>(items?.timezone?.oid)
+  const [selectTimezoneId, setSelectTimezoneId] = useState<string | undefined>(items?.timezone?.oid)
   const { handleSubmit, register } = useForm()
   const [daySchedules, setDaySchedules] = useState<IScheduleDetail[]>(items?.details || [])
 
   useEffect(() => {
     fetchTimezone()
-  }, [])
+    if (items?.details) {
+      setDaySchedules(items.details)
+    }
+  }, [items?.details])
 
   const fetchTimezone = async () => {
     try {
@@ -91,21 +95,18 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
     setDaySchedules((prevState) => {
       const updatedSchedules = [...prevState]
       updatedSchedules[index] = { ...updatedSchedules[index], [field]: value }
-
       if (field === 'isActive') {
         const startTime = updatedSchedules[index].start
         const endTime = updatedSchedules[index].end
-
         if (!startTime || startTime === '00:00' || !endTime || endTime === '00:00') {
           updatedSchedules[index].isActive = false
         }
       }
-
       return updatedSchedules
     })
   }
 
-  const handleChange = (selectedValue: number | string) => {
+  const handleChange = (selectedValue: string) => {
     setSelectTimezoneId(selectedValue)
   }
 
@@ -132,7 +133,7 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
           onChange={handleChange}
           options={timezones?.map((timezone) => ({ label: timezone.title, value: timezone.oid })) || []}
           placeholder="WIB, WITA, WIT"
-          value={items?.timezone?.oid}
+          value={selectTimezoneId || items?.timezone?.oid || ''}
         />
 
         {daySchedules.map((schedule, index) => (
@@ -140,17 +141,23 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
             <span className="text-xs">{getDayFullName(schedule?.day)}</span>
 
             <div className="flex flex-1 justify-between gap-4">
-              <Input
+              <InputTime
                 className="w-full"
-                onChange={(e) => handleInputChange(index, 'start', e.target.value)}
-                type="time"
+                labelRequired
+                onValueChange={(v) => {
+                  handleInputChange(index, 'start', v)
+                }}
+                rightChild={<ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />}
                 value={schedule.start}
               />
 
-              <Input
+              <InputTime
                 className="w-full"
-                onChange={(e) => handleInputChange(index, 'end', e.target.value)}
-                type="time"
+                labelRequired
+                onValueChange={(v) => {
+                  handleInputChange(index, 'end', v)
+                }}
+                rightChild={<ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />}
                 value={schedule.end}
               />
 

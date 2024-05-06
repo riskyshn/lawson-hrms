@@ -1,6 +1,7 @@
 import MainModal from '@/components/Elements/Modals/MainModal'
 import { attendanceService } from '@/services'
-import { Input, Select } from 'jobseeker-ui'
+import { Input, InputTime, Select } from 'jobseeker-ui'
+import { ClockIcon } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 
 type ViewScheduleModalProps = {
@@ -49,8 +50,24 @@ const ViewScheduleModal: React.FC<ViewScheduleModalProps> = ({ items, onClose, s
             <div className="mb-2" key={index}>
               <span className="text-xs">{schedule.day !== undefined ? daysOfWeek[schedule?.day] : ''}</span>
               <div className="flex flex-1 justify-between gap-4">
-                <Input className="w-full" disabled type="time" value={schedule.start} />
-                <Input className="w-full" disabled type="time" value={schedule.end} />
+                <InputTime
+                  className="w-full"
+                  disabled
+                  labelRequired
+                  rightChild={
+                    <ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                  }
+                  value={schedule.start}
+                />
+                <InputTime
+                  className="w-full"
+                  disabled
+                  labelRequired
+                  rightChild={
+                    <ClockIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                  }
+                  value={schedule.end}
+                />
                 <label className="inline-flex cursor-pointer items-center">
                   <input checked={schedule?.isActive} className="peer sr-only" disabled type="checkbox" />
                   <div className="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800 rtl:peer-checked:after:-translate-x-full"></div>

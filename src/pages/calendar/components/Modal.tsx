@@ -64,7 +64,7 @@ const Modal: React.FC<ModalProps> = ({ items, onClose, show }) => {
                   <td className="p-3 text-sm">{items.timezone}</td>
                 </tr>
                 <tr className="odd:bg-gray-50">
-                  <td className="p-3 text-sm font-semibold">Timezone</td>
+                  <td className="p-3 text-sm font-semibold">Link Meet</td>
                   <td className="p-3 text-sm">:</td>
                   <td className="p-3 text-sm">
                     <Link to={items.linkGmeet || ''} target="_blank" rel="noopener noreferrer">

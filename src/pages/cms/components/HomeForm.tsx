@@ -5,6 +5,13 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+interface IFormProps {
+  defaultValue?: IHomeData
+  handlePrev: () => void
+  handleSubmit: (data: IHomeData) => void
+  isLoading?: boolean
+}
+
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
@@ -71,12 +78,7 @@ const schema = yup.object({
   sectionBParagraphId: yup.string().required().label('sectionBParagraphId'),
 })
 
-const HomeForm: React.FC<{
-  defaultValue: any
-  handlePrev: () => void
-  handleSubmit: (data: any) => void
-  isLoading?: boolean
-}> = (props) => {
+const HomeForm: React.FC<IFormProps> = (props) => {
   const {
     formState: { errors },
     getValues,
@@ -90,32 +92,34 @@ const HomeForm: React.FC<{
   })
 
   useEffect(() => {
-    Object.keys(props.defaultValue).forEach((key: any) => {
-      switch (key) {
-        case 'heroAsset':
-        case 'heroHeadingId':
-        case 'heroHeadingEn':
-        case 'sectionAAsset':
-        case 'sectionAHeadingId':
-        case 'sectionAHeadingEn':
-        case 'sectionAParagraphId':
-        case 'sectionAParagraphEn':
-        case 'sectionBAsset':
-        case 'sectionBHeadingId':
-        case 'sectionBHeadingEn':
-        case 'sectionBParagraphId':
-        case 'sectionBParagraphEn':
-        case 'bannerAsset':
-        case 'bannerCallToAction':
-        case 'bannerHeadingId':
-        case 'bannerHeadingEn':
-          setValue(key, props.defaultValue[key])
-          break
-        default:
-          setValue(key, props.defaultValue[key])
-          break
-      }
-    })
+    if (props.defaultValue) {
+      Object.keys(props.defaultValue).forEach((key) => {
+        switch (key) {
+          case 'heroAsset':
+          case 'heroHeadingId':
+          case 'heroHeadingEn':
+          case 'sectionAAsset':
+          case 'sectionAHeadingId':
+          case 'sectionAHeadingEn':
+          case 'sectionAParagraphId':
+          case 'sectionAParagraphEn':
+          case 'sectionBAsset':
+          case 'sectionBHeadingId':
+          case 'sectionBHeadingEn':
+          case 'sectionBParagraphId':
+          case 'sectionBParagraphEn':
+          case 'bannerAsset':
+          case 'bannerCallToAction':
+          case 'bannerHeadingId':
+          case 'bannerHeadingEn':
+            setValue(key, props.defaultValue?.[key] ?? '')
+            break
+          default:
+            setValue(key as keyof IHomeData, props.defaultValue?.[key as keyof IHomeData] ?? '')
+            break
+        }
+      })
+    }
   }, [props.defaultValue, setValue])
 
   const onSubmit = handleSubmit(props.handleSubmit)
