@@ -87,7 +87,7 @@ const DetailRunRequestPage: React.FC = () => {
           </Card>
         )}
 
-        {pageData && pageData.statusRunner == 'COMPLETED' && <PayrollRequestDetail item={pageData} />}
+        {pageData && pageData.statusRunner == 'COMPLETED' && <PayrollRequestDetail item={pageData} showRequestApproval />}
       </Container>
     </>
   )

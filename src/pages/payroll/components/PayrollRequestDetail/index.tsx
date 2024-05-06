@@ -4,15 +4,19 @@ import useAsyncSearch from '@/core/hooks/use-async-search'
 import usePagination from '@/core/hooks/use-pagination'
 import { payrollService } from '@/services'
 import { useAuthStore } from '@/store'
-import {} from 'jobseeker-ui'
 import { useSearchParams } from 'react-router-dom'
 
 import Approver from './Approver'
 import ExportButton from './ExportButton'
+import RequestForApproval from './RequestForApproval'
 import StatisticCards from './StatisticCards'
 import Table from './Table'
 
-const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boolean }> = ({ item, showApprover }) => {
+const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boolean; showRequestApproval?: boolean }> = ({
+  item,
+  showApprover,
+  showRequestApproval,
+}) => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
@@ -70,6 +74,7 @@ const PayrollRequestDetail: React.FC<{ item: IPayrollRequest; showApprover?: boo
       />
 
       {showApprover && item.approver?.oid === user?.employee?.oid && <Approver oid={item.oid} />}
+      {showRequestApproval && <RequestForApproval oid={item.oid} />}
     </div>
   )
 }

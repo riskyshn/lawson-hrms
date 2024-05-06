@@ -5,7 +5,7 @@ import PageHeader from '@/components/Elements/Layout/PageHeader'
 import useAsyncSearch from '@/core/hooks/use-async-search'
 import usePagination from '@/core/hooks/use-pagination'
 import { employeeService } from '@/services'
-import {} from 'jobseeker-ui'
+
 import { useParams, useSearchParams } from 'react-router-dom'
 
 import Table from '../../components/DetailEmployees/Table'
