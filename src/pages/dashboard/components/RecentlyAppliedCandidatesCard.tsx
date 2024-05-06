@@ -1,10 +1,10 @@
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
+import { InboxIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncSearch from '@/core/hooks/use-async-search'
 import { dashboardService } from '@/services'
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
-import { InboxIcon } from 'lucide-react'
-import React from 'react'
-import { Link } from 'react-router-dom'
 
 const RecentlyAppliedCandidatesCard: React.FC = () => {
   const { pageData } = useAsyncSearch(dashboardService.recentlyApplied, { limit: 20 })

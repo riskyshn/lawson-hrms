@@ -1,9 +1,8 @@
+import React from 'react'
 import { Menu } from '@headlessui/react'
 import { Button } from 'jobseeker-ui'
 import { InboxIcon, LucideIcon } from 'lucide-react'
-import React from 'react'
 import { twJoin, twMerge } from 'tailwind-merge'
-
 import LoadingScreen from '../Layout/LoadingScreen'
 
 export type MainTableProps = {

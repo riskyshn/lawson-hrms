@@ -1,13 +1,12 @@
+import React, { useEffect, useMemo, useState } from 'react'
+import { Avatar, Button, useRemember, useToast } from 'jobseeker-ui'
+import { XIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import SideModal from '@/components/Elements/Modals/SideModal'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import numberToCurrency from '@/utils/number-to-currency'
-import { Avatar, Button, useRemember, useToast } from 'jobseeker-ui'
-import { XIcon } from 'lucide-react'
-import React, { useEffect, useMemo, useState } from 'react'
-
 import TableItem from './TableItem'
 
 type PropTypes = {

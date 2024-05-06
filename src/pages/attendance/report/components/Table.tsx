@@ -1,6 +1,6 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
-import { Avatar, Button } from 'jobseeker-ui'
 import { useNavigate } from 'react-router-dom'
+import { Avatar, Button } from 'jobseeker-ui'
+import MainTable from '@/components/Elements/Tables/MainTable'
 
 type PropTypes = {
   items: IDataTableEmployee[]

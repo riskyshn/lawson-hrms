@@ -1,7 +1,6 @@
+import { create } from 'zustand'
 import { accountService, authService, organizationService } from '@/services'
 import mountStoreDevtool from '@/utils/mount-store-devtool'
-import { create } from 'zustand'
-
 import { useTokenStore } from '.'
 
 interface AuthStore {

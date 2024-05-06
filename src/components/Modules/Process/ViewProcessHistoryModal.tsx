@@ -1,4 +1,4 @@
-import { processService } from '@/services'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import {
   AlertCircleIcon,
@@ -12,8 +12,8 @@ import {
   XCircleIcon,
 } from 'lucide-react'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+import { processService } from '@/services'
 import LoadingScreen from '../../Elements/Layout/LoadingScreen'
 import HistoryItem from '../../Elements/UI/HistoryItem'
 import { Timeline, TimelineItem } from '../../Elements/UI/Timeline'

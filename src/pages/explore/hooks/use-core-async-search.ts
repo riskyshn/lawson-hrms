@@ -1,6 +1,6 @@
-import { candidateExploreService } from '@/services'
-import { useDeepCompareEffect, useInfiniteScroll } from 'jobseeker-ui'
 import { useCallback, useEffect, useState } from 'react'
+import { useDeepCompareEffect, useInfiniteScroll } from 'jobseeker-ui'
+import { candidateExploreService } from '@/services'
 
 type OptionParams = {
   city?: string

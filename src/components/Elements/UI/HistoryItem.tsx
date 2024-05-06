@@ -1,5 +1,5 @@
-import { Button, Card, CardBody } from 'jobseeker-ui'
 import React from 'react'
+import { Button, Card, CardBody } from 'jobseeker-ui'
 
 const HistoryItem: React.FC<{
   children?: React.ReactNode

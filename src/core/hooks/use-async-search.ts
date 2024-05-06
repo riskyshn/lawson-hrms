@@ -1,6 +1,6 @@
-import { useDeepCompareEffect } from 'jobseeker-ui'
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useDeepCompareEffect } from 'jobseeker-ui'
 
 type ActionReturnType<T extends (...args: any[]) => any> = ReturnType<T>
 

@@ -1,5 +1,5 @@
-import { Spinner } from 'jobseeker-ui'
 import React from 'react'
+import { Spinner } from 'jobseeker-ui'
 import { twMerge } from 'tailwind-merge'
 
 type PropTypes = {

@@ -1,7 +1,7 @@
-import { nominatimService } from '@/services'
 import { useEffect, useState } from 'react'
 import { MapContainer, Marker, TileLayer, useMapEvents } from 'react-leaflet'
 import { twMerge } from 'tailwind-merge'
+import { nominatimService } from '@/services'
 
 type LatLng = [number, number]
 

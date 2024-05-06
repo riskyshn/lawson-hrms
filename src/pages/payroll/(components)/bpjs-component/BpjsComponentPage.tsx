@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react'
+import { Button, Card, CardBody, CardFooter, Input, Select, useToast } from 'jobseeker-ui'
 import Container from '@/components/Elements/Layout/Container'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
@@ -5,8 +7,6 @@ import useAsyncAction from '@/core/hooks/use-async-action'
 import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import numberToCurrency from '@/utils/number-to-currency'
-import { Button, Card, CardBody, CardFooter, Input, Select, useToast } from 'jobseeker-ui'
-import React, { useEffect, useState } from 'react'
 
 const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: String(el) }))
 const BpjsComponentPage: React.FC = () => {

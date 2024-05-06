@@ -1,8 +1,8 @@
-import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from 'jobseeker-ui'
 import { SearchIcon, SendIcon } from 'lucide-react'
-import React, { useEffect, useMemo, useRef } from 'react'
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
 
 const ChatPage: React.FC = () => {
   const users = [

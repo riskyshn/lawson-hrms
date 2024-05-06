@@ -1,11 +1,11 @@
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import * as yup from 'yup'
 import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { candidateService, vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
 
 type MoveAnotherVacancyModalProps = {
   applicantId?: string

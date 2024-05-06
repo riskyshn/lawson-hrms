@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom'
-
 import AssessmentPage from '@/pages/process/assessment/AssessmentPage'
 import InterviewPage from '@/pages/process/interview/InterviewPage'
 import CreateOfferingLetterPage from '@/pages/process/offering-letter/create/CreateOfferingLetterPage'

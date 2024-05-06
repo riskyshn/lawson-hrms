@@ -1,6 +1,5 @@
-import { Modal, ModalHeader, useRemember } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
-
+import { Modal, ModalHeader, useRemember } from 'jobseeker-ui'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import { processService } from '@/services'
 import ProcessForm from './ProcessForm'

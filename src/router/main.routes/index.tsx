@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom'
-
 import attendanceRoute from './attendance.route'
 import calendarRoute from './calendar.route'
 import candidatesRoute from './candidates.route'

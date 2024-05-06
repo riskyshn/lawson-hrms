@@ -1,8 +1,7 @@
+import React, { useEffect, useState } from 'react'
+import { Modal, ModalHeader, Spinner, useToast } from 'jobseeker-ui'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { Modal, ModalHeader, Spinner, useToast } from 'jobseeker-ui'
-import React, { useEffect, useState } from 'react'
-
 import ProcessForm from './ProcessForm'
 import StagePickerForm from './StagePickerForm'
 

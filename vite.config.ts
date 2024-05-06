@@ -1,8 +1,9 @@
-import react from '@vitejs/plugin-react-swc'
 // import mkcert from 'vite-plugin-mkcert'
 import process from 'node:process'
-import { URL, fileURLToPath } from 'url'
+import { fileURLToPath, URL } from 'url'
+import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
+
 // import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/

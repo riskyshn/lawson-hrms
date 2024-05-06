@@ -1,8 +1,7 @@
-import { useBreakpoint } from '@/hooks/use-breakpoint'
+import React from 'react'
 import { Avatar, Card, CardBody } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, PhoneIcon } from 'lucide-react'
-import React from 'react'
-
+import { useBreakpoint } from '@/hooks/use-breakpoint'
 import StatisticCards from './StatisticCards'
 
 type PropType = {

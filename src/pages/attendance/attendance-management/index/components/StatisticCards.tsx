@@ -1,8 +1,8 @@
-import { attendanceService } from '@/services'
-import { Skeleton } from 'jobseeker-ui'
 import React, { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Skeleton } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
+import { attendanceService } from '@/services'
 
 const Card: React.FC<{
   className?: string

@@ -1,6 +1,6 @@
+import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 import { API_PROCESS_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
-import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 
 const axios = createAxiosInstance({
   baseURL: API_PROCESS_BASE_URL,

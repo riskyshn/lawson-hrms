@@ -1,6 +1,6 @@
+import React, { PropsWithChildren } from 'react'
 import BgImage from '@/assets/hero.webp'
 import Logo from '@/components/Logo/Logo'
-import React, { PropsWithChildren } from 'react'
 
 const PageHeader: React.FC<PropsWithChildren<{ subTitle?: React.ReactNode }>> = ({ children, subTitle }) => {
   return (

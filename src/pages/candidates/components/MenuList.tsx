@@ -1,5 +1,5 @@
-import ProcessModal from '@/components/Modules/Process/ProcessModal'
-import { candidateService } from '@/services'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'
 import {
@@ -21,10 +21,9 @@ import {
   UserXIcon,
   XCircleIcon,
 } from 'lucide-react'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { twJoin } from 'tailwind-merge'
-
+import ProcessModal from '@/components/Modules/Process/ProcessModal'
+import { candidateService } from '@/services'
 import SendReminderModal from '../offered/index/components/SendReminderModal'
 import ApplyVacancyModal from './ApplyVacancyModal'
 import BlacklistModal from './BlacklistModal'

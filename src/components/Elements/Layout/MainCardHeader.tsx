@@ -1,6 +1,6 @@
+import React from 'react'
 import { Button, Input, Skeleton } from 'jobseeker-ui'
 import { FilterIcon, RefreshCcwIcon, SearchIcon } from 'lucide-react'
-import React from 'react'
 
 type PropTypes = {
   actions?: React.ReactNode

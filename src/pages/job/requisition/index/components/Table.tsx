@@ -1,8 +1,7 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
-import moment from 'moment'
 import React from 'react'
+import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-
+import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 interface TableProps {

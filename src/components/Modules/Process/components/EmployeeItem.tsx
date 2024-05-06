@@ -1,6 +1,6 @@
+import React from 'react'
 import { Avatar, Button } from 'jobseeker-ui'
 import { CheckIcon, XIcon } from 'lucide-react'
-import React from 'react'
 import { twJoin } from 'tailwind-merge'
 
 type PropTypes = {

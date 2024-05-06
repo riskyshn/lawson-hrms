@@ -1,11 +1,11 @@
-import { useAuthStore } from '@/store'
-import { axiosErrorMessage } from '@/utils/axios'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input } from 'jobseeker-ui'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Alert, Button, Input } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { useAuthStore } from '@/store'
+import { axiosErrorMessage } from '@/utils/axios'
 
 const schema = yup.object({
   email: yup.string().email().required().label('Email address'),

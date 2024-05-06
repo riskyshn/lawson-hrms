@@ -1,5 +1,5 @@
-import { Button } from 'jobseeker-ui'
 import { Link } from 'react-router-dom'
+import { Button } from 'jobseeker-ui'
 
 const NotFoundPage: React.FC<{ message?: null | string }> = ({ message }) => {
   return (

@@ -1,5 +1,5 @@
-import { Avatar } from 'jobseeker-ui'
 import React from 'react'
+import { Avatar } from 'jobseeker-ui'
 
 type PropType = {
   item: IDataTableEmployee

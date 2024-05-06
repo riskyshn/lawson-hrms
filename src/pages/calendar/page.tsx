@@ -1,13 +1,12 @@
-import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { fetchCalendar } from '@/services/dashboard.service'
+import React, { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import React, { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-
+import Container from '@/components/Elements/Layout/Container'
+import PageHeader from '@/components/Elements/Layout/PageHeader'
+import { fetchCalendar } from '@/services/dashboard.service'
 import Modal from './components/Modal'
 
 export const Component: React.FC = () => {

@@ -1,6 +1,6 @@
-import { employeeService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { employeeService } from '@/services'
 
 export default function useEmployeePage() {
   const { employeeCode } = useParams()

@@ -1,5 +1,4 @@
 import type { AxiosRequestConfig, GenericAbortSignal } from 'axios'
-
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 

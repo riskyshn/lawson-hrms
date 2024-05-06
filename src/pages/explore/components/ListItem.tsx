@@ -1,8 +1,8 @@
-import { usePreviewVideo } from '@/contexts/MediaPreviewerContext'
+import React from 'react'
 import { Button, Skeleton } from 'jobseeker-ui'
 import { PlayIcon } from 'lucide-react'
 import moment from 'moment'
-import React from 'react'
+import { usePreviewVideo } from '@/contexts/MediaPreviewerContext'
 
 const ListItem: React.FC<{ item: ICandidateExplore }> = ({ item }) => {
   const detail = [item.gender, !!item.age && `Age ${item.age}`, item.last_edu].filter((el) => !!el).join(', ')

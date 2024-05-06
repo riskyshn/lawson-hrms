@@ -1,7 +1,6 @@
-import { Spinner } from 'jobseeker-ui'
 import { useEffect, useState } from 'react'
+import { Spinner } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
-
 import { useAuthStore } from './store'
 
 const Boot: React.FC<React.PropsWithChildren> = ({ children }) => {

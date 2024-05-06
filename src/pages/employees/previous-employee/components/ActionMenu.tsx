@@ -1,9 +1,9 @@
+import React from 'react'
+import { useConfirm, useToast } from 'jobseeker-ui'
+import { PowerIcon } from 'lucide-react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { employeeService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { useConfirm, useToast } from 'jobseeker-ui'
-import { PowerIcon } from 'lucide-react'
-import React from 'react'
 
 // Define the props for the ActionMenu component
 type ActionMenuProps = {

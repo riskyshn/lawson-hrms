@@ -1,10 +1,9 @@
+import { useState } from 'react'
+import { Button, Card, CardBody } from 'jobseeker-ui'
+import { PlusCircleIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncAction from '@/core/hooks/use-async-action'
 import { organizationService } from '@/services'
-import { Button, Card, CardBody } from 'jobseeker-ui'
-import { PlusCircleIcon } from 'lucide-react'
-import { useState } from 'react'
-
 import RecruitmentStageItem from './RecruitmentStageItem'
 
 const RecruitmentStagesEditor: React.FC = () => {

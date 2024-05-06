@@ -1,8 +1,7 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
+import React, { useState } from 'react'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
-import React, { useState } from 'react'
-
+import MainTable from '@/components/Elements/Tables/MainTable'
 import MenuList from '../../../components/MenuList'
 import CandidateMatchModal from './CandidateMatchModal'
 

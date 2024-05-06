@@ -1,11 +1,11 @@
-import { masterService } from '@/services'
-import emmbedToOptions from '@/utils/emmbed-to-options'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper, Select } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper, Select } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
 import * as yup from 'yup'
+import { masterService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 
 const generateOptionOptional = (dependKey: string, label: string) =>
   yup

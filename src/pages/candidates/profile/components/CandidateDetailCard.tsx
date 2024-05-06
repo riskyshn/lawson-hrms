@@ -1,6 +1,6 @@
-import numberToCurrency from '@/utils/number-to-currency'
-import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import React from 'react'
+import { Card, CardBody, CardHeader } from 'jobseeker-ui'
+import numberToCurrency from '@/utils/number-to-currency'
 
 const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; flag?: string; items?: ICandidate; title?: string }> = ({
   documents,

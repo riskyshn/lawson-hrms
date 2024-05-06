@@ -1,6 +1,6 @@
-import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
+import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
 
 type PropType = {
   name: string

@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react'
+import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'
 import { candidateService, masterService } from '@/services'
-import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
-import React, { useEffect, useState } from 'react'
 
 type RejectModalProps = {
   candidate: ICandidate

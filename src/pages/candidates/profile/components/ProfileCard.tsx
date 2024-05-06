@@ -1,7 +1,7 @@
-import { useBreakpoint } from '@/hooks/use-breakpoint'
+import React from 'react'
 import { Avatar, Card, CardBody } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, PhoneIcon, StarsIcon, User2Icon } from 'lucide-react'
-import React from 'react'
+import { useBreakpoint } from '@/hooks/use-breakpoint'
 
 type PropType = {
   children?: React.ReactNode

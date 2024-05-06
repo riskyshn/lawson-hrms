@@ -1,7 +1,6 @@
-import numberToCurrency from '@/utils/number-to-currency'
-import { Card, CardBody, CardHeader, Skeleton } from 'jobseeker-ui'
 import React from 'react'
-
+import { Card, CardBody, CardHeader, Skeleton } from 'jobseeker-ui'
+import numberToCurrency from '@/utils/number-to-currency'
 import PreviewRecruitmentStageCard from './PreviewRecruitmentStageCard'
 
 const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }> = ({ isLoading, vacancy }) => {

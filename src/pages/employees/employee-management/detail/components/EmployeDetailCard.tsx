@@ -1,7 +1,7 @@
+import React from 'react'
+import { Alert, Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 import numberToCurrency from '@/utils/number-to-currency'
-import { Alert, Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
-import React from 'react'
 
 const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const previewImage = usePreviewImage()

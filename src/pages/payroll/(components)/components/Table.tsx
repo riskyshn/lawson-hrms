@@ -1,9 +1,8 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
-import numberToCurrency from '@/utils/number-to-currency'
-import { Avatar } from 'jobseeker-ui'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import { Avatar } from 'jobseeker-ui'
+import MainTable from '@/components/Elements/Tables/MainTable'
+import numberToCurrency from '@/utils/number-to-currency'
 import ActionMenu from './ActionMenu'
 import ApplyToModal from './ApplyToModal'
 import EditModal from './EditModal'

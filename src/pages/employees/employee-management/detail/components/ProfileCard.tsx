@@ -1,9 +1,8 @@
-import { useBreakpoint } from '@/hooks/use-breakpoint'
-import { Avatar, Button, Card, CardBody } from 'jobseeker-ui'
-import { MailIcon, MapPinnedIcon, User2Icon } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import { Avatar, Button, Card, CardBody } from 'jobseeker-ui'
+import { MailIcon, MapPinnedIcon, User2Icon } from 'lucide-react'
+import { useBreakpoint } from '@/hooks/use-breakpoint'
 import ButtonDeleteEmployee from './ButtonDeleteEmployee'
 
 type PropType = {

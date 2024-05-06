@@ -1,6 +1,6 @@
-import Logo from '@/components/Logo/Logo'
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import Logo from '@/components/Logo/Logo'
 
 export const Component: React.FC = () => {
   return (

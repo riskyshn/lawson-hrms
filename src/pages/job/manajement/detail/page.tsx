@@ -1,9 +1,8 @@
+import { Link } from 'react-router-dom'
+import { Button } from 'jobseeker-ui'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import PreviewVacancy from '@/components/Modules/Job/PreviewVacancy'
-import { Button } from 'jobseeker-ui'
-import { Link } from 'react-router-dom'
-
 import useVacancyPage from '../../hooks/use-vacancy-page'
 
 export const Component: React.FC = () => {

@@ -1,6 +1,6 @@
+import axios, { CreateAxiosDefaults } from 'axios'
 import { SOURCE_APP } from '@/constants/globals'
 import { useAuthStore, useTokenStore } from '@/store'
-import axios, { CreateAxiosDefaults } from 'axios'
 
 type CreateAxiosInstanceOptions<T = any> = {
   withAuth?: boolean
