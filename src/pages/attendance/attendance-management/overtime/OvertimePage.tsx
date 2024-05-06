@@ -19,7 +19,7 @@ const OvertimePage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const [onChangeData, setOnChangeData] = useState<string>()
-  const [pageData, setPageData] = useState<IPaginationResponse<IEmployeeHistory>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IEmployeeHistoryAttendance>>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
   const [filterDate, setFilterDate] = useState({
@@ -43,9 +43,9 @@ const OvertimePage: React.FC = () => {
     const load = async (signal: AbortSignal) => {
       setIsLoading(true)
       try {
-        const data = await attendanceService.fetchClientVisitAndOvertime(
+        const data = await attendanceService.fetchAttendanceManagement(
           {
-            attendance_group: 'overtime',
+            log_type: 'overtime',
             branch_id: branch?.value,
             end_date: filterDate?.endDate,
             limit: 20,

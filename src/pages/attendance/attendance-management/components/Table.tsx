@@ -10,7 +10,7 @@ import ConfirmationModal from './ConfirmationModal'
 
 type PropTypes = {
   isClientVisit?: boolean
-  items: IEmployeeHistory[]
+  items: IEmployeeHistoryAttendance[]
   loading?: boolean
   onDataChange: (data: string) => void
 }
@@ -66,9 +66,11 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
     { children: 'Employee', className: 'text-left' },
     { children: 'Branch', className: 'text-left' },
     { children: 'Type', className: 'text-center' },
+    { children: 'Date', className: 'text-center' },
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'In Office', className: 'text-center' },
+    { children: 'Status', className: 'text-center' },
   ]
 
   if (!isClientVisit) {
@@ -81,29 +83,41 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar
-                className="static rounded-lg bg-primary-100 text-primary-700"
-                name={item.records?.[0]?.employee?.name || '-'}
-                size={38}
-              />
+              <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item.employee.name || '-'} size={38} />
             </div>
             <div>
-              <span className="block font-semibold">{item.records?.[0]?.employee?.name}</span>
-              <span className="text-xs text-gray-500">{item.records?.[0].employee?.employeeCode}</span>
+              <span className="block font-semibold">{item.employee.name}</span>
+              <span className="text-xs text-gray-500">{item.employee.employeeCode}</span>
             </div>
           </div>
         ),
       },
-      { children: item.records?.[0]?.employee?.employment?.branch?.name },
+      { children: item.employee.employment?.branch?.name },
       {
-        children: (item.records ?? [])
-          .map((record, index) => {
-            const modifiedAttendanceType = record?.attendanceType
-              ?.replace(/_/g, ' ')
-              .toLowerCase()
-              .replace(/(?:^|\s)\S/g, function (a: string) {
-                return a.toUpperCase()
-              })
+        children: (item.attendanceData ?? []).map((record, index) => {
+          const modifiedAttendanceType = record.attendanceType
+            .replace(/_/g, ' ')
+            .toLowerCase()
+            .replace(/(?:^|\s)\S/g, function (a: string) {
+              return a.toUpperCase()
+            })
+
+          return (
+            <div key={index}>
+              <span className="font-semibold">{modifiedAttendanceType}</span>
+            </div>
+          )
+        }),
+        className: 'text-center',
+      },
+      {
+        children: formatDate(item.date),
+        className: 'text-center',
+      },
+      {
+        children: (item.attendanceData ?? [])
+          .map((record: any, index: number) => {
+            const modifiedAttendanceType = `${record?.timezoneTime?.split(' ')[1]} ${item?.employee?.employment?.schedule?.timezone?.title}`
 
             return (
               <div key={index}>
@@ -114,29 +128,6 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
           .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
             if (index % 2 === 0) {
               acc.push(
-                <div className="flex h-16 flex-col items-center justify-center" key={index}>
-                  {cur}
-                  {array[index + 1]}
-                </div>,
-              )
-            }
-            return acc
-          }, []),
-      },
-      {
-        children: (item.records ?? [])
-          .map((record, index) => {
-            const modifiedAttendanceType = `${record?.timezoneTime?.split(' ')[1]} ${record?.employee?.employment?.schedule?.timezone?.title}`
-
-            return (
-              <div key={index}>
-                <span className="font-semibold">{modifiedAttendanceType}</span>
-              </div>
-            )
-          })
-          .reduce((acc, cur, index, array) => {
-            if (index % 2 === 0) {
-              acc.push(
                 <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                   {cur}
                   {array[index + 1]}
@@ -144,20 +135,21 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
               )
             }
             return acc
-          }, [] as JSX.Element[]),
+          }, []),
+        className: 'text-center',
       },
       {
-        children: (item.records ?? [])
+        children: (item.attendanceData ?? [])
           .map((record, index) => {
             return (
               <div key={index}>
                 <button
-                  className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                  className={'text-primary-600 hover:text-primary-700 focus:outline-none'}
                   onClick={() =>
                     handlePinClick(
                       record?.coordinate?.coordinates?.[0] || 0,
                       record?.coordinate?.coordinates?.[1] || 0,
-                      record.employee?.employment?.branch?.coordinate?.coordinates,
+                      item.employee?.employment?.branch?.coordinate?.coordinates,
                     )
                   }
                   title="Maps"
@@ -181,7 +173,7 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
         className: 'text-center',
       },
       {
-        children: (item.records ?? [])
+        children: (item.attendanceData ?? [])
           .map((record, index) => {
             return (
               <div key={index}>
@@ -208,15 +200,14 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
           }, []),
         className: 'text-center',
       },
+      { children: item.status.replace(/\b\w/g, (char) => char.toUpperCase()), className: 'text-center' },
       {
         children:
           !isClientVisit &&
-          item?.records &&
-          item.records.length > 0 &&
-          item.records?.map((record, index) => {
+          (item.attendanceData ?? []).map((_record, index) => {
             if (index % 2 === 0) {
               let latestAttendanceType = null
-              item.records?.slice(index, index + 2).forEach((record, recordIndex, array) => {
+              item.attendanceData?.slice(index, index + 2).forEach((record, recordIndex, array) => {
                 if (recordIndex === array.length - 1) {
                   latestAttendanceType = record.attendanceType
                 }
@@ -228,54 +219,34 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
                     <div className={'mb-1 flex gap-2'}>
                       <Button
                         color="success"
-                        disabled={
-                          record.status === 'approved' ||
-                          record.status === 'rejected' ||
-                          latestAttendanceType === 'clock_in' ||
-                          latestAttendanceType === 'overtime_in'
-                        }
+                        disabled={item.status === 'approved' || item.status === 'rejected' || latestAttendanceType === 'overtime_in'}
                         onClick={() =>
                           handleViewDetails(
-                            item.records?.slice(index, index + 2).map((record) => record.oid),
+                            item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
                             'approved',
                           )
                         }
                         size="small"
                         style={{
                           opacity:
-                            record.status === 'approved' ||
-                            record.status === 'rejected' ||
-                            latestAttendanceType === 'clock_in' ||
-                            latestAttendanceType === 'overtime_in'
-                              ? 0.5
-                              : 1,
+                            item.status === 'approved' || item.status === 'rejected' || latestAttendanceType === 'overtime_in' ? 0.5 : 1,
                         }}
                       >
                         <CheckIcon size={16} />
                       </Button>
                       <Button
                         color="error"
-                        disabled={
-                          record.status === 'approved' ||
-                          record.status === 'rejected' ||
-                          latestAttendanceType === 'clock_in' ||
-                          latestAttendanceType === 'overtime_in'
-                        }
+                        disabled={item.status === 'approved' || item.status === 'rejected' || latestAttendanceType === 'overtime_in'}
                         onClick={() =>
                           handleViewDetails(
-                            item.records?.slice(index, index + 2).map((record) => record.oid),
+                            item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
                             'rejected',
                           )
                         }
                         size="small"
                         style={{
                           opacity:
-                            record.status === 'approved' ||
-                            record.status === 'rejected' ||
-                            latestAttendanceType === 'clock_in' ||
-                            latestAttendanceType === 'overtime_in'
-                              ? 0.5
-                              : 1,
+                            item.status === 'approved' || item.status === 'rejected' || latestAttendanceType === 'overtime_in' ? 0.5 : 1,
                         }}
                       >
                         <XIcon size={16} />
@@ -321,6 +292,14 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
       )}
     </>
   )
+}
+
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString)
+  const day = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = date.getFullYear().toString()
+  return `${day}/${month}/${year}`
 }
 
 export default Table

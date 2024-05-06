@@ -19,7 +19,7 @@ const ViewPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isExporting, setIsExporting] = useState(false)
   const { employeeId } = useParams<{ employeeId: string }>()
-  const [pageData, setPageData] = useState<IPaginationResponse<IEmployeeHistory>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IEmployeeHistoryAttendance>>()
   const [pageDataAttendance, setPageDataAttendance] = useState<IPaginationResponse<IEmployeeHistoryAttendance>>()
   const [pageDataEmployee, setPageDataEmployee] = useState<IEmployee>()
   const [pageError, setPageError] = useState<any>()
@@ -57,7 +57,7 @@ const ViewPage: React.FC = () => {
           if (tab === 'clock') {
             const response = await attendanceService.fetchAttendanceManagement(
               {
-                attendance_group: 'clock',
+                log_type: '',
                 employee_id: employeeId,
                 end_date: filterDate?.endDate,
                 is_in_office: isInOffice,
@@ -69,8 +69,9 @@ const ViewPage: React.FC = () => {
             )
             setPageDataAttendance(response)
           } else {
-            const response = await attendanceService.fetchEmployee(employeeId, {
-              attendance_group: tab,
+            const response = await attendanceService.fetchAttendanceManagement({
+              employee_id: employeeId,
+              log_type: tab,
               end_date: filterDate?.endDate,
               page: pagination.currentPage,
               start_date: filterDate?.startDate,

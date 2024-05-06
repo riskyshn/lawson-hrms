@@ -25,6 +25,7 @@ const AttendanceTable: React.FC<PropTypes> = ({ items, loading }) => {
     { children: 'Branch', className: 'text-left' },
     { children: 'Status', className: 'text-center' },
     { children: 'Type', className: 'text-center' },
+    { children: 'Date', className: 'text-center' },
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'Attachment', className: 'text-center' },
@@ -74,6 +75,10 @@ const AttendanceTable: React.FC<PropTypes> = ({ items, loading }) => {
               )
             })
           ),
+        className: 'text-center',
+      },
+      {
+        children: formatDate(item.date),
         className: 'text-center',
       },
       {
@@ -219,6 +224,14 @@ const AttendanceTable: React.FC<PropTypes> = ({ items, loading }) => {
       )}
     </>
   )
+}
+
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString)
+  const day = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = date.getFullYear().toString()
+  return `${day}/${month}/${year}`
 }
 
 export default AttendanceTable

@@ -5,7 +5,7 @@ import { GenericAbortSignal } from 'axios'
 const axios = createAxiosInstance({ baseURL: API_ATTENDANCE_BASE_URL, withAuth: true })
 
 type FetchAttendanceParams = {
-  attendance_group?: string
+  log_type?: string
   branch_id?: string
   employee_id?: string
   end_date?: string
@@ -46,19 +46,9 @@ export const fetchTimezones = (params?: IPaginationParam, signal?: GenericAbortS
   return axios.get<{ data: IPaginationResponse<ITimezone> }>(`/timezone`, { params, signal }).then((response) => response.data.data)
 }
 
-/**
- * Attendance Management
- *
- */
-export const fetchClientVisitAndOvertime = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
-  return axios
-    .get<{ data: IPaginationResponse<IAttendance> }>(`/employer/history`, { params, signal })
-    .then((response) => response.data.data)
-}
-
 export const fetchAttendanceManagement = (params?: FetchAttendanceParams, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(`/logs`, { params, signal })
+    .get<{ data: IPaginationResponse<IEmployeeHistoryAttendance> }>(`/employer/logs`, { params, signal })
     .then((response) => response.data.data)
 }
 

@@ -39,7 +39,7 @@ const RequestPage: React.FC = () => {
       try {
         const data = await attendanceService.fetchRequestManagement(
           {
-            attendance_group: 'clock',
+            log_type: '',
             end_date: filterDate?.endDate,
             limit: 20,
             page: pagination.currentPage,
