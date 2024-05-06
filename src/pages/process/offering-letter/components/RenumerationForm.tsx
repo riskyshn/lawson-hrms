@@ -14,7 +14,6 @@ const schema = yup.object({
         name: yup.string().required().label('Name'),
       }),
     )
-    .min(1)
     .required()
     .label('Benefit/Allowance'),
 })
@@ -67,6 +66,7 @@ const RenumerationForm: React.FC<{
         <InputCurrency
           error={errors.baseSalary?.message}
           label="Base Salary"
+          labelRequired
           name="baseSalary"
           onValueChange={(v) => {
             setValue('baseSalary', v || '')
