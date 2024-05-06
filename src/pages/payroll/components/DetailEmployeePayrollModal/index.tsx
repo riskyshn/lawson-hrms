@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Avatar, Button, useRemember, useToast } from 'jobseeker-ui'
+import { Avatar, Button, useToast } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import SideModal from '@/components/Elements/Modals/SideModal'
@@ -15,8 +15,7 @@ type PropTypes = {
   onRefresh?: () => void
 }
 
-const DetailEmployeePayrollModal: React.FC<PropTypes> = ({ item: newItem, onClose }) => {
-  const item = useRemember(newItem)
+const DetailEmployeePayrollModal: React.FC<PropTypes> = ({ item, onClose, onRefresh: updated }) => {
   const toast = useToast()
 
   const [detail, setDetail] = useState<IEmployeePayrollDetail>()
@@ -51,21 +50,31 @@ const DetailEmployeePayrollModal: React.FC<PropTypes> = ({ item: newItem, onClos
     return numberToCurrency(amounts.reduce((acc, curr) => acc + curr, 0))
   }, [amounts])
 
-  const onRefresh = () => setRefresh((v) => !v)
+  const onRefresh = () => {
+    setRefresh((v) => !v)
+    updated?.()
+  }
+
+  const handleClose = () => {
+    onClose?.()
+    setTimeout(() => {
+      setDetail(undefined)
+    }, 200)
+  }
 
   return (
-    <SideModal className="divide-y bg-white" show={!!newItem}>
+    <SideModal className="divide-y bg-white" show={!!item}>
       <LoadingScreen className="flex-1 p-0" show={!detail} />
 
       {detail && (
         <>
           <div className="flex items-center gap-3 p-3">
-            <Avatar className="bg-primary-50 text-primary-700" name={`${item?.name}`} size={48} />
+            <Avatar className="bg-primary-50 text-primary-700" name={`${detail?.name}`} size={48} />
             <div className="flex-1">
-              <h3 className="font-semibold capitalize">{item?.name}</h3>
+              <h3 className="font-semibold capitalize">{detail?.name}</h3>
               <span className="block text-xs">{detail.employeeCode}</span>
             </div>
-            <Button color="error" iconOnly onClick={onClose} type="button" variant="light">
+            <Button color="error" iconOnly onClick={handleClose} type="button" variant="light">
               <XIcon size={18} />
             </Button>
           </div>
