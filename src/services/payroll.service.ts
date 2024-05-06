@@ -103,6 +103,10 @@ export const fetchPayrollRequest = (oid: string) => {
   return axios.get<{ data: IPayrollRequest }>(`/payroll/${oid}`).then(({ data }) => data.data)
 }
 
+export const requestForApproval = (oid: string) => {
+  return axios.post<{ data: IPayrollRequest }>(`/payroll/request-approval/${oid}`).then(({ data }) => data.data)
+}
+
 export const exportPayrollRequest = (oid: string) => {
   return axios.post(`/payroll/export/${oid}`)
 }
