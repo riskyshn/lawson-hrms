@@ -64,6 +64,8 @@ const ProcessForm: React.FC<{
     setValue('timezone', schedule.schedule?.timezone || '')
     setValue('meet', !!schedule.schedule?.meet)
     setValue('guests', schedule.schedule?.guests || [])
+    setValue('location', schedule.schedule?.location || '')
+    setValue('description', schedule.schedule?.description || '')
     trigger()
   }, [setValue, trigger, schedule])
 

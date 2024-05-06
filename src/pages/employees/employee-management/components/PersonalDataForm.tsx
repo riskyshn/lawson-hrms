@@ -1,6 +1,6 @@
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
-import { authService, masterService } from '@/services'
+import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
@@ -31,14 +31,14 @@ const schema = yup.object({
     .string()
     .email()
     .required()
-    .test('unique', '${label} is already registered.', async (value) => {
-      try {
-        await authService.isEmailUnique(value)
-        return true
-      } catch {
-        return false
-      }
-    })
+    // .test('unique', '${label} is already registered.', async (value) => {
+    //   try {
+    //     await authService.isEmailUnique(value)
+    //     return true
+    //   } catch {
+    //     return false
+    //   }
+    // })
     .label('Email Address'),
   gender: YUP_OPTION_OBJECT.required().label('Gender'),
   linkNationalId: yup
@@ -60,14 +60,14 @@ const schema = yup.object({
     .string()
     .required()
     .length(16)
-    .test('unique', '${label} is already registered.', async (value) => {
-      try {
-        await authService.isNiklUnique(value)
-        return true
-      } catch {
-        return false
-      }
-    })
+    // .test('unique', '${label} is already registered.', async (value) => {
+    //   try {
+    //     await authService.isNiklUnique(value)
+    //     return true
+    //   } catch {
+    //     return false
+    //   }
+    // })
     .label('National ID Number'),
 
   numberOfChildren: yup
