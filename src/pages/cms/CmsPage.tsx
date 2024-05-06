@@ -10,7 +10,7 @@ import JobForm from './components/JobForm'
 
 const CmsPage: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
-  const [flag, setFlag] = useState<any>()
+  const [flag, setFlag] = useState<ICms>()
   const toast = useToast()
   const navigate = useNavigate()
 
@@ -20,16 +20,12 @@ const CmsPage: React.FC = () => {
     },
   })
 
-  const [formValues, setFormValues] = useState<any>({
-    homeData: {},
-    jobData: {},
-  })
+  const [formValues, setFormValues] = useState<{ homeData?: IHomeData; jobData?: IJobData }>()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await cmsService.fetchCms()
-        console.log(data)
 
         const homeData = {
           bannerAsset: data.banner?.asset || '',
@@ -88,7 +84,7 @@ const CmsPage: React.FC = () => {
     fetchData()
   }, [])
 
-  const handleStepSubmit = async (data: any) => {
+  const handleStepSubmit = async (data: { homeData?: IHomeData; jobData?: IJobData }) => {
     setFormValues(data)
     handleNext()
 
@@ -97,64 +93,64 @@ const CmsPage: React.FC = () => {
     setIsSubmitLoading(true)
 
     const payload = {
-      aSectionAsset: data.homeData.sectionAAsset,
+      aSectionAsset: data.homeData?.sectionAAsset,
       aSectionHeading: {
-        en: data.homeData.sectionAHeadingEn,
-        id: data.homeData.sectionAHeadingId,
+        en: data.homeData?.sectionAHeadingEn,
+        id: data.homeData?.sectionAHeadingId,
       },
       aSectionParagraph: {
-        en: data.homeData.sectionAParagraphEn,
-        id: data.homeData.sectionAParagraphId,
+        en: data.homeData?.sectionAParagraphEn,
+        id: data.homeData?.sectionAParagraphId,
       },
-      bSectionAsset: data.homeData.sectionBAsset,
+      bSectionAsset: data.homeData?.sectionBAsset,
       bSectionHeading: {
-        en: data.homeData.sectionBHeadingEn,
-        id: data.homeData.sectionBHeadingId,
+        en: data.homeData?.sectionBHeadingEn,
+        id: data.homeData?.sectionBHeadingId,
       },
       bSectionParagraph: {
-        en: data.homeData.sectionBParagraphEn,
-        id: data.homeData.sectionBParagraphId,
+        en: data.homeData?.sectionBParagraphEn,
+        id: data.homeData?.sectionBParagraphId,
       },
-      bannerAsset: data.homeData.bannerAsset,
-      bannerCallToAction: data.homeData.bannerCallToAction,
+      bannerAsset: data.homeData?.bannerAsset,
+      bannerCallToAction: data.homeData?.bannerCallToAction,
       bannerHeading: {
-        en: data.homeData.bannerHeadingEn,
-        id: data.homeData.bannerHeadingId,
+        en: data.homeData?.bannerHeadingEn,
+        id: data.homeData?.bannerHeadingId,
       },
-      findJobAsset: data.jobData.findJobAsset,
+      findJobAsset: data.jobData?.findJobAsset,
       findJobHeading: {
-        en: data.jobData.findJobHeadingEn,
-        id: data.jobData.findJobHeadingId,
+        en: data.jobData?.findJobHeadingEn,
+        id: data.jobData?.findJobHeadingId,
       },
-      heroAsset: data.homeData.heroAsset,
+      heroAsset: data.homeData?.heroAsset,
       heroHeading: {
-        en: data.homeData.heroHeadingEn,
-        id: data.homeData.heroHeadingId,
+        en: data.homeData?.heroHeadingEn,
+        id: data.homeData?.heroHeadingId,
       },
-      loginAsset: data.jobData.loginAsset,
+      loginAsset: data.jobData?.loginAsset,
       loginHeading: {
-        en: data.jobData.loginHeadingEn,
-        id: data.jobData.loginHeadingId,
+        en: data.jobData?.loginHeadingEn,
+        id: data.jobData?.loginHeadingId,
       },
       loginSubheading: {
-        en: data.jobData.loginSubheadingEn,
-        id: data.jobData.loginSubheadingId,
+        en: data.jobData?.loginSubheadingEn,
+        id: data.jobData?.loginSubheadingId,
       },
-      registerAsset: data.jobData.registerAsset,
+      registerAsset: data.jobData?.registerAsset,
       registerHeading: {
-        en: data.jobData.registerHeadingEn,
-        id: data.jobData.registerHeadingId,
+        en: data.jobData?.registerHeadingEn,
+        id: data.jobData?.registerHeadingId,
       },
       registerSubheading: {
-        en: data.jobData.registerSubheadingEn,
-        id: data.jobData.registerSubheadingId,
+        en: data.jobData?.registerSubheadingEn,
+        id: data.jobData?.registerSubheadingId,
       },
-      settingBackgroundColor: data.jobData.backgroundColor,
-      settingCallToActionColor: data.jobData.callToActionColor,
+      settingBackgroundColor: data.jobData?.backgroundColor,
+      settingCallToActionColor: data.jobData?.callToActionColor,
       settingFont: '-',
-      settingHeadingColor: data.jobData.headingColor,
-      settingParagraphColor: data.jobData.paragraphColor,
-      settingSubheadingColor: data.jobData.subheadingColor,
+      settingHeadingColor: data.jobData?.headingColor,
+      settingParagraphColor: data.jobData?.paragraphColor,
+      settingSubheadingColor: data.jobData?.subheadingColor,
     }
 
     if (flag?.company?.oid) {
@@ -197,17 +193,17 @@ const CmsPage: React.FC = () => {
 
         {activeStep === 0 && (
           <HomeForm
-            defaultValue={formValues.homeData}
+            defaultValue={formValues?.homeData}
             handlePrev={handlePrev}
-            handleSubmit={(homeData) => handleStepSubmit({ ...formValues, homeData })}
+            handleSubmit={(homeData?: IHomeData) => handleStepSubmit({ ...formValues, homeData })}
             isLoading={isSubmitLoading}
           />
         )}
         {activeStep === 1 && (
           <JobForm
-            defaultValue={formValues.jobData}
+            defaultValue={formValues?.jobData}
             handlePrev={handlePrev}
-            handleSubmit={(jobData) => handleStepSubmit({ ...formValues, jobData })}
+            handleSubmit={(jobData?: IJobData) => handleStepSubmit({ ...formValues, jobData })}
             isLoading={isSubmitLoading}
           />
         )}

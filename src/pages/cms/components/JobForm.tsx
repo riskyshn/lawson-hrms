@@ -5,6 +5,13 @@ import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
+interface IFormProps {
+  defaultValue?: IJobData
+  handlePrev: () => void
+  handleSubmit: (data: IJobData) => void
+  isLoading?: boolean
+}
+
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
@@ -63,12 +70,7 @@ const schema = yup.object({
   subheadingColor: yup.string().required().label('subheadingColor'),
 })
 
-const JobForm: React.FC<{
-  defaultValue: any
-  handlePrev: () => void
-  handleSubmit: (data: any) => void
-  isLoading: boolean
-}> = (props) => {
+const JobForm: React.FC<IFormProps> = (props) => {
   const {
     formState: { errors },
     getValues,
@@ -82,7 +84,7 @@ const JobForm: React.FC<{
 
   useEffect(() => {
     if (props.defaultValue) {
-      Object.keys(props.defaultValue).forEach((key: any) => {
+      Object.keys(props.defaultValue).forEach((key) => {
         switch (key) {
           case 'findJobAsset':
           case 'findJobHeadingId':
@@ -102,10 +104,10 @@ const JobForm: React.FC<{
           case 'headingColor':
           case 'subheadingColor':
           case 'paragraphColor':
-            setValue(key, props.defaultValue[key])
+            setValue(key, props.defaultValue?.[key] ?? '')
             break
           default:
-            setValue(key, props.defaultValue[key])
+            setValue(key as keyof IJobData, props.defaultValue?.[key as keyof IJobData] ?? '')
             break
         }
       })
