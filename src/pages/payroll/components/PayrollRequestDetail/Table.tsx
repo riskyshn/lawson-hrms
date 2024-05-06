@@ -54,7 +54,7 @@ const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRe
 
   return (
     <>
-      <DetailEmployeePayrollModal item={selectedToUpdate} onClose={() => setSelectedToUpdate(null)} />
+      <DetailEmployeePayrollModal item={selectedToUpdate} onClose={() => setSelectedToUpdate(null)} onRefresh={onRefresh} />
       <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
     </>
   )
