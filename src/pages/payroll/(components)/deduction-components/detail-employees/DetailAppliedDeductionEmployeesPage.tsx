@@ -1,3 +1,4 @@
+import { useParams, useSearchParams } from 'react-router-dom'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
@@ -5,9 +6,6 @@ import PageHeader from '@/components/Elements/Layout/PageHeader'
 import useAsyncSearch from '@/core/hooks/use-async-search'
 import usePagination from '@/core/hooks/use-pagination'
 import { employeeService } from '@/services'
-
-import { useParams, useSearchParams } from 'react-router-dom'
-
 import Table from '../../components/DetailEmployees/Table'
 
 const DetailAppliedDeductionEmployeesPage: React.FC = () => {

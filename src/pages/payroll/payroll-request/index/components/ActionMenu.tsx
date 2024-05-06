@@ -1,7 +1,7 @@
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { BanknoteIcon, DownloadIcon, EyeIcon } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { BanknoteIcon, DownloadIcon, EyeIcon } from 'lucide-react'
+import * as Table from '@/components/Elements/Tables/MainTable'
 
 type ActionMenuProps = {
   index: number

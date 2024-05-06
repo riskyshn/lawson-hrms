@@ -1,11 +1,10 @@
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { organizationService, processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-
 import UploadDocument from './components/UploadDocument'
 
 const UploadDocumentsPage = () => {

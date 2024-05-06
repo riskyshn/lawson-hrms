@@ -1,11 +1,11 @@
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
+import { InboxIcon } from 'lucide-react'
+import { twJoin } from 'tailwind-merge'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncAction from '@/core/hooks/use-async-action'
 import { dashboardService, organizationService } from '@/services'
-import { Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
-import { InboxIcon } from 'lucide-react'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { twJoin } from 'tailwind-merge'
 
 const RecentlyPostedJobsCard: React.FC = () => {
   const [department_id, setDepartmentId] = useState<string>()

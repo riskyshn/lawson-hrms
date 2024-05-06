@@ -1,9 +1,8 @@
+import React, { useState } from 'react'
+import { Avatar, Button } from 'jobseeker-ui'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import DetailEmployeePayrollModal from '@/pages/payroll/components/DetailEmployeePayrollModal'
 import numberToCurrency from '@/utils/number-to-currency'
-import { Avatar, Button } from 'jobseeker-ui'
-import React, { useState } from 'react'
-
 import DeleteItemButton from './DeleteItemButton'
 
 const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading, onRefresh }) => {

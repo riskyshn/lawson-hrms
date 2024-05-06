@@ -1,5 +1,5 @@
-import { useAuthStore } from '@/store'
 import { twJoin } from 'tailwind-merge'
+import { useAuthStore } from '@/store'
 
 const NavbarInfo: React.FC<{ className?: string }> = ({ className }) => {
   const { company } = useAuthStore()

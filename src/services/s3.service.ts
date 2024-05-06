@@ -1,6 +1,6 @@
+import { AxiosRequestConfig } from 'axios'
 import { API_S3_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
-import { AxiosRequestConfig } from 'axios'
 
 // Create an instance of axios with base URL and authentication
 const axiosInstance = createAxiosInstance({

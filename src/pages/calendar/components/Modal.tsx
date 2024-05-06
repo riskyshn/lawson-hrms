@@ -1,7 +1,7 @@
-import MainModal from '@/components/Elements/Modals/MainModal'
-import { Button } from 'jobseeker-ui'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from 'jobseeker-ui'
+import MainModal from '@/components/Elements/Modals/MainModal'
 
 type ModalProps = {
   items?: IEvent | null

@@ -1,7 +1,7 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
 import React from 'react'
-
+import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
+
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {

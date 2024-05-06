@@ -1,6 +1,5 @@
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { processService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import {
   EditIcon,
@@ -21,9 +20,9 @@ import {
   UserXIcon,
   XCircleIcon,
 } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-
+import * as Table from '@/components/Elements/Tables/MainTable'
+import { processService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
 import { ModalType } from '../types'
 
 type ActionMenuProps = {

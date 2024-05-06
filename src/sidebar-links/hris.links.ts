@@ -1,5 +1,5 @@
-import genSidebarLinks from '@/utils/gen-sidebar-links'
 import { BanknoteIcon, UserCogIcon, UserPlus2Icon } from 'lucide-react'
+import genSidebarLinks from '@/utils/gen-sidebar-links'
 
 const hrisLinks = genSidebarLinks({
   items: [

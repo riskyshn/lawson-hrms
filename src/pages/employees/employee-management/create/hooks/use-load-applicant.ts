@@ -1,6 +1,6 @@
-import { candidateService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { candidateService } from '@/services'
 
 export default function useLoadApplicant() {
   const [searchParams] = useSearchParams()

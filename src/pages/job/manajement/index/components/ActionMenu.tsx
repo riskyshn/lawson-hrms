@@ -1,9 +1,9 @@
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { vacancyService } from '@/services'
-import { useConfirm, useToast } from 'jobseeker-ui'
-import { EyeIcon, GlobeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useConfirm, useToast } from 'jobseeker-ui'
+import { EyeIcon, GlobeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import * as Table from '@/components/Elements/Tables/MainTable'
+import { vacancyService } from '@/services'
 
 type ActionMenuProps = {
   index: number
@@ -11,9 +11,10 @@ type ActionMenuProps = {
   total: number
   upSpace: number
   vacancy: IVacancy
+  setSelectedExpiredToReactive?: (item: IVacancy) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpace, vacancy }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpace, vacancy, setSelectedExpiredToReactive }) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
@@ -71,6 +72,14 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpac
     text: 'Reactivate',
   }
 
+  const expiredToActive: Table.ActionMenuItemProps = {
+    action: () => {
+      setSelectedExpiredToReactive?.(vacancy)
+    },
+    icon: PowerIcon,
+    text: 'Reactivate',
+  }
+
   const deleteDraft: Table.ActionMenuItemProps = {
     action: async () => {
       const confirmed = await confirm({
@@ -117,7 +126,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpac
   const menuItems: Record<string, Table.ActionMenuItemProps[]> = {
     active: [viewDetail, viewCandidates, editVacancy, deactivate],
     draft: [viewDetail, postVacancy, editVacancy, deleteDraft],
-    expired: [reactivate, viewDetail, viewCandidates, editVacancy],
+    expired: [expiredToActive, viewDetail, viewCandidates, editVacancy],
     fulfilled: [viewDetail, viewCandidates],
     inactive: [reactivate, viewDetail, viewCandidates, editVacancy],
   }

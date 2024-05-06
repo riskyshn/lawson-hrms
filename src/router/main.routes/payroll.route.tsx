@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom'
-
 import BenefitComponentsPage from '@/pages/payroll/(components)/benefit-components/BenefitComponentsPage'
 import DetailAppliedBenefitEmployeesPage from '@/pages/payroll/(components)/benefit-components/detail-employees/DetailAppliedBenefitEmployeesPage'
 import BpjsComponentPage from '@/pages/payroll/(components)/bpjs-component/BpjsComponentPage'

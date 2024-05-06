@@ -1,10 +1,9 @@
+import { useEffect } from 'react'
+import { createBrowserRouter, Outlet, useNavigate } from 'react-router-dom'
+import { useToast } from 'jobseeker-ui'
 import ErrorBoundary from '@/pages/ErrorBoundary'
 import NotFoundPage from '@/pages/NotFoundPage'
 import { useAuthStore } from '@/store'
-import { useToast } from 'jobseeker-ui'
-import { useEffect } from 'react'
-import { Outlet, createBrowserRouter, useNavigate } from 'react-router-dom'
-
 import authRoutes from './auth.routes'
 import guestRoutes from './guest.routes'
 import mainRoutes from './main.routes'

@@ -1,9 +1,9 @@
+import React, { useState } from 'react'
+import { MapPinIcon } from 'lucide-react'
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 import MainTable from '@/components/Elements/Tables/MainTable'
-import { MapPinIcon } from 'lucide-react'
-import React, { useState } from 'react'
-
 import ActionMenu from './ActionMenu'
+
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {

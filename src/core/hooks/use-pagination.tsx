@@ -1,6 +1,6 @@
+import { Link, useSearchParams } from 'react-router-dom'
 import { Pagination, PaginationItem } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
-import { Link, useSearchParams } from 'react-router-dom'
 
 export type UsePaginationOptions = {
   params?: Record<string, any>

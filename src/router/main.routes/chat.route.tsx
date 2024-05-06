@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom'
-
 import ChatPage from '@/pages/chat/index/ChatPage'
 
 const chatRoute: RouteObject = {

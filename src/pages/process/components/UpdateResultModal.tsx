@@ -1,12 +1,12 @@
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, InputRadio, InputWrapper, Textarea, useToast } from 'jobseeker-ui'
+import * as yup from 'yup'
 import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
 import MainModal from '@/components/Elements/Modals/MainModal'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, InputRadio, InputWrapper, Textarea, useToast } from 'jobseeker-ui'
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
 
 type UpdateResultModalProps = {
   applicant?: IDataTableApplicant

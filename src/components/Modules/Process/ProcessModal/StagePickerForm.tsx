@@ -1,5 +1,5 @@
-import { Button, CardFooter, InputRadio } from 'jobseeker-ui'
 import React from 'react'
+import { Button, CardFooter, InputRadio } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
 
 type PropTypes = {

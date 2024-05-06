@@ -1,5 +1,5 @@
-import { Card, CardBody, CardHeader, Skeleton, Switch } from 'jobseeker-ui'
 import React from 'react'
+import { Card, CardBody, CardHeader, Skeleton, Switch } from 'jobseeker-ui'
 
 type PropType = {
   groupName: string

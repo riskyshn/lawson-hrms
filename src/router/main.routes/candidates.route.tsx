@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom'
-
 import CandidateBlacklistedPage from '@/pages/candidates/blacklisted/index/CandidateBlacklistedPage'
 import CandidateManagementPage from '@/pages/candidates/management/index/CandidateManagementPage'
 import CandidateOfferedPage from '@/pages/candidates/offered/index/CandidateOfferedPage'

@@ -1,6 +1,6 @@
-import { vacancyService } from '@/services'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { vacancyService } from '@/services'
 
 export default function useVacancyPage() {
   const { vacancyId } = useParams()

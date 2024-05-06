@@ -1,5 +1,4 @@
 import type { AxiosRequestConfig, GenericAbortSignal } from 'axios'
-
 import { API_VACANCY_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
@@ -34,8 +33,8 @@ export const deleteDraftVacancy = (id: string) => {
   return axios.delete(`/vacancy/${id}`).then((response) => response.data.data)
 }
 
-export const updateVacancyStatus = (id: string, status: 'active' | 'draft' | 'inactive') => {
-  return axios.patch(`/vacancy/${id}?status=${status}`).then((response) => response.data.data)
+export const updateVacancyStatus = (id: string, status: 'active' | 'draft' | 'inactive', payload?: Record<string, any>) => {
+  return axios.patch(`/vacancy/${id}/${status}`, payload).then((response) => response.data.data)
 }
 
 export const cancelRequisition = (id: string) => {

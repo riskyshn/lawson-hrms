@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss/types/config'
-
 import typography from '@tailwindcss/typography'
 import juiConfig from 'jobseeker-ui/tailwind-config'
 import defaultTheme from 'tailwindcss/defaultTheme'

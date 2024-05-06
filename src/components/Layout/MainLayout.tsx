@@ -1,7 +1,6 @@
-import { useLayout } from 'jobseeker-ui'
 import { Outlet } from 'react-router-dom'
+import { useLayout } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
-
 import Navbar from './Navbar/Navbar'
 import Sidebar from './Sidebar/Sidebar'
 

@@ -1,12 +1,12 @@
+import React, { ChangeEvent, useRef, useState } from 'react'
+import { AxiosRequestConfig } from 'axios'
+import { Avatar, Button } from 'jobseeker-ui'
+import moment from 'moment'
+import { twJoin } from 'tailwind-merge'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 import { s3Service } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import formatFileSize from '@/utils/format-file-sizes'
-import { AxiosRequestConfig } from 'axios'
-import { Avatar, Button } from 'jobseeker-ui'
-import moment from 'moment'
-import React, { ChangeEvent, useRef, useState } from 'react'
-import { twJoin } from 'tailwind-merge'
 
 interface PhotoProfileFileUploadProps {
   nickname?: string

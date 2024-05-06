@@ -1,8 +1,8 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
-import { Badge } from 'jobseeker-ui'
 import React from 'react'
-
+import { Badge } from 'jobseeker-ui'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
+
 // import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {

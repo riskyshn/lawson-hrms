@@ -1,9 +1,9 @@
-import HistoryItem from '@/components/Elements/UI/HistoryItem'
-import { Timeline, TimelineItem } from '@/components/Elements/UI/Timeline'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import { CheckCircle2Icon, InfoIcon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import HistoryItem from '@/components/Elements/UI/HistoryItem'
+import { Timeline, TimelineItem } from '@/components/Elements/UI/Timeline'
 
 type PropTypes = {
   item: IVacancy | null

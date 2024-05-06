@@ -1,8 +1,8 @@
-import MainModal from '@/components/Elements/Modals/MainModal'
-import { attendanceService } from '@/services'
+import React, { useEffect, useState } from 'react'
 import { Input, InputTime, Select } from 'jobseeker-ui'
 import { ClockIcon } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import MainModal from '@/components/Elements/Modals/MainModal'
+import { attendanceService } from '@/services'
 
 type ViewScheduleModalProps = {
   items?: ISchedule

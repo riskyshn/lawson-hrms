@@ -1,8 +1,8 @@
+import React, { useState } from 'react'
+import { useTimeout, useToast } from 'jobseeker-ui'
+import { twJoin } from 'tailwind-merge'
 import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { useTimeout, useToast } from 'jobseeker-ui'
-import React, { useState } from 'react'
-import { twJoin } from 'tailwind-merge'
 
 const formatTime = (seconds: number) => {
   if (seconds === 0) return '00:00'

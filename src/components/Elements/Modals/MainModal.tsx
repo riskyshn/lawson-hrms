@@ -1,6 +1,6 @@
+import React, { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XCircleIcon } from 'lucide-react'
-import React, { Fragment } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 type PropTypes = React.PropsWithChildren<{

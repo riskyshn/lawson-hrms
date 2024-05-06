@@ -1,7 +1,7 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCurrency } from 'jobseeker-ui'
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, Card, CardBody, CardFooter, Input, InputCurrency } from 'jobseeker-ui'
 import * as yup from 'yup'
 
 const schema = yup.object({
@@ -14,7 +14,6 @@ const schema = yup.object({
         name: yup.string().required().label('Name'),
       }),
     )
-    .min(1)
     .required()
     .label('Benefit/Allowance'),
 })
@@ -67,6 +66,7 @@ const RenumerationForm: React.FC<{
         <InputCurrency
           error={errors.baseSalary?.message}
           label="Base Salary"
+          labelRequired
           name="baseSalary"
           onValueChange={(v) => {
             setValue('baseSalary', v || '')

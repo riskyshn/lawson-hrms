@@ -1,7 +1,7 @@
-import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
-import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, genStyles } from 'jobseeker-ui'
-import { ImageIcon } from 'lucide-react'
 import React from 'react'
+import { Badge, CardBody, CardFooter, Color, genStyles, Modal, ModalHeader, Spinner } from 'jobseeker-ui'
+import { ImageIcon } from 'lucide-react'
+import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 
 type PropTypes = {
   items?: ILeave

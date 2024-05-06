@@ -1,5 +1,4 @@
 import type { OptionProps } from 'jobseeker-ui'
-
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 

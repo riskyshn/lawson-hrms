@@ -1,7 +1,7 @@
-import { organizationService } from '@/services'
+import { useState } from 'react'
 import { BaseInput, Button, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon } from 'lucide-react'
-import { useState } from 'react'
+import { organizationService } from '@/services'
 
 const RecruitmentStageItem: React.FC<{
   isNew?: boolean

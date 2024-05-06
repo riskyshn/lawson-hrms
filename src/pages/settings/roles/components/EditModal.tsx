@@ -1,11 +1,10 @@
-import { authorityService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Textarea, useRemember, useToast } from 'jobseeker-ui'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Textarea, useRemember, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
-
+import { authorityService } from '@/services'
+import { axiosErrorMessage } from '@/utils/axios'
 import getEditModalSubtitle from '../../utils/get-edit-modal-subtitle'
 
 type EditModalProps = {

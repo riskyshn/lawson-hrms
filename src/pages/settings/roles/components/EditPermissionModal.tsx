@@ -1,8 +1,7 @@
+import React, { useEffect, useMemo, useState } from 'react'
+import { Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import { authorityService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
-import React, { useEffect, useMemo, useState } from 'react'
-
 import PermissionItem, { PermissionItemSkeleton } from './PermissionItem'
 
 type EditPermissionModalProps = {

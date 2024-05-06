@@ -1,7 +1,5 @@
-import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
-import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
-import { masterService } from '@/services'
-import emmbedToOptions from '@/utils/emmbed-to-options'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
   AsyncSelect,
@@ -16,9 +14,11 @@ import {
   Select,
   Textarea,
 } from 'jobseeker-ui'
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
+import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
+import { masterService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
 
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'

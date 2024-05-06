@@ -1,7 +1,4 @@
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import HistoryItem from '@/components/Elements/UI/HistoryItem'
-import { Timeline, TimelineItem } from '@/components/Elements/UI/Timeline'
-import { candidateService } from '@/services'
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import {
   AlertCircleIcon,
@@ -15,8 +12,11 @@ import {
   XCircleIcon,
 } from 'lucide-react'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
 import { twJoin } from 'tailwind-merge'
+import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
+import HistoryItem from '@/components/Elements/UI/HistoryItem'
+import { Timeline, TimelineItem } from '@/components/Elements/UI/Timeline'
+import { candidateService } from '@/services'
 
 type OptionModalProps = {
   candidate?: ICandidate

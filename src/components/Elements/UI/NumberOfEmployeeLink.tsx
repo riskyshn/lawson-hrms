@@ -1,7 +1,7 @@
-import shortenNumber from '@/utils/shorten-number'
-import { UserIcon } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { UserIcon } from 'lucide-react'
+import shortenNumber from '@/utils/shorten-number'
 
 const NumberOfEmployeeLink: React.FC<{ count?: number; to: string }> = ({ count, to }) => {
   return (

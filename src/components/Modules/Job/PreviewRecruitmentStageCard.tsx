@@ -1,10 +1,10 @@
+import React from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { AxiosRequestConfig } from 'axios'
+import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncAction from '@/core/hooks/use-async-action'
 import { organizationService } from '@/services'
-import { AxiosRequestConfig } from 'axios'
-import { Card, CardBody, CardHeader } from 'jobseeker-ui'
-import React from 'react'
-import { useSearchParams } from 'react-router-dom'
 
 const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruitmentProcess'], undefined> }> = ({ process }) => {
   const [searchParams] = useSearchParams()

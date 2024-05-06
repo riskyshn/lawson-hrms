@@ -1,11 +1,10 @@
+import { useEffect, useState } from 'react'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Spinner } from 'jobseeker-ui'
+import { twMerge } from 'tailwind-merge'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { candidateService, processService } from '@/services'
-import { Spinner } from 'jobseeker-ui'
-import { useEffect, useState } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { twMerge } from 'tailwind-merge'
-
 import CandidateDetailCard from '../components/CandidateDetailCard'
 import ProfileCard from '../components/ProfileCard'
 

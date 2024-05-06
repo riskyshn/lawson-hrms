@@ -4,5 +4,20 @@
   "tabWidth": 2,
   "printWidth": 140,
   "endOfLine": "auto",
-  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"]
+  "plugins": ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["cn", "classNames", "clsx", "twMerge", "twJoin", "tm", "tj", "tv"],
+  "importOrder": [
+    "<TYPES>^(node:)",
+    "<TYPES>",
+    "<TYPES>^[.]",
+    "<BUILTIN_MODULES>",
+    "^react(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^~/(.*)$",
+    "^@/(.*)$",
+    "^[.]",
+    "",
+    "^(?!.*[.]css$)[./].*$",
+    ".css$"
+  ]
 }

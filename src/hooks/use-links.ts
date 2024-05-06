@@ -1,6 +1,6 @@
-import { SidebarItemProps } from 'jobseeker-ui'
 import { useMemo } from 'react'
 import { Link, matchPath, useLocation } from 'react-router-dom'
+import { SidebarItemProps } from 'jobseeker-ui'
 
 export type SidebarLinkTypes<C extends React.ElementType = 'a'> = Array<{
   items: Array<SidebarItemProps<C>>

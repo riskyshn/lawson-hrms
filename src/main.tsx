@@ -1,8 +1,7 @@
-import { Provider } from 'jobseeker-ui'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-
+import { Provider } from 'jobseeker-ui'
 import Boot from './Boot'
 import { MediaPreviewerProvider } from './contexts/MediaPreviewerContext'
 import router from './router'

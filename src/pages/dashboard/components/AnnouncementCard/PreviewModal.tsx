@@ -1,6 +1,6 @@
+import React from 'react'
 import { Button, Modal, ModalFooter, ModalHeader, useRemember } from 'jobseeker-ui'
 import moment from 'moment'
-import React from 'react'
 
 type PropTypes = {
   item?: IDashboardAnnouncement | null

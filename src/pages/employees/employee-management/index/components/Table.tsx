@@ -1,7 +1,6 @@
-import MainTable from '@/components/Elements/Tables/MainTable'
-import { Avatar } from 'jobseeker-ui'
 import React from 'react'
-
+import { Avatar } from 'jobseeker-ui'
+import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {

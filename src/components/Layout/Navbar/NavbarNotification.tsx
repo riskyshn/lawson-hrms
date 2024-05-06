@@ -1,10 +1,10 @@
-import usePagination from '@/core/hooks/use-pagination'
-import { notificationService } from '@/services'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
 import { Avatar, Badge, Button, CardBody, Spinner } from 'jobseeker-ui'
 import { Bell } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import usePagination from '@/core/hooks/use-pagination'
+import { notificationService } from '@/services'
 
 const NavbarNotification: React.FC = () => {
   const [viewMode, setViewMode] = useState<'applicants' | 'vacancies'>('applicants')

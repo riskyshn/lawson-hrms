@@ -1,5 +1,5 @@
-import currencyToNumber from '@/utils/currency-to-number'
 import moment from 'moment'
+import currencyToNumber from '@/utils/currency-to-number'
 
 export default function formDataToPayload(data: any) {
   const { components, employment, payroll, personalData } = data

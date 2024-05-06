@@ -1,10 +1,9 @@
-import { attendanceService } from '@/services'
+import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'
 import { CheckCircleIcon, EyeIcon, XCircleIcon } from 'lucide-react'
-import React, { useState } from 'react'
 import { twJoin } from 'tailwind-merge'
-
+import { attendanceService } from '@/services'
 import ConfirmationModal from './ConfirmationModal'
 import ViewModal from './ViewModal'
 

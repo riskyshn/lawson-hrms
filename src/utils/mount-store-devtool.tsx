@@ -1,5 +1,4 @@
 import type { StoreApi, UseBoundStore } from 'zustand'
-
 import React, { useEffect, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
 

@@ -1,16 +1,15 @@
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Alert, Button, Card, CardBody, CardFooter, Skeleton, Textarea, useToast } from 'jobseeker-ui'
+import * as yup from 'yup'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import PreviewVacancy from '@/components/Modules/Job/PreviewVacancy'
 import { employeeService, vacancyService } from '@/services'
 import { useAuthStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Card, CardBody, CardFooter, Skeleton, Textarea, useToast } from 'jobseeker-ui'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
-import * as yup from 'yup'
-
 import useVacancyPage from '../../hooks/use-vacancy-page'
 
 const schema = yup.object().shape({

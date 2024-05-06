@@ -1,8 +1,7 @@
 import type { Map } from 'leaflet'
-
-import { Modal } from 'jobseeker-ui'
 import React, { useEffect, useRef, useState } from 'react'
 import { Circle, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { Modal } from 'jobseeker-ui'
 
 type MapsPreviewerModalProps = {
   coordinates?: [number, number] | null

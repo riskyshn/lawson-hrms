@@ -1,10 +1,10 @@
+import React, { useState } from 'react'
+import moment from 'moment'
+import { twJoin } from 'tailwind-merge'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import NumberOfEmployeeLink from '@/components/Elements/UI/NumberOfEmployeeLink'
-import moment from 'moment'
-import React from 'react'
-import { twJoin } from 'tailwind-merge'
-
 import ActionMenu from './ActionMenu'
+import ReactiveExpiredModal from './ReactiveExpiredModal'
 
 const getStatus = (vacancy: IVacancy): { color: string; text: string } => {
   const statusMap: Record<string, { color: string; text: string }> = {
@@ -23,6 +23,8 @@ const Table: React.FC<{
   loading?: boolean
   onRefresh?: () => void
 }> = ({ items, loading, onRefresh }) => {
+  const [selectedExpiredToReactive, setSelectedExpiredToReactive] = useState<IVacancy | null>(null)
+
   const headerItems = [
     { children: 'Vacancy', className: 'text-left' },
     { children: 'Department' },
@@ -53,13 +55,25 @@ const Table: React.FC<{
       },
       {
         children: (
-          <ActionMenu index={index} onRefresh={onRefresh} total={items.length} upSpace={items.length > 8 ? 3 : 0} vacancy={vacancy} />
+          <ActionMenu
+            index={index}
+            onRefresh={onRefresh}
+            total={items.length}
+            upSpace={items.length > 8 ? 3 : 0}
+            vacancy={vacancy}
+            setSelectedExpiredToReactive={setSelectedExpiredToReactive}
+          />
         ),
       },
     ],
   }))
 
-  return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
+  return (
+    <>
+      <ReactiveExpiredModal item={selectedExpiredToReactive} onRefresh={onRefresh} onClose={() => setSelectedExpiredToReactive(null)} />
+      <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
+    </>
+  )
 }
 
 export default Table

@@ -1,8 +1,8 @@
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { organizationService } from '@/services'
+import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
-import React from 'react'
+import * as Table from '@/components/Elements/Tables/MainTable'
+import { organizationService } from '@/services'
 
 type ActionMenuProps = {
   index: number

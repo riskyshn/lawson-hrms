@@ -1,7 +1,7 @@
+import React from 'react'
+import { CheckCircle2Icon, XCircleIcon } from 'lucide-react'
 import MainModal from '@/components/Elements/Modals/MainModal'
 import MainTable from '@/components/Elements/Tables/MainTable'
-import { CheckCircle2Icon, XCircleIcon } from 'lucide-react'
-import React from 'react'
 
 const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void; show: boolean }> = ({ candidate, onClose, show }) => {
   const bodyItems = candidate.candidateMatches

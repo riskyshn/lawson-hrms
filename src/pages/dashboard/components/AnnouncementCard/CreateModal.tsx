@@ -1,12 +1,12 @@
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Alert, Button, Editor, Input, InputWrapper, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import * as yup from 'yup'
 import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
 import { TINYMCE_API_KEY } from '@/constants/globals'
 import { dashboardService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Editor, Input, InputWrapper, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
-import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
 
 type CreateModalProps = {
   onClose?: () => void

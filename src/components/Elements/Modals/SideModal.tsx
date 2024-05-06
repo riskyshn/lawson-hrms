@@ -1,5 +1,5 @@
+import { forwardRef, Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, forwardRef } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 type PropTypes = {

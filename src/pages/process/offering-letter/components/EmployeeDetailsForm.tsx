@@ -1,21 +1,22 @@
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
-import { masterService, organizationService } from '@/services'
-import emmbedToOptions from '@/utils/emmbed-to-options'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputDate } from 'jobseeker-ui'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputDate } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { masterService, organizationService } from '@/services'
+import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 const schema = yup.object({
-  city: YUP_OPTION_OBJECT.required().label('City'),
-  department: YUP_OPTION_OBJECT.required().label('Depantment'),
+  city: genYupOption('City').required(),
+  department: genYupOption('Depantment').required(),
   expiryDate: yup.date().label('Expiry Date'),
-  jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
-  jobType: YUP_OPTION_OBJECT.required().label('Job Type'),
+  jobLevel: genYupOption('Job Level').required(),
+  jobType: genYupOption('Job Type').required(),
   joinDate: yup.date().required().label('Join Date'),
   letterNumber: yup.string().required().label('Letter Number'),
-  position: YUP_OPTION_OBJECT.required().label('Position'),
+  position: genYupOption('Position').required(),
 })
 
 const EmployeeDetailsForm: React.FC<{
@@ -54,7 +55,7 @@ const EmployeeDetailsForm: React.FC<{
         <AsyncSelect
           action={organizationService.fetchPositions}
           converter={emmbedToOptions}
-          error={errors.position?.message}
+          error={yupOptionError(errors.position)}
           label="Position"
           labelRequired
           name="position"
@@ -68,7 +69,7 @@ const EmployeeDetailsForm: React.FC<{
         <AsyncSelect
           action={organizationService.fetchDepartments}
           converter={emmbedToOptions}
-          error={errors.department?.message}
+          error={yupOptionError(errors.department)}
           label="Deparment"
           labelRequired
           name="department"
@@ -82,7 +83,7 @@ const EmployeeDetailsForm: React.FC<{
         <AsyncSelect
           action={organizationService.fetchJobLevels}
           converter={emmbedToOptions}
-          error={errors.jobLevel?.message}
+          error={yupOptionError(errors.jobLevel)}
           label="Job Level"
           labelRequired
           name="jobLevel"
@@ -97,7 +98,7 @@ const EmployeeDetailsForm: React.FC<{
           action={organizationService.fetchJobTypes}
           converter={emmbedToOptions}
           params={{ status: 1 }}
-          error={errors.jobType?.message}
+          error={yupOptionError(errors.jobType)}
           label="Employment Type"
           labelRequired
           name="jobType"
@@ -111,7 +112,7 @@ const EmployeeDetailsForm: React.FC<{
         <AsyncSelect
           action={masterService.fetchCities}
           converter={emmbedToOptions}
-          error={errors.city?.message}
+          error={yupOptionError(errors.city)}
           label="City"
           labelRequired
           name="cityId"

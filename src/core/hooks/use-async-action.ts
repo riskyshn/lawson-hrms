@@ -1,5 +1,5 @@
-import { useDeepCompareEffect } from 'jobseeker-ui'
 import { useState } from 'react'
+import { useDeepCompareEffect } from 'jobseeker-ui'
 
 type ActionReturnType<T extends (...args: any[]) => any> = ReturnType<T>
 

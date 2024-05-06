@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom'
-
 import ClientVisitPage from '@/pages/attendance/attendance-management/client-visit/ClientVisitPage'
 import AttendancePage from '@/pages/attendance/attendance-management/index/AttendancePage'
 import OvertimePage from '@/pages/attendance/attendance-management/overtime/OvertimePage'

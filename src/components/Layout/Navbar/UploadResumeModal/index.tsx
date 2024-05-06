@@ -1,7 +1,6 @@
+import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import { FileInputIcon, Link2Icon } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
-
 import CreateCandidateModal from './CreateCandidateModal'
 import SendLinkModal from './SendLinkModal'
 
