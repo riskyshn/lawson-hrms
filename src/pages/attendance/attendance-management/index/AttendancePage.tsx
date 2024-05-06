@@ -48,7 +48,7 @@ const AttendancePage: React.FC = () => {
       try {
         const data = await attendanceService.fetchAttendanceManagement(
           {
-            attendance_group: 'clock',
+            log_type: '',
             branch_id: branch?.value,
             end_date: filterDate?.endDate,
             is_in_office: isInOffice,

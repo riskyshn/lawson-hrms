@@ -316,4 +316,5 @@ interface IEmployeeHistoryAttendance {
   }
   logType: string
   oid: string
+  status: string
 }

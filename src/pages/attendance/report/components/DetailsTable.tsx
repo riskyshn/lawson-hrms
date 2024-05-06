@@ -6,7 +6,7 @@ import { ImageIcon, MapPinIcon } from 'lucide-react'
 import { useState } from 'react'
 
 type PropTypes = {
-  items: IEmployeeHistory[]
+  items: IEmployeeHistoryAttendance[]
   loading?: boolean
 }
 
@@ -24,6 +24,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
     { children: 'Employee', className: 'text-left' },
     { children: 'Branch', className: 'text-left' },
     { children: 'Type', className: 'text-center' },
+    { children: 'Date', className: 'text-center' },
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'In Office', className: 'text-center' },
@@ -37,29 +38,41 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              <Avatar
-                className="static rounded-lg bg-primary-100 text-primary-700"
-                name={item.records?.[0]?.employee?.name || '-'}
-                size={38}
-              />
+              <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item.employee.name || '-'} size={38} />
             </div>
             <div>
-              <span className="block font-semibold">{item.records?.[0]?.employee?.name}</span>
-              <span className="text-xs text-gray-500">{item.records?.[0].employee?.employeeCode}</span>
+              <span className="block font-semibold">{item.employee.name}</span>
+              <span className="text-xs text-gray-500">{item.employee.employeeCode}</span>
             </div>
           </div>
         ),
       },
-      { children: item.records?.[0]?.employee?.employment?.branch?.name },
+      { children: item.employee.employment?.branch?.name },
       {
-        children: (item.records ?? [])
-          .map((record, index) => {
-            const modifiedAttendanceType = record?.attendanceType
-              ?.replace(/_/g, ' ')
-              .toLowerCase()
-              .replace(/(?:^|\s)\S/g, function (a: string) {
-                return a.toUpperCase()
-              })
+        children: (item.attendanceData ?? []).map((record, index) => {
+          const modifiedAttendanceType = record.attendanceType
+            .replace(/_/g, ' ')
+            .toLowerCase()
+            .replace(/(?:^|\s)\S/g, function (a: string) {
+              return a.toUpperCase()
+            })
+
+          return (
+            <div key={index}>
+              <span className="font-semibold">{modifiedAttendanceType}</span>
+            </div>
+          )
+        }),
+        className: 'text-center',
+      },
+      {
+        children: formatDate(item.date),
+        className: 'text-center',
+      },
+      {
+        children: (item.attendanceData ?? [])
+          .map((record: any, index: number) => {
+            const modifiedAttendanceType = `${record?.timezoneTime?.split(' ')[1]} ${item?.employee?.employment?.schedule?.timezone?.title}`
 
             return (
               <div key={index}>
@@ -70,29 +83,6 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
             if (index % 2 === 0) {
               acc.push(
-                <div className="flex h-16 flex-col items-center justify-center" key={index}>
-                  {cur}
-                  {array[index + 1]}
-                </div>,
-              )
-            }
-            return acc
-          }, []),
-      },
-      {
-        children: (item.records ?? [])
-          .map((record, index) => {
-            const modifiedAttendanceType = `${record?.timezoneTime?.split(' ')[1]} ${record?.employee?.employment?.schedule?.timezone?.title}`
-
-            return (
-              <div key={index}>
-                <span className="font-semibold">{modifiedAttendanceType}</span>
-              </div>
-            )
-          })
-          .reduce((acc: any, cur: any, index: number, array: any) => {
-            if (index % 2 === 0) {
-              acc.push(
                 <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
                   {cur}
                   {array[index + 1]}
@@ -100,20 +90,21 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
               )
             }
             return acc
-          }, [] as JSX.Element[]),
+          }, []),
+        className: 'text-center',
       },
       {
-        children: (item.records ?? [])
+        children: (item.attendanceData ?? [])
           .map((record, index) => {
             return (
               <div key={index}>
                 <button
-                  className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                  className={'text-primary-600 hover:text-primary-700 focus:outline-none'}
                   onClick={() =>
                     handlePinClick(
                       record?.coordinate?.coordinates?.[0] || 0,
                       record?.coordinate?.coordinates?.[1] || 0,
-                      record.employee?.employment?.branch?.coordinate?.coordinates,
+                      item.employee?.employment?.branch?.coordinate?.coordinates,
                     )
                   }
                   title="Maps"
@@ -137,7 +128,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
         className: 'text-center',
       },
       {
-        children: (item.records ?? [])
+        children: (item.attendanceData ?? [])
           .map((record, index) => {
             return (
               <div key={index}>
@@ -164,37 +155,9 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
           }, []),
         className: 'text-center',
       },
+      { children: item.status.replace(/\b\w/g, (char) => char.toUpperCase()), className: 'text-center' },
       {
-        children: (item.records ?? [])
-          .map((record, index) => {
-            const modifiedAttendanceType = record?.status
-              ?.replace(/_/g, ' ')
-              .toLowerCase()
-              .replace(/(?:^|\s)\S/g, function (a: string) {
-                return a.toUpperCase()
-              })
-
-            return (
-              <div key={index}>
-                <span>{modifiedAttendanceType}</span>
-              </div>
-            )
-          })
-          .reduce((acc: any, cur: any, index: number, array: any) => {
-            if (index % 2 === 0) {
-              acc.push(
-                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
-                  {cur}
-                  {array[index + 1]}
-                </div>,
-              )
-            }
-            return acc
-          }, [] as JSX.Element[]),
-        className: 'text-center',
-      },
-      {
-        children: (item.records ?? [])
+        children: (item.attendanceData ?? [])
           .map((record, index) => {
             if (!record.rejectedReason) {
               return (
@@ -248,6 +211,14 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
       )}
     </>
   )
+}
+
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString)
+  const day = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = date.getFullYear().toString()
+  return `${day}/${month}/${year}`
 }
 
 export default DetailsTable
