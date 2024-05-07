@@ -15,6 +15,8 @@ const UploadResumeModal: React.FC<{ onClose?: () => void; show?: boolean }> = ({
     }
   }, [showModal, show])
 
+  return <CreateCandidateModal onClose={onClose} onSubmited={onClose} show={show} />
+
   return (
     <>
       <SendLinkModal onClose={() => setShowModal(undefined)} onSubmited={onClose} show={showModal === 'SEND_LINK'} />
