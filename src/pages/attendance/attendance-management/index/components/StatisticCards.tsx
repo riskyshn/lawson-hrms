@@ -27,7 +27,7 @@ const Card: React.FC<{
   )
 }
 
-const StatisticCards: React.FC<{ filterDate?: IFilterDate }> = ({ filterDate }) => {
+const StatisticCards: React.FC<{ filterDate?: IFilterDate; onChangeData?: string }> = ({ filterDate, onChangeData }) => {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<IStatistic[]>()
   const [error, setError] = useState<any>(null)
@@ -48,7 +48,7 @@ const StatisticCards: React.FC<{ filterDate?: IFilterDate }> = ({ filterDate }) 
       setLoading(false)
     }
     fetchData()
-  }, [filterDate])
+  }, [filterDate, onChangeData])
 
   const handleCardClick = (title: string) => {
     if (title === 'Leave') {
