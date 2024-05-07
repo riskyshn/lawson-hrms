@@ -47,12 +47,6 @@ const ComponentItem: React.FC<PropTypes> = ({ components, form, index, item, onR
       setValue(`${type}.${index}.maxCap`, String(component.maxCap || 0))
     }
 
-    trigger(`${type}.${index}.amount`)
-    trigger(`${type}.${index}.amountType`)
-    trigger(`${type}.${index}.applicationType`)
-    trigger(`${type}.${index}.taxType`)
-    trigger(`${type}.${index}.maxCap`)
-
     setInitial(false)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item.componentId])
