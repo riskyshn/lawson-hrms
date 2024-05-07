@@ -125,6 +125,7 @@ const PersonalInformationForm: React.FC<{
             placeholder="National ID Number"
             {...register('nik')}
             type="number"
+            maxLength={16}
           />
           <Input error={errors.email?.message} label="Email" labelRequired placeholder="email@example.com" {...register('email')} />
           <Input
