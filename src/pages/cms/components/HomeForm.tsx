@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea } from 'jobseeker-ui'
@@ -87,40 +87,9 @@ const HomeForm: React.FC<IFormProps> = (props) => {
     setValue,
     trigger,
   } = useForm({
-    defaultValues: props.defaultValue as yup.InferType<typeof schema>,
     resolver: yupResolver(schema),
+    defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
-
-  useEffect(() => {
-    if (props.defaultValue) {
-      Object.keys(props.defaultValue).forEach((key) => {
-        switch (key) {
-          case 'heroAsset':
-          case 'heroHeadingId':
-          case 'heroHeadingEn':
-          case 'sectionAAsset':
-          case 'sectionAHeadingId':
-          case 'sectionAHeadingEn':
-          case 'sectionAParagraphId':
-          case 'sectionAParagraphEn':
-          case 'sectionBAsset':
-          case 'sectionBHeadingId':
-          case 'sectionBHeadingEn':
-          case 'sectionBParagraphId':
-          case 'sectionBParagraphEn':
-          case 'bannerAsset':
-          case 'bannerCallToAction':
-          case 'bannerHeadingId':
-          case 'bannerHeadingEn':
-            setValue(key, props.defaultValue?.[key] ?? '')
-            break
-          default:
-            setValue(key as keyof IHomeData, props.defaultValue?.[key as keyof IHomeData] ?? '')
-            break
-        }
-      })
-    }
-  }, [props.defaultValue, setValue])
 
   const onSubmit = handleSubmit(props.handleSubmit)
 

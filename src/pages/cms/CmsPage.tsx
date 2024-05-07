@@ -9,6 +9,7 @@ import JobForm from './components/JobForm'
 
 const CmsPage: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [flag, setFlag] = useState<ICms>()
   const toast = useToast()
   const navigate = useNavigate()
@@ -24,6 +25,7 @@ const CmsPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         const data = await cmsService.fetchCms()
 
         const homeData = {
@@ -75,8 +77,10 @@ const CmsPage: React.FC = () => {
 
         setFormValues({ homeData: homeData, jobData: jobData })
         setFlag(data)
+        setIsLoading(false)
       } catch (error) {
         console.error('Error fetching CMS data:', error)
+        setIsLoading(false)
       }
     }
 
@@ -190,7 +194,7 @@ const CmsPage: React.FC = () => {
           ]}
         />
 
-        {activeStep === 0 && (
+        {activeStep === 0 && isLoading === false && (
           <HomeForm
             defaultValue={formValues?.homeData}
             handlePrev={handlePrev}
@@ -198,7 +202,7 @@ const CmsPage: React.FC = () => {
             isLoading={isSubmitLoading}
           />
         )}
-        {activeStep === 1 && (
+        {activeStep === 1 && isLoading === false && (
           <JobForm
             defaultValue={formValues?.jobData}
             handlePrev={handlePrev}

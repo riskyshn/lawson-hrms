@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputWrapper } from 'jobseeker-ui'
@@ -80,39 +80,8 @@ const JobForm: React.FC<IFormProps> = (props) => {
     trigger,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: props.defaultValue as yup.InferType<typeof schema>,
   })
-
-  useEffect(() => {
-    if (props.defaultValue) {
-      Object.keys(props.defaultValue).forEach((key) => {
-        switch (key) {
-          case 'findJobAsset':
-          case 'findJobHeadingId':
-          case 'findJobHeadingEn':
-          case 'registerAsset':
-          case 'registerHeadingId':
-          case 'registerHeadingEn':
-          case 'registerSubheadingId':
-          case 'registerSubheadingEn':
-          case 'loginAsset':
-          case 'loginHeadingId':
-          case 'loginHeadingEn':
-          case 'loginSubheadingId':
-          case 'loginSubheadingEn':
-          case 'backgroundColor':
-          case 'callToActionColor':
-          case 'headingColor':
-          case 'subheadingColor':
-          case 'paragraphColor':
-            setValue(key, props.defaultValue?.[key] ?? '')
-            break
-          default:
-            setValue(key as keyof IJobData, props.defaultValue?.[key as keyof IJobData] ?? '')
-            break
-        }
-      })
-    }
-  }, [props.defaultValue, setValue, trigger])
 
   const onSubmit = handleSubmit(props.handleSubmit)
 

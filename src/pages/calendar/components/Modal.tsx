@@ -68,7 +68,7 @@ const Modal: React.FC<ModalProps> = ({ items, onClose, show }) => {
                   <td className="p-3 text-sm">:</td>
                   <td className="p-3 text-sm">
                     <Link to={items.linkGmeet || ''} target="_blank" rel="noopener noreferrer">
-                      <Button color="primary" variant="default">
+                      <Button color="primary" variant="default" disabled={!items.linkGmeet}>
                         Link Google Meet
                       </Button>
                     </Link>
