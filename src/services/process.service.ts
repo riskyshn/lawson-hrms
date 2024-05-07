@@ -66,7 +66,7 @@ export const getDocumentRequest = (oid: string, config?: AxiosRequestConfig) => 
 }
 
 export const sendReminder = (oid: string) => {
-  return axios.post(`/process/send-reminder/${oid}`).then((response) => response.data.data)
+  return axios.post(`/process/offering-letter/send-reminder/${oid}`).then((response) => response.data.data)
 }
 
 export const createOfferingLetter = (payload: Record<string, any>) => {

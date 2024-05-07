@@ -39,6 +39,9 @@ export default function formDataToPayload(data: Record<string, Record<string, an
   payload.workplacementTypeId = obj.workplacementType?.value
   delete payload.workplacementType
 
+  payload.genderRequirementId = obj.genderRequirement?.value
+  delete payload.genderRequirement
+
   payload.minimalEducationRequirementId = obj.minimalEducationRequirement?.value
   delete payload.minimalEducationRequirement
 

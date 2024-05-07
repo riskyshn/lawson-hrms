@@ -77,7 +77,14 @@ const EducationForm: React.FC<{
             {...register('institutionId')}
           />
           <Input error={errors.majorId?.message} label="Major" labelRequired placeholder="Major" {...register('majorId')} />
-          <Input error={errors.gpa?.message} label="GPA" labelRequired placeholder="ex: 3.5" {...register('gpa')} type="number" />
+          <Input
+            error={errors.gpa?.message}
+            label="GPA"
+            labelRequired
+            placeholder="ex: 3.5"
+            {...register('gpa')}
+            pattern="(\d+(?:[\.,]\d{1,2})?)"
+          />
 
           <InputDate
             displayFormat="DD/MM/YYYY"

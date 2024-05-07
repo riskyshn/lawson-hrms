@@ -91,14 +91,14 @@ const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }> = ({ 
                   Gender{vacancy.genderRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="w-full border-y px-3 py-2">{vacancy.genderRequirement?.type}</td>
+                <td className="w-full border-y px-3 py-2">{vacancy.genderRequirement?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
                   Min. Education{vacancy.minimalEducationRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2">{vacancy.minimalEducationRequirement?.minimalEducation?.en}</td>
+                <td className="border-y px-3 py-2">{vacancy.minimalEducationRequirement?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
