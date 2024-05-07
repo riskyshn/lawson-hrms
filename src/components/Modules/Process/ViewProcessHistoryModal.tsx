@@ -87,7 +87,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicantId, onCl
                       <h3 className="text-sm font-semibold">Attendee</h3>
                       <span className="flex items-center gap-1 text-xs">
                         <UserIcon size={16} />
-                        {applicant.candidate?.name}
+                        {[applicant.candidate?.name, ...(item.attendees?.map((el) => el.name) || [])].filter((el) => !!el).join(', ')}
                       </span>
                     </div>
                     {item.actionAt && (

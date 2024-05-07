@@ -25,6 +25,7 @@ interface IApplicant extends IDataTableApplicant {
     oid: string
     processAt?: string
     status?: string
+    attendees?: Array<IGeneralDataEmmbed>
   }>
 }
 
