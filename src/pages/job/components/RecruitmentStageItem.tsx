@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BaseInput, Button, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon } from 'lucide-react'
 import { organizationService } from '@/services'
@@ -6,14 +6,21 @@ import { organizationService } from '@/services'
 const RecruitmentStageItem: React.FC<{
   isNew?: boolean
   item?: IRecruitmentStage
+  onRefresh?: () => void
   onRemove?: () => void
   type?: IRecruitmentStage['type']
-}> = ({ isNew, item, onRemove, type }) => {
+}> = ({ isNew, item, onRefresh, onRemove, type }) => {
   const toast = useToast()
 
   const [value, setValue] = useState(item?.name || '')
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
+
+  useEffect(() => {
+    console.log(item)
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(item)])
 
   const handleCreate = async () => {
     if (value.trim().length === 0) return
@@ -21,12 +28,13 @@ const RecruitmentStageItem: React.FC<{
     try {
       await organizationService.createRecruitmentStage({ name: value.trim(), type })
       toast('Recruitment Stage created successfully', { color: 'success' })
+      onRefresh?.()
       onRemove?.()
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
       toast(errorMessage, { color: 'error' })
-      setLoading(false)
     }
+    setLoading(false)
   }
 
   const handleUpdate = async () => {
@@ -35,6 +43,7 @@ const RecruitmentStageItem: React.FC<{
     try {
       await organizationService.updateRecruitmentStage(item.oid, { name: value.trim(), type: item.type })
       toast('Recruitment Stage updated successfully', { color: 'success' })
+      onRefresh?.()
     } catch (error: any) {
       const errorMessage = error.response?.data?.meta?.message || error.message
       toast(errorMessage, { color: 'error' })
@@ -50,7 +59,7 @@ const RecruitmentStageItem: React.FC<{
 
     setDeleteLoading(true)
     await organizationService.deleteRecruitmentStage(item.oid)
-    setDeleteLoading(false)
+    onRefresh?.()
   }
 
   return (
