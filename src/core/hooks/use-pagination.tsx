@@ -46,7 +46,7 @@ export default function usePagination({
     const pageButtons: React.ReactNode[] = []
 
     for (const key in params) {
-      if (params[key] === undefined) delete params[key]
+      if (!params[key]) delete params[key]
     }
     const routeParams = new URLSearchParams(params)
 
