@@ -65,6 +65,7 @@ const EmploymentDataForm: React.FC<{
         />
         <AsyncSelect
           action={organizationService.fetchJobTypes}
+          params={{ status: 1 }}
           converter={emmbedToOptions}
           error={errors.jobType?.message}
           label="Employment Status"
