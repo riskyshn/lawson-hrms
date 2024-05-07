@@ -16,15 +16,16 @@ import {
   Textarea,
 } from 'jobseeker-ui'
 import * as yup from 'yup'
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { employeeService, masterService, organizationService, vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import currencyToNumber from '@/utils/currency-to-number'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 const schema = yup.object({
   approvals: yup
-    .array(YUP_OPTION_OBJECT.required().label('Approval'))
+    .array(genYupOption('Approval').required())
     .min(1)
     .when('isRequisition', {
       is: true,
@@ -32,9 +33,9 @@ const schema = yup.object({
       then: (s) => s.required(),
     })
     .label('Approval Process'),
-  branch: YUP_OPTION_OBJECT.required().label('Branch'),
-  city: YUP_OPTION_OBJECT.required().label('City'),
-  department: YUP_OPTION_OBJECT.required().label('Department'),
+  branch: genYupOption('Branch').required(),
+  city: genYupOption('City').required(),
+  department: genYupOption('Department').required(),
   expiredDate: yup
     .date()
     .min(new Date())
@@ -46,8 +47,8 @@ const schema = yup.object({
     .label('Expired Date'),
   hideRangeSalary: yup.boolean().required(),
   isRequisition: yup.boolean().required(),
-  jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
-  jobType: YUP_OPTION_OBJECT.required().label('Job Type'),
+  jobLevel: genYupOption('Job Level').required(),
+  jobType: genYupOption('Job Type').required(),
   maximumSalary: yup
     .string()
     .when('negotiableSalary', {
@@ -89,7 +90,7 @@ const schema = yup.object({
     })
     .label('RR Number'),
   vacancyName: yup.string().required().label('Position Name'),
-  workplacementType: YUP_OPTION_OBJECT.optional().label('Workplacement Type'),
+  workplacementType: genYupOption('Workplacement Type').optional(),
 })
 
 const VacancyInformationForm: React.FC<{
@@ -152,7 +153,7 @@ const VacancyInformationForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchDepartments}
             converter={emmbedToOptions}
-            error={errors.department?.message}
+            error={yupOptionError(errors.department)}
             label="Department"
             labelRequired
             name="department"
@@ -166,7 +167,7 @@ const VacancyInformationForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchBranches}
             converter={emmbedToOptions}
-            error={errors.branch?.message}
+            error={yupOptionError(errors.branch)}
             label="Branch"
             labelRequired
             name="branch"
@@ -220,7 +221,7 @@ const VacancyInformationForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchJobLevels}
             converter={emmbedToOptions}
-            error={errors.jobLevel?.message}
+            error={yupOptionError(errors.jobLevel)}
             label="Job Level"
             labelRequired
             name="jobLevel"
@@ -235,7 +236,7 @@ const VacancyInformationForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchJobTypes}
             converter={emmbedToOptions}
-            error={errors.jobType?.message}
+            error={yupOptionError(errors.jobType)}
             label="Job Type"
             labelRequired
             name="jobType"
@@ -252,7 +253,7 @@ const VacancyInformationForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchWorkplacements}
             converter={emmbedToOptions}
-            error={errors.workplacementType?.message}
+            error={yupOptionError(errors.workplacementType)}
             label="Work Placement Type"
             labelRequired
             name="workplacementType"
@@ -266,7 +267,7 @@ const VacancyInformationForm: React.FC<{
           <AsyncSelect
             action={masterService.fetchCities}
             converter={emmbedToOptions}
-            error={errors.city?.message}
+            error={yupOptionError(errors.city)}
             label="City"
             labelRequired
             name="city"

@@ -9,7 +9,7 @@ export function vacancyToFormEdit(vacancy: IVacancy, isRequisition?: boolean) {
     requirements: {
       cityRequirement: emmbedToOption(vacancy.cityRequirement),
       flag: vacancy.flag,
-      genderRequirement: vacancy.genderRequirement?.type || '',
+      genderRequirement: emmbedToOption(vacancy.genderRequirement),
       gpaRequirement: vacancy.gpaRequirement?.minimumGpa || 0,
       isRequiredAge: !!vacancy.ageRequirement?.mustMeetCriteria,
       isRequiredCityRequirement: !!vacancy.cityRequirement?.mustMeetCriteria,

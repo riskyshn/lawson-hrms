@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper, Select } from 'jobseeker-ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
 import * as yup from 'yup'
 import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import yupOptionError from '@/utils/yup-option-error'
 
 const generateOptionOptional = (dependKey: string, label: string) =>
   yup
@@ -34,14 +35,7 @@ const generateOptionOptional = (dependKey: string, label: string) =>
 
 const schema = yup.object({
   cityRequirement: generateOptionOptional('isRequiredCityRequirement', 'City'),
-  genderRequirement: yup
-    .string()
-    .when('isRequiredGenderRequirement', {
-      is: true,
-      otherwise: (s) => s.optional(),
-      then: (s) => s.required(),
-    })
-    .label('Gender'),
+  genderRequirement: generateOptionOptional('isRequiredGenderRequirement', 'Gender'),
   gpaRequirement: yup
     .number()
     .transform((value) => (isNaN(value) ? undefined : value))
@@ -138,8 +132,6 @@ const RequirementsForm: React.FC<{
     })()
   }
 
-  console.log(errors)
-
   return (
     <Card as="form">
       <CardBody className="grid grid-cols-1 gap-2">
@@ -150,22 +142,22 @@ const RequirementsForm: React.FC<{
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <div className="pb-2">
-            <Select
+            <AsyncSelect
+              action={masterService.fetchGenders}
               className="mb-2"
-              error={errors.genderRequirement?.message}
-              hideSearch
+              converter={emmbedToOptions}
+              error={yupOptionError(errors.genderRequirement)}
               label="Gender"
+              hideSearch
+              disableInfiniteScroll
+              withReset={!watch('isRequiredGenderRequirement')}
               labelRequired={watch('isRequiredGenderRequirement')}
               name="genderRequirement"
-              onChange={(v) => {
-                setValue('genderRequirement', v.toString())
+              onValueChange={(v) => {
+                setValue('genderRequirement', v)
                 trigger('genderRequirement')
               }}
-              options={[
-                { label: 'Male', value: 'MALE' },
-                { label: 'Female', value: 'FEMALE' },
-              ]}
-              placeholder="Male or Female"
+              placeholder="Choose Gender"
               value={getValues('genderRequirement')}
             />
             <InputCheckbox id="gender-required" {...register('isRequiredGenderRequirement')}>
@@ -177,8 +169,9 @@ const RequirementsForm: React.FC<{
               action={masterService.fetchEducationLevel}
               className="mb-2"
               converter={emmbedToOptions}
-              error={errors.minimalEducationRequirement?.value?.message}
+              error={yupOptionError(errors.minimalEducationRequirement)}
               label="Minimal Education"
+              withReset={!watch('isRequiredMinimalEducationRequirement')}
               labelRequired={watch('isRequiredMinimalEducationRequirement')}
               name="minimalEducationRequirement"
               onValueChange={(v) => {
@@ -255,8 +248,9 @@ const RequirementsForm: React.FC<{
               action={masterService.fetchProvinces}
               className="mb-2"
               converter={emmbedToOptions}
-              error={errors.provinceRequirement?.message}
+              error={yupOptionError(errors.provinceRequirement)}
               label="Province"
+              withReset={!watch('isRequiredProvinceRequirement')}
               labelRequired={watch('isRequiredProvinceRequirement')}
               name="provinceRequirement"
               onChange={(v) => {
@@ -271,7 +265,6 @@ const RequirementsForm: React.FC<{
               params={{ country: 'Indonesia' }}
               placeholder="Province"
               value={getValues('provinceRequirement')}
-              withReset
             />
             <InputCheckbox id="province-required" {...register('isRequiredProvinceRequirement')}>
               Candidate must meet the criteria
@@ -283,8 +276,9 @@ const RequirementsForm: React.FC<{
               className={twJoin(!provinceName && 'opacity-65', 'mb-2')}
               converter={emmbedToOptions}
               disabled={!provinceName}
-              error={errors.cityRequirement?.message}
+              error={yupOptionError(errors.cityRequirement)}
               label="City"
+              withReset={!watch('cityRequirement')}
               labelRequired={watch('isRequiredCityRequirement')}
               name="cityRequirement"
               onChange={(v) => {
@@ -294,7 +288,6 @@ const RequirementsForm: React.FC<{
               params={{ province: provinceName }}
               placeholder="City"
               value={getValues('cityRequirement')}
-              withReset
             />
             <InputCheckbox id="city-required" {...register('isRequiredCityRequirement')}>
               Candidate must meet the criteria
