@@ -133,7 +133,7 @@ const AttendancePage: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards filterDate={filterDate} />
+        <StatisticCards filterDate={filterDate} onChangeData={onChangeData} />
         <MainCard
           body={<Table items={pageData?.content || []} loading={isLoading} onDataChange={setOnChangeData} />}
           footer={pagination.render()}
