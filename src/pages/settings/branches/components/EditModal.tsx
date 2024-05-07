@@ -77,12 +77,13 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
   }, [item, setValue, trigger])
 
   const onSubmit = handleSubmit(async ({ city, latLng, ...data }) => {
+    if (!item) return
     try {
       setIsLoading(true)
       setErrorMessage('')
 
       const [lat, lng] = latLng.split(',')
-      const updatedItem = await organizationService.createBranch({
+      const updatedItem = await organizationService.updateBranch(item.oid, {
         ...data,
         cityId: city.value,
         longlat: `${lng.trim()}, ${lat.trim()}`,
