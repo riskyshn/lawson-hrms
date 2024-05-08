@@ -70,8 +70,12 @@ const EditModal: React.FC<EditModalProps> = ({ item, onClose, onUpdated }) => {
       else setValue('latLng', '')
       if (item.range) setValue('range', item.range)
       else setValue('range', 0)
-      // @ts-expect-error
-      setValue('city', item.city)
+      if (item.city) {
+        setValue('city', {
+          label: item.city?.name,
+          value: item.city?.oid,
+        })
+      }
       trigger()
     }
   }, [item, setValue, trigger])
