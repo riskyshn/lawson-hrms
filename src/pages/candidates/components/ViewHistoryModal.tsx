@@ -72,79 +72,83 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ candidate, onClose, show
       <LoadingScreen show={!candidateDetail} />
       {candidateDetail && (
         <>
-          {candidateDetail.history?.map((item, index) => (
-            <div key={index}>
-              <div className="bg-gray-100 px-6 py-3">
-                <h3 className="text-lg font-semibold">{item.vacancy?.name}</h3>
-                <p className="text-xs text-gray-500">{item.vacancy?.rrNumber}</p>
-              </div>
+          {candidateDetail.history?.length ? (
+            candidateDetail.history.map((item, index) => (
+              <div key={index}>
+                <div className="bg-gray-100 px-6 py-3">
+                  <h3 className="text-lg font-semibold">{item.vacancy?.name}</h3>
+                  <p className="text-xs text-gray-500">{item.vacancy?.rrNumber}</p>
+                </div>
 
-              <div className="p-6">
-                <Timeline>
-                  {item.histories?.map((history, i) => (
-                    <TimelineItem key={i}>
-                      <HistoryItem
-                        onDetailToggleClick={() => setShowDetailIndex((v) => (v === i ? null : i))}
-                        showDetail={showDetailIndex === i}
-                        status={<Status status={history.status} />}
-                        subTitle={moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
-                        title={history.applyProcess}
-                      >
-                        <div className="mb-3">
-                          <h3 className="text-sm font-semibold">Attendee</h3>
-                          <span className="flex items-center gap-1 text-xs">
-                            <UserIcon size={16} />
-                            {candidateDetail.candidate?.name}
-                          </span>
-                        </div>
-                        {history.actionAt && (
+                <div className="p-6">
+                  <Timeline>
+                    {item.histories?.map((history, i) => (
+                      <TimelineItem key={i}>
+                        <HistoryItem
+                          onDetailToggleClick={() => setShowDetailIndex((v) => (v === i ? null : i))}
+                          showDetail={showDetailIndex === i}
+                          status={<Status status={history.status} />}
+                          subTitle={moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                          title={history.applyProcess}
+                        >
                           <div className="mb-3">
-                            <h3 className="text-sm font-semibold">Action Scheduled</h3>
+                            <h3 className="text-sm font-semibold">Attendee</h3>
                             <span className="flex items-center gap-1 text-xs">
-                              <CalendarIcon size={16} />
-                              {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                              <UserIcon size={16} />
+                              {candidateDetail.candidate?.name}
                             </span>
                           </div>
-                        )}
-                        {history.actionAt && (
-                          <div className="mb-3">
-                            <h3 className="text-sm font-semibold">Process Date</h3>
-                            <span className="flex items-center gap-1 text-xs">
-                              <CalendarIcon size={16} />
-                              {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
-                            </span>
-                          </div>
-                        )}
-                        {history.notes && (
-                          <div className="mb-3">
-                            <h3 className="text-sm font-semibold">Process Remarks</h3>
-                            <span className="flex items-center gap-1 text-xs">{history.notes}</span>
-                          </div>
-                        )}
-                        {history.file && (
-                          <div className="mb-3">
-                            <h3 className="mb-1 text-sm font-semibold">Document</h3>
-                            <Button<'a'>
-                              as="a"
-                              className="gap-2"
-                              color="primary"
-                              href={history.file}
-                              leftChild={<FileInputIcon size={18} />}
-                              size="small"
-                              target="_blank"
-                              variant="default"
-                            >
-                              <span className="text-xs">Result Attachment</span>
-                            </Button>
-                          </div>
-                        )}
-                      </HistoryItem>
-                    </TimelineItem>
-                  ))}
-                </Timeline>
+                          {history.actionAt && (
+                            <div className="mb-3">
+                              <h3 className="text-sm font-semibold">Action Scheduled</h3>
+                              <span className="flex items-center gap-1 text-xs">
+                                <CalendarIcon size={16} />
+                                {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                              </span>
+                            </div>
+                          )}
+                          {history.actionAt && (
+                            <div className="mb-3">
+                              <h3 className="text-sm font-semibold">Process Date</h3>
+                              <span className="flex items-center gap-1 text-xs">
+                                <CalendarIcon size={16} />
+                                {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                              </span>
+                            </div>
+                          )}
+                          {history.notes && (
+                            <div className="mb-3">
+                              <h3 className="text-sm font-semibold">Process Remarks</h3>
+                              <span className="flex items-center gap-1 text-xs">{history.notes}</span>
+                            </div>
+                          )}
+                          {history.file && (
+                            <div className="mb-3">
+                              <h3 className="mb-1 text-sm font-semibold">Document</h3>
+                              <Button<'a'>
+                                as="a"
+                                className="gap-2"
+                                color="primary"
+                                href={history.file}
+                                leftChild={<FileInputIcon size={18} />}
+                                size="small"
+                                target="_blank"
+                                variant="default"
+                              >
+                                <span className="text-xs">Result Attachment</span>
+                              </Button>
+                            </div>
+                          )}
+                        </HistoryItem>
+                      </TimelineItem>
+                    ))}
+                  </Timeline>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className="p-6 text-center">The applicant has not yet engaged in job application activities.</div>
+          )}
         </>
       )}
 

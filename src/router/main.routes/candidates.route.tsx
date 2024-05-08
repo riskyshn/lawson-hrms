@@ -1,12 +1,12 @@
 import type { RouteObject } from 'react-router-dom'
-import CandidateBlacklistedPage from '@/pages/candidates/blacklisted/index/CandidateBlacklistedPage'
-import CandidateManagementPage from '@/pages/candidates/management/index/CandidateManagementPage'
-import CandidateOfferedPage from '@/pages/candidates/offered/index/CandidateOfferedPage'
-import CandidatePoolPage from '@/pages/candidates/pool/index/CandidatePoolPage'
-import CandidateProfilePage from '@/pages/candidates/profile/index/CandidateProfilePage'
-import CandidateRejectedPage from '@/pages/candidates/rejected/index/CandidateRejectedPage'
-import CandidateShortlistedPage from '@/pages/candidates/shortlisted/index/CandidateShortlistedPage'
-import CandidateWithdrawPage from '@/pages/candidates/withdraw/index/CandidateWithdrawPage'
+import CandidateBlacklistedPage from '@/pages/candidates/blacklisted/index/page'
+import CandidateManagementPage from '@/pages/candidates/management/index/page'
+import CandidateOfferedPage from '@/pages/candidates/offered/index/page'
+import CandidatePoolPage from '@/pages/candidates/pool/index/page'
+import CandidateProfilePage from '@/pages/candidates/profile/index/page'
+import CandidateRejectedPage from '@/pages/candidates/rejected/index/page'
+import CandidateShortlistedPage from '@/pages/candidates/shortlisted/index/page'
+import CandidateWithdrawPage from '@/pages/candidates/withdraw/index/page'
 
 const candidatesRoute: RouteObject = {
   children: [

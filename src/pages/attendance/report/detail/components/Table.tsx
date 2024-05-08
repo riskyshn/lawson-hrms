@@ -10,7 +10,7 @@ type PropTypes = {
   loading?: boolean
 }
 
-const AttendanceTable: React.FC<PropTypes> = ({ items, loading }) => {
+const Table: React.FC<PropTypes> = ({ items, loading }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
   const [branchLocation, setBranchLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
@@ -234,4 +234,4 @@ const formatDate = (dateString: string): string => {
   return `${day}/${month}/${year}`
 }
 
-export default AttendanceTable
+export default Table

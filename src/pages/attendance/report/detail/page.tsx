@@ -12,7 +12,7 @@ import usePagination from '@/core/hooks/use-pagination'
 import { attendanceService, employeeService } from '@/services'
 import DetailsTable from '../components/DetailsTable'
 import ProfileCard from '../components/ProfileCard'
-import AttendanceTable from './components/AttendanceTable'
+import Table from './components/Table'
 
 const ViewPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -235,7 +235,7 @@ const ViewPage: React.FC = () => {
 
         {tab === 'clock' && (
           <MainCard
-            body={<AttendanceTable items={pageDataAttendance?.content || []} loading={isLoading} />}
+            body={<Table items={pageDataAttendance?.content || []} loading={isLoading} />}
             footer={paginationAttendance.render()}
             header={() => (
               <MainCardHeader

@@ -18,7 +18,7 @@ const ReportPage: React.FC = () => {
 
   const pagination = usePagination({
     params: { search },
-    pathname: '/attendance/report/',
+    pathname: '/attendance/report',
     totalPage: pageData?.totalPages || 0,
   })
 

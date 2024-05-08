@@ -1,11 +1,12 @@
 import type { RouteObject } from 'react-router-dom'
-import ClientVisitPage from '@/pages/attendance/attendance-management/client-visit/ClientVisitPage'
-import AttendancePage from '@/pages/attendance/attendance-management/index/AttendancePage'
-import OvertimePage from '@/pages/attendance/attendance-management/overtime/OvertimePage'
-import ViewPage from '@/pages/attendance/report/details/ViewPage'
-import ReportPage from '@/pages/attendance/report/index/ReportPage'
-import RequestPage from '@/pages/attendance/request-management/index/RequestPage'
-import SchedulePage from '@/pages/attendance/schedule/index/SchedulePage'
+import ClientVisitPage from '@/pages/attendance/attendance-management/client-visit/page'
+import AttendancePage from '@/pages/attendance/attendance-management/index/page'
+import OvertimePage from '@/pages/attendance/attendance-management/overtime/page'
+import ViewPage from '@/pages/attendance/report/detail/page'
+import ReportPage from '@/pages/attendance/report/index/page'
+import RequestPage from '@/pages/attendance/request-management/index/page'
+import ScheduleDetailPage from '@/pages/attendance/schedule/detail/page'
+import SchedulePage from '@/pages/attendance/schedule/index/page'
 
 const attendanceRoute: RouteObject = {
   children: [
@@ -18,6 +19,16 @@ const attendanceRoute: RouteObject = {
       ],
       name: 'Schedule',
       path: 'schedule',
+    },
+    {
+      children: [
+        {
+          element: <ScheduleDetailPage />,
+          path: '',
+        },
+      ],
+      name: 'Schedule Detail',
+      path: 'schedule/detail',
     },
     {
       children: [

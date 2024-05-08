@@ -15,7 +15,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
     items: [
       { children: item.name, className: 'whitespace-normal' },
       {
-        children: <NumberOfEmployeeLink count={Number(item.count)} to={`#`} />,
+        children: (
+          <NumberOfEmployeeLink
+            count={Number(item.count)}
+            to={`/attendance/schedule/detail?scheduleId=${item.oid}&scheduleName=${item.name}`}
+          />
+        ),
         className: 'text-center',
       },
       { children: <ActionMenu items={item} onApplyVacancy={onDataChange} options={options} /> },
