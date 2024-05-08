@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, AsyncSelect, Button, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { employeeService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 type ModalProps = {
   item: IDataTableEmployee | null
@@ -15,7 +16,7 @@ type ModalProps = {
 }
 
 const schema = yup.object().shape({
-  jobType: YUP_OPTION_OBJECT.required().label('Employment status'),
+  jobType: genYupOption('Employment status').required(),
   reason: yup.string().required(),
 })
 
@@ -68,7 +69,7 @@ const ResignTerminateModal: React.FC<ModalProps> = ({ item, onClose, onSuccess }
         <AsyncSelect
           action={organizationService.fetchJobTypes}
           converter={emmbedToOptions}
-          error={errors.jobType?.message}
+          error={yupOptionError(errors.jobType)}
           hideSearch
           label="Select Status"
           labelRequired

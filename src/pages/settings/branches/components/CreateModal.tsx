@@ -15,10 +15,11 @@ import {
   useToast,
 } from 'jobseeker-ui'
 import * as yup from 'yup'
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 import GeoPicker from './GeoPicker'
 
 type CreateModalProps = {
@@ -29,7 +30,7 @@ type CreateModalProps = {
 
 const schema = yup.object().shape({
   address: yup.string().required().label('Address'),
-  city: YUP_OPTION_OBJECT.label('City'),
+  city: genYupOption('City').required(),
   latLng: yup.string().required().label('LatLng'),
   name: yup.string().required().label('Name'),
   range: yup
@@ -104,7 +105,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ onClose, onCreated, show }) =
         <AsyncSelect
           action={masterService.fetchCities}
           converter={emmbedToOptions}
-          error={errors.city?.message}
+          error={yupOptionError(errors.city)}
           label="City"
           labelRequired
           name="city"

@@ -3,12 +3,13 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate } from 'jobseeker-ui'
 import * as yup from 'yup'
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 const schema = yup.object({
-  education: YUP_OPTION_OBJECT.required().label('Last Education'),
+  education: genYupOption('Last Education').required(),
   endDate: yup
     .date()
     .when('isStillLearning', {
@@ -58,7 +59,7 @@ const EducationForm: React.FC<{
           <AsyncSelect
             action={masterService.fetchEducationLevel}
             converter={emmbedToOptions}
-            error={errors.education?.message}
+            error={yupOptionError(errors.education)}
             label="Education"
             labelRequired
             name="education"

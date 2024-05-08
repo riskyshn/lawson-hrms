@@ -7,16 +7,18 @@ import { twJoin } from 'tailwind-merge'
 import * as yup from 'yup'
 import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
 import PhotoProfileFileUpload from '@/components/Elements/FileUploads/PhotoProfileFIleUpload'
-import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
+import { PHONE_REG_EXP } from '@/constants/globals'
 import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object({
   birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
-  city: YUP_OPTION_OBJECT.required().label('City'),
+  city: genYupOption('City').required(),
   cvURL: yup
     .string()
     .required()
@@ -30,7 +32,7 @@ const schema = yup.object({
     .label('Resume'),
   email: yup.string().email().required().label('Email'),
   fullName: yup.string().required().label('Full Name'),
-  gender: YUP_OPTION_OBJECT.required().label('Gender'),
+  gender: genYupOption('Gender').required(),
   nik: yup.string().min(16).max(16).required().label('National ID Number'),
   password: yup.string().required().label('Password'),
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
@@ -47,7 +49,7 @@ const schema = yup.object({
     )
     .url()
     .label('Photo Profile'),
-  province: YUP_OPTION_OBJECT.required().label('Province'),
+  province: genYupOption('Province').required(),
 })
 
 const PersonalInformationForm: React.FC<{
@@ -140,7 +142,7 @@ const PersonalInformationForm: React.FC<{
           <AsyncSelect
             action={masterService.fetchProvinces}
             converter={emmbedToOptions}
-            error={errors.province?.message}
+            error={yupOptionError(errors.province)}
             label="Province"
             labelRequired
             name="provinceId"
@@ -164,7 +166,7 @@ const PersonalInformationForm: React.FC<{
             className={twJoin(!provinceName && 'opacity-65', 'mb-2')}
             converter={emmbedToOptions}
             disabled={!provinceName}
-            error={errors.city?.message}
+            error={yupOptionError(errors.city)}
             label="City"
             labelRequired
             name="cityId"
@@ -204,7 +206,7 @@ const PersonalInformationForm: React.FC<{
             action={masterService.fetchGenders}
             converter={emmbedToOptions}
             disableInfiniteScroll
-            error={errors.gender?.message}
+            error={yupOptionError(errors.gender)}
             hideSearch
             label="Gender"
             labelRequired
