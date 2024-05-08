@@ -3,9 +3,10 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { candidateService, vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 type MoveAnotherVacancyModalProps = {
   applicantId?: string
@@ -14,7 +15,7 @@ type MoveAnotherVacancyModalProps = {
   show?: boolean
 }
 
-const schema = yup.object().shape({ vacancy: YUP_OPTION_OBJECT.required().label('Vacancy') })
+const schema = yup.object().shape({ vacancy: genYupOption('Vacancy').required() })
 
 const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ applicantId, onRefresh, onClose, show }) => {
   const [loading, setLoading] = useState(false)
@@ -61,7 +62,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ appli
           params={{ status: 'active' }}
           placeholder="Select Vacancy"
           converter={(res) => res.content.map((el) => ({ label: el.vacancyName, value: el.oid }))}
-          error={errors.vacancy?.message}
+          error={yupOptionError(errors.vacancy)}
           value={getValues('vacancy')}
           onValueChange={(v) => {
             setValue('vacancy', v)

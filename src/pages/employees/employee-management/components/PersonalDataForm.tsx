@@ -16,16 +16,18 @@ import {
 } from 'jobseeker-ui'
 import * as yup from 'yup'
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
-import { PHONE_REG_EXP, YUP_OPTION_OBJECT } from '@/constants/globals'
+import { PHONE_REG_EXP } from '@/constants/globals'
 import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'
 
 const schema = yup.object({
   birthDate: yup.date().max(new Date()).required().label('Date Of Birth'),
-  cityOfBirth: YUP_OPTION_OBJECT.required().label('Place of Birth'),
+  cityOfBirth: genYupOption('Place of Birth').required(),
 
   email: yup
     .string()
@@ -40,7 +42,7 @@ const schema = yup.object({
     //   }
     // })
     .label('Email Address'),
-  gender: YUP_OPTION_OBJECT.required().label('Gender'),
+  gender: genYupOption('Gender').required(),
   linkNationalId: yup
     .string()
     .required()
@@ -52,7 +54,7 @@ const schema = yup.object({
     )
     .url()
     .label('National ID'),
-  maritalStatus: YUP_OPTION_OBJECT.required().label('Marital Status'),
+  maritalStatus: genYupOption('Marital Status').required(),
   name: yup.string().required().label('Name'),
 
   nationIdAddress: yup.string().label('Nation ID Address'),
@@ -77,7 +79,7 @@ const schema = yup.object({
 
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
   postalCode: yup.string().length(5).label('Postal Code'),
-  religion: YUP_OPTION_OBJECT.required().label('Religion'),
+  religion: genYupOption('Religion').required(),
   residentalAddress: yup.string().label('Residental Address'),
 })
 
@@ -125,7 +127,7 @@ const PersonalDataForm: React.FC<{
             action={masterService.fetchGenders}
             converter={emmbedToOptions}
             disableInfiniteScroll
-            error={errors.gender?.message}
+            error={yupOptionError(errors.gender)}
             hideSearch
             label="Gender"
             labelRequired
@@ -141,7 +143,7 @@ const PersonalDataForm: React.FC<{
             action={masterService.fetchReligions}
             converter={emmbedToOptions}
             disableInfiniteScroll
-            error={errors.religion?.message}
+            error={yupOptionError(errors.religion)}
             hideSearch
             label="Religion"
             labelRequired
@@ -170,7 +172,7 @@ const PersonalDataForm: React.FC<{
           <AsyncSelect
             action={masterService.fetchCities}
             converter={emmbedToOptions}
-            error={errors.cityOfBirth?.message}
+            error={yupOptionError(errors.cityOfBirth)}
             label="City of Birth"
             labelRequired
             name="cityOfBirth"
@@ -200,7 +202,7 @@ const PersonalDataForm: React.FC<{
             action={masterService.fetchMaritalStatus}
             converter={emmbedToOptions}
             disableInfiniteScroll
-            error={errors.maritalStatus?.message}
+            error={yupOptionError(errors.maritalStatus)}
             hideSearch
             label="Marital Status"
             labelRequired

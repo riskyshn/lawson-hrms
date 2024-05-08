@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { candidateService, masterService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 type BlacklistModalProps = {
   applicantId?: string
@@ -15,7 +16,7 @@ type BlacklistModalProps = {
   show?: boolean
 }
 
-const schema = yup.object().shape({ reason: YUP_OPTION_OBJECT.required().label('Reason') })
+const schema = yup.object().shape({ reason: genYupOption('Reason').required() })
 
 const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicantId, onClose, onRefresh, show }) => {
   const [loading, setLoading] = useState(false)
@@ -62,7 +63,7 @@ const BlacklistModal: React.FC<BlacklistModalProps> = ({ applicantId, onClose, o
           params={{ type: 'blacklist' }}
           placeholder="Underqualified, Salary Expectation Too High"
           converter={emmbedToOptions}
-          error={errors.reason?.message}
+          error={yupOptionError(errors.reason)}
           value={getValues('reason')}
           disableInfiniteScroll
           onValueChange={(v) => {

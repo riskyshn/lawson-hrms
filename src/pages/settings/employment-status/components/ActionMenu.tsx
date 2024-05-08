@@ -1,6 +1,6 @@
 import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
-import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import { PenToolIcon, TrashIcon } from 'lucide-react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { organizationService } from '@/services'
 
@@ -25,13 +25,13 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSele
     text: 'Edit Employment Status',
   }
 
-  const viewEmployees: Table.ActionMenuItemProps = {
-    action() {
-      //
-    },
-    icon: UsersIcon,
-    text: 'View Employees',
-  }
+  // const viewEmployees: Table.ActionMenuItemProps = {
+  //   action() {
+  //     //
+  //   },
+  //   icon: UsersIcon,
+  //   text: 'View Employees',
+  // }
 
   const deleteJobType: Table.ActionMenuItemProps = {
     action: async () => {
@@ -55,7 +55,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSele
     text: 'Delete Employment Status',
   }
 
-  const menus = [editJobType, viewEmployees, deleteJobType]
+  // const menus = [editJobType, viewEmployees, deleteJobType]
+  const menus = [editJobType, deleteJobType]
 
   return (
     <Table.ActionMenu up={index >= total - upSpace}>

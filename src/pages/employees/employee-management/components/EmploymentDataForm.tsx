@@ -3,20 +3,21 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AsyncSelect, Button, Card, CardBody, CardFooter, Input } from 'jobseeker-ui'
 import * as yup from 'yup'
-import { YUP_OPTION_OBJECT } from '@/constants/globals'
 import { attendanceService, authorityService, employeeService, organizationService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
+import genYupOption from '@/utils/gen-yup-option'
+import yupOptionError from '@/utils/yup-option-error'
 
 const schema = yup.object({
-  branch: YUP_OPTION_OBJECT.required().label('Branch Placement'),
-  department: YUP_OPTION_OBJECT.required().label('Department'),
+  branch: genYupOption('Branch Placement').required(),
+  department: genYupOption('Department').required(),
   employeeCode: yup.string().required().label('Employee ID'),
-  jobLevel: YUP_OPTION_OBJECT.required().label('Job Level'),
-  jobType: YUP_OPTION_OBJECT.required().label('Employment Status'),
-  picApproval: YUP_OPTION_OBJECT.required().label('PIC for Approval'),
-  position: YUP_OPTION_OBJECT.required().label('Position'),
-  role: YUP_OPTION_OBJECT.required().label('Role'),
-  schedule: YUP_OPTION_OBJECT.required().label('Schedule'),
+  jobLevel: genYupOption('Job Level').required(),
+  jobType: genYupOption('Employment Status').required(),
+  picApproval: genYupOption('PIC for Approval').required(),
+  position: genYupOption('Position').required(),
+  role: genYupOption('Role').required(),
+  schedule: genYupOption('Schedule').required(),
 })
 
 const EmploymentDataForm: React.FC<{
@@ -52,7 +53,7 @@ const EmploymentDataForm: React.FC<{
         <AsyncSelect
           action={authorityService.fetchRoles}
           converter={emmbedToOptions}
-          error={errors.role?.message}
+          error={yupOptionError(errors.role)}
           label="Role"
           labelRequired
           name="role"
@@ -67,7 +68,7 @@ const EmploymentDataForm: React.FC<{
           action={organizationService.fetchJobTypes}
           params={{ status: 1 }}
           converter={emmbedToOptions}
-          error={errors.jobType?.message}
+          error={yupOptionError(errors.jobType)}
           label="Employment Status"
           labelRequired
           name="jobType"
@@ -83,7 +84,7 @@ const EmploymentDataForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchBranches}
             converter={emmbedToOptions}
-            error={errors.branch?.message}
+            error={yupOptionError(errors.branch)}
             label="Branch Placement"
             labelRequired
             name="branch"
@@ -97,7 +98,7 @@ const EmploymentDataForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchDepartments}
             converter={emmbedToOptions}
-            error={errors.department?.message}
+            error={yupOptionError(errors.department)}
             label="Department"
             labelRequired
             name="department"
@@ -114,7 +115,7 @@ const EmploymentDataForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchPositions}
             converter={emmbedToOptions}
-            error={errors.position?.message}
+            error={yupOptionError(errors.position)}
             label="Position"
             labelRequired
             name="position"
@@ -128,7 +129,7 @@ const EmploymentDataForm: React.FC<{
           <AsyncSelect
             action={organizationService.fetchJobLevels}
             converter={emmbedToOptions}
-            error={errors.jobLevel?.message}
+            error={yupOptionError(errors.jobLevel)}
             label="Job Level"
             labelRequired
             name="jobLevel"
@@ -144,7 +145,7 @@ const EmploymentDataForm: React.FC<{
           <AsyncSelect
             action={employeeService.fetchEmployees}
             converter={emmbedToOptions}
-            error={errors.picApproval?.message}
+            error={yupOptionError(errors.picApproval)}
             label="PIC for Approval"
             labelRequired
             name="picApproval"
@@ -158,7 +159,7 @@ const EmploymentDataForm: React.FC<{
           <AsyncSelect
             action={attendanceService.fetchSchedules}
             converter={emmbedToOptions}
-            error={errors.schedule?.message}
+            error={yupOptionError(errors.schedule)}
             label="Schedule"
             labelRequired
             name="schedule"

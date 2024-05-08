@@ -1,6 +1,6 @@
 import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
-import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import { PenToolIcon, TrashIcon } from 'lucide-react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { organizationService } from '@/services'
 
@@ -16,6 +16,7 @@ type ActionMenuProps = {
 const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSelectedToUpdate, total, upSpace }) => {
   const confirm = useConfirm()
   const toast = useToast()
+  // const navigate = useNavigate()
 
   const editBranch: Table.ActionMenuItemProps = {
     action() {
@@ -25,13 +26,13 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSele
     text: 'Edit Branch',
   }
 
-  const viewEmployees: Table.ActionMenuItemProps = {
-    action() {
-      //
-    },
-    icon: UsersIcon,
-    text: 'View Employees',
-  }
+  // const viewEmployees: Table.ActionMenuItemProps = {
+  //   action() {
+  //     navigate(`/employees/employee-management?branch={branchId}|{branchName}`)
+  //   },
+  //   icon: UsersIcon,
+  //   text: 'View Employees',
+  // }
 
   const deleteBranch: Table.ActionMenuItemProps = {
     action: async () => {
@@ -55,7 +56,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSele
     text: 'Delete Branch',
   }
 
-  const menus = [editBranch, viewEmployees, deleteBranch]
+  // const menus = [editBranch, viewEmployees, deleteBranch]
+  const menus = [editBranch, deleteBranch]
 
   return (
     <Table.ActionMenu up={index >= total - upSpace}>
