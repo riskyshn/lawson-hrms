@@ -34,7 +34,7 @@ const AttendancePage: React.FC = () => {
 
   const pagination = usePagination({
     params: { branch: rawBranch, search },
-    pathname: '/attendance/attendance-management',
+    pathname: '/attendance/attendance-management/attendance',
     totalPage: pageData?.totalPages,
   })
 
