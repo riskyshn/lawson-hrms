@@ -230,7 +230,7 @@ const NavbarNotification: React.FC = () => {
     } else if (viewMode === 'vacancies') {
       return (
         <div className="p-3">
-          <CardBody className="chrome-scrollbar flex max-h-80 flex-col divide-y overflow-y-auto py-0">
+          <CardBody as="div" className="chrome-scrollbar flex max-h-80 flex-col divide-y overflow-y-auto py-0">
             {pageDataVacancies?.content?.map((el, i) => (
               <div className="cursor-pointer" key={el.oid || i} onClick={() => handleItemClick(el, 'vacancies')}>
                 <li className="relative flex items-center gap-3 py-3">
@@ -253,14 +253,14 @@ const NavbarNotification: React.FC = () => {
                 </li>
               </div>
             ))}
-            {hasMoreItemsVacancies && (
-              <div className="flex w-full flex-1 pt-3 text-center">
-                <Button className="w-full" color="primary" disabled={loadingVacancies} onClick={loadMoreDataVacancies} variant="default">
-                  {loadingVacancies ? <Spinner className="h-4 w-4 text-white" /> : 'View More'}
-                </Button>
-              </div>
-            )}
           </CardBody>
+          {hasMoreItemsVacancies && (
+            <div className="flex w-full flex-1 pt-3 text-center">
+              <Button className="w-full" color="primary" disabled={loadingVacancies} onClick={loadMoreDataVacancies} variant="default">
+                {loadingVacancies ? <Spinner className="h-4 w-4 text-white" /> : 'View More'}
+              </Button>
+            </div>
+          )}
         </div>
       )
     }

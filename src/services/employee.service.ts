@@ -3,6 +3,7 @@ import { API_EMPLOYEE_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 
 type FetchEmployeesParams = {
+  scheduleId?: string
   branchId?: string
   departmentId?: string
 } & IPaginationParam

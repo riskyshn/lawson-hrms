@@ -17,6 +17,7 @@ interface IDataTableEmployee {
   name?: string
   oid: string
   position?: IGeneralDataEmmbed
+  schedule?: IGeneralDataEmmbed
 }
 
 interface IEmployee {
