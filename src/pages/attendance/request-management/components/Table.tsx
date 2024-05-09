@@ -1,4 +1,4 @@
-import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
+import { Avatar, Badge, Color, variants } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
@@ -112,7 +112,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
   return <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
 }
 
-const statusColors = genStyles<string, Color>({
+const statusColors = variants<string, Color>({
   approved: 'success',
   default: 'default',
   process: 'primary',
