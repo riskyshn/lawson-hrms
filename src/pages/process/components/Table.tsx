@@ -1,7 +1,7 @@
 import type { ModalType, TableType } from '../types'
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Badge, Color, genStyles } from 'jobseeker-ui'
+import { Avatar, Badge, Color, variants } from 'jobseeker-ui'
 import { FileIcon } from 'lucide-react'
 import moment from 'moment'
 import MainTable from '@/components/Elements/Tables/MainTable'
@@ -229,7 +229,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
   )
 }
 
-const statusColors = genStyles<string, Color>({
+const statusColors = variants<string, Color>({
   default: 'default',
   failed: 'error',
   offering_sent: 'primary',

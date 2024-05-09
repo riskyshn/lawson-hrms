@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge, CardBody, CardFooter, Color, genStyles, Modal, ModalHeader, Spinner } from 'jobseeker-ui'
+import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, variants } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 
@@ -124,7 +124,7 @@ const ViewModal: React.FC<PropTypes> = ({ items, onClose, show }) => {
   )
 }
 
-const statusColors = genStyles<string, Color>({
+const statusColors = variants<string, Color>({
   approved: 'success',
   default: 'default',
   process: 'primary',
