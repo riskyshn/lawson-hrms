@@ -45,7 +45,7 @@ const EditJoinDateModal: React.FC<PropTypes> = ({ applicant, onClose, onRefresh,
     try {
       await processService.setJoinDate({
         applicantId: applicant.oid,
-        joinDate: moment.utc(joinDate).local().format('YYYY-MM-DD'),
+        joinDate: moment(joinDate).format('YYYY-MM-DD'),
       })
       toast(`Join date for ${applicant.candidate?.name} updated successfully.`, { color: 'success' })
       onClose?.()

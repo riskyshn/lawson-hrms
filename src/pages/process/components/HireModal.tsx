@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, InputDate, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import moment from 'moment'
 import * as yup from 'yup'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
@@ -35,7 +36,7 @@ const HireModal: React.FC<PropTypes> = ({ applicantId, onClose, show }) => {
   const onSubmit = handleSubmit(async ({ joinDate }) => {
     setLoading(true)
     try {
-      await processService.setJoinDate({ applicantId, joinDate })
+      await processService.setJoinDate({ applicantId, joinDate: moment(joinDate).format('YYYY-MM-DD') })
       toast(`Join date for candidate set successfully.`, { color: 'success' })
       navigate('/process/onboarding')
     } catch (e) {
