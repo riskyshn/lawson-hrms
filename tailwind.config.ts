@@ -7,7 +7,7 @@ const tailwindConfig: Config = {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/jobseeker-ui/src/components/libs/**/*.{js,ts,jsx,tsx}',
+    './node_modules/jobseeker-ui/dist/index.es.js',
     './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
   ],
   darkMode: 'class',
