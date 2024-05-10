@@ -92,21 +92,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
   const withdraw = createMenuItem('Withdraw', LogOutIcon, 'WITHDRAW')
   const reschedule = createMenuItem('Reschedule', RefreshCcwIcon, 'RESCHEDULE')
 
-  const sendReminder: Table.ActionMenuItemProps = {
-    action: async () => {
-      const confirmed = await confirm(`Are you sure you want to send a reminder to ${item.candidate?.email}?`)
-      if (confirmed) {
-        try {
-          await processService.sendReminder(item.oid)
-          toast('Reminder sent successfully.', { color: 'success' })
-        } catch (e) {
-          toast(axiosErrorMessage(e), { color: 'error' })
-        }
+  const sendReminder = createMenuItem('Send Reminder', SendIcon, undefined, undefined, async () => {
+    const confirmed = await confirm(`Are you sure you want to send a reminder to ${item.candidate?.email}?`)
+    if (confirmed) {
+      try {
+        await processService.sendReminder(item.oid)
+        toast('Reminder sent successfully.', { color: 'success' })
+      } catch (e) {
+        toast(axiosErrorMessage(e), { color: 'error' })
       }
-    },
-    icon: SendIcon,
-    text: 'Send Reminder',
-  }
+    }
+  })
 
   const offeringLetter = createMenuItem('Offering Letter', RepeatIcon, undefined, undefined, async () => {
     const confirmed = await confirm('Are you sure you want to move this item to offering letter?')
@@ -141,9 +137,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
   const previewOfferingLetter = createMenuItem('Preview Offering Letter', EyeIcon, undefined, undefined, () =>
     navigate(`/process/offering-letter/${item.oid}/preview`),
   )
-  const addAsEmployee = createMenuItem('Add As Employee', UserPlusIcon, undefined, undefined, () =>
-    navigate(`/employees/employee-management/create?applicantId=${item.oid}`),
-  )
+  const addAsEmployee = createMenuItem('Add As Employee', UserPlusIcon, undefined, undefined, async () => {
+    const confirmed = await confirm(`Are you sure you want to Hire this candidate "${item.candidate?.email}"?`)
+    if (confirmed) {
+      try {
+        await processService.setAsHired(item.oid)
+        navigate(`/employees/employee-management/create?applicantId=${item.oid}`)
+      } catch (e) {
+        toast(axiosErrorMessage(e), { color: 'error' })
+      }
+    }
+  })
   const viewProfile = createMenuItem('View Profile', UserIcon, undefined, undefined, () =>
     navigate(`/candidates/profile/${item.candidate?.oid}`),
   )

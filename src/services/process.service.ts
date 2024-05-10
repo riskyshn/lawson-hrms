@@ -87,3 +87,7 @@ export const getSignedOfferingLetter = (oid: string, config?: AxiosRequestConfig
 export const setJoinDate = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
   return axios.put<{ data: IApplicant }>(`/process/onboarding`, payload, { signal }).then((response) => response.data.data)
 }
+
+export const setAsHired = (oid: string) => {
+  return axios.patch<{ data: IApplicant }>(`/process/onboarding/hired/${oid}`).then((response) => response.data.data)
+}
