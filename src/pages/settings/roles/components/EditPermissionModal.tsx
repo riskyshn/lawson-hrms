@@ -1,3 +1,4 @@
+import type { IPermission, IRole } from '@/types'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import { authorityService } from '@/services'

@@ -1,3 +1,4 @@
+import type { IFilterDate, IStatistic } from '@/types'
 import React, { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Skeleton } from 'jobseeker-ui'

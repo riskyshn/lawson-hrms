@@ -1,3 +1,13 @@
+import type {
+  IEmployeeHistoryAttendance,
+  IEmployeeLeave,
+  ILeave,
+  IPaginationParam,
+  IPaginationResponse,
+  ISchedule,
+  IStatistic,
+  ITimezone,
+} from '@/types'
 import { GenericAbortSignal } from 'axios'
 import { API_ATTENDANCE_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'

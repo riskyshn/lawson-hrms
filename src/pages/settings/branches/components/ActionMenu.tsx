@@ -1,3 +1,4 @@
+import type { IBranch } from '@/types'
 import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenToolIcon, TrashIcon } from 'lucide-react'

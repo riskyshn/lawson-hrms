@@ -1,3 +1,4 @@
+import type { IVacancy } from '@/types'
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AxiosRequestConfig } from 'axios'

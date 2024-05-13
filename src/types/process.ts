@@ -1,4 +1,6 @@
-interface IDataTableApplicant {
+import { IGeneralDataEmmbed } from './shared'
+
+export interface IDataTableApplicant {
   actionAt?: string
   candidate?: { email?: string } & IGeneralDataEmmbed
   createdAt?: string
@@ -15,7 +17,7 @@ interface IDataTableApplicant {
   vacancy?: { rrNumber?: string } & IGeneralDataEmmbed
 }
 
-interface IApplicant extends IDataTableApplicant {
+export interface IApplicant extends IDataTableApplicant {
   histories?: Array<{
     actionAt?: string
     applyProcess?: string
@@ -29,14 +31,14 @@ interface IApplicant extends IDataTableApplicant {
   }>
 }
 
-interface IApplicantStage {
+export interface IApplicantStage {
   isAvailable: boolean
   name: string
   oid: string
   type: 'ASSESSMENT' | 'INTERVIEW'
 }
 
-interface IUploadedProcessDocument {
+export interface IUploadedProcessDocument {
   document: IGeneralDataEmmbed
   file: {
     link: string
@@ -45,7 +47,7 @@ interface IUploadedProcessDocument {
   uploadedAt: string
 }
 
-interface IOfferingLetter {
+export interface IOfferingLetter {
   baseSalary?: number
   benefits?: Array<{ amount?: number; name?: string }>
   city?: IGeneralDataEmmbed
@@ -58,7 +60,7 @@ interface IOfferingLetter {
   position?: IGeneralDataEmmbed
 }
 
-interface IProcessSchedule {
+export interface IProcessSchedule {
   schedule?: {
     interviewId?: string
     name?: string

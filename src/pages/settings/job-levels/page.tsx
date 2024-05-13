@@ -1,3 +1,4 @@
+import type { IJobLevel } from '@/types'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button } from 'jobseeker-ui'

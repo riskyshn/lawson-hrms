@@ -1,3 +1,4 @@
+import type { INominatimPlace } from '@/types'
 import { createAxiosInstance } from '@/utils/axios'
 
 const axios = createAxiosInstance({

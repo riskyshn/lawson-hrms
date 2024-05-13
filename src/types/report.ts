@@ -1,4 +1,6 @@
-interface IRecruitmentFunnel {
+import { IGeneralDataEmmbed } from './shared'
+
+export interface IRecruitmentFunnel {
   percentage?: {
     label: string
     total: number
@@ -9,9 +11,9 @@ interface IRecruitmentFunnel {
   }[]
 }
 
-interface INumberOfHired extends Array<Data[]> {}
+export interface INumberOfHired extends Array<any[]> {}
 
-interface INumberOfHiredDataTable {
+export interface INumberOfHiredDataTable {
   q1: number
   q2: number
   q3: number
@@ -21,7 +23,7 @@ interface INumberOfHiredDataTable {
   }
 }
 
-interface Dataset {
+export interface Dataset {
   backgroundColor: string
   borderColor: string
   data: any

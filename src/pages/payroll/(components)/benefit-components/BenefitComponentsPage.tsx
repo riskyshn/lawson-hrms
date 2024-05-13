@@ -1,3 +1,4 @@
+import type { IBenefitComponent, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Button } from 'jobseeker-ui'

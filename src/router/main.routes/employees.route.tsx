@@ -9,12 +9,11 @@ const employeeRoute: RouteObject = {
         { lazy: () => import('@/pages/employees/employee-management/detail/page'), path: ':employeeCode' },
         { lazy: () => import('@/pages/employees/employee-management/edit/page'), path: ':employeeCode/edit' },
       ],
-      name: 'Employee Management',
       path: 'employee-management',
     },
     { lazy: () => import('@/pages/employees/previous-employee/page'), path: 'previous-employee' },
   ],
-  name: 'Employees',
+
   path: 'employees',
 }
 

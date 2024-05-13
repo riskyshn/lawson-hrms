@@ -1,3 +1,4 @@
+import type { IOfferingLetter } from '@/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Stepper, useSteps, useToast } from 'jobseeker-ui'

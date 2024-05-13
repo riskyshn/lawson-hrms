@@ -1,3 +1,4 @@
+import type { IPreviousEmployee } from '@/types'
 import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { PowerIcon } from 'lucide-react'

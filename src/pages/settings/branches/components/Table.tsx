@@ -1,3 +1,4 @@
+import type { IBranch } from '@/types'
 import React, { useState } from 'react'
 import { MapPinIcon } from 'lucide-react'
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'

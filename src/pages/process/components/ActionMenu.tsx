@@ -1,3 +1,4 @@
+import type { IDataTableApplicant, IVacancy } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useConfirm, useToast } from 'jobseeker-ui'

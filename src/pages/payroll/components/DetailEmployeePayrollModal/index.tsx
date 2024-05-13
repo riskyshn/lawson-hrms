@@ -1,3 +1,4 @@
+import type { IEmployeePayrollDetail, IEmployeePayrollResult } from '@/types'
 import React, { useEffect, useMemo, useState } from 'react'
 import { Avatar, Button, useToast } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'

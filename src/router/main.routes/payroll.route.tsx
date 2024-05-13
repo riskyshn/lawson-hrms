@@ -73,7 +73,7 @@ const payrollRoute: RouteObject = {
       path: 'payroll-request',
     },
   ],
-  name: 'Payroll',
+
   path: 'payroll',
 }
 

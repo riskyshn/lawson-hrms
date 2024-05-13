@@ -1,3 +1,4 @@
+import type { IPayrollRequest } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BanknoteIcon, DownloadIcon, EyeIcon } from 'lucide-react'

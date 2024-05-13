@@ -1,3 +1,4 @@
+import type { IDataTableEmployee } from '@/types'
 import React from 'react'
 import { Avatar } from 'jobseeker-ui'
 

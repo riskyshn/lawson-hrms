@@ -1,3 +1,4 @@
+import type { ICandidate, IUploadedProcessDocument } from '@/types'
 import React from 'react'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import numberToCurrency from '@/utils/number-to-currency'

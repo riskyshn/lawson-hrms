@@ -1,3 +1,4 @@
+import type { ISchedule } from '@/types'
 import { useState } from 'react'
 import { Menu } from '@headlessui/react'
 import { Button, useConfirm, useToast } from 'jobseeker-ui'

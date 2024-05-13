@@ -14,12 +14,12 @@ const candidatesRoute: RouteObject = {
   children: [
     {
       element: <InterviewPage />,
-      name: 'Interview',
+
       path: 'interview',
     },
     {
       element: <AssessmentPage />,
-      name: 'Assessment',
+
       path: 'assessment',
     },
     {
@@ -53,16 +53,15 @@ const candidatesRoute: RouteObject = {
           path: ':applicantId/preview',
         },
       ],
-      name: 'Offering Letter',
       path: 'offering-letter',
     },
     {
       element: <OnboardingPage />,
-      name: 'Onboarding',
+
       path: 'onboarding',
     },
   ],
-  name: 'Process',
+
   path: 'process',
 }
 

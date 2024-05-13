@@ -1,3 +1,11 @@
+import type {
+  IDashboardAnnouncement,
+  IDashboardRecentlyApplied,
+  IDashboardRecentlyPostedJob,
+  IDashboardSchedule,
+  IPaginationParam,
+  IPaginationResponse,
+} from '@/types'
 import { API_DASHBOARD_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'
 

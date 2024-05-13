@@ -1,3 +1,4 @@
+import type { IDashboardSchedule, IEvent, IEventRefiners } from '@/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import dayGridPlugin from '@fullcalendar/daygrid'

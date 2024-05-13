@@ -1,3 +1,4 @@
+import type { IComponentInEmployee } from '@/types'
 import React from 'react'
 import { Avatar } from 'jobseeker-ui'
 import MainTable from '@/components/Elements/Tables/MainTable'

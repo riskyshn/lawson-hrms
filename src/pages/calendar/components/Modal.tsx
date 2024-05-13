@@ -1,3 +1,4 @@
+import type { IEvent } from '@/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from 'jobseeker-ui'

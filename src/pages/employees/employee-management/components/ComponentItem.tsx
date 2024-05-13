@@ -1,3 +1,4 @@
+import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { Button, Input, InputCurrency, Select } from 'jobseeker-ui'

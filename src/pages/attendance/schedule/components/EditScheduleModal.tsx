@@ -1,3 +1,4 @@
+import type { ISchedule, IScheduleDetail, ITimezone } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Alert, Button, Input, InputTime, Select, useToast } from 'jobseeker-ui'

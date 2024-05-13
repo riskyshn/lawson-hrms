@@ -1,3 +1,4 @@
+import type { INumberOfHired, INumberOfHiredDataTable, IPaginationParam, IPaginationResponse, IRecruitmentFunnel } from '@/types'
 import { GenericAbortSignal } from 'axios'
 import { API_REPORT_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'

@@ -1,3 +1,4 @@
+import type { IEmployee, IFilterDate, IStatistic } from '@/types'
 import React, { memo, useEffect, useState } from 'react'
 import { Skeleton } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'

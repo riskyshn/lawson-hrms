@@ -1,3 +1,4 @@
+import type { IPayrollRequest } from '@/types'
 import React from 'react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'

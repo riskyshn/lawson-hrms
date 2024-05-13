@@ -1,4 +1,4 @@
-interface IEvent {
+export interface IEvent {
   description?: string
   end?: string
   guest?: string[]
@@ -9,7 +9,7 @@ interface IEvent {
   linkGmeet?: string
 }
 
-interface IEventRefiners {
+export interface IEventRefiners {
   extendedProps?: {
     description?: string
     guest?: string[]

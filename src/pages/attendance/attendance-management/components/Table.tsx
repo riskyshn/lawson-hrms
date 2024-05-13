@@ -1,3 +1,4 @@
+import type { IEmployeeHistoryAttendance } from '@/types'
 import { useState } from 'react'
 import { Avatar, Button, useToast } from 'jobseeker-ui'
 import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'

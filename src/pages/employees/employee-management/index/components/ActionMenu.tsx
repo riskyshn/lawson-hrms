@@ -1,3 +1,4 @@
+import type { IDataTableEmployee } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { EyeIcon, PenToolIcon, PowerIcon } from 'lucide-react'

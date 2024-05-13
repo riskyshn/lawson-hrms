@@ -1,3 +1,4 @@
+import type { IPaginationResponse, ISchedule } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button } from 'jobseeker-ui'

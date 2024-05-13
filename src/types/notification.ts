@@ -1,4 +1,4 @@
-interface INotification {
+export interface INotification {
   candidate: {
     name: string
     photoProfile: string

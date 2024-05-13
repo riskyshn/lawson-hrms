@@ -1,3 +1,4 @@
+import type { IDashboardAnnouncement } from '@/types'
 import { useState } from 'react'
 import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { PinIcon, Trash2Icon } from 'lucide-react'

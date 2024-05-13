@@ -1,3 +1,4 @@
+import type { INotification, IPaginationParam, IPaginationResponse } from '@/types'
 import type { GenericAbortSignal } from 'axios'
 import { API_NOTIFICATION_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'

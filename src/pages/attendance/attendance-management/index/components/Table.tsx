@@ -1,3 +1,4 @@
+import type { IEmployeeHistoryAttendance } from '@/types'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar, Button, useToast } from 'jobseeker-ui'

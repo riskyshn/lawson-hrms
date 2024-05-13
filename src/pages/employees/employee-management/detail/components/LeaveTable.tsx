@@ -1,3 +1,4 @@
+import type { IEmployee } from '@/types'
 import React from 'react'
 import { Card, CardFooter } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'

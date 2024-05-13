@@ -1,4 +1,6 @@
-interface ICompany {
+import { ICoordinate, IGeneralDataEmmbed } from './shared'
+
+export interface ICompany {
   address?: string
   branch?: Array<{ address?: string } & IGeneralDataEmmbed>
   careersiteUrl?: string
@@ -87,7 +89,7 @@ interface ICompany {
   }
 }
 
-interface IBranch {
+export interface IBranch {
   address?: string
   city?: IGeneralDataEmmbed
   company?: { code?: string } & IGeneralDataEmmbed
@@ -103,7 +105,7 @@ interface IBranch {
   updatedAt?: string // date
 }
 
-interface IDepartment {
+export interface IDepartment {
   code?: string
   company?: { code?: string } & IGeneralDataEmmbed
   createdAt?: string
@@ -115,7 +117,7 @@ interface IDepartment {
   updatedAt?: string
 }
 
-interface IJobLevel {
+export interface IJobLevel {
   company?: { code?: string } & IGeneralDataEmmbed
   createdAt?: string
   name?: string
@@ -126,7 +128,7 @@ interface IJobLevel {
   updatedAt?: string
 }
 
-interface IPosition {
+export interface IPosition {
   company?: { code?: string } & IGeneralDataEmmbed
   createdAt?: string
   department?: IGeneralDataEmmbed
@@ -138,7 +140,7 @@ interface IPosition {
   updatedAt?: string
 }
 
-interface IBenefit {
+export interface IBenefit {
   company?: { code?: string } & IGeneralDataEmmbed
   createdAt?: string
   name?: string
@@ -148,14 +150,14 @@ interface IBenefit {
   updatedAt?: string
 }
 
-interface IWorkplacement {
+export interface IWorkplacement {
   createdAt?: string
   name?: string
   oid: string
   updatedAt?: string
 }
 
-interface IJobType {
+export interface IJobType {
   createdAt?: string
   name?: string
   oid: string
@@ -164,22 +166,22 @@ interface IJobType {
   updatedAt?: string
 }
 
-interface IRecruitmentStage {
+export interface IRecruitmentStage {
   name: string
   oid: string
   type: 'ASSESSMENT' | 'INTERVIEW'
 }
 
-interface IApproval {
-  branch?: null | stirng
-  department?: null | stirng
+export interface IApproval {
+  branch?: null | string
+  department?: null | string
   employee: IGeneralDataEmmbed
   oid: string
-  position?: null | stirng
+  position?: null | string
   status: number
 }
 
-interface IDocumentRequest {
+export interface IDocumentRequest {
   allowedFileTypes: string[]
   createdAt?: string
   name: string
@@ -187,7 +189,7 @@ interface IDocumentRequest {
   updatedAt?: string
 }
 
-interface IOfferingLetterSetting {
+export interface IOfferingLetterSetting {
   additionalInformation?: string
   body?: string
   greetings?: string

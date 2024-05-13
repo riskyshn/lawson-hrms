@@ -1,3 +1,4 @@
+import type { IEmployee, IEmployeeHistoryAttendance, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'

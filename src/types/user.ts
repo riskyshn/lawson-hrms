@@ -1,9 +1,7 @@
-interface IGeneralDataEmmbed {
-  name?: string
-  oid: string
-}
+import { IPermission, IRole } from './authority'
+import { IGeneralDataEmmbed } from './shared'
 
-interface IUser {
+export interface IUser {
   accessDirectPermissions: IPermission[]
   accessGranted: IRole[]
   company?: IGeneralDataEmmbed
@@ -14,11 +12,4 @@ interface IUser {
 
   lastName?: string
   oid: string
-}
-
-interface ICoordinate {
-  coordinates: [number, number]
-  type: string
-  x: number
-  y: number
 }

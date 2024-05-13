@@ -1,3 +1,4 @@
+import type { IEmployee } from '@/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Avatar, Button, Card, CardBody } from 'jobseeker-ui'

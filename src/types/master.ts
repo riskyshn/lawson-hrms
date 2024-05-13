@@ -1,4 +1,4 @@
-interface IMasterCountry {
+export interface IMasterCountry {
   code: string
   mobilePhonePrefix: string
   name: string
@@ -7,55 +7,55 @@ interface IMasterCountry {
   subRegion: string
 }
 
-interface IMasterProvince {
+export interface IMasterProvince {
   country: string
   name: string
   oid: string
 }
 
-interface IMasterCity {
+export interface IMasterCity {
   name: string
   oid: string
   province: string
 }
 
-interface IMasterDistrict {
+export interface IMasterDistrict {
   city: string
   name: string
   oid: string
 }
 
-interface IMasterSubDistrict {
+export interface IMasterSubDistrict {
   name: string
   oid: string
 }
 
-interface IMasterEducationLevel {
+export interface IMasterEducationLevel {
   name: string
   oid: string
 }
 
-interface IMasterGender {
+export interface IMasterGender {
   name: string
   oid: string
 }
 
-interface IMasterReligion {
+export interface IMasterReligion {
   name: string
   oid: string
 }
 
-interface IMasterMaritalStatus {
+export interface IMasterMaritalStatus {
   name: string
   oid: string
 }
 
-interface IMasterFileType {
+export interface IMasterFileType {
   extension: string // id
   name: string
 }
 
-interface IMasterReason {
+export interface IMasterReason {
   name: string
   oid: string
 }

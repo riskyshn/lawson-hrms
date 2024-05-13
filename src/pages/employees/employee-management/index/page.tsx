@@ -1,3 +1,4 @@
+import type { IDataTableEmployee } from '@/types'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { AsyncSelect, Button } from 'jobseeker-ui'

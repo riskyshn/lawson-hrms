@@ -1,3 +1,4 @@
+import type { ICandidate, IUploadedProcessDocument } from '@/types'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { Spinner } from 'jobseeker-ui'

@@ -1,3 +1,4 @@
+import type { IDataTableEmployee, IEmployee, IPaginationParam, IPaginationResponse, IPreviousEmployee } from '@/types'
 import type { GenericAbortSignal } from 'axios'
 import { API_EMPLOYEE_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'

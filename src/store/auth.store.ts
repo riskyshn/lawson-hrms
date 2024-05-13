@@ -1,3 +1,4 @@
+import type { ICompany, IUser } from '@/types'
 import { create } from 'zustand'
 import { accountService, authService, organizationService } from '@/services'
 import mountStoreDevtool from '@/utils/mount-store-devtool'

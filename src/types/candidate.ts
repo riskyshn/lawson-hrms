@@ -1,4 +1,7 @@
-interface ICandidateHistories {
+import { IGeneralDataEmmbed } from './shared'
+import { IVacancy } from './vacancy'
+
+export interface ICandidateHistories {
   candidate?: ICandidate
   history?: {
     histories?: {
@@ -21,7 +24,7 @@ interface ICandidateHistories {
   }[]
 }
 
-interface ICandidate {
+export interface ICandidate {
   age?: string
   applyDate?: string
   birthdate?: string
@@ -89,13 +92,12 @@ interface ICandidate {
   source?: string
   status?: string
   vacancyId?: string
-  vacancyId?: string
   vacancyName?: string
   videoResume?: string
   withdrawReason?: string
 }
 
-interface ICandidateToCreateEmployee {
+export interface ICandidateToCreateEmployee {
   age?: string
   birthdate?: string
   city?: IGeneralDataEmmbed

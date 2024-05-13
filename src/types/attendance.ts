@@ -1,9 +1,12 @@
-interface ITimezone {
+import { ICoordinate } from '.'
+
+export interface ITimezone {
   code: string
   oid: string
   title: string
 }
-interface ISchedule {
+
+export interface ISchedule {
   count: string
   createdAt?: string
   details?: IScheduleDetail[]
@@ -13,19 +16,19 @@ interface ISchedule {
   updatedAt?: string
 }
 
-interface IScheduleDetail {
+export interface IScheduleDetail {
   day?: number
   end?: string
   isActive?: boolean
   start?: string
 }
 
-interface IAttendance {
+export interface IAttendance {
   employeeId?: string
   records?: IAttendanceRecord[]
 }
 
-interface IAttendanceRecord {
+export interface IAttendanceRecord {
   attendanceType?: string
   coordinate?: ICoordinate
   earlyClockoutMinutes?: number
@@ -71,7 +74,7 @@ interface IAttendanceRecord {
   workHours?: number
 }
 
-interface ILeave {
+export interface ILeave {
   attachment?: string
   createdAt?: string
   duration?: number
@@ -122,7 +125,7 @@ interface ILeave {
   updatedAt?: string
 }
 
-interface IEmployeeHistory {
+export interface IEmployeeHistory {
   date?: string
   records?: {
     attendanceType?: string
@@ -174,7 +177,7 @@ interface IEmployeeHistory {
   }[]
 }
 
-interface IEmployeeLeave {
+export interface IEmployeeLeave {
   attachment?: string
   createdAt?: string
   duration?: number
@@ -226,27 +229,17 @@ interface IEmployeeLeave {
   updatedAt?: string
 }
 
-interface IFilterDate {
+export interface IFilterDate {
   endDate?: string
   startDate?: string
 }
 
-interface IStatistic {
+export interface IStatistic {
   count?: number
   title?: string
 }
 
-interface IBranch {
-  coordinate: {
-    coordinates?: [number, number]
-    type?: string
-  }
-  name: string
-  oid: string
-  range: number
-}
-
-interface IEmployeeHistoryAttendance {
+export interface IEmployeeHistoryAttendance {
   attendanceData: {
     attendanceType: string
     coordinate: {

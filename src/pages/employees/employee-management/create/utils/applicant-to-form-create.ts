@@ -1,3 +1,4 @@
+import type { ICandidateToCreateEmployee } from '@/types'
 import emmbedToOption from '@/utils/emmbed-to-option'
 
 export function applicantToFormCreate(applicant: ICandidateToCreateEmployee) {

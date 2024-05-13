@@ -1,3 +1,4 @@
+import type { ILeave } from '@/types'
 import { Avatar, Badge, Color, variants } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 import MainTable from '@/components/Elements/Tables/MainTable'

@@ -1,3 +1,4 @@
+import type { IApplicantStage, IDataTableApplicant } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { Modal, ModalHeader, Spinner, useToast } from 'jobseeker-ui'
 import { processService } from '@/services'

@@ -1,4 +1,4 @@
-interface IPaginationParam {
+export interface IPaginationParam {
   limit?: number
   page?: number
   q?: string
@@ -6,7 +6,7 @@ interface IPaginationParam {
   sortedField?: string
 }
 
-interface IPaginationResponse<T = any> {
+export interface IPaginationResponse<T = any> {
   content: T[]
   limit: number
   page: number
