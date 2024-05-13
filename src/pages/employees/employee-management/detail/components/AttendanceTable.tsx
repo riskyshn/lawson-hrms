@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Card, CardFooter } from 'jobseeker-ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
-import moment from 'moment'
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
@@ -10,17 +9,23 @@ import usePagination from '@/core/hooks/use-pagination'
 import { attendanceService } from '@/services'
 
 const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
-  const [selectedLocation, setSelectedLocation] = useState<[[number, number] | null, [number, number] | null]>([null, null])
+  const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)
+  const [branchLocation, setBranchLocation] = useState<[number, number] | null>(null)
   const previewImage = usePreviewImage()
 
   const { isLoading, pageData } = useAsyncSearch(
-    (params: Parameters<typeof attendanceService.fetchEmployeeAttendanceHistories>[1]) =>
-      attendanceService.fetchEmployeeAttendanceHistories(employee.oid, params),
+    (params: Parameters<typeof attendanceService.fetchAttendanceManagement>[0]) => attendanceService.fetchAttendanceManagement(params),
     {
-      attendance_group: 'clock',
-      limit: 30,
+      log_type: '',
+      employee_id: employee.oid,
+      limit: 20,
     },
   )
+
+  const handlePinClick = (lat: number, lng: number, latLng?: [number, number]) => {
+    setSelectedLocation([lat, lng])
+    setBranchLocation(latLng || null)
+  }
 
   const pagination = usePagination({
     params: { tab: 'attendance' },
@@ -40,76 +45,112 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const bodyItems = pageData?.content.map((item) => ({
     items: [
       {
-        children: <>{item.date}</>,
+        children: formatDate(item.date),
+        className: 'text-center',
       },
       {
-        children: (
-          <>
-            {item.records?.map((el, i) => (
-              <span className="block capitalize" key={i}>
-                {el.attendanceType?.replace('_', ' ')}
-              </span>
-            ))}
-          </>
-        ),
+        children: (item.attendanceData ?? []).map((record, index) => {
+          const modifiedAttendanceType = record.attendanceType
+            .replace(/_/g, ' ')
+            .toLowerCase()
+            .replace(/(?:^|\s)\S/g, function (a: string) {
+              return a.toUpperCase()
+            })
+
+          return (
+            <div key={index}>
+              <span className="font-semibold">{modifiedAttendanceType}</span>
+            </div>
+          )
+        }),
+        className: 'text-center',
       },
       {
-        children: (
-          <>
-            {item.records?.map((el, i) => (
-              <span className="block" key={i}>
-                {moment(el.timezoneTime).format('HH:mm')}
-              </span>
-            ))}
-          </>
-        ),
+        children: (item.attendanceData ?? [])
+          .map((record: any, index: number) => {
+            const modifiedAttendanceType = `${record?.timezoneTime?.split(' ')[1]} ${item?.employee?.employment?.schedule?.timezone?.title}`
+
+            return (
+              <div key={index}>
+                <span className="font-semibold">{modifiedAttendanceType}</span>
+              </div>
+            )
+          })
+          .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, []),
+        className: 'text-center',
+      },
+      { children: item.status.replace(/\b\w/g, (char) => char.toUpperCase()), className: 'text-center' },
+      {
+        children: (item.attendanceData ?? [])
+          .map((record, index) => {
+            return (
+              <div key={index}>
+                <button
+                  className={'text-primary-600 hover:text-primary-700 focus:outline-none'}
+                  onClick={() =>
+                    handlePinClick(
+                      record?.coordinate?.coordinates?.[0] || 0,
+                      record?.coordinate?.coordinates?.[1] || 0,
+                      item.employee?.employment?.branch?.coordinate?.coordinates,
+                    )
+                  }
+                  title="Maps"
+                >
+                  <MapPinIcon size={15} />
+                </button>
+              </div>
+            )
+          })
+          .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, []),
+        className: 'text-center',
       },
       {
-        children: (
-          <>
-            {item.records?.map((el, i) => (
-              <span className="block capitalize" key={i}>
-                {el.status}
-              </span>
-            ))}
-          </>
-        ),
-      },
-      {
-        children: (
-          <>
-            {item.records?.map((el, i) => (
-              <span
-                className="flex cursor-pointer items-center justify-center text-primary-600 hover:text-primary-700"
-                key={i}
-                onClick={() => {
-                  if (el.coordinate?.coordinates?.[0] && el.coordinate?.coordinates?.[1])
-                    setSelectedLocation([
-                      [el.coordinate?.coordinates?.[0], el.coordinate?.coordinates?.[1]],
-                      el.employee?.employment?.branch?.coordinate?.coordinates || null,
-                    ])
-                }}
-              >
-                <MapPinIcon size={14} />
-              </span>
-            ))}
-          </>
-        ),
-      },
-      {
-        children: (
-          <>
-            {item.records?.map((el, i) => (
-              <span
-                className="flex cursor-pointer items-center justify-center text-primary-600 hover:text-primary-700"
-                key={i}
-                onClick={() => previewImage(el.photo)}
-              >
-                <ImageIcon size={14} />
-              </span>
-            ))}
-          </>
-        ),
+        children: (item.attendanceData ?? [])
+          .map((record, index) => {
+            return (
+              <div key={index}>
+                <button
+                  className="text-primary-600 hover:text-primary-700 focus:outline-none"
+                  onClick={() => previewImage(record.photo)}
+                  title="Image"
+                >
+                  <ImageIcon size={15} />
+                </button>
+              </div>
+            )
+          })
+          .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
+            if (index % 2 === 0) {
+              acc.push(
+                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
+                  {cur}
+                  {array[index + 1]}
+                </div>,
+              )
+            }
+            return acc
+          }, []),
+        className: 'text-center',
       },
     ],
   }))
@@ -117,15 +158,26 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   return (
     <Card className="overflow-x-auto">
       <MapsPreviewerModal
-        coordinates={selectedLocation[0]}
-        onClose={() => setSelectedLocation([null, null])}
+        coordinates={selectedLocation}
+        onClose={() => {
+          setSelectedLocation(null)
+          setBranchLocation(null)
+        }}
         radius={100}
-        radiusCoordinates={selectedLocation[1]}
+        radiusCoordinates={branchLocation}
       />
       <MainTable bodyItems={bodyItems || []} headerItems={headerItems} loading={isLoading} />
       <CardFooter className="justify-center">{pagination.render()}</CardFooter>
     </Card>
   )
+}
+
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString)
+  const day = date.getDate().toString().padStart(2, '0')
+  const month = (date.getMonth() + 1).toString().padStart(2, '0')
+  const year = date.getFullYear().toString()
+  return `${day}/${month}/${year}`
 }
 
 export default AttendanceTable

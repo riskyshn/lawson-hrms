@@ -72,12 +72,6 @@ export const updateAttendance = (payload: Record<string, any>) => {
   return axios.post(`/employer/update-status`, payload).then((response) => response.data.data)
 }
 
-export const fetchEmployee = (oid: string, payload: Record<string, any>) => {
-  const queryString = new URLSearchParams(payload).toString()
-  const url = `/employer/history/${oid}?${queryString}`
-  return axios.get<{ data: IPaginationResponse<IEmployeeHistory> }>(url).then((response) => response.data.data)
-}
-
 export const downloadAttendance = (oid: string, payload: Record<string, any>) => {
   const queryString = new URLSearchParams(payload).toString()
   const url = `employer/export-report/${oid}?${queryString}`
@@ -91,21 +85,6 @@ export const downloadAttendance = (oid: string, payload: Record<string, any>) =>
 export const fetchEmployeeLeave = (params: { employee_id: string; end_date?: string; start_date?: string } & IPaginationParam) => {
   params = { end_date: '2030-01-01', start_date: '2024-01-01', ...params }
   return axios.get<{ data: IPaginationResponse<IEmployeeLeave> }>(`/employer/leave`, { params }).then((response) => response.data.data)
-}
-
-export const fetchEmployeeAttendanceHistories = (
-  oid: string,
-  params?: { attendance_group?: 'client_visit' | 'clock' | 'overtime'; end_date?: string; start_date?: string } & IPaginationParam,
-) => {
-  params = { end_date: '2030-01-01', start_date: '2024-01-01', ...params }
-  return axios
-    .get<{
-      data: IPaginationResponse<{
-        date?: string
-        records?: IAttendanceRecord[]
-      }>
-    }>(`/employer/history/${oid}`, { params })
-    .then((response) => response.data.data)
 }
 
 export const fetchReportStatistic = (oid: string, payload: Record<string, any>) => {
