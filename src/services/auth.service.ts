@@ -1,3 +1,4 @@
+import type { IUser } from '@/types'
 import { API_AUTH_BASE_URL } from '@/constants/base-urls'
 import { useAuthStore, useTokenStore } from '@/store'
 import { createAxiosInstance } from '@/utils/axios'

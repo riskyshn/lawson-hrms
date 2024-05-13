@@ -1,3 +1,4 @@
+import type { IComponentInEmployee } from '@/types'
 import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenIcon, TrashIcon } from 'lucide-react'

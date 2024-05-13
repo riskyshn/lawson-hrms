@@ -1,3 +1,4 @@
+import type { IPaginationParam, IPaginationResponse, IPermission, IRole, IUser } from '@/types'
 import type { GenericAbortSignal } from 'axios'
 import { API_AUTH_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'

@@ -1,3 +1,4 @@
+import type { IVacancy } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useConfirm, useToast } from 'jobseeker-ui'

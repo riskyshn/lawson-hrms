@@ -1,3 +1,4 @@
+import type { IDataTableEmployee } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'

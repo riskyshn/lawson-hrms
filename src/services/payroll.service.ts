@@ -1,3 +1,14 @@
+import type {
+  IBenefitComponent,
+  IBPJSComponent,
+  IDeductionComponent,
+  IEmployeePayrollDetail,
+  IEmployeePayrollResult,
+  IPaginationParam,
+  IPaginationResponse,
+  IPayrollRequest,
+  IPPH21,
+} from '@/types'
 import { GenericAbortSignal } from 'axios'
 import { API_PAYROLL_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'

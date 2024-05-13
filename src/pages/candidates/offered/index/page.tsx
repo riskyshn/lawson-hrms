@@ -1,3 +1,4 @@
+import type { ICandidate, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AsyncSelect } from 'jobseeker-ui'

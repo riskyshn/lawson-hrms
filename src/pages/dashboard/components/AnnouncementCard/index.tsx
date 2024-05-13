@@ -1,3 +1,4 @@
+import type { IDashboardAnnouncement } from '@/types'
 import { useState } from 'react'
 import { BaseInputDateRange, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
 import moment from 'moment'

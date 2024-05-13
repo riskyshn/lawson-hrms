@@ -1,3 +1,4 @@
+import type { Dataset, INumberOfHired, INumberOfHiredDataTable, IPaginationResponse, IRecruitmentFunnel } from '@/types'
 import { useEffect, useState } from 'react'
 import { Bar, Line } from 'react-chartjs-2'
 import { DateValueType } from 'react-tailwindcss-datepicker'

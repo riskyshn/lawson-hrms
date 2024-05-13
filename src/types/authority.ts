@@ -1,4 +1,4 @@
-interface IPermission {
+export interface IPermission {
   action: string
   arn: {
     apiId: string
@@ -12,7 +12,7 @@ interface IPermission {
   path: string
 }
 
-interface IRole {
+export interface IRole {
   action: string
   attachedPolicies: IPermission[]
   code: string

@@ -1,3 +1,4 @@
+import type { IDocumentRequest } from '@/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'

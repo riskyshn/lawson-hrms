@@ -1,3 +1,4 @@
+import type { ICandidate } from '@/types'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'

@@ -1,3 +1,4 @@
+import type { IRecruitmentStage } from '@/types'
 import { useEffect, useState } from 'react'
 import { BaseInput, Button, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon } from 'lucide-react'

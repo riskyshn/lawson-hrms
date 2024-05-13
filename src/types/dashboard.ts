@@ -1,4 +1,4 @@
-interface IDashboardSchedule {
+export interface IDashboardSchedule {
   description?: string
   endedAt?: string
   guests?: string[]
@@ -10,7 +10,7 @@ interface IDashboardSchedule {
   linkGmeet?: string
 }
 
-interface IDashboardRecentlyPostedJob {
+export interface IDashboardRecentlyPostedJob {
   applicantCount?: number
   createdAt?: string
   name?: string
@@ -18,7 +18,7 @@ interface IDashboardRecentlyPostedJob {
   rrNumber?: string
 }
 
-interface IDashboardRecentlyApplied {
+export interface IDashboardRecentlyApplied {
   applyDate?: string
   candidate?: {
     cv?: string
@@ -52,7 +52,7 @@ interface IDashboardRecentlyApplied {
   }
 }
 
-interface IDashboardAnnouncement {
+export interface IDashboardAnnouncement {
   company?: {
     name?: string
     oid: string

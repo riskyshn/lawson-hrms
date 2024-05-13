@@ -1,3 +1,4 @@
+import type { ICandidate } from '@/types'
 import React from 'react'
 import { CheckCircle2Icon, XCircleIcon } from 'lucide-react'
 import MainModal from '@/components/Elements/Modals/MainModal'

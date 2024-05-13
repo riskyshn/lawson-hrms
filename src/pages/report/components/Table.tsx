@@ -1,3 +1,4 @@
+import type { INumberOfHiredDataTable } from '@/types'
 import MainTable from '@/components/Elements/Tables/MainTable'
 
 type PropTypes = {

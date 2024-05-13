@@ -1,3 +1,4 @@
+import type { ICms, IHomeData, IJobData } from '@/types'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Stepper, useSteps, useToast } from 'jobseeker-ui'

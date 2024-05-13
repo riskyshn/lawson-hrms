@@ -10,7 +10,6 @@ const jobRoute: RouteObject = {
         { lazy: () => import('@/pages/job/manajement/edit/page'), path: ':vacancyId/edit' },
         { lazy: () => import('@/pages/job/manajement/recruitment-stages/page'), path: 'recruitment-stages' },
       ],
-      name: 'Management',
       path: 'management',
     },
     {
@@ -21,11 +20,10 @@ const jobRoute: RouteObject = {
         { lazy: () => import('@/pages/job/requisition/edit/page'), path: ':vacancyId/edit' },
         { lazy: () => import('@/pages/job/requisition/approve-list/page'), path: 'approve-list' },
       ],
-      name: 'Requisition',
       path: 'requisition',
     },
   ],
-  name: 'Job',
+
   path: 'job',
 }
 

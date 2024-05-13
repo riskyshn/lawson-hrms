@@ -1,3 +1,4 @@
+import type { IEmployee } from '@/types'
 import { employeeService } from '@/services'
 import emmbedToOption from '@/utils/emmbed-to-option'
 

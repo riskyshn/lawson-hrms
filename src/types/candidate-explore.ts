@@ -1,4 +1,4 @@
-interface ICandidateExplore {
+export interface ICandidateExplore {
   age?: number
   candidate_id?: number
   city_name?: string

@@ -5,7 +5,7 @@ const reportRoute: RouteObject = {
     { lazy: () => import('@/pages/report/demography/page'), path: 'demography' },
     { lazy: () => import('@/pages/report/summary/page'), path: 'summary' },
   ],
-  name: 'Report',
+
   path: 'report',
 }
 

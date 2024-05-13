@@ -1,3 +1,4 @@
+import type { IRole } from '@/types'
 import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'

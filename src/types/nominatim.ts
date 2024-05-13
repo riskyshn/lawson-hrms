@@ -1,4 +1,4 @@
-interface INominatimPlace {
+export interface INominatimPlace {
   addresstype: string
   boundingbox: [string, string, string, string]
   category: string

@@ -1,3 +1,4 @@
+import type { IEmployeePayrollResult } from '@/types'
 import React, { useState } from 'react'
 import { Avatar, Button } from 'jobseeker-ui'
 import MainTable from '@/components/Elements/Tables/MainTable'

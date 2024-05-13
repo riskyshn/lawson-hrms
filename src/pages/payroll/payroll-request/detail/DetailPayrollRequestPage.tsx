@@ -1,3 +1,4 @@
+import type { IPayrollRequest } from '@/types'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Button, Card, CardHeader } from 'jobseeker-ui'

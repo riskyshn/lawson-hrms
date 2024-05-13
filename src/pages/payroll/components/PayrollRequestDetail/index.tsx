@@ -1,3 +1,4 @@
+import type { IPaginationParam, IPayrollRequest } from '@/types'
 import { useSearchParams } from 'react-router-dom'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'

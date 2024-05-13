@@ -1,3 +1,4 @@
+import type { ICandidateToCreateEmployee } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { candidateService } from '@/services'

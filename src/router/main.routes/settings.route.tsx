@@ -13,7 +13,7 @@ const settingsRoute: RouteObject = {
     { lazy: () => import('@/pages/settings/permissions/page'), path: 'permissions' },
     { lazy: () => import('@/pages/settings/work-placements/page'), path: 'work-placements' },
   ],
-  name: 'Settings',
+
   path: 'settings',
 }
 

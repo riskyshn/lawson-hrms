@@ -1,3 +1,4 @@
+import type { IDataTableEmployee, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import Container from '@/components/Elements/Layout/Container'

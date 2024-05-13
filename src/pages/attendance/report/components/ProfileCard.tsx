@@ -1,3 +1,4 @@
+import type { IEmployee, IFilterDate } from '@/types'
 import React from 'react'
 import { Avatar, Card, CardBody } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, PhoneIcon } from 'lucide-react'

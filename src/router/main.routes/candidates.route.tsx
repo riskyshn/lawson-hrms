@@ -17,7 +17,6 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Pool',
       path: 'pool',
     },
     {
@@ -27,7 +26,6 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Management',
       path: 'management',
     },
     {
@@ -37,7 +35,6 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Shortlisted',
       path: 'shortlisted',
     },
     {
@@ -47,7 +44,6 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Rejected',
       path: 'rejected',
     },
     {
@@ -57,7 +53,6 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Withdraw',
       path: 'withdraw',
     },
     {
@@ -67,7 +62,6 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Blacklisted',
       path: 'blacklisted',
     },
     {
@@ -77,7 +71,6 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Offered',
       path: 'offered',
     },
     {
@@ -87,11 +80,10 @@ const candidatesRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Candidate Profile',
       path: 'profile/:candidateId',
     },
   ],
-  name: 'Candidates',
+
   path: 'candidates',
 }
 

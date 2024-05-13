@@ -1,4 +1,7 @@
-interface IBPJSComponent {
+import { IDataTableEmployee } from './employee'
+import { IGeneralDataEmmbed } from './shared'
+
+export interface IBPJSComponent {
   bpjsComponentId: string
   paidByEmployee?: {
     jht?: { maxCap?: number; rate?: number }
@@ -16,7 +19,7 @@ interface IBPJSComponent {
   }
 }
 
-interface IPPH21 {
+export interface IPPH21 {
   category?: string
   description?: string
   name?: string
@@ -24,7 +27,7 @@ interface IPPH21 {
   yearValidRegulation?: string
 }
 
-interface IBenefitComponent {
+export interface IBenefitComponent {
   amount?: number
   amountType?: IGeneralDataEmmbed
   applicationType?: IGeneralDataEmmbed
@@ -34,7 +37,7 @@ interface IBenefitComponent {
   taxType?: IGeneralDataEmmbed
 }
 
-interface IDeductionComponent {
+export interface IDeductionComponent {
   amount?: number
   amountType?: IGeneralDataEmmbed
   applicationType?: IGeneralDataEmmbed
@@ -44,12 +47,12 @@ interface IDeductionComponent {
   taxType?: IGeneralDataEmmbed
 }
 
-interface IComponentInEmployee {
+export interface IComponentInEmployee {
   component: IBenefitComponent | IDeductionComponent
   employee: IDataTableEmployee
 }
 
-interface IPayrollRequest {
+export interface IPayrollRequest {
   approver?: {
     email?: string
     employeeCode?: string
@@ -74,7 +77,7 @@ interface IPayrollRequest {
   totalEmployee?: string
 }
 
-interface IEmployeePayrollResult {
+export interface IEmployeePayrollResult {
   baseSalary?: string
   name?: string
   oid: string
@@ -85,7 +88,7 @@ interface IEmployeePayrollResult {
   totalDeduction?: string
 }
 
-interface IEmployeePayrollDetail {
+export interface IEmployeePayrollDetail {
   components?: {
     amount: string
     name: string

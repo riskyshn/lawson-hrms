@@ -1,3 +1,4 @@
+import type { ISchedule } from '@/types'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import NumberOfEmployeeLink from '@/components/Elements/UI/NumberOfEmployeeLink'
 import ActionMenu from './ActionMenu'

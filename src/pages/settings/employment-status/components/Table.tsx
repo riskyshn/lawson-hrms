@@ -1,3 +1,4 @@
+import type { IJobType } from '@/types'
 import React from 'react'
 import { Badge } from 'jobseeker-ui'
 import MainTable from '@/components/Elements/Tables/MainTable'

@@ -1,3 +1,4 @@
+import type { ISchedule, ITimezone } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { Input, InputTime, Select } from 'jobseeker-ui'
 import { ClockIcon } from 'lucide-react'

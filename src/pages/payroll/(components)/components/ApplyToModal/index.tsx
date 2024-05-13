@@ -1,3 +1,4 @@
+import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import { useState } from 'react'
 import { Button } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'

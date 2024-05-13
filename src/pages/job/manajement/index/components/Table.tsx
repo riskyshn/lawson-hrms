@@ -1,3 +1,4 @@
+import type { IVacancy } from '@/types'
 import React, { useState } from 'react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'

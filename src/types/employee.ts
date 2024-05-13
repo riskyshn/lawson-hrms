@@ -1,4 +1,6 @@
-interface IPreviousEmployee {
+import { IGeneralDataEmmbed } from './shared'
+
+export interface IPreviousEmployee {
   employeeCode?: string
   jobType?: IGeneralDataEmmbed
   lastdayAt?: string
@@ -7,7 +9,7 @@ interface IPreviousEmployee {
   reasonInactive?: string
 }
 
-interface IDataTableEmployee {
+export interface IDataTableEmployee {
   branch?: IGeneralDataEmmbed
   department?: IGeneralDataEmmbed
   email?: string
@@ -20,7 +22,7 @@ interface IDataTableEmployee {
   schedule?: IGeneralDataEmmbed
 }
 
-interface IEmployee {
+export interface IEmployee {
   components?: {
     benefits?: Array<{
       amount?: number

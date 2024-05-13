@@ -1,4 +1,4 @@
-interface ICms {
+export interface ICms {
   oid?: string
   company?: {
     name?: string
@@ -82,7 +82,7 @@ interface ICms {
   }
 }
 
-interface IHomeData {
+export interface IHomeData {
   bannerAsset?: string
   bannerCallToAction?: string
   bannerHeadingEn?: string
@@ -102,7 +102,7 @@ interface IHomeData {
   sectionBParagraphId?: string
 }
 
-interface IJobData {
+export interface IJobData {
   backgroundColor?: string
   callToActionColor?: string
   findJobAsset?: string

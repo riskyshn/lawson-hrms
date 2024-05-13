@@ -1,4 +1,6 @@
-interface IVacancy {
+import { IGeneralDataEmmbed } from './shared'
+
+export interface IVacancy {
   applicantCount?: number
   approvals?: {
     flag?: number
@@ -22,7 +24,6 @@ interface IVacancy {
   createdAt?: string
   department?: IGeneralDataEmmbed
   district?: IGeneralDataEmmbed
-  expiredDate?: string
   expiredDate?: string
   flag?: number
   hideRangeSalary?: boolean

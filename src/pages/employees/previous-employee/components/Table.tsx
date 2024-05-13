@@ -1,3 +1,4 @@
+import type { IPreviousEmployee } from '@/types'
 import React from 'react'
 import { Avatar, Badge } from 'jobseeker-ui'
 import moment from 'moment'

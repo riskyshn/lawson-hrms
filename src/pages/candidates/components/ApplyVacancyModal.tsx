@@ -1,3 +1,4 @@
+import type { ICandidate, IVacancy } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { Button, Select, useToast } from 'jobseeker-ui'
 import MainModal from '@/components/Elements/Modals/MainModal'

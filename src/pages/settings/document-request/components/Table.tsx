@@ -1,3 +1,4 @@
+import type { IDocumentRequest } from '@/types'
 import React from 'react'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'

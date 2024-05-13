@@ -1,3 +1,4 @@
+import type { ICandidateExplore } from '@/types'
 import React from 'react'
 import { Button, Skeleton } from 'jobseeker-ui'
 import { PlayIcon } from 'lucide-react'

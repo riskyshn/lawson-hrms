@@ -1,3 +1,18 @@
+import type {
+  IMasterCity,
+  IMasterCountry,
+  IMasterDistrict,
+  IMasterEducationLevel,
+  IMasterFileType,
+  IMasterGender,
+  IMasterMaritalStatus,
+  IMasterProvince,
+  IMasterReason,
+  IMasterReligion,
+  IMasterSubDistrict,
+  IPaginationParam,
+  IPaginationResponse,
+} from '@/types'
 import type { GenericAbortSignal } from 'axios'
 import { API_MASTER_BASE_URL } from '@/constants/base-urls'
 import { createAxiosInstance } from '@/utils/axios'

@@ -1,3 +1,4 @@
+import type { ICandidateExplore, IPaginationParam } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
 import { useDeepCompareEffect, useInfiniteScroll } from 'jobseeker-ui'
 import { candidateExploreService } from '@/services'

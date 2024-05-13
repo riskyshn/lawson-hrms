@@ -1,3 +1,4 @@
+import type { IVacancy } from '@/types'
 import emmbedToOption from '@/utils/emmbed-to-option'
 
 export function vacancyToFormEdit(vacancy: IVacancy, isRequisition?: boolean) {

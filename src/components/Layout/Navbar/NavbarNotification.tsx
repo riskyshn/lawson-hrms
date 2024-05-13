@@ -1,3 +1,4 @@
+import type { INotification, IPaginationResponse } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'

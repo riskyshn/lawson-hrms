@@ -1,3 +1,4 @@
+import type { IDataTableApplicant } from '@/types'
 import type { ModalType, TableType } from '../types'
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'

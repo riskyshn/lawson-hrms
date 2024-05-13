@@ -1,3 +1,4 @@
+import type { ICandidate } from '@/types'
 import React from 'react'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'

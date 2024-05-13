@@ -1,3 +1,4 @@
+import type { ILeave } from '@/types'
 import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
 import { Button, useToast } from 'jobseeker-ui'

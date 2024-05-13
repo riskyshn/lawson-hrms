@@ -17,7 +17,6 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Schedule',
       path: 'schedule',
     },
     {
@@ -27,7 +26,6 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Schedule Detail',
       path: 'schedule/detail',
     },
     {
@@ -37,7 +35,6 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Attendance Management',
       path: 'attendance-management/attendance',
     },
     {
@@ -47,7 +44,6 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Attendance Management',
       path: 'attendance-management/client-visit',
     },
     {
@@ -57,7 +53,6 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Attendance Management',
       path: 'attendance-management/overtime',
     },
     {
@@ -67,7 +62,6 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Request Management',
       path: 'request-management',
     },
     {
@@ -77,7 +71,6 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Report',
       path: 'report',
     },
     {
@@ -87,11 +80,10 @@ const attendanceRoute: RouteObject = {
           path: '',
         },
       ],
-      name: 'Report Details',
       path: 'report/:employeeId',
     },
   ],
-  name: 'Attendance',
+
   path: 'attendance',
 }
 
