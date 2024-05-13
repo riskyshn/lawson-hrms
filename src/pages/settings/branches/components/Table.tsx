@@ -71,6 +71,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       <MapsPreviewerModal
         coordinates={showCoordinate?.latLong}
         onClose={() => setShowCoordinate(undefined)}
+        radiusCoordinates={showCoordinate?.latLong}
         radius={showCoordinate?.range}
       />
       <MainTable bodyItems={bodyItems} headerItems={headerItems} loading={loading} />
