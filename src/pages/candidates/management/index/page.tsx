@@ -75,6 +75,22 @@ const CandidateManagementPage: React.FC = () => {
     }
   }
 
+  const handleRefresh = async () => {
+    setIsLoading(true)
+    try {
+      const data = await candidateService.fetchCandidateManagement({
+        limit: 20,
+        page: pagination.currentPage,
+        q: search,
+        vacancyId: vacancy,
+      })
+      setPageData(data)
+      setIsLoading(false)
+    } catch (e: any) {
+      if (e.message !== 'canceled') setPageError(e)
+    }
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -120,6 +136,7 @@ const CandidateManagementPage: React.FC = () => {
                 setValue: (v) => setSearchParam({ search: v }),
                 value: search || '',
               }}
+              onRefresh={handleRefresh}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total

@@ -30,7 +30,14 @@ const AnnouncementCard: React.FC = () => {
         {pageData && (
           <>
             <CardHeader
-              actions={<BaseInputDateRange onValueChange={setFilterDate} placeholder="Filter by date" value={filterDate} />}
+              actions={
+                <BaseInputDateRange
+                  displayFormat="DD-MM-YYYY"
+                  onValueChange={setFilterDate}
+                  placeholder="Filter by date"
+                  value={filterDate}
+                />
+              }
               className="h-16"
             >
               <div className="font-semibold">Announcement</div>

@@ -177,6 +177,7 @@ const ViewPage: React.FC = () => {
             <CardBody className="p-0">
               <BaseInputDateRange
                 className="z-50 mb-3 w-full md:w-64"
+                displayFormat="DD-MM-YYYY"
                 onValueChange={handleDateChange}
                 placeholder="Start - End Date"
                 value={filterDate}

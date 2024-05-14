@@ -67,6 +67,24 @@ const CandidateRejectedPage: React.FC = () => {
     }
   }, [search, vacancy?.value, education?.value, province?.value, pagination.currentPage, onChangeData])
 
+  const handleRefresh = async () => {
+    setIsLoading(true)
+    try {
+      const data = await candidateService.fetchReject({
+        education: education?.value,
+        limit: 20,
+        page: pagination.currentPage,
+        province: province?.value,
+        q: search,
+        vacancyId: vacancy?.value,
+      })
+      setPageData(data)
+      setIsLoading(false)
+    } catch (e: any) {
+      if (e.message !== 'canceled') setPageError(e)
+    }
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -131,6 +149,7 @@ const CandidateRejectedPage: React.FC = () => {
                 setValue: (v) => setSearchParam({ search: v }),
                 value: search || '',
               }}
+              onRefresh={handleRefresh}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Candidate</span> in total

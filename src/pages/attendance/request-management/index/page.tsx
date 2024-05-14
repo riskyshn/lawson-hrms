@@ -99,7 +99,12 @@ const RequestPage: React.FC = () => {
             <MainCardHeader
               filter={
                 <div className="grid grid-cols-1 gap-3 p-3">
-                  <BaseInputDateRange onValueChange={handleDateChange} placeholder="Start - End Date" value={filterDate} />
+                  <BaseInputDateRange
+                    displayFormat="DD-MM-YYYY"
+                    onValueChange={handleDateChange}
+                    placeholder="Start - End Date"
+                    value={filterDate}
+                  />
                 </div>
               }
               search={{

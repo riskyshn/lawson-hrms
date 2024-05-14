@@ -47,7 +47,7 @@ const StatisticCards: React.FC<{ filterDate: { endDate: string; startDate: strin
 
     return data?.total ? (
       data.total.map((stage, index) => (
-        <Card className={`text-white bg-${colors[index]}-600`} key={index} label={`${stage.label.toUpperCase()}`} value={stage.total} />
+        <Card className={`text-white bg-${colors[index]}-600`} key={index} label={`${stage.label}`} value={stage.total} />
       ))
     ) : (
       <div></div>

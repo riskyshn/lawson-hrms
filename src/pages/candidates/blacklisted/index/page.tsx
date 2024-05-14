@@ -78,6 +78,24 @@ const CandidateBlacklistedPage: React.FC = () => {
     }
   }
 
+  const handleRefresh = async () => {
+    setIsLoading(true)
+    try {
+      const data = await candidateService.fetchBlacklist({
+        education: education,
+        limit: 20,
+        page: pagination.currentPage,
+        province: province,
+        q: search,
+        vacancyId: vacancy,
+      })
+      setPageData(data)
+      setIsLoading(false)
+    } catch (e: any) {
+      if (e.message !== 'canceled') setPageError(e)
+    }
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -119,6 +137,7 @@ const CandidateBlacklistedPage: React.FC = () => {
                 )
               }
               filterToogle={toggleOpen}
+              onRefresh={handleRefresh}
               search={{
                 setValue: (v) => setSearchParam({ search: v }),
                 value: search || '',
