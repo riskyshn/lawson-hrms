@@ -15,7 +15,7 @@ import PageCard from '../components/PageCard'
 import Table from '../components/Table'
 import StatisticCards from '../index/components/StatisticCards'
 
-const OvertimePage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const [onChangeData, setOnChangeData] = useState<string>()
@@ -158,4 +158,4 @@ const OvertimePage: React.FC = () => {
   )
 }
 
-export default OvertimePage
+Component.displayName = 'OvertimePage'

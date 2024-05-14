@@ -11,7 +11,7 @@ import { employeeService, organizationService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'
 import Table from './components/Table'
 
-const ScheduleDetailPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
@@ -92,4 +92,4 @@ const ScheduleDetailPage: React.FC = () => {
   )
 }
 
-export default ScheduleDetailPage
+Component.displayName = 'ScheduleDetailPage'
