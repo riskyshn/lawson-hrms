@@ -1,7 +1,7 @@
+import { SidebarLinksOptions } from '@jshrms/ui'
 import { PackageIcon, SettingsIcon } from 'lucide-react'
-import genSidebarLinks from '@/utils/gen-sidebar-links'
 
-const settingsLinks = genSidebarLinks({
+const settingsLinks: SidebarLinksOptions = {
   items: [
     {
       child: [
@@ -21,6 +21,6 @@ const settingsLinks = genSidebarLinks({
     { parent: { icon: PackageIcon, text: 'CMS', to: '/cms' } },
   ],
   title: 'Settings',
-})
+}
 
 export default settingsLinks

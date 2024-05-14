@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import DocumentFileUpload from '@jshrms/shared/components/Elements/FileUploads/DocumentFileUpload'
+import { TINYMCE_API_KEY } from '@jshrms/shared/constants/globals'
+import { dashboardService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Alert, Button, Editor, Input, InputWrapper, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
-import { TINYMCE_API_KEY } from '@/constants/globals'
-import { dashboardService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 type CreateModalProps = {
   onClose?: () => void

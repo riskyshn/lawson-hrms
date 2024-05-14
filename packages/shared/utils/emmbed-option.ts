@@ -1,4 +1,5 @@
 import { OptionProps } from '@jshrms/ui'
+import { IGeneralDataEmmbed } from '../types'
 
 export function emmbedToOption(data?: IGeneralDataEmmbed): OptionProps | undefined {
   if (!data) return undefined

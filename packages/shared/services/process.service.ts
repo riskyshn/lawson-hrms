@@ -1,6 +1,16 @@
+import type {
+  IApplicant,
+  IApplicantStage,
+  IDataTableApplicant,
+  IOfferingLetter,
+  IPaginationParam,
+  IPaginationResponse,
+  IProcessSchedule,
+  IUploadedProcessDocument,
+} from '../types'
 import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
-import { API_PROCESS_BASE_URL } from '@/constants/base-urls'
-import { createAxiosInstance } from '@/utils/axios'
+import { API_PROCESS_BASE_URL } from '../constants/base-urls'
+import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
   baseURL: API_PROCESS_BASE_URL,
@@ -86,4 +96,8 @@ export const getSignedOfferingLetter = (oid: string, config?: AxiosRequestConfig
 
 export const setJoinDate = (payload: Record<string, any>, signal?: GenericAbortSignal) => {
   return axios.put<{ data: IApplicant }>(`/process/onboarding`, payload, { signal }).then((response) => response.data.data)
+}
+
+export const setAsHired = (oid: string) => {
+  return axios.patch<{ data: IApplicant }>(`/process/onboarding/hired/${oid}`).then((response) => response.data.data)
 }

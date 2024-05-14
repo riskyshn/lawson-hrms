@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
+import { useAsyncAction } from '@jshrms/shared/hooks'
+import { dashboardService, organizationService } from '@jshrms/shared/services'
 import { Button, Card, CardBody, CardHeader } from '@jshrms/ui'
 import { InboxIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import useAsyncAction from '@/core/hooks/use-async-action'
-import { dashboardService, organizationService } from '@/services'
 
 const RecentlyPostedJobsCard: React.FC = () => {
   const [department_id, setDepartmentId] = useState<string>()

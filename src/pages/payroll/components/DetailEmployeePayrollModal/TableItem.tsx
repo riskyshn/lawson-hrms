@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
+import { payrollService } from '@jshrms/shared/services'
+import { axiosErrorMessage, currencyToNumber, numberToCurrency } from '@jshrms/shared/utils'
 import { BaseInputCurrency, Button, useToast } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
-import { payrollService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
-import currencyToNumber from '@/utils/currency-to-number'
-import numberToCurrency from '@/utils/number-to-currency'
 
 type PropTypes = {
   amount: string

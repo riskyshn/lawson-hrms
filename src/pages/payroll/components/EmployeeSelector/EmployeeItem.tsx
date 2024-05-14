@@ -1,4 +1,4 @@
-import type { IDataTableEmployee } from '@/types'
+import type { IDataTableEmployee } from '@jshrms/shared/types'
 import React from 'react'
 import { Avatar } from '@jshrms/ui'
 

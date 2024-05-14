@@ -1,8 +1,8 @@
-import type { IDataTableEmployee } from '@/types'
+import type { IDataTableEmployee } from '@jshrms/shared/types'
 import { useEffect, useState } from 'react'
+import SideModal from '@jshrms/shared/components/Elements/Modals/SideModal'
 import { Button } from '@jshrms/ui'
 import { XIcon } from 'lucide-react'
-import SideModal from '@/components/Elements/Modals/SideModal'
 import EmployeeSelector from './EmployeeSelector'
 
 type PropTypes = {

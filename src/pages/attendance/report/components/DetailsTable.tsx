@@ -1,10 +1,9 @@
-import type { IEmployeeHistoryAttendance } from '@/types'
+import type { IEmployeeHistoryAttendance } from '@jshrms/shared/types'
 import { useState } from 'react'
-import { Avatar } from '@jshrms/ui'
+import MapsPreviewerModal from '@jshrms/shared/components/Elements/Modals/MapsPreviewerModal'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { Avatar, usePreviewImage } from '@jshrms/ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
-import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
-import MainTable from '@/components/Elements/Tables/MainTable'
-import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 
 type PropTypes = {
   items: IEmployeeHistoryAttendance[]

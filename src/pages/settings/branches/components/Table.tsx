@@ -1,8 +1,8 @@
-import type { IBranch } from '@/types'
+import type { IBranch } from '@jshrms/shared/types'
 import React, { useState } from 'react'
+import MapsPreviewerModal from '@jshrms/shared/components/Elements/Modals/MapsPreviewerModal'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import { MapPinIcon } from 'lucide-react'
-import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
-import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 // import { Avatar } from '@jshrms/ui'

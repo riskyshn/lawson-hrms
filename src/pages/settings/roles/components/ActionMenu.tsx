@@ -1,9 +1,9 @@
-import type { IRole } from '@/types'
+import type { IRole } from '@jshrms/shared/types'
 import React from 'react'
+import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { authorityService } from '@jshrms/shared/services'
 import { useConfirm, useToast } from '@jshrms/ui'
 import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { authorityService } from '@/services'
 
 type ActionMenuProps = {
   index: number

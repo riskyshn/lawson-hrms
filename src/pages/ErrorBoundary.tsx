@@ -1,10 +1,10 @@
 import { Fragment, lazy } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
+import { useAuthStore } from '@jshrms/shared/store'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Button } from '@jshrms/ui'
-import { useAuthStore } from '@/store'
-import { axiosErrorMessage } from '@/utils/axios'
 
-const MainLayout = lazy(() => import('@/components/Layout/MainLayout'))
+const MainLayout = lazy(() => import('@/Layout/MainLayout'))
 
 const ErrorBoundary: React.FC = () => {
   const auth = useAuthStore()

@@ -1,13 +1,13 @@
-import type { IDataTableApplicant } from '@/types'
+import type { IDataTableApplicant } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import DocumentFileUpload from '@jshrms/shared/components/Elements/FileUploads/DocumentFileUpload'
+import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
+import { processService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Button, InputRadio, InputWrapper, Textarea, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import DocumentFileUpload from '@/components/Elements/FileUploads/DocumentFileUpload'
-import MainModal from '@/components/Elements/Modals/MainModal'
-import { processService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 type UpdateResultModalProps = {
   applicant?: IDataTableApplicant

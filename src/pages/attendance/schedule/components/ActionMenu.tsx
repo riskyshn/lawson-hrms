@@ -1,10 +1,10 @@
-import type { ISchedule } from '@/types'
+import type { ISchedule } from '@jshrms/shared/types'
 import { useState } from 'react'
 import { Menu } from '@headlessui/react'
+import { attendanceService } from '@jshrms/shared/services'
 import { Button, useConfirm, useToast } from '@jshrms/ui'
 import { EditIcon, EyeIcon, TrashIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
-import { attendanceService } from '@/services'
 import EditScheduleModal from './EditScheduleModal'
 import ViewScheduleModal from './ViewScheduleModal'
 

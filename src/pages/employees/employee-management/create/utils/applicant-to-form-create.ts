@@ -1,5 +1,5 @@
-import type { ICandidateToCreateEmployee } from '@/types'
-import emmbedToOption from '@/utils/emmbed-to-option'
+import type { ICandidateToCreateEmployee } from '@jshrms/shared/types'
+import { emmbedToOption } from '@jshrms/shared/utils'
 
 export function applicantToFormCreate(applicant: ICandidateToCreateEmployee) {
   return {

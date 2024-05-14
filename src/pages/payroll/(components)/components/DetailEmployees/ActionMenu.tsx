@@ -1,9 +1,9 @@
-import type { IComponentInEmployee } from '@/types'
+import type { IComponentInEmployee } from '@jshrms/shared/types'
 import React from 'react'
+import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { useConfirm, useToast } from '@jshrms/ui'
 import { PenIcon, TrashIcon } from 'lucide-react'
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { axiosErrorMessage } from '@/utils/axios'
 
 type ActionMenuProps = {
   index: number

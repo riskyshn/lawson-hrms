@@ -1,3 +1,4 @@
+import type { IApplicantStage, IDataTableApplicant } from '../../../../types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -6,8 +7,8 @@ import { Alert, Button, Input, InputDate, InputTime, InputWrapper, ModalFooter, 
 import { ClockIcon } from 'lucide-react'
 import moment from 'moment'
 import * as yup from 'yup'
-import { processService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
+import { processService } from '../../../../services'
+import { axiosErrorMessage } from '../../../../utils'
 import SelectEmployees from '../components/SelectEmployees'
 
 const schema = yup.object({

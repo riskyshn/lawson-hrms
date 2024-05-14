@@ -1,8 +1,8 @@
-import type { IVacancy } from '@/types'
+import type { IVacancy } from '@jshrms/shared/types'
 import React from 'react'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 interface TableProps {

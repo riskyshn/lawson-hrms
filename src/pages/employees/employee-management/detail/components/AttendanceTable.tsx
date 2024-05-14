@@ -1,13 +1,11 @@
-import type { IEmployee } from '@/types'
+import type { IEmployee } from '@jshrms/shared/types'
 import React, { useState } from 'react'
-import { Card, CardFooter } from '@jshrms/ui'
+import MapsPreviewerModal from '@jshrms/shared/components/Elements/Modals/MapsPreviewerModal'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { useAsyncSearch, usePagination } from '@jshrms/shared/hooks'
+import { attendanceService } from '@jshrms/shared/services'
+import { Card, CardFooter, usePreviewImage } from '@jshrms/ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
-import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
-import MainTable from '@/components/Elements/Tables/MainTable'
-import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
-import useAsyncSearch from '@/core/hooks/use-async-search'
-import usePagination from '@/core/hooks/use-pagination'
-import { attendanceService } from '@/services'
 
 const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null)

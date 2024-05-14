@@ -1,7 +1,7 @@
-import type { IVacancy } from '@/types'
+import type { IVacancy } from '@jshrms/shared/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { vacancyService } from '@/services'
+import { vacancyService } from '@jshrms/shared/services'
 
 export default function useVacancyPage() {
   const { vacancyId } = useParams()

@@ -1,6 +1,7 @@
+import type { ICandidate, ICandidateHistories, ICandidateToCreateEmployee, IPaginationParam, IPaginationResponse, IVacancy } from '../types'
 import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
-import { API_APPLICANT_BASE_URL, API_CANDIDATE_BASE_URL } from '@/constants/base-urls'
-import { createAxiosInstance } from '@/utils/axios'
+import { API_APPLICANT_BASE_URL, API_CANDIDATE_BASE_URL } from '../constants/base-urls'
+import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
   baseURL: API_APPLICANT_BASE_URL,

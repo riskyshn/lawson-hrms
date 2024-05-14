@@ -1,10 +1,10 @@
-import type { IJobData } from '@/types'
+import type { IJobData } from '@jshrms/shared/types'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import ImageFileUpload from '@jshrms/shared/components/Elements/FileUploads/ImageFileUpload'
 import { Button, Card, CardBody, CardFooter, Input, InputWrapper } from '@jshrms/ui'
 import * as yup from 'yup'
-import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 
 interface IFormProps {
   defaultValue?: IJobData

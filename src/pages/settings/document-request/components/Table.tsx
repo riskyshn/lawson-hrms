@@ -1,6 +1,6 @@
-import type { IDocumentRequest } from '@/types'
+import type { IDocumentRequest } from '@jshrms/shared/types'
 import React from 'react'
-import MainTable from '@/components/Elements/Tables/MainTable'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 type TableProps = {

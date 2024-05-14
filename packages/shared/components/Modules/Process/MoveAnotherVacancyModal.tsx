@@ -3,10 +3,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import { candidateService, vacancyService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
-import genYupOption from '@/utils/gen-yup-option'
-import yupOptionError from '@/utils/yup-option-error'
+import { candidateService, vacancyService } from '../../../services'
+import { axiosErrorMessage, genYupOption, yupOptionError } from '../../../utils'
 
 type MoveAnotherVacancyModalProps = {
   applicantId?: string
@@ -40,9 +38,7 @@ const MoveAnotherVacancyModal: React.FC<MoveAnotherVacancyModalProps> = ({ appli
       })
       onRefresh?.()
       onClose?.()
-      toast('Apply to another vacancy successfully created.', {
-        color: 'success',
-      })
+      toast('Apply to another vacancy successfully created.', { color: 'success' })
     } catch (e) {
       toast(axiosErrorMessage(e), { color: 'error' })
     }

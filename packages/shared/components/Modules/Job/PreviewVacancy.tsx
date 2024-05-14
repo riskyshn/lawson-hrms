@@ -1,6 +1,7 @@
+import type { IVacancy } from '../../../types'
 import React from 'react'
 import { Card, CardBody, CardHeader, Skeleton } from '@jshrms/ui'
-import numberToCurrency from '@/utils/number-to-currency'
+import { numberToCurrency } from '../../../utils'
 import PreviewRecruitmentStageCard from './PreviewRecruitmentStageCard'
 
 const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }> = ({ isLoading, vacancy }) => {
@@ -88,24 +89,21 @@ const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }> = ({ 
             <tbody>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Gender
-                  {vacancy.genderRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Gender{vacancy.genderRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="w-full border-y px-3 py-2">{vacancy.genderRequirement?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Min. Education
-                  {vacancy.minimalEducationRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Min. Education{vacancy.minimalEducationRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2">{vacancy.minimalEducationRequirement?.name}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Age
-                  {vacancy.ageRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Age{vacancy.ageRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2">
@@ -130,24 +128,21 @@ const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }> = ({ 
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Min. GPA
-                  {vacancy.gpaRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Min. GPA{vacancy.gpaRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2 ">{vacancy.gpaRequirement?.minimumGpa}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Min. Experience
-                  {vacancy.minimumExperienceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Min. Experience{vacancy.minimumExperienceRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2 ">{vacancy.minimumExperienceRequirement?.minimumExperience}</td>
               </tr>
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-y px-3 py-2 text-left">
-                  Max. Salary
-                  {vacancy.maximumSalaryRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
+                  Max. Salary{vacancy.maximumSalaryRequirement?.mustMeetCriteria && <span className="text-error-600">*</span>}
                 </th>
                 <td className="border-y px-3 py-2">:</td>
                 <td className="border-y px-3 py-2 ">{numberToCurrency(vacancy.maximumSalaryRequirement?.maximumSalary)}</td>

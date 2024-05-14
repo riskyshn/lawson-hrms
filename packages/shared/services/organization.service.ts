@@ -1,6 +1,22 @@
 import type { AxiosRequestConfig, GenericAbortSignal } from 'axios'
-import { API_ORGANIZATION_BASE_URL } from '@/constants/base-urls'
-import { createAxiosInstance } from '@/utils/axios'
+import type {
+  IApproval,
+  IBenefit,
+  IBranch,
+  ICompany,
+  IDepartment,
+  IDocumentRequest,
+  IJobLevel,
+  IJobType,
+  IOfferingLetterSetting,
+  IPaginationParam,
+  IPaginationResponse,
+  IPosition,
+  IRecruitmentStage,
+  IWorkplacement,
+} from '../types'
+import { API_ORGANIZATION_BASE_URL } from '../constants/base-urls'
+import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
   baseURL: API_ORGANIZATION_BASE_URL,

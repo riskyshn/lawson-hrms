@@ -1,5 +1,6 @@
-import { API_CANDIDATE_EXPLORE_BASE_URL } from '@/constants/base-urls'
-import { createAxiosInstance } from '@/utils/axios'
+import type { ICandidateExplore, IPaginationParam, IPaginationResponse } from '../types'
+import { API_CANDIDATE_EXPLORE_BASE_URL } from '../constants/base-urls'
+import { createAxiosInstance } from '../utils'
 
 type ParamsType = {
   city?: string

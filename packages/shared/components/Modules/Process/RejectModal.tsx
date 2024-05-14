@@ -3,11 +3,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import { candidateService, masterService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
-import emmbedToOptions from '@/utils/emmbed-to-options'
-import genYupOption from '@/utils/gen-yup-option'
-import yupOptionError from '@/utils/yup-option-error'
+import { candidateService, masterService } from '../../../services'
+import { axiosErrorMessage, emmbedToOptions, genYupOption, yupOptionError } from '../../../utils'
 
 type RejectModalProps = {
   applicantId?: string

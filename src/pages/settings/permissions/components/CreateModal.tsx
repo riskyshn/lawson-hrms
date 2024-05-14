@@ -1,11 +1,11 @@
-import type { IPermission } from '@/types'
+import type { IPermission } from '@jshrms/shared/types'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { authorityService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Select, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import { authorityService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 type CreateModalProps = {
   onClose?: () => void

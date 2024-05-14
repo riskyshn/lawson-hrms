@@ -1,7 +1,7 @@
-import type { IComponentInEmployee } from '@/types'
+import type { IComponentInEmployee } from '@jshrms/shared/types'
 import React from 'react'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import { Avatar } from '@jshrms/ui'
-import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {

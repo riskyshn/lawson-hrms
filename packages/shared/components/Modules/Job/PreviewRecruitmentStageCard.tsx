@@ -1,14 +1,13 @@
+import type { IVacancy } from '../../../types'
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Card, CardBody, CardHeader } from '@jshrms/ui'
 import { AxiosRequestConfig } from 'axios'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import useAsyncAction from '@/core/hooks/use-async-action'
-import { organizationService } from '@/services'
+import LoadingScreen from '../../../components/Elements/Layout/LoadingScreen'
+import { useAsyncAction } from '../../../hooks'
+import { organizationService } from '../../../services'
 
-const PreviewRecruitmentStageCard: React.FC<{
-  process: Exclude<IVacancy['recruitmentProcess'], undefined>
-}> = ({ process }) => {
+const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruitmentProcess'], undefined> }> = ({ process }) => {
   const [searchParams] = useSearchParams()
   const token = searchParams.get('token') || ''
 

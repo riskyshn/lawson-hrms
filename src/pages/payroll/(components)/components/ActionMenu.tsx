@@ -1,10 +1,10 @@
-import type { IBenefitComponent, IDeductionComponent } from '@/types'
+import type { IBenefitComponent, IDeductionComponent } from '@jshrms/shared/types'
 import React from 'react'
+import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { payrollService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { useConfirm, useToast } from '@jshrms/ui'
 import { PenToolIcon, TrashIcon, UsersIcon } from 'lucide-react'
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { payrollService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 interface ActionMenuProps {
   index: number

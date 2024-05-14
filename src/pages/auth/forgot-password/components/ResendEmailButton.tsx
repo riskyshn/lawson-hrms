@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import { authService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { useTimeout, useToast } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
-import { authService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 const formatTime = (seconds: number) => {
   if (seconds === 0) return '00:00'

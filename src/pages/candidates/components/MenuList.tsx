@@ -1,7 +1,9 @@
-import type { ICandidate } from '@/types'
+import type { ICandidate } from '@jshrms/shared/types'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
+import ProcessModal from '@jshrms/shared/components/Modules/Process/ProcessModal'
+import { candidateService } from '@jshrms/shared/services'
 import { Button, useToast } from '@jshrms/ui'
 import {
   ArrowLeftIcon,
@@ -23,8 +25,6 @@ import {
   XCircleIcon,
 } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
-import ProcessModal from '@/components/Modules/Process/ProcessModal'
-import { candidateService } from '@/services'
 import SendReminderModal from '../offered/index/components/SendReminderModal'
 import ApplyVacancyModal from './ApplyVacancyModal'
 import BlacklistModal from './BlacklistModal'

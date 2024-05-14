@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { authService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Alert, Button, Input } from '@jshrms/ui'
 import * as yup from 'yup'
-import { authService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 import ResendEmailButton from './components/ResendEmailButton'
 
 const schema = yup.object({

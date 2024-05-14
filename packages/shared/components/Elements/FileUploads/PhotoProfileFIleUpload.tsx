@@ -1,12 +1,10 @@
 import React, { ChangeEvent, useRef, useState } from 'react'
-import { Avatar, Button } from '@jshrms/ui'
+import { Avatar, Button, usePreviewImage } from '@jshrms/ui'
 import { AxiosRequestConfig } from 'axios'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
-import { s3Service } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
-import formatFileSize from '@/utils/format-file-sizes'
+import { s3Service } from '../../../services'
+import { axiosErrorMessage, formatFileSize } from '../../../utils'
 
 interface PhotoProfileFileUploadProps {
   nickname?: string

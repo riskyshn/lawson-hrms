@@ -1,12 +1,11 @@
-import type { IEmployeeHistoryAttendance } from '@/types'
+import type { IEmployeeHistoryAttendance } from '@jshrms/shared/types'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Button, useToast } from '@jshrms/ui'
+import MapsPreviewerModal from '@jshrms/shared/components/Elements/Modals/MapsPreviewerModal'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { attendanceService } from '@jshrms/shared/services'
+import { Avatar, Button, usePreviewImage, useToast } from '@jshrms/ui'
 import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
-import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
-import MainTable from '@/components/Elements/Tables/MainTable'
-import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
-import { attendanceService } from '@/services'
 import ConfirmationModal from '../../components/ConfirmationModal'
 
 type PropTypes = {

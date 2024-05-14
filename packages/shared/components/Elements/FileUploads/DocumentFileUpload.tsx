@@ -3,11 +3,8 @@ import { AxiosRequestConfig } from 'axios'
 import { UploadCloudIcon } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { s3Service } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
-import formatFileSize from '@/utils/format-file-sizes'
-import truncateFilename from '@/utils/truncate-filename'
-import urlToFilename from '@/utils/url-to-filename'
+import { s3Service } from '../../../services'
+import { axiosErrorMessage, formatFileSize, truncateFilename, urlToFilename } from '../../../utils'
 
 interface DocumentFileUploadProps {
   error?: string

@@ -1,12 +1,12 @@
-import type { IOfferingLetterSetting } from '@/types'
+import type { IOfferingLetterSetting } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import ImageFileUpload from '@jshrms/shared/components/Elements/FileUploads/ImageFileUpload'
+import { organizationService, processService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Spinner, Textarea, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
-import { organizationService, processService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 type PropTypes = {
   onClose?: () => void

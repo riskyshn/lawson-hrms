@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
+import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
 import { Button, Textarea } from '@jshrms/ui'
-import MainModal from '@/components/Elements/Modals/MainModal'
 
 interface ConfirmationModalProps {
   handleAction: (reason: string) => void

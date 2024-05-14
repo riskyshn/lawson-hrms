@@ -1,9 +1,9 @@
-import type { ISchedule, ITimezone } from '@/types'
+import type { ISchedule, ITimezone } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
+import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
+import { attendanceService } from '@jshrms/shared/services'
 import { Input, InputTime, Select } from '@jshrms/ui'
 import { ClockIcon } from 'lucide-react'
-import MainModal from '@/components/Elements/Modals/MainModal'
-import { attendanceService } from '@/services'
 
 type ViewScheduleModalProps = {
   items?: ISchedule

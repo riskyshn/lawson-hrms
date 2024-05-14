@@ -1,5 +1,13 @@
-import { API_DASHBOARD_BASE_URL } from '@/constants/base-urls'
-import { createAxiosInstance } from '@/utils/axios'
+import type {
+  IDashboardAnnouncement,
+  IDashboardRecentlyApplied,
+  IDashboardRecentlyPostedJob,
+  IDashboardSchedule,
+  IPaginationParam,
+  IPaginationResponse,
+} from '../types'
+import { API_DASHBOARD_BASE_URL } from '../constants/base-urls'
+import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
   baseURL: API_DASHBOARD_BASE_URL,

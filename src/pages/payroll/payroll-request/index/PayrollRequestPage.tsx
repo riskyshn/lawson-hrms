@@ -1,11 +1,10 @@
 import { useSearchParams } from 'react-router-dom'
-import Container from '@/components/Elements/Layout/Container'
-import MainCard from '@/components/Elements/Layout/MainCard'
-import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import useAsyncSearch from '@/core/hooks/use-async-search'
-import usePagination from '@/core/hooks/use-pagination'
-import { payrollService } from '@/services'
+import Container from '@jshrms/shared/components/Elements/Layout/Container'
+import MainCard from '@jshrms/shared/components/Elements/Layout/MainCard'
+import MainCardHeader from '@jshrms/shared/components/Elements/Layout/MainCardHeader'
+import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
+import { useAsyncSearch, usePagination } from '@jshrms/shared/hooks'
+import { payrollService } from '@jshrms/shared/services'
 import Table from './components/Table'
 
 const PayrollRequestPage: React.FC = () => {

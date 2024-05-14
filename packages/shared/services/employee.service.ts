@@ -1,8 +1,10 @@
 import type { GenericAbortSignal } from 'axios'
-import { API_EMPLOYEE_BASE_URL } from '@/constants/base-urls'
-import { createAxiosInstance } from '@/utils/axios'
+import type { IDataTableEmployee, IEmployee, IPaginationParam, IPaginationResponse, IPreviousEmployee } from '../types'
+import { API_EMPLOYEE_BASE_URL } from '../constants/base-urls'
+import { createAxiosInstance } from '../utils'
 
 type FetchEmployeesParams = {
+  scheduleId?: string
   branchId?: string
   departmentId?: string
 } & IPaginationParam

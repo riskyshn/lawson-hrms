@@ -1,8 +1,13 @@
-import type { IDataTableEmployee } from '@/types'
+import type { IDataTableEmployee } from '@jshrms/shared/types'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
+import Container from '@jshrms/shared/components/Elements/Layout/Container'
+import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
+import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
+import { employeeService, payrollService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import {
   Button,
   Card,
@@ -18,11 +23,6 @@ import {
 } from '@jshrms/ui'
 import moment from 'moment'
 import * as yup from 'yup'
-import Container from '@/components/Elements/Layout/Container'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { employeeService, payrollService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 import EmployeeSelectorModal from '../../components/EmployeeSelectorModal'
 
 const schema = yup.object().shape({
