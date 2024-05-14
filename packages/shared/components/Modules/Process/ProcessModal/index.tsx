@@ -1,7 +1,8 @@
+import type { IApplicantStage, IDataTableApplicant } from '../../../../types'
 import React, { useEffect, useState } from 'react'
 import { Modal, ModalHeader, Spinner, useToast } from '@jshrms/ui'
-import { processService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
+import { processService } from '../../../../services'
+import { axiosErrorMessage } from '../../../../utils'
 import ProcessForm from './ProcessForm'
 import StagePickerForm from './StagePickerForm'
 
@@ -13,10 +14,7 @@ type ProcessModalProps = {
 }
 
 const ProcessModal: React.FC<ProcessModalProps> = ({ applicant, onClose, onSubmited, show }) => {
-  const [stages, setStages] = useState<{
-    assessments: IApplicantStage[]
-    interviews: IApplicantStage[]
-  }>()
+  const [stages, setStages] = useState<{ assessments: IApplicantStage[]; interviews: IApplicantStage[] }>()
   const [dataApplicant, setDataApplicant] = useState<IDataTableApplicant>()
 
   const [tab, setTab] = useState(0)

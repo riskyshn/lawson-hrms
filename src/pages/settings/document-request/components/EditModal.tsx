@@ -1,13 +1,13 @@
-import type { IDocumentRequest } from '@/types'
+import type { IDocumentRequest } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
+import { useAsyncAction } from '@jshrms/shared/hooks'
+import { masterService, organizationService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, MultiSelect, useRemember, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import useAsyncAction from '@/core/hooks/use-async-action'
-import { masterService, organizationService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 import getEditModalSubtitle from '../../utils/get-edit-modal-subtitle'
 
 type EditModalProps = {

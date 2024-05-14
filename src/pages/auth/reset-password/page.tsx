@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
+import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
+import { authService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Button, Input, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import { authService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 const schema = yup.object().shape({
   password: yup.string().required().label('New Password'),

@@ -1,5 +1,5 @@
-import type { IVacancy } from '@/types'
-import emmbedToOption from '@/utils/emmbed-to-option'
+import type { IVacancy } from '@jshrms/shared/types'
+import { emmbedToOption } from '@jshrms/shared/utils'
 
 export function vacancyToFormEdit(vacancy: IVacancy, isRequisition?: boolean) {
   return {

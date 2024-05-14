@@ -6,7 +6,7 @@ export function currencyToNumber(currency?: null | number | string): number {
   return numericValue
 }
 
-export default function numberToCurrency(number?: number) {
+export function numberToCurrency(number?: number) {
   const { format } = new Intl.NumberFormat()
   if (typeof number == 'number') {
     return `Rp ${format(number)}`

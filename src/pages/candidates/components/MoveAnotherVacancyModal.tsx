@@ -1,8 +1,8 @@
-import type { ICandidate, IVacancy } from '@/types'
+import type { ICandidate, IVacancy } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
+import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
+import { candidateService } from '@jshrms/shared/services'
 import { Button, Select, useToast } from '@jshrms/ui'
-import MainModal from '@/components/Elements/Modals/MainModal'
-import { candidateService } from '@/services'
 
 type MoveAnotherVacancyModalProps = {
   candidate: ICandidate

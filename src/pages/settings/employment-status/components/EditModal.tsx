@@ -1,11 +1,11 @@
-import type { IJobType } from '@/types'
+import type { IJobType } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { organizationService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Select, useRemember, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
-import { organizationService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 import getEditModalSubtitle from '../../utils/get-edit-modal-subtitle'
 
 type EditModalProps = {

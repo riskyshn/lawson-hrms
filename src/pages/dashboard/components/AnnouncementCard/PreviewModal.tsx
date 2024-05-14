@@ -1,4 +1,4 @@
-import type { IDashboardAnnouncement } from '@/types'
+import type { IDashboardAnnouncement } from '@jshrms/shared/types'
 import React from 'react'
 import { Button, Modal, ModalFooter, ModalHeader, useRemember } from '@jshrms/ui'
 import moment from 'moment'

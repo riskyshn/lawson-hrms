@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useState } from 'react'
+import { vacancyService } from '@jshrms/shared/services'
 import { Skeleton } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
-import { vacancyService } from '@/services'
 
 const Card: React.FC<{
   className?: string

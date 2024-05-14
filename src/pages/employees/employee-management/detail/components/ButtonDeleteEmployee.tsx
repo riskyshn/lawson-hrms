@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { employeeService } from '@jshrms/shared/services'
 import { Button, ButtonProps, useConfirm, useToast } from '@jshrms/ui'
-import { employeeService } from '@/services'
 
 const ButtonDeleteEmployee: React.FC<{ oid: string } & ButtonProps> = ({ oid, ...props }) => {
   const confirm = useConfirm()

@@ -1,16 +1,54 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo } from 'react'
 import { Link, matchPath, useLocation } from 'react-router-dom'
-import { SidebarItemProps } from '../components'
+import { Color, SidebarItemProps } from '@jshrms/ui'
 
-export type SidebarLinkTypes<C extends React.ElementType = 'a'> = Array<{
-  items: Array<SidebarItemProps<C>>
+type SidebarChildLinkParams = {
+  badge?: { color?: Color; show: boolean; text?: string }
+  text: string
+  to: string
+  onClick?: React.MouseEventHandler
+}
+
+type SidebarParentLinkParams = { icon: React.ComponentType } & SidebarChildLinkParams
+type SidebarLinkTypes = Array<{ items: Array<SidebarItemProps<typeof Link>>; title?: string }>
+
+export type SidebarLinksOptions = {
+  items: Array<{ child?: Array<SidebarChildLinkParams>; parent: SidebarParentLinkParams }>
   title?: string
-}>
+}
 
-const useLinks = (links: SidebarLinkTypes<typeof Link>) => {
+const genSidebarLinks = ({ items, title }: SidebarLinksOptions) => {
+  return {
+    items: items.map(({ child, parent }) => ({
+      child: child?.map((prm: SidebarChildLinkParams) => ({
+        as: Link,
+        badge: prm.badge,
+        onClick: prm.onClick,
+        text: prm.text,
+        to: prm.to,
+      })),
+      parent: {
+        as: Link,
+        badge: parent.badge,
+        icon: parent.icon,
+        onClick: parent.onClick,
+        text: parent.text,
+        to: parent.to,
+      },
+    })),
+    title,
+  }
+}
+
+const useLinks = (...items: SidebarLinksOptions[]) => {
   const { pathname } = useLocation()
 
-  return useMemo<SidebarLinkTypes<typeof Link>>(() => {
+  const links = useMemo(() => {
+    return items.map(genSidebarLinks)
+  }, [JSON.stringify(items)])
+
+  return useMemo<SidebarLinkTypes>(() => {
     return links.map(({ items, title }) => {
       const updatedItems = items.map(({ child, parent }) => ({
         child: child?.map((el) => ({
@@ -25,7 +63,7 @@ const useLinks = (links: SidebarLinkTypes<typeof Link>) => {
 
       return { items: updatedItems, title }
     })
-  }, [links, pathname])
+  }, [[JSON.stringify(items)], pathname])
 }
 
 export default useLinks

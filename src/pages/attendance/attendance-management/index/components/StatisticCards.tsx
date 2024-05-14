@@ -1,9 +1,9 @@
-import type { IFilterDate, IStatistic } from '@/types'
+import type { IFilterDate, IStatistic } from '@jshrms/shared/types'
 import React, { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { attendanceService } from '@jshrms/shared/services'
 import { Skeleton } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
-import { attendanceService } from '@/services'
 
 const Card: React.FC<{
   className?: string

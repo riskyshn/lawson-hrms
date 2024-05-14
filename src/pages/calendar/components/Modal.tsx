@@ -1,8 +1,8 @@
-import type { IEvent } from '@/types'
+import type { IEvent } from '@jshrms/shared/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
 import { Button } from '@jshrms/ui'
-import MainModal from '@/components/Elements/Modals/MainModal'
 
 type ModalProps = {
   items?: IEvent | null

@@ -16,7 +16,7 @@ const guestRoutes: RouteObject[] = [
         path: 'process/offering-letter/upload-signed',
       },
     ],
-    lazy: () => import('@/components/Layout/GuestLayout'),
+    lazy: () => import('@/Layout/GuestLayout'),
     path: 'guest',
   },
 ]

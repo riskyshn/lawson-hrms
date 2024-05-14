@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
+import { useAsyncSearch } from '@jshrms/shared/hooks'
+import { dashboardService } from '@jshrms/shared/services'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader } from '@jshrms/ui'
 import { InboxIcon } from 'lucide-react'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import useAsyncSearch from '@/core/hooks/use-async-search'
-import { dashboardService } from '@/services'
 
 const RecentlyAppliedCandidatesCard: React.FC = () => {
   const { pageData } = useAsyncSearch(dashboardService.recentlyApplied, { limit: 20 })

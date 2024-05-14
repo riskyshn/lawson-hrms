@@ -1,7 +1,7 @@
-import type { ICandidateExplore, IPaginationParam } from '@/types'
+import type { ICandidateExplore, IPaginationParam } from '@jshrms/shared/types'
 import { useCallback, useEffect, useState } from 'react'
+import { candidateExploreService } from '@jshrms/shared/services'
 import { useDeepCompareEffect, useInfiniteScroll } from '@jshrms/ui'
-import { candidateExploreService } from '@/services'
 
 type OptionParams = {
   city?: string
@@ -68,7 +68,6 @@ export default function useCoreAsyncSearch(search: string, params: OptionParams)
         setLoading(false)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [latlong],
   )
 
@@ -114,7 +113,6 @@ export default function useCoreAsyncSearch(search: string, params: OptionParams)
       setLoading(true)
       handleSearch(search, params)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typing, handleSearch, params])
 
   const getMessage = () => {

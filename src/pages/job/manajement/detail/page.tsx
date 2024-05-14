@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
+import Container from '@jshrms/shared/components/Elements/Layout/Container'
+import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
+import PreviewVacancy from '@jshrms/shared/components/Modules/Job/PreviewVacancy'
 import { Button } from '@jshrms/ui'
-import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import PreviewVacancy from '@/components/Modules/Job/PreviewVacancy'
 import useVacancyPage from '../../hooks/use-vacancy-page'
 
 export const Component: React.FC = () => {

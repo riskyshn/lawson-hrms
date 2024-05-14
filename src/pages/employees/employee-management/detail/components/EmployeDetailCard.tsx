@@ -1,8 +1,7 @@
-import type { IEmployee } from '@/types'
+import type { IEmployee } from '@jshrms/shared/types'
 import React from 'react'
-import { Alert, Button, Card, CardBody, CardHeader } from '@jshrms/ui'
-import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
-import numberToCurrency from '@/utils/number-to-currency'
+import { numberToCurrency } from '@jshrms/shared/utils'
+import { Alert, Button, Card, CardBody, CardHeader, usePreviewImage } from '@jshrms/ui'
 
 const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const previewImage = usePreviewImage()

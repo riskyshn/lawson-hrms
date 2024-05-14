@@ -1,4 +1,4 @@
-import genOptions from '@/utils/gen-options'
+import { genOptions } from '../utils'
 
 export const AMOUNT_TYPE_OPTIONS = genOptions(['PERCENTAGE', 'FIXED'])
 export const APPLICATION_TYPE_OPTIONS = genOptions(['LUMP_SUM', 'WORKING_DAYS'])

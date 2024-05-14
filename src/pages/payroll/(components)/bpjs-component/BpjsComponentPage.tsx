@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import Container from '@jshrms/shared/components/Elements/Layout/Container'
+import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
+import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
+import { useAsyncAction } from '@jshrms/shared/hooks'
+import { payrollService } from '@jshrms/shared/services'
+import { axiosErrorMessage, numberToCurrency } from '@jshrms/shared/utils'
 import { Button, Card, CardBody, CardFooter, Input, Select, useToast } from '@jshrms/ui'
-import Container from '@/components/Elements/Layout/Container'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import useAsyncAction from '@/core/hooks/use-async-action'
-import { payrollService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
-import numberToCurrency from '@/utils/number-to-currency'
 
 const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: String(el) }))
 const BpjsComponentPage: React.FC = () => {

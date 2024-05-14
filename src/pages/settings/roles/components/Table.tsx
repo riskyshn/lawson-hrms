@@ -1,6 +1,6 @@
-import type { IRole } from '@/types'
+import type { IRole } from '@jshrms/shared/types'
 import React from 'react'
-import MainTable from '@/components/Elements/Tables/MainTable'
+import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
 type TableProps = {

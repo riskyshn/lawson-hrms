@@ -1,8 +1,8 @@
-import type { ICandidate, IMasterReason } from '@/types'
+import type { ICandidate, IMasterReason } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
+import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
+import { candidateService, masterService } from '@jshrms/shared/services'
 import { Button, Select, Spinner, useToast } from '@jshrms/ui'
-import MainModal from '@/components/Elements/Modals/MainModal'
-import { candidateService, masterService } from '@/services'
 
 type WithdrawModalProps = {
   candidate: ICandidate

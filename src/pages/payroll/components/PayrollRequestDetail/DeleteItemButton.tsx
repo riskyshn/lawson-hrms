@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { payrollService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Button, ButtonProps, useConfirm, useToast } from '@jshrms/ui'
-import { payrollService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 
 const DeleteItemButton: React.FC<{ oid: string; onRefresh?: () => void } & ButtonProps> = ({ oid, onRefresh, ...props }) => {
   const [loading, setLoading] = useState(false)

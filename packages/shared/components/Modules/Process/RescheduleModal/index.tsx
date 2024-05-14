@@ -1,7 +1,8 @@
+import type { IDataTableApplicant, IProcessSchedule } from '../../../../types'
 import React, { useEffect, useState } from 'react'
 import { Modal, ModalHeader, useRemember } from '@jshrms/ui'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import { processService } from '@/services'
+import { processService } from '../../../../services'
+import LoadingScreen from '../../../Elements/Layout/LoadingScreen'
 import ProcessForm from './ProcessForm'
 
 type RescheduleModalProps = {

@@ -1,7 +1,7 @@
+import { SidebarLinksOptions } from '@jshrms/ui'
 import { BriefcaseIcon, FileIcon, RepeatIcon, UsersIcon } from 'lucide-react'
-import genSidebarLinks from '@/utils/gen-sidebar-links'
 
-const recruitmentLinks = genSidebarLinks({
+const recruitmentLinks: SidebarLinksOptions = {
   items: [
     {
       child: [
@@ -58,6 +58,6 @@ const recruitmentLinks = genSidebarLinks({
     },
   ],
   title: 'Recruitment',
-})
+}
 
 export default recruitmentLinks

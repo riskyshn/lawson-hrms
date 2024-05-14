@@ -1,13 +1,13 @@
-import type { IDashboardSchedule, IEvent, IEventRefiners } from '@/types'
+import type { IDashboardSchedule, IEvent, IEventRefiners } from '@jshrms/shared/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { fetchCalendar } from '@/services/dashboard.service'
+import Container from '@jshrms/shared/components/Elements/Layout/Container'
+import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
+import { dashboardService } from '@jshrms/shared/services'
 import Modal from './components/Modal'
 
 export const Component: React.FC = () => {
@@ -70,7 +70,7 @@ export const Component: React.FC = () => {
 
     const load = async (startStr: string, endStr: string) => {
       try {
-        const data = await fetchCalendar({
+        const data = await dashboardService.fetchCalendar({
           end_date: endStr.substring(0, 10),
           start_date: startStr.substring(0, 10),
         })

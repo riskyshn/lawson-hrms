@@ -1,9 +1,9 @@
-import type { IDocumentRequest } from '@/types'
+import type { IDocumentRequest } from '@jshrms/shared/types'
 import React from 'react'
+import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { organizationService } from '@jshrms/shared/services'
 import { useConfirm, useToast } from '@jshrms/ui'
 import { PenToolIcon, TrashIcon } from 'lucide-react'
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { organizationService } from '@/services'
 
 type ActionMenuProps = {
   index: number

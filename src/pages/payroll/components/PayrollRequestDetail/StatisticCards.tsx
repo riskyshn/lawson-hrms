@@ -1,8 +1,8 @@
-import type { IPayrollRequest } from '@/types'
+import type { IPayrollRequest } from '@jshrms/shared/types'
 import React from 'react'
+import { numberToCurrency } from '@jshrms/shared/utils'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import numberToCurrency from '@/utils/number-to-currency'
 
 const Card: React.FC<{ className?: string; label: string; value: number | string }> = ({ className = 'bg-white', label, value }) => (
   <div className={twJoin('flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center', className)}>

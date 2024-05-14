@@ -1,6 +1,9 @@
-import type { IDataTableApplicant, IVacancy } from '@/types'
+import type { IDataTableApplicant, IVacancy } from '@jshrms/shared/types'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { processService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { useConfirm, useToast } from '@jshrms/ui'
 import {
   EditIcon,
@@ -21,9 +24,6 @@ import {
   UserXIcon,
   XCircleIcon,
 } from 'lucide-react'
-import * as Table from '@/components/Elements/Tables/MainTable'
-import { processService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 import { ModalType } from '../types'
 
 type ActionMenuProps = {

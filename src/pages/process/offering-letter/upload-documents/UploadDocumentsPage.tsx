@@ -1,11 +1,11 @@
-import type { IDocumentRequest } from '@/types'
+import type { IDocumentRequest } from '@jshrms/shared/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import Container from '@jshrms/shared/components/Elements/Layout/Container'
+import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
+import { organizationService, processService } from '@jshrms/shared/services'
+import { axiosErrorMessage } from '@jshrms/shared/utils'
 import { Spinner, Stepper, useSteps, useToast } from '@jshrms/ui'
-import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
-import { organizationService, processService } from '@/services'
-import { axiosErrorMessage } from '@/utils/axios'
 import UploadDocument from './components/UploadDocument'
 
 const UploadDocumentsPage = () => {

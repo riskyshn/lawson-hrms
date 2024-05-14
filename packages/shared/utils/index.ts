@@ -1,3 +1,4 @@
+export * from './axios'
 export * from './currency-number'
 export * from './emmbed-option'
 export * from './formatter'

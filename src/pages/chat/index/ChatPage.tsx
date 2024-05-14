@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef } from 'react'
+import Container from '@jshrms/shared/components/Elements/Layout/Container'
+import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from '@jshrms/ui'
 import { SearchIcon, SendIcon } from 'lucide-react'
-import Container from '@/components/Elements/Layout/Container'
-import PageHeader from '@/components/Elements/Layout/PageHeader'
 
 const ChatPage: React.FC = () => {
   const users = [

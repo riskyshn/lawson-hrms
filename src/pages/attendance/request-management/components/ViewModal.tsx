@@ -1,8 +1,7 @@
-import type { ILeave } from '@/types'
+import type { ILeave } from '@jshrms/shared/types'
 import React from 'react'
-import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, variants } from '@jshrms/ui'
+import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, usePreviewImage, variants } from '@jshrms/ui'
 import { ImageIcon } from 'lucide-react'
-import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 
 type PropTypes = {
   items?: ILeave

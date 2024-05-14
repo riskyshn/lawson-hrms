@@ -1,3 +1,4 @@
+import type { IApplicant } from '../../../types'
 import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalFooter, ModalHeader } from '@jshrms/ui'
 import {
@@ -13,7 +14,7 @@ import {
 } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { processService } from '@/services'
+import { processService } from '../../../services'
 import LoadingScreen from '../../Elements/Layout/LoadingScreen'
 import HistoryItem from '../../Elements/UI/HistoryItem'
 import { Timeline, TimelineItem } from '../../Elements/UI/Timeline'
@@ -33,9 +34,7 @@ const statusConfig: Record<string, { Icon: LucideIcon; className: string }> = {
 
 const Status: React.FC<{ status?: string }> = ({ status }) => {
   status = status?.toUpperCase() || ''
-  const { Icon, className = 'text-warning-600' } = statusConfig[status] || {
-    Icon: AlertCircleIcon,
-  }
+  const { Icon, className = 'text-warning-600' } = statusConfig[status] || { Icon: AlertCircleIcon }
 
   return status ? (
     <div className={twJoin(className, 'flex justify-center gap-2')}>

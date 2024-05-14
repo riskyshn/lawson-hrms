@@ -1,7 +1,7 @@
-import type { ICandidateToCreateEmployee } from '@/types'
+import type { ICandidateToCreateEmployee } from '@jshrms/shared/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { candidateService } from '@/services'
+import { candidateService } from '@jshrms/shared/services'
 
 export default function useLoadApplicant() {
   const [searchParams] = useSearchParams()

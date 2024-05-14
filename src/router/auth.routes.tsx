@@ -7,7 +7,7 @@ const authRoutes: RouteObject[] = [
       { lazy: () => import('@/pages/auth/forgot-password/page'), path: 'forgot-password' },
       { lazy: () => import('@/pages/auth/reset-password/page'), path: 'reset-password' },
     ],
-    lazy: () => import('@/components/Layout/AuthLayout'),
+    lazy: () => import('@/Layout/AuthLayout'),
     path: 'auth',
   },
 ]

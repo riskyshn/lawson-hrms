@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
+import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
+import { useAsyncAction } from '@jshrms/shared/hooks'
+import { organizationService } from '@jshrms/shared/services'
 import { Button, Card, CardBody, CardFooter, InputCheckbox } from '@jshrms/ui'
 import { EditIcon } from 'lucide-react'
-import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
-import MainModal from '@/components/Elements/Modals/MainModal'
-import useAsyncAction from '@/core/hooks/use-async-action'
-import { organizationService } from '@/services'
 import RecruitmentStagesEditor from './RecruitmentStageEditor'
 
 const ProcessForm: React.FC<{ defaultValue: any; handlePrev: () => void; handleSubmit: (data: any) => void }> = (props) => {

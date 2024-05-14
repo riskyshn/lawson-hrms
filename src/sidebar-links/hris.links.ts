@@ -1,7 +1,7 @@
+import { SidebarLinksOptions } from '@jshrms/ui'
 import { BanknoteIcon, UserCogIcon, UserPlus2Icon } from 'lucide-react'
-import genSidebarLinks from '@/utils/gen-sidebar-links'
 
-const hrisLinks = genSidebarLinks({
+const hrisLinks: SidebarLinksOptions = {
   items: [
     {
       child: [
@@ -62,6 +62,6 @@ const hrisLinks = genSidebarLinks({
     },
   ],
   title: 'HRIS',
-})
+}
 
 export default hrisLinks

@@ -55,6 +55,7 @@ export const useDeepCompareMemoize = <T>(value: T) => {
     signalRef.current += 1
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return React.useMemo(() => ref.current, [signalRef.current])
 }
 
@@ -62,5 +63,6 @@ export const useDeepCompareEffect = (callback: EffectCallback, dependencies: Dep
   if (import.meta.env.NODE_ENV !== 'production') {
     checkDeps(dependencies)
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return React.useEffect(callback, useDeepCompareMemoize(dependencies))
 }

@@ -1,4 +1,5 @@
-import { createAxiosInstance } from '@/utils/axios'
+import type { INominatimPlace } from '../types'
+import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
   baseURL: 'https://nominatim.openstreetmap.org',

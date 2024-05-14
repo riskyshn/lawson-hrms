@@ -1,8 +1,8 @@
-import type { IRecruitmentStage } from '@/types'
+import type { IRecruitmentStage } from '@jshrms/shared/types'
 import { useEffect, useState } from 'react'
+import { organizationService } from '@jshrms/shared/services'
 import { BaseInput, Button, useToast } from '@jshrms/ui'
 import { MinusCircleIcon } from 'lucide-react'
-import { organizationService } from '@/services'
 
 const RecruitmentStageItem: React.FC<{
   isNew?: boolean
