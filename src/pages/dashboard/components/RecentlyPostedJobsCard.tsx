@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Card, CardBody, CardHeader } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardHeader } from '@jshrms/ui'
 import { InboxIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'

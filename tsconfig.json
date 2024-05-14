@@ -19,10 +19,11 @@
     "noFallthroughCasesInSwitch": true,
     /* Alias */
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@jshrms/*": ["./packages/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "packages"],
   "references": [
     {
       "path": "./tsconfig.node.json"

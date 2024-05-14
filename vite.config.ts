@@ -26,6 +26,8 @@ export default defineConfig({
             'axios',
             'react-hook-form',
             '@hookform/resolvers',
+            'dayjs',
+            'react-tailwindcss-datepicker',
           ],
           fullcalendar: [
             '@fullcalendar/core',
@@ -35,7 +37,6 @@ export default defineConfig({
             '@fullcalendar/react',
             '@fullcalendar/timegrid',
           ],
-          'jobseeker-ui': ['jobseeker-ui', 'dayjs', 'react-tailwindcss-datepicker'],
           leaflet: ['leaflet', 'react-leaflet'],
         },
       },
@@ -120,6 +121,9 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
+    alias: [
+      { find: '@jshrms', replacement: fileURLToPath(new URL('./packages', import.meta.url)) },
+      { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+    ],
   },
 })

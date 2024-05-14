@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, ButtonProps, useConfirm, useToast } from 'jobseeker-ui'
+import { Button, ButtonProps, useConfirm, useToast } from '@jshrms/ui'
 import { employeeService } from '@/services'
 
 const ButtonDeleteEmployee: React.FC<{ oid: string } & ButtonProps> = ({ oid, ...props }) => {

@@ -1,7 +1,7 @@
 import type { ICandidate, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { AsyncSelect } from 'jobseeker-ui'
+import { AsyncSelect } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'

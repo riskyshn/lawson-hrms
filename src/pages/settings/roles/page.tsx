@@ -1,7 +1,7 @@
 import type { IRole } from '@/types'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Button } from 'jobseeker-ui'
+import { Button } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import PageHeader from '@/components/Elements/Layout/PageHeader'

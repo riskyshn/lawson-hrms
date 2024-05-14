@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader } from '@jshrms/ui'
 import { InboxIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncSearch from '@/core/hooks/use-async-search'

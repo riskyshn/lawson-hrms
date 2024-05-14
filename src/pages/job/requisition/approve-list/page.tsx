@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BaseSelect, Button, Card, CardBody, CardFooter, OptionProps, Spinner, useToast } from 'jobseeker-ui'
+import { BaseSelect, Button, Card, CardBody, CardFooter, OptionProps, Spinner, useToast } from '@jshrms/ui'
 import { MinusCircleIcon, PlusCircleIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'

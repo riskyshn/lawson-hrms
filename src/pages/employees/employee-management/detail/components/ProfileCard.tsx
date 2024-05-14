@@ -1,7 +1,7 @@
 import type { IEmployee } from '@/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar, Button, Card, CardBody } from 'jobseeker-ui'
+import { Avatar, Button, Card, CardBody } from '@jshrms/ui'
 import { MailIcon, MapPinnedIcon, User2Icon } from 'lucide-react'
 import { useBreakpoint } from '@/hooks/use-breakpoint'
 import ButtonDeleteEmployee from './ButtonDeleteEmployee'

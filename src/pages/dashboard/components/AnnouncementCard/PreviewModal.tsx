@@ -1,6 +1,6 @@
 import type { IDashboardAnnouncement } from '@/types'
 import React from 'react'
-import { Button, Modal, ModalFooter, ModalHeader, useRemember } from 'jobseeker-ui'
+import { Button, Modal, ModalFooter, ModalHeader, useRemember } from '@jshrms/ui'
 import moment from 'moment'
 
 type PropTypes = {

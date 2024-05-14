@@ -1,6 +1,6 @@
 import type { IDataTableEmployee } from '@/types'
 import React from 'react'
-import { Avatar } from 'jobseeker-ui'
+import { Avatar } from '@jshrms/ui'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 

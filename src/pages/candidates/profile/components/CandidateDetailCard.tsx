@@ -1,6 +1,6 @@
 import type { ICandidate, IUploadedProcessDocument } from '@/types'
 import React from 'react'
-import { Card, CardBody, CardHeader } from 'jobseeker-ui'
+import { Card, CardBody, CardHeader } from '@jshrms/ui'
 import numberToCurrency from '@/utils/number-to-currency'
 
 const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; flag?: string; items?: ICandidate; title?: string }> = ({

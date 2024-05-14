@@ -1,6 +1,6 @@
 import type { IEmployee } from '@/types'
 import React from 'react'
-import { Card, CardFooter } from 'jobseeker-ui'
+import { Card, CardFooter } from '@jshrms/ui'
 import { ImageIcon } from 'lucide-react'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'

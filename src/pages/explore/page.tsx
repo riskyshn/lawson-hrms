@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Listbox } from '@headlessui/react'
-import { BaseInput, Button, usePubSub } from 'jobseeker-ui'
+import { BaseInput, Button, usePubSub } from '@jshrms/ui'
 import { CheckIcon, ChevronDownIcon, ListFilterIcon, SearchIcon, XIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import BgImage from '@/assets/hero.webp'

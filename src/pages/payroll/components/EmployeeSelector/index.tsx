@@ -1,6 +1,6 @@
 import type { IDataTableEmployee } from '@/types'
 import { useEffect, useMemo, useState } from 'react'
-import { Alert, Input, useSearchItem } from 'jobseeker-ui'
+import { Alert, Input, useSearchItem } from '@jshrms/ui'
 import { SearchIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import { employeeService } from '@/services'

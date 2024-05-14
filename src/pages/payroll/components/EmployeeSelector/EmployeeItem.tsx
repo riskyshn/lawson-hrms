@@ -1,6 +1,6 @@
 import type { IDataTableEmployee } from '@/types'
 import React from 'react'
-import { Avatar } from 'jobseeker-ui'
+import { Avatar } from '@jshrms/ui'
 
 type PropType = {
   item: IDataTableEmployee

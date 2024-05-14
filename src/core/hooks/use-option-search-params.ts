@@ -1,4 +1,4 @@
-import type { OptionProps } from 'jobseeker-ui'
+import type { OptionProps } from '@jshrms/ui'
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 

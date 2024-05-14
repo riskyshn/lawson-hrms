@@ -1,7 +1,7 @@
 import type { IPayrollRequest } from '@/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Badge, Button, Color } from 'jobseeker-ui'
+import { Badge, Button, Color } from '@jshrms/ui'
 import moment from 'moment'
 import MainTable from '@/components/Elements/Tables/MainTable'
 

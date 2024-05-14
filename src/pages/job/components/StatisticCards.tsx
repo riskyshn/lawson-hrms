@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from 'react'
-import { Skeleton } from 'jobseeker-ui'
+import { Skeleton } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 import { vacancyService } from '@/services'
 

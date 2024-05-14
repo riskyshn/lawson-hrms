@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate } from 'jobseeker-ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate } from '@jshrms/ui'
 import * as yup from 'yup'
 import { masterService } from '@/services'
 import emmbedToOptions from '@/utils/emmbed-to-options'

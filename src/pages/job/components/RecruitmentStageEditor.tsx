@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Card, CardBody } from 'jobseeker-ui'
+import { Button, Card, CardBody } from '@jshrms/ui'
 import { PlusCircleIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncAction from '@/core/hooks/use-async-action'

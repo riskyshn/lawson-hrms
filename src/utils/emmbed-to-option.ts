@@ -1,5 +1,5 @@
 import type { IGeneralDataEmmbed } from '@/types'
-import { OptionProps } from 'jobseeker-ui'
+import { OptionProps } from '@jshrms/ui'
 
 export default function emmbedToOption(data?: IGeneralDataEmmbed): OptionProps | undefined {
   if (!data) return undefined

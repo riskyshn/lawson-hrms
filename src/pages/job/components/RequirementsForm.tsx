@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper } from 'jobseeker-ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, InputWrapper } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 import * as yup from 'yup'
 import { masterService } from '@/services'

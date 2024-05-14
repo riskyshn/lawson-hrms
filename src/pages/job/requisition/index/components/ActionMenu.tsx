@@ -1,7 +1,7 @@
 import type { IVacancy } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useConfirm, useToast } from 'jobseeker-ui'
+import { useConfirm, useToast } from '@jshrms/ui'
 import { EyeIcon, GlobeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { vacancyService } from '@/services'

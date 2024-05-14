@@ -1,6 +1,6 @@
 import type { ILeave } from '@/types'
 import React from 'react'
-import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, variants } from 'jobseeker-ui'
+import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, variants } from '@jshrms/ui'
 import { ImageIcon } from 'lucide-react'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'
 

@@ -1,6 +1,6 @@
 import type { IEmployeePayrollDetail, IEmployeePayrollResult } from '@/types'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Avatar, Button, useToast } from 'jobseeker-ui'
+import { Avatar, Button, useToast } from '@jshrms/ui'
 import { XIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import SideModal from '@/components/Elements/Modals/SideModal'

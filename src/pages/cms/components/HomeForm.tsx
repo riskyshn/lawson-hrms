@@ -2,7 +2,7 @@ import type { IHomeData } from '@/types'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea } from '@jshrms/ui'
 import * as yup from 'yup'
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 

@@ -15,7 +15,7 @@ import {
   Textarea,
   useRemember,
   useToast,
-} from 'jobseeker-ui'
+} from '@jshrms/ui'
 import * as yup from 'yup'
 import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'

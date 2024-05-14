@@ -1,4 +1,4 @@
-import { Card } from 'jobseeker-ui'
+import { Card } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 
 const PageCard = (props: any) => {

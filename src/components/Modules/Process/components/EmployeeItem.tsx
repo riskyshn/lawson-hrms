@@ -1,6 +1,6 @@
 import type { IDataTableEmployee } from '@/types'
 import React from 'react'
-import { Avatar, Button } from 'jobseeker-ui'
+import { Avatar, Button } from '@jshrms/ui'
 import { CheckIcon, XIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 

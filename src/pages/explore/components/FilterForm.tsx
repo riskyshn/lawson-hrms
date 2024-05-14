@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { AsyncSelect, Select } from 'jobseeker-ui'
+import { AsyncSelect, Select } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import useOptionSearchParam from '@/core/hooks/use-option-search-params'
 import { masterService } from '@/services'

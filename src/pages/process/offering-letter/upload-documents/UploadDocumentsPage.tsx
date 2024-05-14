@@ -1,7 +1,7 @@
 import type { IDocumentRequest } from '@/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Spinner, Stepper, useSteps, useToast } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { organizationService, processService } from '@/services'

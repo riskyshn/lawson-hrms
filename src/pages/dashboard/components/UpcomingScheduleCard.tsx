@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Card, CardBody, CardHeader } from 'jobseeker-ui'
+import { Card, CardBody, CardHeader } from '@jshrms/ui'
 import { InboxIcon } from 'lucide-react'
 import moment from 'moment'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'

@@ -1,7 +1,7 @@
 import type { IDeductionComponent, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Button } from 'jobseeker-ui'
+import { Button } from '@jshrms/ui'
 import { SettingsIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'

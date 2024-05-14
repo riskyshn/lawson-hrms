@@ -1,6 +1,6 @@
 import type { ICandidate } from '@/types'
 import React from 'react'
-import { Avatar, Card, CardBody } from 'jobseeker-ui'
+import { Avatar, Card, CardBody } from '@jshrms/ui'
 import { MailIcon, MapPinnedIcon, PhoneIcon, StarsIcon, User2Icon } from 'lucide-react'
 import { useBreakpoint } from '@/hooks/use-breakpoint'
 

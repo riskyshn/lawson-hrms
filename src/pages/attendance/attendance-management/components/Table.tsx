@@ -1,6 +1,6 @@
 import type { IEmployeeHistoryAttendance } from '@/types'
 import { useState } from 'react'
-import { Avatar, Button, useToast } from 'jobseeker-ui'
+import { Avatar, Button, useToast } from '@jshrms/ui'
 import { CheckIcon, ImageIcon, MapPinIcon, XIcon } from 'lucide-react'
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 import MainTable from '@/components/Elements/Tables/MainTable'

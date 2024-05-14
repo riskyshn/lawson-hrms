@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, ButtonProps, useConfirm, useToast } from 'jobseeker-ui'
+import { Button, ButtonProps, useConfirm, useToast } from '@jshrms/ui'
 import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 

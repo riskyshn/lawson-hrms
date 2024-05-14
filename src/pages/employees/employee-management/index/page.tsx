@@ -1,7 +1,7 @@
 import type { IDataTableEmployee } from '@/types'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { AsyncSelect, Button } from 'jobseeker-ui'
+import { AsyncSelect, Button } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'
 import MainCardHeader from '@/components/Elements/Layout/MainCardHeader'

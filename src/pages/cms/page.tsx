@@ -1,7 +1,7 @@
 import type { ICms, IHomeData, IJobData } from '@/types'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Stepper, useSteps, useToast } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { cmsService } from '@/services'

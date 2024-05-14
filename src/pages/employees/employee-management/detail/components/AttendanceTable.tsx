@@ -1,6 +1,6 @@
 import type { IEmployee } from '@/types'
 import React, { useState } from 'react'
-import { Card, CardFooter } from 'jobseeker-ui'
+import { Card, CardFooter } from '@jshrms/ui'
 import { ImageIcon, MapPinIcon } from 'lucide-react'
 import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 import MainTable from '@/components/Elements/Tables/MainTable'

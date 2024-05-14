@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { Modal, Spinner } from 'jobseeker-ui'
+import { Modal, Spinner } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 
 type MediaType = 'image' | 'video'

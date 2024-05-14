@@ -14,7 +14,7 @@ import {
   InputDate,
   InputWrapper,
   Textarea,
-} from 'jobseeker-ui'
+} from '@jshrms/ui'
 import * as yup from 'yup'
 import { employeeService, masterService, organizationService, vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'

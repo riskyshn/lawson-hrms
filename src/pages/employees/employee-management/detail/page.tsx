@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom'
-import { Spinner } from 'jobseeker-ui'
+import { Spinner } from '@jshrms/ui'
 import { twMerge } from 'tailwind-merge'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'

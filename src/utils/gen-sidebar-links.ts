@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Color } from 'jobseeker-ui'
+import { Color } from '@jshrms/ui'
 
 export type SidebarChildLinkParams = {
   badge?: {
