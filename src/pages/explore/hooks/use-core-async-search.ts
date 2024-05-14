@@ -68,7 +68,6 @@ export default function useCoreAsyncSearch(search: string, params: OptionParams)
         setLoading(false)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [latlong],
   )
 
@@ -114,7 +113,6 @@ export default function useCoreAsyncSearch(search: string, params: OptionParams)
       setLoading(true)
       handleSearch(search, params)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [typing, handleSearch, params])
 
   const getMessage = () => {

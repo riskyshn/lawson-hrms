@@ -55,6 +55,7 @@ const BaseInputTime = forwardRef<HTMLInputElement, BaseInputTimeProps>(({ value,
 
   useEffect(() => {
     onValueChange?.(formatTwoDigitNumber(hour) + ':' + formatTwoDigitNumber(minute))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hour, minute])
 
   useEffect(() => {

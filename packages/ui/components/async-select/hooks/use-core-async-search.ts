@@ -46,6 +46,7 @@ export default function useCoreAsyncSearch(props: CoreAsyncMultiSelectProps<Base
     } finally {
       setLoading(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onLoadMore = async () => {
