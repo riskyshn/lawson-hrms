@@ -67,6 +67,25 @@ const CandidateWithdrawPage: React.FC = () => {
     }
   }, [search, vacancy?.value, education?.value, province?.value, pagination.currentPage, onChangeData])
 
+  const handleRefresh = async () => {
+    setIsLoading(true)
+    try {
+      const data = await candidateService.fetchWithdraw({
+        education: education?.value,
+        limit: 20,
+        page: pagination.currentPage,
+        province: province?.value,
+        q: search,
+        vacancyId: vacancy?.value,
+      })
+
+      setPageData(data)
+      setIsLoading(false)
+    } catch (e: any) {
+      if (e.message !== 'canceled') setPageError(e)
+    }
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -127,6 +146,7 @@ const CandidateWithdrawPage: React.FC = () => {
                 )
               }
               filterToogle={toggleOpen}
+              onRefresh={handleRefresh}
               search={{
                 setValue: (v) => setSearchParam({ search: v }),
                 value: search || '',

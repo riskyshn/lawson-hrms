@@ -297,6 +297,7 @@ export const Component: React.FC = () => {
         <h2 className="mb-2 text-lg font-semibold">{title}</h2>
         <BaseInputDateRange
           className="mb-2"
+          displayFormat="DD-MM-YYYY"
           onValueChange={(date) => handleDateChange(date, chartType)}
           placeholder="Start - End Date"
           value={filterDates[chartType]}

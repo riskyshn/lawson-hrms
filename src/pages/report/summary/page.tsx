@@ -13,7 +13,8 @@ import { reportService } from '@/services'
 import PageCard from '../components/PageCard'
 import StatisticCards from '../components/StatisticCards'
 import Table from '../components/Table'
-import TableUserActivity from '../components/TableUserActivity'
+
+// import TableUserActivity from '../components/TableUserActivity'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, PointElement, LineElement)
 
@@ -118,7 +119,7 @@ export const Component: React.FC = () => {
   }
 
   const pagination = usePagination({
-    pathname: '/summary/number-of-hired/datatable',
+    pathname: '/report/summary',
     totalPage: dataNumberHired?.totalPages || 0,
   })
 
@@ -188,44 +189,44 @@ export const Component: React.FC = () => {
     }
   }
 
-  const dummyDataUserActivity = [
-    {
-      blacklisted: 1,
-      hired: 12,
-      interviewed: 20,
-      locked: 3,
-      name: 'Alice Johnson',
-      postJob: 5,
-      rejected: 30,
-    },
-    {
-      blacklisted: 2,
-      hired: 20,
-      interviewed: 35,
-      locked: 5,
-      name: 'Bob Smith',
-      postJob: 8,
-      rejected: 50,
-    },
-    {
-      blacklisted: 0,
-      hired: 8,
-      interviewed: 10,
-      locked: 2,
-      name: 'Carlos Ramirez',
-      postJob: 3,
-      rejected: 15,
-    },
-    {
-      blacklisted: 1,
-      hired: 15,
-      interviewed: 25,
-      locked: 4,
-      name: 'Diana Lewis',
-      postJob: 6,
-      rejected: 40,
-    },
-  ]
+  // const dummyDataUserActivity = [
+  //   {
+  //     blacklisted: 1,
+  //     hired: 12,
+  //     interviewed: 20,
+  //     locked: 3,
+  //     name: 'Alice Johnson',
+  //     postJob: 5,
+  //     rejected: 30,
+  //   },
+  //   {
+  //     blacklisted: 2,
+  //     hired: 20,
+  //     interviewed: 35,
+  //     locked: 5,
+  //     name: 'Bob Smith',
+  //     postJob: 8,
+  //     rejected: 50,
+  //   },
+  //   {
+  //     blacklisted: 0,
+  //     hired: 8,
+  //     interviewed: 10,
+  //     locked: 2,
+  //     name: 'Carlos Ramirez',
+  //     postJob: 3,
+  //     rejected: 15,
+  //   },
+  //   {
+  //     blacklisted: 1,
+  //     hired: 15,
+  //     interviewed: 25,
+  //     locked: 4,
+  //     name: 'Diana Lewis',
+  //     postJob: 6,
+  //     rejected: 40,
+  //   },
+  // ]
 
   if (pageError) throw pageError
 
@@ -256,6 +257,7 @@ export const Component: React.FC = () => {
               <h2 className="mb-4 text-2xl font-semibold sm:mb-0 sm:mr-4">Recruitment Funnel</h2>
               <BaseInputDateRange
                 className="w-64 max-sm:w-full"
+                displayFormat="DD-MM-YYYY"
                 onValueChange={handleDateChange}
                 placeholder="Start - End Date"
                 value={filterDate}
@@ -277,11 +279,11 @@ export const Component: React.FC = () => {
           </CardBody>
         </Card>
 
-        <MainCard
+        {/* <MainCard
           body={<TableUserActivity items={dummyDataUserActivity} loading={loading} />}
           footer={[]}
           header={() => <MainCardHeader title="User Activity" />}
-        />
+        /> */}
         <Card className="my-4 p-8">
           <CardBody className="overflow-x-auto p-0 2xl:overflow-x-visible">
             <div className="flex flex-col">
