@@ -1,6 +1,6 @@
 import type { IDashboardAnnouncement } from '@/types'
 import { useState } from 'react'
-import { Button, useConfirm, useToast } from 'jobseeker-ui'
+import { Button, useConfirm, useToast } from '@jshrms/ui'
 import { PinIcon, Trash2Icon } from 'lucide-react'
 import moment from 'moment'
 import { dashboardService } from '@/services'

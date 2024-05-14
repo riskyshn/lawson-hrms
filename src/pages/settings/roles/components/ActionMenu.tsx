@@ -1,6 +1,6 @@
 import type { IRole } from '@/types'
 import React from 'react'
-import { useConfirm, useToast } from 'jobseeker-ui'
+import { useConfirm, useToast } from '@jshrms/ui'
 import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { authorityService } from '@/services'

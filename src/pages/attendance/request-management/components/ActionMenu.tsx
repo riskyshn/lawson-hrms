@@ -1,7 +1,7 @@
 import type { ILeave } from '@/types'
 import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
-import { Button, useToast } from 'jobseeker-ui'
+import { Button, useToast } from '@jshrms/ui'
 import { CheckCircleIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { attendanceService } from '@/services'

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { AsyncSelect, Button } from 'jobseeker-ui'
+import { AsyncSelect, Button } from '@jshrms/ui'
 import { SettingsIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'

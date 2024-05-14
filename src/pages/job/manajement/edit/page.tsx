@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Button, Spinner, Stepper, useSteps, useToast } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import { vacancyService } from '@/services'

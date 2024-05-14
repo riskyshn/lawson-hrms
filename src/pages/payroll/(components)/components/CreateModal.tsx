@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
+import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from '@jshrms/ui'
 import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
 import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'

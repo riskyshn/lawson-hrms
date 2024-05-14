@@ -13,7 +13,7 @@ import {
   InputWrapper,
   Select,
   Textarea,
-} from 'jobseeker-ui'
+} from '@jshrms/ui'
 import * as yup from 'yup'
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 import { PHONE_REG_EXP } from '@/constants/globals'

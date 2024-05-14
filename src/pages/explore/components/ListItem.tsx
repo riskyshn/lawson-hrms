@@ -1,6 +1,6 @@
 import type { ICandidateExplore } from '@/types'
 import React from 'react'
-import { Button, Skeleton } from 'jobseeker-ui'
+import { Button, Skeleton } from '@jshrms/ui'
 import { PlayIcon } from 'lucide-react'
 import moment from 'moment'
 import { usePreviewVideo } from '@/contexts/MediaPreviewerContext'

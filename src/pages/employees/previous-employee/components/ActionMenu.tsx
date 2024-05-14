@@ -1,6 +1,6 @@
 import type { IPreviousEmployee } from '@/types'
 import React from 'react'
-import { useConfirm, useToast } from 'jobseeker-ui'
+import { useConfirm, useToast } from '@jshrms/ui'
 import { PowerIcon } from 'lucide-react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { employeeService } from '@/services'

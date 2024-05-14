@@ -1,33 +1,47 @@
 import type { Config } from 'tailwindcss/types/config'
 import typography from '@tailwindcss/typography'
-import juiConfig from 'jobseeker-ui/tailwind-config'
-import defaultTheme from 'tailwindcss/defaultTheme'
+import colors from 'tailwindcss/colors'
 
 const tailwindConfig: Config = {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/jobseeker-ui/dist/index.es.js',
+    './packages/**/*.{js,ts,jsx,tsx}',
     './node_modules/react-tailwindcss-datepicker/dist/index.esm.js',
   ],
   darkMode: 'class',
-  plugins: [typography],
   theme: {
-    ...juiConfig.theme,
+    container: {
+      center: true,
+    },
     extend: {
-      ...juiConfig.theme?.extend,
       colors: {
-        ...juiConfig.theme?.extend?.colors,
-        jsc: {
-          primary: '#E4007E',
-          secondary: '#20229B',
-        },
+        primary: colors.blue,
+        secondary: colors.gray,
+        success: colors.green,
+        warning: colors.yellow,
+        error: colors.red,
       },
-      fontFamily: {
-        sans: ['"Inter"', ...defaultTheme.fontFamily.sans],
+      transitionProperty: {
+        spacing: 'margin, padding',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+        position: {
+          '0%, 100%': {
+            backgroundPosition: '0% 50%',
+          },
+          '50%': {
+            backgroundPosition: '100% 50%',
+          },
+        },
       },
     },
   },
+  plugins: [typography],
 }
 
 export default tailwindConfig

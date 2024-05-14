@@ -1,6 +1,6 @@
 import { Fragment, lazy } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
-import { Button } from 'jobseeker-ui'
+import { Button } from '@jshrms/ui'
 import { useAuthStore } from '@/store'
 import { axiosErrorMessage } from '@/utils/axios'
 

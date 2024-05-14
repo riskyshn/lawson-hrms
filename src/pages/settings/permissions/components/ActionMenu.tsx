@@ -1,6 +1,6 @@
 import type { IPermission } from '@/types'
 import React from 'react'
-import { useConfirm, useToast } from 'jobseeker-ui'
+import { useConfirm, useToast } from '@jshrms/ui'
 import { PenToolIcon, TrashIcon } from 'lucide-react'
 import * as Table from '@/components/Elements/Tables/MainTable'
 import { authorityService } from '@/services'

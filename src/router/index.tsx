@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { createBrowserRouter, Outlet, useNavigate } from 'react-router-dom'
-import { useToast } from 'jobseeker-ui'
+import { useToast } from '@jshrms/ui'
 import ErrorBoundary from '@/pages/ErrorBoundary'
 import NotFoundPage from '@/pages/NotFoundPage'
 import { useAuthStore } from '@/store'

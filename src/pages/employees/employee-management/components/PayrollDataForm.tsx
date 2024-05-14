@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, Select } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, Select } from '@jshrms/ui'
 import { HelpCircleIcon } from 'lucide-react'
 import * as yup from 'yup'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'

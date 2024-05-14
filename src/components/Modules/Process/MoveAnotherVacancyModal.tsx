@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import { AsyncSelect, Button, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
 import { candidateService, vacancyService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'

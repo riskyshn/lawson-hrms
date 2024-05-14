@@ -5,7 +5,7 @@ import MapsPreviewerModal from '@/components/Elements/Modals/MapsPreviewerModal'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
-// import { Avatar } from 'jobseeker-ui'
+// import { Avatar } from '@jshrms/ui'
 
 type TableProps = {
   items: IBranch[]

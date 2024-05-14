@@ -1,10 +1,10 @@
 import type { IJobType } from '@/types'
 import React from 'react'
-import { Badge } from 'jobseeker-ui'
+import { Badge } from '@jshrms/ui'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'
 
-// import { Avatar } from 'jobseeker-ui'
+// import { Avatar } from '@jshrms/ui'
 
 type TableProps = {
   items: IJobType[]

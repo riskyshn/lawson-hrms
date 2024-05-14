@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Button } from 'jobseeker-ui'
+import { Button } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'
 import RecruitmentStagesEditor from '../../components/RecruitmentStageEditor'

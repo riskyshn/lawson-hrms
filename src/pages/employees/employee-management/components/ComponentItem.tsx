@@ -1,7 +1,7 @@
 import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
-import { Button, Input, InputCurrency, Select } from 'jobseeker-ui'
+import { Button, Input, InputCurrency, Select } from '@jshrms/ui'
 import { InferType } from 'yup'
 import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
 import { componentDataSchema } from './shared'

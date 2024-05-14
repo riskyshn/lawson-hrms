@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Button, Stepper, useSteps, useToast } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import PageHeader from '@/components/Elements/Layout/PageHeader'

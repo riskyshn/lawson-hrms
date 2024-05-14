@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Modal, ModalHeader, Stepper, useConfirm, useSteps, useToast } from 'jobseeker-ui'
+import { Modal, ModalHeader, Stepper, useConfirm, useSteps, useToast } from '@jshrms/ui'
 import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import EducationForm from './components/EducationForm'

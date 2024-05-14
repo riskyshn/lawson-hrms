@@ -1,6 +1,6 @@
 import type { ICandidate, ICandidateHistories } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
+import { Button, Modal, ModalFooter, ModalHeader } from '@jshrms/ui'
 import {
   AlertCircleIcon,
   CalendarIcon,

@@ -1,6 +1,6 @@
 import type { IPreviousEmployee } from '@/types'
 import React from 'react'
-import { Avatar, Badge } from 'jobseeker-ui'
+import { Avatar, Badge } from '@jshrms/ui'
 import moment from 'moment'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import ActionMenu from './ActionMenu'

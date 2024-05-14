@@ -1,4 +1,4 @@
-import { createTailwindBreakpointHooks } from 'jobseeker-ui'
+import { createTailwindBreakpointHooks } from '@jshrms/ui'
 import resolveConfig from 'tailwindcss/resolveConfig'
 import tailwindConfig from '../../tailwind.config'
 

@@ -1,7 +1,7 @@
 import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Avatar } from 'jobseeker-ui'
+import { Avatar } from '@jshrms/ui'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import numberToCurrency from '@/utils/number-to-currency'
 import ActionMenu from './ActionMenu'

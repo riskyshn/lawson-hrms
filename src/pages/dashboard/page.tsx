@@ -49,5 +49,3 @@ export const Component: React.FC = () => {
     </>
   )
 }
-
-Component.displayName = 'DashboardPage'

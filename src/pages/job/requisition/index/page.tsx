@@ -1,7 +1,7 @@
 import type { IVacancy } from '@/types'
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { AsyncSelect, Button, Select } from 'jobseeker-ui'
+import { AsyncSelect, Button, Select } from '@jshrms/ui'
 import { SettingsIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'

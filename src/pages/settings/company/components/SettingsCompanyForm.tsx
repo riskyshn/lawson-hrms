@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea, useToast } from 'jobseeker-ui'
+import { Alert, Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
 import ImageFileUpload from '@/components/Elements/FileUploads/ImageFileUpload'
 import { organizationService } from '@/services'

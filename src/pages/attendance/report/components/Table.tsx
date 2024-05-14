@@ -1,6 +1,6 @@
 import type { IDataTableEmployee } from '@/types'
 import { useNavigate } from 'react-router-dom'
-import { Avatar, Button } from 'jobseeker-ui'
+import { Avatar, Button } from '@jshrms/ui'
 import MainTable from '@/components/Elements/Tables/MainTable'
 
 type PropTypes = {

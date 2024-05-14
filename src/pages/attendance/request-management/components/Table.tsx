@@ -1,5 +1,5 @@
 import type { ILeave } from '@/types'
-import { Avatar, Badge, Color, variants } from 'jobseeker-ui'
+import { Avatar, Badge, Color, variants } from '@jshrms/ui'
 import { ImageIcon } from 'lucide-react'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import { usePreviewImage } from '@/contexts/MediaPreviewerContext'

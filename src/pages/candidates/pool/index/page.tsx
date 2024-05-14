@@ -1,7 +1,7 @@
 import type { ICandidate, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { AsyncSelect, Button, useToast } from 'jobseeker-ui'
+import { AsyncSelect, Button, useToast } from '@jshrms/ui'
 import { FileSpreadsheetIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import MainCard from '@/components/Elements/Layout/MainCard'

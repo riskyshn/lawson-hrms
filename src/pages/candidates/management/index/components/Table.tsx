@@ -1,6 +1,6 @@
 import type { ICandidate } from '@/types'
 import React, { useState } from 'react'
-import { Avatar } from 'jobseeker-ui'
+import { Avatar } from '@jshrms/ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
 import MainTable from '@/components/Elements/Tables/MainTable'
 import MenuList from '../../../components/MenuList'

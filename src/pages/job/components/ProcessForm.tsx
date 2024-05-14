@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, CardBody, CardFooter, InputCheckbox } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, InputCheckbox } from '@jshrms/ui'
 import { EditIcon } from 'lucide-react'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import MainModal from '@/components/Elements/Modals/MainModal'

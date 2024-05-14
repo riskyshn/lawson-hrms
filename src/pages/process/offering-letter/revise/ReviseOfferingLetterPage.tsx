@@ -1,7 +1,7 @@
 import type { IOfferingLetter } from '@/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Stepper, useSteps, useToast } from 'jobseeker-ui'
+import { Stepper, useSteps, useToast } from '@jshrms/ui'
 import moment from 'moment'
 import Container from '@/components/Elements/Layout/Container'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'

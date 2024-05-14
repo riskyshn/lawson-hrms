@@ -1,4 +1,4 @@
-import { Select } from 'jobseeker-ui'
+import { Select } from '@jshrms/ui'
 
 type TableRowDropdownProps = {
   count: number

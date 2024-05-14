@@ -1,6 +1,6 @@
 import type { IPermission, IRole } from '@/types'
 import React, { useEffect, useMemo, useState } from 'react'
-import { Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import { Button, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
 import { authorityService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import PermissionItem, { PermissionItemSkeleton } from './PermissionItem'

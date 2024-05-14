@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Spinner } from 'jobseeker-ui'
+import { Spinner } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 import { useAuthStore } from './store'
 

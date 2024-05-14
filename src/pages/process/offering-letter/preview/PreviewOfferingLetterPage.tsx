@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Button, useToast } from 'jobseeker-ui'
+import { Button, useToast } from '@jshrms/ui'
 import Container from '@/components/Elements/Layout/Container'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import PageHeader from '@/components/Elements/Layout/PageHeader'

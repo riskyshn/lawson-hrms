@@ -1,6 +1,6 @@
 import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import { useState } from 'react'
-import { Button } from 'jobseeker-ui'
+import { Button } from '@jshrms/ui'
 import { XIcon } from 'lucide-react'
 import SideModal from '@/components/Elements/Modals/SideModal'
 import EmployeeSelector from '../../../components/EmployeeSelector'

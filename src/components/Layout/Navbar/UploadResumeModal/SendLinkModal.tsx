@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
 import { axiosErrorMessage } from '@/utils/axios'
 

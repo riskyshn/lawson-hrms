@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { BaseInputCurrency, Button, useToast } from 'jobseeker-ui'
+import { BaseInputCurrency, Button, useToast } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'

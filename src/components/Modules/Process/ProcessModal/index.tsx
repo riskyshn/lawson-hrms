@@ -1,6 +1,6 @@
 import type { IApplicantStage, IDataTableApplicant } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { Modal, ModalHeader, Spinner, useToast } from 'jobseeker-ui'
+import { Modal, ModalHeader, Spinner, useToast } from '@jshrms/ui'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 import ProcessForm from './ProcessForm'

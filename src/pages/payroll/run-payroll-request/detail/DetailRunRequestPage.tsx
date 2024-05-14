@@ -1,7 +1,7 @@
 import type { IPayrollRequest } from '@/types'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Card, CardHeader } from 'jobseeker-ui'
+import { Card, CardHeader } from '@jshrms/ui'
 import { AlertOctagonIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'

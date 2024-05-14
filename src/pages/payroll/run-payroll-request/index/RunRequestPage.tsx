@@ -15,7 +15,7 @@ import {
   Select,
   useConfirm,
   useToast,
-} from 'jobseeker-ui'
+} from '@jshrms/ui'
 import moment from 'moment'
 import * as yup from 'yup'
 import Container from '@/components/Elements/Layout/Container'

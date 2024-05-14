@@ -1,6 +1,6 @@
 import type { IDashboardAnnouncement } from '@/types'
 import { useState } from 'react'
-import { BaseInputDateRange, Button, Card, CardBody, CardFooter, CardHeader } from 'jobseeker-ui'
+import { BaseInputDateRange, Button, Card, CardBody, CardFooter, CardHeader } from '@jshrms/ui'
 import moment from 'moment'
 import LoadingScreen from '@/components/Elements/Layout/LoadingScreen'
 import useAsyncSearch from '@/core/hooks/use-async-search'

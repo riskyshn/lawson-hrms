@@ -2,19 +2,7 @@ import type { IBranch } from '@/types'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  Alert,
-  AsyncSelect,
-  BaseInput,
-  Button,
-  Input,
-  InputWrapper,
-  Modal,
-  ModalFooter,
-  ModalHeader,
-  Textarea,
-  useToast,
-} from 'jobseeker-ui'
+import { Alert, AsyncSelect, BaseInput, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from '@jshrms/ui'
 import * as yup from 'yup'
 import { masterService, organizationService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Card, CardBody, CardFooter, Textarea, useToast } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, Textarea, useToast } from '@jshrms/ui'
 import { payrollService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'
 

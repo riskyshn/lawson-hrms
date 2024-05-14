@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useTimeout, useToast } from 'jobseeker-ui'
+import { useTimeout, useToast } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils/axios'

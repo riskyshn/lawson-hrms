@@ -2,7 +2,7 @@ import type { ICandidate } from '@/types'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
-import { Button, useToast } from 'jobseeker-ui'
+import { Button, useToast } from '@jshrms/ui'
 import {
   ArrowLeftIcon,
   BookUserIcon,

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from 'jobseeker-ui'
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from '@jshrms/ui'
 import { SearchIcon, SendIcon } from 'lucide-react'
 import Container from '@/components/Elements/Layout/Container'
 import PageHeader from '@/components/Elements/Layout/PageHeader'

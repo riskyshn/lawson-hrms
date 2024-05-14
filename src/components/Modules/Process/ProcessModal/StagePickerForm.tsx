@@ -1,6 +1,6 @@
 import type { IApplicantStage } from '@/types'
 import React from 'react'
-import { Button, CardFooter, InputRadio } from 'jobseeker-ui'
+import { Button, CardFooter, InputRadio } from '@jshrms/ui'
 import { twJoin } from 'tailwind-merge'
 
 type PropTypes = {
