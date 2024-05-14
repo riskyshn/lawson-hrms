@@ -9,7 +9,7 @@ import { candidateService, processService } from '@/services'
 import CandidateDetailCard from '../components/CandidateDetailCard'
 import ProfileCard from '../components/ProfileCard'
 
-const CandidateProfilePage: React.FC = () => {
+export const Component: React.FC = () => {
   const { candidateId } = useParams<{ candidateId?: string }>()
   const [isLoading, setIsLoading] = useState(true)
   const [pageData, setPageData] = useState<ICandidate>()
@@ -145,4 +145,4 @@ const CandidateProfilePage: React.FC = () => {
   )
 }
 
-export default CandidateProfilePage
+Component.displayName = 'CandidateProfilePage'

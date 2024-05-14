@@ -9,7 +9,7 @@ import usePagination from '@/core/hooks/use-pagination'
 import { employeeService } from '@/services'
 import Table from '../components/Table'
 
-const ReportPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const search = searchParams.get('search') || undefined
@@ -74,4 +74,4 @@ const ReportPage: React.FC = () => {
   )
 }
 
-export default ReportPage
+Component.displayName = 'ReportPage'
