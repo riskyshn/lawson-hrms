@@ -241,6 +241,7 @@ const statusColors = variants<string, Color>({
   waiting: 'default',
   waiting_documents: 'warning',
   waiting_to_join: 'warning',
+  hired: 'success',
 })
 
 export default Table

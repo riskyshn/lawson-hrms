@@ -174,6 +174,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
     '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Waiting to Join" status (7).
     '7': [addAsEmployee, viewProfile, editJoinDate, viewHistory, blacklist, withdraw],
+    // Action menu items for applications in the "Hired" status (8).
+    '8': [addAsEmployee, viewProfile],
   }
 
   const menu = menuItems[item.status?.oid || '0']
