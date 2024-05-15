@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavLink as Link, useNavigate } from 'react-router-dom'
-import LogoFull from '@jshrms/shared/components/Logo/LogoFull'
-import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from '@jshrms/ui'
-import useLinks from '@jshrms/ui/hooks/use-links'
+import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from 'jobseeker-ui'
 import { PlusCircle, XIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
+import { LogoFull } from '@/components'
+import { useLinks } from '@/hooks'
 import { hrisLinks, recruitmentLinks, rootLinks, settingsLinks } from '@/sidebar-links'
 
 const Sidebar: React.FC = () => {

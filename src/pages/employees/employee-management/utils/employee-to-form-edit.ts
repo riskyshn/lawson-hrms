@@ -1,6 +1,6 @@
-import type { IEmployee } from '@jshrms/shared/types'
-import { employeeService } from '@jshrms/shared/services'
-import { emmbedToOption } from '@jshrms/shared/utils'
+import type { IEmployee } from '@/types'
+import { employeeService } from '@/services'
+import { emmbedToOption } from '@/utils'
 
 export async function employeeToFormEdit(employee: IEmployee) {
   const isPicActive = employee.employment?.picApproval?.oid

@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { useOptionSearchParam } from '@jshrms/shared/hooks'
-import { masterService, organizationService, reportService } from '@jshrms/shared/services'
-import { emmbedToOptions } from '@jshrms/shared/utils'
-import { AsyncSelect, BaseInputDateRange, Card, CardBody, Select, Spinner } from '@jshrms/ui'
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js'
+import { AsyncSelect, BaseInputDateRange, Card, CardBody, Container, PageHeader, Select, Spinner } from 'jobseeker-ui'
+import { useOptionSearchParam } from '@/hooks'
+import { masterService, organizationService, reportService } from '@/services'
+import { emmbedToOptions } from '@/utils'
 
 interface FilterDate {
   startDate: string

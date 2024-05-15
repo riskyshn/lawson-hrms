@@ -1,8 +1,8 @@
-import type { IRecruitmentFunnel } from '@jshrms/shared/types'
+import type { IRecruitmentFunnel } from '@/types'
 import React, { memo, useEffect, useState } from 'react'
-import { reportService } from '@jshrms/shared/services'
-import { Skeleton } from '@jshrms/ui'
+import { Skeleton } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
+import { reportService } from '@/services'
 
 const Card: React.FC<{
   className?: string

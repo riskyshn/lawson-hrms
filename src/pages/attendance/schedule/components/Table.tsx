@@ -1,6 +1,6 @@
-import type { ISchedule } from '@jshrms/shared/types'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import NumberOfEmployeeLink from '@jshrms/shared/components/Elements/UI/NumberOfEmployeeLink'
+import type { ISchedule } from '@/types'
+import { MainTable } from '@/components'
+import NumberOfEmployeeLink from '@/components/UI/NumberOfEmployeeLink'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {

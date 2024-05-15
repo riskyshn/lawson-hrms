@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, Input, InputCurrency } from '@jshrms/ui'
+import { Button, Card, CardBody, CardFooter, Input, InputCurrency } from 'jobseeker-ui'
 import * as yup from 'yup'
 
 const schema = yup.object({

@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { employeeService, organizationService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { BaseSelect, Button, Card, CardBody, CardFooter, OptionProps, Spinner, useToast } from '@jshrms/ui'
+import { BaseSelect, Button, Card, CardBody, CardFooter, Container, OptionProps, PageHeader, Spinner, useToast } from 'jobseeker-ui'
 import { MinusCircleIcon, PlusCircleIcon } from 'lucide-react'
+import { employeeService, organizationService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 export const Component: React.FC = () => {
   const [employees, setEmployees] = useState<OptionProps[]>([])

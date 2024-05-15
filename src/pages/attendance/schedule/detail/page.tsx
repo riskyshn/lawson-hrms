@@ -1,12 +1,8 @@
 import { useLocation, useSearchParams } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import MainCard from '@jshrms/shared/components/Elements/Layout/MainCard'
-import MainCardHeader from '@jshrms/shared/components/Elements/Layout/MainCardHeader'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { useAsyncSearch, useOptionSearchParam, usePagination } from '@jshrms/shared/hooks'
-import { employeeService, organizationService } from '@jshrms/shared/services'
-import { emmbedToOptions } from '@jshrms/shared/utils'
-import { AsyncSelect } from '@jshrms/ui'
+import { AsyncSelect, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
+import { useAsyncSearch, useOptionSearchParam, usePagination } from '@/hooks'
+import { employeeService, organizationService } from '@/services'
+import { emmbedToOptions } from '@/utils'
 import Table from './components/Table'
 
 const ScheduleDetailPage: React.FC = () => {

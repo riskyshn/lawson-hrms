@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { useAsyncAction } from '@jshrms/shared/hooks'
-import { processService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Button, useToast } from '@jshrms/ui'
+import { Button, Container, LoadingScreen, PageHeader, useToast } from 'jobseeker-ui'
+import { useAsyncAction } from '@/hooks'
+import { processService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 const PreviewOfferingLetterPage: React.FC = () => {
   const { applicantId } = useParams()

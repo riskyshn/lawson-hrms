@@ -1,8 +1,8 @@
-import type { ICandidate } from '@jshrms/shared/types'
+import type { ICandidate } from '@/types'
 import React from 'react'
-import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import { CheckCircle2Icon, XCircleIcon } from 'lucide-react'
+import { MainTable } from '@/components'
+import MainModal from '@/components/Modals/MainModal'
 
 const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void; show: boolean }> = ({ candidate, onClose, show }) => {
   const bodyItems = candidate.candidateMatches

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card } from '@jshrms/ui'
+import { Card } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
 
 const PageCard: React.FC<{

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useAuthStore } from '@jshrms/shared/store'
-import { Spinner } from '@jshrms/ui'
+import { Spinner } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
+import { useAuthStore } from '@/store'
 
 const Boot: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)

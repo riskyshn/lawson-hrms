@@ -1,8 +1,8 @@
-import type { IPreviousEmployee } from '@jshrms/shared/types'
+import type { IPreviousEmployee } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { Avatar, Badge } from '@jshrms/ui'
+import { Avatar, Badge } from 'jobseeker-ui'
 import moment from 'moment'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {

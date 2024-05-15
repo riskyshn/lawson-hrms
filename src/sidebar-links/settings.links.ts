@@ -1,5 +1,5 @@
-import { SidebarLinksOptions } from '@jshrms/ui'
 import { PackageIcon, SettingsIcon } from 'lucide-react'
+import { SidebarLinksOptions } from '@/hooks'
 
 const settingsLinks: SidebarLinksOptions = {
   items: [

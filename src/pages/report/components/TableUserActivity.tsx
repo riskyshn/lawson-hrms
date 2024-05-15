@@ -1,4 +1,4 @@
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { MainTable } from '@/components'
 
 type PropTypes = {
   items: any

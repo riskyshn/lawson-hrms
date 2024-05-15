@@ -1,8 +1,8 @@
-import type { ICandidate } from '@jshrms/shared/types'
+import type { ICandidate } from '@/types'
 import React, { useState } from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { Avatar } from '@jshrms/ui'
+import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
+import { MainTable } from '@/components'
 import MenuList from '../../../components/MenuList'
 import CandidateMatchModal from './CandidateMatchModal'
 

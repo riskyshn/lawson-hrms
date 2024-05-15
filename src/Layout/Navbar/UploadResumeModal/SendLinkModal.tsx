@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { axiosErrorMessage } from '@/utils'
 
 const schema = yup.object().shape({
   email: yup.string().email().required().label('Email'),

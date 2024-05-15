@@ -1,14 +1,10 @@
-import type { ILeave, IPaginationResponse } from '@jshrms/shared/types'
+import type { ILeave, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { DateValueType } from 'react-tailwindcss-datepicker'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import MainCard from '@jshrms/shared/components/Elements/Layout/MainCard'
-import MainCardHeader from '@jshrms/shared/components/Elements/Layout/MainCardHeader'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { usePagination } from '@jshrms/shared/hooks'
-import { attendanceService } from '@jshrms/shared/services'
-import { BaseInputDateRange } from '@jshrms/ui'
+import { BaseInputDateRange, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
+import { usePagination } from '@/hooks'
+import { attendanceService } from '@/services'
 import Table from '../components/Table'
 
 const RequestPage: React.FC = () => {

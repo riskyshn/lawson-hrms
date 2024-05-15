@@ -1,9 +1,9 @@
-import type { IPosition } from '@jshrms/shared/types'
+import type { IPosition } from '@/types'
 import React from 'react'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { organizationService } from '@jshrms/shared/services'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenToolIcon, TrashIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { organizationService } from '@/services'
 
 type ActionMenuProps = {
   index: number

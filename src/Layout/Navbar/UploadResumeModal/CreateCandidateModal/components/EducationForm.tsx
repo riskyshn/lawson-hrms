@@ -1,10 +1,10 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { masterService } from '@jshrms/shared/services'
-import { emmbedToOptions, genYupOption, yupOptionError } from '@jshrms/shared/utils'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate } from '@jshrms/ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputDate } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { masterService } from '@/services'
+import { emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
 
 const schema = yup.object({
   education: genYupOption('Last Education').required(),

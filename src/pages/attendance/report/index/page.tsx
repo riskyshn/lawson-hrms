@@ -1,12 +1,9 @@
-import type { IDataTableEmployee, IPaginationResponse } from '@jshrms/shared/types'
+import type { IDataTableEmployee, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import MainCard from '@jshrms/shared/components/Elements/Layout/MainCard'
-import MainCardHeader from '@jshrms/shared/components/Elements/Layout/MainCardHeader'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { usePagination } from '@jshrms/shared/hooks'
-import { employeeService } from '@jshrms/shared/services'
+import { Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
+import { usePagination } from '@/hooks'
+import { employeeService } from '@/services'
 import Table from '../components/Table'
 
 const ReportPage: React.FC = () => {

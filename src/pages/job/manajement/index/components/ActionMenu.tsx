@@ -1,10 +1,10 @@
-import type { IVacancy } from '@jshrms/shared/types'
+import type { IVacancy } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { vacancyService } from '@jshrms/shared/services'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { EyeIcon, GlobeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { vacancyService } from '@/services'
 
 type ActionMenuProps = {
   index: number

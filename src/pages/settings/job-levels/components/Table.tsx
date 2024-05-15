@@ -1,9 +1,9 @@
-import type { IJobLevel } from '@jshrms/shared/types'
+import type { IJobLevel } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
-// import { Avatar } from '@jshrms/ui'
+// import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
   items: IJobLevel[]

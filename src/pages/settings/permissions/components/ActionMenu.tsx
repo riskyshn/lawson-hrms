@@ -1,9 +1,9 @@
-import type { IPermission } from '@jshrms/shared/types'
+import type { IPermission } from '@/types'
 import React from 'react'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { authorityService } from '@jshrms/shared/services'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenToolIcon, TrashIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { authorityService } from '@/services'
 
 type ActionMenuProps = {
   index: number

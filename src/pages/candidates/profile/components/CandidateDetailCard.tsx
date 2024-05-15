@@ -1,7 +1,7 @@
-import type { ICandidate, IUploadedProcessDocument } from '@jshrms/shared/types'
+import type { ICandidate, IUploadedProcessDocument } from '@/types'
 import React from 'react'
-import { numberToCurrency } from '@jshrms/shared/utils'
-import { Card, CardBody, CardHeader } from '@jshrms/ui'
+import { Card, CardBody, CardHeader } from 'jobseeker-ui'
+import { numberToCurrency } from '@/utils'
 
 const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; flag?: string; items?: ICandidate; title?: string }> = ({
   documents,

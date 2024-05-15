@@ -1,18 +1,20 @@
-import type { IDataTableApplicant } from '@jshrms/shared/types'
+import type { IDataTableApplicant } from '@/types'
 import type { ModalType, TableType } from '../types'
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import BlacklistModal from '@jshrms/shared/components/Modules/Process/BlacklistModal'
-import MoveAnotherVacancyModal from '@jshrms/shared/components/Modules/Process/MoveAnotherVacancyModal'
-import ProcessModal from '@jshrms/shared/components/Modules/Process/ProcessModal'
-import RejectModal from '@jshrms/shared/components/Modules/Process/RejectModal'
-import RescheduleModal from '@jshrms/shared/components/Modules/Process/RescheduleModal'
-import ViewProcessHistoryModal from '@jshrms/shared/components/Modules/Process/ViewProcessHistoryModal'
-import WithdrawModal from '@jshrms/shared/components/Modules/Process/WithdrawModal'
-import { Avatar, Badge, Color, variants } from '@jshrms/ui'
+import { Avatar, Badge, Color, variants } from 'jobseeker-ui'
 import { FileIcon } from 'lucide-react'
 import moment from 'moment'
+import { MainTable } from '@/components'
+import {
+  BlacklistModal,
+  MoveAnotherVacancyModal,
+  ProcessModal,
+  RejectModal,
+  RescheduleModal,
+  ViewProcessHistoryModal,
+  WithdrawModal,
+} from '@/modules/process'
 import ActionMenu from './ActionMenu'
 import EditJoinDateModal from './EditJoinDateModal'
 import HireModal from './HireModal'

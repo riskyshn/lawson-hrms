@@ -1,11 +1,11 @@
-import type { ITimezone } from '@jshrms/shared/types'
+import type { ITimezone } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
-import { attendanceService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Alert, Button, Input, InputTime, Select, useToast } from '@jshrms/ui'
+import { Alert, Button, Input, InputTime, Select, useToast } from 'jobseeker-ui'
 import { ClockIcon } from 'lucide-react'
+import MainModal from '@/components/Modals/MainModal'
+import { attendanceService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 type DaySchedule = {
   day: string

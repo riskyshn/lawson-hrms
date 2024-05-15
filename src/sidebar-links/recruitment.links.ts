@@ -1,5 +1,5 @@
-import { SidebarLinksOptions } from '@jshrms/ui'
 import { BriefcaseIcon, FileIcon, RepeatIcon, UsersIcon } from 'lucide-react'
+import { SidebarLinksOptions } from '@/hooks'
 
 const recruitmentLinks: SidebarLinksOptions = {
   items: [

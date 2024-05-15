@@ -1,8 +1,8 @@
-import type { IBenefitComponent, IDeductionComponent } from '@jshrms/shared/types'
+import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import { useState } from 'react'
-import SideModal from '@jshrms/shared/components/Elements/Modals/SideModal'
-import { Button } from '@jshrms/ui'
+import { Button } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
+import SideModal from '@/components/Modals/SideModal'
 import EmployeeSelector from '../../../components/EmployeeSelector'
 import SubmitModal from './SubmitModal'
 

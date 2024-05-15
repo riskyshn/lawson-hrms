@@ -1,7 +1,8 @@
-import type { ICandidate } from '@jshrms/shared/types'
+import type { ICandidate } from '@/types'
 import React from 'react'
-import { Avatar, Card, CardBody, useBreakpoint } from '@jshrms/ui'
+import { Avatar, Card, CardBody } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, PhoneIcon, StarsIcon, User2Icon } from 'lucide-react'
+import { useBreakpoint } from '@/hooks'
 
 type PropType = {
   children?: React.ReactNode

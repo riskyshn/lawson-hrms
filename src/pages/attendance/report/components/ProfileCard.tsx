@@ -1,7 +1,8 @@
-import type { IEmployee, IFilterDate } from '@jshrms/shared/types'
+import type { IEmployee, IFilterDate } from '@/types'
 import React from 'react'
-import { Avatar, Card, CardBody, useBreakpoint } from '@jshrms/ui'
+import { Avatar, Card, CardBody } from 'jobseeker-ui'
 import { MailIcon, MapPinnedIcon, PhoneIcon } from 'lucide-react'
+import { useBreakpoint } from '@/hooks'
 import StatisticCards from './StatisticCards'
 
 type PropType = {

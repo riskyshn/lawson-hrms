@@ -1,7 +1,7 @@
-import type { IEmployee } from '@jshrms/shared/types'
+import type { IEmployee } from '@/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { employeeService } from '@jshrms/shared/services'
+import { employeeService } from '@/services'
 
 export default function useEmployeePage() {
   const { employeeCode } = useParams()

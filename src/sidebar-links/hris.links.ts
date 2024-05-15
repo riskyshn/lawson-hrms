@@ -1,5 +1,5 @@
-import { SidebarLinksOptions } from '@jshrms/ui'
 import { BanknoteIcon, UserCogIcon, UserPlus2Icon } from 'lucide-react'
+import { SidebarLinksOptions } from '@/hooks'
 
 const hrisLinks: SidebarLinksOptions = {
   items: [

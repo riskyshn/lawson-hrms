@@ -1,13 +1,12 @@
-import type { IDocumentRequest } from '@jshrms/shared/types'
+import type { IDocumentRequest } from '@/types'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
-import { useAsyncAction } from '@jshrms/shared/hooks'
-import { masterService, organizationService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, MultiSelect, useToast } from '@jshrms/ui'
+import { Alert, Button, Input, LoadingScreen, Modal, ModalFooter, ModalHeader, MultiSelect, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { useAsyncAction } from '@/hooks'
+import { masterService, organizationService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 type CreateModalProps = {
   onClose?: () => void

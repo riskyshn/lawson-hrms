@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
-import { LogoGoogleMeet } from '@jshrms/shared/components/Logo/LogoGoogleMeet'
-import { Avatar, Button, Input, InputCheckbox, Select } from '@jshrms/ui'
+import { Avatar, Button, Input, InputCheckbox, Select } from 'jobseeker-ui'
 import { ClockIcon, MapPinIcon, PencilIcon, TextIcon, Users2Icon } from 'lucide-react'
+import { LogoGoogleMeet, MainModal } from '@/components'
 
 type SendReminderModalProps = {
   onClose: () => void

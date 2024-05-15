@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import Logo from '@jshrms/shared/components/Logo/Logo'
+import { Logo } from '@/components'
 
 export const Component: React.FC = () => {
   return (

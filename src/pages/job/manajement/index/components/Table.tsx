@@ -1,9 +1,9 @@
-import type { IVacancy } from '@jshrms/shared/types'
+import type { IVacancy } from '@/types'
 import React, { useState } from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import NumberOfEmployeeLink from '@jshrms/shared/components/Elements/UI/NumberOfEmployeeLink'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
+import { MainTable } from '@/components'
+import NumberOfEmployeeLink from '@/components/UI/NumberOfEmployeeLink'
 import ActionMenu from './ActionMenu'
 import ReactiveExpiredModal from './ReactiveExpiredModal'
 

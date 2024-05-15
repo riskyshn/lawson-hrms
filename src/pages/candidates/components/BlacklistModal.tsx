@@ -1,8 +1,8 @@
-import type { ICandidate, IMasterReason } from '@jshrms/shared/types'
+import type { ICandidate, IMasterReason } from '@/types'
 import React, { useEffect, useState } from 'react'
-import MainModal from '@jshrms/shared/components/Elements/Modals/MainModal'
-import { candidateService, masterService } from '@jshrms/shared/services'
-import { Button, Select, Spinner, useToast } from '@jshrms/ui'
+import { Button, Select, Spinner, useToast } from 'jobseeker-ui'
+import MainModal from '@/components/Modals/MainModal'
+import { candidateService, masterService } from '@/services'
 
 type BlacklistModalProps = {
   candidate: ICandidate

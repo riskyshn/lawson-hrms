@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Card, CardBody, CardFooter, InputCheckbox, InputCurrency } from '@jshrms/ui'
+import { Button, Card, CardBody, CardFooter, InputCheckbox, InputCurrency } from 'jobseeker-ui'
 import * as yup from 'yup'
 import ExperienceItem from './ExperienceItem'
 import { experiencesSchema } from './shared'

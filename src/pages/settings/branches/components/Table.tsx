@@ -1,11 +1,10 @@
-import type { IBranch } from '@jshrms/shared/types'
+import type { IBranch } from '@/types'
 import React, { useState } from 'react'
-import MapsPreviewerModal from '@jshrms/shared/components/Elements/Modals/MapsPreviewerModal'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import { MapPinIcon } from 'lucide-react'
+import { MainTable, MapsPreviewerModal } from '@/components'
 import ActionMenu from './ActionMenu'
 
-// import { Avatar } from '@jshrms/ui'
+// import { Avatar } from 'jobseeker-ui'
 
 type TableProps = {
   items: IBranch[]

@@ -1,11 +1,11 @@
-import type { IJobLevel } from '@jshrms/shared/types'
+import type { IJobLevel } from '@/types'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { organizationService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { organizationService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 type CreateModalProps = {
   onClose?: () => void

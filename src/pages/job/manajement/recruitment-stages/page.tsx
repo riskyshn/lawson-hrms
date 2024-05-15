@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { Button } from '@jshrms/ui'
+import { Button, Container, PageHeader } from 'jobseeker-ui'
 import RecruitmentStagesEditor from '../../components/RecruitmentStageEditor'
 
 export const Component: React.FC = () => {

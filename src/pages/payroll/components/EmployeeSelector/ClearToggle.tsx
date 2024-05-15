@@ -51,7 +51,7 @@ const ClearToggle: React.FC<PropTypes> = ({ children, disabled, onClear }) => {
       ) : (
         <>
           Are you sure?
-          <button className="mx-2 text-error-600" onClick={handleClear} type="button">
+          <button className="text-error-600 mx-2" onClick={handleClear} type="button">
             Yes
           </button>
           <button onClick={handleCancel} type="button">

@@ -1,10 +1,10 @@
-import type { IPreviousEmployee } from '@jshrms/shared/types'
+import type { IPreviousEmployee } from '@/types'
 import React from 'react'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { employeeService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { PowerIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { employeeService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 // Define the props for the ActionMenu component
 type ActionMenuProps = {

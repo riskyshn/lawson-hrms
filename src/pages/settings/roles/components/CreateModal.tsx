@@ -1,11 +1,11 @@
-import type { IRole } from '@jshrms/shared/types'
+import type { IRole } from '@/types'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { authorityService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Textarea, useToast } from '@jshrms/ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { authorityService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 type CreateModalProps = {
   onClose?: () => void

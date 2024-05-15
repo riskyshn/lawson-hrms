@@ -1,7 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { Spinner } from '@jshrms/ui'
+import { Container, PageHeader, Spinner } from 'jobseeker-ui'
 import { twMerge } from 'tailwind-merge'
 import useEmployeePage from '../hooks/use-employee-page'
 import AttendanceTable from './components/AttendanceTable'

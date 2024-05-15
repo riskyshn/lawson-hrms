@@ -1,10 +1,10 @@
-import type { IHomeData } from '@jshrms/shared/types'
+import type { IHomeData } from '@/types'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import ImageFileUpload from '@jshrms/shared/components/Elements/FileUploads/ImageFileUpload'
-import { Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea } from '@jshrms/ui'
+import { Button, Card, CardBody, CardFooter, Input, InputWrapper, Textarea } from 'jobseeker-ui'
 import * as yup from 'yup'
+import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
 
 interface IFormProps {
   defaultValue?: IHomeData

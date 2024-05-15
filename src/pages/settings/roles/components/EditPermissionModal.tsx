@@ -1,8 +1,8 @@
-import type { IPermission, IRole } from '@jshrms/shared/types'
+import type { IPermission, IRole } from '@/types'
 import React, { useEffect, useMemo, useState } from 'react'
-import { authorityService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Button, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
+import { Button, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
+import { authorityService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 import PermissionItem, { PermissionItemSkeleton } from './PermissionItem'
 
 type EditPermissionModalProps = {
