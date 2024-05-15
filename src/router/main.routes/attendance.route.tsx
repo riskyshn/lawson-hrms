@@ -9,7 +9,7 @@ const attendanceRoute: RouteObject = {
     { lazy: () => import('@/pages/attendance/attendance-management/overtime/page'), path: 'attendance-management/overtime' },
     { lazy: () => import('@/pages/attendance/request-management/index/page'), path: 'request-management' },
     { lazy: () => import('@/pages/attendance/report/index/page'), path: 'report' },
-    { lazy: () => import('@/pages/attendance/report/detail/page'), path: 'preport/:employeeId' },
+    { lazy: () => import('@/pages/attendance/report/detail/page'), path: 'report/:employeeId' },
   ],
 
   path: 'attendance',

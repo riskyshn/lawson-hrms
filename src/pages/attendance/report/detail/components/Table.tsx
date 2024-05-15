@@ -182,26 +182,7 @@ const Table: React.FC<PropTypes> = ({ items, loading }) => {
         className: 'text-center',
       },
       {
-        children:
-          item.logType === 'absent'
-            ? '-'
-            : item.leaveData !== null
-              ? item.leaveData.rejectedReason || '-'
-              : (item.attendanceData ?? [])
-                  .map((record, index) => {
-                    return <div key={index}>{record.rejectedReason || '-'}</div>
-                  })
-                  .reduce((acc: JSX.Element[], cur: JSX.Element, index: number, array: JSX.Element[]) => {
-                    if (index % 2 === 0) {
-                      acc.push(
-                        <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
-                          {cur}
-                          {array[index + 1]}
-                        </div>,
-                      )
-                    }
-                    return acc
-                  }, []),
+        children: item.rejectedReason || '-',
         className: 'text-center',
       },
     ],

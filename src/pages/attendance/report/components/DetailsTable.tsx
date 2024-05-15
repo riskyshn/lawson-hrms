@@ -156,40 +156,7 @@ const DetailsTable: React.FC<PropTypes> = ({ items, loading }) => {
       },
       { children: item.status.replace(/\b\w/g, (char) => char.toUpperCase()), className: 'text-center' },
       {
-        children: (item.attendanceData ?? [])
-          .map((record, index) => {
-            if (!record.rejectedReason) {
-              return (
-                <div key={index}>
-                  <span>-</span>
-                </div>
-              )
-            } else {
-              const modifiedAttendanceType = record?.rejectedReason
-                ?.replace(/_/g, ' ')
-                .toLowerCase()
-                .replace(/(?:^|\s)\S/g, function (a: string) {
-                  return a.toUpperCase()
-                })
-
-              return (
-                <div key={index}>
-                  <span>{modifiedAttendanceType}</span>
-                </div>
-              )
-            }
-          })
-          .reduce((acc: any, cur: any, index: number, array: any) => {
-            if (index % 2 === 0) {
-              acc.push(
-                <div className="flex h-16 flex-col items-center justify-center" key={index / 2}>
-                  {cur}
-                  {array[index + 1]}
-                </div>,
-              )
-            }
-            return acc
-          }, [] as JSX.Element[]),
+        children: item.rejectedReason || '-',
       },
     ],
   }))

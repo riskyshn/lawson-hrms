@@ -262,12 +262,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                             latestAttendanceType === 'clock_in' ||
                             latestAttendanceType === 'overtime_in'
                           }
-                          onClick={() =>
-                            handleViewDetails(
-                              item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
-                              'approved',
-                            )
-                          }
+                          onClick={() => handleViewDetails(item.oid, 'approved')}
                           size="small"
                           style={{
                             opacity:
@@ -284,12 +279,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                         <Button
                           color="error"
                           disabled={record.status === 'rejected'}
-                          onClick={() =>
-                            handleViewDetails(
-                              item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
-                              'rejected',
-                            )
-                          }
+                          onClick={() => handleViewDetails(item.oid, 'rejected')}
                           size="small"
                           style={{ opacity: record.status === 'rejected' ? 0.5 : 1 }}
                         >
