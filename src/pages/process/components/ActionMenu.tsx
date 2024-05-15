@@ -1,10 +1,7 @@
-import type { IDataTableApplicant, IVacancy } from '@jshrms/shared/types'
+import type { IDataTableApplicant, IVacancy } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { processService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import {
   EditIcon,
   EyeIcon,
@@ -24,6 +21,9 @@ import {
   UserXIcon,
   XCircleIcon,
 } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { processService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 import { ModalType } from '../types'
 
 type ActionMenuProps = {
@@ -33,10 +33,10 @@ type ActionMenuProps = {
   onVacancyUpdated?: (item: IVacancy) => void
   setSelected: (selected: { item: IDataTableApplicant; type: ModalType }) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total, upSpace = total > 8 ? 3 : 0 }) => {
   const [loading, setLoading] = useState(item.status?.oid === '1' || item.status?.oid === '2')
   const [triggered, setTriggered] = useState(false)
   const [haveProcess, setHaveProcess] = useState(true)
@@ -174,6 +174,8 @@ const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total
     '6': [viewSignedOfferingLetter, hire, viewHistory, blacklist, reject, withdraw],
     // Action menu items for applications in the "Waiting to Join" status (7).
     '7': [addAsEmployee, viewProfile, editJoinDate, viewHistory, blacklist, withdraw],
+    // Action menu items for applications in the "Hired" status (8).
+    '8': [addAsEmployee, viewProfile],
   }
 
   const menu = menuItems[item.status?.oid || '0']

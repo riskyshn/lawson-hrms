@@ -1,11 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
-import { useAsyncSearch } from '@jshrms/shared/hooks'
-import { dashboardService } from '@jshrms/shared/services'
-import { Card, CardBody, CardHeader } from '@jshrms/ui'
+import { Card, CardBody, CardHeader, LoadingScreen } from 'jobseeker-ui'
 import { InboxIcon } from 'lucide-react'
 import moment from 'moment'
+import { useAsyncSearch } from '@/hooks'
+import { dashboardService } from '@/services'
 
 const UpcomingScheduleCard: React.FC = () => {
   const { pageData } = useAsyncSearch(dashboardService.upcomingSchedule, { limit: 20 })

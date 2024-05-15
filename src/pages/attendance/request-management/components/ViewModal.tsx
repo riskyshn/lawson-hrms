@@ -1,6 +1,6 @@
-import type { ILeave } from '@jshrms/shared/types'
+import type { ILeave } from '@/types'
 import React from 'react'
-import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, usePreviewImage, variants } from '@jshrms/ui'
+import { Badge, CardBody, CardFooter, Color, Modal, ModalHeader, Spinner, usePreviewImage, variants } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
 
 type PropTypes = {

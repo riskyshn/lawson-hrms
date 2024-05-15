@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useAuthStore } from '@jshrms/shared/store'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Alert, Button, Input } from '@jshrms/ui'
+import { Alert, Button, Input } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { useAuthStore } from '@/store'
+import { axiosErrorMessage } from '@/utils'
 
 const schema = yup.object({
   email: yup.string().email().required().label('Email address'),

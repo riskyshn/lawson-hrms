@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { authService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
+import { Alert, Button, Input, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { authService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 const schema = yup.object().shape({
   newPassword: yup.string().required().label('New Password'),

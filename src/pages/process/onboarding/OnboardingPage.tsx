@@ -1,11 +1,7 @@
 import { useSearchParams } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import MainCard from '@jshrms/shared/components/Elements/Layout/MainCard'
-import MainCardHeader from '@jshrms/shared/components/Elements/Layout/MainCardHeader'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { useAsyncSearch, useOptionSearchParam, usePagination } from '@jshrms/shared/hooks'
-import { organizationService, processService, vacancyService } from '@jshrms/shared/services'
-import { AsyncSelect } from '@jshrms/ui'
+import { AsyncSelect, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
+import { useAsyncSearch, useOptionSearchParam, usePagination } from '@/hooks'
+import { organizationService, processService, vacancyService } from '@/services'
 import Table from '../components/Table'
 
 const OnboardingPage: React.FC = () => {

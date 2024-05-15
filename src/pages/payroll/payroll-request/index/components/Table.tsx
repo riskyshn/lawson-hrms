@@ -1,9 +1,9 @@
-import type { IPayrollRequest } from '@jshrms/shared/types'
+import type { IPayrollRequest } from '@/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { Badge, Button, Color } from '@jshrms/ui'
+import { Badge, Button, Color } from 'jobseeker-ui'
 import moment from 'moment'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
 const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading }) => {
@@ -38,7 +38,7 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
       {
         children:
           item.status?.oid === '1' ? (
-            <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} />
+            <ActionMenu index={index} item={item} total={items.length} />
           ) : (
             <Button as={Link} block className="text-xs" color="primary" size="small" to={`/payroll/payroll-request/${item.oid}`}>
               Detail

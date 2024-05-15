@@ -4,7 +4,7 @@ import './register'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
-import { ContextProviders } from '@jshrms/ui'
+import { ContextProviders } from 'jobseeker-ui'
 import Boot from './Boot'
 import router from './router'
 

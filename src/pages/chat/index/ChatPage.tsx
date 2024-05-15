@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Input } from '@jshrms/ui'
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Container, Input, PageHeader } from 'jobseeker-ui'
 import { SearchIcon, SendIcon } from 'lucide-react'
 
 const ChatPage: React.FC = () => {

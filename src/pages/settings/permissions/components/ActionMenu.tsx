@@ -1,9 +1,9 @@
-import type { IPermission } from '@jshrms/shared/types'
+import type { IPermission } from '@/types'
 import React from 'react'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { authorityService } from '@jshrms/shared/services'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { PenToolIcon, TrashIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { authorityService } from '@/services'
 
 type ActionMenuProps = {
   index: number
@@ -11,10 +11,17 @@ type ActionMenuProps = {
   permission: IPermission
   setSelectedToUpdate?: (permission: IPermission) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, onDeleted, permission, setSelectedToUpdate, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({
+  index,
+  onDeleted,
+  permission,
+  setSelectedToUpdate,
+  total,
+  upSpace = total > 8 ? 3 : 0,
+}) => {
   const toast = useToast()
   const confirm = useConfirm()
 

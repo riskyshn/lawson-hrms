@@ -1,10 +1,10 @@
-import type { IPreviousEmployee } from '@jshrms/shared/types'
+import type { IPreviousEmployee } from '@/types'
 import React from 'react'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { employeeService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { PowerIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { employeeService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 // Define the props for the ActionMenu component
 type ActionMenuProps = {
@@ -12,11 +12,11 @@ type ActionMenuProps = {
   item: IPreviousEmployee // Assuming IPreviousEmployee is defined elsewhere
   onRestored?: () => void // Optional callback function when employee is restored
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
 // ActionMenu component for handling actions on each employee item
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onRestored, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onRestored, total, upSpace = total > 8 ? 3 : 0 }) => {
   const confirm = useConfirm() // Hook for displaying confirmation dialogs
   const toast = useToast() // Hook for displaying toast messages
 

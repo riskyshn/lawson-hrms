@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
-import { useAsyncAction } from '@jshrms/shared/hooks'
-import { organizationService } from '@jshrms/shared/services'
-import { Button, Card, CardBody } from '@jshrms/ui'
+import { Button, Card, CardBody, LoadingScreen } from 'jobseeker-ui'
 import { PlusCircleIcon } from 'lucide-react'
+import { useAsyncAction } from '@/hooks'
+import { organizationService } from '@/services'
 import RecruitmentStageItem from './RecruitmentStageItem'
 
 const RecruitmentStagesEditor: React.FC = () => {

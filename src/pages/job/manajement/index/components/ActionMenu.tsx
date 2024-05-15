@@ -1,21 +1,28 @@
-import type { IVacancy } from '@jshrms/shared/types'
+import type { IVacancy } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { vacancyService } from '@jshrms/shared/services'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { EyeIcon, GlobeIcon, PenToolIcon, PowerIcon, TrashIcon, UsersIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { vacancyService } from '@/services'
 
 type ActionMenuProps = {
   index: number
   onRefresh?: () => void
   total: number
-  upSpace: number
   vacancy: IVacancy
+  upSpace?: number
   setSelectedExpiredToReactive?: (item: IVacancy) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpace, vacancy, setSelectedExpiredToReactive }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({
+  index,
+  onRefresh,
+  total,
+  vacancy,
+  upSpace = total > 8 ? 3 : 0,
+  setSelectedExpiredToReactive,
+}) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()

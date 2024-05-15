@@ -1,6 +1,6 @@
-import type { IPermission } from '@jshrms/shared/types'
+import type { IPermission } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
 type TableProps = {
@@ -30,7 +30,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       { children: permission.path, className: 'text-center' },
       { children: permission.action, className: 'text-center' },
       {
-        children: <ActionMenu index={index} permission={permission} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} permission={permission} total={items.length} {...props} />,
       },
     ],
   }))

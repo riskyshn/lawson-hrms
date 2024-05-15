@@ -1,8 +1,8 @@
-import type { IVacancy } from '@jshrms/shared/types'
+import type { IVacancy } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
 interface TableProps {
@@ -68,7 +68,6 @@ const Table: React.FC<TableProps> = ({ items, loading, onRefresh, setSelectedToS
             onRefresh={onRefresh}
             setSelectedToShowHistoryModal={setSelectedToShowHistoryModal}
             total={items.length}
-            upSpace={items.length > 8 ? 3 : 0}
             vacancy={vacancy}
           />
         ),

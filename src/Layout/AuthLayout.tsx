@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import Logo from '@jshrms/shared/components/Logo/Logo'
 import BgImage from '@/assets/hero.webp'
+import { Logo } from '@/components'
 
 export const Component: React.FC = () => {
   return (

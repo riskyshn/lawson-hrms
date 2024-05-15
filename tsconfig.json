@@ -19,8 +19,7 @@
     "noFallthroughCasesInSwitch": true,
     /* Alias */
     "paths": {
-      "@/*": ["./src/*"],
-      "@jshrms/*": ["./packages/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src", "packages"],

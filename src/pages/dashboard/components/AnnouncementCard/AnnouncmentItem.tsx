@@ -1,10 +1,10 @@
-import type { IDashboardAnnouncement } from '@jshrms/shared/types'
+import type { IDashboardAnnouncement } from '@/types'
 import { useState } from 'react'
-import { dashboardService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Button, useConfirm, useToast } from '@jshrms/ui'
+import { Button, useConfirm, useToast } from 'jobseeker-ui'
 import { PinIcon, Trash2Icon } from 'lucide-react'
 import moment from 'moment'
+import { dashboardService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 const AnnouncementItem: React.FC<{
   item: IDashboardAnnouncement

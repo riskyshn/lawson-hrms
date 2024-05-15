@@ -1,6 +1,6 @@
-import type { IRole } from '@jshrms/shared/types'
+import type { IRole } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
 type TableProps = {
@@ -27,7 +27,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       { children: role.code, className: 'text-center' },
       { children: role.description, className: 'text-center' },
       {
-        children: <ActionMenu index={index} role={role} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} role={role} total={items.length} {...props} />,
       },
     ],
   }))

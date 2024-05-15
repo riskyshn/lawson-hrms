@@ -1,4 +1,4 @@
-import { Card } from '@jshrms/ui'
+import { Card } from 'jobseeker-ui'
 import { Monitor } from 'lucide-react'
 
 const TalentPoolCard: React.FC = () => {

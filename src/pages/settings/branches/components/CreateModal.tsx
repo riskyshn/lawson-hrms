@@ -1,11 +1,23 @@
-import type { IBranch } from '@jshrms/shared/types'
+import type { IBranch } from '@/types'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { masterService, organizationService } from '@jshrms/shared/services'
-import { axiosErrorMessage, emmbedToOptions, genYupOption, yupOptionError } from '@jshrms/shared/utils'
-import { Alert, AsyncSelect, BaseInput, Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Textarea, useToast } from '@jshrms/ui'
+import {
+  Alert,
+  AsyncSelect,
+  BaseInput,
+  Button,
+  Input,
+  InputWrapper,
+  Modal,
+  ModalFooter,
+  ModalHeader,
+  Textarea,
+  useToast,
+} from 'jobseeker-ui'
 import * as yup from 'yup'
+import { masterService, organizationService } from '@/services'
+import { axiosErrorMessage, emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
 import GeoPicker from './GeoPicker'
 
 type CreateModalProps = {

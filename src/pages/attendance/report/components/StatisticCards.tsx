@@ -1,8 +1,8 @@
-import type { IEmployee, IFilterDate, IStatistic } from '@jshrms/shared/types'
+import type { IEmployee, IFilterDate, IStatistic } from '@/types'
 import React, { memo, useEffect, useState } from 'react'
-import { attendanceService } from '@jshrms/shared/services'
-import { Skeleton } from '@jshrms/ui'
+import { Skeleton } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
+import { attendanceService } from '@/services'
 
 const Card: React.FC<{
   className?: string

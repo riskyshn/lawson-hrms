@@ -1,9 +1,9 @@
-import type { IBenefitComponent, IDeductionComponent } from '@jshrms/shared/types'
+import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { numberToCurrency } from '@jshrms/shared/utils'
-import { Avatar } from '@jshrms/ui'
+import { Avatar } from 'jobseeker-ui'
+import { MainTable } from '@/components'
+import { numberToCurrency } from '@/utils'
 import ActionMenu from './ActionMenu'
 import ApplyToModal from './ApplyToModal'
 import EditModal from './EditModal'
@@ -66,7 +66,6 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
             setSelectedToEdit={setSelectedToEdit}
             total={items.length}
             type={type}
-            upSpace={items.length > 8 ? 3 : 0}
           />
         ),
       },

@@ -1,9 +1,9 @@
-import type { IRole } from '@jshrms/shared/types'
+import type { IRole } from '@/types'
 import React from 'react'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { authorityService } from '@jshrms/shared/services'
-import { useConfirm, useToast } from '@jshrms/ui'
+import { useConfirm, useToast } from 'jobseeker-ui'
 import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
+import { authorityService } from '@/services'
 
 type ActionMenuProps = {
   index: number
@@ -12,7 +12,7 @@ type ActionMenuProps = {
   setSelectedToUpdate?: (role: IRole) => void
   setSelectedToUpdatePermission?: (role: IRole) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({
@@ -22,7 +22,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
   setSelectedToUpdate,
   setSelectedToUpdatePermission,
   total,
-  upSpace,
+  upSpace = total > 8 ? 3 : 0,
 }) => {
   const toast = useToast()
   const confirm = useConfirm()

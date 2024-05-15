@@ -1,12 +1,11 @@
-import type { IEmployeePayrollDetail, IEmployeePayrollResult } from '@jshrms/shared/types'
+import type { IEmployeePayrollDetail, IEmployeePayrollResult } from '@/types'
 import React, { useEffect, useMemo, useState } from 'react'
-import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
-import SideModal from '@jshrms/shared/components/Elements/Modals/SideModal'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { payrollService } from '@jshrms/shared/services'
-import { axiosErrorMessage, numberToCurrency } from '@jshrms/shared/utils'
-import { Avatar, Button, useToast } from '@jshrms/ui'
+import { Avatar, Button, LoadingScreen, useToast } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
+import { MainTable } from '@/components'
+import SideModal from '@/components/Modals/SideModal'
+import { payrollService } from '@/services'
+import { axiosErrorMessage, numberToCurrency } from '@/utils'
 import TableItem from './TableItem'
 
 type PropTypes = {

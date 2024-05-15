@@ -1,10 +1,6 @@
-import type { ICandidate, ICandidateHistories } from '@jshrms/shared/types'
+import type { ICandidate, ICandidateHistories } from '@/types'
 import React, { useEffect, useState } from 'react'
-import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
-import HistoryItem from '@jshrms/shared/components/Elements/UI/HistoryItem'
-import { Timeline, TimelineItem } from '@jshrms/shared/components/Elements/UI/Timeline'
-import { candidateService } from '@jshrms/shared/services'
-import { Button, Modal, ModalFooter, ModalHeader } from '@jshrms/ui'
+import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import {
   AlertCircleIcon,
   CalendarIcon,
@@ -18,6 +14,9 @@ import {
 } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
+import HistoryItem from '@/components/UI/HistoryItem'
+import { Timeline, TimelineItem } from '@/components/UI/Timeline'
+import { candidateService } from '@/services'
 
 type OptionModalProps = {
   candidate?: ICandidate

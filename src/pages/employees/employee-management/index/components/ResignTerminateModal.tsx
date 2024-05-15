@@ -1,11 +1,11 @@
-import type { IDataTableEmployee } from '@jshrms/shared/types'
+import type { IDataTableEmployee } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { employeeService, organizationService } from '@jshrms/shared/services'
-import { axiosErrorMessage, emmbedToOptions, genYupOption, yupOptionError } from '@jshrms/shared/utils'
-import { Alert, AsyncSelect, Button, Modal, ModalFooter, ModalHeader, Textarea, useToast } from '@jshrms/ui'
+import { Alert, AsyncSelect, Button, Modal, ModalFooter, ModalHeader, Textarea, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
+import { employeeService, organizationService } from '@/services'
+import { axiosErrorMessage, emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
 
 type ModalProps = {
   item: IDataTableEmployee | null

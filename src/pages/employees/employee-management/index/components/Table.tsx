@@ -1,7 +1,7 @@
-import type { IDataTableEmployee } from '@jshrms/shared/types'
+import type { IDataTableEmployee } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { Avatar } from '@jshrms/ui'
+import { Avatar } from 'jobseeker-ui'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {
@@ -40,15 +40,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, setSelectedTerminate }) =>
       { children: item.jobLevel?.name || '-' },
       { children: item.jobType?.name || '-' },
       {
-        children: (
-          <ActionMenu
-            index={index}
-            item={item}
-            setSelectedTerminate={setSelectedTerminate}
-            total={items.length}
-            upSpace={items.length > 8 ? 3 : 0}
-          />
-        ),
+        children: <ActionMenu index={index} item={item} setSelectedTerminate={setSelectedTerminate} total={items.length} />,
       },
     ],
   }))

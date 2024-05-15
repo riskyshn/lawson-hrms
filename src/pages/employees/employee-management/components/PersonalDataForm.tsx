@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import ImageFileUpload from '@jshrms/shared/components/Elements/FileUploads/ImageFileUpload'
-import { PHONE_REG_EXP } from '@jshrms/shared/constants/globals'
-import { masterService } from '@jshrms/shared/services'
-import { emmbedToOptions, genYupOption, yupOptionError } from '@jshrms/shared/utils'
 import {
   AsyncSelect,
   Button,
@@ -17,8 +13,12 @@ import {
   InputWrapper,
   Select,
   Textarea,
-} from '@jshrms/ui'
+} from 'jobseeker-ui'
 import * as yup from 'yup'
+import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
+import { PHONE_REG_EXP } from '@/constants/globals'
+import { masterService } from '@/services'
+import { emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
 
 const PROGRESS_KEY = '[PROGRESS]'
 const ERROR_PREFIX_KEY = '[ERROR]'

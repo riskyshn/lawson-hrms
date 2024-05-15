@@ -1,12 +1,12 @@
-import type { IBenefitComponent, IDeductionComponent } from '@jshrms/shared/types'
+import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@jshrms/shared/constants/options'
-import { payrollService } from '@jshrms/shared/services'
-import { axiosErrorMessage, currencyToNumber } from '@jshrms/shared/utils'
-import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from '@jshrms/ui'
+import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
+import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
+import { payrollService } from '@/services'
+import { axiosErrorMessage, currencyToNumber } from '@/utils'
 import { schema } from '../shared'
 
 type PropType = {

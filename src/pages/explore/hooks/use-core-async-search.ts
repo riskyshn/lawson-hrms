@@ -1,7 +1,7 @@
-import type { ICandidateExplore, IPaginationParam } from '@jshrms/shared/types'
+import type { ICandidateExplore, IPaginationParam } from '@/types'
 import { useCallback, useEffect, useState } from 'react'
-import { candidateExploreService } from '@jshrms/shared/services'
-import { useDeepCompareEffect, useInfiniteScroll } from '@jshrms/ui'
+import { useDeepCompareEffect, useInfiniteScroll } from 'jobseeker-ui'
+import { candidateExploreService } from '@/services'
 
 type OptionParams = {
   city?: string

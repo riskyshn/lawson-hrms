@@ -1,5 +1,5 @@
-import type { INumberOfHiredDataTable } from '@jshrms/shared/types'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import type { INumberOfHiredDataTable } from '@/types'
+import { MainTable } from '@/components'
 
 type PropTypes = {
   items: INumberOfHiredDataTable[]

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
-import { usePagination } from '@jshrms/shared/hooks'
-import { notificationService } from '@jshrms/shared/services'
-import { INotification, IPaginationResponse } from '@jshrms/shared/types'
-import { Avatar, Badge, Button, CardBody, Spinner } from '@jshrms/ui'
+import { Avatar, Badge, Button, CardBody, Spinner } from 'jobseeker-ui'
 import { Bell } from 'lucide-react'
+import { usePagination } from '@/hooks'
+import { notificationService } from '@/services'
+import { INotification, IPaginationResponse } from '@/types'
 
 const NavbarNotification: React.FC = () => {
   const [viewMode, setViewMode] = useState<'applicants' | 'vacancies'>('applicants')

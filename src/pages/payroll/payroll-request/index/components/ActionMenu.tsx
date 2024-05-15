@@ -1,17 +1,17 @@
-import type { IPayrollRequest } from '@jshrms/shared/types'
+import type { IPayrollRequest } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
 import { BanknoteIcon, DownloadIcon, EyeIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
 
 type ActionMenuProps = {
   index: number
   item: IPayrollRequest
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, total, upSpace = total > 8 ? 3 : 0 }) => {
   const navigate = useNavigate()
 
   const viewDetails: Table.ActionMenuItemProps = {

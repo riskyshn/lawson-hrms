@@ -1,6 +1,6 @@
-import type { IDocumentRequest } from '@jshrms/shared/types'
+import type { IDocumentRequest } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
+import { MainTable } from '@/components'
 import ActionMenu from './ActionMenu'
 
 type TableProps = {
@@ -21,7 +21,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
     items: [
       { children: <span className="block font-semibold">{item.name}</span> },
       { children: item.allowedFileTypes.join(', ') },
-      { children: <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} /> },
+      { children: <ActionMenu index={index} item={item} total={items.length} {...props} /> },
     ],
   }))
 

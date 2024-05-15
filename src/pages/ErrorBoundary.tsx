@@ -1,8 +1,8 @@
 import { Fragment, lazy } from 'react'
 import { Link, useRouteError } from 'react-router-dom'
-import { useAuthStore } from '@jshrms/shared/store'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Button } from '@jshrms/ui'
+import { Button } from 'jobseeker-ui'
+import { useAuthStore } from '@/store'
+import { axiosErrorMessage } from '@/utils'
 
 const MainLayout = lazy(() => import('@/Layout/MainLayout'))
 

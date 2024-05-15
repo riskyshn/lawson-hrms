@@ -1,10 +1,10 @@
-import type { IEmployee } from '@jshrms/shared/types'
+import type { IEmployee } from '@/types'
 import React from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { useAsyncSearch, usePagination } from '@jshrms/shared/hooks'
-import { attendanceService } from '@jshrms/shared/services'
-import { Card, CardFooter, usePreviewImage } from '@jshrms/ui'
+import { Card, CardFooter, usePreviewImage } from 'jobseeker-ui'
 import { ImageIcon } from 'lucide-react'
+import { MainTable } from '@/components'
+import { useAsyncSearch, usePagination } from '@/hooks'
+import { attendanceService } from '@/services'
 
 const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const previewImage = usePreviewImage()

@@ -1,12 +1,12 @@
-import type { IVacancy } from '@jshrms/shared/types'
+import type { IVacancy } from '@/types'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { vacancyService } from '@jshrms/shared/services'
-import { axiosErrorMessage } from '@jshrms/shared/utils'
-import { Button, InputDate, Modal, ModalFooter, ModalHeader, useToast } from '@jshrms/ui'
+import { Button, InputDate, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import moment from 'moment'
 import * as yup from 'yup'
+import { vacancyService } from '@/services'
+import { axiosErrorMessage } from '@/utils'
 
 const schema = yup.object({
   expiredDate: yup.date().required().label('Join Date'),

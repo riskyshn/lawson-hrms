@@ -1,13 +1,12 @@
-import type { IDashboardSchedule, IEvent, IEventRefiners } from '@jshrms/shared/types'
+import type { IDashboardSchedule, IEvent, IEventRefiners } from '@/types'
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { dashboardService } from '@jshrms/shared/services'
+import { Container, PageHeader } from 'jobseeker-ui'
+import { dashboardService } from '@/services'
 import Modal from './components/Modal'
 
 export const Component: React.FC = () => {

@@ -1,11 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import MainCard from '@jshrms/shared/components/Elements/Layout/MainCard'
-import MainCardHeader from '@jshrms/shared/components/Elements/Layout/MainCardHeader'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { useAsyncSearch, usePagination } from '@jshrms/shared/hooks'
-import { payrollService } from '@jshrms/shared/services'
-import { Button } from '@jshrms/ui'
+import { Button, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
+import { useAsyncSearch, usePagination } from '@/hooks'
+import { payrollService } from '@/services'
 import Table from './components/Table'
 
 const GeneratedPayrollRequestPage: React.FC = () => {

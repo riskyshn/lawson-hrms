@@ -1,6 +1,6 @@
-import type { IPermission } from '@jshrms/shared/types'
+import type { IPermission } from '@/types'
 import React from 'react'
-import { Card, CardBody, CardHeader, Skeleton, Switch } from '@jshrms/ui'
+import { Card, CardBody, CardHeader, Skeleton, Switch } from 'jobseeker-ui'
 
 type PropType = {
   groupName: string

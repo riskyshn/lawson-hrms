@@ -1,18 +1,18 @@
-import type { IDataTableEmployee } from '@jshrms/shared/types'
+import type { IDataTableEmployee } from '@/types'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as Table from '@jshrms/shared/components/Elements/Tables/MainTable'
 import { EyeIcon, PenToolIcon, PowerIcon } from 'lucide-react'
+import * as Table from '@/components/Tables'
 
 type ActionMenuProps = {
   index: number
   item: IDataTableEmployee
   setSelectedTerminate?: (item: IDataTableEmployee) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelectedTerminate, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelectedTerminate, total, upSpace = total > 8 ? 3 : 0 }) => {
   const navigate = useNavigate()
 
   const viewItem: Table.ActionMenuItemProps = {

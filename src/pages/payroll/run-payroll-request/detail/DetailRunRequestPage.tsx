@@ -1,12 +1,9 @@
-import type { IPayrollRequest } from '@jshrms/shared/types'
+import type { IPayrollRequest } from '@/types'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Container from '@jshrms/shared/components/Elements/Layout/Container'
-import LoadingScreen from '@jshrms/shared/components/Elements/Layout/LoadingScreen'
-import PageHeader from '@jshrms/shared/components/Elements/Layout/PageHeader'
-import { payrollService } from '@jshrms/shared/services'
-import { Card, CardHeader } from '@jshrms/ui'
+import { Card, CardHeader, Container, LoadingScreen, PageHeader } from 'jobseeker-ui'
 import { AlertOctagonIcon } from 'lucide-react'
+import { payrollService } from '@/services'
 import PayrollRequestDetail from '../../components/PayrollRequestDetail'
 
 const DetailRunRequestPage: React.FC = () => {

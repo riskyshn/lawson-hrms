@@ -1,6 +1,6 @@
-import type { ICandidateExplore } from '@jshrms/shared/types'
+import type { ICandidateExplore } from '@/types'
 import React from 'react'
-import { Button, Skeleton, usePreviewVideo } from '@jshrms/ui'
+import { Button, Skeleton, usePreviewVideo } from 'jobseeker-ui'
 import { PlayIcon } from 'lucide-react'
 import moment from 'moment'
 

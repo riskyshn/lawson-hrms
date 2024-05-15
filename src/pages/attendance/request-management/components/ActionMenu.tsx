@@ -1,10 +1,10 @@
-import type { ILeave } from '@jshrms/shared/types'
+import type { ILeave } from '@/types'
 import React, { useState } from 'react'
 import { Menu } from '@headlessui/react'
-import { attendanceService } from '@jshrms/shared/services'
-import { Button, useToast } from '@jshrms/ui'
+import { Button, useToast } from 'jobseeker-ui'
 import { CheckCircleIcon, EyeIcon, XCircleIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
+import { attendanceService } from '@/services'
 import ConfirmationModal from './ConfirmationModal'
 import ViewModal from './ViewModal'
 

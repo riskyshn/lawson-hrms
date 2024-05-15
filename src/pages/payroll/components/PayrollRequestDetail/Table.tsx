@@ -1,9 +1,9 @@
-import type { IEmployeePayrollResult } from '@jshrms/shared/types'
+import type { IEmployeePayrollResult } from '@/types'
 import React, { useState } from 'react'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { numberToCurrency } from '@jshrms/shared/utils'
-import { Avatar, Button } from '@jshrms/ui'
+import { Avatar, Button } from 'jobseeker-ui'
+import { MainTable } from '@/components'
 import DetailEmployeePayrollModal from '@/pages/payroll/components/DetailEmployeePayrollModal'
+import { numberToCurrency } from '@/utils'
 import DeleteItemButton from './DeleteItemButton'
 
 const Table: React.FC<{ items: IEmployeePayrollResult[]; loading?: boolean; onRefresh?: () => void }> = ({ items, loading, onRefresh }) => {

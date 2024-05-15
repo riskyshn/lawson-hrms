@@ -1,7 +1,7 @@
-import type { IDataTableEmployee } from '@jshrms/shared/types'
+import type { IDataTableEmployee } from '@/types'
 import { useNavigate } from 'react-router-dom'
-import MainTable from '@jshrms/shared/components/Elements/Tables/MainTable'
-import { Avatar, Button } from '@jshrms/ui'
+import { Avatar, Button } from 'jobseeker-ui'
+import { MainTable } from '@/components'
 
 type PropTypes = {
   items: IDataTableEmployee[]
