@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Avatar, Button, Input, InputCheckbox, Select } from 'jobseeker-ui'
+import { Avatar, Button, Input, InputCheckbox, Modal, Select } from 'jobseeker-ui'
 import { ClockIcon, MapPinIcon, PencilIcon, TextIcon, Users2Icon } from 'lucide-react'
-import { LogoGoogleMeet, MainModal } from '@/components'
+import { LogoGoogleMeet } from '@/components'
 
 type SendReminderModalProps = {
   onClose: () => void
@@ -80,8 +80,8 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ onClose, show }) 
   }
 
   return (
-    <MainModal className="max-w-xl py-8" onClose={onClose} show={show}>
-      <div className="mb-8">
+    <Modal className="max-w-xl py-8" onClose={onClose} show={show}>
+      <div className="mb-8 p-3">
         <div className="pb-2">
           <h3 className="text-lg font-semibold">Schedule Your Interview</h3>
           <p className="text-xs text-gray-500">Add Interview to Your Calendar</p>
@@ -172,12 +172,12 @@ const SendReminderModal: React.FC<SendReminderModalProps> = ({ onClose, show }) 
         </div>
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end p-3">
         <Button className="ml-2 w-1/2" color="primary">
           Add Interview
         </Button>
       </div>
-    </MainModal>
+    </Modal>
   )
 }
 

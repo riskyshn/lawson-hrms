@@ -43,7 +43,7 @@ export const MainTable: React.FC<MainTableProps> = ({ bodyItems, className, head
           <tbody>
             {!loading &&
               bodyItems.map(({ children, className, items, ...props }, i) => (
-                <tr className={twMerge(className, 'odd:bg-gray-50')} key={i} {...props}>
+                <tr className={twMerge('odd:bg-gray-50', className)} key={i} {...props}>
                   {items?.map(({ className, ...props }, i) => <td className={twMerge('p-3 text-sm', className)} key={i} {...props} />)}
                   {children}
                 </tr>

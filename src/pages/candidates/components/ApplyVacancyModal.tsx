@@ -1,7 +1,6 @@
 import type { ICandidate, IVacancy } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { Button, Select, useToast } from 'jobseeker-ui'
-import MainModal from '@/components/Modals/MainModal'
+import { Button, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
 import { candidateService } from '@/services'
 
 type ApplyVacancyModalProps = {
@@ -64,23 +63,24 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ candidate, onAppl
   }
 
   return (
-    <MainModal className="max-w-xl py-12" onClose={onClose} show={show}>
-      <div className="mb-8">
-        <h4 className="mb-2 text-center text-2xl font-semibold">Apply to Vacancy</h4>
-        <p className="text-center">Apply candidates to a more suitable job vacancy</p>
+    <Modal show={show} hideCloseButton onClose={onClose}>
+      <ModalHeader subTitle="Apply candidates to a more suitable job vacancy">Apply to Vacancy</ModalHeader>
+      <div className="p-3">
+        <Select
+          className="mb-3"
+          label="Select Vacancy"
+          onChange={handleChange}
+          options={vacancies.map((vacancy) => ({ label: vacancy.vacancyName, value: vacancy.oid }))}
+          placeholder="Select Vacancy"
+          value={selectedVacancyId}
+        />
       </div>
-      <Select
-        className="mb-3"
-        label="Select Vacancy"
-        onChange={handleChange}
-        options={vacancies.map((vacancy) => ({ label: vacancy.vacancyName, value: vacancy.oid }))}
-        placeholder="Select Vacancy"
-        value={selectedVacancyId}
-      />
-      <Button block className="mx-auto" color="primary" loading={loading} onClick={handleSelectVacancy}>
-        Select Vacancy
-      </Button>
-    </MainModal>
+      <ModalFooter>
+        <Button color="primary" loading={loading} onClick={handleSelectVacancy}>
+          Select Vacancy
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

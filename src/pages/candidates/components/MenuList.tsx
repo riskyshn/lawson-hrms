@@ -23,15 +23,11 @@ import {
   XCircleIcon,
 } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
-import { ProcessModal } from '@/modules/process'
+import { BlacklistModal, MoveAnotherVacancyModal, ProcessModal, RejectModal, WithdrawModal } from '@/modules/process'
 import { candidateService } from '@/services'
 import SendReminderModal from '../offered/index/components/SendReminderModal'
 import ApplyVacancyModal from './ApplyVacancyModal'
-import BlacklistModal from './BlacklistModal'
-import MoveAnotherVacancyModal from './MoveAnotherVacancyModal'
-import RejectModal from './RejectModal'
 import ViewHistoryModal from './ViewHistoryModal'
-import WithdrawModal from './WithdrawModal'
 
 interface MenuListProps {
   candidate: ICandidate
@@ -154,8 +150,8 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Move to Another Vacancy':
         return (
           <MoveAnotherVacancyModal
-            candidate={candidate}
-            onApplyVacancy={onApplyVacancy}
+            applicantId={candidate.id}
+            onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
           />
@@ -174,8 +170,8 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Blacklist':
         return (
           <BlacklistModal
-            candidate={candidate}
-            onApplyVacancy={onApplyVacancy}
+            applicantId={candidate.id}
+            onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
           />
@@ -183,8 +179,8 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Reject':
         return (
           <RejectModal
-            candidate={candidate}
-            onApplyVacancy={onApplyVacancy}
+            applicantId={candidate.id}
+            onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
           />
@@ -192,8 +188,8 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Withdraw':
         return (
           <WithdrawModal
-            candidate={candidate}
-            onApplyVacancy={onApplyVacancy}
+            applicantId={candidate.id}
+            onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
           />

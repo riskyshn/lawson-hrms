@@ -1,12 +1,13 @@
 import type { ICandidate } from '@/types'
 import React from 'react'
+import { Modal, ModalHeader } from 'jobseeker-ui'
 import { CheckCircle2Icon, XCircleIcon } from 'lucide-react'
 import { MainTable } from '@/components'
-import MainModal from '@/components/Modals/MainModal'
 
 const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void; show: boolean }> = ({ candidate, onClose, show }) => {
   const bodyItems = candidate.candidateMatches
     ? candidate.candidateMatches.map((item, i) => ({
+        className: 'odd:bg-white',
         items: [
           { children: item.requirementType || '-' },
           { children: item.vacancyData || '-' },
@@ -50,13 +51,10 @@ const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void
     : []
 
   return (
-    <MainModal className="max-w-6xl py-12" onClose={onClose} show={show}>
-      <div className="mb-8">
-        <div className="pb-2">
-          <h3 className="mb-8 text-center text-lg font-semibold">Candidate Match</h3>
-          <p className="text-sm font-semibold">Mandatory Requirements</p>
-        </div>
-
+    <Modal className="max-w-6xl overflow-hidden" onClose={onClose} hideCloseButton show={show}>
+      <ModalHeader onClose={onClose}>Candidate Match</ModalHeader>
+      <div>
+        <h3 className="p-3 font-semibold">Mandatory Requirements</h3>
         <MainTable
           bodyItems={mandatoryBodyItems}
           headerItems={[
@@ -66,11 +64,9 @@ const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void
             { children: 'Match', className: 'text-center' },
           ]}
         />
-
-        <div className="pb-2 pt-8">
-          <p className="text-sm font-semibold">Requirements</p>
-        </div>
-
+      </div>
+      <div className="bg-gray-50">
+        <h3 className="p-3 font-semibold">Requirements</h3>
         <MainTable
           bodyItems={bodyItems}
           headerItems={[
@@ -81,7 +77,7 @@ const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void
           ]}
         />
       </div>
-    </MainModal>
+    </Modal>
   )
 }
 

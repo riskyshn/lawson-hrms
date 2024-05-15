@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Textarea } from 'jobseeker-ui'
-import MainModal from '@/components/Modals/MainModal'
+import { Button, Modal, Textarea } from 'jobseeker-ui'
 
 interface ConfirmationModalProps {
   handleAction: (reason: string) => void
@@ -29,8 +28,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ handleAction, isL
   }
 
   return (
-    <MainModal className="max-w-xl" onClose={onClose} show={show}>
-      <div className="flex flex-col gap-3">
+    <Modal onClose={onClose} show={show}>
+      <div className="flex flex-col gap-3 p-3">
         <h2 className="mt-4 text-center text-2xl font-semibold">{`Are you sure?`}</h2>
         <span className="text-center">{`Are you sure you want to ${type} this request?`}</span>
         {type === 'Reject' && (
@@ -48,7 +47,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ handleAction, isL
           </Button>
         </div>
       </div>
-    </MainModal>
+    </Modal>
   )
 }
 

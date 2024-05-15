@@ -1,8 +1,7 @@
 import type { IEvent } from '@/types'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from 'jobseeker-ui'
-import MainModal from '@/components/Modals/MainModal'
+import { Modal as BaseModal, Button, ModalHeader } from 'jobseeker-ui'
 
 type ModalProps = {
   items?: IEvent | null
@@ -12,13 +11,12 @@ type ModalProps = {
 
 const Modal: React.FC<ModalProps> = ({ items, onClose, show }) => {
   return (
-    <MainModal className="max-w-xl" onClose={onClose} show={show}>
+    <BaseModal onClose={onClose} hideCloseButton show={show}>
       {items && (
-        <div className="p-4">
-          <h2 className="mb-4 text-2xl font-semibold">{items.title}</h2>
-
+        <>
+          <ModalHeader onClose={onClose}>{items.title}</ModalHeader>
           {items.start && items.end && (
-            <table className="mb-4 table w-full">
+            <table className="mb-3 table w-full">
               <tbody>
                 <tr className="odd:bg-gray-50">
                   <td className="p-3 text-sm font-semibold">Day</td>
@@ -78,9 +76,9 @@ const Modal: React.FC<ModalProps> = ({ items, onClose, show }) => {
               </tbody>
             </table>
           )}
-        </div>
+        </>
       )}
-    </MainModal>
+    </BaseModal>
   )
 }
 

@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Button, Card, CardBody, CardFooter, InputCheckbox, LoadingScreen } from 'jobseeker-ui'
+import { Button, Card, CardBody, CardFooter, InputCheckbox, LoadingScreen, Modal, ModalHeader } from 'jobseeker-ui'
 import { EditIcon } from 'lucide-react'
-import MainModal from '@/components/Modals/MainModal'
 import { useAsyncAction } from '@/hooks'
 import { organizationService } from '@/services'
 import RecruitmentStagesEditor from './RecruitmentStageEditor'
 
 const ProcessForm: React.FC<{ defaultValue: any; handlePrev: () => void; handleSubmit: (data: any) => void }> = (props) => {
-  const [recruitmentStages, loading] = useAsyncAction(organizationService.fetchRecruitmentStages, { limit: 99999 })
+  const [recruitmentStages, loading, onRefresh] = useAsyncAction(organizationService.fetchRecruitmentStages, { limit: 99999 })
   const [showModal, setShowModal] = useState(false)
   const [stages, setStages] = useState<Array<string>>(() => props.defaultValue?.recruitmentProcess || [])
 
@@ -44,10 +43,10 @@ const ProcessForm: React.FC<{ defaultValue: any; handlePrev: () => void; handleS
 
   return (
     <>
-      <MainModal className="max-w-xl" onClose={() => setShowModal(false)} show={showModal}>
-        <h1 className="mb-3 text-center text-lg font-semibold">Setup Master Recruitment Stages</h1>
-        <RecruitmentStagesEditor />
-      </MainModal>
+      <Modal show={showModal} hideCloseButton onClose={() => setShowModal(false)}>
+        <ModalHeader onClose={() => setShowModal(false)}>Setup Master Recruitment Stages</ModalHeader>
+        <RecruitmentStagesEditor onRefresh={onRefresh} />
+      </Modal>
 
       <Card>
         <CardBody className="grid grid-cols-1 gap-2">
