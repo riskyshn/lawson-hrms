@@ -48,7 +48,7 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
               <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap p-3 text-left">Date of Birth</th>
                 <td className="p-3">:</td>
-                <td className="w-full p-3">{employee.personalData?.birthDate}</td>
+                <td className="w-full p-3">{formatDate(employee.personalData?.birthDate || '')}</td>
               </tr>
               <tr>
                 <th className="whitespace-nowrap p-3 text-left">Marital Status</th>
@@ -331,6 +331,15 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
       </Card>
     </>
   )
+}
+
+function formatDate(inputDate: string): string {
+  const date = new Date(inputDate)
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+
+  return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`
 }
 
 export default EmployeDetailCard
