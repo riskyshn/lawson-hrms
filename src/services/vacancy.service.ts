@@ -1,6 +1,6 @@
 import type { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 import type { IPaginationParam, IPaginationResponse, IVacancy } from '../types'
-import { API_VACANCY_BASE_URL } from '../constants/base-urls'
+import { API_VACANCY_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 type FetchVacanciesParams = {
@@ -10,7 +10,7 @@ type FetchVacanciesParams = {
 } & IPaginationParam
 
 const axios = createAxiosInstance({
-  baseURL: API_VACANCY_BASE_URL,
+  baseURL: API_VACANCY_URL,
   withAuth: true,
 })
 

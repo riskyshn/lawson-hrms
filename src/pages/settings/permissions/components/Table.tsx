@@ -30,7 +30,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       { children: permission.path, className: 'text-center' },
       { children: permission.action, className: 'text-center' },
       {
-        children: <ActionMenu index={index} permission={permission} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} permission={permission} total={items.length} {...props} />,
       },
     ],
   }))

@@ -21,7 +21,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
     items: [
       { children: <span className="block font-semibold">{item.name}</span> },
       { children: item.allowedFileTypes.join(', ') },
-      { children: <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} /> },
+      { children: <ActionMenu index={index} item={item} total={items.length} {...props} /> },
     ],
   }))
 

@@ -38,7 +38,7 @@ const MainModal: React.FC<PropTypes> = ({ children, className, closeToggleInOuts
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <button className="text-error-600 hover:text-error-700 absolute right-3 top-3 z-[999] focus:outline-none" onClick={onClose}>
+              <button className="absolute right-3 top-3 z-[999] text-error-600 hover:text-error-700 focus:outline-none" onClick={onClose}>
                 <XCircleIcon fill="white" size={32} />
               </button>
             </Transition.Child>
@@ -58,7 +58,7 @@ const MainModal: React.FC<PropTypes> = ({ children, className, closeToggleInOuts
               >
                 {!hideCloseToggle && !closeToggleInOutside && onClose && (
                   <button
-                    className="text-error-600 hover:text-error-700 absolute -right-3 -top-3 z-50 focus:outline-none"
+                    className="absolute -right-3 -top-3 z-50 text-error-600 hover:text-error-700 focus:outline-none"
                     onClick={onClose}
                   >
                     <XCircleIcon fill="white" size={32} />

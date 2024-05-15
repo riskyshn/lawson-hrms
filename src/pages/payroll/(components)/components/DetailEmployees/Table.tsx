@@ -42,7 +42,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh }) => {
       { children: item.employee.oid },
       { children: item.employee.oid },
       {
-        children: <ActionMenu index={index} item={item} onRefresh={onRefresh} total={items.length} upSpace={items.length > 8 ? 3 : 0} />,
+        children: <ActionMenu index={index} item={item} onRefresh={onRefresh} total={items.length} />,
       },
     ],
   }))

@@ -3,8 +3,8 @@ import { AxiosRequestConfig } from 'axios'
 import { UploadCloudIcon } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { s3Service } from '../../services'
-import { axiosErrorMessage, formatFileSize, truncateFilename, urlToFilename } from '../../utils'
+import { s3Service } from '@/services'
+import { axiosErrorMessage, formatFileSize, truncateFilename, urlToFilename } from '@/utils'
 
 interface DocumentFileUploadProps {
   error?: string
@@ -110,7 +110,7 @@ const DocumentFileUpload: React.FC<DocumentFileUploadProps> = ({ error, onChange
           )}
           {!selectedImage && value && valueValidUrl && (
             <>
-              <a className="hover:text-primary-600 block text-sm font-semibold text-gray-800" href={value} target="_blank" rel="noreferrer">
+              <a className="block text-sm font-semibold text-gray-800 hover:text-primary-600" href={value} target="_blank" rel="noreferrer">
                 {truncateFilename(urlToFilename(value))}
               </a>
               <span className="block text-xs">

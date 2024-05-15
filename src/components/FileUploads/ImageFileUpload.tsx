@@ -4,8 +4,8 @@ import { Button, usePreviewImage } from 'jobseeker-ui'
 import { ImageIcon, UploadCloudIcon } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { s3Service } from '../../services'
-import { axiosErrorMessage, formatFileSize, truncateFilename, urlToFilename } from '../../utils'
+import { s3Service } from '@/services'
+import { axiosErrorMessage, formatFileSize, truncateFilename, urlToFilename } from '@/utils'
 
 interface ImageFileUploadProps {
   error?: string

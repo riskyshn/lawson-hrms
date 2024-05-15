@@ -3,8 +3,8 @@ import { AxiosRequestConfig } from 'axios'
 import { Avatar, Button, usePreviewImage } from 'jobseeker-ui'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { s3Service } from '../../services'
-import { axiosErrorMessage, formatFileSize } from '../../utils'
+import { s3Service } from '@/services'
+import { axiosErrorMessage, formatFileSize } from '@/utils'
 
 interface PhotoProfileFileUploadProps {
   nickname?: string

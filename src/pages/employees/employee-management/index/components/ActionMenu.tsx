@@ -9,10 +9,10 @@ type ActionMenuProps = {
   item: IDataTableEmployee
   setSelectedTerminate?: (item: IDataTableEmployee) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelectedTerminate, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelectedTerminate, total, upSpace = total > 8 ? 3 : 0 }) => {
   const navigate = useNavigate()
 
   const viewItem: Table.ActionMenuItemProps = {

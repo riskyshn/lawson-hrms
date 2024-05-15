@@ -10,12 +10,19 @@ type ActionMenuProps = {
   index: number
   onRefresh?: () => void
   total: number
-  upSpace: number
   vacancy: IVacancy
+  upSpace?: number
   setSelectedExpiredToReactive?: (item: IVacancy) => void
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, total, upSpace, vacancy, setSelectedExpiredToReactive }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({
+  index,
+  onRefresh,
+  total,
+  vacancy,
+  upSpace = total > 8 ? 3 : 0,
+  setSelectedExpiredToReactive,
+}) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()

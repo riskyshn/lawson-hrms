@@ -68,7 +68,6 @@ const Table: React.FC<TableProps> = ({ items, loading, onRefresh, setSelectedToS
             onRefresh={onRefresh}
             setSelectedToShowHistoryModal={setSelectedToShowHistoryModal}
             total={items.length}
-            upSpace={items.length > 8 ? 3 : 0}
             vacancy={vacancy}
           />
         ),

@@ -11,10 +11,10 @@ type ActionMenuProps = {
   onDeleted?: (oid: string) => void
   setSelectedToUpdate?: (item: IDocumentRequest) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSelectedToUpdate, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onDeleted, setSelectedToUpdate, total, upSpace = total > 8 ? 3 : 0 }) => {
   const confirm = useConfirm()
   const toast = useToast()
 

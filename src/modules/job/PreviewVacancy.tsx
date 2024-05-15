@@ -1,7 +1,7 @@
-import type { IVacancy } from '../../types'
+import type { IVacancy } from '@/types'
 import React from 'react'
 import { Card, CardBody, CardHeader, Skeleton } from 'jobseeker-ui'
-import { numberToCurrency } from '../../utils'
+import { numberToCurrency } from '@/utils'
 import { PreviewRecruitmentStageCard } from './PreviewRecruitmentStageCard'
 
 export const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }> = ({ isLoading, vacancy }) => {

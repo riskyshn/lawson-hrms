@@ -33,10 +33,10 @@ type ActionMenuProps = {
   onVacancyUpdated?: (item: IVacancy) => void
   setSelected: (selected: { item: IDataTableApplicant; type: ModalType }) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, setSelected, total, upSpace = total > 8 ? 3 : 0 }) => {
   const [loading, setLoading] = useState(item.status?.oid === '1' || item.status?.oid === '2')
   const [triggered, setTriggered] = useState(false)
   const [haveProcess, setHaveProcess] = useState(true)

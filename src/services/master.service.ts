@@ -14,11 +14,11 @@ import type {
   IPaginationParam,
   IPaginationResponse,
 } from '../types'
-import { API_MASTER_BASE_URL } from '../constants/base-urls'
+import { API_MASTER_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
-  baseURL: API_MASTER_BASE_URL,
+  baseURL: API_MASTER_URL,
   withAuth: true,
 })
 

@@ -9,11 +9,11 @@ import type {
   IUploadedProcessDocument,
 } from '../types'
 import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
-import { API_PROCESS_BASE_URL } from '../constants/base-urls'
+import { API_PROCESS_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
-  baseURL: API_PROCESS_BASE_URL,
+  baseURL: API_PROCESS_URL,
   withAuth: true,
 })
 

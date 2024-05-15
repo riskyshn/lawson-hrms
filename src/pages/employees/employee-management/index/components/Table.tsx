@@ -40,15 +40,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, setSelectedTerminate }) =>
       { children: item.jobLevel?.name || '-' },
       { children: item.jobType?.name || '-' },
       {
-        children: (
-          <ActionMenu
-            index={index}
-            item={item}
-            setSelectedTerminate={setSelectedTerminate}
-            total={items.length}
-            upSpace={items.length > 8 ? 3 : 0}
-          />
-        ),
+        children: <ActionMenu index={index} item={item} setSelectedTerminate={setSelectedTerminate} total={items.length} />,
       },
     ],
   }))

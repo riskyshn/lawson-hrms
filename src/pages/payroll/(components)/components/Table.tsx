@@ -66,7 +66,6 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
             setSelectedToEdit={setSelectedToEdit}
             total={items.length}
             type={type}
-            upSpace={items.length > 8 ? 3 : 0}
           />
         ),
       },

@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Editor, Input, InputWrapper, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
 import DocumentFileUpload from '@/components/FileUploads/DocumentFileUpload'
-import { TINYMCE_API_KEY } from '@/constants/globals'
 import { dashboardService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 
@@ -101,7 +100,7 @@ const CreateModal: React.FC<CreateModalProps> = ({ onClose, onRefresh, show }) =
         </InputWrapper>
 
         <Editor
-          apiKey={TINYMCE_API_KEY}
+          apiKey={window.__APP__.TINYMCE_API_KEY}
           error={errors.content?.message}
           label="Content"
           labelRequired

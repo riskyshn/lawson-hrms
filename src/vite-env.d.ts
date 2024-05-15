@@ -4,5 +4,10 @@
 /// <reference lib="webworker" />
 
 interface Window {
-  __APP__: Record<string, string | undefined>
+  __APP__: {
+    BASE_API_URL: string
+    SOURCE_APP: string
+    SOURCE_LANG: 'en' | 'id'
+    TINYMCE_API_KEY: string
+  }
 }

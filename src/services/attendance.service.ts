@@ -9,10 +9,10 @@ import type {
   ITimezone,
 } from '../types'
 import { GenericAbortSignal } from 'axios'
-import { API_ATTENDANCE_BASE_URL } from '../constants/base-urls'
+import { API_ATTENDANCE_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
-const axios = createAxiosInstance({ baseURL: API_ATTENDANCE_BASE_URL, withAuth: true })
+const axios = createAxiosInstance({ baseURL: API_ATTENDANCE_URL, withAuth: true })
 
 type FetchAttendanceParams = {
   log_type?: string

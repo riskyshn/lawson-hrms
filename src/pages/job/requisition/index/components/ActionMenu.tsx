@@ -12,11 +12,18 @@ type ActionMenuProps = {
   onRefresh?: () => void
   setSelectedToShowHistoryModal?: (vacancy: IVacancy) => void
   total: number
-  upSpace: number
+  upSpace?: number
   vacancy: IVacancy
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, onRefresh, setSelectedToShowHistoryModal, total, upSpace, vacancy }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({
+  index,
+  onRefresh,
+  setSelectedToShowHistoryModal,
+  total,
+  upSpace = total > 8 ? 3 : 0,
+  vacancy,
+}) => {
   const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()

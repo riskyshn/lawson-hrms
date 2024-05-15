@@ -1,4 +1,4 @@
-import type { IApplicant } from '../../types'
+import type { IApplicant } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
 import {

@@ -1,10 +1,10 @@
-import type { IVacancy } from '../../types'
+import type { IVacancy } from '@/types'
 import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AxiosRequestConfig } from 'axios'
 import { Card, CardBody, CardHeader, LoadingScreen } from 'jobseeker-ui'
+import { organizationService } from '@/services'
 import { useAsyncAction } from '../../hooks'
-import { organizationService } from '../../services'
 
 export const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['recruitmentProcess'], undefined> }> = ({ process }) => {
   const [searchParams] = useSearchParams()

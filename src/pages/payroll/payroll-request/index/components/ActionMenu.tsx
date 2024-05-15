@@ -8,10 +8,10 @@ type ActionMenuProps = {
   index: number
   item: IPayrollRequest
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, total, upSpace = total > 8 ? 3 : 0 }) => {
   const navigate = useNavigate()
 
   const viewDetails: Table.ActionMenuItemProps = {

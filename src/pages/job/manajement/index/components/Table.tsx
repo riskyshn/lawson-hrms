@@ -60,7 +60,6 @@ const Table: React.FC<{
             index={index}
             onRefresh={onRefresh}
             total={items.length}
-            upSpace={items.length > 8 ? 3 : 0}
             vacancy={vacancy}
             setSelectedExpiredToReactive={setSelectedExpiredToReactive}
           />

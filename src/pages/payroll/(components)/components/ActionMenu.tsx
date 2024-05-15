@@ -14,10 +14,19 @@ interface ActionMenuProps {
   setSelectedToEdit?: (item: IBenefitComponent | IDeductionComponent) => void
   total: number
   type: 'BENEFIT' | 'DEDUCTION'
-  upSpace: number
+  upSpace?: number
 }
 
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onRefresh, setSelectedToApply, setSelectedToEdit, total, type, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({
+  index,
+  item,
+  onRefresh,
+  setSelectedToApply,
+  setSelectedToEdit,
+  total,
+  type,
+  upSpace = total > 8 ? 3 : 0,
+}) => {
   const toast = useToast()
   const confirm = useConfirm()
 

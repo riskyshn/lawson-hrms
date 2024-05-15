@@ -1,10 +1,10 @@
 import type { GenericAbortSignal } from 'axios'
 import type { ICms } from '../types'
-import { API_CMS_BASE_URL } from '../constants/base-urls'
+import { API_CMS_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
-  baseURL: API_CMS_BASE_URL,
+  baseURL: API_CMS_URL,
   withAuth: true,
 })
 

@@ -1,5 +1,4 @@
 import axios, { CreateAxiosDefaults } from 'axios'
-import { SOURCE_APP } from '../constants/globals'
 import { useAuthStore, useTokenStore } from '../store'
 
 type CreateAxiosInstanceOptions<T = any> = {
@@ -13,13 +12,13 @@ export function createAxiosInstance(options?: CreateAxiosInstanceOptions) {
   if (!withoutSource) {
     axiosDefault.headers = {
       ...(axiosDefault.headers || {}),
-      'x-lang': 'en',
-      'x-source-app': SOURCE_APP || 'hrms-basic',
+      'x-lang': window.__APP__.SOURCE_LANG,
+      'x-source-app': window.__APP__.SOURCE_APP,
     }
   } else {
     axiosDefault.headers = {
       ...(axiosDefault.headers || {}),
-      'x-lang': 'en',
+      'x-lang': window.__APP__.SOURCE_LANG,
     }
   }
 

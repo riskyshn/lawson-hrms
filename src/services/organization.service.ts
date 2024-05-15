@@ -15,11 +15,11 @@ import type {
   IRecruitmentStage,
   IWorkplacement,
 } from '../types'
-import { API_ORGANIZATION_BASE_URL } from '../constants/base-urls'
+import { API_ORGANIZATION_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
-  baseURL: API_ORGANIZATION_BASE_URL,
+  baseURL: API_ORGANIZATION_URL,
   withAuth: true,
 })
 

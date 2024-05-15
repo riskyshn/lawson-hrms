@@ -61,7 +61,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       // },
       { children: item?.range || '-', className: 'text-center' },
       {
-        children: <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} item={item} total={items.length} {...props} />,
       },
     ],
   }))

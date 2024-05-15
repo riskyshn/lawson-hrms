@@ -1,6 +1,6 @@
 import type { GenericAbortSignal } from 'axios'
 import type { IDataTableEmployee, IEmployee, IPaginationParam, IPaginationResponse, IPreviousEmployee } from '../types'
-import { API_EMPLOYEE_BASE_URL } from '../constants/base-urls'
+import { API_EMPLOYEE_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 type FetchEmployeesParams = {
@@ -10,7 +10,7 @@ type FetchEmployeesParams = {
 } & IPaginationParam
 
 const axios = createAxiosInstance({
-  baseURL: API_EMPLOYEE_BASE_URL,
+  baseURL: API_EMPLOYEE_URL,
   withAuth: true,
 })
 

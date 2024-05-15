@@ -1,9 +1,9 @@
 import type { IUser } from '../types'
-import { API_AUTH_BASE_URL } from '../constants/base-urls'
+import { API_AUTH_URL } from '../constants/base-urls'
 import { useAuthStore, useTokenStore } from '../store'
 import { createAxiosInstance } from '../utils'
 
-const axios = createAxiosInstance({ baseURL: API_AUTH_BASE_URL })
+const axios = createAxiosInstance({ baseURL: API_AUTH_URL })
 
 export const login = (payload: { email: string; password: string }) => {
   return axios

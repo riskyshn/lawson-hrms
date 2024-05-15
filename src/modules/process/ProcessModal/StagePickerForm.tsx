@@ -1,4 +1,4 @@
-import type { IApplicantStage } from '../../../types'
+import type { IApplicantStage } from '@/types'
 import React from 'react'
 import { Button, CardFooter, InputRadio } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'

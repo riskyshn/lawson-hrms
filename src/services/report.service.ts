@@ -1,10 +1,10 @@
 import type { INumberOfHired, INumberOfHiredDataTable, IPaginationParam, IPaginationResponse, IRecruitmentFunnel } from '../types'
 import { GenericAbortSignal } from 'axios'
-import { API_REPORT_BASE_URL } from '../constants/base-urls'
+import { API_REPORT_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
-  baseURL: API_REPORT_BASE_URL,
+  baseURL: API_REPORT_URL,
   withAuth: true,
 })
 

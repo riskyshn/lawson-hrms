@@ -1,10 +1,10 @@
 import type { GenericAbortSignal } from 'axios'
 import type { INotification, IPaginationParam, IPaginationResponse } from '../types'
-import { API_NOTIFICATION_BASE_URL } from '../constants/base-urls'
+import { API_NOTIFICATION_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
-  baseURL: API_NOTIFICATION_BASE_URL,
+  baseURL: API_NOTIFICATION_URL,
   withAuth: true,
 })
 

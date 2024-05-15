@@ -10,11 +10,11 @@ import type {
   IPPH21,
 } from '../types'
 import { GenericAbortSignal } from 'axios'
-import { API_PAYROLL_BASE_URL } from '../constants/base-urls'
+import { API_PAYROLL_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
 
 const axios = createAxiosInstance({
-  baseURL: API_PAYROLL_BASE_URL,
+  baseURL: API_PAYROLL_URL,
   withAuth: true,
 })
 

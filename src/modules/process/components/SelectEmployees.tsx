@@ -1,8 +1,8 @@
-import type { IDataTableEmployee } from '../../../types'
+import type { IDataTableEmployee } from '@/types'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { BaseInput, Spinner, useInfiniteScroll } from 'jobseeker-ui'
 import { twJoin } from 'tailwind-merge'
-import { employeeService } from '../../../services'
+import { employeeService } from '@/services'
 import EmployeeItem from './EmployeeItem'
 
 type PropTypes = {

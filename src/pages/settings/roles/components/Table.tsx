@@ -27,7 +27,7 @@ const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
       { children: role.code, className: 'text-center' },
       { children: role.description, className: 'text-center' },
       {
-        children: <ActionMenu index={index} role={role} total={items.length} upSpace={items.length > 8 ? 3 : 0} {...props} />,
+        children: <ActionMenu index={index} role={role} total={items.length} {...props} />,
       },
     ],
   }))

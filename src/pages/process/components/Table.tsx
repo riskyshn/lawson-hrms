@@ -105,7 +105,7 @@ const generateBodyItems = (
   })
 
   const getActionMenu = () => ({
-    children: <ActionMenu index={index} item={item} setSelected={setSelected} total={total} upSpace={total > 8 ? 3 : 0} />,
+    children: <ActionMenu index={index} item={item} setSelected={setSelected} total={total} />,
   })
 
   switch (type) {

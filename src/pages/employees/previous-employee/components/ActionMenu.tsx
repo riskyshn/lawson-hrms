@@ -12,11 +12,11 @@ type ActionMenuProps = {
   item: IPreviousEmployee // Assuming IPreviousEmployee is defined elsewhere
   onRestored?: () => void // Optional callback function when employee is restored
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
 // ActionMenu component for handling actions on each employee item
-const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onRestored, total, upSpace }) => {
+const ActionMenu: React.FC<ActionMenuProps> = ({ index, item, onRestored, total, upSpace = total > 8 ? 3 : 0 }) => {
   const confirm = useConfirm() // Hook for displaying confirmation dialogs
   const toast = useToast() // Hook for displaying toast messages
 

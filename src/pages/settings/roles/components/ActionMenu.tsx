@@ -12,7 +12,7 @@ type ActionMenuProps = {
   setSelectedToUpdate?: (role: IRole) => void
   setSelectedToUpdatePermission?: (role: IRole) => void
   total: number
-  upSpace: number
+  upSpace?: number
 }
 
 const ActionMenu: React.FC<ActionMenuProps> = ({
@@ -22,7 +22,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
   setSelectedToUpdate,
   setSelectedToUpdatePermission,
   total,
-  upSpace,
+  upSpace = total > 8 ? 3 : 0,
 }) => {
   const toast = useToast()
   const confirm = useConfirm()

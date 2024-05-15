@@ -38,7 +38,7 @@ const Table: React.FC<{ items: IPayrollRequest[]; loading?: boolean; onRefresh?:
       {
         children:
           item.status?.oid === '1' ? (
-            <ActionMenu index={index} item={item} total={items.length} upSpace={items.length > 8 ? 3 : 0} />
+            <ActionMenu index={index} item={item} total={items.length} />
           ) : (
             <Button as={Link} block className="text-xs" color="primary" size="small" to={`/payroll/payroll-request/${item.oid}`}>
               Detail
