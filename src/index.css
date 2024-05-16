@@ -25,4 +25,24 @@
   body *::-webkit-scrollbar-track {
     @apply bg-transparent;
   }
+
+  .fc .fc-toolbar-chunk > .fc-button {
+    @apply !rounded-lg;
+  }
+
+  .fc .fc-button {
+    @apply h-10 min-w-10 !border-none !bg-primary-600 px-3 !text-sm !font-semibold !text-white !shadow-none !transition-all first:!rounded-l-lg last:!rounded-r-lg hover:!bg-primary-700 focus:!bg-primary-500;
+  }
+
+  .fc .fc-day-today {
+    @apply !bg-primary-100;
+  }
+
+  .fc .fc-daygrid-event-harness {
+    @apply cursor-pointer;
+  }
+
+  .fc .fc-daygrid-event-dot {
+    @apply !bg-primary-600;
+  }
 }
