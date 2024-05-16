@@ -1,6 +1,6 @@
 import type { IApplicant } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
+import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader, Timeline, TimelineItem } from 'jobseeker-ui'
 import {
   AlertCircleIcon,
   CalendarIcon,
@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { HistoryItem, Timeline, TimelineItem } from '@/components'
+import { HistoryItem } from '@/components'
 import { processService } from '@/services'
 
 type OptionModalProps = {

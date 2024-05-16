@@ -1,10 +1,9 @@
 import type { IVacancy } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { Button, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
+import { Button, Modal, ModalFooter, ModalHeader, Timeline, TimelineItem } from 'jobseeker-ui'
 import { CheckCircle2Icon, InfoIcon, NotepadTextIcon, TimerIcon, UserIcon, XCircleIcon } from 'lucide-react'
 import moment from 'moment'
-import HistoryItem from '@/components/UI/HistoryItem'
-import { Timeline, TimelineItem } from '@/components/UI/Timeline'
+import { HistoryItem } from '@/components'
 
 type PropTypes = {
   item: IVacancy | null

@@ -5,7 +5,7 @@ import { BaseInput, Button, Container, PageHeader, usePubSub } from 'jobseeker-u
 import { CheckIcon, ChevronDownIcon, ListFilterIcon, SearchIcon, XIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import BgImage from '@/assets/hero.webp'
-import Logo from '@/components/Logo/Logo'
+import { Logo } from '@/components'
 import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
 import { useOptionSearchParam } from '@/hooks'
 import FilterForm from './components/FilterForm'

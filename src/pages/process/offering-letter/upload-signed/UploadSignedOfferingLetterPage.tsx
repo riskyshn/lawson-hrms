@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Container, InputWrapper, PageHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
-import DocumentFileUpload from '@/components/FileUploads/DocumentFileUpload'
+import { DocumentFileUpload } from '@/components'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 

@@ -21,7 +21,7 @@
     "@hookform/resolvers": "^3.3.4",
     "axios": "^1.6.7",
     "chart.js": "^4.4.2",
-    "jobseeker-ui": "^0.1.8",
+    "jobseeker-ui": "^0.1.9",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.330.0",

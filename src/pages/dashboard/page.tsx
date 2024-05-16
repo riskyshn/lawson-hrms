@@ -1,7 +1,7 @@
 import { Container, PageHeader } from 'jobseeker-ui'
 import moment from 'moment'
 import BgImage from '@/assets/hero.webp'
-import Logo from '@/components/Logo/Logo'
+import { Logo } from '@/components'
 import { useAuthStore } from '@/store'
 import AnnouncementCard from './components/AnnouncementCard'
 import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidatesCard'

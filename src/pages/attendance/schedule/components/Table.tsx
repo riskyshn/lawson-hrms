@@ -1,6 +1,5 @@
 import type { ISchedule } from '@/types'
-import { MainTable } from '@/components'
-import NumberOfEmployeeLink from '@/components/UI/NumberOfEmployeeLink'
+import { MainTable, NumberOfEmployeeLink } from '@/components'
 import ActionMenu from './ActionMenu'
 
 type PropTypes = {
