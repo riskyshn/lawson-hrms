@@ -5,7 +5,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import listPlugin from '@fullcalendar/list'
 import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
-import { Container, PageHeader } from 'jobseeker-ui'
+import { Card, CardBody, CardHeader, Container, PageHeader } from 'jobseeker-ui'
 import { dashboardService } from '@/services'
 import Modal from './components/Modal'
 
@@ -104,99 +104,82 @@ export const Component: React.FC = () => {
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Calendar' }]} />
+      <PageHeader breadcrumb={[{ text: 'Dashboard' }, { text: 'Calendar' }]} />
 
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
-        <FullCalendar
-          customButtons={{
-            dayGridMonth: {
-              click: function () {
-                calendarRef.current?.getApi().changeView('dayGridMonth')
-              },
-              text: 'Month',
-            },
-            listMonth: {
-              click: function () {
-                calendarRef.current?.getApi().changeView('listMonth')
-              },
-              text: 'List',
-            },
-            nextButton: {
-              click: function () {
-                calendarRef.current?.getApi().next()
-              },
-              text: '>',
-            },
-            prevButton: {
-              click: function () {
-                calendarRef.current?.getApi().prev()
-              },
-              text: '<',
-            },
-            timeGridDay: {
-              click: function () {
-                calendarRef.current?.getApi().changeView('timeGridDay')
-              },
-              text: 'Day',
-            },
-            timeGridWeek: {
-              click: function () {
-                calendarRef.current?.getApi().changeView('timeGridWeek')
-              },
-              text: 'Week',
-            },
-            todayButton: {
-              click: function () {
-                calendarRef.current?.getApi().today()
-              },
-              text: 'Today',
-            },
-          }}
-          datesSet={handleDatesSet}
-          eventClick={handleEventClick}
-          eventMouseEnter={handleMouseEnter}
-          eventMouseLeave={handleMouseLeave}
-          eventTimeFormat={{
-            hour: 'numeric',
-            meridiem: 'short',
-            minute: '2-digit',
-          }}
-          events={calendarEvents}
-          headerToolbar={{
-            center: 'title',
-            left: 'prevButton,nextButton todayButton',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
-          }}
-          initialView="dayGridMonth"
-          plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-          ref={calendarRef}
-        />
-        {tooltipInstance}
+        <Card>
+          <CardHeader className="text-lg font-semibold">Calendar</CardHeader>
+          <CardBody>
+            <FullCalendar
+              customButtons={{
+                dayGridMonth: {
+                  click: function () {
+                    calendarRef.current?.getApi().changeView('dayGridMonth')
+                  },
+                  text: 'Month',
+                },
+                listMonth: {
+                  click: function () {
+                    calendarRef.current?.getApi().changeView('listMonth')
+                  },
+                  text: 'List',
+                },
+                nextButton: {
+                  click: function () {
+                    calendarRef.current?.getApi().next()
+                  },
+                  text: '>',
+                },
+                prevButton: {
+                  click: function () {
+                    calendarRef.current?.getApi().prev()
+                  },
+                  text: '<',
+                },
+                timeGridDay: {
+                  click: function () {
+                    calendarRef.current?.getApi().changeView('timeGridDay')
+                  },
+                  text: 'Day',
+                },
+                timeGridWeek: {
+                  click: function () {
+                    calendarRef.current?.getApi().changeView('timeGridWeek')
+                  },
+                  text: 'Week',
+                },
+                todayButton: {
+                  click: function () {
+                    calendarRef.current?.getApi().today()
+                  },
+                  text: 'Today',
+                },
+              }}
+              datesSet={handleDatesSet}
+              eventClick={handleEventClick}
+              eventMouseEnter={handleMouseEnter}
+              eventMouseLeave={handleMouseLeave}
+              eventTimeFormat={{
+                hour: 'numeric',
+                meridiem: 'short',
+                minute: '2-digit',
+              }}
+              events={calendarEvents}
+              headerToolbar={{
+                center: 'title',
+                left: 'prevButton,nextButton todayButton',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
+              }}
+              initialView="dayGridMonth"
+              plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+              ref={calendarRef}
+            />
+            {tooltipInstance}
+          </CardBody>
+        </Card>
 
         <Modal items={selectedEvent} onClose={closeModal} show={isModalOpen} />
       </Container>
-
-      <style>
-        {`
-        .fc .fc-button-primary {
-          --tw-bg-opacity: 1;
-          background-color: rgb(37 99 235 / var(--tw-bg-opacity)) !important;
-          color: white !important;
-          border-color: rgb(37 99 235 / var(--tw-bg-opacity)) !important;
-        }
-        .fc .fc-daygrid-day.fc-day-today {
-          --tw-bg-opacity: 1;
-          background-color: rgb(219 234 254 / var(--tw-bg-opacity));
-        }
-        .fc .fc-timegrid-col.fc-day-today {
-          --tw-bg-opacity: 1;
-          background-color: rgb(219 234 254 / var(--tw-bg-opacity));
-        }
-        .fc .fc-daygrid-event-harness {
-          cursor: pointer;
-        }
-      `}
-      </style>
     </>
   )
 }

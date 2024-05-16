@@ -7,7 +7,7 @@ import { twJoin } from 'tailwind-merge'
 import * as yup from 'yup'
 import { DocumentFileUpload, PhotoProfileFileUpload } from '@/components'
 import { PHONE_REG_EXP } from '@/constants/globals'
-import { masterService } from '@/services'
+import { authService, masterService } from '@/services'
 import { emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
 
 const PROGRESS_KEY = '[PROGRESS]'
@@ -27,10 +27,35 @@ const schema = yup.object({
     )
     .url()
     .label('Resume'),
-  email: yup.string().email().required().label('Email'),
+  email: yup
+    .string()
+    .email()
+    .required()
+    .test('unique', '${label} is already registered.', async (value) => {
+      try {
+        await authService.isEmailUnique(value)
+        return true
+      } catch {
+        return false
+      }
+    })
+    .label('Email'),
   fullName: yup.string().required().label('Full Name'),
   gender: genYupOption('Gender').required(),
-  nik: yup.string().min(16).max(16).required().label('National ID Number'),
+  nik: yup
+    .string()
+    .min(16)
+    .max(16)
+    .required()
+    .test('unique', '${label} is already registered.', async (value) => {
+      try {
+        await authService.isNiklUnique(value)
+        return true
+      } catch {
+        return false
+      }
+    })
+    .label('National ID Number'),
   password: yup.string().required().label('Password'),
   phoneNumber: yup.string().required().matches(PHONE_REG_EXP, '${label} is not valid').label('Phone Number'),
   photoURL: yup
