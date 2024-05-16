@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Modal, ModalHeader, Stepper, useConfirm, useSteps, useToast } from 'jobseeker-ui'
 import { authService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
@@ -14,6 +15,7 @@ const CreateCandidateModal: React.FC<{ onClose?: () => void; onSubmited?: () => 
 }) => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 
+  const navigate = useNavigate()
   const toast = useToast()
   const confirm = useConfirm()
 
@@ -33,10 +35,17 @@ const CreateCandidateModal: React.FC<{ onClose?: () => void; onSubmited?: () => 
 
     try {
       setIsSubmitLoading(true)
-      await authService.signUpCandidate(formCreateToPayload(data))
+      const payload = formCreateToPayload(data)
+      await authService.signUpCandidate(payload)
       onClose?.()
       onSubmited?.()
       toast('Candidate successfully created.', { color: 'success' })
+      navigate(`/candidates/pool?search=${payload.fullName}`)
+      setFormValues({
+        educations: {},
+        personalInformation: {},
+        workingExperiences: {},
+      })
     } catch (error) {
       toast(axiosErrorMessage(error), { color: 'error' })
       setIsSubmitLoading(false)

@@ -1,63 +1,24 @@
-import type { IBenefitComponent, IPaginationResponse } from '@/types'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Button, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
-import { usePagination } from '@/hooks'
+import { useAsyncSearch, usePagination } from '@/hooks'
 import { payrollService } from '@/services'
 import CreateModal from '../components/CreateModal'
 import Table from '../components/Table'
 
 const BenefitComponentsPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
-
-  const search = searchParams.get('search') || undefined
-
-  const [pageData, setPageData] = useState<IPaginationResponse<IBenefitComponent>>()
-  const [pageError, setPageError] = useState<any>()
-  const [isLoading, setIsLoading] = useState(true)
-
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [switchData, setSwitchData] = useState(false)
 
+  const search = searchParams.get('search')
+
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(payrollService.fetchBenefitComponents, { limit: 20 }, search)
   const pagination = usePagination({
     params: { search },
     pathname: '/payroll/benefit-components',
     totalPage: pageData?.totalPages,
   })
-
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const load = async (signal: AbortSignal) => {
-      setIsLoading(true)
-      try {
-        const data = await payrollService.fetchBenefitComponents(
-          {
-            limit: 20,
-            page: pagination.currentPage,
-            q: search,
-          },
-          signal,
-        )
-        setPageData(data)
-        setIsLoading(false)
-      } catch (e: any) {
-        if (e.message !== 'canceled') setPageError(e)
-      }
-    }
-
-    load(signal)
-
-    return () => {
-      controller.abort()
-    }
-  }, [search, pagination.currentPage, switchData])
-
-  const refresh = () => setSwitchData((v) => !v)
-
-  if (pageError) throw pageError
 
   return (
     <>
@@ -83,11 +44,11 @@ const BenefitComponentsPage: React.FC = () => {
         title="Benefit Components"
       />
 
-      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={refresh} show={showCreateModal} type="BENEFIT" />
+      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={onRefresh} show={showCreateModal} type="BENEFIT" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={refresh} type="BENEFIT" />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="BENEFIT" />}
           footer={pagination.render()}
           header={
             <MainCardHeader
@@ -95,6 +56,7 @@ const BenefitComponentsPage: React.FC = () => {
                 setValue: (v) => setSearchParam({ search: v }),
                 value: search || '',
               }}
+              onRefresh={onRefresh}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Component</span> in total
