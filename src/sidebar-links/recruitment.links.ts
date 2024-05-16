@@ -2,6 +2,7 @@ import { BriefcaseIcon, FileIcon, RepeatIcon, UsersIcon } from 'lucide-react'
 import { SidebarLinksOptions } from '@/hooks'
 
 const recruitmentLinks: SidebarLinksOptions = {
+  title: 'Recruitment',
   items: [
     {
       child: [
@@ -24,40 +25,21 @@ const recruitmentLinks: SidebarLinksOptions = {
     },
     {
       child: [
-        {
-          text: 'Interview',
-          to: '/process/interview',
-        },
-        {
-          text: 'Assessment',
-          to: '/process/assessment',
-        },
-        {
-          text: 'Offering Letter',
-          to: '/process/offering-letter',
-        },
-        {
-          text: 'Onboarding',
-          to: '/process/onboarding',
-        },
+        { text: 'Interview', to: '/process/interview' },
+        { text: 'Assessment', to: '/process/assessment' },
+        { text: 'Offering Letter', to: '/process/offering-letter' },
+        { text: 'Onboarding', to: '/process/onboarding' },
       ],
       parent: { icon: RepeatIcon, text: 'Process', to: '/process' },
     },
     {
       child: [
-        {
-          text: 'Summary & Analytics',
-          to: '/report/summary',
-        },
-        {
-          text: 'Candidate Demography',
-          to: '/report/demography',
-        },
+        { text: 'Summary & Analytics', to: '/report/summary' },
+        { text: 'Candidate Demography', to: '/report/demography' },
       ],
       parent: { icon: FileIcon, text: 'Report', to: '/report' },
     },
   ],
-  title: 'Recruitment',
 }
 
 export default recruitmentLinks

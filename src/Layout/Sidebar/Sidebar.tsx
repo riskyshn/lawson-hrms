@@ -1,16 +1,39 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { NavLink as Link, useNavigate } from 'react-router-dom'
 import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from 'jobseeker-ui'
 import { PlusCircle, XIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { LogoFull } from '@/components'
 import { useLinks } from '@/hooks'
+import useUserPermissions from '@/hooks/use-user-permissions'
 import { hrisLinks, recruitmentLinks, rootLinks, settingsLinks } from '@/sidebar-links'
+import { IPermission } from '@/types'
+
+const hasPermission = (action: string | undefined, permissions: Array<IPermission>): boolean => {
+  if (!action) return true // No permission required
+  return permissions.some((perm) => perm.action === action)
+}
 
 const Sidebar: React.FC = () => {
   const { sidebarMini, sidebarActive, toggleSidebarOpen } = useLayout()
-  const links = useLinks(rootLinks, recruitmentLinks, hrisLinks, settingsLinks)
+  const allLinks = useLinks(rootLinks, recruitmentLinks, hrisLinks, settingsLinks)
   const navigate = useNavigate()
+
+  const { permissions } = useUserPermissions()
+
+  const filteredLinks = useMemo(
+    () =>
+      allLinks.map((link) => ({
+        ...link,
+        items: link.items
+          .map((el) => {
+            const filteredChild = el.child?.filter((child) => hasPermission(child.permission, permissions))
+            return hasPermission(el.parent.permission, permissions) && filteredChild?.length ? { ...el, child: filteredChild } : null
+          })
+          .filter(Boolean),
+      })),
+    [allLinks, permissions],
+  )
 
   return (
     <BaseSidebar>
@@ -35,16 +58,22 @@ const Sidebar: React.FC = () => {
         </div>
 
         <div className="flex w-full flex-col gap-1">
-          {links.map(({ items, title }, key) => (
+          {filteredLinks.map(({ items, title }, key) => (
             <div className="mb-2 flex w-full flex-col gap-1 px-3" key={key}>
               {!!title && (
-                <span className={twJoin(sidebarMini && !sidebarActive && 'lg:hidden', 'block px-2 text-xs text-gray-500')}>{title}</span>
+                <span className={twJoin(sidebarMini && !sidebarActive && 'lg:hidden', 'block px-2 text-xs text-gray-500 last:hidden')}>
+                  {title}
+                </span>
               )}
-              <div className="flex w-full flex-col gap-2">
-                {items.map(({ child, parent }, key) => (
-                  <SidebarItem child={child} key={key} parent={parent} />
-                ))}
-              </div>
+              {items.length > 0 && (
+                <div className="flex w-full flex-col gap-2">
+                  {items.map((el, key) => (
+                    <React.Fragment key={key}>
+                      <SidebarItem child={el?.child} parent={el?.parent} />
+                    </React.Fragment>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

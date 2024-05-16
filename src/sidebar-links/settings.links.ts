@@ -2,6 +2,7 @@ import { PackageIcon, SettingsIcon } from 'lucide-react'
 import { SidebarLinksOptions } from '@/hooks'
 
 const settingsLinks: SidebarLinksOptions = {
+  title: 'Settings',
   items: [
     {
       child: [
@@ -20,7 +21,6 @@ const settingsLinks: SidebarLinksOptions = {
     },
     { parent: { icon: PackageIcon, text: 'CMS', to: '/cms' } },
   ],
-  title: 'Settings',
 }
 
 export default settingsLinks
