@@ -1,9 +1,8 @@
 import type { ISchedule, IScheduleDetail, ITimezone } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Alert, Button, Input, InputTime, Select, useToast } from 'jobseeker-ui'
+import { Alert, Button, Input, InputTime, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
 import { ClockIcon } from 'lucide-react'
-import MainModal from '@/components/Modals/MainModal'
 import { attendanceService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 
@@ -117,13 +116,11 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
   }
 
   return (
-    <MainModal className="max-w-xl" onClose={onClose} show={show}>
-      <form className="flex flex-col gap-3" onSubmit={onSubmit}>
-        <div className="mb-3">
-          <h3 className="text-center text-2xl font-semibold">Edit Schedule</h3>
-          <p className="text-center text-sm text-gray-500">Edit this schedule for your employee</p>
-        </div>
-
+    <Modal as="form" show={show} onSubmit={onSubmit}>
+      <ModalHeader subTitle="Edit this schedule for your employee" onClose={onClose}>
+        Edit Schedule
+      </ModalHeader>
+      <div className="flex flex-col gap-3 p-3">
         {errorMessage && <Alert color="error">{errorMessage}</Alert>}
 
         <Input defaultValue={items?.name} label="Schedule Name" labelRequired required {...register('name')} />
@@ -174,14 +171,13 @@ const EditScheduleModal: React.FC<EditScheduleModalProps> = ({ items, onApplyVac
             </div>
           </div>
         ))}
-
-        <div className="mt-8 flex justify-end gap-3">
-          <Button className="w-full" color="primary" disabled={isLoading} loading={isLoading} type="submit">
-            Submit
-          </Button>
-        </div>
-      </form>
-    </MainModal>
+      </div>
+      <ModalFooter>
+        <Button className="min-w-24" color="primary" disabled={isLoading} loading={isLoading} type="submit">
+          Submit
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 

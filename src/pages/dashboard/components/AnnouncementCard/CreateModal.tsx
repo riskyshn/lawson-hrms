@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Alert, Button, Editor, Input, InputWrapper, Modal, ModalFooter, ModalHeader, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
-import DocumentFileUpload from '@/components/FileUploads/DocumentFileUpload'
+import { DocumentFileUpload } from '@/components'
 import { dashboardService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 

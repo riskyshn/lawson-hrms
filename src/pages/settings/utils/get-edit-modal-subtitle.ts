@@ -5,5 +5,5 @@ export default function getEditModalSubtitle(item?: { createdAt?: string; update
   if (!createdAt && !updatedAt) return ''
   const timestamp = updatedAt ? updatedAt : createdAt
   const action = updatedAt ? 'Last updated' : 'Created'
-  return `${action} ${moment.utc(timestamp).local().fromNow()}`
+  return `${action} ${moment(timestamp).fromNow()}`
 }

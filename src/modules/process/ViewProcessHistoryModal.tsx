@@ -1,6 +1,6 @@
 import type { IApplicant } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
+import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader, Timeline, TimelineItem } from 'jobseeker-ui'
 import {
   AlertCircleIcon,
   CalendarIcon,
@@ -14,7 +14,7 @@ import {
 } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import { HistoryItem, Timeline, TimelineItem } from '@/components'
+import { HistoryItem } from '@/components'
 import { processService } from '@/services'
 
 type OptionModalProps = {
@@ -79,7 +79,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicantId, onCl
                     onDetailToggleClick={() => setShowDetailIndex((v) => (v === index ? null : index))}
                     showDetail={showDetailIndex === index}
                     status={<Status status={item.status} />}
-                    subTitle={moment.utc(item.processAt).local().format('D/M/Y HH:mm')}
+                    subTitle={moment(item.processAt).format('D/M/Y HH:mm')}
                     title={item.applyProcess}
                   >
                     <div className="mb-3">
@@ -94,7 +94,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicantId, onCl
                         <h3 className="text-sm font-semibold">Action Scheduled</h3>
                         <span className="flex items-center gap-1 text-xs">
                           <CalendarIcon size={16} />
-                          {moment.utc(item.actionAt).local().format('D/M/Y HH:mm')}
+                          {moment(item.actionAt).format('D/M/Y HH:mm')}
                         </span>
                       </div>
                     )}
@@ -103,7 +103,7 @@ const ViewProcessHistoryModal: React.FC<OptionModalProps> = ({ applicantId, onCl
                         <h3 className="text-sm font-semibold">Process Date</h3>
                         <span className="flex items-center gap-1 text-xs">
                           <CalendarIcon size={16} />
-                          {moment.utc(item.processAt).local().format('D/M/Y HH:mm')}
+                          {moment(item.processAt).format('D/M/Y HH:mm')}
                         </span>
                       </div>
                     )}

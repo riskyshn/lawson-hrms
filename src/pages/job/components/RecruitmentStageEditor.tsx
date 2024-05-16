@@ -5,7 +5,7 @@ import { useAsyncAction } from '@/hooks'
 import { organizationService } from '@/services'
 import RecruitmentStageItem from './RecruitmentStageItem'
 
-const RecruitmentStagesEditor: React.FC = () => {
+const RecruitmentStagesEditor: React.FC<{ onRefresh?: () => void }> = ({ onRefresh: onDataRefresh }) => {
   const [recruitmentStages, loading, onRefresh] = useAsyncAction(organizationService.fetchRecruitmentStages, {
     limit: 99999,
     sortDirection: 'ASC',
@@ -19,13 +19,20 @@ const RecruitmentStagesEditor: React.FC = () => {
 
   return (
     <Card>
-      <LoadingScreen show={loading || !recruitmentStages?.content} />
-      {(!loading || !!recruitmentStages?.content) && (
+      <LoadingScreen show={loading} />
+      {!loading && !!recruitmentStages?.content && (
         <>
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-lg font-semibold">Interview</h3>
             {interviews.map((el) => (
-              <RecruitmentStageItem item={el} key={el.oid} onRefresh={onRefresh} />
+              <RecruitmentStageItem
+                item={el}
+                key={el.oid}
+                onRefresh={() => {
+                  onRefresh()
+                  onDataRefresh?.()
+                }}
+              />
             ))}
             {toCreateInterviews.map((id) => (
               <RecruitmentStageItem
@@ -33,7 +40,10 @@ const RecruitmentStagesEditor: React.FC = () => {
                 key={id}
                 onRemove={() => setToCreateInterviews([...toCreateInterviews.filter((i) => i != id)])}
                 type="INTERVIEW"
-                onRefresh={onRefresh}
+                onRefresh={() => {
+                  onRefresh()
+                  onDataRefresh?.()
+                }}
               />
             ))}
             <Button
@@ -49,14 +59,24 @@ const RecruitmentStagesEditor: React.FC = () => {
           <CardBody className="grid grid-cols-1 gap-2">
             <h3 className="text-lg font-semibold">Assessment</h3>
             {assessments.map((el) => (
-              <RecruitmentStageItem item={el} key={el.oid} onRefresh={onRefresh} />
+              <RecruitmentStageItem
+                item={el}
+                key={el.oid}
+                onRefresh={() => {
+                  onRefresh()
+                  onDataRefresh?.()
+                }}
+              />
             ))}
             {toCreateAssessments.map((id) => (
               <RecruitmentStageItem
                 isNew
                 key={id}
                 onRemove={() => setToCreateAssessments([...toCreateAssessments.filter((i) => i != id)])}
-                onRefresh={onRefresh}
+                onRefresh={() => {
+                  onRefresh()
+                  onDataRefresh?.()
+                }}
                 type="ASSESSMENT"
               />
             ))}

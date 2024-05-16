@@ -1,8 +1,7 @@
 import type { IDataTableEmployee } from '@/types'
 import { useEffect, useState } from 'react'
-import { Button } from 'jobseeker-ui'
+import { Button, SideModal } from 'jobseeker-ui'
 import { XIcon } from 'lucide-react'
-import SideModal from '@/components/Modals/SideModal'
 import EmployeeSelector from './EmployeeSelector'
 
 type PropTypes = {

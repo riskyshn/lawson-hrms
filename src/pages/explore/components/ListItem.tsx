@@ -22,7 +22,7 @@ const ListItem: React.FC<{ item: ICandidateExplore }> = ({ item }) => {
           <div className="flex flex-1 items-start">
             <div className="flex flex-1 flex-col gap-1">
               <span className="block truncate text-base capitalize leading-none">{item.full_name}</span>
-              {item.login_date && <span className="block text-xs">{moment.utc(item.login_date).local().fromNow()}</span>}
+              {item.login_date && <span className="block text-xs">{moment(item.login_date).fromNow()}</span>}
             </div>
           </div>
 

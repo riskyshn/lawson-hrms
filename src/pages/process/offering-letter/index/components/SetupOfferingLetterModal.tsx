@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, InputWrapper, Modal, ModalFooter, ModalHeader, Spinner, Textarea, useToast } from 'jobseeker-ui'
 import * as yup from 'yup'
-import ImageFileUpload from '@/components/FileUploads/ImageFileUpload'
+import { ImageFileUpload } from '@/components'
 import { organizationService, processService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 

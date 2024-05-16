@@ -1,6 +1,6 @@
 import type { ICandidate, ICandidateHistories } from '@/types'
 import React, { useEffect, useState } from 'react'
-import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader } from 'jobseeker-ui'
+import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader, Timeline, TimelineItem } from 'jobseeker-ui'
 import {
   AlertCircleIcon,
   CalendarIcon,
@@ -14,8 +14,7 @@ import {
 } from 'lucide-react'
 import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
-import HistoryItem from '@/components/UI/HistoryItem'
-import { Timeline, TimelineItem } from '@/components/UI/Timeline'
+import { HistoryItem } from '@/components'
 import { candidateService } from '@/services'
 
 type OptionModalProps = {
@@ -88,7 +87,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ candidate, onClose, show
                           onDetailToggleClick={() => setShowDetailIndex((v) => (v === i ? null : i))}
                           showDetail={showDetailIndex === i}
                           status={<Status status={history.status} />}
-                          subTitle={moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                          subTitle={moment(history.actionAt).format('D/M/Y HH:mm')}
                           title={history.applyProcess}
                         >
                           <div className="mb-3">
@@ -103,7 +102,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ candidate, onClose, show
                               <h3 className="text-sm font-semibold">Action Scheduled</h3>
                               <span className="flex items-center gap-1 text-xs">
                                 <CalendarIcon size={16} />
-                                {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                                {moment(history.actionAt).format('D/M/Y HH:mm')}
                               </span>
                             </div>
                           )}
@@ -112,7 +111,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ candidate, onClose, show
                               <h3 className="text-sm font-semibold">Process Date</h3>
                               <span className="flex items-center gap-1 text-xs">
                                 <CalendarIcon size={16} />
-                                {moment.utc(history.actionAt).local().format('D/M/Y HH:mm')}
+                                {moment(history.actionAt).format('D/M/Y HH:mm')}
                               </span>
                             </div>
                           )}

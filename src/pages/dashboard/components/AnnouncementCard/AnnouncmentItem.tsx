@@ -49,7 +49,7 @@ const AnnouncementItem: React.FC<{
         type="button"
       >
         <h4 className="text-sm">{item.title}</h4>
-        <span className="block text-xs text-gray-500">{moment.utc(item.createdAt).local().fromNow()}</span>
+        <span className="block text-xs text-gray-500">{moment(item.createdAt).fromNow()}</span>
       </button>
       <div className="flex flex-col">
         <Button

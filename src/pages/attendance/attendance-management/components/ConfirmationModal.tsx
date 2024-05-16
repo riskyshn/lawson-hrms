@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Textarea } from 'jobseeker-ui'
-import MainModal from '@/components/Modals/MainModal'
+import { Button, Modal, ModalFooter, ModalHeader, Textarea } from 'jobseeker-ui'
 
 interface ConfirmationModalProps {
   handleAction: (reason: string) => void
@@ -28,26 +27,27 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({ handleAction, isL
   }
 
   return (
-    <MainModal className="max-w-xl" onClose={onClose} show={show}>
-      <div className="flex flex-col gap-3">
-        <h2 className="mt-4 text-center text-2xl font-semibold">{`Are you sure?`}</h2>
-        <span className="text-center">{`Are you sure you want to ${modalType} this request?`}</span>
+    <Modal show={show} onClose={onClose}>
+      <ModalHeader subTitle={`Are you sure you want to ${modalType} this request?`} onClose={onClose}>
+        Are you sure?
+      </ModalHeader>
+      <div className="flex flex-col gap-3 p-3">
         {modalType === 'rejected' && (
           <>
             <Textarea aria-invalid={!!error} onChange={handleChange} rows={4} value={reason} />
             {error && <span className="mb-2 text-xs text-red-500">{error}</span>}
           </>
         )}
-        <div className="flex flex-1 justify-end gap-3">
-          <Button className="w-full" color="error" onClick={onClose} type="button" variant="light">
-            Cancel
-          </Button>
-          <Button className="w-full" color="primary" disabled={isLoading} onClick={handleSubmit}>
-            Confirm
-          </Button>
-        </div>
       </div>
-    </MainModal>
+      <ModalFooter>
+        <Button className="min-w-24" color="error" onClick={onClose} type="button" variant="light">
+          Cancel
+        </Button>
+        <Button className="min-w-24" color="primary" disabled={isLoading} onClick={handleSubmit}>
+          Confirm
+        </Button>
+      </ModalFooter>
+    </Modal>
   )
 }
 
