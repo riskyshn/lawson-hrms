@@ -1,7 +1,5 @@
 import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Avatar } from 'jobseeker-ui'
 import { MainTable } from '@/components'
 import { numberToCurrency } from '@/utils'
 import ActionMenu from './ActionMenu'
@@ -29,7 +27,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
     { children: 'Max. Cap', className: 'text-left' },
     { children: 'Application Type', className: 'text-left' },
     { children: 'Tax type', className: 'text-left' },
-    { children: 'Applied Employees' },
+    // { children: 'Applied Employees' },
     { children: 'Action', className: 'w-24' },
   ]
 
@@ -41,21 +39,10 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRefresh, type }) => {
       { children: numberToCurrency(item.maxCap) },
       { children: item.applicationType?.name },
       { children: item.taxType?.name },
-      {
-        children: (
-          <span className="flex items-center justify-center gap-2">
-            <span className="flex">
-              <Avatar className="rounded-full bg-success-100 text-success-700" name="John Doe" size={38} />
-              <Avatar className="-ml-3 rounded-full bg-primary-100 text-primary-700" name="Jane Doe" size={38} />
-              <Avatar className="-ml-3 rounded-full bg-error-100 text-error-700" name="Jane Doe" size={38} />
-            </span>
-            <Link className="text-primary-600" to={`/payroll/${type.toLowerCase()}-components/${item.oid}/employees`}>
-              {(index + 1) * 3}+
-            </Link>
-          </span>
-        ),
-        className: 'text-center',
-      },
+      // {
+      //   children: <NumberOfEmployeeLink count={(index + 1) * 3} to={`/payroll/${type.toLowerCase()}-components/${item.oid}/employees`} />,
+      //   className: 'text-center',
+      // },
       {
         children: (
           <ActionMenu
