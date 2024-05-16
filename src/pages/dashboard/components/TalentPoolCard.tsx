@@ -4,7 +4,7 @@ import { Monitor } from 'lucide-react'
 const TalentPoolCard: React.FC = () => {
   return (
     <Card className="divide-y-0">
-      <div className="bg-jsc-secondary rounded-lg rounded-b-3xl p-3 pb-28 text-white">
+      <div className="rounded-lg rounded-b-3xl bg-jsc-secondary p-3 pb-28 text-white">
         <span className="block text-xl font-semibold">Talent Pool</span>
         <span className="block text-sm">You Have 200+ Talents</span>
       </div>
