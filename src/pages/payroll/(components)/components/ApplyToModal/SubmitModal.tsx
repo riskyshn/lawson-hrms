@@ -1,7 +1,6 @@
 import type { IBenefitComponent, IDeductionComponent } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Input, InputCurrency, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
 import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
@@ -12,16 +11,17 @@ import { schema } from '../shared'
 type PropType = {
   item?: IBenefitComponent | IDeductionComponent | null
   onClose?: () => void
+  onSubmit?: () => void
   payload: string[]
   show?: boolean
   type: 'BENEFIT' | 'DEDUCTION'
 }
 
-const SubmitModal: React.FC<PropType> = ({ item, onClose, payload, show, type }) => {
+const SubmitModal: React.FC<PropType> = ({ item, onClose, onSubmit: onSubmited, payload, show, type }) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast()
   const [updated, setUpdated] = useState(false)
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   const {
     formState: { errors },
@@ -60,7 +60,8 @@ const SubmitModal: React.FC<PropType> = ({ item, onClose, payload, show, type })
       const applyFn = type === 'BENEFIT' ? payrollService.applyBenefitToEmployees : payrollService.applyDeductionToEmployees
       await applyFn({ componentId: item.oid, employeeIds: payload })
       toast('Apply component to employees successfully.', { color: 'success' })
-      navigate(`/payroll/${type.toLowerCase()}-components/${item.oid}/employees`)
+      // navigate(`/payroll/${type.toLowerCase()}-components/${item.oid}/employees`)
+      onSubmited?.()
       setTimeout(() => {
         reset()
         setUpdated(false)

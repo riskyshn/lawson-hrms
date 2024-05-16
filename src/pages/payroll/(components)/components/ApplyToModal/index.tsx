@@ -25,7 +25,7 @@ const ApplyToModal: React.FC<PropTypes> = ({ item, onClose, type }) => {
 
   return (
     <>
-      <SubmitModal item={item} onClose={() => setSubmit(false)} payload={selected} show={submit} type={type} />
+      <SubmitModal item={item} onClose={() => setSubmit(false)} onSubmit={handleClose} payload={selected} show={submit} type={type} />
 
       <SideModal className="flex h-full flex-col" show={!!item && !submit}>
         <div className="flex items-center justify-between border-b bg-white p-3">
