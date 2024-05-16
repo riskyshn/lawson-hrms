@@ -1,63 +1,24 @@
-import type { IDeductionComponent, IPaginationResponse } from '@/types'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Button, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
 import { SettingsIcon } from 'lucide-react'
-import { usePagination } from '@/hooks'
+import { useAsyncSearch, usePagination } from '@/hooks'
 import { payrollService } from '@/services'
 import CreateModal from '../components/CreateModal'
 import Table from '../components/Table'
 
 const DeductionComponentsPage: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
-
-  const search = searchParams.get('search') || undefined
-
-  const [pageData, setPageData] = useState<IPaginationResponse<IDeductionComponent>>()
-  const [pageError, setPageError] = useState<any>()
-  const [isLoading, setIsLoading] = useState(true)
-
   const [showCreateModal, setShowCreateModal] = useState(false)
-  const [switchData, setSwitchData] = useState(false)
 
+  const search = searchParams.get('search')
+
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(payrollService.fetchDeductionComponents, { limit: 20 }, search)
   const pagination = usePagination({
     params: { search },
     pathname: '/payroll/deduction-components',
     totalPage: pageData?.totalPages,
   })
-
-  useEffect(() => {
-    const controller = new AbortController()
-    const signal = controller.signal
-
-    const load = async (signal: AbortSignal) => {
-      setIsLoading(true)
-      try {
-        const data = await payrollService.fetchDeductionComponents(
-          {
-            limit: 20,
-            page: pagination.currentPage,
-            q: search,
-          },
-          signal,
-        )
-        setPageData(data)
-        setIsLoading(false)
-      } catch (e: any) {
-        if (e.message !== 'canceled') setPageError(e)
-      }
-    }
-
-    load(signal)
-
-    return () => {
-      controller.abort()
-    }
-  }, [search, pagination.currentPage, switchData])
-
-  const refresh = () => setSwitchData((v) => !v)
-
-  if (pageError) throw pageError
 
   return (
     <>
@@ -83,11 +44,11 @@ const DeductionComponentsPage: React.FC = () => {
         title="Deduction Components"
       />
 
-      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={refresh} show={showCreateModal} type="DEDUCTION" />
+      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={onRefresh} show={showCreateModal} type="DEDUCTION" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={refresh} type="DEDUCTION" />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="DEDUCTION" />}
           footer={pagination.render()}
           header={
             <MainCardHeader
@@ -95,6 +56,7 @@ const DeductionComponentsPage: React.FC = () => {
                 setValue: (v) => setSearchParam({ search: v }),
                 value: search || '',
               }}
+              onRefresh={onRefresh}
               subtitle={
                 <>
                   You have <span className="text-primary-600">{pageData?.totalElements} Component</span> in total
