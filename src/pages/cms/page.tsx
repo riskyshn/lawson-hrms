@@ -6,7 +6,7 @@ import { cmsService } from '@/services'
 import HomeForm from './components/HomeForm'
 import JobForm from './components/JobForm'
 
-const CmsPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [flag, setFlag] = useState<ICms>()
@@ -214,4 +214,4 @@ const CmsPage: React.FC = () => {
   )
 }
 
-export default CmsPage
+Component.displayName = 'CmsPage'

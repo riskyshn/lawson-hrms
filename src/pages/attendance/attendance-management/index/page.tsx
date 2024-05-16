@@ -10,7 +10,7 @@ import PageCard from '../components/PageCard'
 import StatisticCards from './components/StatisticCards'
 import Table from './components/Table'
 
-const AttendancePage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const search = searchParams.get('search') || undefined
@@ -185,4 +185,4 @@ const AttendancePage: React.FC = () => {
   )
 }
 
-export default AttendancePage
+Component.displayName = 'AttendancePage'

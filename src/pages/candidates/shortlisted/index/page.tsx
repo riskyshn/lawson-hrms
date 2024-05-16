@@ -9,7 +9,7 @@ import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import Table from './components/Table'
 
-const CandidateShortlistedPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<null | string>(null)
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<null | string>(null)
 
@@ -163,4 +163,4 @@ const CandidateShortlistedPage: React.FC = () => {
   )
 }
 
-export default CandidateShortlistedPage
+Component.displayName = 'CandidateShortlistedPage'

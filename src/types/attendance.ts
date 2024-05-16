@@ -307,6 +307,7 @@ export interface IEmployeeHistoryAttendance {
     startDate: string
     status: string
   }
+  rejectedReason: string
   logType: string
   oid: string
   status: string

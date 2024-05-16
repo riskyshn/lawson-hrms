@@ -218,12 +218,7 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
                       <Button
                         color="success"
                         disabled={item.status === 'approved' || item.status === 'rejected' || latestAttendanceType === 'overtime_in'}
-                        onClick={() =>
-                          handleViewDetails(
-                            item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
-                            'approved',
-                          )
-                        }
+                        onClick={() => handleViewDetails(item.oid, 'approved')}
                         size="small"
                         style={{
                           opacity:
@@ -235,12 +230,7 @@ const Table: React.FC<PropTypes> = ({ isClientVisit, items, loading, onDataChang
                       <Button
                         color="error"
                         disabled={item.status === 'approved' || item.status === 'rejected' || latestAttendanceType === 'overtime_in'}
-                        onClick={() =>
-                          handleViewDetails(
-                            item.attendanceData?.slice(index, index + 2).map((record) => record.oid),
-                            'rejected',
-                          )
-                        }
+                        onClick={() => handleViewDetails(item.oid, 'rejected')}
                         size="small"
                         style={{
                           opacity:

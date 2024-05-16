@@ -7,7 +7,7 @@ import { attendanceService } from '@/services'
 import CreateScheduleModal from '../components/CreateScheduleModal'
 import Table from '../components/Table'
 
-const SchedulePage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
@@ -93,4 +93,4 @@ const SchedulePage: React.FC = () => {
   )
 }
 
-export default SchedulePage
+Component.displayName = 'SchedulePage'

@@ -7,7 +7,7 @@ import { usePagination } from '@/hooks'
 import { attendanceService } from '@/services'
 import Table from '../components/Table'
 
-const RequestPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const search = searchParams.get('search') || undefined
@@ -122,4 +122,4 @@ const RequestPage: React.FC = () => {
   )
 }
 
-export default RequestPage
+Component.displayName = 'RequestPage'

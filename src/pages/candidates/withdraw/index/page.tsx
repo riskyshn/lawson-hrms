@@ -9,7 +9,7 @@ import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import Table from './components/Table'
 
-const CandidateWithdrawPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<null | string>(null)
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<null | string>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -161,4 +161,4 @@ const CandidateWithdrawPage: React.FC = () => {
   )
 }
 
-export default CandidateWithdrawPage
+Component.displayName = 'CandidateWithdrawPage'

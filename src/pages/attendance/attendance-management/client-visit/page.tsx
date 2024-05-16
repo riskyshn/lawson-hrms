@@ -10,7 +10,7 @@ import PageCard from '../components/PageCard'
 import Table from '../components/Table'
 import StatisticCards from '../index/components/StatisticCards'
 
-const ClientVisitPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [searchParams, setSearchParam] = useSearchParams()
   const search = searchParams.get('search') || undefined
@@ -153,4 +153,4 @@ const ClientVisitPage: React.FC = () => {
   )
 }
 
-export default ClientVisitPage
+Component.displayName = 'ClientVisitPage'

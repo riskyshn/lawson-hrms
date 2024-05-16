@@ -11,7 +11,7 @@ import DetailsTable from '../components/DetailsTable'
 import ProfileCard from '../components/ProfileCard'
 import Table from './components/Table'
 
-const ViewPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [isExporting, setIsExporting] = useState(false)
   const { employeeId } = useParams<{ employeeId: string }>()
@@ -301,4 +301,4 @@ const ViewPage: React.FC = () => {
   )
 }
 
-export default ViewPage
+Component.displayName = 'ViewPage'
