@@ -40,7 +40,7 @@ const Table: React.FC<{
         children: <span className="block font-semibold">{vacancy.vacancyName}</span>,
       },
       { children: vacancy.department?.name || '-', className: 'text-center' },
-      { children: vacancy.createdAt ? moment.utc(vacancy.createdAt).local().format('D/M/Y') : '-', className: 'text-center' },
+      { children: vacancy.createdAt ? moment(vacancy.createdAt).format('D/M/Y') : '-', className: 'text-center' },
       {
         children: <NumberOfEmployeeLink count={vacancy.applicantCount} to={`/candidates/management?vacancy=${vacancy.oid}`} />,
         className: 'text-center',

@@ -23,8 +23,7 @@ const UpcomingScheduleCard: React.FC = () => {
                 to={`/calendar?date=${el?.startedAt}`}
               >
                 <span className="block text-xs">
-                  {moment.utc(el.startedAt).local().format('DD/MM/YYYY HH:mm')} -{' '}
-                  {moment.utc(el.endedAt).local().format('DD/MM/YYYY HH:mm')}
+                  {moment(el.startedAt).format('DD/MM/YYYY HH:mm')} - {moment(el.endedAt).format('DD/MM/YYYY HH:mm')}
                 </span>
                 <span className="block text-sm font-semibold">{el.name}</span>
                 <span className="block text-xs text-gray-500">Lead by {el.name}</span>

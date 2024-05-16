@@ -56,8 +56,8 @@ const HistoryModal: React.FC<PropTypes> = ({ item, onClose }) => {
                 status={<div className="flex items-center gap-2">{renderStatus(item.flag)}</div>}
                 subTitle={
                   <>
-                    Sent Date: {item.createdAt ? moment.utc(item.createdAt).local().format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
-                    {item.updatedAt ? moment.utc(item.updatedAt).local().format('DD/MM/YYYY') : '-'}
+                    Sent Date: {item.createdAt ? moment(item.createdAt).format('DD/MM/YYYY') : '-'} | Approval Date:{' '}
+                    {item.updatedAt ? moment(item.updatedAt).format('DD/MM/YYYY') : '-'}
                   </>
                 }
                 title={`Step ${index + 1}`}
@@ -75,14 +75,14 @@ const HistoryModal: React.FC<PropTypes> = ({ item, onClose }) => {
                     <h3 className="text-sm font-semibold">Request Sent:</h3>
                     <span className="flex items-center gap-1 text-xs">
                       <TimerIcon size={16} />
-                      {item.createdAt ? moment.utc(item.createdAt).local().fromNow() : '-'}
+                      {item.createdAt ? moment(item.createdAt).fromNow() : '-'}
                     </span>
                   </div>
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold">Action Date:</h3>
                     <span className="flex items-center gap-1 text-xs">
                       <TimerIcon size={16} />
-                      {item.updatedAt ? moment.utc(item.updatedAt).local().fromNow() : '-'}
+                      {item.updatedAt ? moment(item.updatedAt).fromNow() : '-'}
                     </span>
                   </div>
                 </div>

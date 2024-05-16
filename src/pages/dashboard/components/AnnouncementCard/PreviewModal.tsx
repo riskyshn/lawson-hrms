@@ -11,7 +11,7 @@ type PropTypes = {
 const PreviewModal: React.FC<PropTypes> = ({ item, onClose }) => {
   const rememberedItem = useRemember(item)
 
-  const subtitle = rememberedItem?.createdAt ? `Published ${moment.utc(rememberedItem.createdAt).local().fromNow()}` : undefined
+  const subtitle = rememberedItem?.createdAt ? `Published ${moment(rememberedItem.createdAt).fromNow()}` : undefined
 
   return (
     <Modal className="max-w-6xl" onClose={onClose} show={!!item}>
