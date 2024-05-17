@@ -4,7 +4,7 @@ import { Navbar as BaseNavbar, Button, NavbarBrand, NavbarNav, useLayout, usePub
 import { Calendar, Menu, Search } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { LogoFull } from '@/components'
-import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
+import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants'
 import { useAuthStore } from '@/store'
 import NavbarInfo from './NavbarInfo'
 import NavbarNotification from './NavbarNotification'

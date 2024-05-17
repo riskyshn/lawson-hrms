@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useAuthStore } from '@/store'
 import { IPermission } from '@/types'
 
-export default function useUserPermissions() {
+export const useUserPermissions = () => {
   const { user } = useAuthStore()
 
   const computePermissions = () => {

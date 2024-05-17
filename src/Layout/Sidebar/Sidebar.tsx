@@ -4,8 +4,7 @@ import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarI
 import { PlusCircle, XIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { LogoFull } from '@/components'
-import { useLinks } from '@/hooks'
-import useUserPermissions from '@/hooks/use-user-permissions'
+import { useLinks, useUserPermissions } from '@/hooks'
 import { hrisLinks, recruitmentLinks, rootLinks, settingsLinks } from '@/sidebar-links'
 
 const Sidebar: React.FC = () => {

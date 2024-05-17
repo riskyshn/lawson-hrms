@@ -5,6 +5,7 @@ import { Avatar, Badge, Button, CardBody, Spinner } from 'jobseeker-ui'
 import { Bell } from 'lucide-react'
 import { usePagination } from '@/hooks'
 import { notificationService } from '@/services'
+import { useNotificationStore } from '@/store'
 import { INotification, IPaginationResponse } from '@/types'
 
 const NavbarNotification: React.FC = () => {
@@ -15,8 +16,8 @@ const NavbarNotification: React.FC = () => {
   const [hasMoreItemsVacancies, setHasMoreItemsVacancies] = useState<boolean>(false)
   const [hasMoreItemsApplicants, setHasMoreItemsApplicants] = useState<boolean>(false)
   const [notificationUpdated, setNotificationUpdated] = useState<boolean>(false)
-  const [totalApplicantsNotification, setTotalApplicantsNotification] = useState<number>(0)
-  const [totalVacanciesNotification, setTotalVacanciesNotification] = useState<number>(0)
+
+  const { totalApplicantsNotification, totalVacanciesNotification } = useNotificationStore()
 
   const [currentPageApplicants, setCurrentPageApplicants] = useState({
     currentPage: 1,
@@ -83,36 +84,6 @@ const NavbarNotification: React.FC = () => {
 
     loadApplicantsData()
   }, [paginationApplicants.currentPage, notificationUpdated])
-
-  useEffect(() => {
-    const loadTotalNotification = async () => {
-      try {
-        const responseNotification = await notificationService.getTotalNotification({
-          type: 'APPLICANTS',
-        })
-        setTotalApplicantsNotification(responseNotification)
-      } catch (e) {
-        setPageError(e)
-      }
-    }
-
-    loadTotalNotification()
-  }, [notificationUpdated])
-
-  useEffect(() => {
-    const loadTotalNotification = async () => {
-      try {
-        const responseNotification = await notificationService.getTotalNotification({
-          type: 'VACANCIES',
-        })
-        setTotalVacanciesNotification(responseNotification)
-      } catch (e) {
-        setPageError(e)
-      }
-    }
-
-    loadTotalNotification()
-  }, [notificationUpdated])
 
   const loadMoreDataVacancies = async () => {
     try {
@@ -271,8 +242,8 @@ const NavbarNotification: React.FC = () => {
   return (
     <Menu>
       <Menu.Button as={Button} iconOnly variant="light">
-        <Badge className="absolute -right-1.5 -top-1.5 min-w-4 font-semibold" color="error" size="small">
-          {(totalApplicantsNotification || 0) + (totalVacanciesNotification || 0)}
+        <Badge className="absolute -right-1.5 -top-1.5 min-w-4 font-semibold empty:hidden" color="error" size="small">
+          {(totalApplicantsNotification || 0) + (totalVacanciesNotification || 0) || ''}
         </Badge>
         <Bell size={16} />
       </Menu.Button>
@@ -285,14 +256,14 @@ const NavbarNotification: React.FC = () => {
         <div className="grid grid-cols-2 gap-3 px-3">
           <Button color={viewMode === 'applicants' ? 'primary' : 'default'} onClick={handleViewApplicants} variant="light">
             Applicants
-            <Badge className="absolute -right-px -top-px ml-2 min-w-6 font-semibold" color="error" size="small">
-              {totalApplicantsNotification}
+            <Badge className="absolute -right-px -top-px ml-2 min-w-6 font-semibold empty:hidden" color="error" size="small">
+              {totalApplicantsNotification || ''}
             </Badge>
           </Button>
           <Button color={viewMode === 'vacancies' ? 'primary' : 'default'} onClick={handleViewVacancies} variant="light">
             Vacancies
-            <Badge className="absolute -right-px -top-px ml-2 min-w-6 font-semibold" color="error" size="small">
-              {totalVacanciesNotification}
+            <Badge className="absolute -right-px -top-px ml-2 min-w-6 font-semibold empty:hidden" color="error" size="small">
+              {totalVacanciesNotification || ''}
             </Badge>
           </Button>
         </div>

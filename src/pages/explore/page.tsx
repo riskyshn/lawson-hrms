@@ -6,7 +6,7 @@ import { CheckIcon, ChevronDownIcon, ListFilterIcon, SearchIcon, XIcon } from 'l
 import { twJoin } from 'tailwind-merge'
 import BgImage from '@/assets/hero.webp'
 import { Logo } from '@/components'
-import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
+import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants'
 import { useOptionSearchParam } from '@/hooks'
 import FilterForm from './components/FilterForm'
 import ListItem, { ListItemSkeleton } from './components/ListItem'
