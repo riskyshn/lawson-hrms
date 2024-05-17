@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store'
 import AnnouncementCard from './components/AnnouncementCard'
 import RecentlyAppliedCandidatesCard from './components/RecentlyAppliedCandidatesCard'
 import RecentlyPostedJobsCard from './components/RecentlyPostedJobsCard'
+import TalentPoolCard from './components/TalentPoolCard'
 import UpcomingScheduleCard from './components/UpcomingScheduleCard'
 
 export const Component: React.FC = () => {
@@ -36,6 +37,7 @@ export const Component: React.FC = () => {
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
           <div className="flex flex-col gap-3">
+            <TalentPoolCard />
             <UpcomingScheduleCard />
             <RecentlyAppliedCandidatesCard />
           </div>
