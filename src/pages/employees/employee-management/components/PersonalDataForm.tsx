@@ -16,7 +16,7 @@ import {
 } from 'jobseeker-ui'
 import * as yup from 'yup'
 import { ImageFileUpload } from '@/components'
-import { PHONE_REG_EXP } from '@/constants/globals'
+import { PHONE_REG_EXP } from '@/constants'
 import { masterService } from '@/services'
 import { emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
 

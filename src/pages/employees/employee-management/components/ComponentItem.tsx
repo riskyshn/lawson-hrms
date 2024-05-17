@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { Button, Input, InputCurrency, Select } from 'jobseeker-ui'
 import { InferType } from 'yup'
-import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants/options'
+import { AMOUNT_TYPE_OPTIONS, APPLICATION_TYPE_OPTIONS, TAX_TYPE_OPTIONS } from '@/constants'
 import { componentDataSchema } from './shared'
 
 type Schema = InferType<typeof componentDataSchema>

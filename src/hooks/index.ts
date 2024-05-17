@@ -9,3 +9,5 @@ export * from './use-pagination'
 export * from './use-breakpoint'
 
 export * from './use-links'
+
+export * from './use-user-permissions'
