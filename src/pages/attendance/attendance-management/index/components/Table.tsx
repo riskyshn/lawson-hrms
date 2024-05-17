@@ -38,7 +38,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
     try {
       setIsLoading(true)
       const payload = {
-        oids: ids,
+        oids: [ids],
         rejectedReason: reason || '',
         status: status,
       }
