@@ -17,6 +17,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
     { children: 'Last Day', className: 'text-left' },
     { children: 'Status', className: 'text-left' },
     { children: 'Reason', className: 'text-left' },
+    { children: 'Terminate By', className: 'text-center' },
     { children: 'Action', className: 'w-24' },
   ]
 
@@ -46,6 +47,10 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
       {
         children: item.reasonInactive,
         className: 'whitespace-normal',
+      },
+      {
+        children: item.terminatedBy,
+        className: 'whitespace-normal text-center',
       },
       {
         children: <ActionMenu index={index} item={item} onRestored={onRestored} total={items.length} />,

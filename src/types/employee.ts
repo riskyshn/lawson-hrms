@@ -7,6 +7,7 @@ export interface IPreviousEmployee {
   name?: string
   oid: string
   reasonInactive?: string
+  terminatedBy?: string
 }
 
 export interface IDataTableEmployee {
