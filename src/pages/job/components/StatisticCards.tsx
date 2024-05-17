@@ -77,7 +77,7 @@ const StatisticCards: React.FC<{ isRequisition?: boolean; light?: boolean; refre
           ]
     }
 
-    return cardData.map((rest, index) => <Card key={index} {...rest} className="border bg-white shadow-sm" />)
+    return cardData.map((rest, index) => <Card key={index} {...rest} />)
   }
 
   return (

@@ -52,7 +52,7 @@ export const Component: React.FC = () => {
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
-        <StatisticCards light refresh={refresh} />
+        <StatisticCards refresh={refresh} />
 
         <MainCard
           body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
