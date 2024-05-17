@@ -68,9 +68,7 @@ const Sidebar: React.FC = () => {
               {items.length > 0 && (
                 <div className="flex w-full flex-col gap-2">
                   {items.map((el, key) => (
-                    <React.Fragment key={key}>
-                      <SidebarItem child={el?.child} parent={el?.parent} />
-                    </React.Fragment>
+                    <React.Fragment key={key}>{el?.parent && <SidebarItem child={el?.child} parent={el?.parent} />}</React.Fragment>
                   ))}
                 </div>
               )}
