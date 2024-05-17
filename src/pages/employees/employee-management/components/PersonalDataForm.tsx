@@ -14,6 +14,7 @@ import {
   Select,
   Textarea,
 } from 'jobseeker-ui'
+import moment from 'moment'
 import * as yup from 'yup'
 import { ImageFileUpload } from '@/components'
 import { PHONE_REG_EXP } from '@/constants'
@@ -187,6 +188,8 @@ const PersonalDataForm: React.FC<{
             error={errors.birthDate?.message}
             label="Date of Birth"
             labelRequired
+            maxDate={moment().add(-17, 'years').toDate()}
+            startFrom={moment().add(-17, 'years').toDate()}
             onValueChange={(v) => {
               setValue('birthDate', v)
               trigger('birthDate')
@@ -261,17 +264,32 @@ const PersonalDataForm: React.FC<{
           <Input
             error={errors.nationalIdNumber?.message}
             label="National ID Number"
+            placeholder="National ID Number"
             labelRequired
             {...register('nationalIdNumber')}
             type="number"
           />
-          <Input error={errors.postalCode?.message} label="Postal Code" {...register('postalCode')} type="number" />
+          <Input
+            error={errors.postalCode?.message}
+            label="Postal Code"
+            labelRequired
+            placeholder="Postal Code"
+            {...register('postalCode')}
+            type="number"
+          />
         </div>
-        <Textarea error={errors.nationIdAddress?.message} label="Nation ID Address" rows={6} {...register('nationIdAddress')} />
+        <Textarea
+          error={errors.nationIdAddress?.message}
+          label="Nation ID Address"
+          placeholder="Nation ID Address"
+          rows={6}
+          {...register('nationIdAddress')}
+        />
         <Textarea
           className="mb-2"
           error={errors.residentalAddress?.message}
           label="Residential Address"
+          placeholder="Residential Address"
           rows={6}
           {...register('residentalAddress')}
           disabled={sameAsNationalId}
