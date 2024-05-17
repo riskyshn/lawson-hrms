@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { NavLink as Link, useNavigate } from 'react-router-dom'
 import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarItem, useLayout } from 'jobseeker-ui'
 import { PlusCircle, XIcon } from 'lucide-react'
@@ -7,19 +7,13 @@ import { LogoFull } from '@/components'
 import { useLinks } from '@/hooks'
 import useUserPermissions from '@/hooks/use-user-permissions'
 import { hrisLinks, recruitmentLinks, rootLinks, settingsLinks } from '@/sidebar-links'
-import { IPermission } from '@/types'
-
-const hasPermission = (action: string | undefined, permissions: Array<IPermission>): boolean => {
-  if (!action) return true // No permission required
-  return permissions.some((perm) => perm.action === action)
-}
 
 const Sidebar: React.FC = () => {
   const { sidebarMini, sidebarActive, toggleSidebarOpen } = useLayout()
   const allLinks = useLinks(rootLinks, recruitmentLinks, hrisLinks, settingsLinks)
   const navigate = useNavigate()
 
-  const { permissions } = useUserPermissions()
+  const { hasPermission } = useUserPermissions()
 
   const filteredLinks = useMemo(
     () =>
@@ -27,12 +21,12 @@ const Sidebar: React.FC = () => {
         ...link,
         items: link.items
           .map((el) => {
-            const filteredChild = el.child?.filter((child) => hasPermission(child.permission, permissions))
-            return hasPermission(el.parent.permission, permissions) && filteredChild?.length ? { ...el, child: filteredChild } : null
+            const filteredChild = el.child?.filter((child) => hasPermission(child.permission))
+            return hasPermission(el.parent.permission) && filteredChild?.length ? { ...el, child: filteredChild } : null
           })
           .filter(Boolean),
       })),
-    [allLinks, permissions],
+    [allLinks, hasPermission],
   )
 
   return (
@@ -85,4 +79,4 @@ const Sidebar: React.FC = () => {
   )
 }
 
-export default Sidebar
+export default memo(Sidebar)

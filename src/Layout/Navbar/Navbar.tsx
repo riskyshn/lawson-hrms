@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Navbar as BaseNavbar, Button, NavbarBrand, NavbarNav, useLayout, usePubSub } from 'jobseeker-ui'
 import { Calendar, Menu, Search } from 'lucide-react'
@@ -101,4 +101,4 @@ const Navbar: React.FC = () => {
   )
 }
 
-export default Navbar
+export default memo(Navbar)
