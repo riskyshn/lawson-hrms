@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom'
 
 const candidatesRoute: RouteObject = {
+  path: 'candidates',
   children: [
     { lazy: () => import('@/pages/candidates/pool/index/page'), path: 'pool' },
     { lazy: () => import('@/pages/candidates/management/index/page'), path: 'management' },
@@ -9,10 +10,8 @@ const candidatesRoute: RouteObject = {
     { lazy: () => import('@/pages/candidates/withdraw/index/page'), path: 'withdraw' },
     { lazy: () => import('@/pages/candidates/blacklisted/index/page'), path: 'blacklisted' },
     { lazy: () => import('@/pages/candidates/profile/index/page'), path: 'profile/:candidateId' },
-    { lazy: () => import('@/pages/employees/previous-employee/page'), path: 'previous-employee' },
+    { lazy: () => import('@/pages/candidates/offered/index/page'), path: 'offered' },
   ],
-
-  path: 'candidates',
 }
 
 export default candidatesRoute

@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useMemo } from 'react'
 import { Link, matchPath, useLocation } from 'react-router-dom'
-import { Color, SidebarItemProps } from 'jobseeker-ui'
+import { Color } from 'jobseeker-ui'
 
 type SidebarChildLinkParams = {
   badge?: { color?: Color; show: boolean; text?: string }
   text: string
   to: string
+  permission?: string
   onClick?: React.MouseEventHandler
 }
 
 type SidebarParentLinkParams = { icon: React.ComponentType } & SidebarChildLinkParams
-type SidebarLinkTypes = Array<{ items: Array<SidebarItemProps<typeof Link>>; title?: string }>
 
 export type SidebarLinksOptions = {
   items: Array<{ child?: Array<SidebarChildLinkParams>; parent: SidebarParentLinkParams }>
@@ -27,6 +27,7 @@ const genSidebarLinks = ({ items, title }: SidebarLinksOptions) => {
         onClick: prm.onClick,
         text: prm.text,
         to: prm.to,
+        permission: prm.permission,
       })),
       parent: {
         as: Link,
@@ -35,6 +36,7 @@ const genSidebarLinks = ({ items, title }: SidebarLinksOptions) => {
         onClick: parent.onClick,
         text: parent.text,
         to: parent.to,
+        permission: parent.permission,
       },
     })),
     title,
@@ -48,7 +50,7 @@ export const useLinks = (...items: SidebarLinksOptions[]) => {
     return items.map(genSidebarLinks)
   }, [JSON.stringify(items)])
 
-  return useMemo<SidebarLinkTypes>(() => {
+  return useMemo(() => {
     return links.map(({ items, title }) => {
       const updatedItems = items.map(({ child, parent }) => ({
         child: child?.map((el) => ({

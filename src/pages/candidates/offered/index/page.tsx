@@ -9,7 +9,7 @@ import PreviewPdfResumeModal from '../../components/PreviewPdfResumeModal'
 import PreviewVideoResumeModal from '../../components/PreviewVideoResumeModal'
 import Table from './components/Table'
 
-const CandidateOfferedPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
   const [previewVideoModalUrl, setPreviewVideoModalUrl] = useState<null | string>(null)
   const [previewPdfModalUrl, setPreviewPdfModalUrl] = useState<null | string>(null)
@@ -160,4 +160,4 @@ const CandidateOfferedPage: React.FC = () => {
   )
 }
 
-export default CandidateOfferedPage
+Component.displayName = 'CandidateOfferedPage'
