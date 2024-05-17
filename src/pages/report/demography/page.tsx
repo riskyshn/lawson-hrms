@@ -48,8 +48,19 @@ const fetchData = async (fetchFunction: any) => {
 }
 
 export const Component: React.FC = () => {
-  const todayFormatted = new Date().toISOString().split('T')[0]
-  const defaultStartDate = new Date('1990-01-01').toISOString().split('T')[0]
+  const today = new Date()
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+    return `${year}-${month}-${day}`
+  }
+
+  const todayFormatted = formatDate(lastDayOfMonth)
+  const defaultStartDate = formatDate(firstDayOfMonth)
 
   const [isProvinceLoading, setIsProvinceLoading] = useState(true)
   const [isAgeLoading, setIsAgeLoading] = useState(true)

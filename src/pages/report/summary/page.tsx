@@ -23,9 +23,20 @@ export const Component: React.FC = () => {
   const [dataNumberHired, setDataNumberHired] = useState<IPaginationResponse<INumberOfHiredDataTable>>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
+  const today = new Date()
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+  const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+    const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+    return `${year}-${month}-${day}`
+  }
+
   const [filterDate, setFilterDate] = useState<{ endDate: string; startDate: string }>({
-    endDate: todayFormatted,
-    startDate: todayFormatted,
+    endDate: formatDate(lastDayOfMonth),
+    startDate: formatDate(firstDayOfMonth),
   })
 
   const [activeLabel, setActiveLabel] = useState('Year')
