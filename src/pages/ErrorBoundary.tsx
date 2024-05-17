@@ -4,7 +4,7 @@ import { Button } from 'jobseeker-ui'
 import { useAuthStore } from '@/store'
 import { axiosErrorMessage } from '@/utils'
 
-const MainLayout = lazy(() => import('@/Layout/MainLayout'))
+const MainLayout = lazy(() => import('@/layouts/MainLayout'))
 
 const ErrorBoundary: React.FC = () => {
   const auth = useAuthStore()
