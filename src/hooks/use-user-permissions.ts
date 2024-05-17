@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useMemo } from 'react' // Assuming you're using React
+import { useCallback, useMemo } from 'react' // Assuming you're using React
 import { useAuthStore } from '@/store'
 import { IPermission } from '@/types'
 
@@ -19,8 +19,17 @@ export default function useUserPermissions() {
   const permissions = useMemo(computePermissions, [JSON.stringify(user || null)])
   const actions = useMemo(() => permissions.map((el) => el.name), [JSON.stringify(permissions)])
 
+  const hasPermission = useCallback(
+    (action?: string) => {
+      if (!action) return true // No permission required
+      return actions.includes(action)
+    },
+    [actions],
+  )
+
   return {
     permissions,
     actions,
+    hasPermission,
   }
 }
