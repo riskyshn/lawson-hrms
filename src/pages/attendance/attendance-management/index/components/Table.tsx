@@ -65,6 +65,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
     { children: 'Branch', className: 'text-left' },
     { children: 'Status', className: 'text-center' },
     { children: 'Type', className: 'text-center' },
+    { children: 'Date', className: 'text-center' },
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'Attachment', className: 'text-center' },
@@ -115,6 +116,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
             })
           ),
         className: 'text-center',
+      },
+      {
+        children: formatDate(item.date),
       },
       {
         children:
@@ -331,3 +335,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
 }
 
 export default Table
+
+function formatDate(inputDate: string): string {
+  const date = new Date(inputDate)
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+
+  return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`
+}
