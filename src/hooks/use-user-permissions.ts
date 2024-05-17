@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useMemo } from 'react' // Assuming you're using React
+import { useCallback, useMemo } from 'react'
 import { useAuthStore } from '@/store'
 import { IPermission } from '@/types'
 
