@@ -28,7 +28,7 @@ export const Component: React.FC = () => {
     personalData: {},
   })
 
-  const { activeStep, handleNext, handlePrev, isLastStep } = useSteps(4, {
+  const { activeStep, handleNext, setActiveStep, handlePrev, isLastStep } = useSteps(4, {
     onNext() {
       window.scrollTo({ behavior: 'smooth', top: 0 })
     },
@@ -87,6 +87,7 @@ export const Component: React.FC = () => {
       <Container className="flex flex-col gap-3 py-3 xl:pb-8">
         <Stepper
           activeStep={activeStep}
+          onActivateStep={setActiveStep}
           steps={[
             { details: 'Set Requirement Personal Data', title: 'Personal Data' },
             { details: 'Set Requirement Employment Data', title: 'Employment Data' },
