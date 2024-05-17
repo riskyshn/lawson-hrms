@@ -26,6 +26,7 @@ const schema = yup.object().shape({
     .label('Company Logo'),
   nppNumber: yup.string().required().label('NPP Number'),
   npwpNumber: yup.string().required().label("Company's NPWP Number"),
+  address: yup.string().required().label('Company Address'),
 })
 
 const SettingsCompanyForm: React.FC = () => {
@@ -51,7 +52,8 @@ const SettingsCompanyForm: React.FC = () => {
     setValue('npwpNumber', company.npwpNumber || '')
     setValue('greetingMsg', company.greetingMsg || '')
     setValue('logoUrl', company.logo?.file || '')
-    trigger(['logoUrl', 'nppNumber', 'greetingMsg', 'npwpNumber'])
+    setValue('address', company.address || '')
+    trigger(['logoUrl', 'nppNumber', 'greetingMsg', 'npwpNumber', 'address'])
   }, [company, setValue, trigger])
 
   const onSubmit = handleSubmit(async (data) => {
@@ -123,6 +125,14 @@ const SettingsCompanyForm: React.FC = () => {
           placeholder="Add greeting message here"
           rows={6}
           {...register('greetingMsg')}
+        />
+        <Textarea
+          error={errors.address?.message}
+          label="Company Address"
+          labelRequired
+          placeholder="Example: 2066 Crist Drive in Los Altos, California"
+          rows={6}
+          {...register('address')}
         />
       </CardBody>
 
