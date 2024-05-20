@@ -22,7 +22,10 @@ const Sidebar: React.FC = () => {
         items: link.items
           .map((el) => {
             const filteredChild = el.child?.filter((child) => hasPermission(child.permission))
-            return hasPermission(el.parent.permission) && filteredChild?.length ? { ...el, child: filteredChild } : null
+            if (!el.child) {
+              return hasPermission(el.parent.permission) && { ...el, child: filteredChild }
+            }
+            return filteredChild?.length ? { ...el, child: filteredChild } : null
           })
           .filter(Boolean),
       })),
@@ -62,7 +65,7 @@ const Sidebar: React.FC = () => {
               {items.length > 0 && (
                 <div className="flex w-full flex-col gap-2">
                   {items.map((el, key) => (
-                    <React.Fragment key={key}>{el?.parent && <SidebarItem child={el?.child} parent={el?.parent} />}</React.Fragment>
+                    <React.Fragment key={key}>{el && el?.parent && <SidebarItem child={el?.child} parent={el?.parent} />}</React.Fragment>
                   ))}
                 </div>
               )}
