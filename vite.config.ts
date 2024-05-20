@@ -46,7 +46,12 @@ export default defineConfig({
     rollupOptions,
     sourcemap: process.env.SOURCE_MAP === 'true',
   },
-  plugins: [react(), VitePWA(pwaOptions), replace(replaceOptions)],
+  plugins: [
+    react(),
+    VitePWA(pwaOptions),
+    // @ts-expect-error
+    replace(replaceOptions),
+  ],
   resolve: {
     alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
   },
