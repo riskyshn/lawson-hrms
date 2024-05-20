@@ -2,6 +2,7 @@ import type { ICompany, IUser } from '../types'
 import { create } from 'zustand'
 import { accountService, authService, organizationService } from '../services'
 import { mountStoreDevtool } from '../utils'
+import { useNotificationStore } from './notification.store'
 import { useTokenStore } from './token.store'
 
 interface AuthStore {
@@ -20,6 +21,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
     useTokenStore.getState().setTokens(data)
     const company = await organizationService.fetchCompany()
     set({ company })
+
+    useNotificationStore.getInitialState().init()
   },
 
   logout: () => {
@@ -30,6 +33,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   refreshAuth: async () => {
     const [auth, company] = await Promise.all([accountService.fetchProfile(), organizationService.fetchCompany()])
     set((state) => ({ ...state, company, user: auth.data }))
+
+    useNotificationStore.getInitialState().init()
   },
 
   user: null,

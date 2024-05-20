@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Navbar as BaseNavbar, Button, NavbarBrand, NavbarNav, useLayout, usePubSub } from 'jobseeker-ui'
 import { Calendar, Menu, Search } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { LogoFull } from '@/components'
-import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants/pubsub'
+import { ON_NAVBAR_SEARCH_CLICKED } from '@/constants'
 import { useAuthStore } from '@/store'
 import NavbarInfo from './NavbarInfo'
 import NavbarNotification from './NavbarNotification'
@@ -101,4 +101,4 @@ const Navbar: React.FC = () => {
   )
 }
 
-export default Navbar
+export default memo(Navbar)

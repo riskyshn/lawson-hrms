@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Card, CardBody, CardFooter, Input, InputCheckbox, InputCurrency, LoadingScreen, Select } from 'jobseeker-ui'
 import { HelpCircleIcon } from 'lucide-react'
 import * as yup from 'yup'
-import { BASE_SALARY_TYPE_OPTIONS, EMPLOYEE_TAX_STATUS_OPTIONS, TAX_METHOD_OPTIONS } from '@/constants/options'
+import { BASE_SALARY_TYPE_OPTIONS, EMPLOYEE_TAX_STATUS_OPTIONS, TAX_METHOD_OPTIONS } from '@/constants'
 import { useAsyncAction } from '@/hooks'
 import { payrollService } from '@/services'
 import { numberToCurrency } from '@/utils'
@@ -81,6 +81,7 @@ const PayrollDataForm: React.FC<{
           error={errors.taxMethod?.message}
           hideSearch
           label="Tax Method"
+          placeholder="Tax Method"
           labelRequired
           name="taxMethod"
           onChange={(v) => {
@@ -93,6 +94,7 @@ const PayrollDataForm: React.FC<{
         <InputCurrency
           error={errors.baseSalary?.message}
           label="Base Salary"
+          placeholder="Base Salary"
           labelRequired
           name="baseSalary"
           onValueChange={(v) => {
@@ -106,6 +108,7 @@ const PayrollDataForm: React.FC<{
           error={errors.baseSalaryType?.message}
           hideSearch
           label="Base Salary Type"
+          placeholder="Base Salary Type"
           labelRequired
           name="baseSalaryType"
           onChange={(v) => {
@@ -119,6 +122,7 @@ const PayrollDataForm: React.FC<{
           error={errors.allowOvertime?.message}
           hideSearch
           label="Allow Overtime"
+          placeholder="Allow Overtime"
           labelRequired
           name="allowOvertime"
           onChange={(v) => {
@@ -126,7 +130,7 @@ const PayrollDataForm: React.FC<{
             trigger('allowOvertime')
           }}
           options={options.allowOvertime}
-          value={String(getValues('allowOvertime') || '0')}
+          value={String(getValues('allowOvertime') || '') || undefined}
         />
       </CardBody>
 
@@ -135,10 +139,23 @@ const PayrollDataForm: React.FC<{
           <h3 className="text-lg font-semibold">Bank Information</h3>
           <p className="text-xs text-gray-500">Employee bank information details</p>
         </div>
-        <Input error={errors.bankName?.message} label="Bank Name" labelRequired {...register('bankName')} />
+        <Input error={errors.bankName?.message} label="Bank Name" placeholder="Bank Name" labelRequired {...register('bankName')} />
         <div className="grid grid-cols-2 gap-4">
-          <Input error={errors.accountNumber?.message} label="Account Number" labelRequired {...register('accountNumber')} type="number" />
-          <Input error={errors.accountHolderName?.message} label="Account Holder Name" labelRequired {...register('accountHolderName')} />
+          <Input
+            error={errors.accountNumber?.message}
+            label="Account Number"
+            placeholder="Account Number"
+            labelRequired
+            {...register('accountNumber')}
+            type="number"
+          />
+          <Input
+            error={errors.accountHolderName?.message}
+            label="Account Holder Name"
+            placeholder="Account Holder Name"
+            labelRequired
+            {...register('accountHolderName')}
+          />
         </div>
       </CardBody>
 
@@ -151,6 +168,7 @@ const PayrollDataForm: React.FC<{
           error={errors.employmentTaxStatus?.message}
           hideSearch
           label="Employment Tax Status"
+          placeholder="Employment Tax Status"
           labelRequired
           name="employmentTaxStatus"
           onChange={(v) => {
@@ -161,11 +179,19 @@ const PayrollDataForm: React.FC<{
           value={getValues('employmentTaxStatus')}
         />
         <div className="grid grid-cols-2 gap-4">
-          <Input error={errors.npwpNumber?.message} label="NPWP Number" labelRequired {...register('npwpNumber')} type="number" />
+          <Input
+            error={errors.npwpNumber?.message}
+            label="NPWP Number"
+            placeholder="NPWP Number"
+            labelRequired
+            {...register('npwpNumber')}
+            type="number"
+          />
           <Select
             error={errors.ptkpStatus?.message}
             hideSearch
             label="PTKP Status"
+            placeholder="PTKP Status"
             labelRequired
             name="ptkpStatus"
             onChange={(v) => {
@@ -179,7 +205,7 @@ const PayrollDataForm: React.FC<{
           />
         </div>
 
-        <Input defaultValue={watch('category')} disabled label="Category" name="category" />
+        <Input defaultValue={watch('category')} disabled label="Category" placeholder="Category" name="category" />
       </CardBody>
 
       <LoadingScreen show={!bpjsComponent} />
@@ -193,11 +219,17 @@ const PayrollDataForm: React.FC<{
           <div className="pb-2">
             <h3 className="text-sm font-semibold">Paid by Employer</h3>
             <div className="grid grid-cols-2 gap-4">
-              <Input disabled label="Jaminan Hari Tua (JHT)" value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`} />
+              <Input
+                disabled
+                label="Jaminan Hari Tua (JHT)"
+                placeholder="Jaminan Hari Tua (JHT)"
+                value={`${bpjsComponent?.paidByEmployer?.jht?.rate}%`}
+              />
               <Select
                 error={errors.jkk?.message}
                 hideSearch
                 label="Jaminan Kecelakaan Kerja (JKK)"
+                placeholder="Jaminan Kecelakaan Kerja (JKK)"
                 name="jkk"
                 onChange={(v) => {
                   setValue('jkk', Number(v))
@@ -208,11 +240,17 @@ const PayrollDataForm: React.FC<{
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <Input disabled label="Jaminan Kematian (JKM)" value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`} />
+              <Input
+                disabled
+                label="Jaminan Kematian (JKM)"
+                placeholder="Jaminan Kematian (JKM)"
+                value={`${bpjsComponent?.paidByEmployer?.jkm?.rate}%`}
+              />
               <Input
                 disabled
                 help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jp?.maxCap)}`}
                 label="Jaminan Pensiun (JP)"
+                placeholder="Jaminan Pensiun (JP)"
                 required
                 value={`${bpjsComponent?.paidByEmployer?.jp?.rate}%`}
               />
@@ -222,6 +260,7 @@ const PayrollDataForm: React.FC<{
                 disabled
                 help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployer?.jks?.maxCap)}`}
                 label="Jaminan Kesehatan (KS)"
+                placeholder="Jaminan Kesehatan (KS)"
                 required
                 value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployer?.jks?.rate + '%'}
               />
@@ -238,11 +277,17 @@ const PayrollDataForm: React.FC<{
             <h3 className="text-sm font-semibold">Paid by Employee</h3>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Input disabled label="Jaminan Hari Tua (JHT)" value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`} />
+            <Input
+              disabled
+              label="Jaminan Hari Tua (JHT)"
+              placeholder="Jaminan Hari Tua (JHT)"
+              value={`${bpjsComponent?.paidByEmployee?.jht?.rate}%`}
+            />
             <Input
               disabled
               help={`JP Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jp?.maxCap)}`}
               label="Jaminan Pensiun (JP)"
+              placeholder="Jaminan Pensiun (JP)"
               value={`${bpjsComponent?.paidByEmployee?.jp?.rate}%`}
             />
           </div>
@@ -250,6 +295,7 @@ const PayrollDataForm: React.FC<{
             disabled
             help={`KS Maximum Cap Rp. ${numberToCurrency(bpjsComponent?.paidByEmployee?.jks?.maxCap)}`}
             label="Jaminan Kesehatan (KS)"
+            placeholder="Jaminan Kesehatan (KS)"
             value={watch('notParticipateBpjs') ? '0%' : bpjsComponent?.paidByEmployee?.jks?.rate + '%'}
           />
         </CardBody>

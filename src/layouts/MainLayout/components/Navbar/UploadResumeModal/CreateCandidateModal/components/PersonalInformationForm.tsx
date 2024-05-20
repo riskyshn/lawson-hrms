@@ -6,7 +6,7 @@ import moment from 'moment'
 import { twJoin } from 'tailwind-merge'
 import * as yup from 'yup'
 import { DocumentFileUpload, PhotoProfileFileUpload } from '@/components'
-import { PHONE_REG_EXP } from '@/constants/globals'
+import { PHONE_REG_EXP } from '@/constants'
 import { authService, masterService } from '@/services'
 import { emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
 

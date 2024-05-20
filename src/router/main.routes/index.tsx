@@ -30,7 +30,7 @@ const mainRoutes: RouteObject[] = [
       chatRoute,
       exploreRoute,
     ],
-    lazy: () => import('@/Layout/MainLayout'),
+    lazy: () => import('@/layouts/MainLayout'),
   },
 ]
 
