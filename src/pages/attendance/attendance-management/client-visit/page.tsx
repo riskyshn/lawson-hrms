@@ -82,6 +82,12 @@ export const Component: React.FC = () => {
     }
   }
 
+  const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) return ''
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
+  }
+
   if (pageError) throw pageError
 
   return (
@@ -140,10 +146,9 @@ export const Component: React.FC = () => {
               }}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Attendance</span> in total
+                  {formatDate(filterDate?.startDate)} - {formatDate(filterDate?.endDate)}
                 </>
               }
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
               title="Client Visit List"
             />
           )}
