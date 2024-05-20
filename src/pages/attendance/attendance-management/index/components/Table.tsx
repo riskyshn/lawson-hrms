@@ -65,6 +65,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
     { children: 'Branch', className: 'text-left' },
     { children: 'Status', className: 'text-center' },
     { children: 'Type', className: 'text-center' },
+    { children: 'Date', className: 'text-center' },
     { children: 'Time', className: 'text-center' },
     { children: 'Location', className: 'text-center' },
     { children: 'Attachment', className: 'text-center' },
@@ -115,6 +116,9 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
             })
           ),
         className: 'text-center',
+      },
+      {
+        children: formatDate(item.date),
       },
       {
         children:
@@ -257,8 +261,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                         <Button
                           color="success"
                           disabled={
-                            record.status === 'approved' ||
-                            record.status === 'rejected' ||
+                            item.status === 'approved' ||
+                            item.status === 'rejected' ||
                             latestAttendanceType === 'clock_in' ||
                             latestAttendanceType === 'overtime_in'
                           }
@@ -266,8 +270,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                           size="small"
                           style={{
                             opacity:
-                              record.status === 'approved' ||
-                              record.status === 'rejected' ||
+                              item.status === 'approved' ||
+                              item.status === 'rejected' ||
                               latestAttendanceType === 'clock_in' ||
                               latestAttendanceType === 'overtime_in'
                                 ? 0.5
@@ -278,10 +282,10 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                         </Button>
                         <Button
                           color="error"
-                          disabled={record.status === 'rejected'}
+                          disabled={item.status === 'rejected'}
                           onClick={() => handleViewDetails(item.oid, 'rejected')}
                           size="small"
-                          style={{ opacity: record.status === 'rejected' ? 0.5 : 1 }}
+                          style={{ opacity: item.status === 'rejected' ? 0.5 : 1 }}
                         >
                           <XIcon size={16} />
                         </Button>
@@ -331,3 +335,12 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
 }
 
 export default Table
+
+function formatDate(inputDate: string): string {
+  const date = new Date(inputDate)
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+
+  return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`
+}
