@@ -245,7 +245,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
               </Button>
             </Link>
           ) : (
-            (item.attendanceData ?? []).map((record, index) => {
+            (item.attendanceData ?? []).map((_, index) => {
               if (index % 2 === 0) {
                 let latestAttendanceType = null
                 item.attendanceData?.slice(index, index + 2).forEach((record, recordIndex, array) => {
