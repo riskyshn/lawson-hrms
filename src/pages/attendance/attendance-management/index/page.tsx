@@ -175,7 +175,6 @@ export const Component: React.FC = () => {
                   {formatDate(filterDate?.startDate)} - {formatDate(filterDate?.endDate)}
                 </>
               }
-              subtitleLoading={typeof pageData?.totalElements !== 'number'}
               title="Attendance List"
             />
           )}
