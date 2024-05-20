@@ -4,7 +4,8 @@ import { Sidebar as BaseSidebar, Button, SidebarContent, SidebarHeader, SidebarI
 import { PlusCircle, XIcon } from 'lucide-react'
 import { twJoin } from 'tailwind-merge'
 import { LogoFull } from '@/components'
-import { useLinks, useUserPermissions } from '@/hooks'
+import { useHasPermission } from '@/contexts'
+import { useLinks } from '@/hooks'
 import { hrisLinks, recruitmentLinks, rootLinks, settingsLinks } from '@/sidebar-links'
 
 const Sidebar: React.FC = () => {
@@ -12,7 +13,7 @@ const Sidebar: React.FC = () => {
   const allLinks = useLinks(rootLinks, recruitmentLinks, hrisLinks, settingsLinks)
   const navigate = useNavigate()
 
-  const { hasPermission } = useUserPermissions()
+  const hasPermission = useHasPermission()
 
   const filteredLinks = useMemo(
     () =>

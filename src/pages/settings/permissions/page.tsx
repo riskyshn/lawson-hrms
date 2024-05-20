@@ -2,6 +2,7 @@ import type { IPermission } from '@/types'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button, Container, MainCard, PageHeader } from 'jobseeker-ui'
+import { useHasPermission } from '@/contexts'
 import { useAsyncSearch, usePagination } from '@/hooks'
 import { authorityService } from '@/services'
 import CardHeader from '../components/CardHeader'
@@ -13,6 +14,7 @@ export const Component: React.FC = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [toUpdateSelected, setToUpdateSelected] = useState<IPermission | null>(null)
   const [searchParams] = useSearchParams()
+  const hasPermissions = useHasPermission()
 
   const search = searchParams.get('search')
 
@@ -27,9 +29,11 @@ export const Component: React.FC = () => {
     <>
       <PageHeader
         actions={
-          <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
-            Add New Permission
-          </Button>
+          hasPermissions('create_permissions') && (
+            <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
+              Add New Permission
+            </Button>
+          )
         }
         breadcrumb={[{ text: 'Settings' }, { text: 'Permissions' }]}
         subtitle="Manage Your Company Permission"

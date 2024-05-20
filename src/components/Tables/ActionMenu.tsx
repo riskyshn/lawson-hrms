@@ -4,6 +4,7 @@ import { twJoin } from 'tailwind-merge'
 import { ActionMenuProps } from './types'
 
 export const ActionMenu: React.FC<ActionMenuProps> = ({ children, loading, onClick, text = 'Action', up }) => {
+  if (children?.length == 0) return null
   return (
     <Menu as="div" className="relative">
       <Menu.Button as={Button} block className="text-xs" color="primary" onClick={onClick} size="small" variant="light">
