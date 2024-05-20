@@ -126,7 +126,7 @@ const RunRequestPage: React.FC = () => {
 
           {employees && (
             <CardBody className="grid grid-cols-1 gap-2">
-              <Input error={errors.name?.message} label="Payroll Name" labelRequired placeholder="Payroll March" {...register('name')} />
+              <Input error={errors.name?.message} label="Payroll Name" labelRequired placeholder="Payroll Name" {...register('name')} />
               <InputDateRange
                 displayFormat="DD-MM-YYYY"
                 error={errors.period?.message || errors.period?.startDate?.message || errors.period?.endDate?.message}
