@@ -11,12 +11,13 @@ export type MainTableProps = {
   loading?: boolean
 } & Omit<JSX.IntrinsicElements['table'], 'children'>
 
-export type ActionMenuProps = React.PropsWithChildren<{
+export type ActionMenuProps = {
   loading?: boolean
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   text?: string
   up?: boolean
-}>
+  children?: JSX.Element[]
+}
 
 export type ActionMenuItemProps = {
   action?: React.MouseEventHandler<HTMLButtonElement>

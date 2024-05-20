@@ -2,6 +2,7 @@ import type { IRole } from '@/types'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Button, Container, MainCard, PageHeader } from 'jobseeker-ui'
+import { useHasPermission } from '@/contexts'
 import { useAsyncSearch, usePagination } from '@/hooks'
 import { authorityService } from '@/services'
 import CardHeader from '../components/CardHeader'
@@ -15,6 +16,7 @@ export const Component: React.FC = () => {
   const [toUpdateSelected, setToUpdateSelected] = useState<IRole | null>(null)
   const [toUpdateSelectedPermission, setToUpdateSelectedPermission] = useState<IRole | null>(null)
   const [searchParams] = useSearchParams()
+  const hasPermissions = useHasPermission()
 
   const search = searchParams.get('search')
 
@@ -30,9 +32,11 @@ export const Component: React.FC = () => {
     <>
       <PageHeader
         actions={
-          <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
-            Add New Role
-          </Button>
+          hasPermissions('create_roles') && (
+            <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)}>
+              Add New Role
+            </Button>
+          )
         }
         breadcrumb={[{ text: 'Settings' }, { text: 'Roles' }]}
         subtitle="Manage Your Company Role"

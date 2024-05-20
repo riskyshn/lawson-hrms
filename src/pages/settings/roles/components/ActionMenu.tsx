@@ -3,6 +3,7 @@ import React from 'react'
 import { useConfirm, useToast } from 'jobseeker-ui'
 import { LockIcon, PenToolIcon, TrashIcon } from 'lucide-react'
 import * as Table from '@/components/Tables'
+import { useHasPermission } from '@/contexts'
 import { authorityService } from '@/services'
 
 type ActionMenuProps = {
@@ -26,6 +27,7 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
 }) => {
   const toast = useToast()
   const confirm = useConfirm()
+  const hasPermissions = useHasPermission()
 
   const editRole: Table.ActionMenuItemProps = {
     action() {
@@ -65,13 +67,17 @@ const ActionMenu: React.FC<ActionMenuProps> = ({
     text: 'Delete Role',
   }
 
-  const menus = [editRole, editAccessPolice, deleteRole]
+  const menus = [
+    hasPermissions('update_roles') && editRole,
+    hasPermissions('update_roles') && editAccessPolice,
+    hasPermissions('delete_roles') && deleteRole,
+  ]
 
   return (
     <>
       <Table.ActionMenu up={index >= total - upSpace}>
         {menus.map((item, i) => (
-          <Table.ActionMenuItem key={i} {...item} />
+          <React.Fragment key={i}>{item && <Table.ActionMenuItem {...item} />}</React.Fragment>
         ))}
       </Table.ActionMenu>
     </>
