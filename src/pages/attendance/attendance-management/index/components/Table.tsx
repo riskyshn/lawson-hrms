@@ -283,19 +283,13 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                         <Button
                           color="error"
                           disabled={
-                            item.status === 'approved' ||
-                            item.status === 'rejected' ||
-                            latestAttendanceType === 'clock_in' ||
-                            latestAttendanceType === 'overtime_in'
+                            item.status === 'rejected' || latestAttendanceType === 'clock_in' || latestAttendanceType === 'overtime_in'
                           }
                           onClick={() => handleViewDetails(item.oid, 'rejected')}
                           size="small"
                           style={{
                             opacity:
-                              item.status === 'approved' ||
-                              item.status === 'rejected' ||
-                              latestAttendanceType === 'clock_in' ||
-                              latestAttendanceType === 'overtime_in'
+                              item.status === 'rejected' || latestAttendanceType === 'clock_in' || latestAttendanceType === 'overtime_in'
                                 ? 0.5
                                 : 1,
                           }}
