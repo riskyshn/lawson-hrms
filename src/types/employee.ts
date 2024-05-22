@@ -105,5 +105,7 @@ export interface IEmployee {
     postalCode?: string
     religion?: IGeneralDataEmmbed
     residentalAddress?: string
+    photoProfile?: string
+    emergencyContact?: string
   }
 }

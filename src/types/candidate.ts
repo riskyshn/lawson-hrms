@@ -135,4 +135,5 @@ export interface ICandidateToCreateEmployee {
   religion?: IGeneralDataEmmbed
   videoResume?: string
   videoThumbnail?: string
+  emergencyContact?: string
 }

@@ -30,6 +30,8 @@ export function applicantToFormCreate(applicant: ICandidateToCreateEmployee) {
       postalCode: '',
       religion: emmbedToOption(applicant.religion),
       residentalAddress: '',
+      photoProfile: applicant.photoProfile,
+      emergencyContact: applicant.emergencyContact,
     },
   }
 }
