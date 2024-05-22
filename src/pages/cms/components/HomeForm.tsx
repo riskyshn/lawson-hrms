@@ -218,8 +218,8 @@ const HomeForm: React.FC<IFormProps> = (props) => {
           />
         </InputWrapper>
 
-        <Input error={errors.bannerCallToActionId?.message} label="Call to Action En" labelRequired {...register('bannerCallToActionId')} />
-        <Input error={errors.bannerCallToActionEn?.message} label="Call to Action Id" labelRequired {...register('bannerCallToActionEn')} />
+        <Input error={errors.bannerCallToActionId?.message} label="Call to Action Id" labelRequired {...register('bannerCallToActionId')} />
+        <Input error={errors.bannerCallToActionEn?.message} label="Call to Action En" labelRequired {...register('bannerCallToActionEn')} />
         <Input error={errors.bannerHeadingId?.message} label="Heading Id" labelRequired {...register('bannerHeadingId')} />
         <Input error={errors.bannerHeadingEn?.message} label="Heading En" labelRequired {...register('bannerHeadingEn')} />
       </CardBody>

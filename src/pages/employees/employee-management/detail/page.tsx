@@ -5,6 +5,7 @@ import useEmployeePage from '../hooks/use-employee-page'
 import AttendanceTable from './components/AttendanceTable'
 import EmployeDetailCard from './components/EmployeDetailCard'
 import LeaveTable from './components/LeaveTable'
+import PayrollDetailCard from './components/PayrollDetailCard'
 import ProfileCard from './components/ProfileCard'
 
 export const Component: React.FC = () => {
@@ -58,12 +59,22 @@ export const Component: React.FC = () => {
                 >
                   Leave Request
                 </Link>
+                <Link
+                  className={twMerge(
+                    'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
+                    tab === 'payroll' && 'border-primary-600',
+                  )}
+                  to={`/employees/employee-management/${employee.oid}?tab=payroll`}
+                >
+                  Payroll
+                </Link>
               </div>
             </ProfileCard>
 
             {tab === 'employee-information' && <EmployeDetailCard employee={employee} />}
             {tab === 'attendance' && <AttendanceTable employee={employee} />}
             {tab === 'leave-request' && <LeaveTable employee={employee} />}
+            {tab === 'payroll' && <PayrollDetailCard employee={employee} />}
           </>
         )}
       </Container>
