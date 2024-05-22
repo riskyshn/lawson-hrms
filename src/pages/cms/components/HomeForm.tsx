@@ -28,7 +28,8 @@ const schema = yup.object({
     )
     .url()
     .label('bannerAsset'),
-  bannerCallToAction: yup.string().required().label('bannerCallToAction'),
+  bannerCallToActionId: yup.string().required().label('bannerCallToActionId'),
+  bannerCallToActionEn: yup.string().required().label('bannerCallToActionEn'),
   bannerHeadingEn: yup.string().required().label('bannerHeadingEn'),
 
   bannerHeadingId: yup.string().required().label('bannerHeadingId'),
@@ -217,7 +218,8 @@ const HomeForm: React.FC<IFormProps> = (props) => {
           />
         </InputWrapper>
 
-        <Input error={errors.bannerCallToAction?.message} label="Call to Action" labelRequired {...register('bannerCallToAction')} />
+        <Input error={errors.bannerCallToActionId?.message} label="Call to Action En" labelRequired {...register('bannerCallToActionId')} />
+        <Input error={errors.bannerCallToActionEn?.message} label="Call to Action Id" labelRequired {...register('bannerCallToActionEn')} />
         <Input error={errors.bannerHeadingId?.message} label="Heading Id" labelRequired {...register('bannerHeadingId')} />
         <Input error={errors.bannerHeadingEn?.message} label="Heading En" labelRequired {...register('bannerHeadingEn')} />
       </CardBody>

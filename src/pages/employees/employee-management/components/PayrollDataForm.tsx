@@ -31,6 +31,8 @@ const schema = yup.object({
   npwpNumber: yup.string().length(15).required().label('NPWP Number'),
   ptkpStatus: yup.string().required().label('PTKP Status'),
   taxMethod: yup.string().required().label('Tax Method'),
+  bpjsKesehatanNumber: yup.string().label('BPJS Kesehatan Number'),
+  bpjsKetenagakerjaanNumber: yup.string().label('BPJS Ketenagakerjaan Number'),
 })
 
 const options = {
@@ -217,6 +219,24 @@ const PayrollDataForm: React.FC<{
             <p className="text-xs text-gray-500">Employee BPJS payment arrangements</p>
           </div>
           <div className="pb-2">
+            <div className="mb-3">
+              <Input
+                error={errors.bpjsKesehatanNumber?.message}
+                label="BPJS Kesehatan Number"
+                placeholder="BPJS Kesehatan Number"
+                {...register('bpjsKesehatanNumber')}
+                type="number"
+              />
+            </div>
+            <div className="mb-3">
+              <Input
+                error={errors.bpjsKetenagakerjaanNumber?.message}
+                label="BPJS Ketenagakerjaan Number"
+                placeholder="BPJS Ketenagakerjaan Number"
+                {...register('bpjsKetenagakerjaanNumber')}
+                type="number"
+              />
+            </div>
             <h3 className="text-sm font-semibold">Paid by Employer</h3>
             <div className="grid grid-cols-2 gap-4">
               <Input

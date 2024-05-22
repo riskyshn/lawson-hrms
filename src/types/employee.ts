@@ -66,6 +66,8 @@ export interface IEmployee {
     baseSalary?: number
     baseSalaryType?: IGeneralDataEmmbed
     bpjs?: {
+      bpjsKetenagakerjaanNumber: string
+      bpjsKesehatanNumber: string
       paidByEmployee?: {
         jht?: { maxCap?: number; rate?: number }
         jkk?: { maxCap?: number; rate?: number }
