@@ -282,10 +282,17 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange }) => {
                         </Button>
                         <Button
                           color="error"
-                          disabled={item.status === 'rejected'}
+                          disabled={
+                            item.status === 'rejected' || latestAttendanceType === 'clock_in' || latestAttendanceType === 'overtime_in'
+                          }
                           onClick={() => handleViewDetails(item.oid, 'rejected')}
                           size="small"
-                          style={{ opacity: item.status === 'rejected' ? 0.5 : 1 }}
+                          style={{
+                            opacity:
+                              item.status === 'rejected' || latestAttendanceType === 'clock_in' || latestAttendanceType === 'overtime_in'
+                                ? 0.5
+                                : 1,
+                          }}
                         >
                           <XIcon size={16} />
                         </Button>
