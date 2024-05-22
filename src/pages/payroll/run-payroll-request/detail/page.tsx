@@ -1,12 +1,12 @@
 import type { IPayrollRequest } from '@/types'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Button, Card, CardHeader, Container, LoadingScreen, PageHeader } from 'jobseeker-ui'
+import { useParams } from 'react-router-dom'
+import { Card, CardHeader, Container, LoadingScreen, PageHeader } from 'jobseeker-ui'
 import { AlertOctagonIcon } from 'lucide-react'
 import { payrollService } from '@/services'
 import PayrollRequestDetail from '../../components/PayrollRequestDetail'
 
-const DetailPayrollRequestPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [pageData, setPageData] = useState<IPayrollRequest>()
   const [pageError, setPageError] = useState<any>()
 
@@ -14,15 +14,28 @@ const DetailPayrollRequestPage: React.FC = () => {
 
   useEffect(() => {
     if (!payrollRequestId) return
-    const load = async () => {
+
+    const load = async (oid: string) => {
       try {
-        const data = await payrollService.fetchPayrollRequest(payrollRequestId)
+        const data = await payrollService.fetchPayrollRequest(oid)
         setPageData(data)
+        return data
       } catch (e) {
         setPageError(e)
       }
     }
-    load()
+
+    load(payrollRequestId)
+    const timer = setInterval(async () => {
+      const data = await load(payrollRequestId)
+      if (data?.statusRunner !== 'WAITING' && data?.statusRunner !== 'ON_PROGRESS') {
+        clearInterval(timer)
+      }
+    }, 3000)
+
+    return () => {
+      clearInterval(timer)
+    }
   }, [payrollRequestId])
 
   if (pageError) throw pageError
@@ -30,11 +43,6 @@ const DetailPayrollRequestPage: React.FC = () => {
   return (
     <>
       <PageHeader
-        actions={
-          <Button as={Link} color="error" to="/payroll/payroll-request" variant="light">
-            Back
-          </Button>
-        }
         breadcrumb={[{ text: 'Payroll' }, { text: 'Run Payroll Request' }, { text: 'Detail' }]}
         subtitle="You can review or manage employee payroll components."
         title="Detail Payroll Request"
@@ -76,10 +84,10 @@ const DetailPayrollRequestPage: React.FC = () => {
           </Card>
         )}
 
-        {pageData && pageData.statusRunner == 'COMPLETED' && <PayrollRequestDetail item={pageData} showApprover />}
+        {pageData && pageData.statusRunner == 'COMPLETED' && <PayrollRequestDetail item={pageData} showRequestApproval />}
       </Container>
     </>
   )
 }
 
-export default DetailPayrollRequestPage
+Component.displayName = 'DetailRunRequestPage'

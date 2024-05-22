@@ -39,7 +39,7 @@ const schema = yup.object().shape({
     .label('Start Period'),
 })
 
-const RunRequestPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [showSelectEmployeeModal, setShowSelectEmployeeModal] = useState(false)
   const [employees, setEmployees] = useState<IDataTableEmployee[]>()
   const [pageError, setPageError] = useState<any>()
@@ -200,4 +200,4 @@ const RunRequestPage: React.FC = () => {
   )
 }
 
-export default RunRequestPage
+Component.displayName = 'RunRequestPage'

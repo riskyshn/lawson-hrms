@@ -4,7 +4,7 @@ import { useAsyncSearch, usePagination } from '@/hooks'
 import { payrollService } from '@/services'
 import Table from './components/Table'
 
-const GeneratedPayrollRequestPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
@@ -64,4 +64,4 @@ const GeneratedPayrollRequestPage: React.FC = () => {
   )
 }
 
-export default GeneratedPayrollRequestPage
+Component.displayName = 'GeneratedPayrollRequestPage'
