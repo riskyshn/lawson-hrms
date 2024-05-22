@@ -29,7 +29,7 @@ export default function formDataToPayload(data: any) {
       positionId: employment.position.value,
       roleId: employment.role.value,
       scheduleId: employment.schedule.value,
-      joinedAt: employment.joinedAt,
+      joinedAt: moment(employment.joinedAt).format('YYYY-MM-DD'),
     },
     name: personalData.name,
     payroll: {
