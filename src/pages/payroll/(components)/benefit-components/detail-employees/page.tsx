@@ -4,24 +4,25 @@ import { useAsyncSearch, usePagination } from '@/hooks'
 import { employeeService } from '@/services'
 import Table from '../../components/DetailEmployees/Table'
 
-const DetailAppliedDeductionEmployeesPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { componentId } = useParams()
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
+
   const { isLoading, onRefresh, pageData } = useAsyncSearch(employeeService.fetchPreviousEmployees, { limit: 20 }, search)
 
   const pagination = usePagination({
     params: { search },
-    pathname: `/payroll/deduction-components/${componentId}/employees`,
+    pathname: `/payroll/benefit-components/${componentId}/employees`,
     totalPage: pageData?.totalPages,
   })
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Payroll' }, { text: 'Deduction Components' }, { text: 'Employees have Deduction' }]}
-        title="Employees have Deduction"
+        breadcrumb={[{ text: 'Payroll' }, { text: 'Benefit Components' }, { text: 'Employees have Benefit' }]}
+        title="Employees have Benefit"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
@@ -54,4 +55,4 @@ const DetailAppliedDeductionEmployeesPage: React.FC = () => {
   )
 }
 
-export default DetailAppliedDeductionEmployeesPage
+Component.displayName = 'DetailAppliedBenefitEmployeesPage'

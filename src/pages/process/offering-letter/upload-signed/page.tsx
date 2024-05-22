@@ -25,7 +25,7 @@ const schema = yup.object({
     .label('Document'),
 })
 
-const UploadSignedOfferingLetterPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { applicantId } = useParams()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -97,4 +97,4 @@ const UploadSignedOfferingLetterPage: React.FC = () => {
   )
 }
 
-export default UploadSignedOfferingLetterPage
+Component.displayName = 'UploadSignedOfferingLetterPage'

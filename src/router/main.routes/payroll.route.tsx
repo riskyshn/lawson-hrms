@@ -1,80 +1,39 @@
 import type { RouteObject } from 'react-router-dom'
-import BenefitComponentsPage from '@/pages/payroll/(components)/benefit-components/BenefitComponentsPage'
-import DetailAppliedBenefitEmployeesPage from '@/pages/payroll/(components)/benefit-components/detail-employees/DetailAppliedBenefitEmployeesPage'
-import BpjsComponentPage from '@/pages/payroll/(components)/bpjs-component/BpjsComponentPage'
-import DeductionComponentsPage from '@/pages/payroll/(components)/deduction-components/DeductionComponentsPage'
-import DetailAppliedDeductionEmployeesPage from '@/pages/payroll/(components)/deduction-components/detail-employees/DetailAppliedDeductionEmployeesPage'
-import GeneratedPayrollRequestPage from '@/pages/payroll/generated-payroll-request/GeneratedPayrollRequestPage'
-import DetailPayrollRequestPage from '@/pages/payroll/payroll-request/detail/DetailPayrollRequestPage'
-import PayrollRequestPage from '@/pages/payroll/payroll-request/index/PayrollRequestPage'
-import DetailRunRequestPage from '@/pages/payroll/run-payroll-request/detail/DetailRunRequestPage'
-import RunRequestPage from '@/pages/payroll/run-payroll-request/index/RunRequestPage'
 
 const payrollRoute: RouteObject = {
+  path: 'payroll',
   children: [
+    { path: 'bpjs-component', lazy: () => import('@/pages/payroll/(components)/bpjs-component/page') },
     {
-      element: <BpjsComponentPage />,
-      path: 'bpjs-component',
-    },
-    {
-      children: [
-        {
-          element: <BenefitComponentsPage />,
-          path: '',
-        },
-        {
-          element: <DetailAppliedBenefitEmployeesPage />,
-          path: ':componentId/employees',
-        },
-      ],
       path: 'benefit-components',
+      children: [
+        { path: '', lazy: () => import('@/pages/payroll/(components)/benefit-components/page') },
+        { path: ':componentId/employees', lazy: () => import('@/pages/payroll/(components)/benefit-components/detail-employees/page') },
+      ],
     },
     {
-      children: [
-        {
-          element: <DeductionComponentsPage />,
-          path: '',
-        },
-        {
-          element: <DetailAppliedDeductionEmployeesPage />,
-          path: ':componentId/employees',
-        },
-      ],
       path: 'deduction-components',
+      children: [
+        { path: '', lazy: () => import('@/pages/payroll/(components)/deduction-components/page') },
+        { path: ':componentId/employees', lazy: () => import('@/pages/payroll/(components)/deduction-components/detail-employees/page') },
+      ],
     },
     {
-      children: [
-        {
-          element: <RunRequestPage />,
-          path: '',
-        },
-        {
-          element: <DetailRunRequestPage />,
-          path: ':payrollRequestId',
-        },
-      ],
       path: 'run-payroll-request',
-    },
-    {
-      element: <GeneratedPayrollRequestPage />,
-      path: 'generated-payroll-request',
-    },
-    {
       children: [
-        {
-          element: <PayrollRequestPage />,
-          path: '',
-        },
-        {
-          element: <DetailPayrollRequestPage />,
-          path: ':payrollRequestId',
-        },
+        { path: '', lazy: () => import('@/pages/payroll/run-payroll-request/index/page') },
+        { path: ':payrollRequestId', lazy: () => import('@/pages/payroll/run-payroll-request/detail/page') },
       ],
+    },
+    { path: 'generated-payroll-request', lazy: () => import('@/pages/payroll/generated-payroll-request/page') },
+    {
       path: 'payroll-request',
+      children: [
+        { path: '', lazy: () => import('@/pages/payroll/payroll-request/index/page') },
+        { path: ':payrollRequestId', lazy: () => import('@/pages/payroll/payroll-request/detail/page') },
+      ],
     },
   ],
-
-  path: 'payroll',
 }
 
 export default payrollRoute

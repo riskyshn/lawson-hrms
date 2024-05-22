@@ -12,7 +12,7 @@
      ```sh
      git clone https://github.com/jobseeker-company/[REPO_NAME].git
      ```
-   - Replace `REPO_NAME` with the repository name..
+   - Replace `REPO_NAME` with the repository name.
 
 ### How to Run
 
@@ -23,12 +23,15 @@ Ensure you have the following software installed:
 1. **Node.js**:
    - Minimum required version: 18
    - Download and install from [nodejs.org](https://nodejs.org/).
-2. **npm**:
-   - Minimum required version: 6 (comes with Node.js)
+2. **pnpm**:
+   - Install pnpm globally using npm:
+     ```sh
+     npm install -g pnpm
+     ```
    - Verify installation by running:
      ```sh
      node -v
-     npm -v
+     pnpm -v
      ```
 
 #### Steps to Run
@@ -42,9 +45,9 @@ Ensure you have the following software installed:
 
 2. **Install Dependencies**:
 
-   - Install the required dependencies using npm:
+   - Install the required dependencies using pnpm:
      ```sh
-     npm install
+     pnpm install
      ```
 
 3. **Environment Configuration**:
@@ -59,7 +62,7 @@ Ensure you have the following software installed:
 
    - Run the following command to start the development server:
      ```sh
-     npm run dev
+     pnpm run dev
      ```
    - This will start the server and you can access the application in your browser at `http://localhost:5173/` or the port specified in your environment configuration.
 
@@ -67,14 +70,14 @@ Ensure you have the following software installed:
 
    - To create an optimized production build, run:
      ```sh
-     npm run build
+     pnpm run build
      ```
    - This will generate a `dist` directory containing your production-ready files.
 
 6. **Preview the Production Build**:
    - To preview the production build locally, you can run:
      ```sh
-     npm run preview
+     pnpm run preview
      ```
    - This will start a local server that serves the files from the `dist` directory.
 
@@ -83,17 +86,17 @@ Ensure you have the following software installed:
 - **Hot Module Replacement (HMR)**: This application supports HMR out of the box. Any changes you make to the source code will automatically be reflected in the browser without needing a manual refresh.
 - **Linting and Formatting**: Ensure code quality by running linting and formatting commands:
   ```sh
-  npm run lint
-  npm run format
+  pnpm run lint
+  pnpm run format
   ```
 
 ### Troubleshooting
 
-- If you encounter any issues while installing dependencies, try deleting the `node_modules` directory and the `package-lock.json` file, then reinstalling:
+- If you encounter any issues while installing dependencies, try deleting the `node_modules` directory and the `pnpm-lock.yaml` file, then reinstalling:
 
   ```sh
-  rm -rf node_modules package-lock.json
-  npm install
+  rm -rf node_modules pnpm-lock.yaml
+  pnpm install
   ```
 
 - For issues related to environment variables, ensure your `.env` file is correctly set up and all required variables are defined.

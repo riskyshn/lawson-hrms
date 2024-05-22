@@ -2,7 +2,7 @@ import process from 'node:process'
 import { fileURLToPath, URL } from 'url'
 import replace, { RollupReplaceOptions } from '@rollup/plugin-replace'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, PluginOption } from 'vite'
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
 import manifest from './config/manifest'
 import rollupOptions from './config/rollupOptions'
@@ -46,12 +46,7 @@ export default defineConfig({
     rollupOptions,
     sourcemap: process.env.SOURCE_MAP === 'true',
   },
-  plugins: [
-    react(),
-    VitePWA(pwaOptions),
-    // @ts-expect-error
-    replace(replaceOptions),
-  ],
+  plugins: [react(), VitePWA(pwaOptions), replace(replaceOptions) as PluginOption],
   resolve: {
     alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
   },

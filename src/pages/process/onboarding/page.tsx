@@ -1,15 +1,11 @@
-import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { AsyncSelect, Button, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
-import { SettingsIcon } from 'lucide-react'
+import { AsyncSelect, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
 import { useAsyncSearch, useOptionSearchParam, usePagination } from '@/hooks'
 import { organizationService, processService, vacancyService } from '@/services'
-import Table from '../../components/Table'
-import SetupOfferingLetterModal from './components/SetupOfferingLetterModal'
+import Table from '../components/Table'
 
-const OfferingLetterPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
-  const [showSetupOfferingLetterModal, setShowSetupOfferingLetterModal] = useState(false)
 
   const search = searchParams.get('search')
   const [vacancy, setVacancy, rawVacancy] = useOptionSearchParam('vacancy')
@@ -17,40 +13,23 @@ const OfferingLetterPage: React.FC = () => {
 
   const { isLoading, onRefresh, pageData } = useAsyncSearch(
     processService.fetchProcess,
-    { limit: 20, stageName: stage?.value, type: 'OFFERING', vacancyId: vacancy?.value },
+    { limit: 20, stageName: stage?.value, type: 'ONBOARDING', vacancyId: vacancy?.value },
     search,
   )
 
   const pagination = usePagination({
     params: { search, state: rawStage, vacancy: rawVacancy },
-    pathname: '/process/offering-letter',
+    pathname: '/process/onboarding',
     totalPage: pageData?.totalPages,
   })
 
   return (
     <>
-      <PageHeader
-        actions={
-          <Button
-            className="text-gray-600"
-            color="primary"
-            leftChild={<SettingsIcon size={16} />}
-            onClick={() => setShowSetupOfferingLetterModal(true)}
-            type="button"
-            variant="light"
-          >
-            Setup Offering Letter
-          </Button>
-        }
-        breadcrumb={[{ text: 'Process' }, { text: 'Offering Letter' }]}
-        title="Offering Letter"
-      />
-
-      <SetupOfferingLetterModal onClose={() => setShowSetupOfferingLetterModal(false)} show={showSetupOfferingLetterModal} />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Onboarding' }]} title="Onboarding" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="OFFERING" />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="ONBOARDING" />}
           footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
@@ -96,4 +75,4 @@ const OfferingLetterPage: React.FC = () => {
   )
 }
 
-export default OfferingLetterPage
+Component.displayName = 'OnboardingPage'

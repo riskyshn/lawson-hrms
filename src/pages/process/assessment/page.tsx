@@ -4,7 +4,7 @@ import { useAsyncSearch, useOptionSearchParam, usePagination } from '@/hooks'
 import { organizationService, processService, vacancyService } from '@/services'
 import Table from '../components/Table'
 
-const AssessmentPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
@@ -75,4 +75,4 @@ const AssessmentPage: React.FC = () => {
   )
 }
 
-export default AssessmentPage
+Component.displayName = 'AssessmentPage'

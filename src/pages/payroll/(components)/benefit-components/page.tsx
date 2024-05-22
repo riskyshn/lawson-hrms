@@ -7,16 +7,16 @@ import { payrollService } from '@/services'
 import CreateModal from '../components/CreateModal'
 import Table from '../components/Table'
 
-const DeductionComponentsPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
   const [showCreateModal, setShowCreateModal] = useState(false)
 
   const search = searchParams.get('search')
 
-  const { pageData, isLoading, onRefresh } = useAsyncSearch(payrollService.fetchDeductionComponents, { limit: 20 }, search)
+  const { pageData, isLoading, onRefresh } = useAsyncSearch(payrollService.fetchBenefitComponents, { limit: 20 }, search)
   const pagination = usePagination({
     params: { search },
-    pathname: '/payroll/deduction-components',
+    pathname: '/payroll/benefit-components',
     totalPage: pageData?.totalPages,
   })
 
@@ -36,19 +36,19 @@ const DeductionComponentsPage: React.FC = () => {
               BPJS Component
             </Button>
             <Button className="ml-3" color="primary" onClick={() => setShowCreateModal(true)} type="button">
-              Create Deduction
+              Create Benefit
             </Button>
           </>
         }
-        breadcrumb={[{ text: 'Payroll' }, { text: 'Deduction Components' }]}
-        title="Deduction Components"
+        breadcrumb={[{ text: 'Payroll' }, { text: 'Benefit Components' }]}
+        title="Benefit Components"
       />
 
-      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={onRefresh} show={showCreateModal} type="DEDUCTION" />
+      <CreateModal onClose={() => setShowCreateModal(false)} onCreated={onRefresh} show={showCreateModal} type="BENEFIT" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="DEDUCTION" />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="BENEFIT" />}
           footer={pagination.render()}
           header={
             <MainCardHeader
@@ -72,4 +72,4 @@ const DeductionComponentsPage: React.FC = () => {
   )
 }
 
-export default DeductionComponentsPage
+Component.displayName = 'BenefitComponentsPage'

@@ -5,7 +5,8 @@ import { payrollService } from '@/services'
 import { axiosErrorMessage, numberToCurrency } from '@/utils'
 
 const jkkOptions = [0.24, 0.54, 0.89, 1.27, 1.74].map((el) => ({ label: el + '%', value: String(el) }))
-const BpjsComponentPage: React.FC = () => {
+
+export const Component: React.FC = () => {
   const [jkk, setJkk] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -108,4 +109,4 @@ const BpjsComponentPage: React.FC = () => {
   )
 }
 
-export default BpjsComponentPage
+Component.displayName = 'BpjsComponentPage'

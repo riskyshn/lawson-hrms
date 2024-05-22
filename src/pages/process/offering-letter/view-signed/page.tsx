@@ -4,7 +4,7 @@ import { useAsyncAction } from '@/hooks'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 
-const ViewSignedPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { applicantId } = useParams()
   const toast = useToast()
 
@@ -46,4 +46,4 @@ const ViewSignedPage: React.FC = () => {
   )
 }
 
-export default ViewSignedPage
+Component.displayName = 'ViewSignedPage'

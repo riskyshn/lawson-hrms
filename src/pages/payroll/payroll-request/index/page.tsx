@@ -1,33 +1,37 @@
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
 import { useAsyncSearch, usePagination } from '@/hooks'
-import { employeeService } from '@/services'
-import Table from '../../components/DetailEmployees/Table'
+import { payrollService } from '@/services'
+import Table from './components/Table'
 
-const DetailAppliedBenefitEmployeesPage: React.FC = () => {
-  const { componentId } = useParams()
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
 
-  const { isLoading, onRefresh, pageData } = useAsyncSearch(employeeService.fetchPreviousEmployees, { limit: 20 }, search)
+  const { isLoading, onRefresh, pageData } = useAsyncSearch(
+    payrollService.fetchPayrollRequests,
+    { limit: 20, statusRunner: 'COMPLETED' },
+    search,
+  )
 
   const pagination = usePagination({
     params: { search },
-    pathname: `/payroll/benefit-components/${componentId}/employees`,
+    pathname: '/payroll/payroll-request',
     totalPage: pageData?.totalPages,
   })
 
   return (
     <>
       <PageHeader
-        breadcrumb={[{ text: 'Payroll' }, { text: 'Benefit Components' }, { text: 'Employees have Benefit' }]}
-        title="Employees have Benefit"
+        breadcrumb={[{ text: 'Payroll' }, { text: 'Payroll Requests' }]}
+        subtitle="Manage and view all payroll requests"
+        title="Payroll Requests"
       />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          body={<Table items={(pageData?.content as any) || []} loading={isLoading} onRefresh={onRefresh} />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} />}
           footer={pagination.render()}
           header={
             <MainCardHeader
@@ -42,11 +46,16 @@ const DetailAppliedBenefitEmployeesPage: React.FC = () => {
               }}
               subtitle={
                 <>
-                  You have <span className="text-primary-600">{pageData?.totalElements} Employee</span> in total
+                  You have{' '}
+                  <span className="text-primary-600">
+                    {pageData?.totalElements || 0} Payroll Request
+                    {pageData?.totalElements !== 1 ? 's' : ''}
+                  </span>{' '}
+                  in total
                 </>
               }
               subtitleLoading={typeof pageData?.totalElements !== 'number'}
-              title="Employee List"
+              title="Payroll Request List"
             />
           }
         />
@@ -55,4 +64,4 @@ const DetailAppliedBenefitEmployeesPage: React.FC = () => {
   )
 }
 
-export default DetailAppliedBenefitEmployeesPage
+Component.displayName = 'PayrollRequestPage'

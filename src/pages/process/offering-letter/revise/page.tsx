@@ -55,7 +55,7 @@ const processFormData = (data: Record<string, Record<string, any>>) => {
   return obj
 }
 
-const ReviseOfferingLetterPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { applicantId } = useParams()
   const navigate = useNavigate()
   const toast = useToast()
@@ -139,4 +139,4 @@ const ReviseOfferingLetterPage: React.FC = () => {
   )
 }
 
-export default ReviseOfferingLetterPage
+Component.displayName = 'ReviseOfferingLetterPage'
