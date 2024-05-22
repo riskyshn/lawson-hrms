@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { AsyncSelect, Button, Card, CardBody, CardFooter, Input } from 'jobseeker-ui'
+import { AsyncSelect, Button, Card, CardBody, CardFooter, Input, InputDate } from 'jobseeker-ui'
 import * as yup from 'yup'
 import { attendanceService, authorityService, employeeService, organizationService } from '@/services'
 import { emmbedToOptions, genYupOption, yupOptionError } from '@/utils'
@@ -16,6 +16,7 @@ const schema = yup.object({
   position: genYupOption('Position').required(),
   role: genYupOption('Role').required(),
   schedule: genYupOption('Schedule').required(),
+  startDate: yup.date().max(new Date()).required().label('StartDate'),
 })
 
 const EmploymentDataForm: React.FC<{
@@ -35,7 +36,6 @@ const EmploymentDataForm: React.FC<{
     resolver: yupResolver(schema),
   })
   const onSubmit = async (data: any) => {
-    console.log('Form data:', data) // Log the form data
     handleSubmit(props.handleSubmit)(data) // Call props.handleSubmit with the form data
   }
 
@@ -169,6 +169,17 @@ const EmploymentDataForm: React.FC<{
             value={getValues('schedule')}
           />
         </div>
+        <InputDate
+          displayFormat="DD/MM/YYYY"
+          error={errors.startDate?.message}
+          label="Start Date"
+          labelRequired
+          onValueChange={(v) => {
+            setValue('startDate', v)
+            trigger('startDate')
+          }}
+          value={getValues('startDate')}
+        />
       </CardBody>
 
       <CardFooter className="gap-3">

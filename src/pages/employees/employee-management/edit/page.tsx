@@ -36,7 +36,6 @@ export const Component: React.FC = () => {
 
     const load = async () => {
       const values = await employeeToFormEdit(employee)
-      console.log(values)
       setFormValues(values)
       setIsLoaded(true)
     }

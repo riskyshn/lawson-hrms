@@ -53,6 +53,17 @@ const schema = yup.object({
     )
     .url()
     .label('National ID'),
+  photoProfile: yup
+    .string()
+    .required()
+    .test('is-loading', '${label} is still uploading', (value) => value !== PROGRESS_KEY)
+    .test(
+      'is-error',
+      ({ value }) => value.replace(ERROR_PREFIX_KEY, ''),
+      (value) => !value.startsWith(ERROR_PREFIX_KEY),
+    )
+    .url()
+    .label('Photo Profile'),
   maritalStatus: genYupOption('Marital Status').required(),
   name: yup.string().required().label('Name'),
 
@@ -80,6 +91,7 @@ const schema = yup.object({
   postalCode: yup.string().length(5).label('Postal Code'),
   religion: genYupOption('Religion').required(),
   residentalAddress: yup.string().label('Residental Address'),
+  emergencyContact: yup.string().label('Emergency Contact'),
 })
 
 const PersonalDataForm: React.FC<{
@@ -118,6 +130,25 @@ const PersonalDataForm: React.FC<{
           <h3 className="text-lg font-semibold">Personal Data</h3>
           <p className="text-xs text-gray-500">Fill all employee personal basic information data</p>
         </div>
+
+        <InputWrapper error={errors.photoProfile?.message} label="Photo Profile" labelRequired>
+          <ImageFileUpload
+            error={errors.photoProfile?.message}
+            onChange={(value) => {
+              setValue('photoProfile', value)
+              trigger('photoProfile')
+            }}
+            onError={(message) => {
+              setValue('photoProfile', ERROR_PREFIX_KEY + message)
+              trigger('photoProfile')
+            }}
+            onStart={() => {
+              setValue('photoProfile', PROGRESS_KEY)
+            }}
+            type="candidate-photo-profile"
+            value={getValues('photoProfile')}
+          />
+        </InputWrapper>
 
         <Input error={errors.name?.message} label="Name" labelRequired placeholder="Employee Name" {...register('name')} />
 
@@ -302,6 +333,13 @@ const PersonalDataForm: React.FC<{
         >
           Same as National ID Address
         </InputCheckbox>
+        <Input
+          error={errors.emergencyContact?.message}
+          label="Emergency Contact"
+          placeholder="Emergency Contact"
+          {...register('emergencyContact')}
+          type="number"
+        />
       </CardBody>
 
       <CardFooter>

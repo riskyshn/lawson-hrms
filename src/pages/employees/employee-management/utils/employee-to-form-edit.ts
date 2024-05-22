@@ -67,6 +67,8 @@ export async function employeeToFormEdit(employee: IEmployee) {
       postalCode: employee.personalData?.postalCode || '',
       religion: emmbedToOption(employee.personalData?.religion),
       residentalAddress: employee.personalData?.residentalAddress || '',
+      photoProfile: employee.personalData?.photoProfile || '',
+      emergencyContact: employee.personalData?.emergencyContact || '',
     },
   }
 }
