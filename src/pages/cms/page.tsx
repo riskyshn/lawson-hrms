@@ -29,7 +29,8 @@ export const Component: React.FC = () => {
 
         const homeData = {
           bannerAsset: data.banner?.asset || '',
-          bannerCallToAction: data.banner?.callToAction || '',
+          bannerCallToActionId: data.banner?.callToAction?.id || '',
+          bannerCallToActionEn: data.banner?.callToAction?.en || '',
           bannerHeadingEn: data.banner?.heading?.en || '',
 
           bannerHeadingId: data.banner?.heading?.id || '',
@@ -114,7 +115,10 @@ export const Component: React.FC = () => {
         id: data.homeData?.sectionBParagraphId,
       },
       bannerAsset: data.homeData?.bannerAsset,
-      bannerCallToAction: data.homeData?.bannerCallToAction,
+      bannerCallToAction: {
+        en: data.homeData?.bannerCallToActionEn,
+        id: data.homeData?.bannerHeadingId,
+      },
       bannerHeading: {
         en: data.homeData?.bannerHeadingEn,
         id: data.homeData?.bannerHeadingId,
