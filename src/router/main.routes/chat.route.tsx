@@ -1,10 +1,5 @@
 import type { RouteObject } from 'react-router-dom'
-import ChatPage from '@/pages/chat/index/ChatPage'
 
-const chatRoute: RouteObject = {
-  element: <ChatPage />,
-
-  path: 'chat',
-}
+const chatRoute: RouteObject = { path: 'chat', lazy: () => import('@/pages/chat/page') }
 
 export default chatRoute

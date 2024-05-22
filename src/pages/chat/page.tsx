@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Container, Input, PageHeader } from 'jobseeker-ui'
 import { SearchIcon, SendIcon } from 'lucide-react'
 
-const ChatPage: React.FC = () => {
+export const Component: React.FC = () => {
   const users = [
     { id: 1, name: 'John Doe' },
     { id: 2, name: 'Jane Smith' },
@@ -112,4 +112,4 @@ const ChatPage: React.FC = () => {
   )
 }
 
-export default ChatPage
+Component.displayName = 'ChatPage'
