@@ -16,7 +16,7 @@ const schema = yup.object({
   position: genYupOption('Position').required(),
   role: genYupOption('Role').required(),
   schedule: genYupOption('Schedule').required(),
-  startDate: yup.date().max(new Date()).required().label('StartDate'),
+  joinedAt: yup.date().max(new Date()).required().label('Join At'),
 })
 
 const EmploymentDataForm: React.FC<{
@@ -171,14 +171,14 @@ const EmploymentDataForm: React.FC<{
         </div>
         <InputDate
           displayFormat="DD/MM/YYYY"
-          error={errors.startDate?.message}
-          label="Start Date"
+          error={errors.joinedAt?.message}
+          label="Join At"
           labelRequired
           onValueChange={(v) => {
-            setValue('startDate', v)
-            trigger('startDate')
+            setValue('joinedAt', v)
+            trigger('joinedAt')
           }}
-          value={getValues('startDate')}
+          value={getValues('joinedAt')}
         />
       </CardBody>
 

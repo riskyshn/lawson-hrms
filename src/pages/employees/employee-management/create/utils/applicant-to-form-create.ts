@@ -13,6 +13,7 @@ export function applicantToFormCreate(applicant: ICandidateToCreateEmployee) {
       position: emmbedToOption(),
       role: emmbedToOption(),
       schedule: emmbedToOption(),
+      joinedAt: applicant.joinedAt,
     },
     payroll: {},
     personalData: {
