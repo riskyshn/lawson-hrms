@@ -29,6 +29,7 @@ export default function formDataToPayload(data: any) {
       positionId: employment.position.value,
       roleId: employment.role.value,
       scheduleId: employment.schedule.value,
+      joinedAt: employment.joinedAt,
     },
     name: personalData.name,
     payroll: {
@@ -52,6 +53,8 @@ export default function formDataToPayload(data: any) {
       postalCode: personalData.postalCode,
       religionId: personalData.religion.value,
       residentalAddress: personalData.residentalAddress,
+      photoProfile: personalData.photoProfile,
+      emergencyContact: personalData.emergencyContact,
     },
   }
 

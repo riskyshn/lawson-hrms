@@ -136,4 +136,5 @@ export interface ICandidateToCreateEmployee {
   videoResume?: string
   videoThumbnail?: string
   emergencyContact?: string
+  joinedAt?: string
 }
