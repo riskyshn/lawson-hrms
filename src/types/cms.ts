@@ -41,7 +41,10 @@ export interface ICms {
       en?: string
       id?: string
     }
-    callToAction?: string
+    callToAction?: {
+      en?: string
+      id?: string
+    }
   }
   findJob?: {
     asset?: string
@@ -84,7 +87,8 @@ export interface ICms {
 
 export interface IHomeData {
   bannerAsset?: string
-  bannerCallToAction?: string
+  bannerCallToActionEn?: string
+  bannerCallToActionId?: string
   bannerHeadingEn?: string
   bannerHeadingId?: string
   heroAsset?: string
