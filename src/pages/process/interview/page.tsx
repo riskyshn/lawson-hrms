@@ -4,7 +4,7 @@ import { useAsyncSearch, useOptionSearchParam, usePagination } from '@/hooks'
 import { organizationService, processService, vacancyService } from '@/services'
 import Table from '../components/Table'
 
-const OnboardingPage: React.FC = () => {
+export const Component: React.FC = () => {
   const [searchParams, setSearchParam] = useSearchParams()
 
   const search = searchParams.get('search')
@@ -13,23 +13,23 @@ const OnboardingPage: React.FC = () => {
 
   const { isLoading, onRefresh, pageData } = useAsyncSearch(
     processService.fetchProcess,
-    { limit: 20, stageName: stage?.value, type: 'ONBOARDING', vacancyId: vacancy?.value },
+    { limit: 20, stageName: stage?.value, type: 'INTERVIEW', vacancyId: vacancy?.value },
     search,
   )
 
   const pagination = usePagination({
     params: { search, state: rawStage, vacancy: rawVacancy },
-    pathname: '/process/onboarding',
+    pathname: '/process/interview',
     totalPage: pageData?.totalPages,
   })
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Onboarding' }]} title="Onboarding" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Interview' }]} title="Interview" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="ONBOARDING" />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="ASSESSMENT" />}
           footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
@@ -75,4 +75,4 @@ const OnboardingPage: React.FC = () => {
   )
 }
 
-export default OnboardingPage
+Component.displayName = 'InterviewPage'

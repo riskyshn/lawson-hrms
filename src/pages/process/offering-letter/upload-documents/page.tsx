@@ -1,12 +1,12 @@
 import type { IDocumentRequest } from '@/types'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { Container, PageHeader, Spinner, Stepper, useSteps, useToast } from 'jobseeker-ui'
 import { organizationService, processService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 import UploadDocument from './components/UploadDocument'
 
-const UploadDocumentsPage = () => {
+export const Component: React.FC = () => {
   const [documentRequests, setDocumentRequests] = useState<IDocumentRequest[]>()
   const [errorPage, setErrorPage] = useState<any>()
   const { applicantId } = useParams()
@@ -119,4 +119,4 @@ const UploadDocumentsPage = () => {
   )
 }
 
-export default UploadDocumentsPage
+Component.displayName = 'UploadDocumentsPage'

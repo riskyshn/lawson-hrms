@@ -5,7 +5,7 @@ import { useAsyncAction } from '@/hooks'
 import { processService } from '@/services'
 import { axiosErrorMessage } from '@/utils'
 
-const PreviewOfferingLetterPage: React.FC = () => {
+export const Component: React.FC = () => {
   const { applicantId } = useParams()
   const [previewUrl, setPreviewUrl] = useState<string>()
   const toast = useToast()
@@ -59,4 +59,4 @@ const PreviewOfferingLetterPage: React.FC = () => {
   )
 }
 
-export default PreviewOfferingLetterPage
+Component.displayName = 'PreviewOfferingLetterPage'
