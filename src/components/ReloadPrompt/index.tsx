@@ -32,10 +32,7 @@ export const ReloadPrompt: React.FC = () => {
 
   return (
     <div
-      className={twMerge(
-        'fixed bottom-3 right-3 z-[9999999] w-full max-w-sm transition-all',
-        !needRefresh && 'pointer-events-none opacity-0',
-      )}
+      className={twMerge('fixed bottom-3 right-3 z-[90] w-full max-w-sm transition-all', !needRefresh && 'pointer-events-none opacity-0')}
     >
       <div className="flex w-full flex-col gap-3 rounded-lg border border-gray-200 bg-white p-3 shadow-2xl">
         <h3 className="text-lg font-semibold">New content available</h3>
