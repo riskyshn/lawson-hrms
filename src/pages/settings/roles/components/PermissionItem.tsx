@@ -25,7 +25,7 @@ const PermissionItem: React.FC<PropType> = ({ groupName, permissions, setValue, 
         {permissions?.map((el) => (
           <div className="flex items-center justify-between p-3 odd:bg-gray-50" key={el.oid}>
             <span className="block text-sm font-semibold">{el.name}</span>
-            <Switch checked={value.includes(el.oid)} color="primary" onChange={(value) => handleCheck(value, el.oid)} />
+            <Switch value={value.includes(el.oid)} color="primary" onChange={(value) => handleCheck(value, el.oid)} />
           </div>
         ))}
       </CardBody>
