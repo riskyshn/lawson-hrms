@@ -11,15 +11,9 @@ const Card: React.FC<{
   onClick?: () => void
   value?: number | string
 }> = ({ className = 'bg-white', label, onClick, value }) => {
-  const isClickable = label !== 'Check In' && label !== 'Absent'
-
   return (
     <div
-      className={twJoin(
-        'flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center',
-        className,
-        isClickable ? 'cursor-pointer' : 'cursor-default',
-      )}
+      className={twJoin('flex flex-col items-center justify-center rounded-lg px-3 py-4 text-center', className, 'cursor-pointer')}
       onClick={onClick}
     >
       <span className="mb-2 block text-2xl font-semibold">{value}</span>
@@ -71,6 +65,12 @@ const StatisticCards: React.FC<{ filterDate?: IFilterDate; onChangeData?: string
     }
     if (title === 'All Employee') {
       navigate(`/attendance/attendance-management/attendance`)
+    }
+    if (title === 'Absent') {
+      navigate(`/attendance/attendance-management/attendance?log_type=absent`)
+    }
+    if (title === 'Check In') {
+      navigate(`/attendance/attendance-management/attendance?log_type=attendance`)
     }
   }
 

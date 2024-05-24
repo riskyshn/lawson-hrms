@@ -25,6 +25,7 @@ export const Component: React.FC = () => {
 
   const isLate = searchParams.get('is_late') || undefined
   const [isInOffice, setIsInOffice] = useState<string | undefined>(searchParams.get('in_office') || undefined)
+  const logType = searchParams.get('log_type') || ''
 
   const [branch, setBranch, rawBranch] = useOptionSearchParam('branch')
 
@@ -43,7 +44,7 @@ export const Component: React.FC = () => {
       try {
         const data = await attendanceService.fetchAttendanceManagement(
           {
-            log_type: '',
+            log_type: logType,
             branch_id: branch?.value,
             end_date: filterDate?.endDate,
             is_in_office: isInOffice,
@@ -68,7 +69,7 @@ export const Component: React.FC = () => {
     return () => {
       controller.abort()
     }
-  }, [search, pagination.currentPage, branch?.value, filterDate, onChangeData, isLate, isInOffice])
+  }, [search, pagination.currentPage, branch?.value, filterDate, onChangeData, isLate, isInOffice, logType])
 
   const handleInOfficeChange = (value: string) => {
     setIsInOffice(value)
