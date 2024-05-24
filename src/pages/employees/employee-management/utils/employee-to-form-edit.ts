@@ -39,6 +39,8 @@ export async function employeeToFormEdit(employee: IEmployee) {
       joinedAt: new Date(employee.employment?.joinedAt || new Date()),
     },
     payroll: {
+      bpjsKesehatanNumber: employee.payroll?.bpjs?.bpjsKesehatanNumber,
+      bpjsKetenagakerjaanNumber: employee.payroll?.bpjs?.bpjsKetenagakerjaanNumber,
       accountHolderName: employee.payroll?.bank?.accountHolderName || '',
       accountNumber: employee.payroll?.bank?.accountNumber || '',
       allowOvertime: employee.payroll?.allowOvertime ? 1 : 0,

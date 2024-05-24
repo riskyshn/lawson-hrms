@@ -38,7 +38,15 @@ export const Component: React.FC = () => {
     const load = async () => {
       try {
         const data = await payrollService.fetchBpjsComponent()
-        setFormValues({ ...formValues, payroll: { ...formValues.payroll, jkk: data.paidByEmployer?.jkk?.rate } })
+        setFormValues({
+          ...formValues,
+          payroll: {
+            ...formValues.payroll,
+            jkk: data.paidByEmployer?.jkk?.rate,
+            bpjsKesehatanNumber: data.bpjsKesehatanNumber,
+            bpjsKetenagakerjaanNumber: data.bpjsKetenagakerjaanNumber,
+          },
+        })
       } catch (e) {
         setPageError(e)
       }

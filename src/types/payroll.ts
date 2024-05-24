@@ -2,6 +2,8 @@ import { IDataTableEmployee } from './employee'
 import { IGeneralDataEmmbed } from './shared'
 
 export interface IBPJSComponent {
+  bpjsKesehatanNumber: string
+  bpjsKetenagakerjaanNumber: string
   bpjsComponentId: string
   paidByEmployee?: {
     jht?: { maxCap?: number; rate?: number }
