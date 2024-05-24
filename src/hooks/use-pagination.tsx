@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom'
-import { Pagination, PaginationItem } from 'jobseeker-ui'
+import { Pagination, PaginationItem, useDeepCompareEffect } from 'jobseeker-ui'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import useAllQueryParams from './use-all-query-params'
 
 export type UsePaginationOptions = {
   params?: Record<string, any>
@@ -11,9 +12,18 @@ export type UsePaginationOptions = {
 }
 
 export function usePagination({ params, pathname, queryKey = 'page', totalPage: _totalPage, totalRender = 5 }: UsePaginationOptions) {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParam] = useSearchParams()
   const currentPage = Number(searchParams.get(queryKey) || 1)
   const totalPage = _totalPage || 0
+
+  const allQueryParams = useAllQueryParams('page')
+
+  useDeepCompareEffect(() => {
+    if (currentPage !== 1) {
+      searchParams.delete('page')
+      setSearchParam(searchParams)
+    }
+  }, [allQueryParams])
 
   const calculateStartAndEndPages = () => {
     let startPage = 1
