@@ -14,7 +14,7 @@ const settingsLinks: SidebarLinksOptions = {
         { text: 'Employment Status', to: '/settings/employment-status' },
         { text: 'Document Request', to: '/settings/document-request' },
         { text: 'Role', to: '/settings/roles', permission: 'read_roles' },
-        { text: 'Permissions', to: '/settings/permissions', permission: 'read_permissions' },
+        // { text: 'Permissions', to: '/settings/permissions', permission: 'read_permissions' },
         { text: 'Work Placement', to: '/settings/work-placements' },
       ],
       parent: { icon: SettingsIcon, text: 'Settings', to: '/settings' },

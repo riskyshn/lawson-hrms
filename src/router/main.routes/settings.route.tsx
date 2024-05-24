@@ -10,7 +10,7 @@ const settingsRoute: RouteObject = {
     { lazy: () => import('@/pages/settings/employment-status/page'), path: 'employment-status' },
     { lazy: () => import('@/pages/settings/document-request/page'), path: 'document-request' },
     { lazy: () => import('@/pages/settings/roles/page'), path: 'roles' },
-    { lazy: () => import('@/pages/settings/permissions/page'), path: 'permissions' },
+    // { lazy: () => import('@/pages/settings/permissions/page'), path: 'permissions' },
     { lazy: () => import('@/pages/settings/work-placements/page'), path: 'work-placements' },
   ],
 
