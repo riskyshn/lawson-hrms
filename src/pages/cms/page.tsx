@@ -54,6 +54,7 @@ export const Component: React.FC = () => {
         const jobData = {
           backgroundColor: data.generalSettings?.backgroundColor || '',
           callToActionColor: data.generalSettings?.callToActionColor || '',
+          textButtonColor: data.generalSettings?.textButtonColor || '',
           findJobAsset: data.findJob?.asset || '',
 
           findJobHeadingEn: data.findJob?.heading?.en || '',
@@ -153,6 +154,7 @@ export const Component: React.FC = () => {
       },
       settingBackgroundColor: data.jobData?.backgroundColor,
       settingCallToActionColor: data.jobData?.callToActionColor,
+      settingTextButtonColor: data.jobData?.textButtonColor,
       settingFont: '-',
       settingHeadingColor: data.jobData?.headingColor,
       settingParagraphColor: data.jobData?.paragraphColor,

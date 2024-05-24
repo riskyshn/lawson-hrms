@@ -79,6 +79,7 @@ export interface ICms {
     font?: string
     backgroundColor?: string
     callToActionColor?: string
+    textButtonColor?: string
     headingColor?: string
     subheadingColor?: string
     paragraphColor?: string
@@ -109,6 +110,7 @@ export interface IHomeData {
 export interface IJobData {
   backgroundColor?: string
   callToActionColor?: string
+  textButtonColor?: string
   findJobAsset?: string
   findJobHeadingEn?: string
   findJobHeadingId?: string

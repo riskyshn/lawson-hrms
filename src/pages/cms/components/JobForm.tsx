@@ -20,6 +20,7 @@ const schema = yup.object({
   backgroundColor: yup.string().required().label('backgroundColor'),
 
   callToActionColor: yup.string().required().label('callToActionColor'),
+  textButtonColor: yup.string().required().label('textButtonColor'),
   findJobAsset: yup
     .string()
     .required()
@@ -172,6 +173,7 @@ const JobForm: React.FC<IFormProps> = (props) => {
           type="color"
           {...register('callToActionColor')}
         />
+        <Input error={errors.textButtonColor?.message} label="Text in Button" labelRequired type="color" {...register('textButtonColor')} />
         <Input error={errors.headingColor?.message} label="Heading" labelRequired type="color" {...register('headingColor')} />
         <Input error={errors.subheadingColor?.message} label="Subheading" labelRequired type="color" {...register('subheadingColor')} />
         <Input error={errors.paragraphColor?.message} label="Paragraph" labelRequired type="color" {...register('paragraphColor')} />
