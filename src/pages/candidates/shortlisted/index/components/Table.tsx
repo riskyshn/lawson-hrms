@@ -1,4 +1,4 @@
-import type { ICandidate } from '@/types'
+import type { IApplicantDataTable } from '@/types'
 import React from 'react'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
@@ -6,7 +6,7 @@ import { MainTable } from '@/components'
 import MenuList from '../../../components/MenuList'
 
 type PropTypes = {
-  items: ICandidate[]
+  items: IApplicantDataTable[]
   loading?: boolean
   onDataChange: (data: string) => void
   setPreviewPdfModalUrl: (url: string) => void

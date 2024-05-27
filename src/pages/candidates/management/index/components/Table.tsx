@@ -1,4 +1,4 @@
-import type { ICandidate } from '@/types'
+import type { IApplicantDataTable } from '@/types'
 import React, { useState } from 'react'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
@@ -7,7 +7,7 @@ import MenuList from '../../../components/MenuList'
 import CandidateMatchModal from './CandidateMatchModal'
 
 type PropTypes = {
-  items: ICandidate[]
+  items: IApplicantDataTable[]
   loading?: boolean
   onDataChange: (data: string) => void
   setPreviewPdfModalUrl: (url: string) => void
@@ -15,12 +15,12 @@ type PropTypes = {
 }
 
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPdfModalUrl, setPreviewVideoModalUrl }) => {
-  const [selectedCandidate, setSelectedCandidate] = useState<ICandidate>()
+  const [selectedCandidate, setSelectedCandidate] = useState<IApplicantDataTable>()
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState<'CandidateMatch' | 'MoveAnotherVacancy' | 'Process' | 'ViewHistory' | null>(null)
   const options = ['Process', 'Move to Another Vacancy', 'Shortlist', 'View History', 'Blacklist', 'View Profile', 'Reject']
 
-  const handleViewDetails = (candidate: ICandidate, option: string) => {
+  const handleViewDetails = (candidate: IApplicantDataTable, option: string) => {
     setSelectedCandidate(candidate)
     if (option === 'Candidate Match') {
       setModalType('CandidateMatch')
@@ -28,7 +28,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
     }
   }
 
-  const renderMatchButton = (candidate: ICandidate) => {
+  const renderMatchButton = (candidate: IApplicantDataTable) => {
     const matchPercentage = candidate.matchPercentage || 0
     let bgClass, textClass
 

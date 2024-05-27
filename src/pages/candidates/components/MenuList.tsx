@@ -1,4 +1,4 @@
-import type { ICandidate } from '@/types'
+import type { IApplicantDataTable } from '@/types'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Menu } from '@headlessui/react'
@@ -30,7 +30,7 @@ import ApplyVacancyModal from './ApplyVacancyModal'
 import ViewHistoryModal from './ViewHistoryModal'
 
 interface MenuListProps {
-  item: ICandidate
+  item: IApplicantDataTable
   onApplyVacancy: (data: string) => void
   options: string[]
 }
@@ -139,7 +139,7 @@ const MenuList: React.FC<MenuListProps> = ({ item, onApplyVacancy, options }) =>
           <ProcessModal
             applicant={{
               candidate: { email: item.candidate.email, name: item.candidate.name, oid: item.candidate.oid },
-              oid: item.candidate.oid,
+              oid: item.oid,
             }}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}

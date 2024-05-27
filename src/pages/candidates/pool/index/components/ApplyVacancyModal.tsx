@@ -1,10 +1,10 @@
-import type { IApplicantDataTable, IVacancy } from '@/types'
+import type { ICandidate, IVacancy } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { Button, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobseeker-ui'
 import { candidateService } from '@/services'
 
 type ApplyVacancyModalProps = {
-  item: IApplicantDataTable
+  item: ICandidate
   onApplyVacancy: (data: string) => void
   onClose: () => void
   show: boolean
@@ -23,7 +23,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ item, onApplyVaca
 
   const fetchVacancies = async () => {
     try {
-      const data = await candidateService.fetchVacanciesCandidate(item?.candidate.oid || '')
+      const data = await candidateService.fetchVacanciesCandidate(item?.oid || '')
       setVacancies(data.content)
     } catch (error) {
       console.error('Error fetching vacancies:', error)
@@ -40,7 +40,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ item, onApplyVaca
     }
 
     const payload = {
-      candidateId: item?.candidate.oid,
+      candidateId: item?.oid,
       vacancyId: selectedVacancyId,
     }
 
