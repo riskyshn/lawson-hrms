@@ -118,7 +118,7 @@ export const Component: React.FC = () => {
       bannerAsset: data.homeData?.bannerAsset,
       bannerCallToAction: {
         en: data.homeData?.bannerCallToActionEn,
-        id: data.homeData?.bannerHeadingId,
+        id: data.homeData?.bannerCallToActionId,
       },
       bannerHeading: {
         en: data.homeData?.bannerHeadingEn,
