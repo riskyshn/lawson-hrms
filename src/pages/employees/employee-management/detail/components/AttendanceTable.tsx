@@ -32,10 +32,10 @@ const AttendanceTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   })
 
   const headerItems = [
-    { children: 'Date', className: 'text-left' },
-    { children: 'Type', className: 'text-left' },
-    { children: 'Time', className: 'text-left' },
-    { children: 'Status', className: 'text-left' },
+    { children: 'Date', className: 'text-center' },
+    { children: 'Type', className: 'text-center' },
+    { children: 'Time', className: 'text-center' },
+    { children: 'Status', className: 'text-center' },
     { children: 'Location' },
     { children: 'Attachment' },
   ]
