@@ -35,7 +35,7 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
   const bodyItems = pageData?.content.map((item) => ({
     items: [
       {
-        children: item.createdAt || '',
+        children: formatDate(item.createdAt || '') || '',
       },
       {
         children: item.startDate || '',
@@ -80,6 +80,19 @@ const LeaveTable: React.FC<{ employee: IEmployee }> = ({ employee }) => {
       <CardFooter className="justify-center">{pagination.render()}</CardFooter>
     </Card>
   )
+}
+
+function formatDate(inputDate: string): string {
+  if (!inputDate) {
+    return ''
+  }
+
+  const date = new Date(inputDate)
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const year = date.getFullYear()
+
+  return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`
 }
 
 export default LeaveTable
