@@ -18,11 +18,13 @@ export function genOptions(items: ([number | string, string] | string)[]) {
   })
 }
 
-export function genYupOption(label: string) {
-  return yup
-    .object()
-    .shape({ label: yup.string(), value: yup.string().label(label).required() })
-    .label(label)
+export function genYupOption(label: string, options?: { required?: boolean }) {
+  const { required = true } = options || {}
+  const value = required
+    ? yup.string().label(label).required()
+    : (yup.string().label(label).optional().default('') as unknown as yup.StringSchema<string, yup.AnyObject, undefined, ''>)
+
+  return yup.object({ label: yup.string(), value }).label(label)
 }
 
 export function yupOptionError(item: any) {
