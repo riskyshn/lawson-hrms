@@ -54,6 +54,7 @@ export interface IEmployee {
     role?: IGeneralDataEmmbed
     schedule?: IGeneralDataEmmbed
     joinedAt?: string
+    workingPeriod?: string
   }
   name?: string
   oid: string

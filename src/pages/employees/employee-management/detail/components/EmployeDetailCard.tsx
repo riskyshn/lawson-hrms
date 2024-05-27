@@ -60,6 +60,11 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
                 <td className="p-3">:</td>
                 <td className="w-full p-3">{employee.personalData?.numberOfChildren}</td>
               </tr>
+              <tr className="odd:bg-gray-50">
+                <th className="whitespace-nowrap p-3 text-left">Emergency Contact</th>
+                <td className="p-3">:</td>
+                <td className="w-full p-3">{employee.personalData?.emergencyContact}</td>
+              </tr>
             </tbody>
           </table>
         </CardBody>
@@ -167,6 +172,16 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
                 <th className="whitespace-nowrap p-3 text-left">Schedule</th>
                 <td className="p-3">:</td>
                 <td className="w-full p-3">{employee.employment?.schedule?.name}</td>
+              </tr>
+              <tr className="odd:bg-gray-50">
+                <th className="whitespace-nowrap p-3 text-left">Join Date</th>
+                <td className="p-3">:</td>
+                <td className="w-full p-3">{formatDate(employee.employment?.joinedAt || '')}</td>
+              </tr>
+              <tr className="odd:bg-gray-50">
+                <th className="whitespace-nowrap p-3 text-left">Working Period</th>
+                <td className="p-3">:</td>
+                <td className="w-full p-3">{employee.employment?.workingPeriod}</td>
               </tr>
             </tbody>
           </table>
@@ -276,6 +291,16 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
           <table className="table w-full text-sm">
             <tbody>
               <tr className="odd:bg-gray-50">
+                <th className="whitespace-nowrap p-3 text-left">BPJS Ketenagakerjaan</th>
+                <td className="p-3">:</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.bpjsKetenagakerjaanNumber || 0}</td>
+              </tr>
+              <tr>
+                <th className="whitespace-nowrap p-3 text-left">BPJS Kesehatan</th>
+                <td className="p-3">:</td>
+                <td className="w-full p-3">{employee.payroll?.bpjs?.bpjsKesehatanNumber || 0}</td>
+              </tr>
+              <tr className="odd:bg-gray-50">
                 <th className="whitespace-nowrap border-b p-3 text-left" colSpan={3}>
                   Paid by Employer
                 </th>
@@ -334,6 +359,10 @@ const EmployeDetailCard: React.FC<{ employee: IEmployee }> = ({ employee }) => {
 }
 
 function formatDate(inputDate: string): string {
+  if (!inputDate) {
+    return ''
+  }
+
   const date = new Date(inputDate)
   const day = date.getDate()
   const month = date.getMonth() + 1
