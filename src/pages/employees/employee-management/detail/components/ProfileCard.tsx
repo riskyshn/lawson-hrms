@@ -20,7 +20,12 @@ const ProfileCard: React.FC<PropType> = ({ children, employee }) => {
     <Card>
       <CardBody className="flex gap-3">
         <div className="flex">
-          <Avatar className="flex bg-primary-100 text-2xl text-primary-700" name={employee.name || ''} size={md ? 128 : 64} />
+          <Avatar
+            src={employee.personalData?.photoProfile}
+            className="flex bg-primary-100 text-2xl text-primary-700"
+            name={employee.name || ''}
+            size={md ? 128 : 64}
+          />
         </div>
         <div className="flex flex-1 flex-col gap-3 lg:flex-row">
           <div className="flex-1">
