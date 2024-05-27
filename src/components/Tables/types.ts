@@ -4,11 +4,16 @@ import { LucideIcon } from 'lucide-react'
 export type MainTableProps = {
   bodyItems: Array<
     {
+      checkItem?: string
       items?: Array<JSX.IntrinsicElements['td']>
     } & JSX.IntrinsicElements['tr']
   >
   headerItems: Array<JSX.IntrinsicElements['th']>
   loading?: boolean
+  checkedItems?: string[]
+  areAllChecked?: boolean
+  setCheckedItems?: (items: string[]) => void
+  toggleCheckAll?: (check: boolean) => void
 } & Omit<JSX.IntrinsicElements['table'], 'children'>
 
 export type ActionMenuProps = {
