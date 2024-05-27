@@ -15,7 +15,6 @@ type PropTypes = {
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPdfModalUrl, setPreviewVideoModalUrl }) => {
   const options = ['Apply to Vacancy', 'View History', 'View Profile']
 
-  console.log(items)
   const bodyItems = items.map((item) => ({
     items: [
       {
