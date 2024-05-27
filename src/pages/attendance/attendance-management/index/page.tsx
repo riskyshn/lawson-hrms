@@ -18,19 +18,21 @@ export const Component: React.FC = () => {
   const [pageData, setPageData] = useState<IPaginationResponse<IEmployeeHistoryAttendance>>()
   const [pageError, setPageError] = useState<any>()
   const todayFormatted = new Date().toISOString().split('T')[0]
+  const startDate = searchParams.get('startDate') || undefined
+  const endDate = searchParams.get('endDate') || undefined
   const [filterDate, setFilterDate] = useState({
-    endDate: searchParams.get('endDate') || todayFormatted,
-    startDate: searchParams.get('startDate') || todayFormatted,
+    startDate: startDate || todayFormatted,
+    endDate: endDate || todayFormatted,
   })
 
-  const isLate = searchParams.get('is_late') || undefined
-  const [isInOffice, setIsInOffice] = useState<string | undefined>(searchParams.get('in_office') || undefined)
-  const logType = searchParams.get('log_type') || ''
+  const isLate = searchParams.get('isLate') || undefined
+  const [isInOffice, setIsInOffice] = useState<string | undefined>(searchParams.get('inOffice') || undefined)
+  const logType = searchParams.get('logType') || ''
 
   const [branch, setBranch, rawBranch] = useOptionSearchParam('branch')
 
   const pagination = usePagination({
-    params: { branch: rawBranch, search },
+    params: { branch: rawBranch, search, logType, isLate, isInOffice, startDate, endDate },
     pathname: '/attendance/attendance-management/attendance',
     totalPage: pageData?.totalPages,
   })
@@ -74,7 +76,7 @@ export const Component: React.FC = () => {
   const handleInOfficeChange = (value: string) => {
     setIsInOffice(value)
     setSearchParam((prev) => {
-      prev.set('in_office', value)
+      prev.set('inOffice', value)
       return prev
     })
   }
