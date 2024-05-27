@@ -27,7 +27,7 @@ export const Component: React.FC = () => {
   const toast = useToast()
 
   const [searchParams, setSearchParam] = useSearchParams()
-  const [isInOffice, setIsInOffice] = useState<string | undefined>(searchParams.get('in_office') || undefined)
+  const [isInOffice, setIsInOffice] = useState<string | undefined>(searchParams.get('inOffice') || undefined)
   const tab = searchParams.get('tab') || 'clock'
 
   const pagination = usePagination({
@@ -158,7 +158,7 @@ export const Component: React.FC = () => {
   const handleInOfficeChange = (value: string) => {
     setIsInOffice(value)
     setSearchParam((prev) => {
-      prev.set('in_office', value)
+      prev.set('inOffice', value)
       return prev
     })
   }

@@ -58,19 +58,27 @@ const StatisticCards: React.FC<{ filterDate?: IFilterDate; onChangeData?: string
       )
     }
     if (title === 'Late') {
-      navigate(`/attendance/attendance-management/attendance?is_late=1`)
+      navigate(
+        `/attendance/attendance-management/attendance?isLate=1&startDate=${filterDate?.startDate || ''}&endDate=${filterDate?.endDate || ''}`,
+      )
     }
     if (title === 'On Time') {
-      navigate(`/attendance/attendance-management/attendance?is_late=0`)
+      navigate(
+        `/attendance/attendance-management/attendance?isLate=0&startDate=${filterDate?.startDate || ''}&endDate=${filterDate?.endDate || ''}`,
+      )
     }
     if (title === 'All Employee') {
-      navigate(`/attendance/attendance-management/attendance`)
+      navigate(`/attendance/attendance-management/attendance?startDate=${filterDate?.startDate || ''}&endDate=${filterDate?.endDate || ''}`)
     }
     if (title === 'Absent') {
-      navigate(`/attendance/attendance-management/attendance?log_type=absent`)
+      navigate(
+        `/attendance/attendance-management/attendance?logType=absent&startDate=${filterDate?.startDate || ''}&endDate=${filterDate?.endDate || ''}`,
+      )
     }
     if (title === 'Check In') {
-      navigate(`/attendance/attendance-management/attendance?log_type=attendance`)
+      navigate(
+        `/attendance/attendance-management/attendance?logType=attendance&startDate=${filterDate?.startDate || ''}&endDate=${filterDate?.endDate || ''}`,
+      )
     }
   }
 
