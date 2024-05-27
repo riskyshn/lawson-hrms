@@ -86,7 +86,7 @@ const schema = yup.object({
     })
     .label('RR Number'),
   vacancyName: yup.string().required().label('Position Name'),
-  workplacementType: genYupOption('Workplacement Type').optional(),
+  workplacementType: genYupOption('Workplacement Type').required(),
 })
 
 const VacancyInformationForm: React.FC<{
