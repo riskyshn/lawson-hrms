@@ -4,13 +4,13 @@ import { Button, Modal, ModalFooter, ModalHeader, Select, useToast } from 'jobse
 import { candidateService } from '@/services'
 
 type ApplyVacancyModalProps = {
-  candidate: ICandidate
+  item: ICandidate
   onApplyVacancy: (data: string) => void
   onClose: () => void
   show: boolean
 }
 
-const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ candidate, onApplyVacancy, onClose, show }) => {
+const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ item, onApplyVacancy, onClose, show }) => {
   const [selectedVacancyId, setSelectedVacancyId] = useState<string>('')
   const [vacancies, setVacancies] = useState<IVacancy[]>([])
   const toast = useToast()
@@ -23,7 +23,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ candidate, onAppl
 
   const fetchVacancies = async () => {
     try {
-      const data = await candidateService.fetchVacanciesCandidate(candidate?.candidateId || '')
+      const data = await candidateService.fetchVacanciesCandidate(item?.candidate.oid || '')
       setVacancies(data.content)
     } catch (error) {
       console.error('Error fetching vacancies:', error)
@@ -40,7 +40,7 @@ const ApplyVacancyModal: React.FC<ApplyVacancyModalProps> = ({ candidate, onAppl
     }
 
     const payload = {
-      candidateId: candidate?.candidateId,
+      candidateId: item?.candidate.oid,
       vacancyId: selectedVacancyId,
     }
 

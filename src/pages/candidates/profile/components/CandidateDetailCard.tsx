@@ -32,47 +32,49 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Expected Salary</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.expectedSalary ? numberToCurrency(parseFloat(items?.expectedSalary)) : '-'}</td>
+                      <td className="w-full p-3">
+                        {items?.candidate.expectedSalary ? numberToCurrency(parseFloat(items?.candidate.expectedSalary)) : '-'}
+                      </td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Full Name</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.name || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.name || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">NIK</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.nik || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.nik || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Email</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.email || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.email || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Phone Number</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.phone || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.phone || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Date of Birth</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.birthdate || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.birthdate || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Gender</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.gender || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.gender || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Province</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.province || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.province || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">City</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.city || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.city || '-'}</td>
                     </tr>
                   </>
                 )}
@@ -81,9 +83,9 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Last Education</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.lastEducation || '-'}</td>
+                      <td className="w-full p-3">{items?.candidate.lastEducation || '-'}</td>
                     </tr>
-                    {items?.educations?.map((education, index) => (
+                    {items?.candidate.educations.map((education, index) => (
                       <React.Fragment key={index}>
                         <tr className="odd:bg-gray-50">
                           <th className="whitespace-nowrap p-3 text-left">Institution Name</th>
@@ -110,13 +112,15 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
                           <td className="p-3">:</td>
                           <td className="w-full p-3">{formatDate(education.graduateDate) || '-'}</td>
                         </tr>
-                        {items?.educations && items?.educations.length > 1 && index !== items?.educations.length - 1 && (
-                          <tr className="h-10 odd:bg-gray-50">
-                            <th className="whitespace-nowrap p-3 text-left"></th>
-                            <td className="p-3"></td>
-                            <td className="w-full p-3"></td>
-                          </tr>
-                        )}
+                        {items?.candidate.educations &&
+                          items?.candidate.educations.length > 1 &&
+                          index !== items?.candidate.educations.length - 1 && (
+                            <tr className="h-10 odd:bg-gray-50">
+                              <th className="whitespace-nowrap p-3 text-left"></th>
+                              <td className="p-3"></td>
+                              <td className="w-full p-3"></td>
+                            </tr>
+                          )}
                       </React.Fragment>
                     ))}
                   </>
@@ -166,8 +170,8 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
             <h3 className="text-lg font-semibold">{'Resume/CV'}</h3>
           </CardHeader>
           <CardBody className="h-96 p-5">
-            {items?.cv ? (
-              <iframe className="block h-full w-full rounded-lg bg-white" src={items.cv} />
+            {items?.candidate.cv ? (
+              <iframe className="block h-full w-full rounded-lg bg-white" src={items.candidate.cv} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="text-gray-500">No data found</p>
@@ -178,8 +182,8 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
             <h3 className="text-lg font-semibold">{'Video'}</h3>
           </CardHeader>
           <CardBody className="relative flex h-96 items-center justify-center p-5">
-            {items?.videoResume ? (
-              <video className="h-full rounded-lg bg-black" controls loop src={items.videoResume} />
+            {items?.candidate.videoResume ? (
+              <video className="h-full rounded-lg bg-black" controls loop src={items.candidate.videoResume} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="text-gray-500">No video found</p>

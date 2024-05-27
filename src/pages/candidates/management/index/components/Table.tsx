@@ -56,29 +56,29 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
     )
   }
 
-  const bodyItems = items.map((candidate) => ({
+  const bodyItems = items.map((item) => ({
     items: [
       {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              {candidate.photoProfile ? (
+              {item.candidate.photoProfile ? (
                 <img
-                  alt={candidate.photoProfile}
+                  alt={item.candidate.photoProfile}
                   className="block rounded-lg object-cover"
-                  src={candidate.photoProfile}
+                  src={item.candidate.photoProfile}
                   style={{
                     height: '38px',
                     width: '38px',
                   }}
                 />
               ) : (
-                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={candidate?.name || '-'} size={38} />
+                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item.candidate?.name || '-'} size={38} />
               )}
             </div>
             <div>
-              <span className="block font-semibold">{candidate.name}</span>
-              {renderMatchButton(candidate)}
+              <span className="block font-semibold">{item.candidate.name}</span>
+              {renderMatchButton(item)}
             </div>
           </div>
         ),
@@ -86,28 +86,28 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.vacancyName}</span>
-            <span className="text-xs text-gray-500">{candidate.rrNumber || '-'}</span>
+            <span className="block font-semibold">{item.vacancy.name}</span>
+            <span className="text-xs text-gray-500">{item.vacancy.rrNumber || '-'}</span>
           </>
         ),
       },
-      { children: candidate.applyDate || '-', className: 'text-center' },
-      { children: candidate.source || '-', className: 'text-center' },
+      { children: item.applyDate || '-', className: 'text-center' },
+      { children: item.source || '-', className: 'text-center' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
             <button
-              className={`text-${!candidate.cv ? 'gray' : 'primary'}-600 hover:text-${!candidate.cv ? 'gray' : 'primary'}-700 focus:outline-none`}
-              disabled={!candidate.cv}
-              onClick={() => setPreviewPdfModalUrl(candidate?.cv || '-')}
+              className={`text-${!item.candidate.cv ? 'gray' : 'primary'}-600 hover:text-${!item.candidate.cv ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!item.candidate.cv}
+              onClick={() => setPreviewPdfModalUrl(item.candidate?.cv || '-')}
               title="Preview Pdf Resume"
             >
               <FileTextIcon size={18} />
             </button>
             <button
-              className={`text-${!candidate.videoResume ? 'gray' : 'primary'}-600 hover:text-${!candidate.videoResume ? 'gray' : 'primary'}-700 focus:outline-none`}
-              disabled={!candidate.videoResume}
-              onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
+              className={`text-${!item.candidate.videoResume ? 'gray' : 'primary'}-600 hover:text-${!item.candidate.videoResume ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!item.candidate.videoResume}
+              onClick={() => setPreviewVideoModalUrl(item.candidate.videoResume || '-')}
               title="Preview Video Resume"
             >
               <FileVideoIcon size={18} />
@@ -118,34 +118,34 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
       },
       {
         children: (() => {
-          if (candidate.status === 'Locked') {
-            return <span className="rounded-lg bg-violet-100 px-2 py-1 text-sm font-semibold text-violet-600">{candidate.status}</span>
-          } else if (candidate.status === 'Hired') {
-            return <span className="rounded-lg bg-green-100 px-2 py-1 text-sm font-semibold text-green-600">{candidate.status}</span>
+          if (item.status === 'Locked') {
+            return <span className="rounded-lg bg-violet-100 px-2 py-1 text-sm font-semibold text-violet-600">{item.status}</span>
+          } else if (item.status === 'Hired') {
+            return <span className="rounded-lg bg-green-100 px-2 py-1 text-sm font-semibold text-green-600">{item.status}</span>
           } else {
-            return <span className="rounded-lg bg-yellow-100 px-2 py-1 text-sm font-semibold text-yellow-600">{candidate.status}</span>
+            return <span className="rounded-lg bg-yellow-100 px-2 py-1 text-sm font-semibold text-yellow-600">{item.status}</span>
           }
         })(),
         className: 'text-center',
       },
       {
         children: (() => {
-          if (candidate.status === 'Locked') {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['View in Interview']} />
-          } else if (candidate.status === 'Hired') {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['View in Onboarding']} />
-          } else if (candidate.module === 'ASSESSMENT') {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Assessment']} />
-          } else if (candidate.module === 'INTERVIEW') {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Interview']} />
-          } else if (candidate.module === 'OFFERING') {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Offering Letter']} />
-          } else if (candidate.module === 'SHORTLIST') {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Shortlist']} />
-          } else if (candidate.module === 'ONBOARDING') {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={['Go to Onboarding']} />
+          if (item.status === 'Locked') {
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={['View in Interview']} />
+          } else if (item.status === 'Hired') {
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={['View in Onboarding']} />
+          } else if (item.module === 'ASSESSMENT') {
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={['Go to Assessment']} />
+          } else if (item.module === 'INTERVIEW') {
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={['Go to Interview']} />
+          } else if (item.module === 'OFFERING') {
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={['Go to Offering Letter']} />
+          } else if (item.module === 'SHORTLIST') {
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={['Go to Shortlist']} />
+          } else if (item.module === 'ONBOARDING') {
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={['Go to Onboarding']} />
           } else {
-            return <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={options} />
+            return <MenuList item={item} onApplyVacancy={onDataChange} options={options} />
           }
         })(),
       },

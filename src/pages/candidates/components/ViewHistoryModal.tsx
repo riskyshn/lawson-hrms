@@ -18,7 +18,7 @@ import { HistoryItem } from '@/components'
 import { candidateService } from '@/services'
 
 type OptionModalProps = {
-  candidate?: ICandidate
+  item?: ICandidate
   onClose?: () => void
   show?: boolean
 }
@@ -42,32 +42,32 @@ const Status: React.FC<{ status?: string }> = ({ status }) => {
   ) : null
 }
 
-const ViewHistoryModal: React.FC<OptionModalProps> = ({ candidate, onClose, show }) => {
+const ViewHistoryModal: React.FC<OptionModalProps> = ({ item, onClose, show }) => {
   const [candidateDataTable, setCandidateDataTable] = useState<ICandidate>()
   const [candidateDetail, setCandidateDetail] = useState<ICandidateHistories | null>(null)
   const [showDetailIndex, setShowDetailIndex] = useState<null | number>(null)
 
   useEffect(() => {
     const controller = new AbortController()
-    const load = async (candidate: ICandidate, signal: AbortSignal) => {
-      const data = await candidateService.fetchDetailCandidate(candidate?.candidateId, signal)
+    const load = async (item: ICandidate, signal: AbortSignal) => {
+      const data = await candidateService.fetchDetailCandidate(item?.candidate.oid, signal)
       setCandidateDetail(data)
     }
 
-    if (candidate?.candidateId) {
-      setCandidateDataTable(candidate)
+    if (item?.candidate.oid) {
+      setCandidateDataTable(item)
       setCandidateDetail(null)
-      load(candidate, controller.signal)
+      load(item, controller.signal)
     }
 
     return () => {
       controller.abort()
     }
-  }, [candidate])
+  }, [item])
 
   return (
     <Modal show={!!show}>
-      <ModalHeader subTitle={`Candidate Process History for ${candidateDataTable?.name}`}>Candidate History</ModalHeader>
+      <ModalHeader subTitle={`Candidate Process History for ${candidateDataTable?.candidate.name}`}>Candidate History</ModalHeader>
       <LoadingScreen show={!candidateDetail} />
       {candidateDetail && (
         <>
@@ -94,7 +94,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ candidate, onClose, show
                             <h3 className="text-sm font-semibold">Attendee</h3>
                             <span className="flex items-center gap-1 text-xs">
                               <UserIcon size={16} />
-                              {candidateDetail.candidate?.name}
+                              {candidateDetail.candidate?.candidate.name}
                             </span>
                           </div>
                           {history.actionAt && (

@@ -16,29 +16,29 @@ type PropTypes = {
 const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPdfModalUrl, setPreviewVideoModalUrl }) => {
   const options = ['Move to Another Vacancy', 'View History', 'Blacklist', 'View Profile']
 
-  const bodyItems = items.map((candidate) => ({
+  const bodyItems = items.map((item) => ({
     items: [
       {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
             <div>
-              {candidate.photoProfile ? (
+              {item.candidate.photoProfile ? (
                 <img
-                  alt={candidate.photoProfile}
+                  alt={item.candidate.photoProfile}
                   className="block rounded-lg object-cover"
-                  src={candidate.photoProfile}
+                  src={item.candidate.photoProfile}
                   style={{
                     height: '38px',
                     width: '38px',
                   }}
                 />
               ) : (
-                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={candidate?.name || '-'} size={38} />
+                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item.candidate.name || '-'} size={38} />
               )}
             </div>
             <div>
-              <span className="block font-semibold">{candidate.name}</span>
-              <span className="text-xs text-gray-500">{candidate.email}</span>
+              <span className="block font-semibold">{item.candidate.name}</span>
+              <span className="text-xs text-gray-500">{item.candidate.email}</span>
             </div>
           </div>
         ),
@@ -46,28 +46,28 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
       {
         children: (
           <>
-            <span className="block font-semibold">{candidate.vacancyName}</span>
-            <span className="text-xs text-gray-500">{candidate.rrNumber || '-'}</span>
+            <span className="block font-semibold">{item.vacancy.name}</span>
+            <span className="text-xs text-gray-500">{item.vacancy.rrNumber || '-'}</span>
           </>
         ),
       },
-      { children: candidate.lastEducation, className: 'text-center' },
-      { children: candidate.withdrawReason, className: 'text-center whitespace-normal' },
+      { children: item.candidate.lastEducation, className: 'text-center' },
+      { children: item.withdraw.reason, className: 'text-center whitespace-normal' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
             <button
-              className={`text-${!candidate.cv ? 'gray' : 'primary'}-600 hover:text-${!candidate.cv ? 'gray' : 'primary'}-700 focus:outline-none`}
-              disabled={!candidate.cv}
-              onClick={() => setPreviewPdfModalUrl(candidate?.cv || '-')}
+              className={`text-${!item.candidate.cv ? 'gray' : 'primary'}-600 hover:text-${!item.candidate.cv ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!item.candidate.cv}
+              onClick={() => setPreviewPdfModalUrl(item.candidate.cv || '-')}
               title="Preview Pdf Resume"
             >
               <FileTextIcon size={18} />
             </button>
             <button
-              className={`text-${!candidate.videoResume ? 'gray' : 'primary'}-600 hover:text-${!candidate.videoResume ? 'gray' : 'primary'}-700 focus:outline-none`}
-              disabled={!candidate.videoResume}
-              onClick={() => setPreviewVideoModalUrl(candidate.videoResume || '-')}
+              className={`text-${!item.candidate.videoResume ? 'gray' : 'primary'}-600 hover:text-${!item.candidate.videoResume ? 'gray' : 'primary'}-700 focus:outline-none`}
+              disabled={!item.candidate.videoResume}
+              onClick={() => setPreviewVideoModalUrl(item.candidate.videoResume || '-')}
               title="Preview Video Resume"
             >
               <FileVideoIcon size={18} />
@@ -76,7 +76,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
         ),
         className: 'text-center',
       },
-      { children: <MenuList candidate={candidate} onApplyVacancy={onDataChange} options={options} /> },
+      { children: <MenuList item={item} onApplyVacancy={onDataChange} options={options} /> },
     ],
   }))
 

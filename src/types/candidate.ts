@@ -25,76 +25,80 @@ export interface ICandidateHistories {
 }
 
 export interface ICandidate {
-  age?: string
-  applyDate?: string
-  birthdate?: string
-  blacklistDate?: string
-  blacklistReason?: string
-  blacklistedBy?: string
-  candidateId?: string
-  candidateMatches?: {
-    candidateData: string
-    isMatch: boolean
-    requirementType: string
-    vacancyData: string
-  }[]
-  candidateMatchesMandatory?: {
-    candidateData: string
-    isMatch: boolean
-    requirementType: string
-    vacancyData: string
-  }[]
-  city?: string
-  cv?: string
-  documents?: {
-    label: string
-    value: string
-  }[]
-  educations?: {
-    degree?: {
-      id: string
-      name: string
-    }
-    gpa: string
-    graduateDate: string
-    id: string
-    institution: string
-    major: string
-    startDate: string
-    untilNow: string
-  }[]
-  email?: string
-  expectedSalary?: string
-  experiences?: {
+  candidate: {
+    name: string
+    email: string
+    cv: string
+    videoResume: null | string
+    oid: string
+    photoProfile: null | string
+    lastEducation: string
+    city: string
+    province: string
+    phone: string
+    gender: string
+    age: string
+    expectedSalary: string
+    nik: string
+    birthdate: string
+    lastPosition: string
+    educations: {
+      degree: {
+        name: string
+        oid: string
+      }
+      major: string
+      institution: string
+      gpa: string
+      startDate: string
+      graduateDate: string
+      untilNow: string
+      pointEducation: string
+    }[]
+  }
+  experiences?: Array<{
     companyName: string
     endDate: string
     position: string
     startDate: string
-  }[]
-  gender?: string
-  id: string
-  ktp?: string
-  lastEducation?: string
-  lastPosition?: {
-    name?: string
+  }>
+  vacancy: {
+    name: string
     oid: string
+    rrNumber: string
   }
-  matchPercentage?: number
-  module?: string
-  name?: string
-  nik?: string
-  phone?: string
-  photoProfile?: string
-  position?: string
-  province?: string
-  rejectReason?: string
-  rrNumber?: string
-  source?: string
-  status?: string
-  vacancyId?: string
-  vacancyName?: string
-  videoResume?: string
-  withdrawReason?: string
+  applyDate: string
+  source: string
+  status: string
+  module: string
+  candidateMatches: {
+    requirementType: string
+    vacancyData: string
+    candidateData: string
+    isMatch: boolean
+  }[]
+  candidateMatchesMandatory: {
+    requirementType: string
+    vacancyData: string
+    candidateData: string
+    isMatch: boolean
+  }[]
+  listAppliedVacancy: null
+  matchPercentage: number
+  oid: string
+  blacklist: {
+    by: string
+    reason: string
+    date: string
+  }
+  withdraw: {
+    by: string
+    reason: string
+  }
+  reject: {
+    by: string
+    reason: string
+  }
 }
 
 export interface ICandidateToCreateEmployee {
