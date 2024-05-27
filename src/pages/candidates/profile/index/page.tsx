@@ -62,7 +62,7 @@ export const Component: React.FC = () => {
   }, [candidateId])
 
   const breadcrumb = [{ text: 'Candidates' }, { text: 'Profile' }]
-  if (pageData?.name) breadcrumb.push({ text: pageData.name })
+  if (pageData?.candidate.name) breadcrumb.push({ text: pageData.candidate.name })
 
   if (pageError) throw pageError
 
@@ -86,7 +86,7 @@ export const Component: React.FC = () => {
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'candidate-information' && 'border-primary-600',
                   )}
-                  to={`/candidates/profile/${pageData.id}`}
+                  to={`/candidates/profile/${pageData.candidate.oid}`}
                 >
                   Candidate Information
                 </Link>
@@ -95,7 +95,7 @@ export const Component: React.FC = () => {
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'resume' && 'border-primary-600',
                   )}
-                  to={`/candidates/profile/${pageData.id}?tab=resume`}
+                  to={`/candidates/profile/${pageData.candidate.oid}?tab=resume`}
                 >
                   Resume/CV
                 </Link>
@@ -104,7 +104,7 @@ export const Component: React.FC = () => {
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'education' && 'border-primary-600',
                   )}
-                  to={`/candidates/profile/${pageData.id}?tab=education`}
+                  to={`/candidates/profile/${pageData.candidate.oid}?tab=education`}
                 >
                   Education
                 </Link>
@@ -113,7 +113,7 @@ export const Component: React.FC = () => {
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'experience' && 'border-primary-600',
                   )}
-                  to={`/candidates/profile/${pageData.id}?tab=experience`}
+                  to={`/candidates/profile/${pageData.candidate.oid}?tab=experience`}
                 >
                   Working Experience
                 </Link>
@@ -122,7 +122,7 @@ export const Component: React.FC = () => {
                     'block border-t-4 border-transparent px-6 py-4 text-sm font-semibold hover:text-primary-600',
                     tab === 'document' && 'border-primary-600',
                   )}
-                  to={`/candidates/profile/${pageData.id}?tab=document`}
+                  to={`/candidates/profile/${pageData.candidate.oid}?tab=document`}
                 >
                   Documents
                 </Link>

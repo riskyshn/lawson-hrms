@@ -30,12 +30,12 @@ import ApplyVacancyModal from './ApplyVacancyModal'
 import ViewHistoryModal from './ViewHistoryModal'
 
 interface MenuListProps {
-  candidate: ICandidate
+  item: ICandidate
   onApplyVacancy: (data: string) => void
   options: string[]
 }
 
-const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options }) => {
+const MenuList: React.FC<MenuListProps> = ({ item, onApplyVacancy, options }) => {
   const [showOptionModal, setShowOptionModal] = useState(false)
   const [modalType, setModalType] = useState('')
   const toast = useToast()
@@ -44,7 +44,7 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
   const handleViewDetails = (option: string) => {
     setShowOptionModal(true)
 
-    const formattedName = encodeURIComponent(candidate.name || '').replace(/%20/g, '+')
+    const formattedName = encodeURIComponent(item.candidate.name || '').replace(/%20/g, '+')
 
     switch (option) {
       case 'Move to Another Vacancy':
@@ -61,7 +61,7 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Unblacklist':
         setModalType('')
         candidateService
-          .unblacklist(candidate?.candidateId || '')
+          .unblacklist(item.candidate.oid || '')
           .then(() => {
             toast('Unblacklist successfully.', { color: 'success' })
             const newData = new Date().toISOString()
@@ -77,8 +77,8 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
         setModalType('')
         candidateService
           .deleteShortlist({
-            candidateId: candidate.candidateId,
-            vacancyId: candidate.vacancyId,
+            candidateId: item.candidate.oid,
+            vacancyId: item.vacancy.oid,
           })
           .then(() => {
             toast('Unshortlist successfully.', { color: 'success' })
@@ -95,8 +95,8 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
         setModalType('')
         candidateService
           .createShortlist({
-            candidateId: candidate.candidateId,
-            vacancyId: candidate.vacancyId,
+            candidateId: item.candidate.oid,
+            vacancyId: item.vacancy.oid,
           })
           .then(() => {
             toast('Shortlist successfully.', { color: 'success' })
@@ -110,7 +110,7 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
         break
 
       case 'View Profile':
-        navigate(`/candidates/profile/${candidate.candidateId || candidate.id}`)
+        navigate(`/candidates/profile/${item.candidate.oid}`)
         break
       case 'Go to Interview':
         navigate(`/process/interview?search=${formattedName}`)
@@ -138,19 +138,19 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
         return (
           <ProcessModal
             applicant={{
-              candidate: { email: candidate.email, name: candidate.name, oid: candidate?.candidateId || '' },
-              oid: candidate.id,
+              candidate: { email: item.candidate.email, name: item.candidate.name, oid: item.candidate.oid },
+              oid: item.candidate.oid,
             }}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
           />
         )
       case 'View History':
-        return <ViewHistoryModal candidate={candidate} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
+        return <ViewHistoryModal item={item} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Move to Another Vacancy':
         return (
           <MoveAnotherVacancyModal
-            applicantId={candidate.id}
+            applicantId={item.oid}
             onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
@@ -160,17 +160,12 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
         return <SendReminderModal onClose={() => setShowOptionModal(false)} show={showOptionModal} />
       case 'Apply to Vacancy':
         return (
-          <ApplyVacancyModal
-            candidate={candidate}
-            onApplyVacancy={onApplyVacancy}
-            onClose={() => setShowOptionModal(false)}
-            show={showOptionModal}
-          />
+          <ApplyVacancyModal item={item} onApplyVacancy={onApplyVacancy} onClose={() => setShowOptionModal(false)} show={showOptionModal} />
         )
       case 'Blacklist':
         return (
           <BlacklistModal
-            applicantId={candidate.id}
+            applicantId={item.oid}
             onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
@@ -179,7 +174,7 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Reject':
         return (
           <RejectModal
-            applicantId={candidate.id}
+            applicantId={item.oid}
             onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
@@ -188,7 +183,7 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
       case 'Withdraw':
         return (
           <WithdrawModal
-            applicantId={candidate.id}
+            applicantId={item.oid}
             onRefresh={() => onApplyVacancy(new Date().toISOString())}
             onClose={() => setShowOptionModal(false)}
             show={showOptionModal}
@@ -202,15 +197,7 @@ const MenuList: React.FC<MenuListProps> = ({ candidate, onApplyVacancy, options 
   return (
     <div className="text-center">
       <Menu as="div" className="relative">
-        <Menu.Button
-          as={Button}
-          block
-          className="text-xs"
-          color="primary"
-          disabled={candidate.status === 'Locked'}
-          size="small"
-          variant="light"
-        >
+        <Menu.Button as={Button} block className="text-xs" color="primary" disabled={item.status === 'Locked'} size="small" variant="light">
           Action
         </Menu.Button>
         <Menu.Items className="absolute right-0 z-20 w-56 overflow-hidden rounded-lg border-gray-100 bg-white p-1 shadow-lg ring-[1px] ring-gray-100 focus:outline-none">
