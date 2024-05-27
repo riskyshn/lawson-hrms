@@ -36,7 +36,7 @@ export async function employeeToFormEdit(employee: IEmployee) {
       position: emmbedToOption(employee.employment?.position),
       role: emmbedToOption(employee.employment?.role),
       schedule: emmbedToOption(employee.employment?.schedule),
-      joinedAt: new Date(employee.employment?.joinedAt || new Date()),
+      joinedAt: new Date(employee.employment?.joinedAt || ''),
     },
     payroll: {
       bpjsKesehatanNumber: employee.payroll?.bpjs?.bpjsKesehatanNumber,
