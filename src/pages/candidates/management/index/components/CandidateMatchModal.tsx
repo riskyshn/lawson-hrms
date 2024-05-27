@@ -1,10 +1,14 @@
-import type { ICandidate } from '@/types'
+import type { IApplicantDataTable } from '@/types'
 import React from 'react'
 import { Modal, ModalHeader } from 'jobseeker-ui'
 import { CheckCircle2Icon, XCircleIcon } from 'lucide-react'
 import { MainTable } from '@/components'
 
-const CandidateMatchModal: React.FC<{ candidate: ICandidate; onClose: () => void; show: boolean }> = ({ candidate, onClose, show }) => {
+const CandidateMatchModal: React.FC<{ candidate: IApplicantDataTable; onClose: () => void; show: boolean }> = ({
+  candidate,
+  onClose,
+  show,
+}) => {
   const bodyItems = candidate.candidateMatches
     ? candidate.candidateMatches.map((item, i) => ({
         className: 'odd:bg-white',

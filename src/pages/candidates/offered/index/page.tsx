@@ -1,4 +1,4 @@
-import type { ICandidate, IPaginationResponse } from '@/types'
+import type { IApplicantDataTable, IPaginationResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AsyncSelect, Container, MainCard, MainCardHeader, PageHeader } from 'jobseeker-ui'
@@ -17,7 +17,7 @@ export const Component: React.FC = () => {
   const search = searchParams.get('search') || undefined
   const [onChangeData, setOnChangeData] = useState<string>()
 
-  const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IApplicantDataTable>>()
   const [pageError, setPageError] = useState<any>()
 
   const [vacancy, setVacancy, rawVacancy] = useOptionSearchParam('vacancy')

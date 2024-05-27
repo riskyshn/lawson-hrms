@@ -1,4 +1,4 @@
-import type { ICandidate, IPaginationResponse, IVacancy } from '@/types'
+import type { IApplicantDataTable, IPaginationResponse, IVacancy } from '@/types'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { Container, MainCard, MainCardHeader, PageHeader, Select } from 'jobseeker-ui'
@@ -17,7 +17,7 @@ export const Component: React.FC = () => {
   const [onChangeData, setOnChangeData] = useState<string>()
   const [vacancies, setVacancies] = useState<IVacancy[]>([])
 
-  const [pageData, setPageData] = useState<IPaginationResponse<ICandidate>>()
+  const [pageData, setPageData] = useState<IPaginationResponse<IApplicantDataTable>>()
   const [pageError, setPageError] = useState<any>()
   const vacancy = searchParams.get('vacancy') || undefined
   const province = searchParams.get('province') || undefined

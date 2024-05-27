@@ -1,4 +1,4 @@
-import type { IApplicantDataTable, ICandidateHistories } from '@/types'
+import type { ICandidate, ICandidateHistories } from '@/types'
 import React, { useEffect, useState } from 'react'
 import { Button, LoadingScreen, Modal, ModalFooter, ModalHeader, Timeline, TimelineItem } from 'jobseeker-ui'
 import {
@@ -18,7 +18,7 @@ import { HistoryItem } from '@/components'
 import { candidateService } from '@/services'
 
 type OptionModalProps = {
-  item?: IApplicantDataTable
+  item?: ICandidate
   onClose?: () => void
   show?: boolean
 }
@@ -43,18 +43,18 @@ const Status: React.FC<{ status?: string }> = ({ status }) => {
 }
 
 const ViewHistoryModal: React.FC<OptionModalProps> = ({ item, onClose, show }) => {
-  const [candidateDataTable, setCandidateDataTable] = useState<IApplicantDataTable>()
+  const [candidateDataTable, setCandidateDataTable] = useState<ICandidate>()
   const [candidateDetail, setCandidateDetail] = useState<ICandidateHistories | null>(null)
   const [showDetailIndex, setShowDetailIndex] = useState<null | number>(null)
 
   useEffect(() => {
     const controller = new AbortController()
-    const load = async (item: IApplicantDataTable, signal: AbortSignal) => {
-      const data = await candidateService.fetchDetailCandidate(item?.candidate.oid, signal)
+    const load = async (item: ICandidate, signal: AbortSignal) => {
+      const data = await candidateService.fetchDetailCandidate(item?.oid, signal)
       setCandidateDetail(data)
     }
 
-    if (item?.candidate.oid) {
+    if (item?.oid) {
       setCandidateDataTable(item)
       setCandidateDetail(null)
       load(item, controller.signal)
@@ -67,7 +67,7 @@ const ViewHistoryModal: React.FC<OptionModalProps> = ({ item, onClose, show }) =
 
   return (
     <Modal show={!!show}>
-      <ModalHeader subTitle={`Candidate Process History for ${candidateDataTable?.candidate.name}`}>Candidate History</ModalHeader>
+      <ModalHeader subTitle={`Candidate Process History for ${candidateDataTable?.name}`}>Candidate History</ModalHeader>
       <LoadingScreen show={!candidateDetail} />
       {candidateDetail && (
         <>

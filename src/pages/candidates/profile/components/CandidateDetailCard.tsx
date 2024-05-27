@@ -3,13 +3,17 @@ import React from 'react'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
 import { numberToCurrency } from '@/utils'
 
-const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; flag?: string; items?: ICandidate; title?: string }> = ({
-  documents,
-  flag,
-  items,
-  title,
-}) => {
+const CandidateDetailCard: React.FC<{
+  documents?: IUploadedProcessDocument[]
+  flag?: string
+  items?: ICandidate
+  title?: string
+}> = ({ documents, flag, items, title }) => {
   const formatDate = (dateString: string): string => {
+    if (!dateString) {
+      return '-'
+    }
+
     const date = new Date(dateString)
     const day = date.getDate().toString().padStart(2, '0')
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
@@ -32,49 +36,47 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Expected Salary</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">
-                        {items?.candidate.expectedSalary ? numberToCurrency(parseFloat(items?.candidate.expectedSalary)) : '-'}
-                      </td>
+                      <td className="w-full p-3">{items?.expectedSalary ? numberToCurrency(parseFloat(items?.expectedSalary)) : '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Full Name</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.name || '-'}</td>
+                      <td className="w-full p-3">{items?.name || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">NIK</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.nik || '-'}</td>
+                      <td className="w-full p-3">{items?.nik || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Email</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.email || '-'}</td>
+                      <td className="w-full p-3">{items?.email || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Phone Number</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.phone || '-'}</td>
+                      <td className="w-full p-3">{items?.phone || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Date of Birth</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.birthdate || '-'}</td>
+                      <td className="w-full p-3">{items?.birthdate || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Gender</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.gender || '-'}</td>
+                      <td className="w-full p-3">{items?.gender || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Province</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.province || '-'}</td>
+                      <td className="w-full p-3">{items?.province || '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">City</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.city || '-'}</td>
+                      <td className="w-full p-3">{items?.city || '-'}</td>
                     </tr>
                   </>
                 )}
@@ -83,9 +85,9 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Last Education</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.candidate.lastEducation || '-'}</td>
+                      <td className="w-full p-3">{items?.lastEducation || '-'}</td>
                     </tr>
-                    {items?.candidate.educations.map((education, index) => (
+                    {items?.educations.map((education, index) => (
                       <React.Fragment key={index}>
                         <tr className="odd:bg-gray-50">
                           <th className="whitespace-nowrap p-3 text-left">Institution Name</th>
@@ -112,15 +114,13 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
                           <td className="p-3">:</td>
                           <td className="w-full p-3">{formatDate(education.graduateDate) || '-'}</td>
                         </tr>
-                        {items?.candidate.educations &&
-                          items?.candidate.educations.length > 1 &&
-                          index !== items?.candidate.educations.length - 1 && (
-                            <tr className="h-10 odd:bg-gray-50">
-                              <th className="whitespace-nowrap p-3 text-left"></th>
-                              <td className="p-3"></td>
-                              <td className="w-full p-3"></td>
-                            </tr>
-                          )}
+                        {items?.educations && items?.educations.length > 1 && index !== items?.educations.length - 1 && (
+                          <tr className="h-10 odd:bg-gray-50">
+                            <th className="whitespace-nowrap p-3 text-left"></th>
+                            <td className="p-3"></td>
+                            <td className="w-full p-3"></td>
+                          </tr>
+                        )}
                       </React.Fragment>
                     ))}
                   </>
@@ -170,8 +170,8 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
             <h3 className="text-lg font-semibold">{'Resume/CV'}</h3>
           </CardHeader>
           <CardBody className="h-96 p-5">
-            {items?.candidate.cv ? (
-              <iframe className="block h-full w-full rounded-lg bg-white" src={items.candidate.cv} />
+            {items?.cv ? (
+              <iframe className="block h-full w-full rounded-lg bg-white" src={items?.cv} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="text-gray-500">No data found</p>
@@ -182,8 +182,8 @@ const CandidateDetailCard: React.FC<{ documents?: IUploadedProcessDocument[]; fl
             <h3 className="text-lg font-semibold">{'Video'}</h3>
           </CardHeader>
           <CardBody className="relative flex h-96 items-center justify-center p-5">
-            {items?.candidate.videoResume ? (
-              <video className="h-full rounded-lg bg-black" controls loop src={items.candidate.videoResume} />
+            {items?.videoResume ? (
+              <video className="h-full rounded-lg bg-black" controls loop src={items?.videoResume} />
             ) : (
               <div className="flex h-full items-center justify-center">
                 <p className="text-gray-500">No video found</p>

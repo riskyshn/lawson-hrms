@@ -1,4 +1,12 @@
-import type { ICandidate, ICandidateHistories, ICandidateToCreateEmployee, IPaginationParam, IPaginationResponse, IVacancy } from '../types'
+import type {
+  IApplicantDataTable,
+  ICandidate,
+  ICandidateHistories,
+  ICandidateToCreateEmployee,
+  IPaginationParam,
+  IPaginationResponse,
+  IVacancy,
+} from '../types'
 import { AxiosRequestConfig, GenericAbortSignal } from 'axios'
 import { API_APPLICANT_URL, API_CANDIDATE_URL } from '../constants/base-urls'
 import { createAxiosInstance } from '../utils'
@@ -22,7 +30,7 @@ type FetchCandidateParams = {
 
 export const fetchBlacklist = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: IPaginationResponse<ICandidate> }>(`/applicant/blacklist`, { params, signal })
+    .get<{ data: IPaginationResponse<IApplicantDataTable> }>(`/applicant/blacklist`, { params, signal })
     .then((response) => response.data.data)
 }
 
@@ -31,33 +39,35 @@ export const unblacklist = (id: string) => {
 }
 
 export const createBlacklist = (payload: Record<string, any>) => {
-  return axios.post<{ data: ICandidate }>(`/applicant/blacklist`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IApplicantDataTable }>(`/applicant/blacklist`, payload).then((response) => response.data.data)
 }
 
 export const apply = (payload: Record<string, any>) => {
-  return axios.post<{ data: ICandidate }>(`/applicant/apply`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IApplicantDataTable }>(`/applicant/apply`, payload).then((response) => response.data.data)
 }
 
 export const offer = (payload: Record<string, any>) => {
-  return axios.post<{ data: ICandidate }>(`/applicant/offer`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IApplicantDataTable }>(`/applicant/offer`, payload).then((response) => response.data.data)
 }
 
 export const rejectOffer = (payload: Record<string, any>) => {
-  return axios.patch<{ data: ICandidate }>(`/applicant/reject-offer`, payload).then((response) => response.data.data)
+  return axios.patch<{ data: IApplicantDataTable }>(`/applicant/reject-offer`, payload).then((response) => response.data.data)
 }
 
 export const fetchOffer = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {
-  return axios.get<{ data: IPaginationResponse<ICandidate> }>(`/applicant/offer`, { params, signal }).then((response) => response.data.data)
+  return axios
+    .get<{ data: IPaginationResponse<IApplicantDataTable> }>(`/applicant/offer`, { params, signal })
+    .then((response) => response.data.data)
 }
 
 export const fetchCandidateManagement = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: IPaginationResponse<ICandidate> }>(`/candidate-management`, { params, signal })
+    .get<{ data: IPaginationResponse<IApplicantDataTable> }>(`/candidate-management`, { params, signal })
     .then((response) => response.data.data)
 }
 
 export const createShortlist = (payload: Record<string, any>) => {
-  return axios.post<{ data: ICandidate }>(`/applicant/shortlist`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IApplicantDataTable }>(`/applicant/shortlist`, payload).then((response) => response.data.data)
 }
 
 export const deleteShortlist = (payload: Record<string, any>) => {
@@ -66,7 +76,7 @@ export const deleteShortlist = (payload: Record<string, any>) => {
 
 export const fetchShortlist = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: IPaginationResponse<ICandidate> }>(`/applicant/shortlist`, { params, signal })
+    .get<{ data: IPaginationResponse<IApplicantDataTable> }>(`/applicant/shortlist`, { params, signal })
     .then((response) => response.data.data)
 }
 
@@ -80,16 +90,16 @@ export const fetchWithdraw = (params?: FetchCandidateParams, signal?: GenericAbo
 }
 
 export const withdraw = (payload: Record<string, any>) => {
-  return axios.patch<{ data: ICandidate }>(`/applicant/withdraw`, payload).then((response) => response.data.data)
+  return axios.patch<{ data: IApplicantDataTable }>(`/applicant/withdraw`, payload).then((response) => response.data.data)
 }
 
 export const reject = (payload: Record<string, any>) => {
-  return axios.patch<{ data: ICandidate }>(`/applicant/reject-apply`, payload).then((response) => response.data.data)
+  return axios.patch<{ data: IApplicantDataTable }>(`/applicant/reject-apply`, payload).then((response) => response.data.data)
 }
 
 export const fetchReject = (params?: FetchCandidateParams, signal?: GenericAbortSignal) => {
   return axios
-    .get<{ data: IPaginationResponse<ICandidate> }>(`/applicant/reject-apply`, { params, signal })
+    .get<{ data: IPaginationResponse<IApplicantDataTable> }>(`/applicant/reject-apply`, { params, signal })
     .then((response) => response.data.data)
 }
 
@@ -100,11 +110,11 @@ export const fetchPool = (params?: FetchCandidateParams, signal?: GenericAbortSi
 }
 
 export const moveToAnotherVacancy = (payload: Record<string, any>) => {
-  return axios.post<{ data: ICandidate }>(`/applicant/move-to-another-vacancy`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IApplicantDataTable }>(`/applicant/move-to-another-vacancy`, payload).then((response) => response.data.data)
 }
 
 export const applyVacancy = (payload: Record<string, any>) => {
-  return axios.post<{ data: ICandidate }>(`/basic/apply`, payload).then((response) => response.data.data)
+  return axios.post<{ data: IApplicantDataTable }>(`/basic/apply`, payload).then((response) => response.data.data)
 }
 
 export const fetchCandidate = (id: string, config?: AxiosRequestConfig) => {

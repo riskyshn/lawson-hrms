@@ -25,37 +25,49 @@ export interface ICandidateHistories {
 }
 
 export interface ICandidate {
-  candidate: {
+  name: string
+  email: string
+  cv: string
+  videoResume: null | string
+  oid: string
+  photoProfile: null | string
+  lastEducation: string
+  city: string
+  province: string
+  phone: string
+  gender: string
+  age: string
+  expectedSalary: string
+  nik: string
+  birthdate: string
+  lastPosition: {
     name: string
-    email: string
-    cv: string
-    videoResume: null | string
     oid: string
-    photoProfile: null | string
-    lastEducation: string
-    city: string
-    province: string
-    phone: string
-    gender: string
-    age: string
-    expectedSalary: string
-    nik: string
-    birthdate: string
-    lastPosition: string
-    educations: {
-      degree: {
-        name: string
-        oid: string
-      }
-      major: string
-      institution: string
-      gpa: string
-      startDate: string
-      graduateDate: string
-      untilNow: string
-      pointEducation: string
-    }[]
+    rrNumber: string
   }
+  educations: {
+    degree: {
+      name: string
+      oid: string
+    }
+    major: string
+    institution: string
+    gpa: string
+    startDate: string
+    graduateDate: string
+    untilNow: string
+    pointEducation: string
+  }[]
+  experiences?: Array<{
+    companyName: string
+    endDate: string
+    position: string
+    startDate: string
+  }>
+}
+
+export interface IApplicantDataTable {
+  candidate: ICandidate
   experiences?: Array<{
     companyName: string
     endDate: string
