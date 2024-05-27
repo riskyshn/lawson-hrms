@@ -16,7 +16,7 @@ const schema = yup.object({
   position: genYupOption('Position').required(),
   role: genYupOption('Role').required(),
   schedule: genYupOption('Schedule').required(),
-  joinedAt: yup.date().max(new Date()).required().label('Join At'),
+  joinedAt: yup.date().required().label('Join At'),
 })
 
 const EmploymentDataForm: React.FC<{
