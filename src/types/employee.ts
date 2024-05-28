@@ -8,6 +8,7 @@ export interface IPreviousEmployee {
   oid: string
   reasonInactive?: string
   terminatedBy?: string
+  photoProfile?: string
 }
 
 export interface IDataTableEmployee {
@@ -21,6 +22,7 @@ export interface IDataTableEmployee {
   oid: string
   position?: IGeneralDataEmmbed
   schedule?: IGeneralDataEmmbed
+  photoProfile?: string
 }
 
 export interface IEmployee {
