@@ -26,7 +26,7 @@ const Table: React.FC<PropTypes> = ({ items, loading, onRestored }) => {
       {
         children: (
           <div className="flex gap-3">
-            <Avatar className="rounded-lg bg-primary-100 text-primary-700" name={item.name || ''} size={38} />
+            <Avatar src={item.photoProfile} className="rounded-lg bg-primary-100 text-primary-700" name={item.name || ''} size={38} />
             <div>
               <span className="block font-semibold">{item.name}</span>
               <span className="text-xs text-gray-500">{item.employeeCode}</span>
