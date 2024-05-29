@@ -79,11 +79,6 @@ export const Component: React.FC = () => {
   const [isGenderLoading, setIsGenderLoading] = useState(true)
   const [isEmploymentStatusLoading, setIsEmploymentStatusLoading] = useState(true)
 
-  const [filterDate, setFilterDate] = useState<{ endDate: string; startDate: string }>({
-    endDate: formatDate(lastDayOfMonth),
-    startDate: formatDate(firstDayOfMonth),
-  })
-
   const [loadingBarChartPosition, setLoadingBarChartPosition] = useState(true)
   const [loadingBarChartAge, setLoadingBarChartAge] = useState(true)
   const [positionData, setPositionData] = useState<IDataPoint[]>()
@@ -96,6 +91,8 @@ export const Component: React.FC = () => {
     jobLevel: { endDate: todayFormatted, startDate: defaultStartDate },
     gender: { endDate: todayFormatted, startDate: defaultStartDate },
     employmentStatus: { endDate: todayFormatted, startDate: defaultStartDate },
+    age: { endDate: todayFormatted, startDate: defaultStartDate },
+    position: { endDate: todayFormatted, startDate: defaultStartDate },
   })
 
   const [branch, setBranch] = useOptionSearchParam('branch')
@@ -275,8 +272,8 @@ export const Component: React.FC = () => {
       try {
         setLoadingBarChartPosition(true)
         const employeePosition = await reportService.fetchEmployeePosition({
-          end_date: filterDate.endDate,
-          start_date: filterDate.startDate,
+          end_date: filterDates.position.endDate,
+          start_date: filterDates.position.startDate,
         })
         setPositionData(employeePosition)
       } catch (e: any) {
@@ -287,15 +284,15 @@ export const Component: React.FC = () => {
     }
 
     fetchData()
-  }, [filterDate])
+  }, [filterDates.position])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoadingBarChartAge(true)
         const employeeAge = await reportService.fetchEmployeeAge({
-          end_date: filterDate.endDate,
-          start_date: filterDate.startDate,
+          end_date: filterDates.age.endDate,
+          start_date: filterDates.age.startDate,
         })
         setAgeData(employeeAge)
       } catch (e: any) {
@@ -306,7 +303,7 @@ export const Component: React.FC = () => {
     }
 
     fetchData()
-  }, [filterDate])
+  }, [filterDates.age])
 
   const handleDateChange = (selectedDate: DateValueType, chartType: string) => {
     if (selectedDate?.startDate && selectedDate.endDate) {
@@ -315,8 +312,6 @@ export const Component: React.FC = () => {
 
       const formattedStartDate = startDate && !isNaN(startDate.getTime()) ? startDate.toISOString().split('T')[0] : todayFormatted
       const formattedEndDate = endDate && !isNaN(endDate.getTime()) ? endDate.toISOString().split('T')[0] : formattedStartDate
-
-      setFilterDate({ endDate: formattedEndDate, startDate: formattedStartDate })
 
       setFilterDates((prevFilterDates: any) => ({
         ...prevFilterDates,
@@ -524,9 +519,9 @@ export const Component: React.FC = () => {
               <BaseInputDateRange
                 className="w-64 max-sm:w-full"
                 displayFormat="DD-MM-YYYY"
-                onValueChange={(date) => handleDateChange(date, '')}
+                onValueChange={(date) => handleDateChange(date, 'position')}
                 placeholder="Start - End Date"
-                value={filterDate}
+                value={filterDates['position']}
               />
             </div>
             {loadingBarChartPosition ? (
@@ -551,9 +546,9 @@ export const Component: React.FC = () => {
               <BaseInputDateRange
                 className="w-64 max-sm:w-full"
                 displayFormat="DD-MM-YYYY"
-                onValueChange={(date) => handleDateChange(date, '')}
+                onValueChange={(date) => handleDateChange(date, 'age')}
                 placeholder="Start - End Date"
-                value={filterDate}
+                value={filterDates['age']}
               />
             </div>
             {loadingBarChartAge ? (
