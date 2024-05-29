@@ -329,6 +329,7 @@ const VacancyInformationForm: React.FC<{
           label="Task, Responsibility & Others"
           labelRequired
           {...register('other')}
+          value={getValues('other')}
           init={{ placeholder: 'Add description here' }}
           onValueChange={(value) => {
             setValue('other', value)
