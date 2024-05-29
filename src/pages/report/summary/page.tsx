@@ -134,7 +134,7 @@ export const Component: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoadingBarChart(true)
-        const recruitmentFunnelData = await reportService.fetchRecruitmentFunnel({
+        const recruitmentFunnelData = await reportService.fetchCandidateRecruitmentFunnel({
           end_date: filterDate.endDate,
           start_date: filterDate.startDate,
         })
@@ -153,7 +153,7 @@ export const Component: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoadingLineChart(true)
-        const numberHiredData = await reportService.fetchNumberHiredChart({
+        const numberHiredData = await reportService.fetchCandidateNumberHiredChart({
           type: activeLabel.toLowerCase(),
           year: selectedYear,
         })
@@ -172,7 +172,7 @@ export const Component: React.FC = () => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const numberHiredDataTable = await reportService.fetchNumberHired()
+        const numberHiredDataTable = await reportService.fetchCandidateNumberHired()
         setDataNumberHired(numberHiredDataTable)
       } catch (e: any) {
         if (e.message !== 'canceled') setPageError(e)

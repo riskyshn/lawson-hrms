@@ -30,3 +30,8 @@ export interface Dataset {
   label: string
   tension: number
 }
+
+export interface IDataPoint {
+  label: string
+  total: number
+}

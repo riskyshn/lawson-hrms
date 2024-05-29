@@ -107,7 +107,7 @@ export const Component: React.FC = () => {
   const fetchProvinceData = async () => {
     setIsProvinceLoading(true)
     const provinceData = await fetchData(() =>
-      reportService.fetchProvince({
+      reportService.fetchCandidateProvince({
         end_date: filterDates.province.endDate,
         province: province?.value,
         start_date: filterDates.province.startDate,
@@ -133,7 +133,7 @@ export const Component: React.FC = () => {
   const fetchAgeData = async () => {
     setIsAgeLoading(true)
     const ageData = await fetchData(() =>
-      reportService.fetchAge({
+      reportService.fetchCandidateAge({
         end_date: filterDates.age.endDate,
         range: age?.value,
         start_date: filterDates.age.startDate,
@@ -159,7 +159,7 @@ export const Component: React.FC = () => {
   const fetchEducationData = async () => {
     setIsEducationLoading(true)
     const educationData = await fetchData(() =>
-      reportService.fetchEducation({
+      reportService.fetchCandidateEducation({
         education: education?.value,
         end_date: filterDates.education.endDate,
         start_date: filterDates.education.startDate,
@@ -185,7 +185,7 @@ export const Component: React.FC = () => {
   const fetchGenderData = async () => {
     setIsGenderLoading(true)
     const genderData = await fetchData(() =>
-      reportService.fetchGender({
+      reportService.fetchCandidateGender({
         end_date: filterDates.gender.endDate,
         gender: gender?.value,
         start_date: filterDates.gender.startDate,
@@ -211,7 +211,7 @@ export const Component: React.FC = () => {
   const fetchExperienceData = async () => {
     setIsExperienceLoading(true)
     const experienceData = await fetchData(() =>
-      reportService.fetchExperience({
+      reportService.fetchCandidateExperience({
         end_date: filterDates.experience.endDate,
         range: experience?.value,
         start_date: filterDates.experience.startDate,
@@ -237,7 +237,7 @@ export const Component: React.FC = () => {
   const fetchDepartmentData = async () => {
     setIsDepartmentLoading(true)
     const departmentData = await fetchData(() =>
-      reportService.fetchDepartment({
+      reportService.fetchCandidateDepartment({
         department: department?.value,
         end_date: filterDates.department.endDate,
         start_date: filterDates.department.startDate,
