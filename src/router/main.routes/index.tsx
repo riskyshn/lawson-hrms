@@ -5,6 +5,7 @@ import candidatesRoute from './candidates.route'
 import chatRoute from './chat.route'
 import cmsRoute from './cms.route'
 import dashboardRoute from './dashboard.route'
+import demographyRoute from './demography.route'
 import employeesRoute from './employees.route'
 import exploreRoute from './explore.route'
 import jobRoute from './job.route'
@@ -29,6 +30,7 @@ const mainRoutes: RouteObject[] = [
       calendarRoute,
       chatRoute,
       exploreRoute,
+      demographyRoute,
     ],
     lazy: () => import('@/layouts/MainLayout'),
   },

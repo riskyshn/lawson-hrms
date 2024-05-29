@@ -1,4 +1,4 @@
-import { BanknoteIcon, UserCogIcon, UserPlus2Icon } from 'lucide-react'
+import { BanknoteIcon, MapPinnedIcon, UserCogIcon, UserPlus2Icon } from 'lucide-react'
 import { SidebarLinksOptions } from '@/hooks'
 
 const hrisLinks: SidebarLinksOptions = {
@@ -29,6 +29,9 @@ const hrisLinks: SidebarLinksOptions = {
         { text: 'Generated Payroll Request', to: '/payroll/generated-payroll-request' },
         { text: 'Payroll Request', to: '/payroll/payroll-request' },
       ],
+    },
+    {
+      parent: { icon: MapPinnedIcon, text: 'Employee Demography', to: '/demography' },
     },
   ],
   title: 'HRIS',
