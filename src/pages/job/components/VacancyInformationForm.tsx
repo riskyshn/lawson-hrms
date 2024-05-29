@@ -8,12 +8,12 @@ import {
   Card,
   CardBody,
   CardFooter,
+  Editor,
   Input,
   InputCheckbox,
   InputCurrency,
   InputDate,
   InputWrapper,
-  Textarea,
 } from 'jobseeker-ui'
 import * as yup from 'yup'
 import { employeeService, masterService, organizationService, vacancyService } from '@/services'
@@ -323,13 +323,17 @@ const VacancyInformationForm: React.FC<{
           </div>
         </div>
 
-        <Textarea
+        <Editor
+          apiKey={window.__APP__.TINYMCE_API_KEY}
           error={errors.other?.message}
           label="Task, Responsibility & Others"
           labelRequired
-          placeholder="Add description here"
-          rows={6}
           {...register('other')}
+          init={{ placeholder: 'Add description here' }}
+          onValueChange={(value) => {
+            setValue('other', value)
+            trigger('other')
+          }}
         />
       </CardBody>
 

@@ -45,8 +45,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
       jobseeker-ui:
-        specifier: ^0.1.13
-        version: 0.1.13(@headlessui/react@1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(lucide-react@0.330.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwind-merge@2.3.0)
+        specifier: ^0.1.14
+        version: 0.1.14(@headlessui/react@1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(lucide-react@0.330.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwind-merge@2.3.0)
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
@@ -2131,8 +2131,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  jobseeker-ui@0.1.13:
-    resolution: {integrity: sha512-48ZLHMDjWFRqKtwVBPzVxWxVU7vaD04TTfckhxt33YHwjRLGGH9BFNFWA6yGlB7ZNrPc2ieC4ZSeYb3qd5bYng==}
+  jobseeker-ui@0.1.14:
+    resolution: {integrity: sha512-nbjJiPr1gLzPJc5NUbsQZDJKppyE/i2bb28WlML9bWZDOsr4Yo4x0hpKs/VI27/9HN2o1Gp9IyOy9Dk3H+YBtQ==}
     peerDependencies:
       '@headlessui/react': ^1.*
       lucide-react: ^0.*
@@ -5313,7 +5313,7 @@ snapshots:
 
   jiti@1.21.0: {}
 
-  jobseeker-ui@0.1.13(@headlessui/react@1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(lucide-react@0.330.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwind-merge@2.3.0):
+  jobseeker-ui@0.1.14(@headlessui/react@1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(lucide-react@0.330.0(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwind-merge@2.3.0):
     dependencies:
       '@headlessui/react': 1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tinymce/tinymce-react': 5.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
