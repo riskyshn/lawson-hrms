@@ -71,7 +71,7 @@ export const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }
                   Task, Responsibility <br /> & Others*
                 </th>
                 <td className="border-y px-3 py-2">:</td>
-                <td className="border-y px-3 py-2 ">{vacancy.other}</td>
+                <td className="border-y px-3 py-2" dangerouslySetInnerHTML={{ __html: vacancy.other || '' }} />
               </tr>
             </tbody>
           </table>
