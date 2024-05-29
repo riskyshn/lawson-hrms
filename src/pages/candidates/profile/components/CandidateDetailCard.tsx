@@ -1,6 +1,7 @@
 import type { ICandidate, IUploadedProcessDocument } from '@/types'
 import React from 'react'
 import { Card, CardBody, CardHeader } from 'jobseeker-ui'
+import moment from 'moment'
 import { numberToCurrency } from '@/utils'
 
 const CandidateDetailCard: React.FC<{
@@ -61,7 +62,7 @@ const CandidateDetailCard: React.FC<{
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Date of Birth</th>
                       <td className="p-3">:</td>
-                      <td className="w-full p-3">{items?.birthdate || '-'}</td>
+                      <td className="w-full p-3">{items?.birthdate ? moment(items.birthdate).format('MMMM D, YYYY') : '-'}</td>
                     </tr>
                     <tr className="odd:bg-gray-50">
                       <th className="whitespace-nowrap p-3 text-left">Gender</th>
