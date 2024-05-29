@@ -8,6 +8,7 @@ export interface IDashboardSchedule {
   startedAt?: string
   timezone?: string
   linkGmeet?: string
+  leadBy?: string
 }
 
 export interface IDashboardRecentlyPostedJob {
