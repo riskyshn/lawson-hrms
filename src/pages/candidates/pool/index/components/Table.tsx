@@ -1,4 +1,5 @@
 import type { ICandidate } from '@/types'
+import { Link } from 'react-router-dom'
 import { Avatar } from 'jobseeker-ui'
 import { FileTextIcon, FileVideoIcon } from 'lucide-react'
 import { MainTable } from '@/components'
@@ -20,23 +21,16 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
       {
         children: (
           <div className="flex gap-3 whitespace-nowrap">
+            <Avatar
+              className="static h-10 w-10 rounded-lg bg-primary-100 text-primary-700"
+              name={item?.name || '-'}
+              src={item.photoProfile || ''}
+              size={38}
+            />
             <div>
-              {item?.photoProfile ? (
-                <img
-                  alt={item?.photoProfile}
-                  className="block rounded-lg object-cover"
-                  src={item?.photoProfile}
-                  style={{
-                    height: '38px',
-                    width: '38px',
-                  }}
-                />
-              ) : (
-                <Avatar className="static rounded-lg bg-primary-100 text-primary-700" name={item?.name || '-'} size={38} />
-              )}
-            </div>
-            <div>
-              <span className="block font-semibold">{item?.name}</span>
+              <Link className="block font-semibold text-primary-600 hover:text-primary-700" to={`/candidates/profile/${item.oid}`}>
+                {item.name}
+              </Link>
               <span className="text-xs text-gray-500">{item?.email}</span>
             </div>
           </div>
