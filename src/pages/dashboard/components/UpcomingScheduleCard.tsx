@@ -26,7 +26,7 @@ const UpcomingScheduleCard: React.FC = () => {
                   {moment(el.startedAt).format('DD/MM/YYYY HH:mm')} - {moment(el.endedAt).format('DD/MM/YYYY HH:mm')}
                 </span>
                 <span className="block text-sm font-semibold">{el.name}</span>
-                <span className="block text-xs text-gray-500">Lead by {el.name}</span>
+                <span className="block text-xs text-gray-500">Lead by {el.leadBy || '-'}</span>
               </Link>
             ))}
 
