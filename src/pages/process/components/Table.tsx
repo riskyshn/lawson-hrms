@@ -75,7 +75,9 @@ const generateBodyItems = (
           size={38}
         />
         <div>
-          <span className="block font-semibold">{item.candidate?.name || '-'}</span>
+          <Link className="block font-semibold text-primary-600 hover:text-primary-700" to={`/candidates/profile/${item.candidate?.oid}`}>
+            {item.candidate?.name}
+          </Link>
           <span className="block">{item.candidate?.email || '-'}</span>
         </div>
       </div>
