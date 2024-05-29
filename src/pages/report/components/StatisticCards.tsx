@@ -24,7 +24,7 @@ const StatisticCards: React.FC<{ filterDate: { endDate: string; startDate: strin
     const fetchData = async () => {
       setLoading(true)
       try {
-        const data = await reportService.fetchRecruitmentFunnel({
+        const data = await reportService.fetchCandidateRecruitmentFunnel({
           end_date: filterDate.endDate,
           start_date: filterDate.startDate,
         })
