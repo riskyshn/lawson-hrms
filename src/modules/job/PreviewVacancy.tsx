@@ -67,7 +67,7 @@ export const PreviewVacancy: React.FC<{ isLoading: boolean; vacancy?: IVacancy }
                 </td>
               </tr>
               <tr className="odd:bg-gray-50">
-                <th className="whitespace-nowrap border-y px-3 py-2 text-left">
+                <th className="whitespace-nowrap border-y px-3 py-2 text-left align-top">
                   Task, Responsibility <br /> & Others*
                 </th>
                 <td className="border-y px-3 py-2">:</td>
