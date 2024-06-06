@@ -45,8 +45,8 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
         ),
       },
       { children: item?.lastEducation, className: 'text-center' },
-      { children: item?.province, className: 'text-center' },
       { children: item?.city, className: 'text-center' },
+      { children: item?.age, className: 'text-center' },
       {
         children: (
           <span className="flex items-center justify-center gap-2">
@@ -80,10 +80,10 @@ const Table: React.FC<PropTypes> = ({ items, loading, onDataChange, setPreviewPd
         bodyItems={bodyItems}
         headerItems={[
           { children: 'Candidate', className: 'text-left' },
-          { children: 'Vacancy', className: 'text-left' },
+          { children: 'Last Position', className: 'text-left' },
           { children: 'Education' },
-          { children: 'Province' },
-          { children: 'City' },
+          { children: 'City', className: 'w-24' },
+          { children: 'Age', className: 'w-24' },
           { children: 'Resume', className: 'w-24' },
           { children: 'Action', className: 'w-24' },
         ]}

@@ -25,8 +25,8 @@ const recruitmentLinks: SidebarLinksOptions = {
     },
     {
       child: [
-        { text: 'Interview', to: '/process/interview' },
-        { text: 'Assessment', to: '/process/assessment' },
+        { text: 'Administration', to: '/process/administration' },
+        { text: 'Selection', to: '/process/selection' },
         { text: 'Offering Letter', to: '/process/offering-letter' },
         { text: 'Onboarding', to: '/process/onboarding' },
       ],

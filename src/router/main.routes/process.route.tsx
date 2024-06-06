@@ -3,8 +3,8 @@ import type { RouteObject } from 'react-router-dom'
 const candidatesRoute: RouteObject = {
   path: 'process',
   children: [
-    { path: 'interview', lazy: () => import('@/pages/process/interview/page') },
-    { path: 'assessment', lazy: () => import('@/pages/process/assessment/page') },
+    { path: 'administration', lazy: () => import('@/pages/process/administration/page') },
+    { path: 'selection', lazy: () => import('@/pages/process/selection/page') },
     {
       path: 'offering-letter',
       children: [

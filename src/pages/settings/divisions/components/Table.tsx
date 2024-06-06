@@ -14,8 +14,8 @@ type TableProps = {
 
 const Table: React.FC<TableProps> = ({ items, loading, ...props }) => {
   const headerItems = [
-    { children: 'Name', className: 'text-left' },
-    { children: 'Code', className: 'text-left' },
+    { children: 'Department', className: 'text-left' },
+    { children: 'Division', className: 'text-left' },
     // { children: 'Employees' },
     { children: 'Action', className: 'w-24' },
   ]

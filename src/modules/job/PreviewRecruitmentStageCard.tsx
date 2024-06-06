@@ -19,13 +19,13 @@ export const PreviewRecruitmentStageCard: React.FC<{ process: Exclude<IVacancy['
   const [recruitmentStages, loading] = useAsyncAction(organizationService.fetchRecruitmentStages, { limit: 99999 }, config)
 
   const stages = process.map((el) => el.oid)
-  const interviews = recruitmentStages?.content.filter((el) => el.type == 'INTERVIEW').filter((el) => stages.includes(el.oid))
-  const assessments = recruitmentStages?.content.filter((el) => el.type == 'ASSESSMENT').filter((el) => stages.includes(el.oid))
+  const administrations = recruitmentStages?.content.filter((el) => el.type == 'ADMINISTRATION').filter((el) => stages.includes(el.oid))
+  const recruitments = recruitmentStages?.content.filter((el) => el.type == 'SELECTION').filter((el) => stages.includes(el.oid))
 
   const items = [
     { text: 'Candidate Apply' },
-    { items: interviews, text: 'Interview' },
-    { items: assessments, text: 'Assessment' },
+    { items: administrations, text: 'Administration' },
+    { items: recruitments, text: 'Recruitment' },
     { text: 'Offering Letter' },
     { text: 'Onboarding' },
   ]

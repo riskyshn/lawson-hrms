@@ -10,4 +10,4 @@ export type ModalType =
   | 'VIEW HISTORY'
   | 'WITHDRAW'
 
-export type TableType = 'ASSESSMENT' | 'INTERVIEW' | 'OFFERING' | 'ONBOARDING'
+export type TableType = 'ADMINISTRATION' | 'SELECTION' | 'OFFERING' | 'ONBOARDING'

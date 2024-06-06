@@ -10,22 +10,22 @@ const ProcessForm: React.FC<{ defaultValue: any; handlePrev: () => void; handleS
   const [showModal, setShowModal] = useState(false)
   const [stages, setStages] = useState<Array<string>>(() => props.defaultValue?.recruitmentProcess || [])
 
-  const interviews = recruitmentStages?.content.filter((el) => el.type == 'INTERVIEW')
-  const assessments = recruitmentStages?.content.filter((el) => el.type == 'ASSESSMENT')
+  const administrations = recruitmentStages?.content.filter((el) => el.type == 'ADMINISTRATION')
+  const selections = recruitmentStages?.content.filter((el) => el.type == 'SELECTION')
 
   const items = [
     {
       text: 'Candidate Apply',
     },
     {
-      items: interviews,
+      items: administrations,
       modalEditor: true,
-      text: 'Interview',
+      text: 'Administration',
     },
     {
-      items: assessments,
+      items: selections,
       modalEditor: true,
-      text: 'Assessment',
+      text: 'Selection',
     },
     {
       text: 'Offering Letter',

@@ -19,7 +19,7 @@ const axios = createAxiosInstance({
 
 type FetchProcessParams = {
   stageName?: string
-  type?: 'ASSESSMENT' | 'INTERVIEW' | 'OFFERING' | 'ONBOARDING'
+  type?: 'ADMINISTRATION' | 'SELECTION' | 'OFFERING' | 'ONBOARDING'
   vacancyId?: string
 } & IPaginationParam
 

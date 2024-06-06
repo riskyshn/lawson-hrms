@@ -8,7 +8,7 @@ const settingsLinks: SidebarLinksOptions = {
       child: [
         { text: 'Company', to: '/settings/company' },
         { text: 'Branch', to: '/settings/branches' },
-        { text: 'Department', to: '/settings/departments' },
+        { text: 'Division', to: '/settings/divisions' },
         { text: 'Position', to: '/settings/positions' },
         { text: 'Job Level', to: '/settings/job-levels' },
         { text: 'Employment Status', to: '/settings/employment-status' },

@@ -24,6 +24,9 @@ export default function formDataToPayload(data: Record<string, Record<string, an
   payload.jobLevelId = obj.jobLevel?.value
   delete payload.jobLevel
 
+  payload.vacancyName = obj.position?.value
+  delete payload.position
+
   payload.branchId = obj.branch?.value
   delete payload.branch
 

@@ -13,23 +13,23 @@ export const Component: React.FC = () => {
 
   const { isLoading, onRefresh, pageData } = useAsyncSearch(
     processService.fetchProcess,
-    { limit: 20, stageName: stage?.value, type: 'ASSESSMENT', vacancyId: vacancy?.value },
+    { limit: 20, stageName: stage?.value, type: 'ADMINISTRATION', vacancyId: vacancy?.value },
     search,
   )
 
   const pagination = usePagination({
     params: { search, state: rawStage, vacancy: rawVacancy },
-    pathname: '/process/assessment',
+    pathname: '/process/administration',
     totalPage: pageData?.totalPages,
   })
 
   return (
     <>
-      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Assessment' }]} title="Assessment" />
+      <PageHeader breadcrumb={[{ text: 'Process' }, { text: 'Administration' }]} title="Administration" />
 
       <Container className="relative flex flex-col gap-3 py-3 xl:pb-8">
         <MainCard
-          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="ASSESSMENT" />}
+          body={<Table items={pageData?.content || []} loading={isLoading} onRefresh={onRefresh} type="ADMINISTRATION" />}
           footer={pagination.render()}
           header={(open, toggleOpen) => (
             <MainCardHeader
@@ -75,4 +75,4 @@ export const Component: React.FC = () => {
   )
 }
 
-Component.displayName = 'AssessmentPage'
+Component.displayName = 'AdministrationPage'

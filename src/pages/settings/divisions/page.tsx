@@ -19,7 +19,7 @@ export const Component: React.FC = () => {
 
   const pagination = usePagination({
     params: { search },
-    pathname: '/settings/departments',
+    pathname: '/settings/divisions',
     totalPage: pageData?.totalPages,
   })
 
@@ -28,12 +28,12 @@ export const Component: React.FC = () => {
       <PageHeader
         actions={
           <Button color="primary" onClick={() => setShowCreateModal(true)}>
-            Add New Department
+            Add New Division
           </Button>
         }
-        breadcrumb={[{ text: 'Settings' }, { text: 'Departments' }]}
-        subtitle="Manage Your Company Department"
-        title="Department"
+        breadcrumb={[{ text: 'Settings' }, { text: 'Divisions' }]}
+        subtitle="Manage Your Company Division"
+        title="Division"
       />
 
       <CreateModal onClose={() => setShowCreateModal(false)} onCreated={onRefresh} show={showCreateModal} />
@@ -45,11 +45,11 @@ export const Component: React.FC = () => {
             <Table items={pageData?.content || []} loading={isLoading} onDeleted={onRefresh} setSelectedToUpdate={setToUpdateSelected} />
           }
           footer={pagination.render()}
-          header={<CardHeader name="Department" onRefresh={onRefresh} total={pageData?.totalElements} />}
+          header={<CardHeader name="Division" onRefresh={onRefresh} total={pageData?.totalElements} />}
         />
       </Container>
     </>
   )
 }
 
-Component.displayName = 'SettingDepartmentsPage'
+Component.displayName = 'SettingDivisionsPage'

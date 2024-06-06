@@ -29,14 +29,14 @@ type PropTypes = {
 
 const generateHeaderItems = (type: TableType) => {
   switch (type) {
-    case 'INTERVIEW':
-    case 'ASSESSMENT':
+    case 'ADMINISTRATION':
+    case 'SELECTION':
       return [
         { children: 'Candidate', className: 'text-left' },
         { children: 'Vacancy', className: 'text-left' },
         { children: 'Stage', className: 'text-left' },
         { children: 'Status', className: 'text-left' },
-        { children: 'Interview Date', className: 'text-left' },
+        { children: 'Administration Date', className: 'text-left' },
         { children: 'Action', className: 'w-24' },
       ]
     case 'OFFERING':
@@ -111,8 +111,8 @@ const generateBodyItems = (
   })
 
   switch (type) {
-    case 'INTERVIEW':
-    case 'ASSESSMENT':
+    case 'ADMINISTRATION':
+    case 'SELECTION':
       return {
         items: [
           getCandidateInfo(),

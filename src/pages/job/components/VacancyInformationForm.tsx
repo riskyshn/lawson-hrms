@@ -32,6 +32,7 @@ const schema = yup.object({
   branch: genYupOption('Branch').required(),
   city: genYupOption('City').required(),
   department: genYupOption('Department').required(),
+  position: genYupOption('Position').required(),
   expiredDate: yup
     .date()
     .min(new Date())
@@ -85,7 +86,7 @@ const schema = yup.object({
       then: (s) => s.required(),
     })
     .label('RR Number'),
-  vacancyName: yup.string().required().label('Position Name'),
+  // vacancyName: yup.string().required().label('Position Name'),
   workplacementType: genYupOption('Workplacement Type').required(),
 })
 
@@ -132,7 +133,22 @@ const VacancyInformationForm: React.FC<{
           <p className="text-xs text-gray-500">Please fill out this form below</p>
         </div>
 
-        <Input error={errors.vacancyName?.message} label="Position Name" labelRequired {...register('vacancyName')} />
+        {/* <Input error={errors.vacancyName?.message} label="Position Name" labelRequired {...register('vacancyName')} /> */}
+
+        <AsyncSelect
+          action={organizationService.fetchPositions}
+          converter={emmbedToOptions}
+          error={yupOptionError(errors.position)}
+          label="Position Name"
+          labelRequired
+          name="position"
+          onValueChange={(v) => {
+            setValue('position', v)
+            trigger('position')
+          }}
+          placeholder="Position Name"
+          value={getValues('position')}
+        />
 
         {props.isRequisition && (
           <Input
@@ -150,14 +166,14 @@ const VacancyInformationForm: React.FC<{
             action={organizationService.fetchDepartments}
             converter={emmbedToOptions}
             error={yupOptionError(errors.department)}
-            label="Department"
+            label="Division"
             labelRequired
             name="department"
             onValueChange={(v) => {
               setValue('department', v)
               trigger('department')
             }}
-            placeholder="Department"
+            placeholder="Division"
             value={getValues('department')}
           />
           <AsyncSelect

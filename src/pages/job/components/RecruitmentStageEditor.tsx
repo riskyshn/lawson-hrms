@@ -14,8 +14,8 @@ const RecruitmentStagesEditor: React.FC<{ onRefresh?: () => void }> = ({ onRefre
   const [toCreateInterviews, setToCreateInterviews] = useState<Array<number>>([])
   const [toCreateAssessments, setToCreateAssessments] = useState<Array<number>>([])
 
-  const interviews = recruitmentStages?.content.filter((el) => el.type == 'INTERVIEW') || []
-  const assessments = recruitmentStages?.content.filter((el) => el.type == 'ASSESSMENT') || []
+  const administrations = recruitmentStages?.content.filter((el) => el.type == 'ADMINISTRATION') || []
+  const selections = recruitmentStages?.content.filter((el) => el.type == 'SELECTION') || []
 
   return (
     <Card>
@@ -23,8 +23,8 @@ const RecruitmentStagesEditor: React.FC<{ onRefresh?: () => void }> = ({ onRefre
       {!loading && !!recruitmentStages?.content && (
         <>
           <CardBody className="grid grid-cols-1 gap-2">
-            <h3 className="text-lg font-semibold">Interview</h3>
-            {interviews.map((el) => (
+            <h3 className="text-lg font-semibold">Administration</h3>
+            {administrations.map((el) => (
               <RecruitmentStageItem
                 item={el}
                 key={el.oid}
@@ -39,7 +39,7 @@ const RecruitmentStagesEditor: React.FC<{ onRefresh?: () => void }> = ({ onRefre
                 isNew
                 key={id}
                 onRemove={() => setToCreateInterviews([...toCreateInterviews.filter((i) => i != id)])}
-                type="INTERVIEW"
+                type="ADMINISTRATION"
                 onRefresh={() => {
                   onRefresh()
                   onDataRefresh?.()
@@ -57,8 +57,8 @@ const RecruitmentStagesEditor: React.FC<{ onRefresh?: () => void }> = ({ onRefre
             </Button>
           </CardBody>
           <CardBody className="grid grid-cols-1 gap-2">
-            <h3 className="text-lg font-semibold">Assessment</h3>
-            {assessments.map((el) => (
+            <h3 className="text-lg font-semibold">Selection</h3>
+            {selections.map((el) => (
               <RecruitmentStageItem
                 item={el}
                 key={el.oid}
@@ -77,7 +77,7 @@ const RecruitmentStagesEditor: React.FC<{ onRefresh?: () => void }> = ({ onRefre
                   onRefresh()
                   onDataRefresh?.()
                 }}
-                type="ASSESSMENT"
+                type="SELECTION"
               />
             ))}
             <Button

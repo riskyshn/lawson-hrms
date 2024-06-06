@@ -40,7 +40,7 @@ const StagePickerForm: React.FC<PropTypes> = ({ onCancel, onNext, onValueChange,
 
         {stages.assessments.length > 0 && (
           <div>
-            <h6 className="mb-3 text-sm font-semibold">Assessment</h6>
+            <h6 className="mb-3 text-sm font-semibold">SELECTION</h6>
             {stages.assessments.map((option, index) => (
               <InputRadio
                 checked={value == option.oid}

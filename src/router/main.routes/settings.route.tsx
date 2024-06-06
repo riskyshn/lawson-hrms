@@ -4,7 +4,7 @@ const settingsRoute: RouteObject = {
   children: [
     { lazy: () => import('@/pages/settings/company/page'), path: 'company' },
     { lazy: () => import('@/pages/settings/branches/page'), path: 'branches' },
-    { lazy: () => import('@/pages/settings/departments/page'), path: 'departments' },
+    { lazy: () => import('@/pages/settings/divisions/page'), path: 'divisions' },
     { lazy: () => import('@/pages/settings/positions/page'), path: 'positions' },
     { lazy: () => import('@/pages/settings/job-levels/page'), path: 'job-levels' },
     { lazy: () => import('@/pages/settings/employment-status/page'), path: 'employment-status' },

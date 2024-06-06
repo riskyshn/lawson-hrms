@@ -35,7 +35,7 @@ export interface IApplicantStage {
   isAvailable: boolean
   name: string
   oid: string
-  type: 'ASSESSMENT' | 'INTERVIEW'
+  type: 'SELECTION' | 'ADMINISTRATION'
 }
 
 export interface IUploadedProcessDocument {

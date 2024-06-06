@@ -169,7 +169,7 @@ export interface IJobType {
 export interface IRecruitmentStage {
   name: string
   oid: string
-  type: 'ASSESSMENT' | 'INTERVIEW'
+  type: 'SELECTION' | 'ADMINISTRATION'
 }
 
 export interface IApproval {
